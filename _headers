@@ -1,0 +1,10 @@
+/*
+  Cache-Control: public, max-age=3600
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/service-worker.js
+  Cache-Control: no-cache
+
+/data/*
+  Cache-Control: public, max-age=3600

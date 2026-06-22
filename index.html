@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232273aa'/%3E%3Cpath d='M8 20 14 8l4 9 3-5 3 8H8Z' fill='%23fff'/%3E%3C/svg%3E">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+    <meta name="theme-color" content="#132235">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="MDSync">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>MDSync - Centralizador de Dados de Campo</title>
+    <meta name="description" content="MDSync é uma plataforma de coleta digital, centralização de dados de campo e inspeções operacionais para estruturas geotécnicas.">
+    <!-- FontAwesome local para uso offline e reducao de trafego externo -->
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css?v=authless-20260610c">
+    <!-- Chart.js local fallback for offline field use -->
+    <script src="vendor/chart.umd.min.js?v=authless-20260610c" defer></script>
+    <script src="vendor/jszip.min.js?v=authless-20260610c" defer></script>
+    <link rel="stylesheet" href="styles.css?v=geoview-mini-charts-20260616">
+    <style>
+        body .pilhas-bi-map-panel .pilhas-location-map {
+            background-image:
+                linear-gradient(rgba(3, 26, 43, 0.08), rgba(3, 26, 43, 0.12)),
+                url("assets/geoview-site-overview.webp");
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <img src="assets/itaminas-logo-white.png" alt="ITAMINAS" class="brand-logo">
+                <div class="logo-text">
+                    <span class="logo-title">MDSync</span>
+                    <span class="logo-subtitle">Centralizador de Dados de Campo</span>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" id="nav-dashboard" onclick="switchTab('dashboard')">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Visão geral</span>
+                </a>
+                <a href="#" class="nav-item" id="nav-readings" onclick="switchTab('readings')">
+                    <i class="fa-solid fa-gauge-high"></i>
+                    <span>Coletas</span>
+                </a>
+                <a href="#" class="nav-item" id="nav-inspections" onclick="switchTab('inspections')">
+                    <i class="fa-solid fa-clipboard-check"></i>
+                    <span>Checklists</span>
+                </a>
+                <a href="#" class="nav-item apk-hidden" id="nav-history" onclick="switchTab('history')">
+                    <i class="fa-solid fa-database"></i>
+                    <span>Dados</span>
+                </a>
+                <a href="#" class="nav-item" id="nav-reports" onclick="switchTab('reports')">
+                    <i class="fa-solid fa-file-shield"></i>
+                    <span>Relatórios</span>
+                </a>
+                <a href="#" class="nav-item" id="nav-indicators" onclick="switchTab('indicators')">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Indicadores</span>
+                </a>
+                <a href="#" class="nav-item" id="nav-geoview" onclick="switchTab('geoview')">
+                    <i class="fa-solid fa-earth-americas"></i>
+                    <span>GeoView</span>
+                </a>
+                <a href="#" class="nav-item" id="nav-georef" onclick="switchTab('georef')">
+                    <i class="fa-solid fa-location-crosshairs"></i>
+                    <span>Georreferenciamento</span>
+                </a>
+                <a href="#" class="nav-item apk-hidden" id="nav-release" onclick="switchTab('release')">
+                    <i class="fa-solid fa-key"></i>
+                    <span>Liberação</span>
+                    <span class="badge" id="release-badge">Pendente</span>
+                </a>
+                <a href="#" class="nav-item apk-hidden" id="nav-sync" onclick="switchTab('sync')">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <span>Nuvem</span>
+                    <span class="badge" id="sync-badge">0</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="connection-status online" id="connection-indicator" onclick="toggleOnlineStatus()">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Online</span>
+                </div>
+                <div class="user-profile">
+                    <div class="avatar">
+                        <i class="fa-solid fa-user-gear"></i>
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name">Eng. Geotécnico</span>
+                        <span class="user-role">Operador de campo</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="app-header">
+                <div class="header-left">
+                    <h1 id="page-title">Visão geral</h1>
+                    <p class="text-secondary" id="page-subtitle">Rotinas, coletas, alertas e sincronização em uma central de campo.</p>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-secondary" id="pwa-install-btn" onclick="installPWA()" style="display:none;" title="Instalar MDSync no dispositivo">
+                        <i class="fa-solid fa-download"></i> Instalar
+                    </button>
+                    <button class="btn btn-secondary" onclick="toggleContrastMode()" title="Modo Alto Contraste (para leitura sob sol forte)">
+                        <i class="fa-solid fa-circle-half-stroke"></i> Sol
+                    </button>
+                    <button class="btn btn-primary" onclick="triggerQuickReading()">
+                        <i class="fa-solid fa-plus"></i> Nova coleta
+                    </button>
+                </div>
+            </header>
+
+            <!-- Scrollable Content -->
+            <div class="content-body">
+
+                <!-- TAB 1: DASHBOARD -->
+                <section id="tab-dashboard" class="tab-pane active">
+                    <div class="inspect-hero">
+                        <div class="inspect-hero-copy">
+                            <span class="eyebrow"><i class="fa-solid fa-mobile-screen-button"></i> MDSync Campo</span>
+                            <h2>Coleta digital geotécnica em rotina guiada</h2>
+                            <p>Checklists, leituras, evidências, localização e fila offline em um fluxo único para operação de campo.</p>
+                            <div class="hero-actions">
+                                <button class="btn btn-primary" onclick="switchTab('inspections')">
+                                    <i class="fa-solid fa-clipboard-check"></i> Iniciar checklist
+                                </button>
+                                <button class="btn btn-secondary" onclick="switchTab('readings')">
+                                    <i class="fa-solid fa-gauge-high"></i> Registrar leitura
+                                </button>
+                            </div>
+                        </div>
+                        <div class="phone-preview" aria-label="Prévia do fluxo de coleta">
+                            <div class="phone-topbar">
+                                <span>Inspeções</span>
+                                <strong>72%</strong>
+                            </div>
+                            <div class="phone-checklist-row done">
+                                <i class="fa-solid fa-check"></i>
+                                <span>Identificação da estrutura</span>
+                            </div>
+                            <div class="phone-checklist-row done">
+                                <i class="fa-solid fa-check"></i>
+                                <span>Leitura INA/PZ</span>
+                            </div>
+                            <div class="phone-checklist-row active">
+                                <i class="fa-solid fa-camera"></i>
+                                <span>Foto, GPS e assinatura</span>
+                            </div>
+                            <div class="phone-sync-card">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                <span id="offline-mode-label">Sincronização pronta</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KPI Grid -->
+                    <div class="kpi-grid">
+                        <div class="kpi-card text-glow-blue">
+                            <div class="kpi-header">
+                                <span>Total de Instrumentos</span>
+                                <i class="fa-solid fa-calculator text-blue"></i>
+                            </div>
+                            <div class="kpi-value" id="kpi-total-instruments">18</div>
+                            <div class="kpi-footer">
+                                <span class="text-success"><i class="fa-solid fa-check"></i> 100% Ativos</span>
+                            </div>
+                        </div>
+                        <div class="kpi-card text-glow-green">
+                            <div class="kpi-header">
+                                <span>Leituras Centralizadas</span>
+                                <i class="fa-solid fa-check-double text-green"></i>
+                            </div>
+                            <div class="kpi-value" id="kpi-month-readings">142</div>
+                            <div class="kpi-footer">
+                                <span class="text-secondary">Base BDC MAR-2026 + registros de campo</span>
+                            </div>
+                        </div>
+                        <div class="kpi-card text-glow-amber" id="kpi-alerts-card">
+                            <div class="kpi-header">
+                                <span>Instrumentos em Alerta</span>
+                                <i class="fa-solid fa-triangle-exclamation text-amber"></i>
+                            </div>
+                            <div class="kpi-value" id="kpi-alerts-count">2</div>
+                            <div class="kpi-footer">
+                                <span class="text-warning"><i class="fa-solid fa-arrow-trend-up"></i> Aguardando leitura da base</span>
+                            </div>
+                        </div>
+                        <div class="kpi-card text-glow-purple">
+                            <div class="kpi-header">
+                                <span>Inspeções Pendentes (Sync)</span>
+                                <i class="fa-solid fa-rotate text-purple animate-spin-slow"></i>
+                            </div>
+                            <div class="kpi-value" id="kpi-pending-sync">0</div>
+                            <div class="kpi-footer">
+                                <span class="text-secondary" id="kpi-sync-desc">Todos os dados integrados ao servidor</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="inspect-workflow-grid mt-4">
+                        <button class="workflow-card" onclick="switchTab('inspections')">
+                            <i class="fa-solid fa-list-check"></i>
+                            <span>
+                                <strong>Checklist de estabilidade</strong>
+                                <small id="completed-inspections-count">0 inspeções registradas</small>
+                            </span>
+                        </button>
+                        <button class="workflow-card" onclick="switchTab('readings')">
+                            <i class="fa-solid fa-gauge-high"></i>
+                            <span>
+                                <strong>Leitura de instrumento</strong>
+                                <small id="field-collected-count">0 coletas de campo</small>
+                            </span>
+                        </button>
+                        <button class="workflow-card vehicle-overview-card" onclick="openVehicleChecklist()">
+                            <i class="fa-solid fa-car-side"></i>
+                            <span>
+                                <strong>Checklist veicular</strong>
+                                <small id="vehicle-checklist-overview-count">0 veículos inspecionados</small>
+                            </span>
+                        </button>
+                        <button class="workflow-card" onclick="switchTab('history')">
+                            <i class="fa-solid fa-file-export"></i>
+                            <span>
+                                <strong>Relatórios e exportações</strong>
+                                <small>PDF, Word, Excel e PowerPoint</small>
+                            </span>
+                        </button>
+                        <button class="workflow-card" onclick="switchTab('sync')">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <span>
+                                <strong>Fila offline</strong>
+                                <small><span id="workflow-pending-sync">0</span> itens aguardando envio</small>
+                            </span>
+                        </button>
+                    </div>
+
+                    <!-- Interactive Map & Current Warnings -->
+                    <div class="dashboard-row mt-4">
+                        <!-- Custom Interactive SVGMAP -->
+                        <div class="card col-8">
+                            <div class="card-header justify-between">
+                                <h3 id="earth-map-title"><i class="fa-solid fa-map-location-dot text-primary"></i> Disposição Espacial dos Instrumentos</h3>
+                                <span class="badge badge-outline" id="earth-map-source-badge">Google Earth + coordenada manual</span>
+                            </div>
+                            <div class="card-body map-container">
+                                <input type="file" id="earth-kml-input" class="sr-only-file" accept=".kml,.kmz,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz">
+                                <div class="earth-map-toolbar">
+                                    <div class="form-group">
+                                        <label for="earth-structure-select">Estrutura</label>
+                                        <select id="earth-structure-select" class="form-control form-control-sm" onchange="setEarthMapStructure(this.value)"></select>
+                                    </div>
+                                    <button type="button" class="btn btn-secondary" onclick="openEarthKmlPicker()">
+                                        <i class="fa-solid fa-file-import"></i> Importar KML/KMZ Google Earth
+                                    </button>
+                                    <button type="button" class="btn btn-primary" onclick="openSelectedEarthStructureInGoogleEarth()">
+                                        <i class="fa-solid fa-earth-americas"></i> Abrir no Google Earth
+                                    </button>
+                                </div>
+                                <div class="earth-coordinate-editor" id="earth-coordinate-editor">
+                                    <div class="earth-coordinate-heading">
+                                        <div>
+                                            <span>Coordenada operacional da estrutura</span>
+                                            <strong id="earth-coordinate-source">Referência do KMZ Google Earth</strong>
+                                        </div>
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="useCurrentGpsForEarthCoordinate()">
+                                            <i class="fa-solid fa-location-crosshairs"></i> Usar GPS atual
+                                        </button>
+                                    </div>
+                                    <div class="earth-coordinate-grid">
+                                        <div class="form-group earth-coordinate-paste">
+                                            <label for="earth-coordinate-paste">Colar coordenada Google Earth</label>
+                                            <input type="text" id="earth-coordinate-paste" class="form-control form-control-sm" placeholder="-20.09103992, -44.11018068">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="earth-manual-lat">Latitude</label>
+                                            <input type="number" id="earth-manual-lat" class="form-control form-control-sm" step="0.00000001" inputmode="decimal" onchange="updateEarthCoordinateDerived()">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="earth-manual-lon">Longitude</label>
+                                            <input type="number" id="earth-manual-lon" class="form-control form-control-sm" step="0.00000001" inputmode="decimal" onchange="updateEarthCoordinateDerived()">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>UTM E / N</label>
+                                            <div class="earth-coordinate-derived" id="earth-coordinate-derived">-</div>
+                                        </div>
+                                        <div class="earth-coordinate-actions">
+                                            <button type="button" class="btn btn-secondary btn-sm" onclick="copyEarthStructureCoordinate()">
+                                                <i class="fa-solid fa-copy"></i> Copiar
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm" onclick="applyPastedEarthCoordinate()">
+                                                <i class="fa-solid fa-paste"></i> Colar
+                                            </button>
+                                            <button type="button" class="btn btn-primary btn-sm" onclick="applyEarthManualCoordinate()">
+                                                <i class="fa-solid fa-check"></i> Aplicar coordenada
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="earth-map-status" id="earth-map-status">Selecione uma estrutura, confira no Google Earth ou ajuste a coordenada manualmente.</div>
+                                <div class="earth-map-stage" onclick="clearEarthInstrumentFocus()">
+                                    <div class="earth-map-controls" aria-label="Controles do mapa">
+                                        <button type="button" title="Aproximar" onclick="event.stopPropagation(); setEarthMapZoom(1)">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </button>
+                                        <button type="button" title="Afastar" onclick="event.stopPropagation(); setEarthMapZoom(-1)">
+                                            <i class="fa-solid fa-minus"></i>
+                                        </button>
+                                        <button type="button" title="Restaurar enquadramento" onclick="event.stopPropagation(); resetEarthMapView()">
+                                            <i class="fa-solid fa-house"></i>
+                                        </button>
+                                        <button type="button" title="Alternar camadas" onclick="event.stopPropagation(); toggleEarthMapLayers()">
+                                            <i class="fa-solid fa-layer-group"></i>
+                                        </button>
+                                    </div>
+                                    <svg viewBox="0 0 800 400" class="dam-map-svg" id="dam-map">
+                                        <defs>
+                                            <linearGradient id="earthFallbackGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#203342" />
+                                                <stop offset="55%" stop-color="#284f5e" />
+                                                <stop offset="100%" stop-color="#142331" />
+                                            </linearGradient>
+                                            <clipPath id="earthMapClip">
+                                                <rect width="800" height="400" rx="10"></rect>
+                                            </clipPath>
+                                        </defs>
+                                        <g id="earth-map-viewport" clip-path="url(#earthMapClip)">
+                                            <rect width="800" height="400" rx="10" fill="url(#earthFallbackGradient)" />
+                                            <image id="earth-satellite-base" href="assets/geoview-site-overview.webp" x="0" y="0" width="800" height="400" preserveAspectRatio="xMidYMid slice"></image>
+                                            <rect class="earth-satellite-shade" width="800" height="400" rx="10"></rect>
+                                            <g id="earth-base-layer"></g>
+                                            <g id="earth-overlay-layer"></g>
+                                            <g id="earth-kml-layer"></g>
+                                            <g id="earth-instrument-layer"></g>
+                                        </g>
+                                    </svg>
+                                </div>
+                                
+                                <div class="map-legend">
+                                    <div class="legend-item"><span class="legend-dot bg-blue"></span> Camada Google Earth</div>
+                                    <div class="legend-item"><span class="legend-dot bg-success"></span> Normal (< 70% limite)</div>
+                                    <div class="legend-item"><span class="legend-dot bg-warning"></span> Atenção (70% - 90% limite)</div>
+                                    <div class="legend-item"><span class="legend-dot bg-danger"></span> Crítico (> 90% limite)</div>
+                                </div>
+                                <div class="earth-unmapped-list" id="earth-unmapped-list"></div>
+                            </div>
+                        </div>
+
+                        <!-- Warnings & Alerts Panel -->
+                        <div class="card col-4">
+                            <div class="card-header justify-between">
+                                <h3><i class="fa-solid fa-bell text-warning"></i> Painel de Anomalias</h3>
+                                <span class="badge badge-outline" id="earth-anomaly-context">Estrutura</span>
+                            </div>
+                            <div class="card-body notification-panel" id="alert-list-container">
+                                <div class="notification-empty">Selecione uma estrutura para carregar as anomalias registradas.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- TAB 2: INSTRUMENT READINGS -->
+                <section id="tab-readings" class="tab-pane">
+                    <div class="dashboard-row">
+                        <!-- Reading Form Card -->
+                        <div class="card col-5">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-pen-to-square text-primary"></i> Registro de Leitura em Campo</h3>
+                            </div>
+                            <div class="card-body">
+                                <form id="reading-form" onsubmit="saveReading(event)">
+                                    <div class="field-stepper" aria-label="Etapas da coleta">
+                                        <div class="field-step active"><span>1</span><strong>Instrumento</strong></div>
+                                        <div class="field-step"><span>2</span><strong>Leitura</strong></div>
+                                        <div class="field-step"><span>3</span><strong>Evidências</strong></div>
+                                        <div class="field-step"><span>4</span><strong>Enviar</strong></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="instrument-select">Estrutura / Instrumento Geotécnico</label>
+                                        <select id="instrument-select" class="form-control" onchange="loadInstrumentDetails()" required>
+                                            <option value="">Selecione...</option>
+                                            <optgroup label="PDE 1">
+                                                <option value="PZ-01">PZ-01 - Piezômetro</option>
+                                                <option value="INA-01">INA-01 - Indicador de Nível de Água</option>
+                                            </optgroup>
+                                            <optgroup label="PILHA B2">
+                                                <option value="PZ-04">PZ-04 - Piezômetro</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+
+                                    <div class="instrument-meta-box" id="inst-meta" style="display:none;">
+                                        <div class="meta-row">
+                                            <span>Cota Boca (m):</span> <strong id="meta-cota">450.20</strong>
+                                        </div>
+                                        <div class="meta-row">
+                                            <span>Profundidade Máx (m):</span> <strong id="meta-prof">25.00</strong>
+                                        </div>
+                                        <div class="meta-row meta-row-wide">
+                                            <span>Última Leitura:</span> <strong id="meta-last">11.45m (12/05)</strong>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="reading-value">Nível de Água / Leitura Lida (Profundidade em metros)</label>
+                                        <input type="number" id="reading-value" step="0.01" class="form-control input-large" placeholder="00.00" oninput="validateInputReading()" required>
+                                        <span class="help-text">Insira a profundidade medida a partir da boca do tubo.</span>
+                                    </div>
+
+                                    <div class="validation-warning" id="form-validation-alert" style="display:none;">
+                                        <i class="fa-solid fa-triangle-exclamation"></i>
+                                        <div>
+                                            <h5 class="m-0 font-bold">Leitura Fora da Faixa Esperada!</h5>
+                                            <p class="m-0 text-sm">Este valor excede a cota crítica de segurança. Por favor, confirme a medição e adicione uma foto e justificativa.</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="reading-photo">Foto de Comprovação (Opcional - Obrigatório se Crítico)</label>
+                                        <div class="photo-upload-placeholder" onclick="simulatePhotoUpload()">
+                                            <i class="fa-solid fa-camera"></i>
+                                            <span id="photo-upload-text">Toque para registrar foto</span>
+                                            <input type="file" id="reading-photo-file" style="display:none;" accept="image/*" capture="environment">
+                                            <img id="uploaded-photo-preview" style="display:none; max-height: 120px; border-radius: 6px; margin-top: 8px;">
+                                        </div>
+                                    </div>
+
+                                    <div class="evidence-grid">
+                                        <button type="button" class="evidence-action" onclick="captureGeolocation('reading')">
+                                            <i class="fa-solid fa-location-crosshairs"></i>
+                                            <span>
+                                                <strong>Localização</strong>
+                                                <small id="reading-gps-status">Aguardando GPS</small>
+                                            </span>
+                                        </button>
+                                        <button type="button" class="evidence-action" onclick="simulateSignature('reading')">
+                                            <i class="fa-solid fa-signature"></i>
+                                            <span>
+                                                <strong>Assinatura</strong>
+                                                <small id="reading-signature-status">Não coletada</small>
+                                            </span>
+                                        </button>
+                                    </div>
+
+                                    <div class="geo-evidence-card" id="reading-geo-detail" hidden></div>
+
+                                    <div class="form-group">
+                                        <label for="reading-comment">Observações / Condição do Instrumento</label>
+                                        <textarea id="reading-comment" class="form-control" rows="2" placeholder="Ex: Tubo de proteção limpo, sem obstruções. Fita geométrica apitou sem ruído."></textarea>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <button type="button" class="btn btn-secondary" onclick="resetReadingForm()">Limpar</button>
+                                        <button type="submit" class="btn btn-primary" id="btn-save-reading">
+                                            <i class="fa-solid fa-circle-check"></i> Finalizar coleta
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Chart / Historical Data Card -->
+                        <div class="card col-7">
+                            <div class="card-header justify-between">
+                                <h3><i class="fa-solid fa-chart-line text-blue"></i> Histórico de Variação Freática</h3>
+                                <span class="badge badge-primary" id="active-chart-label">Nenhum Instrumento Selecionado</span>
+                            </div>
+                            <div class="card-body flex-col justify-center">
+                                <div class="chart-container" style="position: relative; height:280px; width:100%">
+                                    <canvas id="instrumentChart"></canvas>
+                                    <div class="chart-placeholder" id="chart-fallback">
+                                        <i class="fa-solid fa-arrow-trend-up fa-3x text-secondary mb-3"></i>
+                                        <p class="text-secondary text-center">Selecione um instrumento no formulário ou mapa para carregar o gráfico de evolução histórica e limites de segurança.</p>
+                                    </div>
+                                </div>
+                                <div class="alert-thresholds-info mt-3" id="chart-legend-box" style="display:none;">
+                                    <div class="badge badge-success">Zona Verde: Estável (Leitura normal)</div>
+                                    <div class="badge badge-warning">Zona Amarela: Alerta (Próximo à franja freática limite)</div>
+                                    <div class="badge badge-danger">Zona Vermelha: Atenção Geotécnica Ativa</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- TAB 3: VISUAL INSPECTIONS -->
+                <section id="tab-inspections" class="tab-pane">
+                    <div class="dashboard-row">
+                        <!-- Inspection Form -->
+                        <div class="card col-6">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-clipboard-check text-primary"></i> Checklist de Inspeção de Estabilidade</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="template-strip">
+                                    <button class="template-pill active" type="button" data-inspection-template="estabilidade" aria-pressed="true" onclick="setInspectionTemplate('estabilidade')">
+                                        <i class="fa-solid fa-mountain"></i> Estabilidade
+                                    </button>
+                                    <button class="template-pill" type="button" data-inspection-template="drenagem" aria-pressed="false" onclick="setInspectionTemplate('drenagem')">
+                                        <i class="fa-solid fa-water"></i> Drenagem
+                                    </button>
+                                    <button class="template-pill" type="button" data-inspection-template="acessos" aria-pressed="false" onclick="setInspectionTemplate('acessos')">
+                                        <i class="fa-solid fa-road-barrier"></i> Acessos
+                                    </button>
+                                </div>
+                                <div class="template-context" id="inspection-template-context">
+                                    Coleta isolada de estabilidade selecionada.
+                                </div>
+
+                                <form id="inspection-form" onsubmit="saveInspection(event)">
+                                    <div class="field-stepper" aria-label="Etapas do checklist">
+                                        <div class="field-step active"><span>1</span><strong>Dados</strong></div>
+                                        <div class="field-step active"><span>2</span><strong>Itens</strong></div>
+                                        <div class="field-step"><span>3</span><strong>Evidências</strong></div>
+                                        <div class="field-step"><span>4</span><strong>Concluir</strong></div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-6">
+                                            <label for="ins-structure">Estrutura Monitorada</label>
+                                            <select id="ins-structure" class="form-control" required>
+                                                <option value="Barragem Sul">Barragem Sul</option>
+                                                <option value="Cava Norte - Talude Leste">Cava Norte - Talude Leste</option>
+                                                <option value="Pilha de Estéril Oeste">Pilha de Estéril Oeste</option>
+                                                <option value="Dique de Contenção Auxiliar">Dique de Contenção Auxiliar</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <label for="ins-weather">Condições Climatológicas</label>
+                                            <select id="ins-weather" class="form-control" required>
+                                                <option value="Ensolarado">Ensolarado (Seco)</option>
+                                                <option value="Nublado">Nublado</option>
+                                                <option value="Chuva Leve">Chuva Leve</option>
+                                                <option value="Chuva Forte">Chuva Forte (Crítico)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="inspection-schedule-panel">
+                                        <div class="schedule-header">
+                                            <div>
+                                                <strong><i class="fa-solid fa-calendar-check text-primary"></i> Programação da próxima inspeção</strong>
+                                                <span>Seca: mensal. Chuvoso: semanal. Alerta 1 dia antes.</span>
+                                            </div>
+                                            <label class="schedule-alert-toggle">
+                                                <input type="checkbox" id="ins-alert-enabled" checked onchange="updateInspectionSchedule()">
+                                                <span>Alerta ativo</span>
+                                            </label>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-4">
+                                                <label for="ins-datetime">Data/hora da inspeção</label>
+                                                <input type="datetime-local" id="ins-datetime" class="form-control" onchange="updateInspectionSchedule()">
+                                            </div>
+                                            <div class="form-group col-4">
+                                                <label for="ins-season">Período sazonal</label>
+                                                <select id="ins-season" class="form-control" onchange="updateInspectionSchedule()">
+                                                    <option value="seca">Seca - mensal</option>
+                                                    <option value="chuvoso">Chuvoso - semanal</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-4">
+                                                <label for="ins-next-date">Próxima inspeção</label>
+                                                <input type="datetime-local" id="ins-next-date" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="inspection-alert-box" id="inspection-alert-box">
+                                            <i class="fa-solid fa-bell"></i>
+                                            <span id="inspection-alert-text">Alerta programado.</span>
+                                        </div>
+                                    </div>
+
+                                    <h4 class="section-title mt-3">Anomalias Visuais Detectadas</h4>
+
+                                    <div class="checklist-progress">
+                                        <div>
+                                            <strong id="checklist-progress-text">0 itens respondidos</strong>
+                                            <span>Padrão Survey123: responder Sim ou Não em cada linha</span>
+                                        </div>
+                                        <div class="progress-track">
+                                            <div class="progress-fill" id="checklist-progress-fill"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="survey-anomaly-list" id="anomaly-matrix">
+                                        <!-- Opções renderizadas a partir das anomalias extraídas do Survey123 -->
+                                    </div>
+
+                                    <div class="form-group mt-3">
+                                        <label>Alerta de Criticidade do Checklist</label>
+                                        <div class="inspection-criticality" id="inspection-criticality">
+                                            <label class="criticality-option low">
+                                                <input type="radio" name="inspection-criticality" value="Baixa" checked onchange="setInspectionCriticality(this.value)">
+                                                <span><i class="fa-solid fa-circle-check"></i> Baixa criticidade</span>
+                                            </label>
+                                            <label class="criticality-option medium">
+                                                <input type="radio" name="inspection-criticality" value="Media" onchange="setInspectionCriticality(this.value)">
+                                                <span><i class="fa-solid fa-triangle-exclamation"></i> Média</span>
+                                            </label>
+                                            <label class="criticality-option high">
+                                                <input type="radio" name="inspection-criticality" value="Alta" onchange="setInspectionCriticality(this.value)">
+                                                <span><i class="fa-solid fa-octagon-exclamation"></i> Alta criticidade</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mt-3">
+                                        <label for="ins-risk">Classificação de Risco Visual da Estrutura</label>
+                                        <select id="ins-risk" class="form-control font-bold" required onchange="syncInspectionCriticalityFromRisk()">
+                                            <option value="Sem Anomalias Significativas" class="text-success">Sem Anomalias (Normal)</option>
+                                            <option value="Atenção Operacional" class="text-warning">Risco Baixo (Atenção Operacional)</option>
+                                            <option value="Alerta Geotécnico" class="text-orange">Risco Médio (Alerta Geotécnico)</option>
+                                            <option value="Crítico / Emergência" class="text-danger">Risco Alto (Crítico / Emergência!)</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Comentários Gerais de Estabilidade</label>
+                                        <textarea id="ins-comments" class="form-control" rows="3" placeholder="Relatório descritivo sobre o estado geral do talude de jusante, bermas e crista. Descreva acessos e vegetação."></textarea>
+                                    </div>
+
+                                    <div class="evidence-grid">
+                                        <button type="button" class="evidence-action" onclick="captureGeolocation('inspection')">
+                                            <i class="fa-solid fa-location-crosshairs"></i>
+                                            <span>
+                                                <strong>Localização</strong>
+                                                <small id="inspection-gps-status">Aguardando GPS</small>
+                                            </span>
+                                        </button>
+                                        <button type="button" class="evidence-action" onclick="simulateSignature('inspection')">
+                                            <i class="fa-solid fa-signature"></i>
+                                            <span>
+                                                <strong>Assinatura</strong>
+                                                <small id="inspection-signature-status">Não coletada</small>
+                                            </span>
+                                        </button>
+                                    </div>
+
+                                    <div class="geo-evidence-card" id="inspection-geo-detail" hidden></div>
+
+                                    <div class="form-actions mt-4">
+                                        <button type="button" class="btn btn-secondary" onclick="resetInspectionForm()">Resetar</button>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fa-solid fa-save"></i> Salvar Inspeção (Local)
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Field Tips and Guide Card -->
+                        <div class="card col-6 flex-col justify-between">
+                            <div>
+                                <div class="card-header">
+                                    <h3><i class="fa-solid fa-circle-info text-primary"></i> Guia Geotécnico de Bolso</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="accordion-item">
+                                        <h5 class="accordion-title font-bold text-warning"><i class="fa-solid fa-circle-exclamation"></i> Como identificar PIPING ativo?</h5>
+                                        <p class="accordion-desc">O piping ocorre quando a água percola pelo maciço carregando partículas finas de solo. Observe a surgência de água: se a água estiver <strong>turva</strong> ou houver um cone de areia fina se formando ao redor do ponto, classifique imediatamente como risco ALTO.</p>
+                                    </div>
+                                    <div class="accordion-item mt-3">
+                                        <h5 class="accordion-title font-bold text-amber"><i class="fa-solid fa-arrows-left-right"></i> Classificação de trincas de tração</h5>
+                                        <p class="accordion-desc">Trincas longitudinais (paralelas à crista) costumam indicar acomodação natural do maciço. Trincas transversais (perpendiculares à crista) ou trincas em meia-lua com degrau são indicativos graves de descolamento de talude.</p>
+                                    </div>
+                                    <div class="accordion-item mt-3">
+                                        <h5 class="accordion-title font-bold text-success"><i class="fa-solid fa-shield"></i> Leitura Correta do PZ de Corda Vibrante</h5>
+                                        <p class="accordion-desc">Insira sempre a leitura direta da unidade de leitura (Readout). O MDSync converterá a frequência (Hz) ou dígitos do transdutor de pressão utilizando a constante de calibração k cadastrada no banco de dados.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card-footer bg-light-panel p-3 border-radius-sm">
+                                <h5 class="m-0 font-bold"><i class="fa-solid fa-satellite-dish text-success"></i> Modo Offline Inteligente</h5>
+                                <p class="text-sm m-0 text-secondary">O app salvará todos os dados na memória do navegador se você perder a internet. Ao retornar ao escritório, clique no menu Sincronização.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card vehicle-checklist-card mt-4">
+                        <div class="card-header justify-between">
+                            <div>
+                                <h3><i class="fa-solid fa-car-side text-primary"></i> CheckList Veicular</h3>
+                                <p class="vehicle-checklist-source">Modelo operacional: Survey123 "Checklist Veicular - Diário"</p>
+                            </div>
+                            <span class="badge badge-success"><i class="fa-solid fa-cloud-arrow-down"></i> Formulário incorporado</span>
+                        </div>
+                        <div class="card-body">
+                            <form id="vehicle-checklist-form" onsubmit="saveVehicleInspection(event)">
+                                <div class="field-stepper" aria-label="Etapas do checklist veicular">
+                                    <div class="field-step active"><span>1</span><strong>Veículo</strong></div>
+                                    <div class="field-step active"><span>2</span><strong>Segurança</strong></div>
+                                    <div class="field-step active"><span>3</span><strong>Condições</strong></div>
+                                    <div class="field-step"><span>4</span><strong>Concluir</strong></div>
+                                </div>
+
+                                <div class="vehicle-identification-grid">
+                                    <div class="vehicle-photo-panel">
+                                        <img id="vehicle-reference-photo" src="assets/vehicle-pzb-1g94.jpeg" alt="Veículo selecionado">
+                                        <div>
+                                            <strong id="vehicle-photo-title">PZB-1G94</strong>
+                                            <span id="vehicle-photo-caption">Jeep Renegade de campo</span>
+                                        </div>
+                                    </div>
+                                    <div class="vehicle-fields">
+                                        <div class="form-row">
+                                            <div class="form-group col-4">
+                                                <label for="vehicle-datetime">Data e hora</label>
+                                                <input type="datetime-local" id="vehicle-datetime" class="form-control" required>
+                                            </div>
+                                            <div class="form-group col-4">
+                                                <label for="vehicle-plate">Placa do veículo</label>
+                                                <select id="vehicle-plate" class="form-control" required onchange="updateVehicleSelection()">
+                                                    <option value="PZB-1G94">PZB-1G94</option>
+                                                    <option value="TXY-7J22">TXY-7J22</option>
+                                                    <option value="TEQ-1E02">TEQ-1E02</option>
+                                                    <option value="TEQ-1E17">TEQ-1E17</option>
+                                                    <option value="Outro">Outro</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-4">
+                                                <label for="vehicle-odometer">Hodômetro atual (km)</label>
+                                                <input type="number" id="vehicle-odometer" class="form-control" min="0" step="1" inputmode="numeric" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-4">
+                                                <label for="vehicle-driver">Condutor / usuário</label>
+                                                <input id="vehicle-driver" class="form-control" list="vehicle-driver-options" placeholder="Nome completo" required>
+                                                <datalist id="vehicle-driver-options">
+                                                    <option value="Maycon Nascimento"></option>
+                                                    <option value="João Rezende"></option>
+                                                    <option value="Visitante autorizado"></option>
+                                                </datalist>
+                                            </div>
+                                            <div class="form-group col-4">
+                                                <label for="vehicle-sector">Setor</label>
+                                                <select id="vehicle-sector" class="form-control" required>
+                                                    <option value="Geotecnia">Geotecnia</option>
+                                                    <option value="Operação de Mina">Operação de Mina</option>
+                                                    <option value="Manutenção">Manutenção</option>
+                                                    <option value="Segurança do Trabalho">Segurança do Trabalho</option>
+                                                    <option value="Meio Ambiente">Meio Ambiente</option>
+                                                    <option value="Outro">Outro</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-4" id="vehicle-other-group" hidden>
+                                                <label for="vehicle-other">Marca, modelo e placa</label>
+                                                <input type="text" id="vehicle-other" class="form-control" placeholder="Identifique o veículo">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="vehicle-capture-grid mt-3">
+                                    <label class="vehicle-file-action">
+                                        <input type="file" id="vehicle-panel-photo" accept="image/*" capture="environment" required onchange="handleVehicleEvidenceFile('panel', this.files?.[0])">
+                                        <i class="fa-solid fa-camera"></i>
+                                        <span><strong>Registro do painel</strong><small id="vehicle-panel-photo-status">Foto obrigatória</small></span>
+                                    </label>
+                                    <button type="button" class="evidence-action" onclick="captureGeolocation('vehicle')">
+                                        <i class="fa-solid fa-location-crosshairs"></i>
+                                        <span><strong>Localização GPS</strong><small id="vehicle-gps-status">Aguardando GPS</small></span>
+                                    </button>
+                                </div>
+                                <div class="geo-evidence-card" id="vehicle-geo-detail" hidden></div>
+
+                                <div class="vehicle-checklist-heading mt-4">
+                                    <div>
+                                        <h4>Itens de Segurança Obrigatórios</h4>
+                                        <p>Todos os itens devem ser classificados. Desvios exigem evidência fotográfica.</p>
+                                    </div>
+                                    <span id="vehicle-safety-progress" class="badge badge-outline">0/9</span>
+                                </div>
+                                <div id="vehicle-safety-items" class="vehicle-checklist-items"></div>
+                                <div class="vehicle-evidence-row">
+                                    <label class="vehicle-file-action">
+                                        <input type="file" id="vehicle-safety-photos" accept="image/*" capture="environment" multiple onchange="handleVehicleEvidenceFile('safety', this.files)">
+                                        <i class="fa-solid fa-images"></i>
+                                        <span><strong>Fotos de segurança</strong><small id="vehicle-safety-photo-status">Obrigatórias quando houver desvio</small></span>
+                                    </label>
+                                </div>
+
+                                <div class="vehicle-checklist-heading mt-4">
+                                    <div>
+                                        <h4>Condições Gerais</h4>
+                                        <p>Verificação visual de conservação, fluidos, iluminação e vazamentos.</p>
+                                    </div>
+                                    <span id="vehicle-general-progress" class="badge badge-outline">0/8</span>
+                                </div>
+                                <div id="vehicle-general-items" class="vehicle-checklist-items"></div>
+                                <div class="vehicle-evidence-row">
+                                    <label class="vehicle-file-action">
+                                        <input type="file" id="vehicle-general-photos" accept="image/*" capture="environment" multiple onchange="handleVehicleEvidenceFile('general', this.files)">
+                                        <i class="fa-solid fa-images"></i>
+                                        <span><strong>Fotos das condições gerais</strong><small id="vehicle-general-photo-status">Obrigatórias quando houver desvio</small></span>
+                                    </label>
+                                </div>
+
+                                <div class="form-group mt-4">
+                                    <label for="vehicle-comments">Descrição dos desvios e providências</label>
+                                    <textarea id="vehicle-comments" class="form-control" rows="3" placeholder="Descreva itens em atenção/crítico, localização do problema e providência adotada."></textarea>
+                                </div>
+
+                                <div class="vehicle-capture-grid">
+                                    <label class="vehicle-file-action">
+                                        <input type="file" id="vehicle-complementary-photo" accept="image/*" capture="environment" multiple onchange="handleVehicleEvidenceFile('complementary', this.files)">
+                                        <i class="fa-solid fa-camera-retro"></i>
+                                        <span><strong>Registros complementares</strong><small id="vehicle-complementary-photo-status">Opcional</small></span>
+                                    </label>
+                                    <button type="button" class="evidence-action" onclick="simulateSignature('vehicle')">
+                                        <i class="fa-solid fa-signature"></i>
+                                        <span><strong>Assinatura do condutor</strong><small id="vehicle-signature-status">Não coletada</small></span>
+                                    </button>
+                                </div>
+
+                                <div id="vehicle-checklist-summary" class="vehicle-checklist-summary mt-3">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                    <span>Responda aos 17 itens para calcular a condição do veículo.</span>
+                                </div>
+
+                                <div class="form-actions mt-4">
+                                    <button type="button" class="btn btn-secondary" onclick="resetVehicleInspectionForm()">Resetar</button>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fa-solid fa-floppy-disk"></i> Salvar Checklist Veicular
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- TAB 4: CENTRAL DATA HUB -->
+                <section id="tab-history" class="tab-pane">
+                    <div class="card">
+                        <div class="card-header justify-between">
+                            <h3><i class="fa-solid fa-server text-primary"></i> Centralizador de Leituras e Inspeções</h3>
+                            <div class="flex gap-2">
+                                <select id="filter-type" class="form-control form-control-sm" onchange="applyFilters()">
+                                    <option value="all">Todos os Dados</option>
+                                    <option value="pz">Piezômetros (PZ)</option>
+                                    <option value="ina">Indicadores de Nível (INA)</option>
+                                    <option value="na">Nível de Água (NA)</option>
+                                    <option value="mv">Medidores de Vazão (MV)</option>
+                                    <option value="ins">Inspeções</option>
+                                    <option value="veh">Checklists Veiculares</option>
+                                </select>
+                                <button class="btn btn-secondary btn-sm" onclick="exportData('csv')">
+                                    <i class="fa-solid fa-file-csv"></i> Exportar CSV
+                                </button>
+                                <button class="btn btn-secondary btn-sm" onclick="exportData('json')">
+                                    <i class="fa-solid fa-file-code"></i> Exportar JSON
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="data-summary-strip">
+                                <div>
+                                    <strong>Base centralizada</strong>
+                                    <span>Leituras, vazões, inspeções e evidências de campo</span>
+                                </div>
+                                <div class="data-chip"><i class="fa-solid fa-filter"></i> Filtros rápidos</div>
+                                <div class="data-chip"><i class="fa-solid fa-file-export"></i> Exportação</div>
+                                <div class="data-chip"><i class="fa-solid fa-shield-halved"></i> Rastreável</div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table" id="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID / Elemento</th>
+                                            <th>Tipo</th>
+                                            <th>Data / Hora</th>
+                                            <th>Leitura / Risco</th>
+                                            <th>Cota / H (m)</th>
+                                            <th>Inspetor</th>
+                                            <th>Status</th>
+                                            <th>Sincronizado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="history-table-body">
+                                        <!-- Dynamic readings row listing -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- TAB 5: REPORT EXPORTS -->
+                <section id="tab-reports" class="tab-pane">
+                    <div class="card">
+                        <div class="card-header justify-between">
+                            <h3><i class="fa-solid fa-file-shield text-primary"></i> Relatórios e Evidências para Auditoria</h3>
+                            <div class="report-export-actions" aria-label="Formatos autorizados para download do relatório">
+                                <button class="btn btn-secondary btn-sm" onclick="exportAuditReport('pdf')" title="Baixar PDF">
+                                    <i class="fa-solid fa-file-pdf"></i> PDF
+                                </button>
+                                <button class="btn btn-secondary btn-sm" onclick="exportAuditReport('docx')" title="Baixar Word DOCX">
+                                    <i class="fa-solid fa-file-word"></i> DOCX
+                                </button>
+                                <button class="btn btn-secondary btn-sm" onclick="exportAuditReport('doc')" title="Baixar Word DOC">
+                                    <i class="fa-solid fa-file-word"></i> DOC
+                                </button>
+                                <button class="btn btn-secondary btn-sm" onclick="exportAuditReport('xlsx')" title="Baixar Excel XLSX">
+                                    <i class="fa-solid fa-file-excel"></i> XLSX
+                                </button>
+                                <button class="btn btn-secondary btn-sm" onclick="exportAuditReport('xls')" title="Baixar Excel XLS">
+                                    <i class="fa-solid fa-file-excel"></i> XLS
+                                </button>
+                                <button class="btn btn-primary btn-sm" onclick="exportAuditReport('pptx')" title="Baixar PowerPoint PPTX">
+                                    <i class="fa-solid fa-file-powerpoint"></i> PPTX
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="report-filter-grid">
+                                <div class="form-group">
+                                    <label for="report-structure">Estrutura</label>
+                                    <select id="report-structure" class="form-control" onchange="renderReportsPanel()">
+                                        <option value="all">Todas as estruturas</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="report-type">Base de dados</label>
+                                    <select id="report-type" class="form-control" onchange="renderReportsPanel()">
+                                        <option value="all">Todos os dados</option>
+                                        <option value="PZ">Leituras PZ</option>
+                                        <option value="INA">Leituras INA</option>
+                                        <option value="NA">Nível de Água NA</option>
+                                        <option value="MV">Vazão MV</option>
+                                        <option value="INS">Inspeções</option>
+                                        <option value="VEH">Checklists Veiculares</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="report-purpose">Finalidade</label>
+                                    <select id="report-purpose" class="form-control" onchange="renderReportsPanel()">
+                                        <option value="audit">Auditoria</option>
+                                        <option value="indicators">Indicadores</option>
+                                        <option value="complete">Completo</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="report-start">Início</label>
+                                    <input type="date" id="report-start" class="form-control" onchange="renderReportsPanel()">
+                                </div>
+                                <div class="form-group">
+                                    <label for="report-end">Fim</label>
+                                    <input type="date" id="report-end" class="form-control" onchange="renderReportsPanel()">
+                                </div>
+                            </div>
+
+                            <div class="report-structure-filter mt-3">
+                                <div>
+                                    <strong>Filtro rápido por estrutura</strong>
+                                    <span>Selecione uma estrutura para montar o relatório e exportar somente os dados dela.</span>
+                                </div>
+                                <div class="report-structure-chips" id="report-structure-chips">
+                                    <!-- Filtros por estrutura -->
+                                </div>
+                            </div>
+
+                            <div class="audit-summary-grid">
+                                <div class="audit-summary-item">
+                                    <span>Registros filtrados</span>
+                                    <strong id="report-total-records">0</strong>
+                                </div>
+                                <div class="audit-summary-item">
+                                    <span>Alertas / críticos</span>
+                                    <strong id="report-alert-records">0</strong>
+                                </div>
+                                <div class="audit-summary-item">
+                                    <span>Registros com evidência</span>
+                                    <strong id="report-evidence-records">0</strong>
+                                </div>
+                                <div class="audit-summary-item">
+                                    <span>Estruturas cobertas</span>
+                                    <strong id="report-structures-count">0</strong>
+                                </div>
+                            </div>
+
+                            <div class="report-readiness mt-3">
+                                <div>
+                                    <strong>Pacote para auditoria</strong>
+                                    <span id="report-readiness-text">Selecione filtros para gerar o pacote.</span>
+                                </div>
+                                <div class="report-chip" id="report-period-chip">Período completo</div>
+                                <div class="report-chip" id="report-purpose-chip">Auditoria</div>
+                            </div>
+
+                            <div class="table-responsive mt-3">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Data</th>
+                                            <th>Estrutura</th>
+                                            <th>Elemento</th>
+                                            <th>Tipo</th>
+                                            <th>Valor / Risco</th>
+                                            <th>Status</th>
+                                            <th>Evidência</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="report-preview-body">
+                                        <!-- Preview dinâmico do relatório -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- TAB 6: DYNAMIC INDICATORS -->
+                <section id="tab-indicators" class="tab-pane">
+                    <div class="card mb-4">
+                        <div class="card-header justify-between">
+                            <h3><i class="fa-solid fa-chart-line text-primary"></i> Indicadores Dinâmicos por Estrutura</h3>
+                            <div class="flex gap-2">
+                                <select id="indicator-structure" class="form-control form-control-sm" onchange="renderIndicatorsDashboard()">
+                                    <option value="all">Todas as estruturas</option>
+                                </select>
+                                <select id="indicator-type" class="form-control form-control-sm" onchange="renderIndicatorsDashboard()">
+                                    <option value="all">Todos os dados</option>
+                                    <option value="PZ">PZ</option>
+                                    <option value="INA">INA</option>
+                                    <option value="NA">NA</option>
+                                    <option value="MV">MV</option>
+                                    <option value="INS">Inspeções</option>
+                                </select>
+                                <select id="indicator-period" class="form-control form-control-sm" onchange="renderIndicatorsDashboard()">
+                                    <option value="all">Todo período</option>
+                                    <option value="30">30 dias</option>
+                                    <option value="90">90 dias</option>
+                                    <option value="365">12 meses</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="indicator-kpi-grid">
+                                <div class="indicator-kpi">
+                                    <span>Registros</span>
+                                    <strong id="indicator-total-records">0</strong>
+                                </div>
+                                <div class="indicator-kpi">
+                                    <span>Taxa de alerta</span>
+                                    <strong id="indicator-alert-rate">0%</strong>
+                                </div>
+                                <div class="indicator-kpi">
+                                    <span>Estruturas ativas</span>
+                                    <strong id="indicator-active-structures">0</strong>
+                                </div>
+                                <div class="indicator-kpi">
+                                    <span>Última atualização</span>
+                                    <strong id="indicator-last-update">-</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="indicator-chart-grid">
+                        <div class="card indicator-chart-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-layer-group text-primary"></i> Volume por estrutura</h3>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="indicatorStructureChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="card indicator-chart-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-circle-nodes text-primary"></i> Status dos registros</h3>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="indicatorStatusChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="card indicator-chart-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-timeline text-primary"></i> Tendência mensal</h3>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="indicatorTrendChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="card indicator-chart-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-triangle-exclamation text-primary"></i> Anomalias e riscos</h3>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="indicatorRiskChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-table-list text-primary"></i> Quadro de indicadores por estrutura</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Estrutura</th>
+                                            <th>PZ</th>
+                                            <th>INA</th>
+                                            <th>NA</th>
+                                            <th>MV</th>
+                                            <th>Inspeções</th>
+                                            <th>Alertas</th>
+                                            <th>Anomalias positivas</th>
+                                            <th>Último registro</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="indicator-structure-table">
+                                        <!-- Indicadores por estrutura -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- TAB 7: GEOVIEW -->
+                <section id="tab-geoview" class="tab-pane">
+                    <input type="file" id="geoview-file-input" class="sr-only-file" multiple accept=".pbix,.pbit,.xlsx,.xls,.xlsm,.csv,.png,.jpg,.jpeg,.webp,.pdf,.html,.htm,.geojson,.json,.qmd,.pptx,.docx">
+                    <input type="file" id="geoview-folder-input" class="sr-only-file" multiple webkitdirectory directory>
+                    <input type="file" id="geoview-map-input" class="sr-only-file" accept="image/*">
+
+                    <section class="pilhas-bi-dashboard geoview-info" id="pilhas-bi-dashboard" tabindex="0" data-tooltip="Indicadores geotécnicos por estrutura.">
+                        <div class="pilhas-bi-title-row">
+                            <img src="assets/itaminas-logo-white.png" alt="Itaminas" class="pilhas-bi-logo">
+                            <h2 id="pilhas-bi-title">INDICADORES GEOTÉCNICOS</h2>
+                            <span id="pilhas-bi-source-badge">GeoView</span>
+                        </div>
+
+                        <div class="pilhas-bi-filter-grid" aria-label="Filtros dos indicadores de pilhas">
+                            <div class="pilhas-bi-filter-group pilhas-bi-filter-structure">
+                                <strong>ESTRUTURA</strong>
+                                <select id="pilhas-structure-filter" class="pilhas-bi-select" onchange="setPilhasStructureFilter(this.value)"></select>
+                            </div>
+                            <div class="pilhas-bi-filter-group">
+                                <strong>ANO</strong>
+                                <div class="pilhas-bi-segments pilhas-bi-two" id="pilhas-year-filter"></div>
+                            </div>
+                            <div class="pilhas-bi-filter-group pilhas-bi-filter-month">
+                                <strong>M&Ecirc;S</strong>
+                                <div class="pilhas-bi-segments pilhas-bi-months" id="pilhas-month-filter"></div>
+                            </div>
+                            <div class="pilhas-bi-filter-group">
+                                <strong>AN&Aacute;LISE</strong>
+                                <div class="pilhas-bi-segments pilhas-bi-two" id="pilhas-analysis-filter"></div>
+                            </div>
+                        </div>
+
+                        <div class="pilhas-bi-kpi-grid" aria-label="Resumo da estrutura selecionada">
+                            <article>
+                                <span>INSTRUMENTOS</span>
+                                <strong id="pilhas-kpi-instruments">0</strong>
+                                <small id="pilhas-kpi-types">Sem cadastro</small>
+                            </article>
+                            <article>
+                                <span>LEITURAS NO PERÍODO</span>
+                                <strong id="pilhas-kpi-readings">0</strong>
+                                <small id="pilhas-kpi-period">-</small>
+                            </article>
+                            <article>
+                                <span>ANOMALIAS ATIVAS</span>
+                                <strong id="pilhas-kpi-alerts">0</strong>
+                                <small id="pilhas-kpi-alert-label">Situação atual</small>
+                            </article>
+                            <article>
+                                <span>ÚLTIMA ATUALIZAÇÃO</span>
+                                <strong id="pilhas-kpi-latest">-</strong>
+                                <small id="pilhas-kpi-latest-code">Sem leitura</small>
+                            </article>
+                        </div>
+
+                        <div class="pilhas-bi-grid" aria-label="Dashboard dinamico de indicadores de pilhas">
+                            <article class="pilhas-bi-panel geoview-info" tabindex="0" data-tooltip="Geometria&#10;Mostra a aderencia percentual das pilhas ao criterio geometrico. Verde indica estruturas acima do limite de conformidade.">
+                                <h3 id="pilhas-panel-title-geometria">GEOMETRIA</h3>
+                                <div class="pilhas-bi-chart" id="pilhas-chart-geometria"></div>
+                            </article>
+                            <article class="pilhas-bi-panel geoview-info" tabindex="0" data-tooltip="Declividade x limite conformidade&#10;Compara a declividade apurada com o limite de conformidade adotado no painel de pilhas.">
+                                <h3 id="pilhas-panel-title-declividade">DECLIVIDADE X LIMITE CONFORMIDADE</h3>
+                                <div class="pilhas-bi-chart" id="pilhas-chart-declividade"></div>
+                            </article>
+                            <article class="pilhas-bi-panel pilhas-bi-map-panel geoview-info" tabindex="0" data-tooltip="Localizacao&#10;Mapa operacional das pilhas com pontos associados aos indicadores do painel GeoView.">
+                                <h3>LOCALIZA&Ccedil;&Atilde;O</h3>
+                                <div class="pilhas-location-map" id="pilhas-location-map"></div>
+                                <div class="pilhas-map-live-status" id="pilhas-map-live-status">Selecione uma estrutura no mapa.</div>
+                            </article>
+                            <article class="pilhas-bi-panel geoview-info" tabindex="0" data-tooltip="Empocamento&#10;Mostra ocorrencias percentuais de empocamento por estrutura, com referencia de 5%.">
+                                <h3 id="pilhas-panel-title-empocamento">EMPO&Ccedil;AMENTO</h3>
+                                <div class="pilhas-bi-chart" id="pilhas-chart-empocamento"></div>
+                            </article>
+                            <article class="pilhas-bi-panel geoview-info" tabindex="0" data-tooltip="Fator de seguranca&#10;Compara o fator de seguranca de cada pilha com a referencia 1,30.">
+                                <h3 id="pilhas-panel-title-fator">FATOR DE SEGURAN&Ccedil;A</h3>
+                                <div class="pilhas-bi-chart" id="pilhas-chart-fator"></div>
+                            </article>
+                            <article class="pilhas-bi-panel geoview-info" tabindex="0" data-tooltip="Fator de seguranca plano de lavra&#10;Exibe o fator de seguranca associado ao planejamento de lavra no painel de pilhas.">
+                                <h3 id="pilhas-panel-title-plano">FATOR DE SEGURAN&Ccedil;A PLANO DE LAVRA</h3>
+                                <div class="pilhas-bi-chart pilhas-bi-single" id="pilhas-chart-plano-lavra"></div>
+                            </article>
+                        </div>
+
+                        <details class="pilhas-bi-executive" open>
+                            <summary><i class="fa-solid fa-clipboard-list"></i> Leitura executiva dos indicadores</summary>
+                            <div id="pilhas-executive-summary"></div>
+                        </details>
+
+                        <article class="pilhas-bi-instrument-panel">
+                            <div class="pilhas-bi-instrument-head">
+                                <div>
+                                    <span>MONITORAMENTO INSTRUMENTAL</span>
+                                    <h3 id="pilhas-instrument-chart-title">HISTÓRICO DO INSTRUMENTO</h3>
+                                </div>
+                                <select id="pilhas-instrument-filter" class="pilhas-bi-select" onchange="setPilhasInstrumentFilter(this.value)"></select>
+                            </div>
+                            <div class="pilhas-instrument-chart-wrap">
+                                <canvas id="pilhas-instrument-chart"></canvas>
+                                <div class="pilhas-chart-empty" id="pilhas-instrument-chart-empty">Selecione um instrumento com histórico.</div>
+                            </div>
+                            <div class="pilhas-instrument-meta" id="pilhas-instrument-meta"></div>
+                        </article>
+                    </section>
+
+                    <div class="card geoview-hero-card mb-4">
+                        <div class="card-header justify-between">
+                            <h3><i class="fa-solid fa-earth-americas text-primary"></i> GeoView - Dashboards corporativos</h3>
+                            <div class="flex gap-2">
+                                <button type="button" class="btn btn-secondary" onclick="openGeoViewFolderPicker()">
+                                    <i class="fa-solid fa-folder-tree"></i> Conectar pasta
+                                </button>
+                                <button type="button" class="btn btn-primary" onclick="openGeoViewFilePicker()">
+                                    <i class="fa-solid fa-file-arrow-up"></i> Importar arquivos
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="geoview-source-row">
+                                <span><i class="fa-solid fa-database"></i> Pasta fixada</span>
+                                <strong id="geoview-source-path">-</strong>
+                            </div>
+                            <div class="geoview-control-grid mt-3">
+                                <div class="form-group">
+                                    <label for="geoview-area-filter">Área</label>
+                                    <select id="geoview-area-filter" class="form-control form-control-sm"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="geoview-content-filter">Base</label>
+                                    <select id="geoview-content-filter" class="form-control form-control-sm">
+                                        <option value="all">Todos os conteúdos</option>
+                                        <option value="powerbi">Power BI</option>
+                                        <option value="spreadsheet">Planilhas / CSV</option>
+                                        <option value="evidence">Evidências</option>
+                                        <option value="document">Documentos</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="geoview-recency-filter">Atualização</label>
+                                    <select id="geoview-recency-filter" class="form-control form-control-sm">
+                                        <option value="all">Todas</option>
+                                        <option value="7 dias">Até 7 dias</option>
+                                        <option value="30 dias">Até 30 dias</option>
+                                        <option value="90 dias">Até 90 dias</option>
+                                        <option value="+90 dias">Mais de 90 dias</option>
+                                        <option value="Sem data">Sem data</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="geoview-sort-filter">Ordenar</label>
+                                    <select id="geoview-sort-filter" class="form-control form-control-sm">
+                                        <option value="recent">Mais recentes</option>
+                                        <option value="size">Maiores bases</option>
+                                        <option value="title">Nome</option>
+                                        <option value="area">Área</option>
+                                    </select>
+                                </div>
+                                <div class="form-group geoview-search-control">
+                                    <label for="geoview-search-filter">Busca</label>
+                                    <input id="geoview-search-filter" class="form-control form-control-sm" type="search" placeholder="Buscar dashboard, área ou arquivo">
+                                </div>
+                                <button type="button" class="btn btn-secondary geoview-clear-btn" onclick="clearGeoViewFilters()">
+                                    <i class="fa-solid fa-filter-circle-xmark"></i> Limpar
+                                </button>
+                            </div>
+                            <div class="geoview-kpi-grid mt-3">
+                                <div class="geoview-kpi geoview-info" data-tooltip="Quantidade de pastas/painéis mapeados no catálogo embarcado do GeoView.">
+                                    <span>Dashboards</span>
+                                    <strong id="geoview-kpi-dashboards">0</strong>
+                                </div>
+                                <div class="geoview-kpi geoview-info" data-tooltip="Arquivos Power BI localizados no catálogo corporativo e nos arquivos associados manualmente.">
+                                    <span>Power BI</span>
+                                    <strong id="geoview-kpi-powerbi">0</strong>
+                                </div>
+                                <div class="geoview-kpi geoview-info" data-tooltip="Planilhas e CSV usados como base para indicadores e auditorias.">
+                                    <span>Planilhas</span>
+                                    <strong id="geoview-kpi-excel">0</strong>
+                                </div>
+                                <div class="geoview-kpi geoview-info" data-tooltip="Imagens, PDFs e documentos disponíveis como evidência visual ou documental.">
+                                    <span>Evidências</span>
+                                    <strong id="geoview-kpi-evidence">0</strong>
+                                </div>
+                            </div>
+
+                            <div class="geoview-chart-board mt-3" aria-label="Gráficos dos dashboards GeoView">
+                                <div class="geoview-chart-panel">
+                                    <div class="geoview-chart-title">
+                                        <span>Dashboards por área</span>
+                                        <strong id="geoview-chart-area-total">0 áreas</strong>
+                                    </div>
+                                    <div id="geoview-chart-area" class="geoview-bar-chart"></div>
+                                </div>
+                                <div class="geoview-chart-panel">
+                                    <div class="geoview-chart-title">
+                                        <span>Composição dos arquivos</span>
+                                        <strong id="geoview-chart-content-total">0 itens</strong>
+                                    </div>
+                                    <div id="geoview-chart-content" class="geoview-stack-chart"></div>
+                                </div>
+                                <div class="geoview-chart-panel">
+                                    <div class="geoview-chart-title">
+                                        <span>Maiores bases</span>
+                                        <strong>Top dashboards</strong>
+                                    </div>
+                                    <div id="geoview-chart-top" class="geoview-bar-chart compact"></div>
+                                </div>
+                                <div class="geoview-chart-panel">
+                                    <div class="geoview-chart-title">
+                                        <span>Atualização</span>
+                                        <strong id="geoview-chart-recency-total">-</strong>
+                                    </div>
+                                    <div id="geoview-chart-recency" class="geoview-recency-chart"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="geoview-dashboard-grid" id="geoview-dashboard-grid"></div>
+                    <div class="geoview-load-more" id="geoview-load-more" style="display:none;">
+                        <button type="button" class="btn btn-secondary" onclick="toggleGeoViewFullRender()">
+                            <i class="fa-solid fa-layer-group"></i>
+                            <span id="geoview-load-more-text">Mostrar todos os dashboards</span>
+                        </button>
+                    </div>
+
+                    <div class="card mt-4 geoview-drilldown-card">
+                        <div class="card-header justify-between">
+                            <h3><i class="fa-solid fa-table-list text-primary"></i> Drilldown dos dashboards</h3>
+                            <span class="badge badge-outline" id="geoview-drilldown-count">0 dashboards</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Dashboard</th>
+                                            <th>Área</th>
+                                            <th>PBIX</th>
+                                            <th>Bases</th>
+                                            <th>Evidências</th>
+                                            <th>Total</th>
+                                            <th>Atualização</th>
+                                            <th>Associações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="geoview-dashboard-table-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-4">
+                        <div class="card-header justify-between">
+                            <h3><i class="fa-solid fa-map text-primary"></i> Mapas Google Earth por estrutura</h3>
+                            <div class="flex gap-2 geoview-map-actions">
+                                <select id="geoview-map-structure" class="form-control form-control-sm"></select>
+                                <button type="button" class="btn btn-primary" onclick="openGeoViewMapPicker()">
+                                    <i class="fa-solid fa-image"></i> Atualizar mapa
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-secondary m-0">Associe uma imagem atualizada do Google Earth, drone ou mapa corporativo para cada estrutura. As imagens ficam salvas localmente no dispositivo.</p>
+                            <div class="geoview-map-grid mt-3" id="geoview-map-grid"></div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- TAB 7: GEOREFERENCING -->
+                <section id="tab-georef" class="tab-pane">
+                    <div class="dashboard-row">
+                        <div class="card col-5">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-location-crosshairs text-primary"></i> Captura SIRGAS 2000</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="georef-status-card" id="georef-status-card">
+                                    <div class="release-status-icon">
+                                        <i class="fa-solid fa-satellite-dish"></i>
+                                    </div>
+                                    <div>
+                                        <span id="georef-fix-status">Aguardando captura</span>
+                                        <strong id="georef-fix-quality">SIRGAS 2000 / UTM 23S</strong>
+                                        <p>Datum operacional: SIRGAS 2000. Coordenadas geográficas em EPSG:4674 e projeção UTM por zona.</p>
+                                    </div>
+                                </div>
+
+                                <div class="release-detail-list georef-detail-list mt-3">
+                                    <div><span>Latitude</span><strong id="georef-lat">-</strong></div>
+                                    <div><span>Longitude</span><strong id="georef-lon">-</strong></div>
+                                    <div><span>UTM E</span><strong id="georef-utm-e">-</strong></div>
+                                    <div><span>UTM N</span><strong id="georef-utm-n">-</strong></div>
+                                    <div><span>Zona / EPSG</span><strong id="georef-utm-zone">23S / EPSG:31983</strong></div>
+                                    <div><span>Precisão</span><strong id="georef-accuracy">-</strong></div>
+                                    <div><span>Provedor</span><strong id="georef-provider">-</strong></div>
+                                    <div><span>Capturado em</span><strong id="georef-time">-</strong></div>
+                                </div>
+
+                                <div class="form-actions mt-3">
+                                    <button type="button" class="btn btn-primary" onclick="captureGeolocation('panel')">
+                                        <i class="fa-solid fa-location-arrow"></i> Capturar posição atual
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card col-7">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-map-location-dot text-primary"></i> GeoLocalização</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="georef-kpi-grid">
+                                    <div class="georef-kpi">
+                                        <span>Instrumentos com E/N</span>
+                                        <strong id="geo-instrument-count">-</strong>
+                                    </div>
+                                    <div class="georef-kpi">
+                                        <span>Registros georreferenciados</span>
+                                        <strong id="geo-record-count">0</strong>
+                                    </div>
+                                    <div class="georef-kpi">
+                                        <span>Até 5 m</span>
+                                        <strong id="geo-accuracy-count">0</strong>
+                                    </div>
+                                    <div class="georef-kpi">
+                                        <span>Baixa precisão</span>
+                                        <strong id="geo-low-count">0</strong>
+                                    </div>
+                                </div>
+
+                                <div class="georef-standard-box mt-3">
+                                    <div>
+                                        <span>Datum</span>
+                                        <strong>SIRGAS 2000</strong>
+                                    </div>
+                                    <div>
+                                        <span>Geográfico</span>
+                                        <strong>EPSG:4674</strong>
+                                    </div>
+                                    <div>
+                                        <span>UTM operacional</span>
+                                        <strong>EPSG:31983 / Zona 23S</strong>
+                                    </div>
+                                    <div>
+                                        <span>Elipsóide</span>
+                                        <strong>GRS80</strong>
+                                    </div>
+                                </div>
+
+                                <div class="georef-live-map mt-3" id="georef-live-map">
+                                    <div class="georef-map-empty">
+                                        <i class="fa-solid fa-satellite"></i>
+                                        <strong>Capture sua posição para abrir o mapa georreferenciado.</strong>
+                                    </div>
+                                </div>
+                                <div class="georef-live-footer">
+                                    <label class="georef-reference-selector" for="georef-reference-select">
+                                        <span>Referência Google Earth</span>
+                                        <select id="georef-reference-select" class="form-control form-control-sm" onchange="setGeorefStructureByIndex(this.value)"></select>
+                                    </label>
+                                    <div>
+                                        <span>Referência mais próxima</span>
+                                        <strong id="georef-nearest-structure">Aguardando GPS</strong>
+                                        <small id="georef-reference-coordinate">Selecione um ponto do mapa para consultar as coordenadas.</small>
+                                    </div>
+                                    <button type="button" class="btn btn-secondary btn-sm" id="georef-open-earth" onclick="openCurrentPositionInGoogleEarth()" disabled>
+                                        <i class="fa-solid fa-earth-americas"></i> Abrir no Google Earth
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-table-cells text-primary"></i> Últimos registros georreferenciados</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Data</th>
+                                            <th>Estrutura</th>
+                                            <th>Elemento</th>
+                                            <th>Tipo</th>
+                                            <th>EPSG</th>
+                                            <th>Coordenada UTM</th>
+                                            <th>Precisão</th>
+                                            <th>Qualidade</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="georef-records-body">
+                                        <!-- Registros com georreferenciamento -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- TAB 8: RELEASE CONTROL -->
+                <section id="tab-release" class="tab-pane">
+                    <div class="dashboard-row">
+                        <div class="card col-5">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-key text-primary"></i> Liberação Local</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="release-status-card" id="release-status-card">
+                                    <div class="release-status-icon">
+                                        <i class="fa-solid fa-lock"></i>
+                                    </div>
+                                    <div>
+                                        <span id="release-status-label">Sem liberação ativa</span>
+                                        <strong id="release-status-code">Aguardando</strong>
+                                        <p id="release-status-desc">Gere uma liberação manual para rastrear exportações e sincronizações até a integração com a API corporativa.</p>
+                                    </div>
+                                </div>
+
+                                <div class="release-detail-list mt-3">
+                                    <div><span>Responsável</span><strong id="release-current-responsible">-</strong></div>
+                                    <div><span>Finalidade</span><strong id="release-current-purpose">-</strong></div>
+                                    <div><span>Escopo</span><strong id="release-current-scope">-</strong></div>
+                                    <div><span>Validade</span><strong id="release-current-validity">-</strong></div>
+                                </div>
+
+                                <div class="form-actions mt-3">
+                                    <button type="button" class="btn btn-secondary" onclick="revokeManualRelease()">
+                                        <i class="fa-solid fa-ban"></i> Revogar
+                                    </button>
+                                    <button type="button" class="btn btn-primary" onclick="switchTab('sync')">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i> Ir para Nuvem
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card col-7">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-file-signature text-primary"></i> Nova liberação manual</h3>
+                            </div>
+                            <div class="card-body">
+                                <form id="release-form" onsubmit="createManualRelease(event)">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="release-responsible">Responsável pela liberação</label>
+                                            <input type="text" id="release-responsible" class="form-control" placeholder="Nome do responsável" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="release-validity">Validade</label>
+                                            <input type="datetime-local" id="release-validity" class="form-control" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="release-purpose">Finalidade</label>
+                                            <select id="release-purpose" class="form-control" required>
+                                                <option value="Auditoria">Auditoria</option>
+                                                <option value="Indicadores">Indicadores</option>
+                                                <option value="Sincronização simulada">Sincronização simulada</option>
+                                                <option value="Teste operacional">Teste operacional</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="release-scope">Escopo</label>
+                                            <select id="release-scope" class="form-control" required>
+                                                <option value="Todas as estruturas">Todas as estruturas</option>
+                                                <option value="Barragens">Barragens</option>
+                                                <option value="Pilhas">Pilhas</option>
+                                                <option value="Estrutura filtrada no relatório">Estrutura filtrada no relatório</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="release-observations">Observações</label>
+                                        <textarea id="release-observations" class="form-control" rows="3" placeholder="Ex: Liberação temporária para pacote de auditoria interna."></textarea>
+                                    </div>
+
+                                    <label class="security-check release-confirm">
+                                        <input type="checkbox" id="release-ack" required>
+                                        <span>Confirmo que esta liberação é temporária, local e deve ser substituída pela API corporativa quando disponível.</span>
+                                    </label>
+
+                                    <div class="form-actions">
+                                        <button type="reset" class="btn btn-secondary">Limpar</button>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fa-solid fa-check-double"></i> Gerar liberação
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-clock-rotate-left text-primary"></i> Histórico de liberações locais</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Protocolo</th>
+                                            <th>Status</th>
+                                            <th>Responsável</th>
+                                            <th>Finalidade</th>
+                                            <th>Escopo</th>
+                                            <th>Validade</th>
+                                            <th>Criado em</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="release-history-body">
+                                        <!-- Histórico de liberações -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- TAB 8: SYNC MANAGER -->
+                <section id="tab-sync" class="tab-pane">
+                    <div class="dashboard-row">
+                        <!-- Sync Info -->
+                        <div class="card col-7">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-cloud-arrow-up text-primary"></i> Sincronização e Conectividade</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="sync-status-box mb-4">
+                                    <div class="sync-progress-circle-container">
+                                        <div class="sync-progress-circle" id="sync-spinner">
+                                            <i class="fa-solid fa-wifi fa-2x" id="sync-icon-center"></i>
+                                        </div>
+                                    </div>
+                                    <div class="sync-info-text">
+                                        <h2 id="sync-status-title">Pronto para Enviar</h2>
+                                        <p class="text-secondary" id="sync-status-desc">Existem registros na memória local aguardando upload.</p>
+                                        <button class="btn btn-primary btn-lg mt-3" id="btn-sync-action" onclick="performSync()">
+                                            <i class="fa-solid fa-rotate"></i> Sincronizar Agora com o Servidor
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="corporate-sync-source">
+                                    <input type="file" id="corporate-sync-folder-input" class="sr-only-file" multiple webkitdirectory directory>
+                                    <div class="corporate-sync-heading">
+                                        <div>
+                                            <span>Base corporativa monitorada</span>
+                                            <strong id="corporate-sync-path">C:\Users\maycon.nascimento\ITAMINAS\SPLO - General\03) Geotecnia\05) PCM</strong>
+                                        </div>
+                                        <div class="flex gap-2 corporate-sync-actions">
+                                            <button type="button" class="btn btn-secondary btn-sm" onclick="connectCorporateSyncFolder()">
+                                                <i class="fa-solid fa-folder-open"></i> Conectar pasta
+                                            </button>
+                                            <button type="button" class="btn btn-primary btn-sm" onclick="scanCorporateSyncFolder(true)">
+                                                <i class="fa-solid fa-rotate"></i> Verificar agora
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="corporate-sync-stats">
+                                        <div><span>Estado</span><strong id="corporate-sync-state">Aguardando autorização</strong></div>
+                                        <div><span>Arquivos lidos</span><strong id="corporate-sync-files">0</strong></div>
+                                        <div><span>Novos/alterados</span><strong id="corporate-sync-changes">0</strong></div>
+                                        <div><span>Última verificação</span><strong id="corporate-sync-last">-</strong></div>
+                                    </div>
+                                    <div class="corporate-sync-feed" id="corporate-sync-feed">
+                                        Conecte a pasta para monitorar arquivos novos durante esta sessão.
+                                    </div>
+                                </div>
+
+                                <div class="sync-pipeline">
+                                    <div class="pipeline-step complete">
+                                        <i class="fa-solid fa-mobile-screen-button"></i>
+                                        <span>Coleta local</span>
+                                    </div>
+                                    <div class="pipeline-line"></div>
+                                    <div class="pipeline-step" id="pipeline-queue-step">
+                                        <i class="fa-solid fa-box-archive"></i>
+                                        <span>Fila offline</span>
+                                    </div>
+                                    <div class="pipeline-line"></div>
+                                    <div class="pipeline-step" id="pipeline-cloud-step">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                                        <span>Nuvem</span>
+                                    </div>
+                                </div>
+
+                                <div class="queue-summary">
+                                    <h4>Fila de Upload Local</h4>
+                                    <div class="sync-list" id="sync-queue-list">
+                                        <!-- Dynamic sync items -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Database Settings -->
+                        <div class="card col-5">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-gears text-primary"></i> Parâmetros da Mineração</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="mining-alert-criterion">Cota de Critério de Alerta Geral (Nível d'água sob crista)</label>
+                                    <input type="number" id="mining-alert-criterion" class="form-control" value="15.00" min="0" step="0.01" onchange="saveMiningSettings()">
+                                    <span class="help-text text-warning">Definido pelo comitê técnico no PIE (Plano de Ação de Emergência).</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mining-api-endpoint">Servidor Central de Integração (API Endpoint)</label>
+                                    <input type="url" id="mining-api-endpoint" class="form-control" value="https://api.valeverde.mining/geotech/v2" onchange="saveMiningSettings()">
+                                </div>
+                                <div class="form-group">
+                                    <label for="mining-reading-frequency">Frequência Padrão de Leituras</label>
+                                    <input type="text" id="mining-reading-frequency" class="form-control" value="Diária para PZ e Semanal para INA" onchange="saveMiningSettings()">
+                                </div>
+                                <div class="mining-settings-actions">
+                                    <span id="mining-settings-status"><i class="fa-solid fa-floppy-disk"></i> Alterações salvas neste dispositivo</span>
+                                    <button type="button" class="btn btn-primary" onclick="saveMiningSettings(true)">
+                                        <i class="fa-solid fa-floppy-disk"></i> Salvar parâmetros
+                                    </button>
+                                </div>
+                                <div class="alert-box-info mt-3">
+                                    <h5 class="font-bold"><i class="fa-solid fa-laptop-code"></i> Versão Embarcada</h5>
+                                    <p class="m-0 text-sm text-secondary">MDSync Mobile Client v2.4.1 (Modo Offline Baseado em LocalStorage & Cache Offline).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Quick Reading Modal -->
+    <div class="modal" id="quick-reading-modal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Registro Rápido</h3>
+                <span class="close" onclick="closeQuickReading()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <!-- Inner body will be loaded dynamically or form copied -->
+                <p>Escolha o tipo de coleta para abrir o fluxo guiado de campo.</p>
+                <div class="quick-action-grid">
+                    <button class="workflow-card" onclick="goToReadingsTab()">
+                        <i class="fa-solid fa-gauge-high"></i>
+                        <span><strong>Leitura INA/PZ</strong><small>Instrumento, foto, GPS e assinatura</small></span>
+                    </button>
+                    <button class="workflow-card" onclick="goToInspectionsTab()">
+                        <i class="fa-solid fa-clipboard-check"></i>
+                        <span><strong>Checklist visual</strong><small>Anomalias, risco e evidências</small></span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeQuickReading()">Fechar</button>
+                <button class="btn btn-primary" onclick="goToReadingsTab()">Abrir leitura</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Injection -->
+    <script src="data/geosync-database.js?v=mdsync-combined-9aebb6da9a"></script>
+    <script src="data/geoview-catalog.js?v=authless-20260610c"></script>
+    <script src="data/geoview-operational.js?v=geoview-20260612a"></script>
+    <script src="data/google-earth-geospatial.js?v=google-earth-20260615a"></script>
+    <script src="app.js?v=geoview-mini-charts-20260616"></script>
+</body>
+</html>
