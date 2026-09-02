@@ -46,7 +46,7 @@ let releaseState = { current: null, history: [] };
 let lastGeolocationFix = null;
 let geoEvidenceState = { reading: null, inspection: null, vehicle: null };
 const androidGeoCallbacks = {};
-const GEOVIEW_CATALOG = window.MDSYNC_GEOVIEW_CATALOG || { dashboards: [], sourcePath: "" };
+let GEOVIEW_CATALOG = window.MDSYNC_GEOVIEW_CATALOG || { dashboards: [], sourcePath: "" };
 const GEOVIEW_OPERATIONAL = window.MDSYNC_GEOVIEW_OPERATIONAL || {
     pileMetrics: [],
     structureCoordinates: [],
@@ -7308,6 +7308,48 @@ function initializeRuntimePlatform() {
     document.body.classList.toggle("web-shell", !androidShell);
 }
 
+let lastLiveSyncTimestamp = null;
+function initializeLivePCMISync() {
+    async function checkLivePCMIUpdates() {
+        try {
+            const response = await fetch("data/sync-signal.json?t=" + Date.now());
+            if (!response.ok) return;
+            const signal = await response.json();
+            if (!lastLiveSyncTimestamp) {
+                lastLiveSyncTimestamp = signal.timestamp;
+                return;
+            }
+            if (signal.timestamp !== lastLiveSyncTimestamp) {
+                console.log("[MDSync LiveSync] Atualização detectada na base PCMI:", signal);
+                lastLiveSyncTimestamp = signal.timestamp;
+
+                const catRes = await fetch("data/geoview-catalog.json?t=" + Date.now());
+                if (catRes.ok) {
+                    const newCatalog = await catRes.json();
+                    window.MDSYNC_GEOVIEW_CATALOG = newCatalog;
+                    GEOVIEW_CATALOG = newCatalog;
+
+                    if (typeof renderGeoViewPanel === "function") {
+                        renderGeoViewPanel();
+                    }
+
+                    if (typeof showToast === "function") {
+                        showToast(`Base PCMI sincronizada! (${signal.totalFiles || ""} arquivos)`, "success");
+                    }
+                }
+            }
+        } catch (e) {
+            // Silencioso em caso de offline
+        }
+    }
+
+    // Polling a cada 3 segundos e no foco da aba
+    setInterval(checkLivePCMIUpdates, 3000);
+    document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) checkLivePCMIUpdates();
+    });
+}
+
 function bootApplication() {
     if (appBooted) return;
     appBooted = true;
@@ -7322,6 +7364,7 @@ function bootApplication() {
     initializeFieldFileInputs();
     initializeGeoViewInputs();
     initializeCorporateSync();
+    initializeLivePCMISync();
     initializeEarthMapInputs();
     populateInstrumentSelect();
     populateInspectionStructures();
