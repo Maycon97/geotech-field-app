@@ -1,0 +1,177 @@
+{
+  "structure": "PDE Jacó",
+  "slug": "pde-jaco",
+  "version": "mdsync-combined-9aebb6da9a",
+  "instrumentCount": 3,
+  "instruments": {
+    "PDE-JACO-INA-01": {
+      "id": "PDE-JACO-INA-01",
+      "code": "INA-01",
+      "name": "INA-01 - PDE Jacó",
+      "type": "INA",
+      "structure": "PDE Jacó",
+      "installationDate": null,
+      "diameter": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 69.69,
+      "limiteCritico": 90.6,
+      "coordinates": {
+        "ns": 7776937.0,
+        "ew": 594407.0
+      },
+      "historico": [
+        {
+          "data": "2026-02-12",
+          "valor": 46.29,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-02",
+          "valor": 68.67,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-31",
+          "valor": 69.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-14",
+          "valor": 68.7,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-29",
+          "valor": 68.65,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-12",
+          "valor": 68.71,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-02",
+          "valor": 68.67,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-31",
+          "valor": 68.7,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-14",
+          "valor": 68.71,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-29",
+          "valor": 68.65,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-12",
+          "valor": 68.55,
+          "status": "Normal"
+        }
+      ]
+    },
+    "PDE-JACO-MV-01": {
+      "id": "PDE-JACO-MV-01",
+      "code": "MV-01",
+      "name": "MV-01 - PDE Jacó",
+      "type": "MV",
+      "structure": "PDE Jacó",
+      "installationDate": null,
+      "diameter": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1.3,
+      "coordinates": {
+        "ns": 7776928.0,
+        "ew": 594800.0
+      },
+      "historico": []
+    },
+    "PDE-JACO-PZ-02": {
+      "id": "PDE-JACO-PZ-02",
+      "code": "PZ-02",
+      "name": "PZ-02 - PDE Jacó",
+      "type": "PZ",
+      "structure": "PDE Jacó",
+      "installationDate": null,
+      "diameter": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 69.0,
+      "limiteCritico": 89.7,
+      "coordinates": {
+        "ns": 7776748.0,
+        "ew": 594610.0
+      },
+      "historico": [
+        {
+          "data": "2026-02-12",
+          "valor": 69.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-02",
+          "valor": 46.28,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-31",
+          "valor": 46.3,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-14",
+          "valor": 45.93,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-29",
+          "valor": 46.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-12",
+          "valor": 46.02,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-02",
+          "valor": 46.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-31",
+          "valor": 45.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-14",
+          "valor": 45.98,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-29",
+          "valor": 46.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-12",
+          "valor": 46.03,
+          "status": "Normal"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,7962 @@
+{
+  "structure": "Barragem B1",
+  "slug": "barragem-b1",
+  "version": "mdsync-combined-9aebb6da9a",
+  "instrumentCount": 50,
+  "instruments": {
+    "BARRAGEM-B1-ETR-2": {
+      "id": "BARRAGEM-B1-ETR-2",
+      "code": "ETR-02",
+      "name": "ETR-02 - Barragem B1",
+      "type": "ETR",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-11-29",
+      "section": null,
+      "diameter": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 0.0,
+        "attentionElevation": 0.0,
+        "alertElevation": 0.0,
+        "emergencyElevation": 0.0
+      },
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "historico": []
+    },
+    "BARRAGEM-B1-INA-106": {
+      "id": "BARRAGEM-B1-INA-106",
+      "code": "INA-106",
+      "name": "INA-106 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-08-18",
+      "section": "AA",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 839.441,
+      "cotaBase": 838.463,
+      "cotaFundo": 827.651,
+      "profMax": 16.75,
+      "limiteCritico": 6.791,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 829.13,
+        "attentionElevation": 830.05,
+        "alertElevation": 832.65,
+        "emergencyElevation": 832.65
+      },
+      "coordinates": {
+        "ns": 7781149.779,
+        "ew": 592523.569
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 11.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 11.62,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 11.66,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 11.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 11.79,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 11.79,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 11.79,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 11.79,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 12.1,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 11.75,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 11.75,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 11.77,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 11.77,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 11.79,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 11.67,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 11.67,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 11.91,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 11.91,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 11.91,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 11.91,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 11.91,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 11.91,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 11.91,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 11.91,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 11.91,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 11.91,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 11.91,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 11.91,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 11.91,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 11.91,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 11.91,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 11.92,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 11.93,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 11.92,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 11.89,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 11.9,
+          "status": "Atencao"
+        }
+      ]
+    },
+    "BARRAGEM-B1-INA-107": {
+      "id": "BARRAGEM-B1-INA-107",
+      "code": "INA-107",
+      "name": "INA-107 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-08-25",
+      "section": "BB",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 839.397,
+      "cotaBase": 838.499,
+      "cotaFundo": 821.567,
+      "profMax": 16.0,
+      "limiteCritico": 5.697,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 826.63,
+        "attentionElevation": 828.94,
+        "alertElevation": 833.7,
+        "emergencyElevation": 833.7
+      },
+      "coordinates": {
+        "ns": 7781185.469,
+        "ew": 592542.826
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 11.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 11.1,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 11.13,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 11.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 11.41,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 11.24,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 11.24,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 11.68,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 11.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 11.82,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 11.76,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 11.78,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 11.32,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 11.21,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 11.17,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 11.17,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 11.19,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 11.2,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 11.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 11.29,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 11.445,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 11.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 11.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 11.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 12.71,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 12.73,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 12.75,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 12.65,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 12.73,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 12.73,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 11.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 11.07,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 11.08,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 11.07,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 11.03,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 11.01,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-INA-108": {
+      "id": "BARRAGEM-B1-INA-108",
+      "code": "INA-108",
+      "name": "INA-108 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-09-01",
+      "section": "CC",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 839.395,
+      "cotaBase": 838.533,
+      "cotaFundo": 824.715,
+      "profMax": 16.48,
+      "limiteCritico": 4.075,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 827.93,
+        "attentionElevation": 832.08,
+        "alertElevation": 835.32,
+        "emergencyElevation": 835.32
+      },
+      "coordinates": {
+        "ns": 7781219.971,
+        "ew": 592560.792
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 12.22,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 12.24,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 12.26,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 12.29,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 12.61,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 13.41,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 13.41,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 12.53,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 12.66,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 12.73,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 12.78,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 12.8,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 12.43,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 12.3,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 12.26,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 12.2,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 12.24,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 12.26,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 12.22,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 12.28,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 12.425,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 12.57,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 12.57,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 12.57,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 12.3,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 12.32,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 12.34,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 12.27,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 12.35,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 12.35,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 12.19,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 12.21,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 12.23,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 12.22,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 12.19,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 12.2,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-INA-109": {
+      "id": "BARRAGEM-B1-INA-109",
+      "code": "INA-109",
+      "name": "INA-109 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-09-13",
+      "section": "DD",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 839.231,
+      "cotaBase": 838.306,
+      "cotaFundo": 822.331,
+      "profMax": 16.69,
+      "limiteCritico": 4.811,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 825.27,
+        "attentionElevation": 831.1,
+        "alertElevation": 834.42,
+        "emergencyElevation": 834.42
+      },
+      "coordinates": {
+        "ns": 7781255.906,
+        "ew": 592584.434
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 14.91,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 14.94,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 14.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 14.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 14.94,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 14.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 14.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 14.94,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 14.96,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 14.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 14.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 14.96,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 14.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 14.98,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 14.97,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 14.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 14.96,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 14.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 14.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 14.96,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 14.96,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 14.96,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 14.96,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 14.96,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 15.01,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 15.04,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 15.07,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 14.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 15.07,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 15.07,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 14.89,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 14.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 14.91,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 14.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 14.87,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 14.9,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-INA-110": {
+      "id": "BARRAGEM-B1-INA-110",
+      "code": "INA-110",
+      "name": "INA-110 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-09-20",
+      "section": "EE",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 838.859,
+      "cotaBase": 837.931,
+      "cotaFundo": 822.209,
+      "profMax": 17.02,
+      "limiteCritico": 3.529,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 824.24,
+        "attentionElevation": 832.17,
+        "alertElevation": 835.33,
+        "emergencyElevation": 835.33
+      },
+      "coordinates": {
+        "ns": 7781283.535,
+        "ew": 592617.101
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 15.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 15.1,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 15.13,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 15.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 15.46,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 15.4,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 15.4,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 15.27,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 15.48,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 15.49,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 15.44,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 15.45,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 15.48,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 15.45,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 15.45,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 15.39,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 15.39,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 15.4,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 15.4,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 15.42,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 15.47,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 15.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 15.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 15.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 15.46,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 15.48,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 15.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 15.46,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 15.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 15.25,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 15.19,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 15.2,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 15.21,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 15.2,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 15.16,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 15.14,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-INA-111": {
+      "id": "BARRAGEM-B1-INA-111",
+      "code": "INA-111",
+      "name": "INA-111 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2023-04-13",
+      "section": "AA",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 846.483,
+      "cotaBase": 845.552,
+      "cotaFundo": 826.943,
+      "profMax": 18.73,
+      "limiteCritico": 7.883,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 835.96,
+        "attentionElevation": 837.26,
+        "alertElevation": 838.6,
+        "emergencyElevation": 838.6
+      },
+      "coordinates": {
+        "ns": 7781139.012,
+        "ew": 592545.482
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 14.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 14.65,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 14.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 14.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 15.91,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 16.66,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 16.66,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 16.22,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 16.35,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 16.35,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 16.4,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 16.41,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 16.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 15.91,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 15.81,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 15.67,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 15.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 15.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 15.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 15.89,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 16.185,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 16.48,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 16.53,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 16.53,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 17.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 17.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 17.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 17.48,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 17.56,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 15.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 15.67,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 15.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 15.71,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 15.7,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 15.67,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 15.62,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-INA-112": {
+      "id": "BARRAGEM-B1-INA-112",
+      "code": "INA-112",
+      "name": "INA-112 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2023-03-22",
+      "section": "BB",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 846.476,
+      "cotaBase": 845.517,
+      "cotaFundo": 823.366,
+      "profMax": 22.0,
+      "limiteCritico": 7.366,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 830.9,
+        "attentionElevation": 836.1,
+        "alertElevation": 839.11,
+        "emergencyElevation": 839.11
+      },
+      "coordinates": {
+        "ns": 7781175.257,
+        "ew": 592563.472
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 13.82,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 13.85,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 13.88,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 13.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 15.12,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 14.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 14.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 15.33,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 15.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 15.68,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 15.7,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 15.71,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 15.16,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 14.87,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 14.82,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 14.59,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 14.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 14.4,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 14.82,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 14.97,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 15.235,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 15.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 15.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 15.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 16.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 16.58,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 16.61,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 16.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 16.63,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 14.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 14.53,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 14.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 14.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 14.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 14.51,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 14.49,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-INA-113": {
+      "id": "BARRAGEM-B1-INA-113",
+      "code": "INA-113",
+      "name": "INA-113 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2023-03-22",
+      "section": "CC",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 846.691,
+      "cotaBase": 845.681,
+      "cotaFundo": 831.361,
+      "profMax": 15.68,
+      "limiteCritico": 6.211,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 836.23,
+        "attentionElevation": 838.72,
+        "alertElevation": 840.48,
+        "emergencyElevation": 840.48
+      },
+      "coordinates": {
+        "ns": 7781209.183,
+        "ew": 592580.699
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 13.87,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 13.89,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 13.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 13.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 14.7,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 14.25,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 14.25,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 15.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 13.81,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 13.81,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 13.81,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 13.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 14.71,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 14.73,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 14.34,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 14.19,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 14.38,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 14.45,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 14.37,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 14.61,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 15.005,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 15.4,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 15.4,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 15.39,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 14.64,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 14.67,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 14.7,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 14.63,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 14.71,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 14.42,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 14.33,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 14.35,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 14.37,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 14.36,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 14.32,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 14.3,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-INA-114": {
+      "id": "BARRAGEM-B1-INA-114",
+      "code": "INA-114",
+      "name": "INA-114 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2023-03-18",
+      "section": "DD",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 846.582,
+      "cotaBase": 845.643,
+      "cotaFundo": 832.502,
+      "profMax": 14.58,
+      "limiteCritico": 6.172,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 834.67,
+        "attentionElevation": 837.61,
+        "alertElevation": 840.41,
+        "emergencyElevation": 840.41
+      },
+      "coordinates": {
+        "ns": 7781240.429,
+        "ew": 592601.483
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 13.91,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 13.94,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 13.97,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 13.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 14.08,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 14.08,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 14.08,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 14.08,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 14.5,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 14.5,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 14.5,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 14.5,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 14.5,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 14.08,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 14.58,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 14.58,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 14.51,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 14.51,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 14.51,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 14.51,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 14.51,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 14.51,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 14.51,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 14.51,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 14.51,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 14.51,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 14.51,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 14.51,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 14.51,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 14.51,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 14.51,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 14.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 14.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 14.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 14.49,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 14.51,
+          "status": "Atencao"
+        }
+      ]
+    },
+    "BARRAGEM-B1-INA-115": {
+      "id": "BARRAGEM-B1-INA-115",
+      "code": "INA-115",
+      "name": "INA-115 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2023-03-04",
+      "section": "EE",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 846.248,
+      "cotaBase": 845.339,
+      "cotaFundo": 831.648,
+      "profMax": 15.79,
+      "limiteCritico": 5.388,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 833.65,
+        "attentionElevation": 838.22,
+        "alertElevation": 840.86,
+        "emergencyElevation": 840.86
+      },
+      "coordinates": {
+        "ns": 7781265.851,
+        "ew": 592630.646
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 14.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 14.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 14.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 14.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 14.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 14.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 14.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 14.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 15.78,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 15.78,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 15.78,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 15.79,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 15.79,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 14.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 14.75,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 14.75,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 14.73,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 14.73,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 14.73,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 14.73,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 14.73,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 14.73,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 14.73,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 14.73,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 14.73,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 14.73,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 14.73,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 14.73,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 14.73,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 14.73,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 14.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 14.61,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 14.62,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 14.61,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 14.59,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 14.6,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-INA-116": {
+      "id": "BARRAGEM-B1-INA-116",
+      "code": "INA-116",
+      "name": "INA-116 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2023-02-24",
+      "section": "AA",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 853.406,
+      "cotaBase": 852.447,
+      "cotaFundo": 830.116,
+      "profMax": 23.36,
+      "limiteCritico": 7.576,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 841.8,
+        "attentionElevation": 844.32,
+        "alertElevation": 845.83,
+        "emergencyElevation": 845.83
+      },
+      "coordinates": {
+        "ns": 7781129.296,
+        "ew": 592564.398
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 20.85,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 20.88,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 20.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 20.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 21.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 21.39,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 21.39,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 22.17,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 22.27,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 22.2,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 22.14,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 22.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 21.64,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 21.58,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 21.59,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 21.53,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 21.68,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 21.74,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 21.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 21.82,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 21.985,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 22.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 22.32,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 22.32,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 21.85,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 21.87,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 21.89,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 21.81,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 21.89,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 21.12,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 21.23,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 21.24,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 21.25,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 21.24,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 21.2,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 21.18,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-INA-117": {
+      "id": "BARRAGEM-B1-INA-117",
+      "code": "INA-117",
+      "name": "INA-117 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2023-02-07",
+      "section": "BB",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 853.098,
+      "cotaBase": 852.2,
+      "cotaFundo": 825.968,
+      "profMax": 27.27,
+      "limiteCritico": 8.128,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 837.5,
+        "attentionElevation": 841.71,
+        "alertElevation": 844.97,
+        "emergencyElevation": 844.97
+      },
+      "coordinates": {
+        "ns": 7781165.668,
+        "ew": 592582.01
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 19.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 19.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 19.63,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 19.66,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 20.79,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 20.21,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 20.21,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 20.8,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 21.01,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 21.08,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 21.11,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 21.13,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 20.7,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 20.44,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 20.4,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 20.22,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 20.41,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 20.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 20.44,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 20.61,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 20.845,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 21.08,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 21.23,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 21.23,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 21.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 22.02,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 22.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 21.96,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 22.04,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 20.45,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 20.28,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 20.29,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 20.3,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 20.29,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 20.26,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 20.24,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-INA-118": {
+      "id": "BARRAGEM-B1-INA-118",
+      "code": "INA-118",
+      "name": "INA-118 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2023-01-31",
+      "section": "CC",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 852.992,
+      "cotaBase": 852.101,
+      "cotaFundo": 832.692,
+      "profMax": 20.72,
+      "limiteCritico": 7.682,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 841.85,
+        "attentionElevation": 844.64,
+        "alertElevation": 845.31,
+        "emergencyElevation": 845.31
+      },
+      "coordinates": {
+        "ns": 7781198.848,
+        "ew": 592599.681
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 18.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 18.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 18.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 19.01,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 19.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 19.14,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 19.14,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 20.28,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 20.6,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 20.6,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 20.6,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 20.61,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 20.3,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 20.72,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 16.65,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 19.44,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 19.66,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 19.88,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 19.71,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 19.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 19.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 19.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 19.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 20.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 16.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 16.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 16.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 16.47,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 16.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 19.19,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 15.45,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 15.47,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 15.49,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 15.48,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 15.44,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 15.41,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-INA-119": {
+      "id": "BARRAGEM-B1-INA-119",
+      "code": "INA-119",
+      "name": "INA-119 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2023-01-23",
+      "section": "DD",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 852.881,
+      "cotaBase": 851.941,
+      "cotaFundo": 833.431,
+      "profMax": 22.12,
+      "limiteCritico": 7.371,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 841.44,
+        "attentionElevation": 843.37,
+        "alertElevation": 845.51,
+        "emergencyElevation": 845.51
+      },
+      "coordinates": {
+        "ns": 7781227.394,
+        "ew": 592618.029
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 18.8,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 18.85,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 18.88,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 18.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 20.91,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 19.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 19.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 21.58,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 21.59,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 22.11,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 22.11,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 22.12,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 21.04,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 20.51,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 20.33,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 19.8,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 20.23,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 20.56,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 20.31,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 20.85,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 20.85,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 20.85,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 20.85,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 20.81,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 16.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 16.57,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 16.59,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 16.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 16.58,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 20.14,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 20.0,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 20.01,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 20.02,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 20.01,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 19.98,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 19.96,
+          "status": "Atencao"
+        }
+      ]
+    },
+    "BARRAGEM-B1-INA-120": {
+      "id": "BARRAGEM-B1-INA-120",
+      "code": "INA-120",
+      "name": "INA-120 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2023-03-07",
+      "section": "EE",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 853.62,
+      "cotaBase": 852.675,
+      "cotaFundo": 838.47,
+      "profMax": 15.64,
+      "limiteCritico": 7.87,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 842.47,
+        "attentionElevation": 844.13,
+        "alertElevation": 845.75,
+        "emergencyElevation": 845.75
+      },
+      "coordinates": {
+        "ns": 7781246.881,
+        "ew": 592644.105
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 15.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 15.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 15.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 15.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 15.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 15.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 15.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 15.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 15.64,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 15.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 15.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 15.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 15.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 15.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 15.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 15.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 15.47,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 15.47,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 15.47,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 15.47,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 15.47,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 15.47,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 15.47,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 15.47,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 15.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 15.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 15.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 15.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 15.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 15.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 15.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 15.54,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 15.56,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 15.55,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 15.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 15.5,
+          "status": "Atencao"
+        }
+      ]
+    },
+    "BARRAGEM-B1-MCD-1": {
+      "id": "BARRAGEM-B1-MCD-1",
+      "code": "MCD-01",
+      "name": "MCD-01 - Barragem B1",
+      "type": "MCD",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-11-29",
+      "section": "AA",
+      "diameter": null,
+      "cotaBoca": 838.21,
+      "cotaBase": 838.21,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 728.21,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 40.0,
+        "attentionElevation": 40.0,
+        "alertElevation": 110.0,
+        "emergencyElevation": 110.0
+      },
+      "coordinates": {
+        "ns": 7781143.5,
+        "ew": 592520.11
+      },
+      "historico": []
+    },
+    "BARRAGEM-B1-MCD-2": {
+      "id": "BARRAGEM-B1-MCD-2",
+      "code": "MCD-02",
+      "name": "MCD-02 - Barragem B1",
+      "type": "MCD",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-11-29",
+      "section": "CC",
+      "diameter": null,
+      "cotaBoca": 838.49,
+      "cotaBase": 838.49,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 728.49,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 40.0,
+        "attentionElevation": 40.0,
+        "alertElevation": 110.0,
+        "emergencyElevation": 110.0
+      },
+      "coordinates": {
+        "ns": 7781213.23,
+        "ew": 592557.35
+      },
+      "historico": []
+    },
+    "BARRAGEM-B1-MCD-3": {
+      "id": "BARRAGEM-B1-MCD-3",
+      "code": "MCD-03",
+      "name": "MCD-03 - Barragem B1",
+      "type": "MCD",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-11-29",
+      "section": "EE",
+      "diameter": null,
+      "cotaBoca": 837.72,
+      "cotaBase": 837.72,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 687.72,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 40.0,
+        "attentionElevation": 40.0,
+        "alertElevation": 150.0,
+        "emergencyElevation": 150.0
+      },
+      "coordinates": {
+        "ns": 7781293.96,
+        "ew": 592630.51
+      },
+      "historico": []
+    },
+    "BARRAGEM-B1-MCD-4": {
+      "id": "BARRAGEM-B1-MCD-4",
+      "code": "MCD-04",
+      "name": "MCD-04 - Barragem B1",
+      "type": "MCD",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-11-29",
+      "section": "AA",
+      "diameter": null,
+      "cotaBoca": 845.61,
+      "cotaBase": 845.61,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 685.61,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 40.0,
+        "attentionElevation": 40.0,
+        "alertElevation": 160.0,
+        "emergencyElevation": 160.0
+      },
+      "coordinates": {
+        "ns": 7781131.44,
+        "ew": 592542.13
+      },
+      "historico": []
+    },
+    "BARRAGEM-B1-MCD-5": {
+      "id": "BARRAGEM-B1-MCD-5",
+      "code": "MCD-05",
+      "name": "MCD-05 - Barragem B1",
+      "type": "MCD",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-11-29",
+      "section": "CC",
+      "diameter": null,
+      "cotaBoca": 845.31,
+      "cotaBase": 845.31,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 715.31,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 40.0,
+        "attentionElevation": 40.0,
+        "alertElevation": 130.0,
+        "emergencyElevation": 130.0
+      },
+      "coordinates": {
+        "ns": 7781202.77,
+        "ew": 592577.52
+      },
+      "historico": []
+    },
+    "BARRAGEM-B1-MCD-6": {
+      "id": "BARRAGEM-B1-MCD-6",
+      "code": "MCD-06",
+      "name": "MCD-06 - Barragem B1",
+      "type": "MCD",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-11-29",
+      "section": "EE",
+      "diameter": null,
+      "cotaBoca": 844.95,
+      "cotaBase": 844.95,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 719.95,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 40.0,
+        "attentionElevation": 40.0,
+        "alertElevation": 125.0,
+        "emergencyElevation": 125.0
+      },
+      "coordinates": {
+        "ns": 7781276.68,
+        "ew": 592643.72
+      },
+      "historico": []
+    },
+    "BARRAGEM-B1-MCD-7": {
+      "id": "BARRAGEM-B1-MCD-7",
+      "code": "MCD-07",
+      "name": "MCD-07 - Barragem B1",
+      "type": "MCD",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-11-29",
+      "section": "AA",
+      "diameter": null,
+      "cotaBoca": 852.06,
+      "cotaBase": 852.06,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 632.06,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 40.0,
+        "attentionElevation": 40.0,
+        "alertElevation": 220.0,
+        "emergencyElevation": 220.0
+      },
+      "coordinates": {
+        "ns": 7781121.27,
+        "ew": 592560.63
+      },
+      "historico": []
+    },
+    "BARRAGEM-B1-MCD-8": {
+      "id": "BARRAGEM-B1-MCD-8",
+      "code": "MCD-08",
+      "name": "MCD-08 - Barragem B1",
+      "type": "MCD",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-11-29",
+      "section": "CC",
+      "diameter": null,
+      "cotaBoca": 851.88,
+      "cotaBase": 851.88,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 631.88,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 40.0,
+        "attentionElevation": 40.0,
+        "alertElevation": 220.0,
+        "emergencyElevation": 220.0
+      },
+      "coordinates": {
+        "ns": 7781192.81,
+        "ew": 592596.52
+      },
+      "historico": []
+    },
+    "BARRAGEM-B1-MCD-9": {
+      "id": "BARRAGEM-B1-MCD-9",
+      "code": "MCD-09",
+      "name": "MCD-09 - Barragem B1",
+      "type": "MCD",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-11-29",
+      "section": "EE",
+      "diameter": null,
+      "cotaBoca": 852.39,
+      "cotaBase": 852.39,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 727.39,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 40.0,
+        "attentionElevation": 40.0,
+        "alertElevation": 125.0,
+        "emergencyElevation": 125.0
+      },
+      "coordinates": {
+        "ns": 7781256.86,
+        "ew": 592658.56
+      },
+      "historico": []
+    },
+    "BARRAGEM-B1-MV-1": {
+      "id": "BARRAGEM-B1-MV-1",
+      "code": "MV-01",
+      "name": "MV-01 - Barragem B1",
+      "type": "MV",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": null,
+      "section": null,
+      "diameter": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1,
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "historico": []
+    },
+    "BARRAGEM-B1-NA-RESERVATORIO": {
+      "id": "BARRAGEM-B1-NA-RESERVATORIO",
+      "code": "NA-Reservatorio",
+      "name": "NA Reservatorio - Barragem B1",
+      "type": "NA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": null,
+      "section": "Reservatorio",
+      "diameter": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 843.287,
+      "limiteCritico": 1,
+      "thresholdMode": "elevation",
+      "thresholds": {},
+      "coordinates": {
+        "ns": 7781158.724,
+        "ew": 592669.529
+      },
+      "historico": [
+        {
+          "data": "2025-06-11",
+          "valor": 836.804,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-13",
+          "valor": 836.433,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-27",
+          "valor": 836.541,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-23",
+          "valor": 836.737,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-04",
+          "valor": 836.865,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-14",
+          "valor": 836.543,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-22",
+          "valor": 836.443,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-29",
+          "valor": 836.228,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-09",
+          "valor": 836.511,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-12",
+          "valor": 836.411,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-19",
+          "valor": 836.282,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-26",
+          "valor": 836.222,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-16",
+          "valor": 835.607,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-17",
+          "valor": 835.607,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-31",
+          "valor": 835.054,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-07",
+          "valor": 834.226,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-14",
+          "valor": 833.736,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-21",
+          "valor": 835.503,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-28",
+          "valor": 835.703,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-05",
+          "valor": 835.943,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-12",
+          "valor": 835.295,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-19",
+          "valor": 836.061,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-26",
+          "valor": 836.281,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-06",
+          "valor": 839.135,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-09",
+          "valor": 838.647,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-16",
+          "valor": 837.569,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-23",
+          "valor": 837.27,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 836.992,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-06",
+          "valor": 835.712,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 837.019,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-20",
+          "valor": 836.289,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-27",
+          "valor": 837.019,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 835.924,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 836.692,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 836.362,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 836.956,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-PZ-101": {
+      "id": "BARRAGEM-B1-PZ-101",
+      "code": "PZ-101",
+      "name": "PZ-101 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-07-29",
+      "section": "AA",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 827.267,
+      "cotaBase": 826.346,
+      "cotaFundo": 820.067,
+      "profMax": 6.0,
+      "limiteCritico": 6.0,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 827.267,
+        "attentionElevation": 827.267,
+        "alertElevation": 827.267,
+        "emergencyElevation": 827.267
+      },
+      "coordinates": {
+        "ns": 7781164.259,
+        "ew": 592487.209
+      },
+      "historico": [
+        {
+          "data": "2025-02-28",
+          "valor": 2.76,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-07",
+          "valor": 2.77,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 2.88,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 2.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 2.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 2.46,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 2.47,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 2.47,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 2.41,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 0.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 0.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 2.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 2.51,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 2.43,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 2.49,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 2.49,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 2.49,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 2.49,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 2.46,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 2.49,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 2.49,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 2.49,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 2.49,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 2.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 2.49,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 2.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 2.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 2.48,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 2.56,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 2.56,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 2.32,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 2.34,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 2.36,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 2.35,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 2.32,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 2.3,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-PZ-102": {
+      "id": "BARRAGEM-B1-PZ-102",
+      "code": "PZ-102",
+      "name": "PZ-102 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-07-21",
+      "section": "BB",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 826.264,
+      "cotaBase": 825.304,
+      "cotaFundo": 819.124,
+      "profMax": 6.0,
+      "limiteCritico": 6.0,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 826.264,
+        "attentionElevation": 826.264,
+        "alertElevation": 826.264,
+        "emergencyElevation": 826.264
+      },
+      "coordinates": {
+        "ns": 7781199.822,
+        "ew": 592505.399
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 0.59,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 0.61,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 0.66,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 0.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 1.04,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 0.97,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 0.97,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 1.17,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 1.24,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 1.24,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 1.23,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 1.25,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 1.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 1.04,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 2.48,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 1.02,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 1.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 1.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 1.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 1.1,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 1.16,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 1.22,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 1.25,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 1.25,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 1.1,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 1.12,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 1.14,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 1.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 1.14,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 1.14,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 0.94,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 0.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 0.96,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 0.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 0.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 0.94,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-PZ-103": {
+      "id": "BARRAGEM-B1-PZ-103",
+      "code": "PZ-103",
+      "name": "PZ-103 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-07-26",
+      "section": "CC",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 824.269,
+      "cotaBase": 823.597,
+      "cotaFundo": 817.069,
+      "profMax": 6.0,
+      "limiteCritico": 6.0,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 824.269,
+        "attentionElevation": 824.269,
+        "alertElevation": 824.269,
+        "emergencyElevation": 824.269
+      },
+      "coordinates": {
+        "ns": 7781236.115,
+        "ew": 592521.842
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 1.7,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 1.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 1.76,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 1.78,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 1.53,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 1.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 1.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 1.53,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 1.41,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 1.41,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 1.63,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 1.65,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 1.63,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 1.63,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 1.61,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 1.59,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 1.68,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 1.62,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 1.65,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 1.63,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 1.695,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 1.76,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 1.51,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 1.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 1.63,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 1.66,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 1.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 1.63,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 1.71,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 1.71,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 1.38,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 1.39,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 1.4,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 1.39,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 1.35,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 1.37,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-PZ-104": {
+      "id": "BARRAGEM-B1-PZ-104",
+      "code": "PZ-104",
+      "name": "PZ-104 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-08-11",
+      "section": "DD",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 823.501,
+      "cotaBase": 822.711,
+      "cotaFundo": 813.331,
+      "profMax": 9.0,
+      "limiteCritico": 9.0,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 823.501,
+        "attentionElevation": 823.501,
+        "alertElevation": 823.501,
+        "emergencyElevation": 823.501
+      },
+      "coordinates": {
+        "ns": 7781279.826,
+        "ew": 592547.59
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 5.18,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 5.2,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 5.22,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 5.25,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 4.85,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 4.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 4.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 5.8,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 4.73,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 4.7,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 4.89,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 4.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 4.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 4.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 5.07,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 5.01,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 4.96,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 4.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 4.98,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 5.03,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 5.035,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 5.04,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 5.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 5.04,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 5.03,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 5.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 5.09,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 5.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 5.13,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 5.13,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 4.22,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 4.24,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 4.26,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 4.25,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 4.22,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 4.25,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-PZ-105": {
+      "id": "BARRAGEM-B1-PZ-105",
+      "code": "PZ-105",
+      "name": "PZ-105 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-07-18",
+      "section": "EE",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 824.701,
+      "cotaBase": 823.426,
+      "cotaFundo": 814.481,
+      "profMax": 9.0,
+      "limiteCritico": 9.0,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 824.701,
+        "attentionElevation": 824.701,
+        "alertElevation": 824.701,
+        "emergencyElevation": 824.701
+      },
+      "coordinates": {
+        "ns": 7781314.614,
+        "ew": 592587.102
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 7.12,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 7.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 7.16,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 7.18,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 6.77,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 6.76,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 6.76,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 6.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 6.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 6.7,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 6.81,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 6.8,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 6.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 6.94,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 6.97,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 6.94,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 6.97,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 6.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 7.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 7.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 7.02,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 7.04,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 7.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 7.03,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 7.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 7.03,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 7.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 7.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 7.08,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 7.08,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 6.21,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 6.23,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 6.25,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 6.24,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 6.22,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 6.21,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-PZ-106": {
+      "id": "BARRAGEM-B1-PZ-106",
+      "code": "PZ-106",
+      "name": "PZ-106 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-08-17",
+      "section": "AA",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 839.314,
+      "cotaBase": 838.396,
+      "cotaFundo": 819.544,
+      "profMax": 18.0,
+      "limiteCritico": -0.276,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 835.06,
+        "attentionElevation": 836.47,
+        "alertElevation": 839.59,
+        "emergencyElevation": 839.59
+      },
+      "coordinates": {
+        "ns": 7781145.555,
+        "ew": 592521.477
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 12.16,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 12.18,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 12.2,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 12.23,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 11.98,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 11.97,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 11.97,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 12.07,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 12.1,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 12.09,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 12.02,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 12.01,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 11.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 11.91,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 11.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 11.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 11.91,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 11.89,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 11.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 11.94,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 11.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 12.04,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 12.04,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 12.01,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 12.21,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 12.23,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 12.25,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 12.18,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 12.26,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 12.26,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 11.68,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 11.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 11.7,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 11.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 11.66,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 11.64,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-PZ-107": {
+      "id": "BARRAGEM-B1-PZ-107",
+      "code": "PZ-107",
+      "name": "PZ-107 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-08-29",
+      "section": "BB",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 839.444,
+      "cotaBase": 838.497,
+      "cotaFundo": 818.714,
+      "profMax": 19.0,
+      "limiteCritico": -1.146,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 834.15,
+        "attentionElevation": 835.63,
+        "alertElevation": 840.59,
+        "emergencyElevation": 840.59
+      },
+      "coordinates": {
+        "ns": 7781181.311,
+        "ew": 592540.314
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 10.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 10.08,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 10.11,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 10.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 11.58,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 11.42,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 11.42,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 11.68,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 12.11,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 12.07,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 12.07,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 12.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 11.62,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 11.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 11.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 11.42,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 11.57,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 11.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 11.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 11.62,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 11.62,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 11.62,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 11.62,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 11.59,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 11.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 11.62,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 11.64,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 11.59,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 11.67,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 11.67,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 11.37,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 11.38,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 11.39,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 11.38,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 11.35,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 11.35,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-PZ-108": {
+      "id": "BARRAGEM-B1-PZ-108",
+      "code": "PZ-108",
+      "name": "PZ-108 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-08-29",
+      "section": "CC",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 839.474,
+      "cotaBase": 838.539,
+      "cotaFundo": 822.744,
+      "profMax": 15.45,
+      "limiteCritico": -2.336,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 833.98,
+        "attentionElevation": 838.55,
+        "alertElevation": 841.81,
+        "emergencyElevation": 841.81
+      },
+      "coordinates": {
+        "ns": 7781215.695,
+        "ew": 592558.491
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 12.12,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 12.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 12.18,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 12.2,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 12.33,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 13.08,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 13.08,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 12.29,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 12.43,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 12.42,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 12.41,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 12.4,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 12.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 11.93,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 11.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 11.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 11.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 11.93,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 11.91,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 11.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 12.075,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 12.2,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 12.2,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 12.18,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 11.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 11.97,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 11.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 11.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 12.03,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 12.03,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 11.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 11.88,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 11.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 11.89,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 11.85,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 11.8,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-PZ-109": {
+      "id": "BARRAGEM-B1-PZ-109",
+      "code": "PZ-109",
+      "name": "PZ-109 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-09-07",
+      "section": "DD",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 839.29,
+      "cotaBase": 838.367,
+      "cotaFundo": 818.61,
+      "profMax": 19.0,
+      "limiteCritico": -1.55,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 832.28,
+        "attentionElevation": 837.47,
+        "alertElevation": 840.84,
+        "emergencyElevation": 840.84
+      },
+      "coordinates": {
+        "ns": 7781252.345,
+        "ew": 592580.753
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 15.59,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 15.61,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 15.64,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 15.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 15.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 15.68,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 15.68,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 15.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 15.68,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 15.7,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 15.73,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 15.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 15.73,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 15.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 15.7,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 15.66,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 15.68,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 15.68,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 15.67,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 15.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 15.725,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 15.76,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 15.76,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 15.76,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 15.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 15.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 15.75,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 15.68,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 15.76,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 15.76,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 15.64,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 15.65,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 15.66,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 15.65,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 15.62,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 15.6,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-PZ-110": {
+      "id": "BARRAGEM-B1-PZ-110",
+      "code": "PZ-110",
+      "name": "PZ-110 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-09-16",
+      "section": "EE",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 839.056,
+      "cotaBase": 838.087,
+      "cotaFundo": 820.316,
+      "profMax": 17.45,
+      "limiteCritico": -2.054,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 831.62,
+        "attentionElevation": 838.23,
+        "alertElevation": 841.11,
+        "emergencyElevation": 841.11
+      },
+      "coordinates": {
+        "ns": 7781279.9,
+        "ew": 592612.681
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 15.2,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 15.22,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 15.25,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 15.58,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 15.56,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 14.51,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 14.51,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 15.39,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 15.35,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 15.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 15.58,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 15.56,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 15.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 15.56,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 15.57,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 15.59,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 15.38,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 15.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 15.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 15.58,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 15.64,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 15.7,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 15.7,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 15.59,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 15.58,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 15.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 15.62,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 15.53,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 15.61,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 15.61,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 15.31,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 15.32,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 15.33,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 15.32,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 15.29,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 15.26,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-PZ-111": {
+      "id": "BARRAGEM-B1-PZ-111",
+      "code": "PZ-111",
+      "name": "PZ-111 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2023-03-24",
+      "section": "AA",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 846.46,
+      "cotaBase": 845.576,
+      "cotaFundo": 826.51,
+      "profMax": 19.0,
+      "limiteCritico": 1.68,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 843.5,
+        "attentionElevation": 843.84,
+        "alertElevation": 844.78,
+        "emergencyElevation": 844.78
+      },
+      "coordinates": {
+        "ns": 7781135.478,
+        "ew": 592543.857
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 15.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 15.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 15.89,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 15.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 16.21,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 16.14,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 16.14,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 16.45,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 16.56,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 16.39,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 16.53,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 16.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 16.26,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 16.2,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 16.2,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 16.66,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 16.24,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 16.28,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 16.23,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 16.3,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 16.4,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 16.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 16.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 16.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 17.02,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 17.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 17.08,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 16.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 17.07,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 17.07,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 17.07,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 17.09,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 17.11,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 17.1,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 17.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 17.04,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-PZ-112": {
+      "id": "BARRAGEM-B1-PZ-112",
+      "code": "PZ-112",
+      "name": "PZ-112 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2023-04-06",
+      "section": "BB",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 846.492,
+      "cotaBase": 845.585,
+      "cotaFundo": 819.412,
+      "profMax": 26.0,
+      "limiteCritico": 2.282,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 836.73,
+        "attentionElevation": 840.88,
+        "alertElevation": 844.21,
+        "emergencyElevation": 844.21
+      },
+      "coordinates": {
+        "ns": 7781171.42,
+        "ew": 592561.542
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 15.22,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 15.25,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 15.28,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 15.31,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 17.1,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 16.94,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 16.94,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 17.65,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 17.81,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 17.76,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 17.74,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 17.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 17.23,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 17.08,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 17.07,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 17.03,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 17.16,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 17.18,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 17.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 17.31,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 17.475,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 17.64,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 17.64,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 17.61,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 18.51,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 18.53,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 18.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 18.51,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 18.59,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 18.59,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 17.02,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 17.04,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 17.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 17.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 17.02,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 17.0,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-PZ-113": {
+      "id": "BARRAGEM-B1-PZ-113",
+      "code": "PZ-113",
+      "name": "PZ-113 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2023-03-24",
+      "section": "CC",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 846.497,
+      "cotaBase": 845.586,
+      "cotaFundo": 830.377,
+      "profMax": 16.66,
+      "limiteCritico": -0.613,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 842.03,
+        "attentionElevation": 845.1,
+        "alertElevation": 847.11,
+        "emergencyElevation": 847.11
+      },
+      "coordinates": {
+        "ns": 7781205.123,
+        "ew": 592578.906
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 14.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 14.08,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 14.11,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 14.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 14.85,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 14.36,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 14.36,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 15.48,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 15.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 15.82,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 15.88,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 15.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 14.78,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 14.46,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 14.39,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 14.27,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 14.46,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 14.53,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 14.45,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 14.68,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 15.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 15.44,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 15.44,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 15.43,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 14.68,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 14.7,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 14.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 14.64,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 14.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 14.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 14.34,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 14.35,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 14.36,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 14.35,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 14.31,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 14.29,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-PZ-114": {
+      "id": "BARRAGEM-B1-PZ-114",
+      "code": "PZ-114",
+      "name": "PZ-114 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2023-03-21",
+      "section": "DD",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 846.614,
+      "cotaBase": 845.702,
+      "cotaFundo": 830.524,
+      "profMax": 19.41,
+      "limiteCritico": 0.064,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 840.73,
+        "attentionElevation": 844.08,
+        "alertElevation": 846.55,
+        "emergencyElevation": 846.55
+      },
+      "coordinates": {
+        "ns": 7781237.308,
+        "ew": 592598.645
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 15.8,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 15.82,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 15.85,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 15.88,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 16.09,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 16.09,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 16.09,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 16.09,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 16.49,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 16.49,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 16.49,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 16.48,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 16.48,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 16.09,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 16.32,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 16.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 16.09,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 16.28,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 16.14,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 16.14,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 16.14,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 16.14,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 16.14,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 16.12,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 16.14,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 16.14,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 16.14,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 16.14,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 16.14,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 16.14,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 16.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 16.07,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 16.08,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 16.07,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 16.04,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 16.02,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-PZ-115": {
+      "id": "BARRAGEM-B1-PZ-115",
+      "code": "PZ-115",
+      "name": "PZ-115 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2023-03-14",
+      "section": "EE",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 846.322,
+      "cotaBase": 845.378,
+      "cotaFundo": 827.152,
+      "profMax": 19.17,
+      "limiteCritico": -0.838,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 839.78,
+        "attentionElevation": 844.34,
+        "alertElevation": 847.16,
+        "emergencyElevation": 847.16
+      },
+      "coordinates": {
+        "ns": 7781262.666,
+        "ew": 592625.898
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 17.05,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 17.06,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 17.1,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 17.13,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 19.17,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 19.17,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 19.17,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 19.17,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 16.84,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 16.84,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 16.84,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 16.82,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 16.82,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 19.17,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 16.78,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 16.78,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 16.82,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 16.82,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 16.82,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 16.82,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 16.82,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 16.82,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 16.82,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 16.82,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 16.82,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 16.84,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 16.86,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 16.8,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 16.88,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 16.88,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 16.65,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 16.66,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 16.67,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 16.66,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 16.63,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 16.6,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-PZ-116": {
+      "id": "BARRAGEM-B1-PZ-116",
+      "code": "PZ-116",
+      "name": "PZ-116 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2023-03-02",
+      "section": "AA",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 853.304,
+      "cotaBase": 852.369,
+      "cotaFundo": 827.144,
+      "profMax": 25.0,
+      "limiteCritico": 1.774,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 849.33,
+        "attentionElevation": 850.12,
+        "alertElevation": 851.53,
+        "emergencyElevation": 851.53
+      },
+      "coordinates": {
+        "ns": 7781124.188,
+        "ew": 592562.007
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 21.91,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 21.93,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 21.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 21.96,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 21.36,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 21.26,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 21.26,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 22.03,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 22.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 22.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 22.02,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 22.01,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 21.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 21.45,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 21.44,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 21.42,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 21.57,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 21.57,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 21.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 21.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 21.85,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 22.01,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 22.21,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 22.19,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 24.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 24.56,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 24.58,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 24.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 24.62,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 24.62,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 21.13,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 21.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 21.17,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 21.16,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 21.13,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 21.1,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-PZ-117": {
+      "id": "BARRAGEM-B1-PZ-117",
+      "code": "PZ-117",
+      "name": "PZ-117 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2023-02-17",
+      "section": "BB",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 853.14,
+      "cotaBase": 852.236,
+      "cotaFundo": 820.49,
+      "profMax": 31.5,
+      "limiteCritico": 2.78,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 842.94,
+        "attentionElevation": 847.19,
+        "alertElevation": 850.36,
+        "emergencyElevation": 850.36
+      },
+      "coordinates": {
+        "ns": 7781160.794,
+        "ew": 592579.66
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 18.22,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 18.25,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 18.28,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 18.3,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 21.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 21.42,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 21.42,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 22.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 22.82,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 23.87,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 22.74,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 22.75,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 22.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 21.85,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 21.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 21.8,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 21.87,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 21.87,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 22.02,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 22.22,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 22.415,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 22.61,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 22.82,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 22.8,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 23.17,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 23.19,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 23.21,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 23.14,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 23.22,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 23.22,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 21.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 21.91,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 21.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 21.91,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 21.88,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 21.8,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-PZ-118": {
+      "id": "BARRAGEM-B1-PZ-118",
+      "code": "PZ-118",
+      "name": "PZ-118 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2023-02-22",
+      "section": "CC",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 853.09,
+      "cotaBase": 852.211,
+      "cotaFundo": 826.88,
+      "profMax": 26.81,
+      "limiteCritico": 1.88,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 848.9,
+        "attentionElevation": 850.28,
+        "alertElevation": 851.21,
+        "emergencyElevation": 851.21
+      },
+      "coordinates": {
+        "ns": 7781194.001,
+        "ew": 592597.301
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 19.33,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 19.35,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 19.37,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 18.4,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 19.78,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 19.28,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 19.28,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 20.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 21.36,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 21.47,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 21.4,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 21.41,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 20.21,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 20.21,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 19.76,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 19.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 19.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 19.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 19.88,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 20.22,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 20.645,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 21.07,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 21.37,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 21.35,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 23.36,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 23.39,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 23.42,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 23.35,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 23.43,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 23.43,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 19.7,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 19.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 19.74,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 19.73,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 19.7,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 19.67,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-PZ-119": {
+      "id": "BARRAGEM-B1-PZ-119",
+      "code": "PZ-119",
+      "name": "PZ-119 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2023-01-26",
+      "section": "DD",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 852.853,
+      "cotaBase": 851.962,
+      "cotaFundo": 831.413,
+      "profMax": 21.76,
+      "limiteCritico": 1.523,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 847.35,
+        "attentionElevation": 849.12,
+        "alertElevation": 851.33,
+        "emergencyElevation": 851.33
+      },
+      "coordinates": {
+        "ns": 7781224.37,
+        "ew": 592615.269
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 19.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 19.1,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 19.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 19.18,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 20.2,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 19.45,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 19.45,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 19.45,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 21.74,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 21.74,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 21.74,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 21.76,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 21.04,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 20.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 20.02,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 19.67,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 19.93,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 20.3,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 20.03,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 20.68,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 20.68,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 20.68,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 20.68,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 20.65,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 20.68,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 20.71,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 20.74,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 20.68,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 20.76,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 20.76,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 19.77,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 19.78,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 19.79,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 19.78,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 19.75,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 19.72,
+          "status": "Normal"
+        }
+      ]
+    },
+    "BARRAGEM-B1-PZ-120": {
+      "id": "BARRAGEM-B1-PZ-120",
+      "code": "PZ-120",
+      "name": "PZ-120 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2023-03-09",
+      "section": "EE",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 853.516,
+      "cotaBase": 852.636,
+      "cotaFundo": 837.366,
+      "profMax": 16.7,
+      "limiteCritico": 1.116,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 848.22,
+        "attentionElevation": 850.59,
+        "alertElevation": 852.4,
+        "emergencyElevation": 852.4
+      },
+      "coordinates": {
+        "ns": 7781244.135,
+        "ew": 592639.799
+      },
+      "historico": [
+        {
+          "data": "2025-03-07",
+          "valor": 16.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 16.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 16.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 16.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 16.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 16.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 16.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-09",
+          "valor": 16.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 16.68,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-22",
+          "valor": 16.68,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-29",
+          "valor": 16.68,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-06-12",
+          "valor": 16.7,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-06-26",
+          "valor": 16.7,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-07-18",
+          "valor": 16.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-25",
+          "valor": 16.66,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 11.66,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-18",
+          "valor": 16.63,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-01",
+          "valor": 15.47,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-11",
+          "valor": 15.47,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-29",
+          "valor": 15.47,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-06",
+          "valor": 15.47,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 15.47,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-27",
+          "valor": 15.47,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 15.47,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-24",
+          "valor": 15.47,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-04",
+          "valor": 15.48,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-18",
+          "valor": 15.49,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-02",
+          "valor": 15.4,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-30",
+          "valor": 15.48,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-13",
+          "valor": 15.48,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-06",
+          "valor": 16.49,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-13",
+          "valor": 16.5,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-20",
+          "valor": 16.51,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-27",
+          "valor": 16.5,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-04-02",
+          "valor": 16.48,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 16.47,
+          "status": "Atencao"
+        }
+      ]
+    },
+    "BARRAGEM-B1-REF-1": {
+      "id": "BARRAGEM-B1-REF-1",
+      "code": "REF-01",
+      "name": "REF-01 - Barragem B1",
+      "type": "REF",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-11-29",
+      "section": null,
+      "diameter": null,
+      "cotaBoca": 842.604,
+      "cotaBase": 842.604,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 842.604,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 0.0,
+        "attentionElevation": 0.0,
+        "alertElevation": 0.0,
+        "emergencyElevation": 0.0
+      },
+      "coordinates": {
+        "ns": 7781321.166,
+        "ew": 592714.257
+      },
+      "historico": []
+    },
+    "BARRAGEM-B1-REF-2": {
+      "id": "BARRAGEM-B1-REF-2",
+      "code": "REF-02",
+      "name": "REF-02 - Barragem B1",
+      "type": "REF",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-11-29",
+      "section": null,
+      "diameter": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 0.0,
+        "attentionElevation": 0.0,
+        "alertElevation": 0.0,
+        "emergencyElevation": 0.0
+      },
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "historico": []
+    },
+    "BARRAGEM-B1-REF-3": {
+      "id": "BARRAGEM-B1-REF-3",
+      "code": "REF-03",
+      "name": "REF-03 - Barragem B1",
+      "type": "REF",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "installationDate": "2022-11-29",
+      "section": null,
+      "diameter": null,
+      "cotaBoca": 827.18,
+      "cotaBase": 827.18,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 827.18,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 0.0,
+        "attentionElevation": 0.0,
+        "alertElevation": 0.0,
+        "emergencyElevation": 0.0
+      },
+      "coordinates": {
+        "ns": 7781276.134,
+        "ew": 592400.248
+      },
+      "historico": []
+    }
+  }
+}

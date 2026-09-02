@@ -1,0 +1,5043 @@
+{
+  "structure": "PDE 1",
+  "slug": "pde-1",
+  "version": "mdsync-combined-9aebb6da9a",
+  "instrumentCount": 10,
+  "instruments": {
+    "PDE-1-INA-01": {
+      "id": "PDE-1-INA-01",
+      "code": "INA-01",
+      "name": "INA-01 - PDE 1",
+      "type": "INA",
+      "structure": "PDE 1",
+      "installationDate": "2022-05-12",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 1135.037,
+      "cotaBase": 1133.906,
+      "cotaFundo": 1086.556,
+      "profMax": 53.09,
+      "limiteCritico": 69.02,
+      "coordinates": {
+        "ns": 7778212.299,
+        "ew": 593083.619
+      },
+      "historico": [
+        {
+          "data": "2022-05-16",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2022-05-23",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2022-05-30",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-05",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-12",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-19",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-22",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-26",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-02",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-09",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-16",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-23",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-01",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-08",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-15",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-22",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-29",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-04-05",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-04-19",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-03",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-10",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-17",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-24",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-31",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-07",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-14",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-21",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-28",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-05",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-12",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-19",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-26",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-02",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-09",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-16",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-23",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-30",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-06",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-13",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-20",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-27",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-04",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-11",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-18",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-25",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-01",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-08",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-15",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-29",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-06",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-13",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-20",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-27",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-03",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-10",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-17",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-24",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-31",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-07",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-14",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-21",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-28",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-07",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-15",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-13",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-27",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-10",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-24",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-08",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-22",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 46.83,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-08-28",
+          "valor": 46.83,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-05",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-02",
+          "valor": 46.83,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 46.83,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 46.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-17",
+          "valor": 46.8,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-01",
+          "valor": 46.8,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-15",
+          "valor": 46.8,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-12",
+          "valor": 46.8,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 46.8,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-09",
+          "valor": 53.09,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-23",
+          "valor": 53.09,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 18.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 18.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 48.2,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 48.48,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 48.46,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 48.45,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 48.46,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 48.46,
+          "status": "Normal"
+        }
+      ]
+    },
+    "PDE-1-INA-02": {
+      "id": "PDE-1-INA-02",
+      "code": "INA-02",
+      "name": "INA-02 - PDE 1",
+      "type": "INA",
+      "structure": "PDE 1",
+      "installationDate": "2022-06-02",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 1119.301,
+      "cotaBase": 1118.137,
+      "cotaFundo": 1082.457,
+      "profMax": 49.39,
+      "limiteCritico": 64.21,
+      "coordinates": {
+        "ns": 7778231.476,
+        "ew": 593037.903
+      },
+      "historico": [
+        {
+          "data": "2022-05-30",
+          "valor": 36.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-05",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-01-12",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-01-19",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-01-22",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-01-26",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-02-02",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-02-09",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-02-16",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-02-23",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-03-01",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-03-08",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-03-15",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-03-22",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-03-29",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-04-05",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-04-19",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-05-03",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-05-10",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-05-17",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-05-24",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-05-31",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-06-07",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-06-14",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-06-21",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-06-28",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-07-05",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-07-12",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-07-19",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-07-26",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-08-02",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-08-09",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-08-16",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-08-23",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-08-30",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-09-06",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-09-13",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-09-20",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-09-27",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-10-04",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-10-11",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-10-18",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-10-25",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-11-01",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-11-08",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-11-15",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-11-29",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-12-06",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-12-13",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-12-20",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-12-27",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-01-03",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-01-10",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-01-17",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-01-24",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-01-31",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-02-07",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-02-14",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-02-21",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-02-28",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-03-07",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-04-15",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-13",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 36.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-27",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-06-10",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-06-24",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-07-08",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-07-22",
+          "valor": 36.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 37.69,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-08-28",
+          "valor": 49.39,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-05",
+          "valor": 49.39,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-02",
+          "valor": 37.08,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 37.08,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 37.08,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-17",
+          "valor": 37.04,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-12-01",
+          "valor": 37.04,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-12-15",
+          "valor": 37.04,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-01-12",
+          "valor": 37.04,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 37.04,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-09",
+          "valor": 37.02,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-23",
+          "valor": 37.02,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 49.39,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 49.39,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 36.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 36.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 36.8,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 36.81,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 36.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 36.83,
+          "status": "Normal"
+        }
+      ]
+    },
+    "PDE-1-INA-03": {
+      "id": "PDE-1-INA-03",
+      "code": "INA-03",
+      "name": "INA-03 - PDE 1",
+      "type": "INA",
+      "structure": "PDE 1",
+      "installationDate": "2022-06-30",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 1094.757,
+      "cotaBase": 1094.27,
+      "cotaFundo": 1068.39,
+      "profMax": 37.69,
+      "limiteCritico": 49.0,
+      "coordinates": {
+        "ns": 7778258.489,
+        "ew": 592980.944
+      },
+      "historico": [
+        {
+          "data": "2024-01-05",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-12",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-19",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-22",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-26",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-02",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-09",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-16",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-23",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-01",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-08",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-15",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-22",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-29",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-04-05",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-04-19",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-03",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-10",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-17",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-24",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-31",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-07",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-14",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-21",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-28",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-05",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-12",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-19",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-26",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-02",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-09",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-16",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-23",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-30",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-06",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-13",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-20",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-27",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-04",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-11",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-18",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-25",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-01",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-08",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-15",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-29",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-06",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-13",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-20",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-27",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-03",
+          "valor": 26.5,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-01-10",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-17",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-24",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-31",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-07",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-14",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-21",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-28",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-07",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-15",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-13",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-27",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-10",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-24",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-08",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-22",
+          "valor": 26.5,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 26.49,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-28",
+          "valor": 37.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-05",
+          "valor": 37.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-02",
+          "valor": 37.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 37.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 37.69,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-17",
+          "valor": 37.64,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-12-01",
+          "valor": 37.64,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-12-15",
+          "valor": 37.64,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-01-12",
+          "valor": 37.64,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 37.64,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-09",
+          "valor": 26.44,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-23",
+          "valor": 26.44,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 37.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 37.69,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 26.35,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 26.36,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 26.34,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 26.33,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 26.36,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 26.36,
+          "status": "Normal"
+        }
+      ]
+    },
+    "PDE-1-INA-07": {
+      "id": "PDE-1-INA-07",
+      "code": "INA-07",
+      "name": "INA-07 - PDE 1",
+      "type": "INA",
+      "structure": "PDE 1",
+      "installationDate": "2022-04-12",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 1130.118,
+      "cotaBase": 1128.998,
+      "cotaFundo": 1081.368,
+      "profMax": 48.38,
+      "limiteCritico": 62.89,
+      "coordinates": {
+        "ns": 7778107.626,
+        "ew": 592932.379
+      },
+      "historico": [
+        {
+          "data": "2022-05-02",
+          "valor": 47.22,
+          "status": "Normal"
+        },
+        {
+          "data": "2022-05-09",
+          "valor": 45.44,
+          "status": "Normal"
+        },
+        {
+          "data": "2022-05-16",
+          "valor": 45.46,
+          "status": "Normal"
+        },
+        {
+          "data": "2022-05-23",
+          "valor": 45.42,
+          "status": "Normal"
+        },
+        {
+          "data": "2022-05-30",
+          "valor": 45.4,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-05",
+          "valor": 45.91,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-12",
+          "valor": 45.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-19",
+          "valor": 45.91,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-22",
+          "valor": 45.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-26",
+          "valor": 45.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-02",
+          "valor": 45.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-09",
+          "valor": 45.91,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-16",
+          "valor": 45.93,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-23",
+          "valor": 45.94,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-01",
+          "valor": 45.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-08",
+          "valor": 45.93,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-15",
+          "valor": 45.91,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-22",
+          "valor": 45.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-29",
+          "valor": 45.91,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-04-05",
+          "valor": 45.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-04-19",
+          "valor": 45.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-03",
+          "valor": 45.93,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-10",
+          "valor": 45.94,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-17",
+          "valor": 45.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-24",
+          "valor": 45.93,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-31",
+          "valor": 45.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-07",
+          "valor": 45.94,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-14",
+          "valor": 45.93,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-21",
+          "valor": 45.93,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-28",
+          "valor": 45.94,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-05",
+          "valor": 45.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-12",
+          "valor": 45.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-19",
+          "valor": 45.94,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-26",
+          "valor": 45.93,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-02",
+          "valor": 45.94,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-09",
+          "valor": 45.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-16",
+          "valor": 45.93,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-23",
+          "valor": 45.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-30",
+          "valor": 45.94,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-06",
+          "valor": 45.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-13",
+          "valor": 45.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-20",
+          "valor": 45.93,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-27",
+          "valor": 45.91,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-04",
+          "valor": 45.93,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-11",
+          "valor": 45.94,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-18",
+          "valor": 45.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-25",
+          "valor": 45.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-01",
+          "valor": 45.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-08",
+          "valor": 45.93,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-15",
+          "valor": 45.94,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-29",
+          "valor": 45.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-06",
+          "valor": 45.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-13",
+          "valor": 45.94,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-20",
+          "valor": 45.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-27",
+          "valor": 45.93,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-10",
+          "valor": 45.96,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-17",
+          "valor": 45.94,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-24",
+          "valor": 45.93,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-31",
+          "valor": 45.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-07",
+          "valor": 45.94,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-14",
+          "valor": 45.96,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-21",
+          "valor": 45.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-28",
+          "valor": 45.91,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-07",
+          "valor": 45.93,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 45.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 45.96,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 45.97,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 48.38,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 48.18,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-15",
+          "valor": 48.24,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-13",
+          "valor": 47.43,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 48.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-27",
+          "valor": 47.87,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-10",
+          "valor": 47.25,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-24",
+          "valor": 47.71,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-08",
+          "valor": 47.7,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-22",
+          "valor": 47.23,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 47.74,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-08-28",
+          "valor": 47.21,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-05",
+          "valor": 47.51,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-02",
+          "valor": 47.3,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 47.38,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 47.29,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-17",
+          "valor": 47.27,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-01",
+          "valor": 47.25,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-15",
+          "valor": 47.24,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-12",
+          "valor": 47.26,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 46.3,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-09",
+          "valor": 46.4,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-23",
+          "valor": 46.44,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 47.25,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 47.25,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 45.8,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 46.3,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 46.25,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 46.25,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 46.22,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 46.03,
+          "status": "Normal"
+        }
+      ]
+    },
+    "PDE-1-INA-08": {
+      "id": "PDE-1-INA-08",
+      "code": "INA-08",
+      "name": "INA-08 - PDE 1",
+      "type": "INA",
+      "structure": "PDE 1",
+      "installationDate": "2022-05-25",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 1115.386,
+      "cotaBase": 1114.192,
+      "cotaFundo": 1078.212,
+      "profMax": 47.74,
+      "limiteCritico": 62.06,
+      "coordinates": {
+        "ns": 7778146.694,
+        "ew": 592917.037
+      },
+      "historico": [
+        {
+          "data": "2022-05-23",
+          "valor": 36.53,
+          "status": "Normal"
+        },
+        {
+          "data": "2022-05-30",
+          "valor": 36.53,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-05",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-01-12",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-01-19",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-01-22",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-01-26",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-02-02",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-02-09",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-02-16",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-02-23",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-03-01",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-03-08",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-03-15",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-03-22",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-03-29",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-04-05",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-04-19",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-05-03",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-05-10",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-05-17",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-05-24",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-05-31",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-06-07",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-06-14",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-06-21",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-06-28",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-07-05",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-07-12",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-07-19",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-07-26",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-08-02",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-08-09",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-08-16",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-08-23",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-08-30",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-09-06",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-09-13",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-09-20",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-09-27",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-10-04",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-10-11",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-10-18",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-10-25",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-11-01",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-11-08",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-11-15",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-11-29",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-12-06",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-12-13",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-12-20",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2024-12-27",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-01-03",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-01-10",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-01-17",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-01-24",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-01-31",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-02-07",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-02-14",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-02-21",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-02-28",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-03-07",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-04-15",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-13",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 36.53,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-27",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-06-10",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-06-24",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-07-08",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-07-22",
+          "valor": 36.53,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 37.9,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-08-28",
+          "valor": 47.74,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-05",
+          "valor": 47.74,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-02",
+          "valor": 37.46,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 37.46,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 37.46,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-17",
+          "valor": 37.42,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-12-01",
+          "valor": 37.42,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-12-15",
+          "valor": 37.42,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-01-12",
+          "valor": 37.42,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 37.42,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-09",
+          "valor": 37.3,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-23",
+          "valor": 37.3,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 47.74,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 47.74,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 36.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 37.17,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 37.18,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 37.18,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 37.11,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 37.11,
+          "status": "Normal"
+        }
+      ]
+    },
+    "PDE-1-INA-09": {
+      "id": "PDE-1-INA-09",
+      "code": "INA-09",
+      "name": "INA-09 - PDE 1",
+      "type": "INA",
+      "structure": "PDE 1",
+      "installationDate": "2022-06-28",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 1092.866,
+      "cotaBase": 1091.722,
+      "cotaFundo": 1066.552,
+      "profMax": 37.9,
+      "limiteCritico": 49.27,
+      "coordinates": {
+        "ns": 7778203.82,
+        "ew": 592894.783
+      },
+      "historico": [
+        {
+          "data": "2024-01-05",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-12",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-19",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-22",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-26",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-02",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-09",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-16",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-23",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-01",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-08",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-15",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-22",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-29",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-04-05",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-04-19",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-03",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-10",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-17",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-24",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-31",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-07",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-14",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-21",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-28",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-05",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-12",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-19",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-26",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-02",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-09",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-16",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-23",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-30",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-06",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-13",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-20",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-27",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-04",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-11",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-18",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-25",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-01",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-08",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-15",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-29",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-06",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-13",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-20",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-27",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-03",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-10",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-17",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-24",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-31",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-07",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-14",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-21",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-28",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-07",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-15",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-13",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-27",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-10",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-24",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-08",
+          "valor": 27.05,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-22",
+          "valor": 27.05,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 27.02,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-28",
+          "valor": 37.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-05",
+          "valor": 37.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-02",
+          "valor": 26.45,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 26.45,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 26.45,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-17",
+          "valor": 26.41,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-12-01",
+          "valor": 26.41,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-12-15",
+          "valor": 26.41,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-01-12",
+          "valor": 26.41,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 26.41,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-09",
+          "valor": 27.42,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-23",
+          "valor": 27.42,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 27.43,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 37.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 37.9,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 26.35,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 26.31,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 26.31,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 26.32,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 26.32,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 26.32,
+          "status": "Atencao"
+        }
+      ]
+    },
+    "PDE-1-PZ-01": {
+      "id": "PDE-1-PZ-01",
+      "code": "PZ-01",
+      "name": "PZ-01 - PDE 1",
+      "type": "PZ",
+      "structure": "PDE 1",
+      "installationDate": "2022-03-10",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 1135.071,
+      "cotaBase": 1133.931,
+      "cotaFundo": 1087.771,
+      "profMax": 47.32,
+      "limiteCritico": 61.52,
+      "coordinates": {
+        "ns": 7778213.013,
+        "ew": 593084.844
+      },
+      "historico": [
+        {
+          "data": "2022-05-02",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2022-05-09",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2022-05-16",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2022-05-23",
+          "valor": 46.45,
+          "status": "Normal"
+        },
+        {
+          "data": "2022-05-30",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-05",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-12",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-19",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-22",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-26",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-02",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-09",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-16",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-23",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-01",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-08",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-15",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-22",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-29",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-04-05",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-04-19",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-03",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-10",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-17",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-24",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-31",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-07",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-14",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-21",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-28",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-05",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-12",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-19",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-26",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-02",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-09",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-16",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-23",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-30",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-06",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-13",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-20",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-27",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-04",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-11",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-18",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-25",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-01",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-08",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-15",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-29",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-06",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-13",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-20",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-27",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-03",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-10",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-17",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-24",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-31",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-07",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-14",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-21",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-28",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-07",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-15",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-22",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-13",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-27",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-10",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-24",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-08",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-22",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-28",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-05",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-02",
+          "valor": 46.55,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 46.55,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-17",
+          "valor": 46.52,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-12-01",
+          "valor": 46.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-15",
+          "valor": 46.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-12",
+          "valor": 46.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 46.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-09",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 47.28,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 46.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 46.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 47.3,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 47.32,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 47.32,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 47.3,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 47.3,
+          "status": "Normal"
+        }
+      ]
+    },
+    "PDE-1-PZ-04": {
+      "id": "PDE-1-PZ-04",
+      "code": "PZ-04",
+      "name": "PZ-04 - PDE 1",
+      "type": "PZ",
+      "structure": "PDE 1",
+      "installationDate": "2022-03-22",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 1132.03,
+      "cotaBase": 1130.87,
+      "cotaFundo": 1077.7,
+      "profMax": 55.51,
+      "limiteCritico": 72.16,
+      "coordinates": {
+        "ns": 7778156.805,
+        "ew": 593015.028
+      },
+      "historico": [
+        {
+          "data": "2022-05-02",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2022-05-09",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2022-05-16",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2022-05-23",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2022-05-30",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-05",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-12",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-19",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-22",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-26",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-02",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-09",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-16",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-23",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-01",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-08",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-15",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-22",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-29",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-04-05",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-04-19",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-03",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-10",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-17",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-24",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-31",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-07",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-14",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-21",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-28",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-05",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-12",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-19",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-26",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-02",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-09",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-16",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-23",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-30",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-06",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-13",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-20",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-27",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-04",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-11",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-18",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-25",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-01",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-08",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-15",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-29",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-06",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-13",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-20",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-27",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-03",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-10",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-17",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-24",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-31",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-07",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-14",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-21",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-28",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-07",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-15",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-13",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-27",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-10",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-24",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-08",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-22",
+          "valor": 53.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 55.51,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-28",
+          "valor": 48.19,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-05",
+          "valor": 48.19,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-02",
+          "valor": 55.29,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 55.29,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 55.29,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-17",
+          "valor": 55.27,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-12-01",
+          "valor": 55.27,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-15",
+          "valor": 55.27,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-12",
+          "valor": 55.27,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 55.27,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-09",
+          "valor": 55.35,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 55.34,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 48.19,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 48.19,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 54.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 54.34,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 54.33,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 54.32,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 54.34,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 54.34,
+          "status": "Normal"
+        }
+      ]
+    },
+    "PDE-1-PZ-05": {
+      "id": "PDE-1-PZ-05",
+      "code": "PZ-05",
+      "name": "PZ-05 - PDE 1",
+      "type": "PZ",
+      "structure": "PDE 1",
+      "installationDate": "2022-06-13",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 1104.789,
+      "cotaBase": 1103.72,
+      "cotaFundo": 1072.57,
+      "profMax": 55.51,
+      "limiteCritico": 72.16,
+      "coordinates": {
+        "ns": 7778204.518,
+        "ew": 592964.68
+      },
+      "historico": [
+        {
+          "data": "2024-01-05",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-12",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-19",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-22",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-26",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-02",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-09",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-16",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-23",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-01",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-08",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-15",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-22",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-29",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-04-05",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-04-19",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-03",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-10",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-17",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-24",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-31",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-07",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-14",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-21",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-28",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-05",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-12",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-19",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-26",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-02",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-09",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-16",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-23",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-30",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-06",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-13",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-20",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-27",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-04",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-11",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-18",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-25",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-01",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-08",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-15",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-29",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-06",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-13",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-20",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-27",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-03",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-10",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-17",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-24",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-31",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-07",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-14",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-21",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-28",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-07",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-15",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-13",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-27",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-10",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-24",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-08",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-22",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 32.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-28",
+          "valor": 55.51,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-05",
+          "valor": 55.51,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-02",
+          "valor": 33.03,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 33.03,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 33.03,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-17",
+          "valor": 32.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-01",
+          "valor": 32.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-15",
+          "valor": 32.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-12",
+          "valor": 32.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 32.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-09",
+          "valor": 32.3,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 32.33,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 55.51,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 55.51,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 31.95,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 32.21,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 32.2,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 32.21,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 32.19,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 32.19,
+          "status": "Normal"
+        }
+      ]
+    },
+    "PDE-1-PZ-06": {
+      "id": "PDE-1-PZ-06",
+      "code": "PZ-06",
+      "name": "PZ-06 - PDE 1",
+      "type": "PZ",
+      "structure": "PDE 1",
+      "installationDate": "2022-07-06",
+      "diameter": "1.1/2\"",
+      "cotaBoca": 1081.758,
+      "cotaBase": 1080.596,
+      "cotaFundo": 1063.046,
+      "profMax": 32.69,
+      "limiteCritico": 42.5,
+      "coordinates": {
+        "ns": 7778241.281,
+        "ew": 592927.0
+      },
+      "historico": [
+        {
+          "data": "2024-01-05",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-12",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-19",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-22",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-01-26",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-02",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-09",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-16",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-02-23",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-01",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-08",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-15",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-22",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-03-29",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-04-05",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-04-19",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-03",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-10",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-17",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-24",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-05-31",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-07",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-14",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-21",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-06-28",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-05",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-12",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-19",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-07-26",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-02",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-09",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-16",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-23",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-08-30",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-06",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-13",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-20",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-09-27",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-04",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-11",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-18",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-10-25",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-01",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-08",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-15",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-11-29",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-06",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-13",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-20",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-27",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-03",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-10",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-17",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-24",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-31",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-07",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-14",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-21",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-28",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-07",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-14",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-21",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-28",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-04",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-10",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-15",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-13",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-15",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-27",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-10",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-24",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-08",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-22",
+          "valor": 17.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 18.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-28",
+          "valor": 32.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-05",
+          "valor": 32.69,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-02",
+          "valor": 18.76,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 18.76,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-03",
+          "valor": 18.76,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-17",
+          "valor": 18.73,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-01",
+          "valor": 18.73,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-15",
+          "valor": 18.73,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-12",
+          "valor": 18.73,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 18.73,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-09",
+          "valor": 18.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-23",
+          "valor": 18.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 18.74,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 32.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 32.69,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 18.77,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 18.71,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 18.7,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 18.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 18.74,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 18.74,
+          "status": "Normal"
+        }
+      ]
+    }
+  }
+}

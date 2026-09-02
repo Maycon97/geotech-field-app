@@ -1,0 +1,151 @@
+{
+  "structure": "PDE Mangaba",
+  "slug": "pde-mangaba",
+  "version": "mdsync-combined-9aebb6da9a",
+  "instrumentCount": 4,
+  "instruments": {
+    "PDE-MANGABA-INA-01": {
+      "id": "PDE-MANGABA-INA-01",
+      "code": "INA-01",
+      "name": "INA-01 - PDE Mangaba",
+      "type": "INA",
+      "structure": "PDE Mangaba",
+      "installationDate": "2026-04-20",
+      "diameter": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 42.38,
+      "limiteCritico": 55.09,
+      "coordinates": {
+        "ns": 594901.382,
+        "ew": 7778265.758
+      },
+      "historico": [
+        {
+          "data": "2026-04-30",
+          "valor": 42.38,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-04-30",
+          "valor": 42.38,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-19",
+          "valor": 42.37,
+          "status": "Normal"
+        }
+      ]
+    },
+    "PDE-MANGABA-PZ-01": {
+      "id": "PDE-MANGABA-PZ-01",
+      "code": "PZ-01",
+      "name": "PZ-01 - PDE Mangaba",
+      "type": "PZ",
+      "structure": "PDE Mangaba",
+      "installationDate": null,
+      "diameter": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1.3,
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "historico": []
+    },
+    "PDE-MANGABA-PZ-02": {
+      "id": "PDE-MANGABA-PZ-02",
+      "code": "PZ-02",
+      "name": "PZ-02 - PDE Mangaba",
+      "type": "PZ",
+      "structure": "PDE Mangaba",
+      "installationDate": null,
+      "diameter": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1.3,
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "historico": []
+    },
+    "PDE-MANGABA-PZ-03": {
+      "id": "PDE-MANGABA-PZ-03",
+      "code": "PZ-03",
+      "name": "PZ-03 - PDE Mangaba",
+      "type": "PZ",
+      "structure": "PDE Mangaba",
+      "installationDate": null,
+      "diameter": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 21.13,
+      "limiteCritico": 27.47,
+      "coordinates": {
+        "ns": 594780.155,
+        "ew": 7778470.929
+      },
+      "historico": [
+        {
+          "data": "2026-03-11",
+          "valor": 18.84,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-04-08",
+          "valor": 18.27,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-04-30",
+          "valor": 20.98,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-04-08",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-03-17",
+          "valor": 18.62,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-04-08",
+          "valor": 18.27,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-04-30",
+          "valor": 20.98,
+          "status": "Atencao"
+        },
+        {
+          "data": "2026-05-18",
+          "valor": 19.47,
+          "status": "Atencao"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,1381 @@
+{
+  "structure": "PILHA B2",
+  "slug": "pilha-b2",
+  "version": "mdsync-combined-9aebb6da9a",
+  "instrumentCount": 9,
+  "instruments": {
+    "PILHA-B2-MV-01": {
+      "id": "PILHA-B2-MV-01",
+      "code": "MV-01",
+      "name": "MV-01 - PILHA B2",
+      "type": "MV",
+      "structure": "PILHA B2",
+      "installationDate": null,
+      "diameter": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1,
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "historico": []
+    },
+    "PILHA-B2-PZ-01": {
+      "id": "PILHA-B2-PZ-01",
+      "code": "PZ-01",
+      "name": "PZ-01 - PILHA B2",
+      "type": "PZ",
+      "structure": "PILHA B2",
+      "installationDate": "2024-05-21",
+      "diameter": "1\"",
+      "cotaBoca": 943.422,
+      "cotaBase": 934.26,
+      "cotaFundo": 921.29,
+      "profMax": 14.12,
+      "limiteCritico": 18.36,
+      "coordinates": {
+        "ns": 7779464.442,
+        "ew": 592719.452
+      },
+      "historico": [
+        {
+          "data": "2024-12-18",
+          "valor": 12.3,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-26",
+          "valor": 12.3,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-02",
+          "valor": 12.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-08",
+          "valor": 12.51,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-15",
+          "valor": 12.1,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-22",
+          "valor": 11.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-29",
+          "valor": 11.74,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-05",
+          "valor": 11.67,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-12",
+          "valor": 11.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-19",
+          "valor": 11.2,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-26",
+          "valor": 11.35,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-05",
+          "valor": 11.25,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-12",
+          "valor": 11.62,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-19",
+          "valor": 11.77,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-26",
+          "valor": 11.79,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-02",
+          "valor": 11.8,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-14",
+          "valor": 12.26,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-08",
+          "valor": 12.67,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-19",
+          "valor": 12.77,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-26",
+          "valor": 12.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-02",
+          "valor": 12.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-09",
+          "valor": 12.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-23",
+          "valor": 14.08,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-07",
+          "valor": 14.08,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-21",
+          "valor": 14.12,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 14.12,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-15",
+          "valor": 13.03,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-28",
+          "valor": 13.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-03",
+          "valor": 13.95,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-08",
+          "valor": 13.96,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-10",
+          "valor": 13.93,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-11-17",
+          "valor": 13.89,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-01",
+          "valor": 13.87,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-15",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-12",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-26",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 12.96,
+          "status": "Normal"
+        }
+      ]
+    },
+    "PILHA-B2-PZ-02": {
+      "id": "PILHA-B2-PZ-02",
+      "code": "PZ-02",
+      "name": "PZ-02 - PILHA B2",
+      "type": "PZ",
+      "structure": "PILHA B2",
+      "installationDate": "2024-05-21",
+      "diameter": "1\"",
+      "cotaBoca": 958.867,
+      "cotaBase": 940.33,
+      "cotaFundo": 926.79,
+      "profMax": 30.06,
+      "limiteCritico": 39.08,
+      "coordinates": {
+        "ns": 7779427.875,
+        "ew": 592753.219
+      },
+      "historico": [
+        {
+          "data": "2024-12-18",
+          "valor": 30.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-26",
+          "valor": 30.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-02",
+          "valor": 30.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-08",
+          "valor": 30.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-15",
+          "valor": 30.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-22",
+          "valor": 30.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-29",
+          "valor": 30.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-05",
+          "valor": 30.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-12",
+          "valor": 30.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-19",
+          "valor": 30.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-26",
+          "valor": 30.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-05",
+          "valor": 30.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-12",
+          "valor": 30.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-19",
+          "valor": 30.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-26",
+          "valor": 30.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-02",
+          "valor": 30.06,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-14",
+          "valor": 6.37,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-08",
+          "valor": 8.4,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-19",
+          "valor": 8.64,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-26",
+          "valor": 7.01,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-02",
+          "valor": 6.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-09",
+          "valor": 6.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-23",
+          "valor": 9.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-07",
+          "valor": 9.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-21",
+          "valor": 8.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 8.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-15",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-28",
+          "valor": 5.81,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-03",
+          "valor": 5.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-08",
+          "valor": 5.92,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-10",
+          "valor": 5.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-17",
+          "valor": 5.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-01",
+          "valor": 5.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-15",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-12",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-26",
+          "valor": 0.0,
+          "status": "Normal"
+        }
+      ]
+    },
+    "PILHA-B2-PZ-04": {
+      "id": "PILHA-B2-PZ-04",
+      "code": "PZ-04",
+      "name": "PZ-04 - PILHA B2",
+      "type": "PZ",
+      "structure": "PILHA B2",
+      "installationDate": "2024-05-24",
+      "diameter": "1\"",
+      "cotaBoca": 989.325,
+      "cotaBase": 977.87,
+      "cotaFundo": 963.46,
+      "profMax": 24.86,
+      "limiteCritico": 32.32,
+      "coordinates": {
+        "ns": 7779325.147,
+        "ew": 592868.513
+      },
+      "historico": [
+        {
+          "data": "2024-12-18",
+          "valor": 24.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-26",
+          "valor": 24.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-02",
+          "valor": 24.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-08",
+          "valor": 24.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-15",
+          "valor": 24.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-22",
+          "valor": 24.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-29",
+          "valor": 24.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-05",
+          "valor": 24.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-12",
+          "valor": 24.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-19",
+          "valor": 24.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-26",
+          "valor": 24.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-05",
+          "valor": 24.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-12",
+          "valor": 24.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-19",
+          "valor": 24.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-26",
+          "valor": 24.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-02",
+          "valor": 24.86,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-14",
+          "valor": 16.27,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-08",
+          "valor": 16.32,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-19",
+          "valor": 16.32,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-26",
+          "valor": 15.91,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-02",
+          "valor": 15.91,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-09",
+          "valor": 15.91,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-23",
+          "valor": 17.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-07",
+          "valor": 17.9,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-21",
+          "valor": 17.93,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 17.93,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-15",
+          "valor": 17.71,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-03",
+          "valor": 17.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-08",
+          "valor": 17.71,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-10",
+          "valor": 17.67,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-17",
+          "valor": 17.63,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-01",
+          "valor": 17.63,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-15",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-12",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-26",
+          "valor": 0.0,
+          "status": "Normal"
+        }
+      ]
+    },
+    "PILHA-B2-PZ-05": {
+      "id": "PILHA-B2-PZ-05",
+      "code": "PZ-05",
+      "name": "PZ-05 - PILHA B2",
+      "type": "PZ",
+      "structure": "PILHA B2",
+      "installationDate": "2024-06-04",
+      "diameter": "1\"",
+      "cotaBoca": 967.06,
+      "cotaBase": 965.8,
+      "cotaFundo": 951.31,
+      "profMax": 14.49,
+      "limiteCritico": 18.84,
+      "coordinates": {
+        "ns": 7779256.025,
+        "ew": null
+      },
+      "historico": []
+    },
+    "PILHA-B2-PZ-06": {
+      "id": "PILHA-B2-PZ-06",
+      "code": "PZ-06",
+      "name": "PZ-06 - PILHA B2",
+      "type": "PZ",
+      "structure": "PILHA B2",
+      "installationDate": "2024-06-12",
+      "diameter": "1\"",
+      "cotaBoca": 995.177,
+      "cotaBase": 995.177,
+      "cotaFundo": 965.39,
+      "profMax": 26.99,
+      "limiteCritico": 35.09,
+      "coordinates": {
+        "ns": 7779319.579,
+        "ew": 593005.72
+      },
+      "historico": [
+        {
+          "data": "2024-12-18",
+          "valor": 26.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-26",
+          "valor": 26.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-02",
+          "valor": 26.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-08",
+          "valor": 26.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-15",
+          "valor": 26.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-22",
+          "valor": 26.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-29",
+          "valor": 26.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-05",
+          "valor": 26.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-12",
+          "valor": 26.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-19",
+          "valor": 26.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-26",
+          "valor": 26.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-05",
+          "valor": 26.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-12",
+          "valor": 26.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-19",
+          "valor": 26.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-26",
+          "valor": 26.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-02",
+          "valor": 26.99,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-14",
+          "valor": 18.3,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-08",
+          "valor": 18.27,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-19",
+          "valor": 18.27,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-26",
+          "valor": 18.27,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-02",
+          "valor": 15.97,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-09",
+          "valor": 15.97,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-23",
+          "valor": 16.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-07",
+          "valor": 16.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-21",
+          "valor": 16.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 16.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-15",
+          "valor": 20.73,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-28",
+          "valor": 22.84,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-09-03",
+          "valor": 20.72,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-08",
+          "valor": 20.7,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-10",
+          "valor": 20.67,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-17",
+          "valor": 20.63,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-01",
+          "valor": 20.61,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-15",
+          "valor": 20.64,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-12",
+          "valor": 20.66,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-26",
+          "valor": 20.69,
+          "status": "Atencao"
+        }
+      ]
+    },
+    "PILHA-B2-PZ-07": {
+      "id": "PILHA-B2-PZ-07",
+      "code": "PZ-07",
+      "name": "PZ-07 - PILHA B2",
+      "type": "PZ",
+      "structure": "PILHA B2",
+      "installationDate": "2024-06-07",
+      "diameter": "1\"",
+      "cotaBoca": 994.13,
+      "cotaBase": 968.56,
+      "cotaFundo": 953.16,
+      "profMax": 31.55,
+      "limiteCritico": 41.02,
+      "coordinates": {
+        "ns": 7779280.146,
+        "ew": 593036.955
+      },
+      "historico": [
+        {
+          "data": "2024-12-18",
+          "valor": 31.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-26",
+          "valor": 31.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-02",
+          "valor": 31.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-08",
+          "valor": 31.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-15",
+          "valor": 31.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-22",
+          "valor": 31.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-29",
+          "valor": 31.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-05",
+          "valor": 31.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-12",
+          "valor": 31.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-19",
+          "valor": 31.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-26",
+          "valor": 31.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-05",
+          "valor": 31.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-12",
+          "valor": 31.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-19",
+          "valor": 31.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-26",
+          "valor": 31.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-02",
+          "valor": 31.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-14",
+          "valor": 9.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-08",
+          "valor": 11.64,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-19",
+          "valor": 18.34,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-26",
+          "valor": 11.66,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-02",
+          "valor": 11.63,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-09",
+          "valor": 11.63,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-23",
+          "valor": 13.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-07",
+          "valor": 13.6,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-21",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-28",
+          "valor": 17.67,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-03",
+          "valor": 17.68,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-10-08",
+          "valor": 17.67,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-10",
+          "valor": 17.63,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-17",
+          "valor": 17.59,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-01",
+          "valor": 17.59,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-15",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-12",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-26",
+          "valor": 0.0,
+          "status": "Normal"
+        }
+      ]
+    },
+    "PILHA-B2-PZ-08": {
+      "id": "PILHA-B2-PZ-08",
+      "code": "PZ-08",
+      "name": "PZ-08 - PILHA B2",
+      "type": "PZ",
+      "structure": "PILHA B2",
+      "installationDate": "2024-06-14",
+      "diameter": "1\"",
+      "cotaBoca": 984.9,
+      "cotaBase": 968.55,
+      "cotaFundo": 953.34,
+      "profMax": 31.56,
+      "limiteCritico": 41.03,
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "historico": [
+        {
+          "data": "2024-12-18",
+          "valor": 22.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-26",
+          "valor": 22.84,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-02",
+          "valor": 22.65,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-08",
+          "valor": 21.57,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-15",
+          "valor": 22.35,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-22",
+          "valor": 22.83,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-29",
+          "valor": 21.07,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-05",
+          "valor": 20.49,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-12",
+          "valor": 22.27,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-19",
+          "valor": 22.37,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-26",
+          "valor": 31.56,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-05",
+          "valor": 31.56,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-12",
+          "valor": 31.56,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-19",
+          "valor": 31.56,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-26",
+          "valor": 31.56,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-02",
+          "valor": 31.56,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-14",
+          "valor": 13.17,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-08",
+          "valor": 13.17,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-19",
+          "valor": 13.17,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-26",
+          "valor": 13.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-02",
+          "valor": 13.15,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-09",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-23",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-07",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-21",
+          "valor": 0.0,
+          "status": "Normal"
+        }
+      ]
+    },
+    "PILHA-B2-PZ-09": {
+      "id": "PILHA-B2-PZ-09",
+      "code": "PZ-09",
+      "name": "PZ-09 - PILHA B2",
+      "type": "PZ",
+      "structure": "PILHA B2",
+      "installationDate": "2024-06-13",
+      "diameter": "1\"",
+      "cotaBoca": 973.166,
+      "cotaBase": 950.69,
+      "cotaFundo": 936.19,
+      "profMax": 14.5,
+      "limiteCritico": 18.85,
+      "coordinates": {
+        "ns": 7779280.146,
+        "ew": 592753.361
+      },
+      "historico": [
+        {
+          "data": "2024-12-18",
+          "valor": 4.2,
+          "status": "Normal"
+        },
+        {
+          "data": "2024-12-26",
+          "valor": 4.2,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-02",
+          "valor": 4.23,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-08",
+          "valor": 5.26,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-15",
+          "valor": 5.26,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-22",
+          "valor": 5.22,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-01-29",
+          "valor": 5.37,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-05",
+          "valor": 4.28,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-12",
+          "valor": 4.26,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-19",
+          "valor": 7.3,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-02-26",
+          "valor": 7.35,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-05",
+          "valor": 7.32,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-12",
+          "valor": 7.68,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-19",
+          "valor": 7.66,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-03-26",
+          "valor": 8.76,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-02",
+          "valor": 8.78,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-04-14",
+          "valor": 9.02,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-08",
+          "valor": 6.04,
+          "status": "Atencao"
+        },
+        {
+          "data": "2025-05-19",
+          "valor": 6.04,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-05-26",
+          "valor": 5.8,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-02",
+          "valor": 6.03,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-09",
+          "valor": 6.03,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-06-23",
+          "valor": 8.74,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-07",
+          "valor": 8.74,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-07-21",
+          "valor": 8.74,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 10.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-15",
+          "valor": 10.49,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-08-28",
+          "valor": 10.54,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-09-03",
+          "valor": 10.56,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-10-08",
+          "valor": 10.55,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-10",
+          "valor": 10.52,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-11-17",
+          "valor": 10.48,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-01",
+          "valor": 10.48,
+          "status": "Normal"
+        },
+        {
+          "data": "2025-12-15",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-12",
+          "valor": 0.0,
+          "status": "Normal"
+        },
+        {
+          "data": "2026-01-26",
+          "valor": 0.0,
+          "status": "Atencao"
+        }
+      ]
+    }
+  }
+}

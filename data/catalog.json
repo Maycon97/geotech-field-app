@@ -1,0 +1,6191 @@
+{
+  "version": "mdsync-combined-9aebb6da9a",
+  "generatedAt": "2026-06-02T15:59:25",
+  "summary": {
+    "instrumentCount": 196,
+    "piezometricReadingCount": 29340,
+    "flowReadingCount": 177,
+    "structures": [
+      "PDE 1",
+      "PDE Jacó",
+      "PDE Mangaba",
+      "PILHA B2",
+      "Barragem B1",
+      "Barragem B4"
+    ],
+    "structureGroups": {
+      "pilhas": [
+        "PDE 1",
+        "PDE Jacó",
+        "PDE Mangaba",
+        "PILHA B2"
+      ],
+      "barragens": [
+        "Barragem B1",
+        "Barragem B4"
+      ]
+    },
+    "dateRange": {
+      "readingsStart": "2017-09-28T00:00",
+      "readingsEnd": "2026-05-26T00:00",
+      "flowStart": "2025-01-02T00:00",
+      "flowEnd": "2026-05-26T00:00"
+    },
+    "imports": {
+      "baseVersion": "mdsync-combined-87f56306b6",
+      "barragens": {
+        "instrumentCount": 170,
+        "piezometricReadingCount": 28099,
+        "flowReadingCount": 146,
+        "structures": [
+          "Barragem B1",
+          "Barragem B4"
+        ],
+        "dateRange": {
+          "readingsStart": "2017-09-28T00:00",
+          "readingsEnd": "2026-04-17T00:00",
+          "flowStart": "2025-01-02T00:00",
+          "flowEnd": "2026-04-02T00:00"
+        },
+        "recoveredXlsx": true,
+        "skippedEntries": [
+          "xl/calcChain.xml"
+        ]
+      }
+    }
+  },
+  "structures": [
+    "barragem-b1",
+    "barragem-b4",
+    "pde-1",
+    "pde-jaco",
+    "pde-mangaba",
+    "pilha-b2"
+  ],
+  "structureNames": [
+    "Barragem B1",
+    "Barragem B4",
+    "PDE 1",
+    "PDE Jacó",
+    "PDE Mangaba",
+    "PILHA B2"
+  ],
+  "instrumentCount": 196,
+  "totalPiezometricReadings": 5741,
+  "totalFlowReadings": 0,
+  "instruments": {
+    "BARRAGEM-B1-ETR-2": {
+      "id": "BARRAGEM-B1-ETR-2",
+      "code": "ETR-02",
+      "name": "ETR-02 - Barragem B1",
+      "type": "ETR",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 0.0,
+        "attentionElevation": 0.0,
+        "alertElevation": 0.0,
+        "emergencyElevation": 0.0
+      },
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-INA-106": {
+      "id": "BARRAGEM-B1-INA-106",
+      "code": "INA-106",
+      "name": "INA-106 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "AA",
+      "cotaBoca": 839.441,
+      "cotaBase": 838.463,
+      "cotaFundo": 827.651,
+      "profMax": 16.75,
+      "limiteCritico": 6.791,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 829.13,
+        "attentionElevation": 830.05,
+        "alertElevation": 832.65,
+        "emergencyElevation": 832.65
+      },
+      "coordinates": {
+        "ns": 7781149.779,
+        "ew": 592523.569
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 11.9,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-INA-107": {
+      "id": "BARRAGEM-B1-INA-107",
+      "code": "INA-107",
+      "name": "INA-107 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "BB",
+      "cotaBoca": 839.397,
+      "cotaBase": 838.499,
+      "cotaFundo": 821.567,
+      "profMax": 16.0,
+      "limiteCritico": 5.697,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 826.63,
+        "attentionElevation": 828.94,
+        "alertElevation": 833.7,
+        "emergencyElevation": 833.7
+      },
+      "coordinates": {
+        "ns": 7781185.469,
+        "ew": 592542.826
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 11.01,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-INA-108": {
+      "id": "BARRAGEM-B1-INA-108",
+      "code": "INA-108",
+      "name": "INA-108 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "CC",
+      "cotaBoca": 839.395,
+      "cotaBase": 838.533,
+      "cotaFundo": 824.715,
+      "profMax": 16.48,
+      "limiteCritico": 4.075,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 827.93,
+        "attentionElevation": 832.08,
+        "alertElevation": 835.32,
+        "emergencyElevation": 835.32
+      },
+      "coordinates": {
+        "ns": 7781219.971,
+        "ew": 592560.792
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 12.2,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-INA-109": {
+      "id": "BARRAGEM-B1-INA-109",
+      "code": "INA-109",
+      "name": "INA-109 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "DD",
+      "cotaBoca": 839.231,
+      "cotaBase": 838.306,
+      "cotaFundo": 822.331,
+      "profMax": 16.69,
+      "limiteCritico": 4.811,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 825.27,
+        "attentionElevation": 831.1,
+        "alertElevation": 834.42,
+        "emergencyElevation": 834.42
+      },
+      "coordinates": {
+        "ns": 7781255.906,
+        "ew": 592584.434
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 14.9,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-INA-110": {
+      "id": "BARRAGEM-B1-INA-110",
+      "code": "INA-110",
+      "name": "INA-110 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "EE",
+      "cotaBoca": 838.859,
+      "cotaBase": 837.931,
+      "cotaFundo": 822.209,
+      "profMax": 17.02,
+      "limiteCritico": 3.529,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 824.24,
+        "attentionElevation": 832.17,
+        "alertElevation": 835.33,
+        "emergencyElevation": 835.33
+      },
+      "coordinates": {
+        "ns": 7781283.535,
+        "ew": 592617.101
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 15.14,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-INA-111": {
+      "id": "BARRAGEM-B1-INA-111",
+      "code": "INA-111",
+      "name": "INA-111 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "AA",
+      "cotaBoca": 846.483,
+      "cotaBase": 845.552,
+      "cotaFundo": 826.943,
+      "profMax": 18.73,
+      "limiteCritico": 7.883,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 835.96,
+        "attentionElevation": 837.26,
+        "alertElevation": 838.6,
+        "emergencyElevation": 838.6
+      },
+      "coordinates": {
+        "ns": 7781139.012,
+        "ew": 592545.482
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 15.62,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-INA-112": {
+      "id": "BARRAGEM-B1-INA-112",
+      "code": "INA-112",
+      "name": "INA-112 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "BB",
+      "cotaBoca": 846.476,
+      "cotaBase": 845.517,
+      "cotaFundo": 823.366,
+      "profMax": 22.0,
+      "limiteCritico": 7.366,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 830.9,
+        "attentionElevation": 836.1,
+        "alertElevation": 839.11,
+        "emergencyElevation": 839.11
+      },
+      "coordinates": {
+        "ns": 7781175.257,
+        "ew": 592563.472
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 14.49,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-INA-113": {
+      "id": "BARRAGEM-B1-INA-113",
+      "code": "INA-113",
+      "name": "INA-113 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "CC",
+      "cotaBoca": 846.691,
+      "cotaBase": 845.681,
+      "cotaFundo": 831.361,
+      "profMax": 15.68,
+      "limiteCritico": 6.211,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 836.23,
+        "attentionElevation": 838.72,
+        "alertElevation": 840.48,
+        "emergencyElevation": 840.48
+      },
+      "coordinates": {
+        "ns": 7781209.183,
+        "ew": 592580.699
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 14.3,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-INA-114": {
+      "id": "BARRAGEM-B1-INA-114",
+      "code": "INA-114",
+      "name": "INA-114 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "DD",
+      "cotaBoca": 846.582,
+      "cotaBase": 845.643,
+      "cotaFundo": 832.502,
+      "profMax": 14.58,
+      "limiteCritico": 6.172,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 834.67,
+        "attentionElevation": 837.61,
+        "alertElevation": 840.41,
+        "emergencyElevation": 840.41
+      },
+      "coordinates": {
+        "ns": 7781240.429,
+        "ew": 592601.483
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 14.51,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-INA-115": {
+      "id": "BARRAGEM-B1-INA-115",
+      "code": "INA-115",
+      "name": "INA-115 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "EE",
+      "cotaBoca": 846.248,
+      "cotaBase": 845.339,
+      "cotaFundo": 831.648,
+      "profMax": 15.79,
+      "limiteCritico": 5.388,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 833.65,
+        "attentionElevation": 838.22,
+        "alertElevation": 840.86,
+        "emergencyElevation": 840.86
+      },
+      "coordinates": {
+        "ns": 7781265.851,
+        "ew": 592630.646
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 14.6,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-INA-116": {
+      "id": "BARRAGEM-B1-INA-116",
+      "code": "INA-116",
+      "name": "INA-116 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "AA",
+      "cotaBoca": 853.406,
+      "cotaBase": 852.447,
+      "cotaFundo": 830.116,
+      "profMax": 23.36,
+      "limiteCritico": 7.576,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 841.8,
+        "attentionElevation": 844.32,
+        "alertElevation": 845.83,
+        "emergencyElevation": 845.83
+      },
+      "coordinates": {
+        "ns": 7781129.296,
+        "ew": 592564.398
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 21.18,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-INA-117": {
+      "id": "BARRAGEM-B1-INA-117",
+      "code": "INA-117",
+      "name": "INA-117 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "BB",
+      "cotaBoca": 853.098,
+      "cotaBase": 852.2,
+      "cotaFundo": 825.968,
+      "profMax": 27.27,
+      "limiteCritico": 8.128,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 837.5,
+        "attentionElevation": 841.71,
+        "alertElevation": 844.97,
+        "emergencyElevation": 844.97
+      },
+      "coordinates": {
+        "ns": 7781165.668,
+        "ew": 592582.01
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 20.24,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-INA-118": {
+      "id": "BARRAGEM-B1-INA-118",
+      "code": "INA-118",
+      "name": "INA-118 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "CC",
+      "cotaBoca": 852.992,
+      "cotaBase": 852.101,
+      "cotaFundo": 832.692,
+      "profMax": 20.72,
+      "limiteCritico": 7.682,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 841.85,
+        "attentionElevation": 844.64,
+        "alertElevation": 845.31,
+        "emergencyElevation": 845.31
+      },
+      "coordinates": {
+        "ns": 7781198.848,
+        "ew": 592599.681
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 15.41,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-INA-119": {
+      "id": "BARRAGEM-B1-INA-119",
+      "code": "INA-119",
+      "name": "INA-119 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "DD",
+      "cotaBoca": 852.881,
+      "cotaBase": 851.941,
+      "cotaFundo": 833.431,
+      "profMax": 22.12,
+      "limiteCritico": 7.371,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 841.44,
+        "attentionElevation": 843.37,
+        "alertElevation": 845.51,
+        "emergencyElevation": 845.51
+      },
+      "coordinates": {
+        "ns": 7781227.394,
+        "ew": 592618.029
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 19.96,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-INA-120": {
+      "id": "BARRAGEM-B1-INA-120",
+      "code": "INA-120",
+      "name": "INA-120 - Barragem B1",
+      "type": "INA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "EE",
+      "cotaBoca": 853.62,
+      "cotaBase": 852.675,
+      "cotaFundo": 838.47,
+      "profMax": 15.64,
+      "limiteCritico": 7.87,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 842.47,
+        "attentionElevation": 844.13,
+        "alertElevation": 845.75,
+        "emergencyElevation": 845.75
+      },
+      "coordinates": {
+        "ns": 7781246.881,
+        "ew": 592644.105
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 15.5,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-MCD-1": {
+      "id": "BARRAGEM-B1-MCD-1",
+      "code": "MCD-01",
+      "name": "MCD-01 - Barragem B1",
+      "type": "MCD",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "AA",
+      "cotaBoca": 838.21,
+      "cotaBase": 838.21,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 728.21,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 40.0,
+        "attentionElevation": 40.0,
+        "alertElevation": 110.0,
+        "emergencyElevation": 110.0
+      },
+      "coordinates": {
+        "ns": 7781143.5,
+        "ew": 592520.11
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-MCD-2": {
+      "id": "BARRAGEM-B1-MCD-2",
+      "code": "MCD-02",
+      "name": "MCD-02 - Barragem B1",
+      "type": "MCD",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "CC",
+      "cotaBoca": 838.49,
+      "cotaBase": 838.49,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 728.49,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 40.0,
+        "attentionElevation": 40.0,
+        "alertElevation": 110.0,
+        "emergencyElevation": 110.0
+      },
+      "coordinates": {
+        "ns": 7781213.23,
+        "ew": 592557.35
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-MCD-3": {
+      "id": "BARRAGEM-B1-MCD-3",
+      "code": "MCD-03",
+      "name": "MCD-03 - Barragem B1",
+      "type": "MCD",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "EE",
+      "cotaBoca": 837.72,
+      "cotaBase": 837.72,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 687.72,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 40.0,
+        "attentionElevation": 40.0,
+        "alertElevation": 150.0,
+        "emergencyElevation": 150.0
+      },
+      "coordinates": {
+        "ns": 7781293.96,
+        "ew": 592630.51
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-MCD-4": {
+      "id": "BARRAGEM-B1-MCD-4",
+      "code": "MCD-04",
+      "name": "MCD-04 - Barragem B1",
+      "type": "MCD",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "AA",
+      "cotaBoca": 845.61,
+      "cotaBase": 845.61,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 685.61,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 40.0,
+        "attentionElevation": 40.0,
+        "alertElevation": 160.0,
+        "emergencyElevation": 160.0
+      },
+      "coordinates": {
+        "ns": 7781131.44,
+        "ew": 592542.13
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-MCD-5": {
+      "id": "BARRAGEM-B1-MCD-5",
+      "code": "MCD-05",
+      "name": "MCD-05 - Barragem B1",
+      "type": "MCD",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "CC",
+      "cotaBoca": 845.31,
+      "cotaBase": 845.31,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 715.31,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 40.0,
+        "attentionElevation": 40.0,
+        "alertElevation": 130.0,
+        "emergencyElevation": 130.0
+      },
+      "coordinates": {
+        "ns": 7781202.77,
+        "ew": 592577.52
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-MCD-6": {
+      "id": "BARRAGEM-B1-MCD-6",
+      "code": "MCD-06",
+      "name": "MCD-06 - Barragem B1",
+      "type": "MCD",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "EE",
+      "cotaBoca": 844.95,
+      "cotaBase": 844.95,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 719.95,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 40.0,
+        "attentionElevation": 40.0,
+        "alertElevation": 125.0,
+        "emergencyElevation": 125.0
+      },
+      "coordinates": {
+        "ns": 7781276.68,
+        "ew": 592643.72
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-MCD-7": {
+      "id": "BARRAGEM-B1-MCD-7",
+      "code": "MCD-07",
+      "name": "MCD-07 - Barragem B1",
+      "type": "MCD",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "AA",
+      "cotaBoca": 852.06,
+      "cotaBase": 852.06,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 632.06,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 40.0,
+        "attentionElevation": 40.0,
+        "alertElevation": 220.0,
+        "emergencyElevation": 220.0
+      },
+      "coordinates": {
+        "ns": 7781121.27,
+        "ew": 592560.63
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-MCD-8": {
+      "id": "BARRAGEM-B1-MCD-8",
+      "code": "MCD-08",
+      "name": "MCD-08 - Barragem B1",
+      "type": "MCD",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "CC",
+      "cotaBoca": 851.88,
+      "cotaBase": 851.88,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 631.88,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 40.0,
+        "attentionElevation": 40.0,
+        "alertElevation": 220.0,
+        "emergencyElevation": 220.0
+      },
+      "coordinates": {
+        "ns": 7781192.81,
+        "ew": 592596.52
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-MCD-9": {
+      "id": "BARRAGEM-B1-MCD-9",
+      "code": "MCD-09",
+      "name": "MCD-09 - Barragem B1",
+      "type": "MCD",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "EE",
+      "cotaBoca": 852.39,
+      "cotaBase": 852.39,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 727.39,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 40.0,
+        "attentionElevation": 40.0,
+        "alertElevation": 125.0,
+        "emergencyElevation": 125.0
+      },
+      "coordinates": {
+        "ns": 7781256.86,
+        "ew": 592658.56
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-MV-1": {
+      "id": "BARRAGEM-B1-MV-1",
+      "code": "MV-01",
+      "name": "MV-01 - Barragem B1",
+      "type": "MV",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-NA-RESERVATORIO": {
+      "id": "BARRAGEM-B1-NA-RESERVATORIO",
+      "code": "NA-Reservatorio",
+      "name": "NA Reservatorio - Barragem B1",
+      "type": "NA",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "Reservatorio",
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 843.287,
+      "limiteCritico": 1,
+      "thresholdMode": "elevation",
+      "thresholds": {},
+      "coordinates": {
+        "ns": 7781158.724,
+        "ew": 592669.529
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-03-27",
+        "valor": 836.956,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-PZ-101": {
+      "id": "BARRAGEM-B1-PZ-101",
+      "code": "PZ-101",
+      "name": "PZ-101 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "AA",
+      "cotaBoca": 827.267,
+      "cotaBase": 826.346,
+      "cotaFundo": 820.067,
+      "profMax": 6.0,
+      "limiteCritico": 6.0,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 827.267,
+        "attentionElevation": 827.267,
+        "alertElevation": 827.267,
+        "emergencyElevation": 827.267
+      },
+      "coordinates": {
+        "ns": 7781164.259,
+        "ew": 592487.209
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 2.3,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-PZ-102": {
+      "id": "BARRAGEM-B1-PZ-102",
+      "code": "PZ-102",
+      "name": "PZ-102 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "BB",
+      "cotaBoca": 826.264,
+      "cotaBase": 825.304,
+      "cotaFundo": 819.124,
+      "profMax": 6.0,
+      "limiteCritico": 6.0,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 826.264,
+        "attentionElevation": 826.264,
+        "alertElevation": 826.264,
+        "emergencyElevation": 826.264
+      },
+      "coordinates": {
+        "ns": 7781199.822,
+        "ew": 592505.399
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 0.94,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-PZ-103": {
+      "id": "BARRAGEM-B1-PZ-103",
+      "code": "PZ-103",
+      "name": "PZ-103 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "CC",
+      "cotaBoca": 824.269,
+      "cotaBase": 823.597,
+      "cotaFundo": 817.069,
+      "profMax": 6.0,
+      "limiteCritico": 6.0,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 824.269,
+        "attentionElevation": 824.269,
+        "alertElevation": 824.269,
+        "emergencyElevation": 824.269
+      },
+      "coordinates": {
+        "ns": 7781236.115,
+        "ew": 592521.842
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 1.37,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-PZ-104": {
+      "id": "BARRAGEM-B1-PZ-104",
+      "code": "PZ-104",
+      "name": "PZ-104 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "DD",
+      "cotaBoca": 823.501,
+      "cotaBase": 822.711,
+      "cotaFundo": 813.331,
+      "profMax": 9.0,
+      "limiteCritico": 9.0,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 823.501,
+        "attentionElevation": 823.501,
+        "alertElevation": 823.501,
+        "emergencyElevation": 823.501
+      },
+      "coordinates": {
+        "ns": 7781279.826,
+        "ew": 592547.59
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 4.25,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-PZ-105": {
+      "id": "BARRAGEM-B1-PZ-105",
+      "code": "PZ-105",
+      "name": "PZ-105 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "EE",
+      "cotaBoca": 824.701,
+      "cotaBase": 823.426,
+      "cotaFundo": 814.481,
+      "profMax": 9.0,
+      "limiteCritico": 9.0,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 824.701,
+        "attentionElevation": 824.701,
+        "alertElevation": 824.701,
+        "emergencyElevation": 824.701
+      },
+      "coordinates": {
+        "ns": 7781314.614,
+        "ew": 592587.102
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 6.21,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-PZ-106": {
+      "id": "BARRAGEM-B1-PZ-106",
+      "code": "PZ-106",
+      "name": "PZ-106 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "AA",
+      "cotaBoca": 839.314,
+      "cotaBase": 838.396,
+      "cotaFundo": 819.544,
+      "profMax": 18.0,
+      "limiteCritico": -0.276,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 835.06,
+        "attentionElevation": 836.47,
+        "alertElevation": 839.59,
+        "emergencyElevation": 839.59
+      },
+      "coordinates": {
+        "ns": 7781145.555,
+        "ew": 592521.477
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 11.64,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-PZ-107": {
+      "id": "BARRAGEM-B1-PZ-107",
+      "code": "PZ-107",
+      "name": "PZ-107 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "BB",
+      "cotaBoca": 839.444,
+      "cotaBase": 838.497,
+      "cotaFundo": 818.714,
+      "profMax": 19.0,
+      "limiteCritico": -1.146,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 834.15,
+        "attentionElevation": 835.63,
+        "alertElevation": 840.59,
+        "emergencyElevation": 840.59
+      },
+      "coordinates": {
+        "ns": 7781181.311,
+        "ew": 592540.314
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 11.35,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-PZ-108": {
+      "id": "BARRAGEM-B1-PZ-108",
+      "code": "PZ-108",
+      "name": "PZ-108 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "CC",
+      "cotaBoca": 839.474,
+      "cotaBase": 838.539,
+      "cotaFundo": 822.744,
+      "profMax": 15.45,
+      "limiteCritico": -2.336,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 833.98,
+        "attentionElevation": 838.55,
+        "alertElevation": 841.81,
+        "emergencyElevation": 841.81
+      },
+      "coordinates": {
+        "ns": 7781215.695,
+        "ew": 592558.491
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 11.8,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-PZ-109": {
+      "id": "BARRAGEM-B1-PZ-109",
+      "code": "PZ-109",
+      "name": "PZ-109 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "DD",
+      "cotaBoca": 839.29,
+      "cotaBase": 838.367,
+      "cotaFundo": 818.61,
+      "profMax": 19.0,
+      "limiteCritico": -1.55,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 832.28,
+        "attentionElevation": 837.47,
+        "alertElevation": 840.84,
+        "emergencyElevation": 840.84
+      },
+      "coordinates": {
+        "ns": 7781252.345,
+        "ew": 592580.753
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 15.6,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-PZ-110": {
+      "id": "BARRAGEM-B1-PZ-110",
+      "code": "PZ-110",
+      "name": "PZ-110 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "EE",
+      "cotaBoca": 839.056,
+      "cotaBase": 838.087,
+      "cotaFundo": 820.316,
+      "profMax": 17.45,
+      "limiteCritico": -2.054,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 831.62,
+        "attentionElevation": 838.23,
+        "alertElevation": 841.11,
+        "emergencyElevation": 841.11
+      },
+      "coordinates": {
+        "ns": 7781279.9,
+        "ew": 592612.681
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 15.26,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-PZ-111": {
+      "id": "BARRAGEM-B1-PZ-111",
+      "code": "PZ-111",
+      "name": "PZ-111 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "AA",
+      "cotaBoca": 846.46,
+      "cotaBase": 845.576,
+      "cotaFundo": 826.51,
+      "profMax": 19.0,
+      "limiteCritico": 1.68,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 843.5,
+        "attentionElevation": 843.84,
+        "alertElevation": 844.78,
+        "emergencyElevation": 844.78
+      },
+      "coordinates": {
+        "ns": 7781135.478,
+        "ew": 592543.857
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 17.04,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-PZ-112": {
+      "id": "BARRAGEM-B1-PZ-112",
+      "code": "PZ-112",
+      "name": "PZ-112 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "BB",
+      "cotaBoca": 846.492,
+      "cotaBase": 845.585,
+      "cotaFundo": 819.412,
+      "profMax": 26.0,
+      "limiteCritico": 2.282,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 836.73,
+        "attentionElevation": 840.88,
+        "alertElevation": 844.21,
+        "emergencyElevation": 844.21
+      },
+      "coordinates": {
+        "ns": 7781171.42,
+        "ew": 592561.542
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 17.0,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-PZ-113": {
+      "id": "BARRAGEM-B1-PZ-113",
+      "code": "PZ-113",
+      "name": "PZ-113 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "CC",
+      "cotaBoca": 846.497,
+      "cotaBase": 845.586,
+      "cotaFundo": 830.377,
+      "profMax": 16.66,
+      "limiteCritico": -0.613,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 842.03,
+        "attentionElevation": 845.1,
+        "alertElevation": 847.11,
+        "emergencyElevation": 847.11
+      },
+      "coordinates": {
+        "ns": 7781205.123,
+        "ew": 592578.906
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 14.29,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-PZ-114": {
+      "id": "BARRAGEM-B1-PZ-114",
+      "code": "PZ-114",
+      "name": "PZ-114 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "DD",
+      "cotaBoca": 846.614,
+      "cotaBase": 845.702,
+      "cotaFundo": 830.524,
+      "profMax": 19.41,
+      "limiteCritico": 0.064,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 840.73,
+        "attentionElevation": 844.08,
+        "alertElevation": 846.55,
+        "emergencyElevation": 846.55
+      },
+      "coordinates": {
+        "ns": 7781237.308,
+        "ew": 592598.645
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 16.02,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-PZ-115": {
+      "id": "BARRAGEM-B1-PZ-115",
+      "code": "PZ-115",
+      "name": "PZ-115 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "EE",
+      "cotaBoca": 846.322,
+      "cotaBase": 845.378,
+      "cotaFundo": 827.152,
+      "profMax": 19.17,
+      "limiteCritico": -0.838,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 839.78,
+        "attentionElevation": 844.34,
+        "alertElevation": 847.16,
+        "emergencyElevation": 847.16
+      },
+      "coordinates": {
+        "ns": 7781262.666,
+        "ew": 592625.898
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 16.6,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-PZ-116": {
+      "id": "BARRAGEM-B1-PZ-116",
+      "code": "PZ-116",
+      "name": "PZ-116 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "AA",
+      "cotaBoca": 853.304,
+      "cotaBase": 852.369,
+      "cotaFundo": 827.144,
+      "profMax": 25.0,
+      "limiteCritico": 1.774,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 849.33,
+        "attentionElevation": 850.12,
+        "alertElevation": 851.53,
+        "emergencyElevation": 851.53
+      },
+      "coordinates": {
+        "ns": 7781124.188,
+        "ew": 592562.007
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 21.1,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-PZ-117": {
+      "id": "BARRAGEM-B1-PZ-117",
+      "code": "PZ-117",
+      "name": "PZ-117 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "BB",
+      "cotaBoca": 853.14,
+      "cotaBase": 852.236,
+      "cotaFundo": 820.49,
+      "profMax": 31.5,
+      "limiteCritico": 2.78,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 842.94,
+        "attentionElevation": 847.19,
+        "alertElevation": 850.36,
+        "emergencyElevation": 850.36
+      },
+      "coordinates": {
+        "ns": 7781160.794,
+        "ew": 592579.66
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 21.8,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-PZ-118": {
+      "id": "BARRAGEM-B1-PZ-118",
+      "code": "PZ-118",
+      "name": "PZ-118 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "CC",
+      "cotaBoca": 853.09,
+      "cotaBase": 852.211,
+      "cotaFundo": 826.88,
+      "profMax": 26.81,
+      "limiteCritico": 1.88,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 848.9,
+        "attentionElevation": 850.28,
+        "alertElevation": 851.21,
+        "emergencyElevation": 851.21
+      },
+      "coordinates": {
+        "ns": 7781194.001,
+        "ew": 592597.301
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 19.67,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-PZ-119": {
+      "id": "BARRAGEM-B1-PZ-119",
+      "code": "PZ-119",
+      "name": "PZ-119 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "DD",
+      "cotaBoca": 852.853,
+      "cotaBase": 851.962,
+      "cotaFundo": 831.413,
+      "profMax": 21.76,
+      "limiteCritico": 1.523,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 847.35,
+        "attentionElevation": 849.12,
+        "alertElevation": 851.33,
+        "emergencyElevation": 851.33
+      },
+      "coordinates": {
+        "ns": 7781224.37,
+        "ew": 592615.269
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 19.72,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-PZ-120": {
+      "id": "BARRAGEM-B1-PZ-120",
+      "code": "PZ-120",
+      "name": "PZ-120 - Barragem B1",
+      "type": "PZ",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "EE",
+      "cotaBoca": 853.516,
+      "cotaBase": 852.636,
+      "cotaFundo": 837.366,
+      "profMax": 16.7,
+      "limiteCritico": 1.116,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 848.22,
+        "attentionElevation": 850.59,
+        "alertElevation": 852.4,
+        "emergencyElevation": 852.4
+      },
+      "coordinates": {
+        "ns": 7781244.135,
+        "ew": 592639.799
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-17",
+        "valor": 16.47,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-REF-1": {
+      "id": "BARRAGEM-B1-REF-1",
+      "code": "REF-01",
+      "name": "REF-01 - Barragem B1",
+      "type": "REF",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": null,
+      "cotaBoca": 842.604,
+      "cotaBase": 842.604,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 842.604,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 0.0,
+        "attentionElevation": 0.0,
+        "alertElevation": 0.0,
+        "emergencyElevation": 0.0
+      },
+      "coordinates": {
+        "ns": 7781321.166,
+        "ew": 592714.257
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-REF-2": {
+      "id": "BARRAGEM-B1-REF-2",
+      "code": "REF-02",
+      "name": "REF-02 - Barragem B1",
+      "type": "REF",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 0.0,
+        "attentionElevation": 0.0,
+        "alertElevation": 0.0,
+        "emergencyElevation": 0.0
+      },
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B1-REF-3": {
+      "id": "BARRAGEM-B1-REF-3",
+      "code": "REF-03",
+      "name": "REF-03 - Barragem B1",
+      "type": "REF",
+      "structure": "Barragem B1",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": null,
+      "cotaBoca": 827.18,
+      "cotaBase": 827.18,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 827.18,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 0.0,
+        "attentionElevation": 0.0,
+        "alertElevation": 0.0,
+        "emergencyElevation": 0.0
+      },
+      "coordinates": {
+        "ns": 7781276.134,
+        "ew": 592400.248
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b1"
+    },
+    "BARRAGEM-B4-ETR-1": {
+      "id": "BARRAGEM-B4-ETR-1",
+      "code": "ETR-01",
+      "name": "ETR-01 - Barragem B4",
+      "type": "ETR",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": null,
+      "cotaBoca": 1167.767,
+      "cotaBase": 1167.767,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1167.767,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 0.0,
+        "attentionElevation": 0.0,
+        "alertElevation": 0.0,
+        "emergencyElevation": 0.0
+      },
+      "coordinates": {
+        "ns": 7778572.914,
+        "ew": 593580.711
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-INA-B02": {
+      "id": "BARRAGEM-B4-INA-B02",
+      "code": "INA-B02",
+      "name": "INA-B02 - Barragem B4",
+      "type": "INA",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "5+15",
+      "cotaBoca": 1162.146,
+      "cotaBase": 1161.261,
+      "cotaFundo": 1121.846,
+      "profMax": 40.76,
+      "limiteCritico": 10.176,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1146.16,
+        "attentionElevation": 1148.7,
+        "alertElevation": 1151.97,
+        "emergencyElevation": 1151.97
+      },
+      "coordinates": {
+        "ns": 7778183.528,
+        "ew": 593734.212
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 40.74,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-INA-B03": {
+      "id": "BARRAGEM-B4-INA-B03",
+      "code": "INA-B03",
+      "name": "INA-B03 - Barragem B4",
+      "type": "INA",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "5+15",
+      "cotaBoca": 1141.635,
+      "cotaBase": 1140.738,
+      "cotaFundo": 1125.005,
+      "profMax": 16.94,
+      "limiteCritico": 1.715,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1125.01,
+        "attentionElevation": 1136.62,
+        "alertElevation": 1139.92,
+        "emergencyElevation": 1139.92
+      },
+      "coordinates": {
+        "ns": 7778199.414,
+        "ew": 593679.845
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 16.92,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-INA-B08": {
+      "id": "BARRAGEM-B4-INA-B08",
+      "code": "INA-B08",
+      "name": "INA-B08 - Barragem B4",
+      "type": "INA",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "10+10",
+      "cotaBoca": 1163.016,
+      "cotaBase": 1161.992,
+      "cotaFundo": 1109.016,
+      "profMax": 54.0,
+      "limiteCritico": 9.806,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1140.22,
+        "attentionElevation": 1151.13,
+        "alertElevation": 1153.21,
+        "emergencyElevation": 1153.21
+      },
+      "coordinates": {
+        "ns": 7778278.031,
+        "ew": 593820.975
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 52.93,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-INA-B09": {
+      "id": "BARRAGEM-B4-INA-B09",
+      "code": "INA-B09",
+      "name": "INA-B09 - Barragem B4",
+      "type": "INA",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "10+10",
+      "cotaBoca": 1142.613,
+      "cotaBase": 1141.667,
+      "cotaFundo": 1101.823,
+      "profMax": 41.47,
+      "limiteCritico": 4.383,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1130.48,
+        "attentionElevation": 1134.19,
+        "alertElevation": 1138.23,
+        "emergencyElevation": 1138.23
+      },
+      "coordinates": {
+        "ns": 7778327.416,
+        "ew": 593788.953
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 41.42,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-INA-B13": {
+      "id": "BARRAGEM-B4-INA-B13",
+      "code": "INA-B13",
+      "name": "INA-B13 - Barragem B4",
+      "type": "INA",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "15+10",
+      "cotaBoca": 1131.71,
+      "cotaBase": 1131.19,
+      "cotaFundo": 1096.962,
+      "profMax": 34.69,
+      "limiteCritico": 10.23,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1103.59,
+        "attentionElevation": 1113.89,
+        "alertElevation": 1121.48,
+        "emergencyElevation": 1121.48
+      },
+      "coordinates": {
+        "ns": 7778420.351,
+        "ew": 593903.964
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 34.24,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-INA-B14": {
+      "id": "BARRAGEM-B4-INA-B14",
+      "code": "INA-B14",
+      "name": "INA-B14 - Barragem B4",
+      "type": "INA",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "15+10",
+      "cotaBoca": 1113.474,
+      "cotaBase": 1112.562,
+      "cotaFundo": 1089.754,
+      "profMax": 24.96,
+      "limiteCritico": 4.834,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1094.16,
+        "attentionElevation": 1102.43,
+        "alertElevation": 1108.64,
+        "emergencyElevation": 1108.64
+      },
+      "coordinates": {
+        "ns": 7778473.34,
+        "ew": 593894.997
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 23.87,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-INA-B20": {
+      "id": "BARRAGEM-B4-INA-B20",
+      "code": "INA-B20",
+      "name": "INA-B20 - Barragem B4",
+      "type": "INA",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 81.0,
+      "limiteCritico": 81.0,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1140.82,
+        "attentionElevation": 1146.41,
+        "alertElevation": 1151.16,
+        "emergencyElevation": 1151.16
+      },
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2025-02-20",
+        "valor": 68.39,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-INA-B21": {
+      "id": "BARRAGEM-B4-INA-B21",
+      "code": "INA-B21",
+      "name": "INA-B21 - Barragem B4",
+      "type": "INA",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 1152.61,
+      "cotaBase": 1151.672,
+      "cotaFundo": 1104.042,
+      "profMax": 50.95,
+      "limiteCritico": 18.16,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1120.2,
+        "attentionElevation": 1130.21,
+        "alertElevation": 1134.45,
+        "emergencyElevation": 1134.45
+      },
+      "coordinates": {
+        "ns": 7778379.687,
+        "ew": 594053.248
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 50.87,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-INA-B22": {
+      "id": "BARRAGEM-B4-INA-B22",
+      "code": "INA-B22",
+      "name": "INA-B22 - Barragem B4",
+      "type": "INA",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 1132.53,
+      "cotaBase": 1131.456,
+      "cotaFundo": 1088.724,
+      "profMax": 44.31,
+      "limiteCritico": 15.32,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1101.62,
+        "attentionElevation": 1112.79,
+        "alertElevation": 1117.21,
+        "emergencyElevation": 1117.21
+      },
+      "coordinates": {
+        "ns": 7778436.336,
+        "ew": 594047.556
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 44.19,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-INA-B23": {
+      "id": "BARRAGEM-B4-INA-B23",
+      "code": "INA-B23",
+      "name": "INA-B23 - Barragem B4",
+      "type": "INA",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 1113.33,
+      "cotaBase": 1112.358,
+      "cotaFundo": 1081.717,
+      "profMax": 33.96,
+      "limiteCritico": 9.14,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1089.45,
+        "attentionElevation": 1098.55,
+        "alertElevation": 1104.19,
+        "emergencyElevation": 1104.19
+      },
+      "coordinates": {
+        "ns": 7778491.615,
+        "ew": 594044.11
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 31.82,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-INA-B24": {
+      "id": "BARRAGEM-B4-INA-B24",
+      "code": "INA-B24",
+      "name": "INA-B24 - Barragem B4",
+      "type": "INA",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 1092.8,
+      "cotaBase": 1091.825,
+      "cotaFundo": 1063.365,
+      "profMax": 29.4,
+      "limiteCritico": 1.71,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1081.99,
+        "attentionElevation": 1086.79,
+        "alertElevation": 1091.09,
+        "emergencyElevation": 1091.09
+      },
+      "coordinates": {
+        "ns": 7778547.84,
+        "ew": 594036.768
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 17.34,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-INA-B30": {
+      "id": "BARRAGEM-B4-INA-B30",
+      "code": "INA-B30",
+      "name": "INA-B30 - Barragem B4",
+      "type": "INA",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "27",
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 82.51,
+      "limiteCritico": 80.68,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1152.58,
+        "attentionElevation": 1153.64,
+        "alertElevation": 1154.67,
+        "emergencyElevation": 1154.67
+      },
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2025-02-20",
+        "valor": 75.31,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-INA-B32": {
+      "id": "BARRAGEM-B4-INA-B32",
+      "code": "INA-B32",
+      "name": "INA-B32 - Barragem B4",
+      "type": "INA",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "27",
+      "cotaBoca": 1142.77,
+      "cotaBase": 1141.92,
+      "cotaFundo": 1107.509,
+      "profMax": 35.654,
+      "limiteCritico": 12.56,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1111.16,
+        "attentionElevation": 1121.95,
+        "alertElevation": 1130.21,
+        "emergencyElevation": 1130.21
+      },
+      "coordinates": {
+        "ns": 7778427.929,
+        "ew": 594166.364
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 35.62,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-INA-B33": {
+      "id": "BARRAGEM-B4-INA-B33",
+      "code": "INA-B33",
+      "name": "INA-B33 - Barragem B4",
+      "type": "INA",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "27",
+      "cotaBoca": 1123.16,
+      "cotaBase": 1122.445,
+      "cotaFundo": 1105.496,
+      "profMax": 17.69,
+      "limiteCritico": 12.54,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1105.5,
+        "attentionElevation": 1105.5,
+        "alertElevation": 1110.62,
+        "emergencyElevation": 1110.62
+      },
+      "coordinates": {
+        "ns": 7778481.307,
+        "ew": 594161.985
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 16.3,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-INA-B34": {
+      "id": "BARRAGEM-B4-INA-B34",
+      "code": "INA-B34",
+      "name": "INA-B34 - Barragem B4",
+      "type": "INA",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "27",
+      "cotaBoca": 1102.07,
+      "cotaBase": 1101.065,
+      "cotaFundo": 1063.941,
+      "profMax": 37.0,
+      "limiteCritico": 6.09,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1080.03,
+        "attentionElevation": 1089.8,
+        "alertElevation": 1095.98,
+        "emergencyElevation": 1095.98
+      },
+      "coordinates": {
+        "ns": 7778540.925,
+        "ew": 594166.297
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 24.79,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-INA-B35": {
+      "id": "BARRAGEM-B4-INA-B35",
+      "code": "INA-B35",
+      "name": "INA-B35 - Barragem B4",
+      "type": "INA",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "27",
+      "cotaBoca": 1078.664,
+      "cotaBase": 1077.774,
+      "cotaFundo": 1062.714,
+      "profMax": 14.8,
+      "limiteCritico": 2.481,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1074.683,
+        "attentionElevation": 1075.433,
+        "alertElevation": 1076.183,
+        "emergencyElevation": 1076.183
+      },
+      "coordinates": {
+        "ns": 7778608.015,
+        "ew": 594164.196
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 3.64,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-INA-B46": {
+      "id": "BARRAGEM-B4-INA-B46",
+      "code": "INA-B46",
+      "name": "INA-B46 - Barragem B4",
+      "type": "INA",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "31+15",
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 37.9,
+      "limiteCritico": 36.0,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1143.57,
+        "attentionElevation": 1150.75,
+        "alertElevation": 1153.31,
+        "emergencyElevation": 1153.31
+      },
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2025-02-20",
+        "valor": 37.9,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-INA-B47": {
+      "id": "BARRAGEM-B4-INA-B47",
+      "code": "INA-B47",
+      "name": "INA-B47 - Barragem B4",
+      "type": "INA",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "31+15",
+      "cotaBoca": 1153.17,
+      "cotaBase": 1152.253,
+      "cotaFundo": 1111.3,
+      "profMax": 41.9,
+      "limiteCritico": 12.83,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1124.68,
+        "attentionElevation": 1135.26,
+        "alertElevation": 1140.34,
+        "emergencyElevation": 1140.34
+      },
+      "coordinates": {
+        "ns": 7778355.054,
+        "ew": 594308.001
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 41.39,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-INA-B48": {
+      "id": "BARRAGEM-B4-INA-B48",
+      "code": "INA-B48",
+      "name": "INA-B48 - Barragem B4",
+      "type": "INA",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "31+15",
+      "cotaBoca": 1131.73,
+      "cotaBase": 1130.771,
+      "cotaFundo": 1106.003,
+      "profMax": 25.78,
+      "limiteCritico": 7.01,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1111.02,
+        "attentionElevation": 1119.53,
+        "alertElevation": 1124.72,
+        "emergencyElevation": 1124.72
+      },
+      "coordinates": {
+        "ns": 7778402.07,
+        "ew": 594340.05
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 25.4,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-INA-B49": {
+      "id": "BARRAGEM-B4-INA-B49",
+      "code": "INA-B49",
+      "name": "INA-B49 - Barragem B4",
+      "type": "INA",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "31+15",
+      "cotaBoca": 1108.65,
+      "cotaBase": 1107.671,
+      "cotaFundo": 1086.282,
+      "profMax": 21.63,
+      "limiteCritico": 1.32,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1107.13,
+        "attentionElevation": 1107.23,
+        "alertElevation": 1107.33,
+        "emergencyElevation": 1107.33
+      },
+      "coordinates": {
+        "ns": 7778465.283,
+        "ew": 594382.129
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 20.85,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-INA-B50": {
+      "id": "BARRAGEM-B4-INA-B50",
+      "code": "INA-B50",
+      "name": "INA-B50 - Barragem B4",
+      "type": "INA",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 1142.18,
+      "cotaBase": 1141.167,
+      "cotaFundo": 1079.345,
+      "profMax": 61.6,
+      "limiteCritico": 15.61,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1110.6,
+        "attentionElevation": 1122.63,
+        "alertElevation": 1126.57,
+        "emergencyElevation": 1126.57
+      },
+      "coordinates": {
+        "ns": 7778405.297,
+        "ew": 594037.02
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 48.2,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-INA-B51": {
+      "id": "BARRAGEM-B4-INA-B51",
+      "code": "INA-B51",
+      "name": "INA-B51 - Barragem B4",
+      "type": "INA",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 1162.43,
+      "cotaBase": 1161.417,
+      "cotaFundo": 1090.599,
+      "profMax": 71.32,
+      "limiteCritico": 18.2,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1128.9,
+        "attentionElevation": 1138.64,
+        "alertElevation": 1144.23,
+        "emergencyElevation": 1144.23
+      },
+      "coordinates": {
+        "ns": 7778349.617,
+        "ew": 594039.453
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 62.28,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-MCD-1": {
+      "id": "BARRAGEM-B4-MCD-1",
+      "code": "MCD-01",
+      "name": "MCD-01 - Barragem B4",
+      "type": "MCD",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 1173.703,
+      "cotaBase": 1173.703,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 873.703,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 50.0,
+        "attentionElevation": 300.0,
+        "alertElevation": 300.0,
+        "emergencyElevation": 300.0
+      },
+      "coordinates": {
+        "ns": 7778319.2,
+        "ew": 594008.663
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-MCD-10": {
+      "id": "BARRAGEM-B4-MCD-10",
+      "code": "MCD-10",
+      "name": "MCD-10 - Barragem B4",
+      "type": "MCD",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "28",
+      "cotaBoca": 1173.838,
+      "cotaBase": 1173.838,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 873.838,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 50.0,
+        "attentionElevation": 300.0,
+        "alertElevation": 300.0,
+        "emergencyElevation": 300.0
+      },
+      "coordinates": {
+        "ns": 7778344.821,
+        "ew": 594164.432
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-MCD-11": {
+      "id": "BARRAGEM-B4-MCD-11",
+      "code": "MCD-11",
+      "name": "MCD-11 - Barragem B4",
+      "type": "MCD",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "28",
+      "cotaBoca": 1163.705,
+      "cotaBase": 1163.705,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 863.705,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 50.0,
+        "attentionElevation": 300.0,
+        "alertElevation": 300.0,
+        "emergencyElevation": 300.0
+      },
+      "coordinates": {
+        "ns": 7778372.652,
+        "ew": 594172.35
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-MCD-12": {
+      "id": "BARRAGEM-B4-MCD-12",
+      "code": "MCD-12",
+      "name": "MCD-12 - Barragem B4",
+      "type": "MCD",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "28",
+      "cotaBoca": 1154.066,
+      "cotaBase": 1154.066,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 854.066,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 50.0,
+        "attentionElevation": 300.0,
+        "alertElevation": 300.0,
+        "emergencyElevation": 300.0
+      },
+      "coordinates": {
+        "ns": 7778400.046,
+        "ew": 594180.058
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-MCD-13": {
+      "id": "BARRAGEM-B4-MCD-13",
+      "code": "MCD-13",
+      "name": "MCD-13 - Barragem B4",
+      "type": "MCD",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "28",
+      "cotaBoca": 1143.788,
+      "cotaBase": 1143.788,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 843.788,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 50.0,
+        "attentionElevation": 300.0,
+        "alertElevation": 300.0,
+        "emergencyElevation": 300.0
+      },
+      "coordinates": {
+        "ns": 7778427.796,
+        "ew": 594188.003
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-MCD-14": {
+      "id": "BARRAGEM-B4-MCD-14",
+      "code": "MCD-14",
+      "name": "MCD-14 - Barragem B4",
+      "type": "MCD",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "28",
+      "cotaBoca": 1134.112,
+      "cotaBase": 1134.112,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 834.112,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 50.0,
+        "attentionElevation": 300.0,
+        "alertElevation": 300.0,
+        "emergencyElevation": 300.0
+      },
+      "coordinates": {
+        "ns": 7778453.783,
+        "ew": 594195.288
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-MCD-15": {
+      "id": "BARRAGEM-B4-MCD-15",
+      "code": "MCD-15",
+      "name": "MCD-15 - Barragem B4",
+      "type": "MCD",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "28",
+      "cotaBoca": 1124.008,
+      "cotaBase": 1124.008,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 824.008,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 50.0,
+        "attentionElevation": 300.0,
+        "alertElevation": 300.0,
+        "emergencyElevation": 300.0
+      },
+      "coordinates": {
+        "ns": 7778479.096,
+        "ew": 594202.498
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-MCD-16": {
+      "id": "BARRAGEM-B4-MCD-16",
+      "code": "MCD-16",
+      "name": "MCD-16 - Barragem B4",
+      "type": "MCD",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "28",
+      "cotaBoca": 1113.698,
+      "cotaBase": 1113.698,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 841.898,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 50.0,
+        "attentionElevation": 271.8,
+        "alertElevation": 271.8,
+        "emergencyElevation": 271.8
+      },
+      "coordinates": {
+        "ns": 7778508.912,
+        "ew": 594211.02
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-MCD-17": {
+      "id": "BARRAGEM-B4-MCD-17",
+      "code": "MCD-17",
+      "name": "MCD-17 - Barragem B4",
+      "type": "MCD",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "28",
+      "cotaBoca": 1103.605,
+      "cotaBase": 1103.605,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1003.605,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 50.0,
+        "attentionElevation": 100.0,
+        "alertElevation": 100.0,
+        "emergencyElevation": 100.0
+      },
+      "coordinates": {
+        "ns": 7778536.281,
+        "ew": 594218.786
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-MCD-18": {
+      "id": "BARRAGEM-B4-MCD-18",
+      "code": "MCD-18",
+      "name": "MCD-18 - Barragem B4",
+      "type": "MCD",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "28",
+      "cotaBoca": 1093.901,
+      "cotaBase": 1093.901,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1053.901,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 50.0,
+        "attentionElevation": 40.0,
+        "alertElevation": 40.0,
+        "emergencyElevation": 40.0
+      },
+      "coordinates": {
+        "ns": 7778561.326,
+        "ew": 594225.862
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-MCD-2": {
+      "id": "BARRAGEM-B4-MCD-2",
+      "code": "MCD-02",
+      "name": "MCD-02 - Barragem B4",
+      "type": "MCD",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 1163.433,
+      "cotaBase": 1163.433,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 863.433,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 50.0,
+        "attentionElevation": 300.0,
+        "alertElevation": 300.0,
+        "emergencyElevation": 300.0
+      },
+      "coordinates": {
+        "ns": 7778346.262,
+        "ew": 594006.297
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-MCD-3": {
+      "id": "BARRAGEM-B4-MCD-3",
+      "code": "MCD-03",
+      "name": "MCD-03 - Barragem B4",
+      "type": "MCD",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 1153.458,
+      "cotaBase": 1153.458,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 853.458,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 50.0,
+        "attentionElevation": 300.0,
+        "alertElevation": 300.0,
+        "emergencyElevation": 300.0
+      },
+      "coordinates": {
+        "ns": 7778374.979,
+        "ew": 594003.856
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-MCD-4": {
+      "id": "BARRAGEM-B4-MCD-4",
+      "code": "MCD-04",
+      "name": "MCD-04 - Barragem B4",
+      "type": "MCD",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 1143.039,
+      "cotaBase": 1143.039,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 843.039,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 50.0,
+        "attentionElevation": 300.0,
+        "alertElevation": 300.0,
+        "emergencyElevation": 300.0
+      },
+      "coordinates": {
+        "ns": 7778402.96,
+        "ew": 594001.231
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-MCD-5": {
+      "id": "BARRAGEM-B4-MCD-5",
+      "code": "MCD-05",
+      "name": "MCD-05 - Barragem B4",
+      "type": "MCD",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 1133.554,
+      "cotaBase": 1133.554,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 833.554,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 50.0,
+        "attentionElevation": 300.0,
+        "alertElevation": 300.0,
+        "emergencyElevation": 300.0
+      },
+      "coordinates": {
+        "ns": 7778429.888,
+        "ew": 593998.983
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-MCD-6": {
+      "id": "BARRAGEM-B4-MCD-6",
+      "code": "MCD-06",
+      "name": "MCD-06 - Barragem B4",
+      "type": "MCD",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 1123.447,
+      "cotaBase": 1123.447,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 823.447,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 50.0,
+        "attentionElevation": 300.0,
+        "alertElevation": 300.0,
+        "emergencyElevation": 300.0
+      },
+      "coordinates": {
+        "ns": 7778459.636,
+        "ew": 593996.293
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-MCD-7": {
+      "id": "BARRAGEM-B4-MCD-7",
+      "code": "MCD-07",
+      "name": "MCD-07 - Barragem B4",
+      "type": "MCD",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 1113.102,
+      "cotaBase": 1113.102,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 851.902,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 50.0,
+        "attentionElevation": 261.2,
+        "alertElevation": 261.2,
+        "emergencyElevation": 261.2
+      },
+      "coordinates": {
+        "ns": 7778487.201,
+        "ew": 593993.82
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-MCD-8": {
+      "id": "BARRAGEM-B4-MCD-8",
+      "code": "MCD-08",
+      "name": "MCD-08 - Barragem B4",
+      "type": "MCD",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 1104.233,
+      "cotaBase": 1104.233,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 909.433,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 50.0,
+        "attentionElevation": 194.8,
+        "alertElevation": 194.8,
+        "emergencyElevation": 194.8
+      },
+      "coordinates": {
+        "ns": 7778514.375,
+        "ew": 593991.44
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-MCD-9": {
+      "id": "BARRAGEM-B4-MCD-9",
+      "code": "MCD-09",
+      "name": "MCD-09 - Barragem B4",
+      "type": "MCD",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 1093.788,
+      "cotaBase": 1093.788,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 972.688,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 50.0,
+        "attentionElevation": 121.1,
+        "alertElevation": 121.1,
+        "emergencyElevation": 121.1
+      },
+      "coordinates": {
+        "ns": 7778544.072,
+        "ew": 593988.805
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-MV-1": {
+      "id": "BARRAGEM-B4-MV-1",
+      "code": "MV-01",
+      "name": "MV-01 - Barragem B4",
+      "type": "MV",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-MV-2": {
+      "id": "BARRAGEM-B4-MV-2",
+      "code": "MV-02",
+      "name": "MV-02 - Barragem B4",
+      "type": "MV",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-MV-3": {
+      "id": "BARRAGEM-B4-MV-3",
+      "code": "MV-03",
+      "name": "MV-03 - Barragem B4",
+      "type": "MV",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-10": {
+      "id": "BARRAGEM-B4-PZ-10",
+      "code": "PZ-10",
+      "name": "PZ-10 - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "10+10",
+      "cotaBoca": 1134.19,
+      "cotaBase": 1131.293,
+      "cotaFundo": 1107.48,
+      "profMax": 27.2,
+      "limiteCritico": 2.47,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1128.62,
+        "attentionElevation": 1130.45,
+        "alertElevation": 1131.72,
+        "emergencyElevation": 1131.72
+      },
+      "coordinates": {
+        "ns": 7778327.284,
+        "ew": 593750.199
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 27.12,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-24": {
+      "id": "BARRAGEM-B4-PZ-24",
+      "code": "PZ-24",
+      "name": "PZ-24 - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 1093.183,
+      "cotaBase": 1092.223,
+      "cotaFundo": 1061.333,
+      "profMax": 29.5,
+      "limiteCritico": 3.653,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1081.78,
+        "attentionElevation": 1086.31,
+        "alertElevation": 1089.53,
+        "emergencyElevation": 1089.53
+      },
+      "coordinates": {
+        "ns": 7778548.155,
+        "ew": 594034.79
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 17.14,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-25": {
+      "id": "BARRAGEM-B4-PZ-25",
+      "code": "PZ-25",
+      "name": "PZ-25 - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "15+10",
+      "cotaBoca": 1153.057,
+      "cotaBase": 1152.154,
+      "cotaFundo": 1101.017,
+      "profMax": 52.04,
+      "limiteCritico": 14.247,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1122.16,
+        "attentionElevation": 1131.6,
+        "alertElevation": 1138.81,
+        "emergencyElevation": 1138.81
+      },
+      "coordinates": {
+        "ns": 7778361.707,
+        "ew": 593910.249
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 42.94,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-27": {
+      "id": "BARRAGEM-B4-PZ-27",
+      "code": "PZ-27",
+      "name": "PZ-27 - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "15+10",
+      "cotaBoca": 1121.994,
+      "cotaBase": 1121.08,
+      "cotaFundo": 1085.054,
+      "profMax": 37.56,
+      "limiteCritico": 9.224,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1095.02,
+        "attentionElevation": 1107.04,
+        "alertElevation": 1112.77,
+        "emergencyElevation": 1112.77
+      },
+      "coordinates": {
+        "ns": 7778442.03,
+        "ew": 593883.595
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 37.06,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-28": {
+      "id": "BARRAGEM-B4-PZ-28",
+      "code": "PZ-28",
+      "name": "PZ-28 - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "27",
+      "cotaBoca": 1123.138,
+      "cotaBase": 1122.266,
+      "cotaFundo": 1085.218,
+      "profMax": 37.92,
+      "limiteCritico": 13.548,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1087.22,
+        "attentionElevation": 1103.57,
+        "alertElevation": 1109.59,
+        "emergencyElevation": 1109.59
+      },
+      "coordinates": {
+        "ns": 7778480.277,
+        "ew": 594186.638
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 37.67,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-29": {
+      "id": "BARRAGEM-B4-PZ-29",
+      "code": "PZ-29",
+      "name": "PZ-29 - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "10+10",
+      "cotaBoca": 1134.192,
+      "cotaBase": 1133.257,
+      "cotaFundo": 1105.602,
+      "profMax": 29.45,
+      "limiteCritico": 2.462,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1128.56,
+        "attentionElevation": 1130.42,
+        "alertElevation": 1131.73,
+        "emergencyElevation": 1131.73
+      },
+      "coordinates": {
+        "ns": 7778328.63,
+        "ew": 593751.381
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 29.23,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-31": {
+      "id": "BARRAGEM-B4-PZ-31",
+      "code": "PZ-31",
+      "name": "PZ-31 - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "27",
+      "cotaBoca": 1151.707,
+      "cotaBase": 1150.772,
+      "cotaFundo": 1105.627,
+      "profMax": 46.5,
+      "limiteCritico": 15.917,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1120.67,
+        "attentionElevation": 1127.84,
+        "alertElevation": 1135.79,
+        "emergencyElevation": 1135.79
+      },
+      "coordinates": {
+        "ns": 7778403.493,
+        "ew": 594170.313
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 46.04,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-A01F": {
+      "id": "BARRAGEM-B4-PZ-A01F",
+      "code": "PZ-A01F",
+      "name": "PZ-A01F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "15+10",
+      "cotaBoca": 1142.684,
+      "cotaBase": 1141.819,
+      "cotaFundo": 1075.294,
+      "profMax": 68.36,
+      "limiteCritico": 13.704,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1112.96,
+        "attentionElevation": 1121.75,
+        "alertElevation": 1128.98,
+        "emergencyElevation": 1128.98
+      },
+      "coordinates": {
+        "ns": 7778388.488,
+        "ew": 593901.868
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 67.66,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-A03F": {
+      "id": "BARRAGEM-B4-PZ-A03F",
+      "code": "PZ-A03F",
+      "name": "PZ-A03F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "26",
+      "cotaBoca": 1153.217,
+      "cotaBase": 1152.337,
+      "cotaFundo": 1090.157,
+      "profMax": 63.5,
+      "limiteCritico": 8.627,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1124.59,
+        "attentionElevation": 1137.36,
+        "alertElevation": 1144.59,
+        "emergencyElevation": 1144.59
+      },
+      "coordinates": {
+        "ns": 7778387.686,
+        "ew": 594112.646
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 60.03,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-A15F": {
+      "id": "BARRAGEM-B4-PZ-A15F",
+      "code": "PZ-A15F",
+      "name": "PZ-A15F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "18",
+      "cotaBoca": 1141.72,
+      "cotaBase": 1140.874,
+      "cotaFundo": 1094.41,
+      "profMax": 47.75,
+      "limiteCritico": 14.35,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1109.71,
+        "attentionElevation": 1122.59,
+        "alertElevation": 1127.37,
+        "emergencyElevation": 1127.37
+      },
+      "coordinates": {
+        "ns": 7778401.997,
+        "ew": 593975.955
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 47.21,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B02F": {
+      "id": "BARRAGEM-B4-PZ-B02F",
+      "code": "PZ-B02F",
+      "name": "PZ-B02F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "5+15",
+      "cotaBoca": 1162.294,
+      "cotaBase": 1161.347,
+      "cotaFundo": 1122.034,
+      "profMax": 40.91,
+      "limiteCritico": 10.894,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1142.85,
+        "attentionElevation": 1148.01,
+        "alertElevation": 1151.4,
+        "emergencyElevation": 1151.4
+      },
+      "coordinates": {
+        "ns": 7778181.667,
+        "ew": 593733.659
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 40.91,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B02M": {
+      "id": "BARRAGEM-B4-PZ-B02M",
+      "code": "PZ-B02M",
+      "name": "PZ-B02M - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "5+15",
+      "cotaBoca": 1162.395,
+      "cotaBase": 1161.419,
+      "cotaFundo": 1148.515,
+      "profMax": 13.95,
+      "limiteCritico": 10.395,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1148.52,
+        "attentionElevation": 1148.52,
+        "alertElevation": 1152.0,
+        "emergencyElevation": 1152.0
+      },
+      "coordinates": {
+        "ns": 7778179.691,
+        "ew": 593733.221
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 13.91,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B03F": {
+      "id": "BARRAGEM-B4-PZ-B03F",
+      "code": "PZ-B03F",
+      "name": "PZ-B03F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "5+15",
+      "cotaBoca": 1141.489,
+      "cotaBase": 1140.581,
+      "cotaFundo": 1126.089,
+      "profMax": 15.54,
+      "limiteCritico": 1.569,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1128.58,
+        "attentionElevation": 1136.3,
+        "alertElevation": 1139.92,
+        "emergencyElevation": 1139.92
+      },
+      "coordinates": {
+        "ns": 7778198.061,
+        "ew": 593679.16
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 15.54,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B03M": {
+      "id": "BARRAGEM-B4-PZ-B03M",
+      "code": "PZ-B03M",
+      "name": "PZ-B03M - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "5+15",
+      "cotaBoca": 1141.589,
+      "cotaBase": 1140.652,
+      "cotaFundo": 1137.219,
+      "profMax": 4.38,
+      "limiteCritico": 1.629,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1137.22,
+        "attentionElevation": 1137.22,
+        "alertElevation": 1139.96,
+        "emergencyElevation": 1139.96
+      },
+      "coordinates": {
+        "ns": 7778196.2,
+        "ew": 593678.51
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 4.38,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B04F": {
+      "id": "BARRAGEM-B4-PZ-B04F",
+      "code": "PZ-B04F",
+      "name": "PZ-B04F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "7+15",
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 62.5,
+      "limiteCritico": 62.5,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1150.58,
+        "attentionElevation": 1152.18,
+        "alertElevation": 1154.46,
+        "emergencyElevation": 1154.46
+      },
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2025-02-20",
+        "valor": 57.06,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B05F": {
+      "id": "BARRAGEM-B4-PZ-B05F",
+      "code": "PZ-B05F",
+      "name": "PZ-B05F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "7+15",
+      "cotaBoca": 1152.328,
+      "cotaBase": 1151.475,
+      "cotaFundo": 1090.748,
+      "profMax": 61.6,
+      "limiteCritico": 6.488,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1129.54,
+        "attentionElevation": 1143.18,
+        "alertElevation": 1145.84,
+        "emergencyElevation": 1145.84
+      },
+      "coordinates": {
+        "ns": 7778260.953,
+        "ew": 593749.514
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 56.94,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B08F": {
+      "id": "BARRAGEM-B4-PZ-B08F",
+      "code": "PZ-B08F",
+      "name": "PZ-B08F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "10+10",
+      "cotaBoca": 1162.691,
+      "cotaBase": 1161.988,
+      "cotaFundo": 1112.291,
+      "profMax": 49.65,
+      "limiteCritico": 9.761,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1140.19,
+        "attentionElevation": 1150.93,
+        "alertElevation": 1152.93,
+        "emergencyElevation": 1152.93
+      },
+      "coordinates": {
+        "ns": 7778276.881,
+        "ew": 593819.443
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 48.68,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B08M": {
+      "id": "BARRAGEM-B4-PZ-B08M",
+      "code": "PZ-B08M",
+      "name": "PZ-B08M - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "10+10",
+      "cotaBoca": 1161.905,
+      "cotaBase": 1161.36,
+      "cotaFundo": 1148.005,
+      "profMax": 13.95,
+      "limiteCritico": 8.605,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1148.01,
+        "attentionElevation": 1151.28,
+        "alertElevation": 1153.3,
+        "emergencyElevation": 1153.3
+      },
+      "coordinates": {
+        "ns": 7778280.598,
+        "ew": 593821.171
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 13.95,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B09F": {
+      "id": "BARRAGEM-B4-PZ-B09F",
+      "code": "PZ-B09F",
+      "name": "PZ-B09F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "10+10",
+      "cotaBoca": 1142.537,
+      "cotaBase": 1141.653,
+      "cotaFundo": 1101.627,
+      "profMax": 41.15,
+      "limiteCritico": 4.667,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1130.47,
+        "attentionElevation": 1134.01,
+        "alertElevation": 1137.87,
+        "emergencyElevation": 1137.87
+      },
+      "coordinates": {
+        "ns": 7778325.541,
+        "ew": 593786.51
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 40.75,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B09M": {
+      "id": "BARRAGEM-B4-PZ-B09M",
+      "code": "PZ-B09M",
+      "name": "PZ-B09M - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "10+10",
+      "cotaBoca": 1142.546,
+      "cotaBase": 1141.606,
+      "cotaFundo": 1135.936,
+      "profMax": 6.65,
+      "limiteCritico": 4.386,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1135.94,
+        "attentionElevation": 1135.94,
+        "alertElevation": 1138.16,
+        "emergencyElevation": 1138.16
+      },
+      "coordinates": {
+        "ns": 7778326.479,
+        "ew": 593787.783
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 6.65,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B10F": {
+      "id": "BARRAGEM-B4-PZ-B10F",
+      "code": "PZ-B10F",
+      "name": "PZ-B10F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "13+15",
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 72.0,
+      "limiteCritico": 72.0,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1147.6,
+        "attentionElevation": 1151.55,
+        "alertElevation": 1154.51,
+        "emergencyElevation": 1154.51
+      },
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2025-02-20",
+        "valor": 65.9,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B11F": {
+      "id": "BARRAGEM-B4-PZ-B11F",
+      "code": "PZ-B11F",
+      "name": "PZ-B11F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "13+15",
+      "cotaBoca": 1152.356,
+      "cotaBase": 1151.394,
+      "cotaFundo": 1092.236,
+      "profMax": 60.68,
+      "limiteCritico": 8.046,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1128.4,
+        "attentionElevation": 1138.79,
+        "alertElevation": 1144.31,
+        "emergencyElevation": 1144.31
+      },
+      "coordinates": {
+        "ns": 7778344.433,
+        "ew": 593862.695
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 59.62,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B12F": {
+      "id": "BARRAGEM-B4-PZ-B12F",
+      "code": "PZ-B12F",
+      "name": "PZ-B12F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "13+15",
+      "cotaBoca": 1133.117,
+      "cotaBase": 1132.151,
+      "cotaFundo": 1091.467,
+      "profMax": 42.67,
+      "limiteCritico": 1.757,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1120.38,
+        "attentionElevation": 1127.86,
+        "alertElevation": 1131.36,
+        "emergencyElevation": 1131.36
+      },
+      "coordinates": {
+        "ns": 7778400.415,
+        "ew": 593834.142
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 41.79,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B13M": {
+      "id": "BARRAGEM-B4-PZ-B13M",
+      "code": "PZ-B13M",
+      "name": "PZ-B13M - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "15+10",
+      "cotaBoca": 1131.561,
+      "cotaBase": 1130.643,
+      "cotaFundo": 1112.271,
+      "profMax": 19.29,
+      "limiteCritico": 10.791,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1112.274,
+        "attentionElevation": 1113.85,
+        "alertElevation": 1120.77,
+        "emergencyElevation": 1120.77
+      },
+      "coordinates": {
+        "ns": 7778420.751,
+        "ew": 593906.077
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 19.29,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B14": {
+      "id": "BARRAGEM-B4-PZ-B14",
+      "code": "PZ-B14",
+      "name": "PZ-B14 - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "15+10",
+      "cotaBoca": 1113.581,
+      "cotaBase": 1112.639,
+      "cotaFundo": 1089.001,
+      "profMax": 24.93,
+      "limiteCritico": 5.101,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1094.17,
+        "attentionElevation": 1102.39,
+        "alertElevation": 1108.48,
+        "emergencyElevation": 1108.48
+      },
+      "coordinates": {
+        "ns": 7778472.089,
+        "ew": 593893.044
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 24.9,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B16F": {
+      "id": "BARRAGEM-B4-PZ-B16F",
+      "code": "PZ-B16F",
+      "name": "PZ-B16F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "18",
+      "cotaBoca": 1162.315,
+      "cotaBase": 1161.315,
+      "cotaFundo": 1109.275,
+      "profMax": 53.041,
+      "limiteCritico": 15.295,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1129.32,
+        "attentionElevation": 1141.72,
+        "alertElevation": 1147.02,
+        "emergencyElevation": 1147.02
+      },
+      "coordinates": {
+        "ns": 7778345.106,
+        "ew": 593982.662
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 52.15,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B17F": {
+      "id": "BARRAGEM-B4-PZ-B17F",
+      "code": "PZ-B17F",
+      "name": "PZ-B17F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "18",
+      "cotaBoca": 1122.859,
+      "cotaBase": 1122.003,
+      "cotaFundo": 1086.879,
+      "profMax": 37.4,
+      "limiteCritico": 10.589,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1089.5,
+        "attentionElevation": 1107.09,
+        "alertElevation": 1112.27,
+        "emergencyElevation": 1112.27
+      },
+      "coordinates": {
+        "ns": 7778456.279,
+        "ew": 593973.7
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 37.07,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B18F": {
+      "id": "BARRAGEM-B4-PZ-B18F",
+      "code": "PZ-B18F",
+      "name": "PZ-B18F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "18",
+      "cotaBoca": 1102.582,
+      "cotaBase": 1101.623,
+      "cotaFundo": 1080.202,
+      "profMax": 22.38,
+      "limiteCritico": 4.832,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1081.81,
+        "attentionElevation": 1091.98,
+        "alertElevation": 1097.75,
+        "emergencyElevation": 1097.75
+      },
+      "coordinates": {
+        "ns": 7778513.503,
+        "ew": 593966.529
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 21.63,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B18M": {
+      "id": "BARRAGEM-B4-PZ-B18M",
+      "code": "PZ-B18M",
+      "name": "PZ-B18M - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "18",
+      "cotaBoca": 1102.951,
+      "cotaBase": 1101.815,
+      "cotaFundo": 1095.071,
+      "profMax": 8.41,
+      "limiteCritico": 4.661,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1095.07,
+        "attentionElevation": 1095.07,
+        "alertElevation": 1098.29,
+        "emergencyElevation": 1098.29
+      },
+      "coordinates": {
+        "ns": 7778513.286,
+        "ew": 593964.491
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 8.38,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B19": {
+      "id": "BARRAGEM-B4-PZ-B19",
+      "code": "PZ-B19",
+      "name": "PZ-B19 - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "18",
+      "cotaBoca": 1077.614,
+      "cotaBase": 1076.614,
+      "cotaFundo": 1060.704,
+      "profMax": 15.8,
+      "limiteCritico": 15.8,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1077.614,
+        "attentionElevation": 1077.614,
+        "alertElevation": 1077.614,
+        "emergencyElevation": 1077.614
+      },
+      "coordinates": {
+        "ns": 7778583.351,
+        "ew": 593961.465
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 5.61,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B20F": {
+      "id": "BARRAGEM-B4-PZ-B20F",
+      "code": "PZ-B20F",
+      "name": "PZ-B20F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 81.0,
+      "limiteCritico": 81.0,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1139.1,
+        "attentionElevation": 1145.05,
+        "alertElevation": 1150.0,
+        "emergencyElevation": 1150.0
+      },
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2025-02-20",
+        "valor": 66.2,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B20M": {
+      "id": "BARRAGEM-B4-PZ-B20M",
+      "code": "PZ-B20M",
+      "name": "PZ-B20M - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 29.7,
+      "limiteCritico": 29.0,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1145.32,
+        "attentionElevation": 1146.32,
+        "alertElevation": 1150.89,
+        "emergencyElevation": 1150.89
+      },
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2025-02-20",
+        "valor": 29.7,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B21F": {
+      "id": "BARRAGEM-B4-PZ-B21F",
+      "code": "PZ-B21F",
+      "name": "PZ-B21F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 1151.758,
+      "cotaBase": 1150.863,
+      "cotaFundo": 1101.358,
+      "profMax": 51.32,
+      "limiteCritico": 19.848,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1118.7,
+        "attentionElevation": 1128.35,
+        "alertElevation": 1131.91,
+        "emergencyElevation": 1131.91
+      },
+      "coordinates": {
+        "ns": 7778381.181,
+        "ew": 594050.444
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 51.3,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B21M": {
+      "id": "BARRAGEM-B4-PZ-B21M",
+      "code": "PZ-B21M",
+      "name": "PZ-B21M - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 1152.611,
+      "cotaBase": 1151.642,
+      "cotaFundo": 1115.301,
+      "profMax": 37.314,
+      "limiteCritico": 18.841,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1120.2,
+        "attentionElevation": 1130.0,
+        "alertElevation": 1133.77,
+        "emergencyElevation": 1133.77
+      },
+      "coordinates": {
+        "ns": 7778379.666,
+        "ew": 594052.296
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 35.23,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B22F": {
+      "id": "BARRAGEM-B4-PZ-B22F",
+      "code": "PZ-B22F",
+      "name": "PZ-B22F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 1132.796,
+      "cotaBase": 1131.9,
+      "cotaFundo": 1082.786,
+      "profMax": 50.01,
+      "limiteCritico": 16.756,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1100.59,
+        "attentionElevation": 1111.69,
+        "alertElevation": 1116.04,
+        "emergencyElevation": 1116.04
+      },
+      "coordinates": {
+        "ns": 7778436.085,
+        "ew": 594045.77
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 44.61,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B22M": {
+      "id": "BARRAGEM-B4-PZ-B22M",
+      "code": "PZ-B22M",
+      "name": "PZ-B22M - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 1132.366,
+      "cotaBase": 1131.489,
+      "cotaFundo": 1104.956,
+      "profMax": 27.44,
+      "limiteCritico": 15.706,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1104.956,
+        "attentionElevation": 1112.42,
+        "alertElevation": 1116.66,
+        "emergencyElevation": 1116.66
+      },
+      "coordinates": {
+        "ns": 7778436.544,
+        "ew": 594049.128
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 27.44,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B23": {
+      "id": "BARRAGEM-B4-PZ-B23",
+      "code": "PZ-B23",
+      "name": "PZ-B23 - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 1113.046,
+      "cotaBase": 1111.996,
+      "cotaFundo": 1078.986,
+      "profMax": 36.0,
+      "limiteCritico": 9.766,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1089.27,
+        "attentionElevation": 1098.0,
+        "alertElevation": 1103.28,
+        "emergencyElevation": 1103.28
+      },
+      "coordinates": {
+        "ns": 7778491.777,
+        "ew": 594042.647
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 31.92,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B25F": {
+      "id": "BARRAGEM-B4-PZ-B25F",
+      "code": "PZ-B25F",
+      "name": "PZ-B25F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "26",
+      "cotaBoca": 1162.265,
+      "cotaBase": 1161.295,
+      "cotaFundo": 1109.215,
+      "profMax": 53.54,
+      "limiteCritico": 17.675,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1124.59,
+        "attentionElevation": 1140.36,
+        "alertElevation": 1144.59,
+        "emergencyElevation": 1144.59
+      },
+      "coordinates": {
+        "ns": 7778368.842,
+        "ew": 594131.274
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 52.61,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B26F": {
+      "id": "BARRAGEM-B4-PZ-B26F",
+      "code": "PZ-B26F",
+      "name": "PZ-B26F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "26",
+      "cotaBoca": 1143.042,
+      "cotaBase": 1142.092,
+      "cotaFundo": 1089.872,
+      "profMax": 59.94,
+      "limiteCritico": 15.482,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1103.83,
+        "attentionElevation": 1120.1,
+        "alertElevation": 1127.56,
+        "emergencyElevation": 1127.56
+      },
+      "coordinates": {
+        "ns": 7778423.142,
+        "ew": 594116.401
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 52.03,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B26M": {
+      "id": "BARRAGEM-B4-PZ-B26M",
+      "code": "PZ-B26M",
+      "name": "PZ-B26M - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "26",
+      "cotaBoca": 1143.054,
+      "cotaBase": 1142.073,
+      "cotaFundo": 1096.874,
+      "profMax": 48.96,
+      "limiteCritico": 14.904,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1104.42,
+        "attentionElevation": 1120.54,
+        "alertElevation": 1128.15,
+        "emergencyElevation": 1128.15
+      },
+      "coordinates": {
+        "ns": 7778422.778,
+        "ew": 594114.276
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 48.0,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B27F": {
+      "id": "BARRAGEM-B4-PZ-B27F",
+      "code": "PZ-B27F",
+      "name": "PZ-B27F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "26",
+      "cotaBoca": 1123.239,
+      "cotaBase": 1121.734,
+      "cotaFundo": 1088.669,
+      "profMax": 36.3,
+      "limiteCritico": 12.529,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1091.28,
+        "attentionElevation": 1105.04,
+        "alertElevation": 1110.71,
+        "emergencyElevation": 1110.71
+      },
+      "coordinates": {
+        "ns": 7778477.281,
+        "ew": 594102.151
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 32.76,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B28": {
+      "id": "BARRAGEM-B4-PZ-B28",
+      "code": "PZ-B28",
+      "name": "PZ-B28 - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "26",
+      "cotaBoca": 1102.156,
+      "cotaBase": 1101.321,
+      "cotaFundo": 1059.716,
+      "profMax": 42.44,
+      "limiteCritico": 8.126,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1084.28,
+        "attentionElevation": 1091.19,
+        "alertElevation": 1094.03,
+        "emergencyElevation": 1094.03
+      },
+      "coordinates": {
+        "ns": 7778532.51,
+        "ew": 594086.779
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 37.67,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B29": {
+      "id": "BARRAGEM-B4-PZ-B29",
+      "code": "PZ-B29",
+      "name": "PZ-B29 - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "26",
+      "cotaBoca": 1079.967,
+      "cotaBase": 1079.057,
+      "cotaFundo": 1063.958,
+      "profMax": 29.52,
+      "limiteCritico": 0.91,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1079.057,
+        "attentionElevation": 1079.057,
+        "alertElevation": 1079.057,
+        "emergencyElevation": 1079.057
+      },
+      "coordinates": {
+        "ns": 7778593.389,
+        "ew": 594070.228
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 29.11,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B30F": {
+      "id": "BARRAGEM-B4-PZ-B30F",
+      "code": "PZ-B30F",
+      "name": "PZ-B30F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "27",
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 76.0,
+      "limiteCritico": 75.0,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1149.44,
+        "attentionElevation": 1151.38,
+        "alertElevation": 1153.75,
+        "emergencyElevation": 1153.75
+      },
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2025-02-20",
+        "valor": 64.78,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B30M": {
+      "id": "BARRAGEM-B4-PZ-B30M",
+      "code": "PZ-B30M",
+      "name": "PZ-B30M - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "27",
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 23.7,
+      "limiteCritico": 23.7,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 0.0,
+        "attentionElevation": 0.0,
+        "alertElevation": 0.0,
+        "emergencyElevation": 0.0
+      },
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2025-02-20",
+        "valor": 18.25,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B31F": {
+      "id": "BARRAGEM-B4-PZ-B31F",
+      "code": "PZ-B31F",
+      "name": "PZ-B31F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "27",
+      "cotaBoca": 1162.573,
+      "cotaBase": 1161.61,
+      "cotaFundo": 1105.583,
+      "profMax": 58.53,
+      "limiteCritico": 18.283,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1129.05,
+        "attentionElevation": 1136.29,
+        "alertElevation": 1144.29,
+        "emergencyElevation": 1144.29
+      },
+      "coordinates": {
+        "ns": 7778374.133,
+        "ew": 594164.629
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 58.04,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B31M": {
+      "id": "BARRAGEM-B4-PZ-B31M",
+      "code": "PZ-B31M",
+      "name": "PZ-B31M - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "27",
+      "cotaBoca": 1162.442,
+      "cotaBase": 1161.469,
+      "cotaFundo": 1129.532,
+      "profMax": 33.37,
+      "limiteCritico": 16.662,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1129.532,
+        "attentionElevation": 1138.16,
+        "alertElevation": 1145.78,
+        "emergencyElevation": 1145.78
+      },
+      "coordinates": {
+        "ns": 7778374.177,
+        "ew": 594162.805
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 33.12,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B32F": {
+      "id": "BARRAGEM-B4-PZ-B32F",
+      "code": "PZ-B32F",
+      "name": "PZ-B32F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "27",
+      "cotaBoca": 1142.721,
+      "cotaBase": 1141.798,
+      "cotaFundo": 1107.981,
+      "profMax": 35.95,
+      "limiteCritico": 14.471,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1111.07,
+        "attentionElevation": 1121.17,
+        "alertElevation": 1128.25,
+        "emergencyElevation": 1128.25
+      },
+      "coordinates": {
+        "ns": 7778427.877,
+        "ew": 594165.251
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 34.83,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B33F": {
+      "id": "BARRAGEM-B4-PZ-B33F",
+      "code": "PZ-B33F",
+      "name": "PZ-B33F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "27",
+      "cotaBoca": 1123.126,
+      "cotaBase": 1122.341,
+      "cotaFundo": 1101.376,
+      "profMax": 22.43,
+      "limiteCritico": 12.946,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1101.376,
+        "attentionElevation": 1104.23,
+        "alertElevation": 1110.18,
+        "emergencyElevation": 1110.18
+      },
+      "coordinates": {
+        "ns": 7778481.151,
+        "ew": 594162.926
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 20.43,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B34": {
+      "id": "BARRAGEM-B4-PZ-B34",
+      "code": "PZ-B34",
+      "name": "PZ-B34 - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "27",
+      "cotaBoca": 1102.353,
+      "cotaBase": 1101.191,
+      "cotaFundo": 1058.973,
+      "profMax": 42.32,
+      "limiteCritico": 7.383,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1079.92,
+        "attentionElevation": 1089.2,
+        "alertElevation": 1094.97,
+        "emergencyElevation": 1094.97
+      },
+      "coordinates": {
+        "ns": 7778542.077,
+        "ew": 594165.063
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 42.32,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B35": {
+      "id": "BARRAGEM-B4-PZ-B35",
+      "code": "PZ-B35",
+      "name": "PZ-B35 - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "27",
+      "cotaBoca": 1078.693,
+      "cotaBase": 1077.748,
+      "cotaFundo": 1063.093,
+      "profMax": 14.4,
+      "limiteCritico": 0.945,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1077.748,
+        "attentionElevation": 1077.748,
+        "alertElevation": 1077.748,
+        "emergencyElevation": 1077.748
+      },
+      "coordinates": {
+        "ns": 7778608.119,
+        "ew": 594165.649
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 4.08,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B36F": {
+      "id": "BARRAGEM-B4-PZ-B36F",
+      "code": "PZ-B36F",
+      "name": "PZ-B36F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "28",
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 68.1,
+      "limiteCritico": 66.0,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1140.65,
+        "attentionElevation": 1146.97,
+        "alertElevation": 1151.4,
+        "emergencyElevation": 1151.4
+      },
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2025-02-20",
+        "valor": 67.0,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B37F": {
+      "id": "BARRAGEM-B4-PZ-B37F",
+      "code": "PZ-B37F",
+      "name": "PZ-B37F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "28",
+      "cotaBoca": 1153.127,
+      "cotaBase": 1152.172,
+      "cotaFundo": 1087.287,
+      "profMax": 67.56,
+      "limiteCritico": 17.177,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1121.55,
+        "attentionElevation": 1132.46,
+        "alertElevation": 1135.95,
+        "emergencyElevation": 1135.95
+      },
+      "coordinates": {
+        "ns": 7778392.896,
+        "ew": 594207.406
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 66.17,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B38F": {
+      "id": "BARRAGEM-B4-PZ-B38F",
+      "code": "PZ-B38F",
+      "name": "PZ-B38F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "28",
+      "cotaBoca": 1132.916,
+      "cotaBase": 1132.916,
+      "cotaFundo": 1088.046,
+      "profMax": 45.76,
+      "limiteCritico": 15.296,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1101.76,
+        "attentionElevation": 1115.62,
+        "alertElevation": 1117.62,
+        "emergencyElevation": 1117.62
+      },
+      "coordinates": {
+        "ns": 7778449.829,
+        "ew": 594222.112
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 44.94,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B39": {
+      "id": "BARRAGEM-B4-PZ-B39",
+      "code": "PZ-B39",
+      "name": "PZ-B39 - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "28",
+      "cotaBoca": 1112.329,
+      "cotaBase": 1111.44,
+      "cotaFundo": 1086.619,
+      "profMax": 25.71,
+      "limiteCritico": 8.679,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1094.75,
+        "attentionElevation": 1101.31,
+        "alertElevation": 1103.65,
+        "emergencyElevation": 1103.65
+      },
+      "coordinates": {
+        "ns": 7778502.849,
+        "ew": 594239.535
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 25.26,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B40F": {
+      "id": "BARRAGEM-B4-PZ-B40F",
+      "code": "PZ-B40F",
+      "name": "PZ-B40F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "28",
+      "cotaBoca": 1093.286,
+      "cotaBase": 1092.38,
+      "cotaFundo": 1066.396,
+      "profMax": 25.5,
+      "limiteCritico": 1.936,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1087.04,
+        "attentionElevation": 1089.8,
+        "alertElevation": 1091.35,
+        "emergencyElevation": 1091.35
+      },
+      "coordinates": {
+        "ns": 7778555.599,
+        "ew": 594253.775
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 12.7,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B41F": {
+      "id": "BARRAGEM-B4-PZ-B41F",
+      "code": "PZ-B41F",
+      "name": "PZ-B41F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "30+5",
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 55.18,
+      "limiteCritico": 54.0,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1152.38,
+        "attentionElevation": 1153.8,
+        "alertElevation": 1155.44,
+        "emergencyElevation": 1155.44
+      },
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2025-02-20",
+        "valor": 49.01,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B41M": {
+      "id": "BARRAGEM-B4-PZ-B41M",
+      "code": "PZ-B41M",
+      "name": "PZ-B41M - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "30+5",
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 28.73,
+      "limiteCritico": 28.0,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 0.0,
+        "attentionElevation": 0.0,
+        "alertElevation": 0.0,
+        "emergencyElevation": 0.0
+      },
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2025-02-20",
+        "valor": 22.99,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B42F": {
+      "id": "BARRAGEM-B4-PZ-B42F",
+      "code": "PZ-B42F",
+      "name": "PZ-B42F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "30+5",
+      "cotaBoca": 1162.718,
+      "cotaBase": 1161.747,
+      "cotaFundo": 1107.028,
+      "profMax": 56.35,
+      "limiteCritico": 15.278,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1131.62,
+        "attentionElevation": 1138.22,
+        "alertElevation": 1147.44,
+        "emergencyElevation": 1147.44
+      },
+      "coordinates": {
+        "ns": 7778357.39,
+        "ew": 594251.308
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 54.76,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B43F": {
+      "id": "BARRAGEM-B4-PZ-B43F",
+      "code": "PZ-B43F",
+      "name": "PZ-B43F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "30+5",
+      "cotaBoca": 1142.007,
+      "cotaBase": 1141.052,
+      "cotaFundo": 1100.537,
+      "profMax": 40.37,
+      "limiteCritico": 12.147,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1113.27,
+        "attentionElevation": 1122.56,
+        "alertElevation": 1129.86,
+        "emergencyElevation": 1129.86
+      },
+      "coordinates": {
+        "ns": 7778406.628,
+        "ew": 594270.325
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 37.17,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B44F": {
+      "id": "BARRAGEM-B4-PZ-B44F",
+      "code": "PZ-B44F",
+      "name": "PZ-B44F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "30+5",
+      "cotaBoca": 1122.666,
+      "cotaBase": 1121.844,
+      "cotaFundo": 1099.636,
+      "profMax": 23.36,
+      "limiteCritico": 5.836,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1102.58,
+        "attentionElevation": 1112.3,
+        "alertElevation": 1116.83,
+        "emergencyElevation": 1116.83
+      },
+      "coordinates": {
+        "ns": 7778456.463,
+        "ew": 594290.418
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 23.22,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B45": {
+      "id": "BARRAGEM-B4-PZ-B45",
+      "code": "PZ-B45",
+      "name": "PZ-B45 - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "30+5",
+      "cotaBoca": 1104.237,
+      "cotaBase": 1103.315,
+      "cotaFundo": 1094.547,
+      "profMax": 9.69,
+      "limiteCritico": 0.922,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1103.315,
+        "attentionElevation": 1103.315,
+        "alertElevation": 1103.315,
+        "emergencyElevation": 1103.315
+      },
+      "coordinates": {
+        "ns": 7788509.241,
+        "ew": 594308.842
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 8.67,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B46F": {
+      "id": "BARRAGEM-B4-PZ-B46F",
+      "code": "PZ-B46F",
+      "name": "PZ-B46F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "31+15",
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 38.05,
+      "limiteCritico": 35.7,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1142.92,
+        "attentionElevation": 1150.35,
+        "alertElevation": 1152.95,
+        "emergencyElevation": 1152.95
+      },
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2025-02-20",
+        "valor": 37.29,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B47F": {
+      "id": "BARRAGEM-B4-PZ-B47F",
+      "code": "PZ-B47F",
+      "name": "PZ-B47F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "31+15",
+      "cotaBoca": 1153.253,
+      "cotaBase": 1152.334,
+      "cotaFundo": 1111.293,
+      "profMax": 43.53,
+      "limiteCritico": 14.203,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1123.66,
+        "attentionElevation": 1133.83,
+        "alertElevation": 1139.05,
+        "emergencyElevation": 1139.05
+      },
+      "coordinates": {
+        "ns": 7778354.166,
+        "ew": 594309.237
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 43.5,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B48M": {
+      "id": "BARRAGEM-B4-PZ-B48M",
+      "code": "PZ-B48M",
+      "name": "PZ-B48M - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "31+15",
+      "cotaBoca": 1131.6,
+      "cotaBase": 1130.644,
+      "cotaFundo": 1124.09,
+      "profMax": 7.51,
+      "limiteCritico": 6.74,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1124.09,
+        "attentionElevation": 1124.09,
+        "alertElevation": 1124.86,
+        "emergencyElevation": 1124.86
+      },
+      "coordinates": {
+        "ns": 7778403.078,
+        "ew": 594338.344
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 7.51,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B49F": {
+      "id": "BARRAGEM-B4-PZ-B49F",
+      "code": "PZ-B49F",
+      "name": "PZ-B49F - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "31+15",
+      "cotaBoca": 1108.463,
+      "cotaBase": 1107.535,
+      "cotaFundo": 1086.813,
+      "profMax": 21.96,
+      "limiteCritico": 0.928,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1107.535,
+        "attentionElevation": 1107.535,
+        "alertElevation": 1107.535,
+        "emergencyElevation": 1107.535
+      },
+      "coordinates": {
+        "ns": 7778466.004,
+        "ew": 594380.943
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 21.51,
+        "status": "Normal"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-PZ-B52": {
+      "id": "BARRAGEM-B4-PZ-B52",
+      "code": "PZ-B52",
+      "name": "PZ-B52 - Barragem B4",
+      "type": "PZ",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "21+10",
+      "cotaBoca": 1160.41,
+      "cotaBase": 1158.951,
+      "cotaFundo": 1118.71,
+      "profMax": 42.54,
+      "limiteCritico": 1.459,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 1158.951,
+        "attentionElevation": 1158.951,
+        "alertElevation": 1158.951,
+        "emergencyElevation": 1158.951
+      },
+      "coordinates": {
+        "ns": 7778082.109,
+        "ew": 594105.081
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-04-15",
+        "valor": 42.01,
+        "status": "Atencao"
+      },
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-REF-1": {
+      "id": "BARRAGEM-B4-REF-1",
+      "code": "REF-01",
+      "name": "REF-01 - Barragem B4",
+      "type": "REF",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": null,
+      "cotaBoca": 1121.836,
+      "cotaBase": 1121.836,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1121.836,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 0.0,
+        "attentionElevation": 0.0,
+        "alertElevation": 0.0,
+        "emergencyElevation": 0.0
+      },
+      "coordinates": {
+        "ns": 7778469.292,
+        "ew": 593557.673
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-REF-2": {
+      "id": "BARRAGEM-B4-REF-2",
+      "code": "REF-02",
+      "name": "REF-02 - Barragem B4",
+      "type": "REF",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": null,
+      "cotaBoca": 1149.714,
+      "cotaBase": 1149.714,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1149.714,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 0.0,
+        "attentionElevation": 0.0,
+        "alertElevation": 0.0,
+        "emergencyElevation": 0.0
+      },
+      "coordinates": {
+        "ns": 7778624.864,
+        "ew": 593630.406
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-REF-3": {
+      "id": "BARRAGEM-B4-REF-3",
+      "code": "REF-03",
+      "name": "REF-03 - Barragem B4",
+      "type": "REF",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": null,
+      "cotaBoca": 1068.876,
+      "cotaBase": 1068.876,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1068.876,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 0.0,
+        "attentionElevation": 0.0,
+        "alertElevation": 0.0,
+        "emergencyElevation": 0.0
+      },
+      "coordinates": {
+        "ns": 7778950.415,
+        "ew": 594155.606
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-TILT-1": {
+      "id": "BARRAGEM-B4-TILT-1",
+      "code": "TILT-01",
+      "name": "TILT-01 - Barragem B4",
+      "type": "TILT",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "10+10",
+      "cotaBoca": 1163.979,
+      "cotaBase": 1163.979,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1163.979,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 0.0,
+        "attentionElevation": 0.0,
+        "alertElevation": 0.0,
+        "emergencyElevation": 0.0
+      },
+      "coordinates": {
+        "ns": 7778277.124,
+        "ew": 593822.293
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-TILT-2": {
+      "id": "BARRAGEM-B4-TILT-2",
+      "code": "TILT-02",
+      "name": "TILT-02 - Barragem B4",
+      "type": "TILT",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "10+10",
+      "cotaBoca": 1154.539,
+      "cotaBase": 1154.539,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1154.539,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 0.0,
+        "attentionElevation": 0.0,
+        "alertElevation": 0.0,
+        "emergencyElevation": 0.0
+      },
+      "coordinates": {
+        "ns": 7778298.167,
+        "ew": 593806.866
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-TILT-3": {
+      "id": "BARRAGEM-B4-TILT-3",
+      "code": "TILT-03",
+      "name": "TILT-03 - Barragem B4",
+      "type": "TILT",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "10+10",
+      "cotaBoca": 1143.753,
+      "cotaBase": 1143.753,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1143.753,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 0.0,
+        "attentionElevation": 0.0,
+        "alertElevation": 0.0,
+        "emergencyElevation": 0.0
+      },
+      "coordinates": {
+        "ns": 7778324.116,
+        "ew": 593788.316
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-TILT-4": {
+      "id": "BARRAGEM-B4-TILT-4",
+      "code": "TILT-04",
+      "name": "TILT-04 - Barragem B4",
+      "type": "TILT",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "32",
+      "cotaBoca": 1164.219,
+      "cotaBase": 1164.219,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1164.219,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 0.0,
+        "attentionElevation": 0.0,
+        "alertElevation": 0.0,
+        "emergencyElevation": 0.0
+      },
+      "coordinates": {
+        "ns": 7778333.247,
+        "ew": 594289.558
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-TILT-5": {
+      "id": "BARRAGEM-B4-TILT-5",
+      "code": "TILT-05",
+      "name": "TILT-05 - Barragem B4",
+      "type": "TILT",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "32",
+      "cotaBoca": 1143.637,
+      "cotaBase": 1143.637,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1143.637,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 0.0,
+        "attentionElevation": 0.0,
+        "alertElevation": 0.0,
+        "emergencyElevation": 0.0
+      },
+      "coordinates": {
+        "ns": 7778378.938,
+        "ew": 594320.887
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "BARRAGEM-B4-TILT-6": {
+      "id": "BARRAGEM-B4-TILT-6",
+      "code": "TILT-06",
+      "name": "TILT-06 - Barragem B4",
+      "type": "TILT",
+      "structure": "Barragem B4",
+      "structureClass": "Barragem",
+      "sourceGroup": "barragens",
+      "section": "32",
+      "cotaBoca": 1113.509,
+      "cotaBase": 1113.509,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1113.509,
+      "thresholdMode": "elevation",
+      "thresholds": {
+        "normalElevation": 0.0,
+        "attentionElevation": 0.0,
+        "alertElevation": 0.0,
+        "emergencyElevation": 0.0
+      },
+      "coordinates": {
+        "ns": 7778451.05,
+        "ew": 594374.677
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "barragem-b4"
+    },
+    "PDE-1-INA-01": {
+      "id": "PDE-1-INA-01",
+      "code": "INA-01",
+      "name": "INA-01 - PDE 1",
+      "type": "INA",
+      "structure": "PDE 1",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 1135.037,
+      "cotaBase": 1133.906,
+      "cotaFundo": 1086.556,
+      "profMax": 53.09,
+      "limiteCritico": 69.02,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": 7778212.299,
+        "ew": 593083.619
+      },
+      "readingCount": 98,
+      "latestReading": {
+        "data": "2026-05-26",
+        "valor": 48.46,
+        "status": "Normal"
+      },
+      "structureSlug": "pde-1"
+    },
+    "PDE-1-INA-02": {
+      "id": "PDE-1-INA-02",
+      "code": "INA-02",
+      "name": "INA-02 - PDE 1",
+      "type": "INA",
+      "structure": "PDE 1",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 1119.301,
+      "cotaBase": 1118.137,
+      "cotaFundo": 1082.457,
+      "profMax": 49.39,
+      "limiteCritico": 64.21,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": 7778231.476,
+        "ew": 593037.903
+      },
+      "readingCount": 96,
+      "latestReading": {
+        "data": "2026-05-26",
+        "valor": 36.83,
+        "status": "Normal"
+      },
+      "structureSlug": "pde-1"
+    },
+    "PDE-1-INA-03": {
+      "id": "PDE-1-INA-03",
+      "code": "INA-03",
+      "name": "INA-03 - PDE 1",
+      "type": "INA",
+      "structure": "PDE 1",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 1094.757,
+      "cotaBase": 1094.27,
+      "cotaFundo": 1068.39,
+      "profMax": 37.69,
+      "limiteCritico": 49.0,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": 7778258.489,
+        "ew": 592980.944
+      },
+      "readingCount": 95,
+      "latestReading": {
+        "data": "2026-05-26",
+        "valor": 26.36,
+        "status": "Normal"
+      },
+      "structureSlug": "pde-1"
+    },
+    "PDE-1-INA-07": {
+      "id": "PDE-1-INA-07",
+      "code": "INA-07",
+      "name": "INA-07 - PDE 1",
+      "type": "INA",
+      "structure": "PDE 1",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 1130.118,
+      "cotaBase": 1128.998,
+      "cotaFundo": 1081.368,
+      "profMax": 48.38,
+      "limiteCritico": 62.89,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": 7778107.626,
+        "ew": 592932.379
+      },
+      "readingCount": 99,
+      "latestReading": {
+        "data": "2026-05-26",
+        "valor": 46.03,
+        "status": "Normal"
+      },
+      "structureSlug": "pde-1"
+    },
+    "PDE-1-INA-08": {
+      "id": "PDE-1-INA-08",
+      "code": "INA-08",
+      "name": "INA-08 - PDE 1",
+      "type": "INA",
+      "structure": "PDE 1",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 1115.386,
+      "cotaBase": 1114.192,
+      "cotaFundo": 1078.212,
+      "profMax": 47.74,
+      "limiteCritico": 62.06,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": 7778146.694,
+        "ew": 592917.037
+      },
+      "readingCount": 97,
+      "latestReading": {
+        "data": "2026-05-26",
+        "valor": 37.11,
+        "status": "Normal"
+      },
+      "structureSlug": "pde-1"
+    },
+    "PDE-1-INA-09": {
+      "id": "PDE-1-INA-09",
+      "code": "INA-09",
+      "name": "INA-09 - PDE 1",
+      "type": "INA",
+      "structure": "PDE 1",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 1092.866,
+      "cotaBase": 1091.722,
+      "cotaFundo": 1066.552,
+      "profMax": 37.9,
+      "limiteCritico": 49.27,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": 7778203.82,
+        "ew": 592894.783
+      },
+      "readingCount": 95,
+      "latestReading": {
+        "data": "2026-05-26",
+        "valor": 26.32,
+        "status": "Atencao"
+      },
+      "structureSlug": "pde-1"
+    },
+    "PDE-1-PZ-01": {
+      "id": "PDE-1-PZ-01",
+      "code": "PZ-01",
+      "name": "PZ-01 - PDE 1",
+      "type": "PZ",
+      "structure": "PDE 1",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 1135.071,
+      "cotaBase": 1133.931,
+      "cotaFundo": 1087.771,
+      "profMax": 47.32,
+      "limiteCritico": 61.52,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": 7778213.013,
+        "ew": 593084.844
+      },
+      "readingCount": 99,
+      "latestReading": {
+        "data": "2026-05-26",
+        "valor": 47.3,
+        "status": "Normal"
+      },
+      "structureSlug": "pde-1"
+    },
+    "PDE-1-PZ-04": {
+      "id": "PDE-1-PZ-04",
+      "code": "PZ-04",
+      "name": "PZ-04 - PDE 1",
+      "type": "PZ",
+      "structure": "PDE 1",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 1132.03,
+      "cotaBase": 1130.87,
+      "cotaFundo": 1077.7,
+      "profMax": 55.51,
+      "limiteCritico": 72.16,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": 7778156.805,
+        "ew": 593015.028
+      },
+      "readingCount": 99,
+      "latestReading": {
+        "data": "2026-05-26",
+        "valor": 54.34,
+        "status": "Normal"
+      },
+      "structureSlug": "pde-1"
+    },
+    "PDE-1-PZ-05": {
+      "id": "PDE-1-PZ-05",
+      "code": "PZ-05",
+      "name": "PZ-05 - PDE 1",
+      "type": "PZ",
+      "structure": "PDE 1",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 1104.789,
+      "cotaBase": 1103.72,
+      "cotaFundo": 1072.57,
+      "profMax": 55.51,
+      "limiteCritico": 72.16,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": 7778204.518,
+        "ew": 592964.68
+      },
+      "readingCount": 94,
+      "latestReading": {
+        "data": "2026-05-26",
+        "valor": 32.19,
+        "status": "Normal"
+      },
+      "structureSlug": "pde-1"
+    },
+    "PDE-1-PZ-06": {
+      "id": "PDE-1-PZ-06",
+      "code": "PZ-06",
+      "name": "PZ-06 - PDE 1",
+      "type": "PZ",
+      "structure": "PDE 1",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 1081.758,
+      "cotaBase": 1080.596,
+      "cotaFundo": 1063.046,
+      "profMax": 32.69,
+      "limiteCritico": 42.5,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": 7778241.281,
+        "ew": 592927.0
+      },
+      "readingCount": 95,
+      "latestReading": {
+        "data": "2026-05-26",
+        "valor": 18.74,
+        "status": "Normal"
+      },
+      "structureSlug": "pde-1"
+    },
+    "PDE-JACO-INA-01": {
+      "id": "PDE-JACO-INA-01",
+      "code": "INA-01",
+      "name": "INA-01 - PDE Jacó",
+      "type": "INA",
+      "structure": "PDE Jacó",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 69.69,
+      "limiteCritico": 90.6,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": 7776937.0,
+        "ew": 594407.0
+      },
+      "readingCount": 11,
+      "latestReading": {
+        "data": "2026-05-12",
+        "valor": 68.55,
+        "status": "Normal"
+      },
+      "structureSlug": "pde-jaco"
+    },
+    "PDE-JACO-MV-01": {
+      "id": "PDE-JACO-MV-01",
+      "code": "MV-01",
+      "name": "MV-01 - PDE Jacó",
+      "type": "MV",
+      "structure": "PDE Jacó",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1.3,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": 7776928.0,
+        "ew": 594800.0
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "pde-jaco"
+    },
+    "PDE-JACO-PZ-02": {
+      "id": "PDE-JACO-PZ-02",
+      "code": "PZ-02",
+      "name": "PZ-02 - PDE Jacó",
+      "type": "PZ",
+      "structure": "PDE Jacó",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 69.0,
+      "limiteCritico": 89.7,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": 7776748.0,
+        "ew": 594610.0
+      },
+      "readingCount": 11,
+      "latestReading": {
+        "data": "2026-05-12",
+        "valor": 46.03,
+        "status": "Normal"
+      },
+      "structureSlug": "pde-jaco"
+    },
+    "PDE-MANGABA-INA-01": {
+      "id": "PDE-MANGABA-INA-01",
+      "code": "INA-01",
+      "name": "INA-01 - PDE Mangaba",
+      "type": "INA",
+      "structure": "PDE Mangaba",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 42.38,
+      "limiteCritico": 55.09,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": 594901.382,
+        "ew": 7778265.758
+      },
+      "readingCount": 4,
+      "latestReading": {
+        "data": "2026-05-19",
+        "valor": 42.37,
+        "status": "Normal"
+      },
+      "structureSlug": "pde-mangaba"
+    },
+    "PDE-MANGABA-PZ-01": {
+      "id": "PDE-MANGABA-PZ-01",
+      "code": "PZ-01",
+      "name": "PZ-01 - PDE Mangaba",
+      "type": "PZ",
+      "structure": "PDE Mangaba",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1.3,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "pde-mangaba"
+    },
+    "PDE-MANGABA-PZ-02": {
+      "id": "PDE-MANGABA-PZ-02",
+      "code": "PZ-02",
+      "name": "PZ-02 - PDE Mangaba",
+      "type": "PZ",
+      "structure": "PDE Mangaba",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1.3,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "pde-mangaba"
+    },
+    "PDE-MANGABA-PZ-03": {
+      "id": "PDE-MANGABA-PZ-03",
+      "code": "PZ-03",
+      "name": "PZ-03 - PDE Mangaba",
+      "type": "PZ",
+      "structure": "PDE Mangaba",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 21.13,
+      "limiteCritico": 27.47,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": 594780.155,
+        "ew": 7778470.929
+      },
+      "readingCount": 9,
+      "latestReading": {
+        "data": "2026-05-18",
+        "valor": 19.47,
+        "status": "Atencao"
+      },
+      "structureSlug": "pde-mangaba"
+    },
+    "PILHA-B2-MV-01": {
+      "id": "PILHA-B2-MV-01",
+      "code": "MV-01",
+      "name": "MV-01 - PILHA B2",
+      "type": "MV",
+      "structure": "PILHA B2",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 0,
+      "cotaBase": null,
+      "cotaFundo": null,
+      "profMax": 0,
+      "limiteCritico": 1,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "pilha-b2"
+    },
+    "PILHA-B2-PZ-01": {
+      "id": "PILHA-B2-PZ-01",
+      "code": "PZ-01",
+      "name": "PZ-01 - PILHA B2",
+      "type": "PZ",
+      "structure": "PILHA B2",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 943.422,
+      "cotaBase": 934.26,
+      "cotaFundo": 921.29,
+      "profMax": 14.12,
+      "limiteCritico": 18.36,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": 7779464.442,
+        "ew": 592719.452
+      },
+      "readingCount": 37,
+      "latestReading": {
+        "data": "2026-05-26",
+        "valor": 12.96,
+        "status": "Normal"
+      },
+      "structureSlug": "pilha-b2"
+    },
+    "PILHA-B2-PZ-02": {
+      "id": "PILHA-B2-PZ-02",
+      "code": "PZ-02",
+      "name": "PZ-02 - PILHA B2",
+      "type": "PZ",
+      "structure": "PILHA B2",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 958.867,
+      "cotaBase": 940.33,
+      "cotaFundo": 926.79,
+      "profMax": 30.06,
+      "limiteCritico": 39.08,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": 7779427.875,
+        "ew": 592753.219
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-01-26",
+        "valor": 0.0,
+        "status": "Normal"
+      },
+      "structureSlug": "pilha-b2"
+    },
+    "PILHA-B2-PZ-04": {
+      "id": "PILHA-B2-PZ-04",
+      "code": "PZ-04",
+      "name": "PZ-04 - PILHA B2",
+      "type": "PZ",
+      "structure": "PILHA B2",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 989.325,
+      "cotaBase": 977.87,
+      "cotaFundo": 963.46,
+      "profMax": 24.86,
+      "limiteCritico": 32.32,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": 7779325.147,
+        "ew": 592868.513
+      },
+      "readingCount": 35,
+      "latestReading": {
+        "data": "2026-01-26",
+        "valor": 0.0,
+        "status": "Normal"
+      },
+      "structureSlug": "pilha-b2"
+    },
+    "PILHA-B2-PZ-05": {
+      "id": "PILHA-B2-PZ-05",
+      "code": "PZ-05",
+      "name": "PZ-05 - PILHA B2",
+      "type": "PZ",
+      "structure": "PILHA B2",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 967.06,
+      "cotaBase": 965.8,
+      "cotaFundo": 951.31,
+      "profMax": 14.49,
+      "limiteCritico": 18.84,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": 7779256.025,
+        "ew": null
+      },
+      "readingCount": 0,
+      "latestReading": null,
+      "structureSlug": "pilha-b2"
+    },
+    "PILHA-B2-PZ-06": {
+      "id": "PILHA-B2-PZ-06",
+      "code": "PZ-06",
+      "name": "PZ-06 - PILHA B2",
+      "type": "PZ",
+      "structure": "PILHA B2",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 995.177,
+      "cotaBase": 995.177,
+      "cotaFundo": 965.39,
+      "profMax": 26.99,
+      "limiteCritico": 35.09,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": 7779319.579,
+        "ew": 593005.72
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-01-26",
+        "valor": 20.69,
+        "status": "Atencao"
+      },
+      "structureSlug": "pilha-b2"
+    },
+    "PILHA-B2-PZ-07": {
+      "id": "PILHA-B2-PZ-07",
+      "code": "PZ-07",
+      "name": "PZ-07 - PILHA B2",
+      "type": "PZ",
+      "structure": "PILHA B2",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 994.13,
+      "cotaBase": 968.56,
+      "cotaFundo": 953.16,
+      "profMax": 31.55,
+      "limiteCritico": 41.02,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": 7779280.146,
+        "ew": 593036.955
+      },
+      "readingCount": 34,
+      "latestReading": {
+        "data": "2026-01-26",
+        "valor": 0.0,
+        "status": "Normal"
+      },
+      "structureSlug": "pilha-b2"
+    },
+    "PILHA-B2-PZ-08": {
+      "id": "PILHA-B2-PZ-08",
+      "code": "PZ-08",
+      "name": "PZ-08 - PILHA B2",
+      "type": "PZ",
+      "structure": "PILHA B2",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 984.9,
+      "cotaBase": 968.55,
+      "cotaFundo": 953.34,
+      "profMax": 31.56,
+      "limiteCritico": 41.03,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": null,
+        "ew": null
+      },
+      "readingCount": 25,
+      "latestReading": {
+        "data": "2025-07-21",
+        "valor": 0.0,
+        "status": "Normal"
+      },
+      "structureSlug": "pilha-b2"
+    },
+    "PILHA-B2-PZ-09": {
+      "id": "PILHA-B2-PZ-09",
+      "code": "PZ-09",
+      "name": "PZ-09 - PILHA B2",
+      "type": "PZ",
+      "structure": "PILHA B2",
+      "structureClass": null,
+      "sourceGroup": null,
+      "section": null,
+      "cotaBoca": 973.166,
+      "cotaBase": 950.69,
+      "cotaFundo": 936.19,
+      "profMax": 14.5,
+      "limiteCritico": 18.85,
+      "thresholdMode": null,
+      "thresholds": {},
+      "coordinates": {
+        "ns": 7779280.146,
+        "ew": 592753.361
+      },
+      "readingCount": 36,
+      "latestReading": {
+        "data": "2026-01-26",
+        "valor": 0.0,
+        "status": "Atencao"
+      },
+      "structureSlug": "pilha-b2"
+    }
+  }
+}
