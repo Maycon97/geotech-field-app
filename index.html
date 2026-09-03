@@ -261,7 +261,7 @@
                                 <input type="file" id="earth-kml-input" class="sr-only-file" accept=".kml,.kmz,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz">
                                 <div class="earth-map-toolbar">
                                     <div class="form-group">
-                                        <label for="earth-structure-select">Estrutura</label>
+                                        <label for="earth-structure-select">Estrutura Selecionada</label>
                                         <select id="earth-structure-select" class="form-control form-control-sm" onchange="setEarthMapStructure(this.value)"></select>
                                     </div>
                                     <button type="button" class="btn btn-secondary" onclick="openEarthKmlPicker()">
@@ -271,6 +271,7 @@
                                         <i class="fa-solid fa-earth-americas"></i> Abrir no Google Earth
                                     </button>
                                 </div>
+                                <div class="earth-structure-chips" id="earth-structure-chips" aria-label="Navegação rápida de estruturas"></div>
                                 <div class="earth-coordinate-editor" id="earth-coordinate-editor">
                                     <div class="earth-coordinate-heading">
                                         <div>
@@ -1811,10 +1812,10 @@
     </div>
 
     <!-- Script Injection -->
-    <script src="data/geosync-database.js?v=georef-dynamic-20260903c"></script>
-    <script src="data/geoview-catalog.js?v=georef-dynamic-20260903c"></script>
-    <script src="data/geoview-operational.js?v=georef-dynamic-20260903c"></script>
-    <script src="data/google-earth-geospatial.js?v=georef-dynamic-20260903c"></script>
-    <script src="app.js?v=georef-dynamic-20260903c"></script>
+    <script src="data/geosync-database.js?v=flyto-transitional-20260903d"></script>
+    <script src="data/geoview-catalog.js?v=flyto-transitional-20260903d"></script>
+    <script src="data/geoview-operational.js?v=flyto-transitional-20260903d"></script>
+    <script src="data/google-earth-geospatial.js?v=flyto-transitional-20260903d"></script>
+    <script src="app.js?v=flyto-transitional-20260903d"></script>
 </body>
 </html>

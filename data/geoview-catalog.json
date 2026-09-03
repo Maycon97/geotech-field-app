@@ -1,15 +1,15 @@
 {
   "version": "2026-09-02-pcmi-live",
   "sourcePath": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI",
-  "generatedAt": "2026-09-03T08:57:42.702408",
+  "generatedAt": "2026-09-03T11:25:12.522777",
   "summary": {
     "totalDashboards": 52,
     "totalPowerBi": 54,
-    "totalExcel": 3562,
+    "totalExcel": 3567,
     "totalImages": 30859,
-    "totalPdfs": 6694,
+    "totalPdfs": 6696,
     "totalDocs": 700,
-    "totalFiles": 44509
+    "totalFiles": 44516
   },
   "dashboards": [
     {
@@ -26,7 +26,7 @@
       "pdfs": 0,
       "docs": 0,
       "totalFiles": 3,
-      "lastUpdated": "2026-09-02T16:40:36"
+      "lastUpdated": "2026-09-03T09:57:28"
     },
     {
       "id": "00-gest-o-vista-01-sumps",
@@ -58,7 +58,7 @@
       "pdfs": 0,
       "docs": 0,
       "totalFiles": 6,
-      "lastUpdated": "2026-09-03T08:49:32"
+      "lastUpdated": "2026-09-03T11:08:46"
     },
     {
       "id": "00-gest-o-vista-03-cmi",
@@ -74,7 +74,7 @@
       "pdfs": 0,
       "docs": 1,
       "totalFiles": 37,
-      "lastUpdated": "2026-09-03T06:55:43"
+      "lastUpdated": "2026-09-03T11:23:48"
     },
     {
       "id": "00-gest-o-vista-04-chamados",
@@ -202,7 +202,7 @@
       "pdfs": 1,
       "docs": 1,
       "totalFiles": 9,
-      "lastUpdated": "2026-09-01T09:21:11"
+      "lastUpdated": "2026-09-03T11:24:43"
     },
     {
       "id": "02-monitoramentos-001-barragens",
@@ -226,7 +226,7 @@
       "title": "Cavas",
       "area": "Monitoramento Geotécnico",
       "description": "Dados e indicadores de Cavas vinculados a pasta 02) Monitoramentos.",
-      "content": "RIG-TAAN-011-2022-R0.xlsx, RIG-CVCA-001-2022-R0.xlsx, BancodeDados_Cava.xlsx, FIR JGD 07-10-2025.pdf",
+      "content": "RIG-TAAN-011-2022-R0.xlsx, RIG-CVCA-001-2022-R0.xlsx, RIG-COCA-004-2022-R0.xlsx, BancodeDados_Cava.xlsx",
       "path": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI/02) Monitoramentos/002) Cavas",
       "powerbi": 0,
       "excel": 7,
@@ -293,12 +293,12 @@
       "content": "RIG-DQB2-005-2022-R0.xlsx, RIG-DQCP-005-2022-R0.xlsx, RIG-ENB4-009-2022-R0.xlsx, RIG-PDEII-008-2022-R0.xlsx",
       "path": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI/02) Monitoramentos/006) Pilhas",
       "powerbi": 0,
-      "excel": 44,
+      "excel": 49,
       "images": 10454,
-      "pdfs": 95,
+      "pdfs": 97,
       "docs": 17,
-      "totalFiles": 10729,
-      "lastUpdated": "2026-09-02T10:07:50"
+      "totalFiles": 10736,
+      "lastUpdated": "2026-09-03T11:17:15"
     },
     {
       "id": "02-monitoramentos-007-sumps",
@@ -378,7 +378,7 @@
       "pdfs": 0,
       "docs": 0,
       "totalFiles": 6,
-      "lastUpdated": "2026-08-31T15:27:57"
+      "lastUpdated": "2026-09-03T09:40:38"
     },
     {
       "id": "02-monitoramentos-fotos-organizar",

@@ -1899,6 +1899,10 @@ function setEarthMapStructure(structure) {
     const isOverview = structure === "Toda a Mina (Visão Geral)" || structure === "all";
     const canonical = isOverview ? "Toda a Mina (Visão Geral)" : getCanonicalStructureName(structure);
     geoSpatialState.selectedStructure = canonical;
+
+    const select = document.getElementById("earth-structure-select");
+    if (select && select.value !== canonical) select.value = canonical;
+
     if (!isOverview) {
         pilhasIndicatorFilters.structure = canonical;
         pilhasIndicatorFilters.instrumentId = null;
@@ -1910,7 +1914,11 @@ function setEarthMapStructure(structure) {
     earthMapView.focusedInstrumentId = null;
     saveGeospatialState();
     renderEarthMapPanel();
+    renderEarthStructureChips();
     if (document.getElementById("pilhas-bi-dashboard") && !isOverview) renderPilhasIndicatorDashboard();
+
+    // Trigger smooth fly-to transition
+    transitionCameraToStructure(canonical);
 }
 
 function getEarthCoordinateEditorValues() {
@@ -2091,40 +2099,212 @@ async function copyEarthStructureCoordinate() {
     }
 }
 
-function applyEarthMapView(targetX = null, targetY = null, targetZoom = null) {
-    const viewport = document.getElementById("earth-map-viewport");
-    if (!viewport) return;
-    if (targetZoom !== null) earthMapView.zoom = targetZoom;
-    if (targetX !== null) earthMapView.centerX = targetX;
-    if (targetY !== null) earthMapView.centerY = targetY;
+let mapCamera = {
+    current: { x: 0, y: 0, w: 800, h: 400 },
+    target: { x: 0, y: 0, w: 800, h: 400 },
+    start: { x: 0, y: 0, w: 800, h: 400 },
+    animating: false,
+    startTime: 0,
+    duration: 500,
+    isDragging: false,
+    dragStartX: 0,
+    dragStartY: 0,
+    cameraStartX: 0,
+    cameraStartY: 0
+};
 
-    const cx = earthMapView.centerX ?? 400;
-    const cy = earthMapView.centerY ?? 200;
-    const zoom = Math.max(1, Math.min(4, Number(earthMapView.zoom) || 1));
+function easeOutCubic(t) {
+    return 1 - Math.pow(1 - t, 3);
+}
 
-    const tx = 400 - cx * zoom;
-    const ty = 200 - cy * zoom;
+function flyToMapViewBox(targetX, targetY, targetW, targetH, duration = 500) {
+    const svg = document.getElementById("dam-map");
+    if (!svg) return;
 
-    viewport.style.transition = "transform 500ms cubic-bezier(0.2, 0.9, 0.3, 1)";
-    viewport.setAttribute("transform", `translate(${tx.toFixed(1)} ${ty.toFixed(1)}) scale(${zoom.toFixed(2)})`);
-    document.getElementById("dam-map")?.classList.toggle("earth-hide-kml", !earthMapView.layersVisible);
+    targetW = Math.max(120, Math.min(800, targetW));
+    targetH = targetW / 2;
+    targetX = Math.max(-50, Math.min(850 - targetW, targetX));
+    targetY = Math.max(-50, Math.min(450 - targetH, targetY));
+
+    mapCamera.start = { ...mapCamera.current };
+    mapCamera.target = { x: targetX, y: targetY, w: targetW, h: targetH };
+    mapCamera.startTime = performance.now();
+    mapCamera.duration = duration;
+
+    if (!mapCamera.animating) {
+        mapCamera.animating = true;
+        requestAnimationFrame(stepMapCameraAnimation);
+    }
+}
+
+function stepMapCameraAnimation(now) {
+    const elapsed = now - mapCamera.startTime;
+    const progress = Math.min(1, elapsed / mapCamera.duration);
+    const ease = easeOutCubic(progress);
+
+    mapCamera.current.x = mapCamera.start.x + (mapCamera.target.x - mapCamera.start.x) * ease;
+    mapCamera.current.y = mapCamera.start.y + (mapCamera.target.y - mapCamera.start.y) * ease;
+    mapCamera.current.w = mapCamera.start.w + (mapCamera.target.w - mapCamera.start.w) * ease;
+    mapCamera.current.h = mapCamera.start.h + (mapCamera.target.h - mapCamera.start.h) * ease;
+
+    const svg = document.getElementById("dam-map");
+    if (svg) {
+        svg.setAttribute("viewBox", `${mapCamera.current.x.toFixed(2)} ${mapCamera.current.y.toFixed(2)} ${mapCamera.current.w.toFixed(2)} ${mapCamera.current.h.toFixed(2)}`);
+    }
+
+    if (progress < 1) {
+        requestAnimationFrame(stepMapCameraAnimation);
+    } else {
+        mapCamera.animating = false;
+    }
+}
+
+function initInteractiveMapPanZoom() {
+    const stage = document.querySelector(".earth-map-stage");
+    const svg = document.getElementById("dam-map");
+    if (!stage || !svg || stage.dataset.panInitialized === "true") return;
+    stage.dataset.panInitialized = "true";
+
+    // Mouse Drag Panning
+    stage.addEventListener("mousedown", e => {
+        if (e.target.closest("button") || e.target.closest(".map-pin") || e.target.closest(".earth-structure-reference-pin")) return;
+        mapCamera.isDragging = true;
+        mapCamera.dragStartX = e.clientX;
+        mapCamera.dragStartY = e.clientY;
+        mapCamera.cameraStartX = mapCamera.current.x;
+        mapCamera.cameraStartY = mapCamera.current.y;
+        stage.classList.add("is-dragging");
+    });
+
+    window.addEventListener("mousemove", e => {
+        if (!mapCamera.isDragging) return;
+        const rect = svg.getBoundingClientRect();
+        const scaleX = mapCamera.current.w / (rect.width || 800);
+        const scaleY = mapCamera.current.h / (rect.height || 400);
+        const dx = (e.clientX - mapCamera.dragStartX) * scaleX;
+        const dy = (e.clientY - mapCamera.dragStartY) * scaleY;
+
+        mapCamera.current.x = mapCamera.cameraStartX - dx;
+        mapCamera.current.y = mapCamera.cameraStartY - dy;
+        mapCamera.target.x = mapCamera.current.x;
+        mapCamera.target.y = mapCamera.current.y;
+        svg.setAttribute("viewBox", `${mapCamera.current.x.toFixed(2)} ${mapCamera.current.y.toFixed(2)} ${mapCamera.current.w.toFixed(2)} ${mapCamera.current.h.toFixed(2)}`);
+    });
+
+    window.addEventListener("mouseup", () => {
+        if (mapCamera.isDragging) {
+            mapCamera.isDragging = false;
+            stage.classList.remove("is-dragging");
+        }
+    });
+
+    // Touch Drag Panning
+    stage.addEventListener("touchstart", e => {
+        if (e.touches.length === 1) {
+            const touch = e.touches[0];
+            mapCamera.isDragging = true;
+            mapCamera.dragStartX = touch.clientX;
+            mapCamera.dragStartY = touch.clientY;
+            mapCamera.cameraStartX = mapCamera.current.x;
+            mapCamera.cameraStartY = mapCamera.current.y;
+        }
+    }, { passive: true });
+
+    stage.addEventListener("touchmove", e => {
+        if (!mapCamera.isDragging || e.touches.length !== 1) return;
+        const touch = e.touches[0];
+        const rect = svg.getBoundingClientRect();
+        const scaleX = mapCamera.current.w / (rect.width || 800);
+        const scaleY = mapCamera.current.h / (rect.height || 400);
+        const dx = (touch.clientX - mapCamera.dragStartX) * scaleX;
+        const dy = (touch.clientY - mapCamera.dragStartY) * scaleY;
+
+        mapCamera.current.x = mapCamera.cameraStartX - dx;
+        mapCamera.current.y = mapCamera.cameraStartY - dy;
+        svg.setAttribute("viewBox", `${mapCamera.current.x.toFixed(2)} ${mapCamera.current.y.toFixed(2)} ${mapCamera.current.w.toFixed(2)} ${mapCamera.current.h.toFixed(2)}`);
+    }, { passive: true });
+
+    stage.addEventListener("touchend", () => {
+        mapCamera.isDragging = false;
+    });
+
+    // Wheel Zoom
+    stage.addEventListener("wheel", e => {
+        e.preventDefault();
+        const rect = svg.getBoundingClientRect();
+        const mouseSvgX = mapCamera.current.x + ((e.clientX - rect.left) / (rect.width || 800)) * mapCamera.current.w;
+        const mouseSvgY = mapCamera.current.y + ((e.clientY - rect.top) / (rect.height || 400)) * mapCamera.current.h;
+
+        const zoomFactor = e.deltaY < 0 ? 0.80 : 1.25;
+        const newW = Math.max(120, Math.min(800, mapCamera.current.w * zoomFactor));
+        const newH = newW / 2;
+
+        const newX = mouseSvgX - ((e.clientX - rect.left) / (rect.width || 800)) * newW;
+        const newY = mouseSvgY - ((e.clientY - rect.top) / (rect.height || 400)) * newH;
+
+        flyToMapViewBox(newX, newY, newW, newH, 200);
+    }, { passive: false });
+}
+
+function renderEarthStructureChips() {
+    const container = document.getElementById("earth-structure-chips");
+    if (!container) return;
+    const structures = ["Toda a Mina (Visão Geral)", ...getGeospatialStructureList()];
+    const current = geoSpatialState.selectedStructure || structures[0];
+
+    container.innerHTML = structures.map(name => {
+        const isOverview = name === "Toda a Mina (Visão Geral)";
+        const isActive = normalizeComparable(name) === normalizeComparable(current);
+        const icon = isOverview ? "fa-globe" : "fa-layer-group";
+        return `
+            <button type="button" class="structure-chip ${isActive ? "active" : ""}" onclick="setEarthMapStructure('${escapeHtml(name)}')">
+                <i class="fa-solid ${icon}"></i> ${escapeHtml(name)}
+            </button>
+        `;
+    }).join("");
+}
+
+function transitionCameraToStructure(structure) {
+    const isOverview = structure === "Toda a Mina (Visão Geral)" || structure === "all";
+    if (isOverview) {
+        flyToMapViewBox(0, 0, 800, 400, 520);
+        return;
+    }
+
+    const projection = getMasterEarthProjection();
+    const coord = getPreferredStructureCoordinate(structure);
+    if (coord) {
+        const p = projection(coord);
+        flyToMapViewBox(p.x - 140, p.y - 70, 280, 140, 500);
+        return;
+    }
+
+    const instruments = getEarthStructureInstruments(structure);
+    const valid = instruments.map(inst => getInstrumentLatLon(inst)).filter(Boolean);
+    if (valid.length) {
+        const p = projection(valid[0]);
+        flyToMapViewBox(p.x - 140, p.y - 70, 280, 140, 500);
+    } else {
+        flyToMapViewBox(0, 0, 800, 400, 500);
+    }
 }
 
 function setEarthMapZoom(direction) {
-    earthMapView.zoom = Math.max(1, Math.min(4, (Number(earthMapView.zoom) || 1) + Number(direction) * 0.35));
-    applyEarthMapView();
+    const factor = direction > 0 ? 0.70 : 1.40;
+    const newW = Math.max(120, Math.min(800, mapCamera.current.w * factor));
+    const newH = newW / 2;
+    const cx = mapCamera.current.x + mapCamera.current.w / 2;
+    const cy = mapCamera.current.y + mapCamera.current.h / 2;
+    flyToMapViewBox(cx - newW / 2, cy - newH / 2, newW, newH, 350);
 }
 
 function resetEarthMapView(apply = true) {
-    earthMapView.zoom = 1;
-    earthMapView.centerX = 400;
-    earthMapView.centerY = 200;
-    if (apply) applyEarthMapView();
+    flyToMapViewBox(0, 0, 800, 400, 500);
 }
 
 function toggleEarthMapLayers() {
     earthMapView.layersVisible = !earthMapView.layersVisible;
-    applyEarthMapView();
+    document.getElementById("dam-map")?.classList.toggle("earth-hide-kml", !earthMapView.layersVisible);
 }
 
 function openEarthKmlPicker() {
@@ -2624,19 +2804,8 @@ function renderEarthMapPanel() {
     setTextContent("earth-map-status", sourceText);
 
     renderEarthAnomalyPanel(isOverview ? (getGeospatialStructureList()[0] || "PDE 1") : structure, earthMapView.focusedInstrumentId);
-
-    // Dynamic Camera Transition
-    if (isOverview) {
-        applyEarthMapView(400, 200, 1.0);
-    } else if (structureCoordinate) {
-        const p = projection(structureCoordinate);
-        applyEarthMapView(p.x, p.y, 2.5);
-    } else if (instrumentPoints.length) {
-        const p = projection(instrumentPoints[0].latLon);
-        applyEarthMapView(p.x, p.y, 2.5);
-    } else {
-        applyEarthMapView(400, 200, 1.0);
-    }
+    renderEarthStructureChips();
+    initInteractiveMapPanZoom();
 }
 
 function populateMapPins() {
@@ -2669,6 +2838,7 @@ function switchTab(tabId) {
         subEl.textContent = "Rotinas, coletas, alertas e sincronização em uma central de campo.";
         updateDashboardKPIs();
         renderEarthMapPanel();
+        transitionCameraToStructure(geoSpatialState.selectedStructure || "Toda a Mina (Visão Geral)");
     } else if (tabId === 'readings') {
         titleEl.textContent = "Coletas";
         subEl.textContent = "Fluxo guiado para leituras de instrumentos com evidências digitais.";
@@ -7492,6 +7662,7 @@ function bootApplication() {
     populateInspectionStructures();
     populateAnalyticsFilters();
     populateMapPins();
+    transitionCameraToStructure(geoSpatialState.selectedStructure || "Toda a Mina (Visão Geral)");
     renderSurveyAnomalies();
     initializeVehicleChecklist();
     initializeInspectionSchedule();
