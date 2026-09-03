@@ -1768,12 +1768,90 @@ body.android-shell .apk-hidden {
 
 #earth-map-viewport {
     transform-origin: 400px 200px;
-    transition: transform 180ms ease;
+    transition: transform 500ms cubic-bezier(0.2, 0.9, 0.3, 1);
+    will-change: transform;
+}
+
+@keyframes radarPulse {
+    0% {
+        r: 12;
+        opacity: 0.85;
+        stroke-width: 2;
+    }
+    50% {
+        r: 28;
+        opacity: 0.35;
+        stroke-width: 1.5;
+    }
+    100% {
+        r: 44;
+        opacity: 0;
+        stroke-width: 0.5;
+    }
+}
+
+.structure-radar-pulse {
+    fill: none;
+    stroke: #38bdf8;
+    animation: radarPulse 1.8s infinite ease-out;
+    pointer-events: none;
+}
+
+.earth-structure-reference-pin {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.earth-structure-reference-pin:hover .structure-reference-halo {
+    fill: rgba(56, 189, 248, 0.45);
+    stroke-width: 3px;
+}
+
+.structure-reference-halo {
+    fill: rgba(56, 189, 248, 0.22);
+    stroke: #0284c7;
+    stroke-width: 2px;
+}
+
+.structure-reference-core {
+    fill: #38bdf8;
+    stroke: #ffffff;
+    stroke-width: 2px;
+}
+
+.structure-reference-tag {
+    font-size: 11px;
+    font-weight: 800;
+    fill: #ffffff;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+    text-anchor: middle;
+    pointer-events: none;
+}
+
+.gps-live-marker .gps-pulse {
+    fill: none;
+    stroke: #22c55e;
+    animation: radarPulse 1.5s infinite ease-out;
+}
+
+.gps-live-marker .gps-core {
+    fill: #22c55e;
+    stroke: #ffffff;
+    stroke-width: 2.5px;
 }
 
 .earth-hide-kml #earth-kml-layer,
 .earth-hide-kml #earth-overlay-layer {
     display: none;
+}
+
+.map-pin {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.map-pin:hover {
+    filter: brightness(1.25);
 }
 
 .map-pin.is-focused .pin-core {

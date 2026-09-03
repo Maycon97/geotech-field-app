@@ -63,7 +63,7 @@ const GOOGLE_EARTH_GEOTEC = window.MDSYNC_GOOGLE_EARTH_GEOTEC || {
 let readingPhotoEvidence = null;
 let geoViewState = { importedFiles: [], dashboardFiles: {}, maps: {} };
 let geoSpatialState = { selectedStructure: null, layers: {}, manualCoordinates: {} };
-let earthMapView = { zoom: 1, layersVisible: true, focusedInstrumentId: null };
+let earthMapView = { zoom: 1, centerX: 400, centerY: 200, layersVisible: true, focusedInstrumentId: null, liveGps: null };
 let geoViewActiveDashboardId = null;
 let geoViewShowAllDashboards = false;
 let inspectionTemplate = "estabilidade";
@@ -1885,12 +1885,7 @@ function populateEarthStructureSelect() {
     const select = document.getElementById("earth-structure-select");
     if (!select) return null;
 
-    const structures = getGeospatialStructureList();
-    if (!structures.length) {
-        select.innerHTML = `<option value="">Sem estruturas</option>`;
-        return null;
-    }
-
+    const structures = ["Toda a Mina (Visão Geral)", ...getGeospatialStructureList()];
     const current = geoSpatialState.selectedStructure && structures.includes(geoSpatialState.selectedStructure)
         ? geoSpatialState.selectedStructure
         : structures[0];
@@ -1901,9 +1896,10 @@ function populateEarthStructureSelect() {
 }
 
 function setEarthMapStructure(structure) {
-    const canonical = structure ? getCanonicalStructureName(structure) : null;
+    const isOverview = structure === "Toda a Mina (Visão Geral)" || structure === "all";
+    const canonical = isOverview ? "Toda a Mina (Visão Geral)" : getCanonicalStructureName(structure);
     geoSpatialState.selectedStructure = canonical;
-    if (canonical) {
+    if (!isOverview) {
         pilhasIndicatorFilters.structure = canonical;
         pilhasIndicatorFilters.instrumentId = null;
         const geoViewSelect = document.getElementById("geoview-map-structure");
@@ -1912,10 +1908,9 @@ function setEarthMapStructure(structure) {
         }
     }
     earthMapView.focusedInstrumentId = null;
-    resetEarthMapView(false);
     saveGeospatialState();
     renderEarthMapPanel();
-    if (document.getElementById("pilhas-bi-dashboard")) renderPilhasIndicatorDashboard();
+    if (document.getElementById("pilhas-bi-dashboard") && !isOverview) renderPilhasIndicatorDashboard();
 }
 
 function getEarthCoordinateEditorValues() {
@@ -1949,26 +1944,44 @@ function updateEarthCoordinateDerived() {
 }
 
 function parseEarthCoordinateText(text) {
-    const numbers = String(text || "")
+    const raw = String(text || "").trim();
+    if (!raw) return null;
+
+    // Se for formato UTM: E 593029 N 7778196 ou 593029, 7778196 com valores altos
+    const utmMatch = raw.match(/(\d{5,7}(?:\.\d+)?)\s*[,\s/]+\s*(\d{6,8}(?:\.\d+)?)/);
+    if (utmMatch) {
+        const n1 = Number(utmMatch[1]);
+        const n2 = Number(utmMatch[2]);
+        if (n1 > 100000 && n2 > 1000000) {
+            const latLon = sirgasUtmToLatLon(n1, n2, 23, "S");
+            if (latLon) return latLon;
+        }
+    }
+
+    // Formato Decimal Lat, Lon
+    const numbers = raw
         .replace(/;/g, ",")
         .match(/-?\d+(?:[.,]\d+)?/g)
         ?.map(value => Number(value.replace(",", "."))) || [];
-    if (numbers.length < 2) return null;
-    const [latitude, longitude] = numbers;
-    if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return null;
-    if (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) return null;
-    return { latitude, longitude };
+    if (numbers.length >= 2) {
+        const [lat, lon] = numbers;
+        if (Number.isFinite(lat) && Number.isFinite(lon) && lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180) {
+            return { latitude: lat, longitude: lon };
+        }
+    }
+
+    return null;
 }
 
 function applyPastedEarthCoordinate() {
     const input = document.getElementById("earth-coordinate-paste");
     const coordinate = parseEarthCoordinateText(input?.value);
     if (!coordinate) {
-        showToast("Cole uma coordenada válida no formato latitude, longitude.", "warning");
+        showToast("Cole uma coordenada válida no formato latitude, longitude ou UTM E/N.", "warning");
         return;
     }
-    setEarthCoordinateEditorValues(coordinate, "Coordenada colada do Google Earth");
-    showToast("Coordenada colada nos campos. Revise e clique em Aplicar coordenada.");
+    setEarthCoordinateEditorValues(coordinate, "Coordenada colada (WGS84 / SIRGAS 2000)");
+    showToast("Coordenada reconhecida com sucesso! Revise e clique em Aplicar.");
 }
 
 function populateEarthCoordinateEditor(structure) {
@@ -1985,8 +1998,12 @@ function populateEarthCoordinateEditor(structure) {
 
 function applyEarthManualCoordinate() {
     const structure = geoSpatialState.selectedStructure || document.getElementById("earth-structure-select")?.value;
+    if (!structure || structure === "Toda a Mina (Visão Geral)") {
+        showToast("Selecione uma estrutura específica antes de aplicar a coordenada.", "warning");
+        return;
+    }
     const coordinate = getEarthCoordinateEditorValues();
-    if (!structure || !coordinate) {
+    if (!coordinate) {
         showToast("Informe latitude e longitude válidas antes de aplicar.", "warning");
         return;
     }
@@ -2000,15 +2017,44 @@ function applyEarthManualCoordinate() {
     renderEarthMapPanel();
     renderGeorefPanel();
     renderPilhasIndicatorDashboard();
-    showToast(`Coordenada manual aplicada para ${getCanonicalStructureName(structure)}.`);
+    showToast(`Coordenada aplicada com sucesso para ${getCanonicalStructureName(structure)}.`);
 }
 
 function useCurrentGpsForEarthCoordinate() {
-    if (!lastGeolocationFix) {
-        showToast("Capture sua posição na aba GeoLocalização antes de usar o GPS atual.", "warning");
+    if (!navigator.geolocation) {
+        showToast("Geolocalização não suportada neste dispositivo.", "warning");
         return;
     }
-    setEarthCoordinateEditorValues(lastGeolocationFix, "GPS atual capturado neste dispositivo");
+    showToast("Capturando coordenadas de alta precisão via GPS...");
+    navigator.geolocation.getCurrentPosition(
+        position => {
+            const fix = ingestGeolocationFix({
+                coords: {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    accuracy: position.coords.accuracy,
+                    altitude: position.coords.altitude
+                },
+                timestamp: position.timestamp,
+                provider: "GPS Nativo Alta Precisão"
+            }, "GPS_DIRECT");
+
+            earthMapView.liveGps = fix;
+            setEarthCoordinateEditorValues(fix, `GPS atual capturado (precisão ± ${formatNumber(fix.accuracyMeters, 1)} m)`);
+            renderEarthMapPanel();
+            renderGeorefPanel();
+            showToast(`GPS capturado: ± ${formatNumber(fix.accuracyMeters, 1)} m`);
+        },
+        error => {
+            if (lastGeolocationFix) {
+                setEarthCoordinateEditorValues(lastGeolocationFix, "Última posição GPS em memória");
+                showToast("Usando última captura de GPS disponível.");
+            } else {
+                showToast(`Falha ao obter sinal do GPS: ${error.message}`, "warning");
+            }
+        },
+        { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
+    );
 }
 
 function getSelectedEarthStructureCoordinate() {
@@ -2020,7 +2066,7 @@ function getSelectedEarthStructureCoordinate() {
 function openSelectedEarthStructureInGoogleEarth() {
     const { structure, coordinate } = getSelectedEarthStructureCoordinate();
     if (!coordinate) {
-        showToast("Esta estrutura ainda não tem coordenada. Preencha latitude/longitude e aplique.", "warning");
+        showToast("Esta estrutura ainda não tem coordenada definida.", "warning");
         return;
     }
     const latitude = Number(coordinate.latitude).toFixed(8);
@@ -2039,27 +2085,40 @@ async function copyEarthStructureCoordinate() {
     const text = `Lat ${coordinate.latitude.toFixed(8)}, Lon ${coordinate.longitude.toFixed(8)}, E ${formatNumber(utm.easting, 3)} m, N ${formatNumber(utm.northing, 3)} m, ${utm.projectedEpsg}`;
     try {
         await navigator.clipboard.writeText(text);
-        showToast("Coordenada copiada.");
+        showToast("Coordenada copiada para a área de transferência.");
     } catch (error) {
         showToast(text);
     }
 }
 
-function applyEarthMapView() {
+function applyEarthMapView(targetX = null, targetY = null, targetZoom = null) {
     const viewport = document.getElementById("earth-map-viewport");
     if (!viewport) return;
-    const zoom = Math.max(1, Math.min(3, Number(earthMapView.zoom) || 1));
-    viewport.setAttribute("transform", `translate(${400 * (1 - zoom)} ${200 * (1 - zoom)}) scale(${zoom})`);
+    if (targetZoom !== null) earthMapView.zoom = targetZoom;
+    if (targetX !== null) earthMapView.centerX = targetX;
+    if (targetY !== null) earthMapView.centerY = targetY;
+
+    const cx = earthMapView.centerX ?? 400;
+    const cy = earthMapView.centerY ?? 200;
+    const zoom = Math.max(1, Math.min(4, Number(earthMapView.zoom) || 1));
+
+    const tx = 400 - cx * zoom;
+    const ty = 200 - cy * zoom;
+
+    viewport.style.transition = "transform 500ms cubic-bezier(0.2, 0.9, 0.3, 1)";
+    viewport.setAttribute("transform", `translate(${tx.toFixed(1)} ${ty.toFixed(1)}) scale(${zoom.toFixed(2)})`);
     document.getElementById("dam-map")?.classList.toggle("earth-hide-kml", !earthMapView.layersVisible);
 }
 
 function setEarthMapZoom(direction) {
-    earthMapView.zoom = Math.max(1, Math.min(3, earthMapView.zoom + Number(direction) * 0.25));
+    earthMapView.zoom = Math.max(1, Math.min(4, (Number(earthMapView.zoom) || 1) + Number(direction) * 0.35));
     applyEarthMapView();
 }
 
 function resetEarthMapView(apply = true) {
     earthMapView.zoom = 1;
+    earthMapView.centerX = 400;
+    earthMapView.centerY = 200;
     if (apply) applyEarthMapView();
 }
 
@@ -2254,6 +2313,17 @@ function createEarthProjection(bounds) {
     });
 }
 
+const MINE_MASTER_BOUNDS = {
+    minLat: -20.108,
+    maxLat: -20.060,
+    minLon: -44.125,
+    maxLon: -44.082
+};
+
+function getMasterEarthProjection() {
+    return createEarthProjection(MINE_MASTER_BOUNDS);
+}
+
 function renderEarthFallbackBase(baseLayer, structure, hasCoordinates) {
     if (!baseLayer) return;
     baseLayer.innerHTML = `
@@ -2299,18 +2369,45 @@ function renderEarthLayer(layer, projection) {
     }).join("");
 }
 
-function renderEarthStructureReferencePin(structure, coordinate, projection) {
+function renderAllEarthStructures(selectedStructure, projection) {
     const layer = document.getElementById("earth-base-layer");
-    if (!layer || !coordinate) return;
-    const point = projection(coordinate);
-    const manual = getManualStructureCoordinate(structure);
-    const utm = latLonToSirgasUtm(coordinate.latitude, coordinate.longitude);
-    const title = `${structure} - ${manual ? "coordenada manual" : "referência Google Earth"} - Lat ${Number(coordinate.latitude).toFixed(8)} / Lon ${Number(coordinate.longitude).toFixed(8)} - E ${formatNumber(utm.easting, 3)} / N ${formatNumber(utm.northing, 3)}`;
+    if (!layer) return;
+    const records = getGoogleEarthStructureRecords();
+    const isOverview = selectedStructure === "Toda a Mina (Visão Geral)" || selectedStructure === "all";
+
+    layer.innerHTML = records.map(item => {
+        const point = projection(item.coordinate);
+        const isSelected = !isOverview && normalizeComparable(item.structure) === normalizeComparable(selectedStructure);
+        const utm = latLonToSirgasUtm(item.coordinate.latitude, item.coordinate.longitude);
+        const title = `${item.structure} • SIRGAS 2000 UTM 23S: E ${formatNumber(utm.easting, 3)} / N ${formatNumber(utm.northing, 3)} • Lat ${item.coordinate.latitude.toFixed(6)} / Lon ${item.coordinate.longitude.toFixed(6)}`;
+
+        return `
+            <g class="earth-structure-reference-pin ${isSelected ? "is-selected" : ""}"
+               transform="translate(${point.x.toFixed(1)}, ${point.y.toFixed(1)})"
+               onclick="event.stopPropagation(); setEarthMapStructure('${escapeHtml(item.structure)}')">
+                <title>${escapeHtml(title)}</title>
+                ${isSelected ? `<circle r="36" class="structure-radar-pulse"></circle>` : ""}
+                <circle r="${isSelected ? 16 : 11}" class="structure-reference-halo"></circle>
+                <circle r="${isSelected ? 6 : 4.5}" class="structure-reference-core"></circle>
+                <text y="${isSelected ? -20 : -14}" class="structure-reference-tag">${escapeHtml(item.structure)}</text>
+            </g>
+        `;
+    }).join("");
+}
+
+function renderEarthLiveGpsPin(fix, projection) {
+    const layer = document.getElementById("earth-base-layer");
+    if (!layer || !fix) return;
+    const point = projection({ latitude: fix.latitude, longitude: fix.longitude });
+    const utm = fix.sirgas2000 || latLonToSirgasUtm(fix.latitude, fix.longitude);
+    const title = `Minha Posição Atual (GPS) • Precisão ± ${formatNumber(fix.accuracyMeters, 1)} m • E ${formatNumber(utm?.easting, 3)} / N ${formatNumber(utm?.northing, 3)}`;
+
     layer.insertAdjacentHTML("beforeend", `
-        <g class="earth-structure-reference-pin" transform="translate(${point.x.toFixed(1)}, ${point.y.toFixed(1)})">
+        <g class="gps-live-marker" transform="translate(${point.x.toFixed(1)}, ${point.y.toFixed(1)})">
             <title>${escapeHtml(title)}</title>
-            <circle r="12" class="structure-reference-halo"></circle>
-            <circle r="5" class="structure-reference-core"></circle>
+            <circle r="24" class="gps-pulse"></circle>
+            <circle r="6" class="gps-core"></circle>
+            <text y="-14" class="structure-reference-tag" style="fill: #22c55e;">VOCÊ ESTÁ AQUI</text>
         </g>
     `);
 }
@@ -2326,7 +2423,7 @@ function renderEarthInstrumentPins(instrumentPoints, projection) {
         const radius = statusClass === "alert" ? 12 : statusClass === "warning" ? 10 : 8;
         const coreRadius = statusClass === "alert" ? 6 : 5;
         const label = item.instrument.code || item.instrument.id;
-        const title = `${item.instrument.name} - ${item.latLon.projectedEpsg} E ${formatNumber(item.instrument.coordinates?.ew, 3)} / N ${formatNumber(item.instrument.coordinates?.ns, 3)} - ${latest?.status || "Sem leitura"}`;
+        const title = `${item.instrument.name} - ${item.latLon.projectedEpsg || "SIRGAS 2000"} E ${formatNumber(item.instrument.coordinates?.ew, 3)} / N ${formatNumber(item.instrument.coordinates?.ns, 3)} - ${latest?.status || "Sem leitura"}`;
         return `
             <g class="map-pin ${statusClass} ${earthMapView.focusedInstrumentId === item.instrument.id ? "is-focused" : ""}" id="pin-${escapeHtml(item.instrument.id)}" tabindex="0" transform="translate(${point.x.toFixed(1)}, ${point.y.toFixed(1)})" onmouseenter="focusEarthInstrument('${escapeHtml(item.instrument.id)}')" onfocus="focusEarthInstrument('${escapeHtml(item.instrument.id)}')" onclick="event.stopPropagation(); focusEarthInstrument('${escapeHtml(item.instrument.id)}', true)">
                 <title>${escapeHtml(title)}</title>
@@ -2438,6 +2535,15 @@ function focusEarthInstrument(instrumentId, persistent = false) {
     document.querySelectorAll("#earth-instrument-layer .map-pin").forEach(pin => pin.classList.remove("is-focused"));
     document.getElementById(`pin-${instrumentId}`)?.classList.add("is-focused");
     renderEarthAnomalyPanel(instrument.structure, instrumentId);
+    
+    // Zoom closer on focused instrument
+    const latLon = getInstrumentLatLon(instrument);
+    if (latLon) {
+        const projection = getMasterEarthProjection();
+        const p = projection(latLon);
+        applyEarthMapView(p.x, p.y, 3.2);
+    }
+    
     if (persistent) {
         const status = getLatestReadingsByInstrument()[instrumentId]?.status || "sem leitura";
         setTextContent("earth-map-status", `${instrument.code || instrument.id} selecionado • ${instrument.type} • ${status}. Use “Abrir histórico” no painel lateral.`);
@@ -2456,17 +2562,18 @@ function renderEarthMapPanel() {
     const svg = document.getElementById("dam-map");
     if (!svg || !structure) return;
 
-    const layer = geoSpatialState.layers?.[structure];
-    const instruments = getEarthStructureInstruments(structure);
+    const isOverview = structure === "Toda a Mina (Visão Geral)" || structure === "all";
+    const layer = isOverview ? null : geoSpatialState.layers?.[structure];
+    const instruments = isOverview 
+        ? Object.values(INSTRUMENT_REGISTRY).filter(inst => inst.type && inst.type !== "REF")
+        : getEarthStructureInstruments(structure);
     const instrumentPoints = instruments
         .map(instrument => ({ instrument, latLon: getInstrumentLatLon(instrument) }))
         .filter(item => item.latLon);
-    const structureCoordinate = getPreferredStructureCoordinate(structure);
-    const unmapped = instruments.filter(instrument => !getInstrumentLatLon(instrument));
-    const bounds = getEarthMapBounds(layer, [
-        ...instrumentPoints,
-        ...(structureCoordinate ? [{ latLon: structureCoordinate }] : [])
-    ]);
+
+    const structureCoordinate = isOverview ? null : getPreferredStructureCoordinate(structure);
+    const projection = getMasterEarthProjection();
+
     const baseLayer = document.getElementById("earth-base-layer");
     const kmlLayer = document.getElementById("earth-kml-layer");
     const overlayLayer = document.getElementById("earth-overlay-layer");
@@ -2474,47 +2581,62 @@ function renderEarthMapPanel() {
     if (kmlLayer) kmlLayer.innerHTML = "";
     if (overlayLayer) overlayLayer.innerHTML = "";
     if (instrumentLayer) instrumentLayer.innerHTML = "";
+    if (baseLayer) baseLayer.innerHTML = "";
 
     const titleEl = document.getElementById("earth-map-title");
     if (titleEl) {
-        titleEl.innerHTML = `<i class="fa-solid fa-earth-americas text-primary"></i> Integração Google Earth - ${escapeHtml(structure)}`;
+        titleEl.innerHTML = `<i class="fa-solid fa-earth-americas text-primary"></i> ${isOverview ? "Mapeamento Geral da Mina - KMZ Oficial" : `Integração Google Earth - ${escapeHtml(structure)}`}`;
     }
-    populateEarthCoordinateEditor(structure);
+
+    if (!isOverview) {
+        populateEarthCoordinateEditor(structure);
+    } else {
+        setTextContent("earth-coordinate-source", "Mapeamento Geral da Mina (ESTRUTURAS GEOTEC.kmz)");
+        setTextContent("earth-coordinate-derived", "10 Estruturas Geotécnicas • SIRGAS 2000 / UTM 23S");
+    }
+
     setTextContent(
         "earth-map-source-badge",
-        getManualStructureCoordinate(structure)
-            ? "Coordenada manual ativa"
-            : layer?.bundled
-                ? "Camada KMZ embarcada"
-                : layer
-                    ? "Google Earth importado"
-                    : "Coordenada manual pendente"
+        isOverview 
+            ? "Mapeamento Completo da Mina" 
+            : getManualStructureCoordinate(structure)
+                ? "Coordenada manual ativa"
+                : layer?.bundled
+                    ? "KMZ Oficial ESTRUTURAS GEOTEC"
+                    : "Referência KMZ ativa"
     );
-    if (!bounds) {
-        renderEarthFallbackBase(baseLayer, structure, false);
-        setTextContent("earth-map-status", "Sem coordenada para esta estrutura. Abra no Google Earth, copie latitude/longitude e aplique manualmente nesta sessão.");
-        setTextContent("earth-unmapped-list", unmapped.length ? `${unmapped.length} instrumento(s) sem coordenada.` : "");
-        renderEarthAnomalyPanel(structure);
-        applyEarthMapView();
-        return;
-    }
 
-    renderEarthFallbackBase(baseLayer, structure, true);
-    const projection = createEarthProjection(bounds);
-    renderEarthLayer(layer, projection);
-    renderEarthStructureReferencePin(structure, structureCoordinate, projection);
+    // Render Master Base and All Structure Pins
+    renderAllEarthStructures(structure, projection);
+    if (!isOverview && layer) {
+        renderEarthLayer(layer, projection);
+    }
     renderEarthInstrumentPins(instrumentPoints, projection);
 
-    const featureCount = (layer?.features || []).length;
-    const overlayCount = (layer?.overlays || []).length;
-    const sourceText = layer
-        ? `Base ${layer.fileName}: ${featureCount} feição(ões), ${overlayCount} imagem(ns), ${structureCoordinate ? "referência estrutural ativa" : "sem referência estrutural"} e ${instrumentPoints.length} instrumento(s) plotado(s).`
-        : `Sem camada KML/KMZ importada. Usando ${getManualStructureCoordinate(structure) ? "coordenada manual" : "referência Google Earth"} da estrutura e ${instrumentPoints.length} instrumento(s) com SIRGAS 2000 / UTM 23S.`;
+    // Live GPS marker if captured
+    if (earthMapView.liveGps) {
+        renderEarthLiveGpsPin(earthMapView.liveGps, projection);
+    }
+
+    const sourceText = isOverview
+        ? `Base Geral ESTRUTURAS GEOTEC.kmz: 10 estruturas geotécnicas mapeadas e ${instrumentPoints.length} instrumentos ativos com SIRGAS 2000 / UTM 23S.`
+        : `Estrutura ${structure}: ${structureCoordinate ? "Coordenada ativa" : "Sem coordenada"} • ${instrumentPoints.length} instrumento(s) plotado(s).`;
     setTextContent("earth-map-status", sourceText);
-    const unmappedList = unmapped.slice(0, 10).map(instrument => instrument.code || instrument.id).join(", ");
-    setTextContent("earth-unmapped-list", unmapped.length ? `Sem coordenada: ${unmappedList}${unmapped.length > 10 ? "..." : ""}` : "");
-    renderEarthAnomalyPanel(structure, earthMapView.focusedInstrumentId);
-    applyEarthMapView();
+
+    renderEarthAnomalyPanel(isOverview ? (getGeospatialStructureList()[0] || "PDE 1") : structure, earthMapView.focusedInstrumentId);
+
+    // Dynamic Camera Transition
+    if (isOverview) {
+        applyEarthMapView(400, 200, 1.0);
+    } else if (structureCoordinate) {
+        const p = projection(structureCoordinate);
+        applyEarthMapView(p.x, p.y, 2.5);
+    } else if (instrumentPoints.length) {
+        const p = projection(instrumentPoints[0].latLon);
+        applyEarthMapView(p.x, p.y, 2.5);
+    } else {
+        applyEarthMapView(400, 200, 1.0);
+    }
 }
 
 function populateMapPins() {

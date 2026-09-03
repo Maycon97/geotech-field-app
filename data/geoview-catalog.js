@@ -1,7 +1,7 @@
 window.MDSYNC_GEOVIEW_CATALOG = {
     "version": "2026-09-02-pcmi-live",
     "sourcePath": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI",
-    "generatedAt": "2026-09-03T08:08:31.813268",
+    "generatedAt": "2026-09-03T08:57:42.702408",
     "summary": {
         "totalDashboards": 52,
         "totalPowerBi": 54,
@@ -58,7 +58,7 @@ window.MDSYNC_GEOVIEW_CATALOG = {
             "pdfs": 0,
             "docs": 0,
             "totalFiles": 6,
-            "lastUpdated": "2026-09-02T16:40:50"
+            "lastUpdated": "2026-09-03T08:49:32"
         },
         {
             "id": "00-gest-o-vista-03-cmi",
