@@ -1,15 +1,15 @@
 window.MDSYNC_GEOVIEW_CATALOG = {
     "version": "2026-09-02-pcmi-live",
     "sourcePath": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI",
-    "generatedAt": "2026-09-02T13:02:38.095636",
+    "generatedAt": "2026-09-03T08:08:31.813268",
     "summary": {
         "totalDashboards": 52,
         "totalPowerBi": 54,
         "totalExcel": 3562,
-        "totalImages": 30622,
-        "totalPdfs": 6693,
+        "totalImages": 30859,
+        "totalPdfs": 6694,
         "totalDocs": 700,
-        "totalFiles": 44268
+        "totalFiles": 44509
     },
     "dashboards": [
         {
@@ -26,7 +26,7 @@ window.MDSYNC_GEOVIEW_CATALOG = {
             "pdfs": 0,
             "docs": 0,
             "totalFiles": 3,
-            "lastUpdated": "2026-08-31T07:37:30"
+            "lastUpdated": "2026-09-02T16:40:36"
         },
         {
             "id": "00-gest-o-vista-01-sumps",
@@ -58,7 +58,7 @@ window.MDSYNC_GEOVIEW_CATALOG = {
             "pdfs": 0,
             "docs": 0,
             "totalFiles": 6,
-            "lastUpdated": "2026-09-01T11:11:37"
+            "lastUpdated": "2026-09-02T16:40:50"
         },
         {
             "id": "00-gest-o-vista-03-cmi",
@@ -74,7 +74,7 @@ window.MDSYNC_GEOVIEW_CATALOG = {
             "pdfs": 0,
             "docs": 1,
             "totalFiles": 37,
-            "lastUpdated": "2026-09-02T07:19:05"
+            "lastUpdated": "2026-09-03T06:55:43"
         },
         {
             "id": "00-gest-o-vista-04-chamados",
@@ -106,7 +106,7 @@ window.MDSYNC_GEOVIEW_CATALOG = {
             "pdfs": 0,
             "docs": 0,
             "totalFiles": 8,
-            "lastUpdated": "2026-08-31T13:57:57"
+            "lastUpdated": "2026-09-02T15:03:17"
         },
         {
             "id": "00-gest-o-vista-atualizadorpaineis",
@@ -135,10 +135,10 @@ window.MDSYNC_GEOVIEW_CATALOG = {
             "powerbi": 7,
             "excel": 11,
             "images": 0,
-            "pdfs": 26,
+            "pdfs": 27,
             "docs": 1,
-            "totalFiles": 46,
-            "lastUpdated": "2026-09-01T08:02:39.711374"
+            "totalFiles": 47,
+            "lastUpdated": "2026-09-02T18:19:39"
         },
         {
             "id": "01-implanta-o-00-arquivado",
@@ -214,11 +214,11 @@ window.MDSYNC_GEOVIEW_CATALOG = {
             "path": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI/02) Monitoramentos/001) Barragens",
             "powerbi": 4,
             "excel": 3169,
-            "images": 10258,
+            "images": 10357,
             "pdfs": 5675,
             "docs": 431,
-            "totalFiles": 20546,
-            "lastUpdated": "2026-09-02T07:12:05.400184"
+            "totalFiles": 20645,
+            "lastUpdated": "2026-09-02T18:16:01"
         },
         {
             "id": "02-monitoramentos-002-cavas",
@@ -230,11 +230,11 @@ window.MDSYNC_GEOVIEW_CATALOG = {
             "path": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI/02) Monitoramentos/002) Cavas",
             "powerbi": 0,
             "excel": 7,
-            "images": 676,
+            "images": 762,
             "pdfs": 3,
             "docs": 0,
-            "totalFiles": 688,
-            "lastUpdated": "2026-09-02T09:38:57"
+            "totalFiles": 777,
+            "lastUpdated": "2026-09-02T14:42:13.490000"
         },
         {
             "id": "02-monitoramentos-003-cmi",
@@ -310,11 +310,11 @@ window.MDSYNC_GEOVIEW_CATALOG = {
             "path": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI/02) Monitoramentos/007) Sumps",
             "powerbi": 0,
             "excel": 5,
-            "images": 1552,
+            "images": 1604,
             "pdfs": 112,
             "docs": 20,
-            "totalFiles": 1872,
-            "lastUpdated": "2026-09-02T07:12:00.842586"
+            "totalFiles": 1924,
+            "lastUpdated": "2026-09-02T17:53:27"
         },
         {
             "id": "02-monitoramentos-008-outros-arquivos",

@@ -1,11 +1,12 @@
-const GEOSYNC_CACHE = "geosync-field-pwa-20260616-geoview-mini-charts-v19";
+const GEOSYNC_CACHE = "geosync-field-pwa-pcmi-v20260903";
 const APP_SHELL = [
     "./",
     "./index.html",
     "./manifest.webmanifest",
     "./styles.css",
     "./app.js",
-    "./data/geosync-database.js",
+    "./data/catalog.json",
+    "./data/geoview-catalog.json",
     "./data/geoview-catalog.js",
     "./data/geoview-operational.js",
     "./data/google-earth-geospatial.js",
@@ -20,8 +21,6 @@ const APP_SHELL = [
     "./assets/itaminas-layout-bg.jpg",
     "./assets/geoview-site-overview.webp",
     "./assets/ESTRUTURAS-GEOTEC-google-earth.kml",
-    "./assets/vehicle-pzb-1g94.jpeg",
-    "./assets/vehicle-txy-7j22.jpeg",
     "./assets/icons/icon-72.png",
     "./assets/icons/icon-96.png",
     "./assets/icons/icon-128.png",
@@ -61,6 +60,22 @@ self.addEventListener("fetch", event => {
 
     const requestUrl = new URL(request.url);
     if (!["http:", "https:"].includes(requestUrl.protocol)) return;
+
+    // Para dados dinâmicos e sinais de sincronização, usar NetworkFirst
+    if (requestUrl.pathname.includes("/data/") || requestUrl.pathname.includes("sync-signal")) {
+        event.respondWith(
+            fetch(request)
+                .then(networkResponse => {
+                    if (networkResponse && networkResponse.status === 200) {
+                        const responseClone = networkResponse.clone();
+                        caches.open(GEOSYNC_CACHE).then(cache => cache.put(request, responseClone));
+                    }
+                    return networkResponse;
+                })
+                .catch(() => caches.match(request))
+        );
+        return;
+    }
 
     if (request.mode === "navigate") {
         event.respondWith(
