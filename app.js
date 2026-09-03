@@ -1432,172 +1432,406 @@ function getNearestGeoreferencedStructure(fix = lastGeolocationFix) {
         .sort((a, b) => a.distance - b.distance)[0] || null;
 }
 
-function setGeorefStructureFromMap(structure) {
-    const canonical = getCanonicalStructureName(structure);
-    geoSpatialState.selectedStructure = canonical;
-    const coordinate = getPreferredStructureCoordinate(canonical);
-    activeGeorefReference = coordinate ? { structure: canonical, coordinate } : null;
-    if (getStructureList().some(item => normalizeComparable(item) === normalizeComparable(canonical))) {
-        pilhasIndicatorFilters.structure = canonical;
-        pilhasIndicatorFilters.instrumentId = null;
+let georefMap = null;
+let georefMarkersGroup = null;
+let georefGpsMarker = null;
+let georefGpsCircle = null;
+
+function initGeorefLeafletMap() {
+    const container = document.getElementById("georef-leaflet-map");
+    if (!container || typeof L === "undefined") return;
+
+    if (!georefMap) {
+        georefMap = L.map("georef-leaflet-map", {
+            center: [-20.088, -44.103],
+            zoom: 14,
+            zoomControl: true,
+            attributionControl: false
+        });
+
+        const esriSatellite = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+            maxZoom: 19
+        });
+
+        const osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19
+        });
+
+        esriSatellite.addTo(georefMap);
+
+        L.control.layers({
+            "Satélite de Alta Resolução": esriSatellite,
+            "Mapa Topográfico / Vias": osm
+        }, null, { position: "topright" }).addTo(georefMap);
+
+        georefMarkersGroup = L.layerGroup().addTo(georefMap);
     }
-    saveGeospatialState();
-    renderGeorefLiveMap();
+
+    setTimeout(() => {
+        if (georefMap) georefMap.invalidateSize();
+    }, 150);
+
+    renderGeorefMarkers();
 }
 
-function setGeorefStructureByIndex(index) {
-    const reference = getGeorefStructureRecords()[Number(index)];
-    if (reference) setGeorefStructureFromMap(reference.structure);
-}
-
-function getGeorefStructureRecords() {
-    return getGeospatialStructureList()
-        .map(structure => ({
-            structure,
-            coordinate: getPreferredStructureCoordinate(structure)
-        }))
-        .filter(item =>
-            Number.isFinite(Number(item.coordinate?.latitude))
-            && Number.isFinite(Number(item.coordinate?.longitude))
-        );
-}
-
-function getGeorefReferenceCoordinateText(reference) {
-    if (!reference?.coordinate) return "Coordenada de referência indisponível.";
-    const latitude = Number(reference.coordinate.latitude);
-    const longitude = Number(reference.coordinate.longitude);
-    const utm = latLonToSirgasUtm(latitude, longitude);
-    return `Lat ${latitude.toFixed(8)} · Lon ${longitude.toFixed(8)} · E ${formatNumber(utm.easting, 3)} m · N ${formatNumber(utm.northing, 3)} m · ${utm.projectedEpsg}`;
-}
-
-function renderGeorefLiveMap() {
-    const container = document.getElementById("georef-live-map");
+function renderGeorefStructurePills() {
+    const container = document.getElementById("georef-structure-pills");
     if (!container) return;
-    const structures = getGeorefStructureRecords();
-    const fix = lastGeolocationFix;
-    const nearest = getNearestGeoreferencedStructure(fix);
-    const selected = structures.find(item =>
-        normalizeComparable(item.structure) === normalizeComparable(
-            geoSpatialState.selectedStructure || pilhasIndicatorFilters.structure
-        )
-    );
-    activeGeorefReference = nearest || selected || activeGeorefReference || structures[0] || null;
-    const referenceSelect = document.getElementById("georef-reference-select");
-    if (referenceSelect) {
-        referenceSelect.innerHTML = structures
-            .map((item, index) => `<option value="${index}">${escapeHtml(item.structure)}</option>`)
-            .join("");
-        const activeIndex = structures.findIndex(item =>
-            normalizeComparable(item.structure) === normalizeComparable(activeGeorefReference?.structure)
-        );
-        referenceSelect.value = String(Math.max(0, activeIndex));
-    }
-    const earthButton = document.getElementById("georef-open-earth");
-    if (earthButton) earthButton.disabled = !fix && !activeGeorefReference;
-    setTextContent(
-        "georef-nearest-structure",
-        nearest
-            ? `${nearest.structure} - ${formatDistanceMeters(nearest.distance)}`
-            : activeGeorefReference
-                ? `${activeGeorefReference.structure} - referência Google Earth`
-                : "Aguardando GPS"
-    );
-    setTextContent("georef-reference-coordinate", getGeorefReferenceCoordinateText(activeGeorefReference));
+    const structures = ["Toda a Mina (Visão Geral)", ...getGeospatialStructureList()];
+    const current = geoSpatialState.selectedStructure || structures[0];
 
-    if (!structures.length) {
-        container.innerHTML = `<div class="georef-map-empty"><i class="fa-solid fa-map-location-dot"></i><strong>Sem estruturas georreferenciadas.</strong></div>`;
-        return;
-    }
-
-    const coordinates = structures.map(item => item.coordinate);
-    const minLon = Math.min(...coordinates.map(item => item.longitude));
-    const maxLon = Math.max(...coordinates.map(item => item.longitude));
-    const minLat = Math.min(...coordinates.map(item => item.latitude));
-    const maxLat = Math.max(...coordinates.map(item => item.latitude));
-    const project = coordinate => ({
-        x: Math.max(7, Math.min(93, 8 + ((coordinate.longitude - minLon) / (maxLon - minLon || 1)) * 84)),
-        y: Math.max(7, Math.min(91, 8 + ((maxLat - coordinate.latitude) / (maxLat - minLat || 1)) * 82))
-    });
-    const structurePins = structures.map((item, index) => {
-        const position = project(item.coordinate);
-        const selected = normalizeComparable(item.structure) === normalizeComparable(geoSpatialState.selectedStructure || pilhasIndicatorFilters.structure);
-        const distance = getDistanceMeters(fix, item.coordinate);
-        const utm = latLonToSirgasUtm(item.coordinate.latitude, item.coordinate.longitude);
-        const label = [
-            item.structure,
-            `Lat ${item.coordinate.latitude.toFixed(7)} / Lon ${item.coordinate.longitude.toFixed(7)}`,
-            `UTM E ${formatNumber(utm.easting, 3)} / N ${formatNumber(utm.northing, 3)} - ${utm.projectedEpsg}`,
-            Number.isFinite(distance) ? `Distância: ${formatDistanceMeters(distance)}` : null
-        ].filter(Boolean).join("\n");
-        return `<button type="button" class="georef-structure-pin geoview-info ${selected ? "is-selected" : ""}" style="left:${position.x}%;top:${position.y}%;" data-tooltip="${escapeHtml(label)}" onclick="setGeorefStructureByIndex(${index})" aria-label="${escapeHtml(item.structure)}"><span></span></button>`;
-    }).join("");
-
-    let gpsMarker = "";
-    if (fix) {
-        const gpsPosition = project(fix);
-        gpsMarker = `
-            <span class="georef-current-position geoview-info" style="left:${gpsPosition.x}%;top:${gpsPosition.y}%;--gps-accuracy:${Math.max(22, Math.min(86, Number(fix.accuracyMeters || 20) * 2))}px;" data-tooltip="${escapeHtml(`Posição atual\nPrecisão ${formatNumber(fix.accuracyMeters, 1)} m\nSIRGAS 2000 / ${fix.sirgas2000?.projectedEpsg || "UTM"}`)}">
-                <i></i>
-            </span>
+    container.innerHTML = structures.map(name => {
+        const isOverview = name === "Toda a Mina (Visão Geral)";
+        const isActive = normalizeComparable(name) === normalizeComparable(current);
+        const icon = isOverview ? "fa-globe" : "fa-layer-group";
+        return `
+            <button type="button" class="georef-pill ${isActive ? "active" : ""}" onclick="selectGeorefStructure('${escapeHtml(name)}')">
+                <i class="fa-solid ${icon}"></i> ${escapeHtml(name)}
+            </button>
         `;
-    }
-
-    container.innerHTML = `
-        <img src="assets/geoview-site-overview.webp" alt="Base aérea das estruturas geotécnicas">
-        <div class="georef-map-shade"></div>
-        ${structurePins}
-        ${gpsMarker}
-        <span class="georef-map-credit">Base aérea local + KMZ Google Earth + GPS SIRGAS 2000</span>
-    `;
+    }).join("");
 }
 
-function openCurrentPositionInGoogleEarth() {
-    const coordinate = lastGeolocationFix || activeGeorefReference?.coordinate;
-    if (!coordinate) {
-        showToast("Selecione uma estrutura ou capture sua posição antes de abrir o Google Earth.", "warning");
+function selectGeorefStructure(structureName) {
+    const isOverview = structureName === "Toda a Mina (Visão Geral)" || structureName === "all";
+    const canonical = isOverview ? "Toda a Mina (Visão Geral)" : getCanonicalStructureName(structureName);
+    geoSpatialState.selectedStructure = canonical;
+
+    renderGeorefStructurePills();
+    renderGeorefStructureDetails(canonical);
+    saveGeospatialState();
+
+    if (!georefMap) return;
+
+    if (isOverview) {
+        georefMap.flyTo([-20.088, -44.103], 14, { animate: true, duration: 1.2 });
+        setTextContent("georef-active-structure-name", "Toda a Mina (Visão Geral)");
+        setTextContent("georef-active-structure-coords", "10 Estruturas Geotécnicas • SIRGAS 2000 / UTM 23S");
         return;
     }
-    const latitude = Number(coordinate.latitude).toFixed(8);
-    const longitude = Number(coordinate.longitude).toFixed(8);
-    window.open(`https://earth.google.com/web/search/${latitude},${longitude}`, "_blank", "noopener,noreferrer");
+
+    const coord = getPreferredStructureCoordinate(canonical);
+    if (coord && Number.isFinite(coord.latitude) && Number.isFinite(coord.longitude)) {
+        georefMap.flyTo([coord.latitude, coord.longitude], 17, { animate: true, duration: 1.2 });
+        const utm = latLonToSirgasUtm(coord.latitude, coord.longitude);
+        setTextContent("georef-active-structure-name", canonical);
+        setTextContent("georef-active-structure-coords", `Lat ${coord.latitude.toFixed(6)}, Lon ${coord.longitude.toFixed(6)} • E ${formatNumber(utm.easting, 1)} m, N ${formatNumber(utm.northing, 1)} m`);
+        
+        const latInput = document.getElementById("georef-input-lat");
+        const lonInput = document.getElementById("georef-input-lon");
+        if (latInput) latInput.value = coord.latitude.toFixed(8);
+        if (lonInput) lonInput.value = coord.longitude.toFixed(8);
+        onGeorefLatLonChange();
+    }
+}
+
+function renderGeorefMarkers() {
+    if (!georefMarkersGroup || typeof L === "undefined") return;
+    georefMarkersGroup.clearLayers();
+
+    const structures = getGeospatialStructureList();
+    const latestReadings = typeof getLatestReadingsByInstrument === "function" ? getLatestReadingsByInstrument() : {};
+
+    // 1. Plot Structures
+    structures.forEach(structure => {
+        const coord = getPreferredStructureCoordinate(structure);
+        if (!coord || !Number.isFinite(coord.latitude) || !Number.isFinite(coord.longitude)) return;
+
+        const utm = latLonToSirgasUtm(coord.latitude, coord.longitude);
+        const icon = L.divIcon({
+            className: "georef-custom-structure-pin",
+            html: `<div class="georef-structure-badge-pin"><i class="fa-solid fa-layer-group"></i> ${escapeHtml(structure)}</div>`,
+            iconSize: [120, 30],
+            iconAnchor: [60, 15]
+        });
+
+        const marker = L.marker([coord.latitude, coord.longitude], { icon })
+            .bindPopup(`
+                <div style="font-family: inherit; font-size: 13px; line-height: 1.5; color: #fff;">
+                    <div style="font-weight: 800; font-size: 14px; color: #38bdf8; margin-bottom: 6px;">
+                        <i class="fa-solid fa-layer-group"></i> ${escapeHtml(structure)}
+                    </div>
+                    <div><b>Latitude:</b> ${coord.latitude.toFixed(8)}</div>
+                    <div><b>Longitude:</b> ${coord.longitude.toFixed(8)}</div>
+                    <div><b>UTM E:</b> ${formatNumber(utm.easting, 3)} m</div>
+                    <div><b>UTM N:</b> ${formatNumber(utm.northing, 3)} m</div>
+                    <div><b>Datum:</b> SIRGAS 2000 (EPSG:31983)</div>
+                    <div style="margin-top: 10px; display: flex; gap: 6px;">
+                        <button style="background: #0284c7; color: #fff; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 11px;" onclick="selectGeorefStructure('${escapeHtml(structure)}')">Focar Estrutura</button>
+                        <button style="background: #334155; color: #fff; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 11px;" onclick="window.open('https://earth.google.com/web/search/${coord.latitude},${coord.longitude}', '_blank')">Google Earth</button>
+                    </div>
+                </div>
+            `);
+
+        marker.on("click", () => {
+            selectGeorefStructure(structure);
+        });
+
+        georefMarkersGroup.addLayer(marker);
+    });
+
+    // 2. Plot Instruments
+    const instruments = Object.values(INSTRUMENT_REGISTRY);
+    instruments.forEach(inst => {
+        const latLon = getInstrumentLatLon(inst);
+        if (!latLon || !Number.isFinite(latLon.latitude) || !Number.isFinite(latLon.longitude)) return;
+
+        const latest = latestReadings[inst.id];
+        const status = latest?.status || "Normal";
+        let statusClass = "normal";
+        if (status === "Alerta" || status === "Crítico") statusClass = "alert";
+        else if (status === "Atenção") statusClass = "warning";
+
+        const icon = L.divIcon({
+            className: "georef-custom-inst-pin",
+            html: `<div class="georef-inst-dot-pin ${statusClass}" title="${escapeHtml(inst.code || inst.id)}"></div>`,
+            iconSize: [14, 14],
+            iconAnchor: [7, 7]
+        });
+
+        const utm = latLonToSirgasUtm(latLon.latitude, latLon.longitude);
+        const marker = L.marker([latLon.latitude, latLon.longitude], { icon })
+            .bindPopup(`
+                <div style="font-family: inherit; font-size: 13px; line-height: 1.5; color: #fff;">
+                    <div style="font-weight: 800; font-size: 14px; color: #facc15; margin-bottom: 6px;">
+                        <i class="fa-solid fa-satellite"></i> ${escapeHtml(inst.code || inst.id)} (${escapeHtml(inst.type)})
+                    </div>
+                    <div><b>Estrutura:</b> ${escapeHtml(inst.structure)}</div>
+                    <div><b>Status:</b> <span style="font-weight: 700; color: ${statusClass === 'alert' ? '#ef4444' : statusClass === 'warning' ? '#f59e0b' : '#22c55e'}">${escapeHtml(status)}</span></div>
+                    <div><b>Última Leitura:</b> ${latest ? `${formatNumber(latest.value, 2)} ${latest.unit || 'm'} em ${formatDateBRShort(latest.dateTime)}` : 'Sem leitura recente'}</div>
+                    <div style="margin-top: 4px; font-size: 11px; color: #94a3b8;">
+                        Lat ${latLon.latitude.toFixed(6)}, Lon ${latLon.longitude.toFixed(6)}<br>
+                        UTM E ${formatNumber(utm.easting, 2)} m, N ${formatNumber(utm.northing, 2)} m
+                    </div>
+                    <div style="margin-top: 8px;">
+                        <button style="background: #0284c7; color: #fff; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 11px;" onclick="selectInstrumentFromMap('${escapeHtml(inst.id)}')">Histórico de Leituras</button>
+                    </div>
+                </div>
+            `);
+
+        georefMarkersGroup.addLayer(marker);
+    });
+}
+
+function triggerGeorefGpsCapture() {
+    const btnLabel = document.getElementById("georef-gps-btn-label");
+    if (btnLabel) btnLabel.textContent = "Obtendo sinal GPS...";
+
+    if (!navigator.geolocation) {
+        showToast("Geolocalização não suportada pelo navegador.", "error");
+        if (btnLabel) btnLabel.textContent = "Usar GPS Atual";
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        pos => {
+            if (btnLabel) btnLabel.textContent = "Usar GPS Atual";
+            const lat = pos.coords.latitude;
+            const lon = pos.coords.longitude;
+            const acc = pos.coords.accuracy || 5;
+
+            const fix = {
+                latitude: lat,
+                longitude: lon,
+                accuracyMeters: acc,
+                capturedAt: new Date().toISOString(),
+                provider: "GPS Nativo Alta Precisão",
+                sirgas2000: latLonToSirgasUtm(lat, lon),
+                quality: {
+                    label: acc <= 5 ? "Alta Precisão (Sub-5m)" : "Precisão Padrão",
+                    className: acc <= 5 ? "success" : "warning"
+                }
+            };
+
+            lastGeolocationFix = fix;
+            saveGeorefState();
+
+            const latInput = document.getElementById("georef-input-lat");
+            const lonInput = document.getElementById("georef-input-lon");
+            if (latInput) latInput.value = lat.toFixed(8);
+            if (lonInput) lonInput.value = lon.toFixed(8);
+            onGeorefLatLonChange();
+
+            if (georefMap) {
+                if (georefGpsMarker) georefMap.removeLayer(georefGpsMarker);
+                if (georefGpsCircle) georefMap.removeLayer(georefGpsCircle);
+
+                const userIcon = L.divIcon({
+                    className: "georef-user-pin",
+                    html: `<div style="width: 18px; height: 18px; background: #38bdf8; border: 3px solid #ffffff; border-radius: 50%; box-shadow: 0 0 12px #38bdf8;"></div>`,
+                    iconSize: [18, 18],
+                    iconAnchor: [9, 9]
+                });
+
+                georefGpsMarker = L.marker([lat, lon], { icon: userIcon }).addTo(georefMap);
+                georefGpsCircle = L.circle([lat, lon], { radius: acc, color: "#38bdf8", fillOpacity: 0.15 }).addTo(georefMap);
+
+                georefMap.flyTo([lat, lon], 18, { animate: true, duration: 1.0 });
+            }
+
+            showToast(`GPS capturado: ± ${formatNumber(acc, 1)} m de precisão.`, "success");
+            renderGeorefPanel();
+        },
+        err => {
+            if (btnLabel) btnLabel.textContent = "Usar GPS Atual";
+            showToast(`Erro ao capturar GPS: ${err.message}`, "warning");
+        },
+        { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
+    );
+}
+
+function onGeorefLatLonChange() {
+    const lat = Number(document.getElementById("georef-input-lat")?.value);
+    const lon = Number(document.getElementById("georef-input-lon")?.value);
+    const derivedEl = document.getElementById("georef-utm-derived");
+
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
+        if (derivedEl) derivedEl.textContent = "-";
+        return;
+    }
+
+    const utm = latLonToSirgasUtm(lat, lon);
+    if (derivedEl) {
+        derivedEl.textContent = `E ${formatNumber(utm.easting, 3)} m · N ${formatNumber(utm.northing, 3)} m · ${utm.projectedEpsg}`;
+    }
+}
+
+async function copyGeorefCoordinate() {
+    const lat = Number(document.getElementById("georef-input-lat")?.value);
+    const lon = Number(document.getElementById("georef-input-lon")?.value);
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
+        showToast("Insira coordenadas válidas antes de copiar.", "warning");
+        return;
+    }
+    const utm = latLonToSirgasUtm(lat, lon);
+    const text = `Lat ${lat.toFixed(8)}, Lon ${lon.toFixed(8)}, E ${formatNumber(utm.easting, 3)} m, N ${formatNumber(utm.northing, 3)} m, ${utm.projectedEpsg}`;
+    try {
+        await navigator.clipboard.writeText(text);
+        showToast("Coordenadas copiadas para a área de transferência!");
+    } catch {
+        showToast(text);
+    }
+}
+
+function applyPastedGeorefCoordinate() {
+    const input = document.getElementById("georef-input-paste");
+    if (!input || !input.value.trim()) {
+        showToast("Cole o texto da coordenada no campo antes de aplicar.", "warning");
+        return;
+    }
+    const parsed = parseEarthCoordinateText(input.value);
+    if (!parsed) {
+        showToast("Formato de coordenada não reconhecido.", "warning");
+        return;
+    }
+    const latInput = document.getElementById("georef-input-lat");
+    const lonInput = document.getElementById("georef-input-lon");
+    if (latInput) latInput.value = parsed.latitude.toFixed(8);
+    if (lonInput) lonInput.value = parsed.longitude.toFixed(8);
+    onGeorefLatLonChange();
+    showToast("Coordenada aplicada aos campos!");
+}
+
+function saveManualGeorefCoordinate() {
+    const structure = geoSpatialState.selectedStructure;
+    if (!structure || structure === "Toda a Mina (Visão Geral)") {
+        showToast("Selecione uma estrutura específica antes de salvar.", "warning");
+        return;
+    }
+    const lat = Number(document.getElementById("georef-input-lat")?.value);
+    const lon = Number(document.getElementById("georef-input-lon")?.value);
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
+        showToast("Coordenadas inválidas.", "error");
+        return;
+    }
+
+    geoSpatialState.manualCoordinates = geoSpatialState.manualCoordinates || {};
+    geoSpatialState.manualCoordinates[structure] = { latitude: lat, longitude: lon };
+    saveGeospatialState();
+    renderGeorefMarkers();
+    showToast(`Coordenada salva para ${structure}!`, "success");
+}
+
+function openSelectedStructureInGoogleEarth() {
+    const structure = geoSpatialState.selectedStructure || "PDE 1";
+    const coord = getPreferredStructureCoordinate(structure) || { latitude: -20.088, longitude: -44.103 };
+    window.open(`https://earth.google.com/web/search/${coord.latitude.toFixed(8)},${coord.longitude.toFixed(8)}`, "_blank");
+}
+
+function renderGeorefStructureDetails(structureName) {
+    const isOverview = structureName === "Toda a Mina (Visão Geral)" || structureName === "all";
+    const badge = document.getElementById("georef-structure-badge");
+    if (badge) badge.textContent = isOverview ? "Visão Geral" : structureName;
+
+    const instruments = isOverview
+        ? Object.values(INSTRUMENT_REGISTRY)
+        : getEarthStructureInstruments(structureName);
+
+    const latestReadings = typeof getLatestReadingsByInstrument === "function" ? getLatestReadingsByInstrument() : {};
+
+    let normalCount = 0;
+    let warningCount = 0;
+    let criticalCount = 0;
+
+    instruments.forEach(inst => {
+        const latest = latestReadings[inst.id];
+        const status = latest?.status || "Normal";
+        if (status === "Alerta" || status === "Crítico") criticalCount++;
+        else if (status === "Atenção") warningCount++;
+        else normalCount++;
+    });
+
+    setTextContent("georef-kpi-instruments", instruments.length);
+    setTextContent("georef-kpi-normal", normalCount);
+    setTextContent("georef-kpi-warning", warningCount);
+    setTextContent("georef-kpi-critical", criticalCount);
+
+    const listContainer = document.getElementById("georef-instruments-list");
+    if (!listContainer) return;
+
+    if (!instruments.length) {
+        listContainer.innerHTML = `<div class="text-secondary small p-3">Nenhum instrumento associado a esta estrutura.</div>`;
+        return;
+    }
+
+    listContainer.innerHTML = instruments.slice(0, 30).map(inst => {
+        const latest = latestReadings[inst.id];
+        const status = latest?.status || "Normal";
+        let statusBadge = `<span class="badge badge-success">Normal</span>`;
+        if (status === "Alerta" || status === "Crítico") statusBadge = `<span class="badge badge-danger">${escapeHtml(status)}</span>`;
+        else if (status === "Atenção") statusBadge = `<span class="badge badge-warning">Atenção</span>`;
+
+        return `
+            <div class="georef-inst-card" onclick="focusGeorefInstrument('${escapeHtml(inst.id)}')">
+                <div>
+                    <strong>${escapeHtml(inst.code || inst.id)}</strong>
+                    <div class="text-secondary small">${escapeHtml(inst.type)} • ${latest ? `${formatNumber(latest.value, 2)} ${latest.unit || 'm'}` : 'Sem leitura'}</div>
+                </div>
+                <div>${statusBadge}</div>
+            </div>
+        `;
+    }).join("");
+}
+
+function focusGeorefInstrument(instrumentId) {
+    const inst = INSTRUMENT_REGISTRY[instrumentId];
+    if (!inst || !georefMap) return;
+    const latLon = getInstrumentLatLon(inst);
+    if (latLon && Number.isFinite(latLon.latitude) && Number.isFinite(latLon.longitude)) {
+        georefMap.flyTo([latLon.latitude, latLon.longitude], 18, { animate: true, duration: 1.0 });
+    }
 }
 
 function renderGeorefPanel() {
-    const fix = lastGeolocationFix;
-    const quality = fix?.quality || { label: "Sem captura", className: "pending" };
-    const sirgas = fix?.sirgas2000 || {};
-    const summary = getInstrumentCoordinateSummary();
+    renderGeorefStructurePills();
+    initGeorefLeafletMap();
+    renderGeorefStructureDetails(geoSpatialState.selectedStructure || "Toda a Mina (Visão Geral)");
+
     const rows = typeof buildUnifiedRecords === "function" ? getGeoreferencedRows() : [];
-    const highPrecision = rows.filter(row => {
-        const geo = getRecordGeolocation(row.raw);
-        return Number(geo?.accuracyMeters) <= GEOREF_TARGET_ACCURACY_M;
-    }).length;
-    const lowPrecision = rows.filter(row => {
-        const geo = getRecordGeolocation(row.raw);
-        return Number(geo?.accuracyMeters) > GEOREF_MAX_ACCEPTABLE_ACCURACY_M;
-    }).length;
-
-    const statusCard = document.getElementById("georef-status-card");
-    if (statusCard) statusCard.className = `georef-status-card ${quality.className || "pending"}`;
-    setTextContent("georef-fix-status", fix ? quality.label : "Aguardando captura");
-    setTextContent("georef-fix-quality", fix ? getGeorefStatusText(fix) : "SIRGAS 2000 / UTM 23S");
-    setTextContent("georef-lat", formatNumber(fix?.latitude, 8));
-    setTextContent("georef-lon", formatNumber(fix?.longitude, 8));
-    setTextContent("georef-utm-e", fix ? `${formatNumber(sirgas.easting, 3)} m` : "-");
-    setTextContent("georef-utm-n", fix ? `${formatNumber(sirgas.northing, 3)} m` : "-");
-    setTextContent("georef-utm-zone", fix ? `${sirgas.zone}${sirgas.hemisphere} / ${sirgas.projectedEpsg}` : "23S / EPSG:31983");
-    setTextContent("georef-accuracy", fix ? `${formatNumber(fix.accuracyMeters, 1)} m` : "-");
-    setTextContent("georef-provider", fix?.provider || "-");
-    setTextContent("georef-time", fix ? formatDateTimeBR(fix.capturedAt) : "-");
-    setTextContent("geo-instrument-count", `${summary.withCoordinates}/${summary.total}`);
-    setTextContent("geo-record-count", rows.length.toLocaleString("pt-BR"));
-    setTextContent("geo-accuracy-count", highPrecision.toLocaleString("pt-BR"));
-    setTextContent("geo-low-count", lowPrecision.toLocaleString("pt-BR"));
-    renderGeorefLiveMap();
-
     const body = document.getElementById("georef-records-body");
     if (!body) return;
-    const previewRows = rows.slice(0, 12);
+
+    const previewRows = rows.slice(0, 15);
     if (previewRows.length === 0) {
         body.innerHTML = `<tr><td colspan="8" class="text-center text-secondary">Nenhum registro com georreferenciamento capturado em campo.</td></tr>`;
         return;
@@ -2865,8 +3099,14 @@ function switchTab(tabId) {
         renderGeoViewPanel();
     } else if (tabId === 'georef') {
         titleEl.textContent = "Georreferenciamento";
-        subEl.textContent = "Captura de campo em SIRGAS 2000, UTM e controle de precisao.";
+        subEl.textContent = "Mapeamento GIS interativo, coordenadas SIRGAS 2000, UTM 23S e rastreamento de campo.";
         renderGeorefPanel();
+        if (georefMap) {
+            setTimeout(() => {
+                georefMap.invalidateSize();
+                selectGeorefStructure(geoSpatialState.selectedStructure || "Toda a Mina (Visão Geral)");
+            }, 100);
+        }
     } else if (tabId === 'release') {
         titleEl.textContent = "Liberação";
         subEl.textContent = "Controle local temporário para autorizar exportações e sincronização simulada.";

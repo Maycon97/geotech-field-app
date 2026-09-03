@@ -15,10 +15,12 @@
     <meta name="description" content="MDSync é uma plataforma de coleta digital, centralização de dados de campo e inspeções operacionais para estruturas geotécnicas.">
     <!-- FontAwesome local para uso offline e reducao de trafego externo -->
     <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css?v=authless-20260610c">
+    <!-- Leaflet GIS Map CSS -->
+    <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
     <!-- Chart.js local fallback for offline field use -->
     <script src="vendor/chart.umd.min.js?v=authless-20260610c" defer></script>
     <script src="vendor/jszip.min.js?v=authless-20260610c" defer></script>
-    <link rel="stylesheet" href="styles.css?v=geoview-mini-charts-20260616">
+    <link rel="stylesheet" href="styles.css?v=georef-leaflet-20260903">
     <style>
         body .pilhas-bi-map-panel .pilhas-location-map {
             background-image:
@@ -1412,10 +1414,57 @@
 
                 <!-- TAB 7: GEOREFERENCING -->
                 <section id="tab-georef" class="tab-pane">
-                    <div class="dashboard-row">
-                        <div class="card col-5">
+                    <!-- GIS Map Header Card -->
+                    <div class="card">
+                        <div class="card-header justify-between">
+                            <div>
+                                <h3><i class="fa-solid fa-map-location-dot text-primary"></i> Mapeamento Georreferenciado GIS da Mina</h3>
+                                <p class="text-secondary small mt-1">Referência Oficial: <code>ESTRUTURAS GEOTEC.kmz</code> • SIRGAS 2000 / UTM Zona 23S (EPSG:31983)</p>
+                            </div>
+                            <div class="georef-header-actions">
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="triggerGeorefGpsCapture()">
+                                    <i class="fa-solid fa-location-crosshairs text-success"></i> <span id="georef-gps-btn-label">Usar GPS Atual</span>
+                                </button>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="openSelectedStructureInGoogleEarth()">
+                                    <i class="fa-solid fa-earth-americas"></i> Abrir no Google Earth
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- Quick Structure Selector Pills -->
+                            <div class="georef-pills-bar" id="georef-structure-pills" aria-label="Navegação Rápida por Estruturas"></div>
+
+                            <!-- Dedicated Leaflet GIS Map Container -->
+                            <div class="georef-leaflet-wrapper">
+                                <div id="georef-leaflet-map"></div>
+                                <div class="georef-map-overlay-info" id="georef-map-overlay-info">
+                                    <i class="fa-solid fa-layer-group text-primary"></i>
+                                    <span id="georef-active-structure-name">Toda a Mina (Visão Geral)</span> •
+                                    <span id="georef-active-structure-coords">10 Estruturas Geotécnicas • SIRGAS 2000 / UTM 23S</span>
+                                </div>
+                            </div>
+
+                            <!-- Map Legend & Layer Tips -->
+                            <div class="map-legend mt-2 justify-between">
+                                <div class="d-flex gap-3 align-center">
+                                    <div class="legend-item"><span class="legend-dot bg-blue"></span> Estrutura Geotécnica</div>
+                                    <div class="legend-item"><span class="legend-dot bg-success"></span> Normal (&lt; 70% limite)</div>
+                                    <div class="legend-item"><span class="legend-dot bg-warning"></span> Atenção (70% - 90%)</div>
+                                    <div class="legend-item"><span class="legend-dot bg-danger"></span> Crítico (&gt; 90%)</div>
+                                </div>
+                                <div class="text-secondary small">
+                                    <i class="fa-solid fa-circle-info"></i> Clique em qualquer ponto para inspecionar ou transicionar a câmera.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Geodetic Controls and Structure Details Row -->
+                    <div class="dashboard-row mt-4">
+                        <!-- Card 1: Geodetic Editor SIRGAS 2000 / UTM 23S -->
+                        <div class="card col-6">
                             <div class="card-header">
-                                <h3><i class="fa-solid fa-location-crosshairs text-primary"></i> Captura SIRGAS 2000</h3>
+                                <h3><i class="fa-solid fa-compass-drafting text-primary"></i> Conversor e Coordenadas Geodésicas</h3>
                             </div>
                             <div class="card-body">
                                 <div class="georef-status-card" id="georef-status-card">
@@ -1423,101 +1472,81 @@
                                         <i class="fa-solid fa-satellite-dish"></i>
                                     </div>
                                     <div>
-                                        <span id="georef-fix-status">Aguardando captura</span>
-                                        <strong id="georef-fix-quality">SIRGAS 2000 / UTM 23S</strong>
-                                        <p>Datum operacional: SIRGAS 2000. Coordenadas geográficas em EPSG:4674 e projeção UTM por zona.</p>
+                                        <span id="georef-fix-status">Posição Geodésica</span>
+                                        <strong id="georef-fix-quality">SIRGAS 2000 / UTM 23S (EPSG:31983)</strong>
+                                        <p id="georef-fix-desc">Datum SIRGAS 2000 (GRS80) • Coordenadas métricas em Projeção Universal Transversa de Mercator.</p>
                                     </div>
                                 </div>
 
-                                <div class="release-detail-list georef-detail-list mt-3">
-                                    <div><span>Latitude</span><strong id="georef-lat">-</strong></div>
-                                    <div><span>Longitude</span><strong id="georef-lon">-</strong></div>
-                                    <div><span>UTM E</span><strong id="georef-utm-e">-</strong></div>
-                                    <div><span>UTM N</span><strong id="georef-utm-n">-</strong></div>
-                                    <div><span>Zona / EPSG</span><strong id="georef-utm-zone">23S / EPSG:31983</strong></div>
-                                    <div><span>Precisão</span><strong id="georef-accuracy">-</strong></div>
-                                    <div><span>Provedor</span><strong id="georef-provider">-</strong></div>
-                                    <div><span>Capturado em</span><strong id="georef-time">-</strong></div>
-                                </div>
-
-                                <div class="form-actions mt-3">
-                                    <button type="button" class="btn btn-primary" onclick="captureGeolocation('panel')">
-                                        <i class="fa-solid fa-location-arrow"></i> Capturar posição atual
-                                    </button>
+                                <div class="earth-coordinate-grid mt-3">
+                                    <div class="form-group earth-coordinate-paste">
+                                        <label for="georef-input-paste">Colar Coordenada (Google Earth / UTM / Lat,Lon)</label>
+                                        <input type="text" id="georef-input-paste" class="form-control form-control-sm" placeholder="-20.09103992, -44.11018068 ou E 593029 N 7778196">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="georef-input-lat">Latitude (WGS84 / EPSG:4674)</label>
+                                        <input type="number" id="georef-input-lat" class="form-control form-control-sm" step="0.00000001" onchange="onGeorefLatLonChange()">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="georef-input-lon">Longitude (WGS84 / EPSG:4674)</label>
+                                        <input type="number" id="georef-input-lon" class="form-control form-control-sm" step="0.00000001" onchange="onGeorefLatLonChange()">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>UTM Projetada (Easting / Northing)</label>
+                                        <div class="earth-coordinate-derived" id="georef-utm-derived">-</div>
+                                    </div>
+                                    <div class="earth-coordinate-actions">
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="copyGeorefCoordinate()">
+                                            <i class="fa-solid fa-copy"></i> Copiar
+                                        </button>
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="applyPastedGeorefCoordinate()">
+                                            <i class="fa-solid fa-paste"></i> Colar
+                                        </button>
+                                        <button type="button" class="btn btn-primary btn-sm" onclick="saveManualGeorefCoordinate()">
+                                            <i class="fa-solid fa-check"></i> Salvar na Estrutura
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="card col-7">
-                            <div class="card-header">
-                                <h3><i class="fa-solid fa-map-location-dot text-primary"></i> GeoLocalização</h3>
+                        <!-- Card 2: Structure Instruments & Anomaly Summary -->
+                        <div class="card col-6">
+                            <div class="card-header justify-between">
+                                <h3><i class="fa-solid fa-chart-line text-primary"></i> Instrumentos e Alertas da Estrutura</h3>
+                                <span class="badge badge-primary" id="georef-structure-badge">Visão Geral</span>
                             </div>
                             <div class="card-body">
                                 <div class="georef-kpi-grid">
                                     <div class="georef-kpi">
-                                        <span>Instrumentos com E/N</span>
-                                        <strong id="geo-instrument-count">-</strong>
+                                        <span>Instrumentos</span>
+                                        <strong id="georef-kpi-instruments">0</strong>
                                     </div>
                                     <div class="georef-kpi">
-                                        <span>Registros georreferenciados</span>
-                                        <strong id="geo-record-count">0</strong>
+                                        <span>Normal</span>
+                                        <strong id="georef-kpi-normal" class="text-success">0</strong>
                                     </div>
                                     <div class="georef-kpi">
-                                        <span>Até 5 m</span>
-                                        <strong id="geo-accuracy-count">0</strong>
+                                        <span>Atenção</span>
+                                        <strong id="georef-kpi-warning" class="text-warning">0</strong>
                                     </div>
                                     <div class="georef-kpi">
-                                        <span>Baixa precisão</span>
-                                        <strong id="geo-low-count">0</strong>
+                                        <span>Crítico</span>
+                                        <strong id="georef-kpi-critical" class="text-danger">0</strong>
                                     </div>
                                 </div>
 
-                                <div class="georef-standard-box mt-3">
-                                    <div>
-                                        <span>Datum</span>
-                                        <strong>SIRGAS 2000</strong>
-                                    </div>
-                                    <div>
-                                        <span>Geográfico</span>
-                                        <strong>EPSG:4674</strong>
-                                    </div>
-                                    <div>
-                                        <span>UTM operacional</span>
-                                        <strong>EPSG:31983 / Zona 23S</strong>
-                                    </div>
-                                    <div>
-                                        <span>Elipsóide</span>
-                                        <strong>GRS80</strong>
-                                    </div>
-                                </div>
-
-                                <div class="georef-live-map mt-3" id="georef-live-map">
-                                    <div class="georef-map-empty">
-                                        <i class="fa-solid fa-satellite"></i>
-                                        <strong>Capture sua posição para abrir o mapa georreferenciado.</strong>
-                                    </div>
-                                </div>
-                                <div class="georef-live-footer">
-                                    <label class="georef-reference-selector" for="georef-reference-select">
-                                        <span>Referência Google Earth</span>
-                                        <select id="georef-reference-select" class="form-control form-control-sm" onchange="setGeorefStructureByIndex(this.value)"></select>
-                                    </label>
-                                    <div>
-                                        <span>Referência mais próxima</span>
-                                        <strong id="georef-nearest-structure">Aguardando GPS</strong>
-                                        <small id="georef-reference-coordinate">Selecione um ponto do mapa para consultar as coordenadas.</small>
-                                    </div>
-                                    <button type="button" class="btn btn-secondary btn-sm" id="georef-open-earth" onclick="openCurrentPositionInGoogleEarth()" disabled>
-                                        <i class="fa-solid fa-earth-americas"></i> Abrir no Google Earth
-                                    </button>
+                                <div class="georef-instruments-list mt-3" id="georef-instruments-list">
+                                    <!-- Lista de instrumentos renderizada dinamicamente -->
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Georeferenced Records Table Card -->
                     <div class="card mt-4">
                         <div class="card-header">
-                            <h3><i class="fa-solid fa-table-cells text-primary"></i> Últimos registros georreferenciados</h3>
+                            <h3><i class="fa-solid fa-table-cells text-primary"></i> Registros de Campo Georreferenciados</h3>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -1812,10 +1841,11 @@
     </div>
 
     <!-- Script Injection -->
-    <script src="data/geosync-database.js?v=flyto-transitional-20260903d"></script>
-    <script src="data/geoview-catalog.js?v=flyto-transitional-20260903d"></script>
-    <script src="data/geoview-operational.js?v=flyto-transitional-20260903d"></script>
-    <script src="data/google-earth-geospatial.js?v=flyto-transitional-20260903d"></script>
-    <script src="app.js?v=flyto-transitional-20260903d"></script>
+    <script src="vendor/leaflet/leaflet.js"></script>
+    <script src="data/geosync-database.js?v=georef-leaflet-20260903"></script>
+    <script src="data/geoview-catalog.js?v=georef-leaflet-20260903"></script>
+    <script src="data/geoview-operational.js?v=georef-leaflet-20260903"></script>
+    <script src="data/google-earth-geospatial.js?v=georef-leaflet-20260903"></script>
+    <script src="app.js?v=georef-leaflet-20260903"></script>
 </body>
 </html>

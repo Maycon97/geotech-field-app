@@ -1,7 +1,7 @@
 {
   "version": "2026-09-02-pcmi-live",
   "sourcePath": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI",
-  "generatedAt": "2026-09-03T11:25:12.522777",
+  "generatedAt": "2026-09-03T11:38:56.665232",
   "summary": {
     "totalDashboards": 52,
     "totalPowerBi": 54,
@@ -202,7 +202,7 @@
       "pdfs": 1,
       "docs": 1,
       "totalFiles": 9,
-      "lastUpdated": "2026-09-03T11:24:43"
+      "lastUpdated": "2026-09-03T11:29:52"
     },
     {
       "id": "02-monitoramentos-001-barragens",

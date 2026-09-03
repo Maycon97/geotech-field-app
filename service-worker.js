@@ -1,4 +1,4 @@
-const GEOSYNC_CACHE = "geosync-field-pwa-flyto-v20260903d";
+const GEOSYNC_CACHE = "geosync-field-pwa-georef-v20260903e";
 const APP_SHELL = [
     "./",
     "./index.html",
@@ -10,6 +10,8 @@ const APP_SHELL = [
     "./data/geoview-catalog.js",
     "./data/geoview-operational.js",
     "./data/google-earth-geospatial.js",
+    "./vendor/leaflet/leaflet.js",
+    "./vendor/leaflet/leaflet.css",
     "./vendor/chart.umd.min.js",
     "./vendor/jszip.min.js",
     "./vendor/fontawesome/css/all.min.css",
