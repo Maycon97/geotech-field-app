@@ -1,4 +1,4 @@
-const GEOSYNC_CACHE = "geosync-field-pwa-restore-v20260903f";
+const GEOSYNC_CACHE = "geosync-field-pwa-dashboard-v20260903g";
 const APP_SHELL = [
     "./",
     "./index.html",

@@ -1733,68 +1733,194 @@ body.android-shell .apk-hidden {
     box-shadow: 0 0 0 4px rgba(21, 200, 213, 0.34);
 }
 
-.earth-structure-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 12px;
-    padding: 6px;
-    background: rgba(15, 23, 42, 0.55);
+/* --- DASHBOARD: CRONOGRAMA OPERACIONAL & MINI DASHBOARD DE INSPEÇÕES --- */
+.activity-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.activity-card {
+    background: #172433;
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 8px;
-}
-
-.structure-chip {
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 11.5px;
-    font-weight: 700;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    background: rgba(30, 41, 59, 0.7);
-    color: #cbd5e1;
-    cursor: pointer;
-    transition: all 0.22s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    white-space: nowrap;
-}
-
-.structure-chip:hover {
-    background: rgba(56, 189, 248, 0.2);
-    border-color: #38bdf8;
-    color: #ffffff;
-    transform: translateY(-1px);
-}
-
-.structure-chip.active {
-    background: #0284c7;
-    border-color: #38bdf8;
-    color: #ffffff;
-    box-shadow: 0 0 12px rgba(56, 189, 248, 0.45);
-}
-
-.earth-map-stage {
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     position: relative;
     overflow: hidden;
-    width: 100%;
+}
+
+.activity-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #38bdf8;
+}
+
+.activity-card.reading::before { background: #38bdf8; }
+.activity-card.photo::before { background: #a855f7; }
+.activity-card.sensory::before { background: #f59e0b; }
+
+.activity-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(56, 189, 248, 0.3);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.activity-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.activity-icon-badge {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.activity-card.reading .activity-icon-badge {
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.activity-card.photo .activity-icon-badge {
+    background: rgba(168, 85, 247, 0.15);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.activity-card.sensory .activity-icon-badge {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.activity-card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #f8fafc;
+    margin-bottom: 3px;
+}
+
+.activity-card-subtitle {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.activity-card-body {
+    margin: 12px 0 16px 0;
+}
+
+.activity-card-stats {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 8px;
-    background: #142331;
-    cursor: grab;
-    user-select: none;
-    touch-action: none;
+    padding: 10px 14px;
+    margin-bottom: 10px;
 }
 
-.earth-map-stage.is-dragging {
-    cursor: grabbing;
+.activity-card-stats span {
+    font-size: 11.5px;
+    color: #94a3b8;
 }
 
-.dam-map-svg {
-    width: 100%;
-    height: auto;
+.activity-card-stats strong {
+    font-size: 13.5px;
+    color: #f8fafc;
+}
+
+.activity-card-desc {
+    font-size: 12px;
+    line-height: 1.5;
+    color: #cbd5e1;
+}
+
+.activity-card-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mini-dashboard-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.mini-kpi-box {
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+}
+
+.mini-kpi-box span {
     display: block;
-    aspect-ratio: 2 / 1;
-    border-radius: 8px;
+    font-size: 11.5px;
+    color: #94a3b8;
+    margin-bottom: 4px;
+}
+
+.mini-kpi-box strong {
+    font-size: 20px;
+    font-weight: 800;
+    color: #f8fafc;
+}
+
+.schedule-header-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.schedule-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 9px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.schedule-status-badge.pending {
+    background: rgba(245, 158, 11, 0.15);
+    color: #facc15;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.schedule-status-badge.in-progress {
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.schedule-status-badge.completed {
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.3);
 }
 
 .georef-pills-bar {

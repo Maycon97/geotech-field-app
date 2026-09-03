@@ -251,126 +251,229 @@
                         </button>
                     </div>
 
-                    <!-- Interactive Map & Current Warnings -->
+                    <!-- OPERATIONAL FIELD ACTIVITIES & DAILY SCHEDULE -->
+                    <div class="card mt-4">
+                        <div class="card-header justify-between">
+                            <div>
+                                <h3><i class="fa-solid fa-clipboard-list text-primary"></i> Atividades Operacionais do Dia</h3>
+                                <p class="text-secondary small mt-1">Cronograma de Campo Integrado • <strong id="daily-schedule-current-date">Hoje</strong></p>
+                            </div>
+                            <div class="schedule-header-controls">
+                                <div class="form-group mb-0">
+                                    <input type="date" id="dashboard-schedule-date" class="form-control form-control-sm" onchange="filterDashboardScheduleByDate(this.value)">
+                                </div>
+                                <div class="form-group mb-0">
+                                    <select id="dashboard-schedule-structure-filter" class="form-control form-control-sm" onchange="filterDashboardScheduleByStructure(this.value)">
+                                        <option value="all">Todas as Estruturas</option>
+                                    </select>
+                                </div>
+                                <input type="file" id="schedule-file-import" class="sr-only-file" accept=".xlsx,.xls,.csv" onchange="importInspectionScheduleSpreadsheet(event)">
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('schedule-file-import').click()">
+                                    <i class="fa-solid fa-file-excel text-success"></i> Importar Cronograma
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- 3 Main Activity Pillars Cards -->
+                            <div class="activity-cards-grid">
+                                <!-- Activity 1: Leitura de Instrumentos -->
+                                <div class="activity-card reading">
+                                    <div>
+                                        <div class="activity-card-header">
+                                            <div>
+                                                <div class="activity-card-title"><i class="fa-solid fa-chart-line text-primary"></i> Leitura de Instrumentos</div>
+                                                <div class="activity-card-subtitle" id="activity-instruments-subtitle">Piezômetros, INA, Medidores de Vazão</div>
+                                            </div>
+                                            <div class="activity-icon-badge">
+                                                <i class="fa-solid fa-gauge-high"></i>
+                                            </div>
+                                        </div>
+                                        <div class="activity-card-body">
+                                            <div class="activity-card-stats">
+                                                <div>
+                                                    <span>Meta do Dia</span>
+                                                    <strong id="activity-instruments-target">38 instrumentos</strong>
+                                                </div>
+                                                <div>
+                                                    <span>Progresso</span>
+                                                    <strong id="activity-instruments-progress" class="text-primary">100%</strong>
+                                                </div>
+                                            </div>
+                                            <p class="activity-card-desc" id="activity-instruments-desc">
+                                                Coleta de leituras de nível d'água, pressão neutra e vazão em conformidade com o cronograma geotécnico.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="activity-card-footer">
+                                        <span class="schedule-status-badge in-progress" id="activity-instruments-badge">
+                                            <i class="fa-solid fa-spinner fa-spin"></i> Em Andamento
+                                        </span>
+                                        <button type="button" class="btn btn-primary btn-sm" onclick="switchTab('readings')">
+                                            <i class="fa-solid fa-arrow-right"></i> Ir para Coletas
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Activity 2: Registro Fotográfico -->
+                                <div class="activity-card photo">
+                                    <div>
+                                        <div class="activity-card-header">
+                                            <div>
+                                                <div class="activity-card-title"><i class="fa-solid fa-camera" style="color: #c084fc;"></i> Registro Fotográfico</div>
+                                                <div class="activity-card-subtitle" id="activity-photo-subtitle">Taludes, Bermas, Drenagem & Crista</div>
+                                            </div>
+                                            <div class="activity-icon-badge">
+                                                <i class="fa-solid fa-image"></i>
+                                            </div>
+                                        </div>
+                                        <div class="activity-card-body">
+                                            <div class="activity-card-stats">
+                                                <div>
+                                                    <span>Estruturas Alvo</span>
+                                                    <strong id="activity-photo-target">10 estruturas</strong>
+                                                </div>
+                                                <div>
+                                                    <span>Fotos Registradas</span>
+                                                    <strong id="activity-photo-progress" style="color: #c084fc;">12 fotos</strong>
+                                                </div>
+                                            </div>
+                                            <p class="activity-card-desc" id="activity-photo-desc">
+                                                Evidências fotográficas georreferenciadas dos pontos de controle, canaletas e taludes para o acervo técnico.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="activity-card-footer">
+                                        <span class="schedule-status-badge completed" id="activity-photo-badge">
+                                            <i class="fa-solid fa-circle-check"></i> Programado
+                                        </span>
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="switchTab('inspections')">
+                                            <i class="fa-solid fa-camera"></i> Registrar Fotos
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Activity 3: Monitoramento Sensorial / Inspeção Visual -->
+                                <div class="activity-card sensory">
+                                    <div>
+                                        <div class="activity-card-header">
+                                            <div>
+                                                <div class="activity-card-title"><i class="fa-solid fa-eye text-warning"></i> Monitoramento Sensorial</div>
+                                                <div class="activity-card-subtitle" id="activity-sensory-subtitle">Inspeção Visual de Segurança</div>
+                                            </div>
+                                            <div class="activity-icon-badge">
+                                                <i class="fa-solid fa-magnifying-glass-location"></i>
+                                            </div>
+                                        </div>
+                                        <div class="activity-card-body">
+                                            <div class="activity-card-stats">
+                                                <div>
+                                                    <span>Itens Avaliados</span>
+                                                    <strong id="activity-sensory-target">14 itens</strong>
+                                                </div>
+                                                <div>
+                                                    <span>Estabilidade</span>
+                                                    <strong id="activity-sensory-status" class="text-success">Sem Anomalias</strong>
+                                                </div>
+                                            </div>
+                                            <p class="activity-card-desc" id="activity-sensory-desc">
+                                                Inspeção rotineira de trincas, surgências, abatimentos, carreamento de finos e integridade de vertedouros.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="activity-card-footer">
+                                        <span class="schedule-status-badge in-progress" id="activity-sensory-badge">
+                                            <i class="fa-solid fa-clock"></i> Pendente
+                                        </span>
+                                        <button type="button" class="btn btn-warning btn-sm" onclick="switchTab('inspections')">
+                                            <i class="fa-solid fa-list-check"></i> Iniciar Checklist
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Detailed Schedule Table -->
+                            <div class="table-responsive mt-3">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Horário / Data</th>
+                                            <th>Estrutura</th>
+                                            <th>Atividade Programada</th>
+                                            <th>Categoria</th>
+                                            <th>Frequência</th>
+                                            <th>Equipe Responsável</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="dashboard-schedule-table-body">
+                                        <!-- Preenchido dinamicamente pelo cronograma -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MINI DASHBOARD DE INSPEÇÕES ANTERIORES & ALERTAS -->
                     <div class="dashboard-row mt-4">
-                        <!-- Custom Interactive SVGMAP -->
+                        <!-- Mini Dashboard de Auditoria de Inspeções -->
                         <div class="card col-8">
                             <div class="card-header justify-between">
-                                <h3 id="earth-map-title"><i class="fa-solid fa-map-location-dot text-primary"></i> Disposição Espacial dos Instrumentos</h3>
-                                <span class="badge badge-outline" id="earth-map-source-badge">Google Earth + coordenada manual</span>
+                                <h3><i class="fa-solid fa-clipboard-check text-success"></i> Mini Dashboard de Inspeções Realizadas</h3>
+                                <span class="badge badge-primary" id="inspections-total-badge">Histórico Geral</span>
                             </div>
-                            <div class="card-body map-container">
-                                <input type="file" id="earth-kml-input" class="sr-only-file" accept=".kml,.kmz,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz">
-                                <div class="earth-map-toolbar">
-                                    <div class="form-group">
-                                        <label for="earth-structure-select">Estrutura Selecionada</label>
-                                        <select id="earth-structure-select" class="form-control form-control-sm" onchange="setEarthMapStructure(this.value)"></select>
+                            <div class="card-body">
+                                <!-- Mini KPIs -->
+                                <div class="mini-dashboard-kpis">
+                                    <div class="mini-kpi-box">
+                                        <span>Total Realizadas</span>
+                                        <strong id="mini-kpi-total-inspections">0</strong>
                                     </div>
-                                    <button type="button" class="btn btn-secondary" onclick="openEarthKmlPicker()">
-                                        <i class="fa-solid fa-file-import"></i> Importar KML/KMZ Google Earth
-                                    </button>
-                                    <button type="button" class="btn btn-primary" onclick="openSelectedEarthStructureInGoogleEarth()">
-                                        <i class="fa-solid fa-earth-americas"></i> Abrir no Google Earth
-                                    </button>
-                                </div>
-                                <div class="earth-structure-chips" id="earth-structure-chips" aria-label="Navegação rápida de estruturas"></div>
-                                <div class="earth-coordinate-editor" id="earth-coordinate-editor">
-                                    <div class="earth-coordinate-heading">
-                                        <div>
-                                            <span>Coordenada operacional da estrutura</span>
-                                            <strong id="earth-coordinate-source">Referência do KMZ Google Earth</strong>
-                                        </div>
-                                        <button type="button" class="btn btn-secondary btn-sm" onclick="useCurrentGpsForEarthCoordinate()">
-                                            <i class="fa-solid fa-location-crosshairs"></i> Usar GPS atual
-                                        </button>
+                                    <div class="mini-kpi-box">
+                                        <span>Sem Anomalias</span>
+                                        <strong id="mini-kpi-normal-inspections" class="text-success">0</strong>
                                     </div>
-                                    <div class="earth-coordinate-grid">
-                                        <div class="form-group earth-coordinate-paste">
-                                            <label for="earth-coordinate-paste">Colar coordenada Google Earth</label>
-                                            <input type="text" id="earth-coordinate-paste" class="form-control form-control-sm" placeholder="-20.09103992, -44.11018068">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="earth-manual-lat">Latitude</label>
-                                            <input type="number" id="earth-manual-lat" class="form-control form-control-sm" step="0.00000001" inputmode="decimal" onchange="updateEarthCoordinateDerived()">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="earth-manual-lon">Longitude</label>
-                                            <input type="number" id="earth-manual-lon" class="form-control form-control-sm" step="0.00000001" inputmode="decimal" onchange="updateEarthCoordinateDerived()">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>UTM E / N</label>
-                                            <div class="earth-coordinate-derived" id="earth-coordinate-derived">-</div>
-                                        </div>
-                                        <div class="earth-coordinate-actions">
-                                            <button type="button" class="btn btn-secondary btn-sm" onclick="copyEarthStructureCoordinate()">
-                                                <i class="fa-solid fa-copy"></i> Copiar
-                                            </button>
-                                            <button type="button" class="btn btn-secondary btn-sm" onclick="applyPastedEarthCoordinate()">
-                                                <i class="fa-solid fa-paste"></i> Colar
-                                            </button>
-                                            <button type="button" class="btn btn-primary btn-sm" onclick="applyEarthManualCoordinate()">
-                                                <i class="fa-solid fa-check"></i> Aplicar coordenada
-                                            </button>
-                                        </div>
+                                    <div class="mini-kpi-box">
+                                        <span>Com Apontamento</span>
+                                        <strong id="mini-kpi-warning-inspections" class="text-warning">0</strong>
+                                    </div>
+                                    <div class="mini-kpi-box">
+                                        <span>Críticas / Alerta</span>
+                                        <strong id="mini-kpi-critical-inspections" class="text-danger">0</strong>
                                     </div>
                                 </div>
-                                <div class="earth-map-status" id="earth-map-status">Selecione uma estrutura, confira no Google Earth ou ajuste a coordenada manualmente.</div>
-                                <div class="earth-map-stage" onclick="clearEarthInstrumentFocus()">
-                                    <div class="earth-map-controls" aria-label="Controles do mapa">
-                                        <button type="button" title="Aproximar" onclick="event.stopPropagation(); setEarthMapZoom(1)">
-                                            <i class="fa-solid fa-plus"></i>
-                                        </button>
-                                        <button type="button" title="Afastar" onclick="event.stopPropagation(); setEarthMapZoom(-1)">
-                                            <i class="fa-solid fa-minus"></i>
-                                        </button>
-                                        <button type="button" title="Restaurar enquadramento" onclick="event.stopPropagation(); resetEarthMapView()">
-                                            <i class="fa-solid fa-house"></i>
-                                        </button>
-                                        <button type="button" title="Alternar camadas" onclick="event.stopPropagation(); toggleEarthMapLayers()">
-                                            <i class="fa-solid fa-layer-group"></i>
-                                        </button>
-                                    </div>
-                                    <svg viewBox="0 0 800 400" class="dam-map-svg" id="dam-map">
-                                        <defs>
-                                            <linearGradient id="earthFallbackGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                <stop offset="0%" stop-color="#203342" />
-                                                <stop offset="55%" stop-color="#284f5e" />
-                                                <stop offset="100%" stop-color="#142331" />
-                                            </linearGradient>
-                                            <clipPath id="earthMapClip">
-                                                <rect width="800" height="400" rx="10"></rect>
-                                            </clipPath>
-                                        </defs>
-                                        <g id="earth-map-viewport" clip-path="url(#earthMapClip)">
-                                            <rect width="800" height="400" rx="10" fill="url(#earthFallbackGradient)" />
-                                            <image id="earth-satellite-base" href="assets/geoview-site-overview.webp" x="0" y="0" width="800" height="400" preserveAspectRatio="xMidYMid slice"></image>
-                                            <rect class="earth-satellite-shade" width="800" height="400" rx="10"></rect>
-                                            <g id="earth-base-layer"></g>
-                                            <g id="earth-overlay-layer"></g>
-                                            <g id="earth-kml-layer"></g>
-                                            <g id="earth-instrument-layer"></g>
-                                        </g>
-                                    </svg>
+
+                                <!-- Recent Inspections List -->
+                                <h4 class="mt-3 mb-2 text-secondary" style="font-size: 13px; font-weight: 700;">
+                                    <i class="fa-solid fa-clock-rotate-left"></i> Últimas Inspeções de Campo Concluídas
+                                </h4>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Data/Hora</th>
+                                                <th>Estrutura</th>
+                                                <th>Inspetor</th>
+                                                <th>Condição Geral</th>
+                                                <th>Anomalias Apontadas</th>
+                                                <th>Evidências</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="dashboard-recent-inspections-body">
+                                            <!-- Preenchido dinamicamente -->
+                                        </tbody>
+                                    </table>
                                 </div>
-                                
-                                <div class="map-legend">
-                                    <div class="legend-item"><span class="legend-dot bg-blue"></span> Camada Google Earth</div>
-                                    <div class="legend-item"><span class="legend-dot bg-success"></span> Normal (< 70% limite)</div>
-                                    <div class="legend-item"><span class="legend-dot bg-warning"></span> Atenção (70% - 90% limite)</div>
-                                    <div class="legend-item"><span class="legend-dot bg-danger"></span> Crítico (> 90% limite)</div>
-                                </div>
-                                <div class="earth-unmapped-list" id="earth-unmapped-list"></div>
                             </div>
                         </div>
 
-                        <!-- Warnings & Alerts Panel -->
+                        <!-- Anomalias Ativas e Feed de Coletas Recentes -->
                         <div class="card col-4">
                             <div class="card-header justify-between">
-                                <h3><i class="fa-solid fa-bell text-warning"></i> Painel de Anomalias</h3>
-                                <span class="badge badge-outline" id="earth-anomaly-context">Estrutura</span>
+                                <h3><i class="fa-solid fa-bell text-warning"></i> Anomalias & Alertas Recentes</h3>
+                                <span class="badge badge-outline" id="dashboard-anomalies-count">0 alertas</span>
                             </div>
                             <div class="card-body notification-panel" id="alert-list-container">
-                                <div class="notification-empty">Selecione uma estrutura para carregar as anomalias registradas.</div>
+                                <div class="notification-empty">Carregando anomalias e alertas de estabilidade...</div>
                             </div>
                         </div>
                     </div>
@@ -1842,10 +1945,10 @@
 
     <!-- Script Injection -->
     <script src="vendor/leaflet/leaflet.js"></script>
-    <script src="data/geosync-database.js?v=georef-leaflet-20260903"></script>
-    <script src="data/geoview-catalog.js?v=georef-leaflet-20260903"></script>
-    <script src="data/geoview-operational.js?v=georef-leaflet-20260903"></script>
-    <script src="data/google-earth-geospatial.js?v=georef-leaflet-20260903"></script>
-    <script src="app.js?v=georef-leaflet-20260903"></script>
+    <script src="data/geosync-database.js?v=dashboard-schedule-20260903g"></script>
+    <script src="data/geoview-catalog.js?v=dashboard-schedule-20260903g"></script>
+    <script src="data/geoview-operational.js?v=dashboard-schedule-20260903g"></script>
+    <script src="data/google-earth-geospatial.js?v=dashboard-schedule-20260903g"></script>
+    <script src="app.js?v=dashboard-schedule-20260903g"></script>
 </body>
 </html>
