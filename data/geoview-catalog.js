@@ -1,15 +1,15 @@
 window.MDSYNC_GEOVIEW_CATALOG = {
     "version": "2026-09-02-pcmi-live",
     "sourcePath": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI",
-    "generatedAt": "2026-09-03T11:38:56.665232",
+    "generatedAt": "2026-09-03T12:42:12.400994",
     "summary": {
         "totalDashboards": 52,
         "totalPowerBi": 54,
-        "totalExcel": 3567,
-        "totalImages": 30859,
-        "totalPdfs": 6696,
+        "totalExcel": 3549,
+        "totalImages": 30123,
+        "totalPdfs": 6673,
         "totalDocs": 700,
-        "totalFiles": 44516
+        "totalFiles": 43724
     },
     "dashboards": [
         {
@@ -74,7 +74,7 @@ window.MDSYNC_GEOVIEW_CATALOG = {
             "pdfs": 0,
             "docs": 1,
             "totalFiles": 37,
-            "lastUpdated": "2026-09-03T11:23:48"
+            "lastUpdated": "2026-09-03T11:49:03"
         },
         {
             "id": "00-gest-o-vista-04-chamados",
@@ -202,7 +202,7 @@ window.MDSYNC_GEOVIEW_CATALOG = {
             "pdfs": 1,
             "docs": 1,
             "totalFiles": 9,
-            "lastUpdated": "2026-09-03T11:29:52"
+            "lastUpdated": "2026-09-03T12:28:28"
         },
         {
             "id": "02-monitoramentos-001-barragens",
@@ -213,11 +213,11 @@ window.MDSYNC_GEOVIEW_CATALOG = {
             "content": "Planejamento Estratégico e Cronograma de Combate a Formigas e Cupins - Barragens B1-B4.docx, Relatorio de manutenção so sistema  de sirenes Barragem B4.docx, Relatorio Relocação ETRs Atualizado.docx, RTF-B1-ITA-04-2026.docx",
             "path": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI/02) Monitoramentos/001) Barragens",
             "powerbi": 4,
-            "excel": 3169,
-            "images": 10357,
+            "excel": 3170,
+            "images": 10454,
             "pdfs": 5675,
             "docs": 431,
-            "totalFiles": 20645,
+            "totalFiles": 20743,
             "lastUpdated": "2026-09-02T18:16:01"
         },
         {
@@ -230,10 +230,10 @@ window.MDSYNC_GEOVIEW_CATALOG = {
             "path": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI/02) Monitoramentos/002) Cavas",
             "powerbi": 0,
             "excel": 7,
-            "images": 762,
+            "images": 787,
             "pdfs": 3,
             "docs": 0,
-            "totalFiles": 777,
+            "totalFiles": 804,
             "lastUpdated": "2026-09-02T14:42:13.490000"
         },
         {
@@ -262,10 +262,10 @@ window.MDSYNC_GEOVIEW_CATALOG = {
             "path": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI/02) Monitoramentos/004) Diques",
             "powerbi": 0,
             "excel": 3,
-            "images": 275,
+            "images": 291,
             "pdfs": 27,
             "docs": 9,
-            "totalFiles": 370,
+            "totalFiles": 386,
             "lastUpdated": "2026-08-31T15:36:50.324566"
         },
         {
@@ -290,15 +290,15 @@ window.MDSYNC_GEOVIEW_CATALOG = {
             "title": "Pilhas",
             "area": "Monitoramento Geotécnico",
             "description": "Dados e indicadores de Pilhas vinculados a pasta 02) Monitoramentos.",
-            "content": "RIG-DQB2-005-2022-R0.xlsx, RIG-DQCP-005-2022-R0.xlsx, RIG-ENB4-009-2022-R0.xlsx, RIG-PDEII-008-2022-R0.xlsx",
+            "content": "RIG-DQB2-005-2022-R0.xlsx, RIG-DQCP-005-2022-R0.xlsx, RIG-PDEII-008-2022-R0.xlsx, RIG-PDEI-001-22-04-2025-R0.pdf",
             "path": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI/02) Monitoramentos/006) Pilhas",
             "powerbi": 0,
-            "excel": 49,
-            "images": 10454,
-            "pdfs": 97,
+            "excel": 30,
+            "images": 9580,
+            "pdfs": 74,
             "docs": 17,
-            "totalFiles": 10736,
-            "lastUpdated": "2026-09-03T11:17:15"
+            "totalFiles": 9803,
+            "lastUpdated": "2026-09-03T12:33:41.464751"
         },
         {
             "id": "02-monitoramentos-007-sumps",
