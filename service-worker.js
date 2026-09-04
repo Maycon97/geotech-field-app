@@ -1,4 +1,4 @@
-const GEOSYNC_CACHE = "geosync-field-pwa-dashboard-v20260903g";
+const GEOSYNC_CACHE = "geosync-field-pwa-pcm-v20260904h";
 const APP_SHELL = [
     "./",
     "./index.html",
@@ -10,6 +10,7 @@ const APP_SHELL = [
     "./data/geoview-catalog.js",
     "./data/geoview-operational.js",
     "./data/google-earth-geospatial.js",
+    "./data/cronograma-pcm.js",
     "./vendor/leaflet/leaflet.js",
     "./vendor/leaflet/leaflet.css",
     "./vendor/chart.umd.min.js",

@@ -7651,65 +7651,75 @@ function showToast(message, type = "success") {
 let dashboardScheduleState = {
     selectedDate: new Date().toISOString().slice(0, 10),
     selectedStructure: "all",
-    scheduleItems: [
-        {
-            time: "08:00 - 09:30",
-            structure: "Barragem B4",
-            activity: "Leitura de Piezômetros Elétricos & Pneumáticos (PZ-01 a PZ-20)",
-            category: "Leitura de Instrumentos",
-            frequency: "Diária",
-            team: "Geotecnia / Operação",
-            status: "completed"
-        },
-        {
-            time: "09:30 - 11:00",
-            structure: "Barragem B1",
-            activity: "Inspeção Visual Sensorial: Crista, Talude de Jusante e Drenos",
-            category: "Monitoramento Sensorial",
-            frequency: "Diária",
-            team: "Engenheiro Geotécnico",
-            status: "in-progress"
-        },
-        {
-            time: "11:00 - 12:00",
-            structure: "PDE 1",
-            activity: "Leitura de Indicadores de Nível d'Água (INA) e Medidores de Vazão",
-            category: "Leitura de Instrumentos",
-            frequency: "Diária",
-            team: "Técnico de Campo",
-            status: "pending"
-        },
-        {
-            time: "13:30 - 15:00",
-            structure: "Barragem B2",
-            activity: "Registro Fotográfico das Bermas, Drenagens Pluviais e Ombreiras",
-            category: "Registro Fotográfico",
-            frequency: "Semanal",
-            team: "Geotecnia / Drone",
-            status: "pending"
-        },
-        {
-            time: "15:00 - 16:30",
-            structure: "Cava Jangada",
-            activity: "Monitoramento Sensorial: Frentes de Lavra, Trincas e Surgências",
-            category: "Monitoramento Sensorial",
-            frequency: "Diária",
-            team: "Geologia / Geotecnia",
-            status: "pending"
-        },
-        {
-            time: "16:30 - 17:30",
-            structure: "Pilha B2",
-            activity: "Registro Fotográfico e Inspeção Visual de Estabilidade de Taludes",
-            category: "Registro Fotográfico",
-            frequency: "Semanal",
-            team: "Técnico de Mineração",
-            status: "pending"
-        }
-    ]
+    selectedScope: "today" // "today", "week", "month", "all"
 };
 
+function getOfficialPcmScheduleTasks() {
+    const cached = localStorage.getItem("geosync_custom_schedule");
+    if (cached) {
+        try {
+            const parsed = JSON.parse(cached);
+            if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        } catch (e) {
+            console.warn("Erro ao ler cronograma customizado:", e);
+        }
+    }
+    if (window.CRONOGRAMA_PCM_DATA && Array.isArray(window.CRONOGRAMA_PCM_DATA.tasks)) {
+        return window.CRONOGRAMA_PCM_DATA.tasks;
+    }
+    return [];
+}
+
+function reloadOfficialPcmSchedule() {
+    localStorage.removeItem("geosync_custom_schedule");
+    dashboardScheduleState.selectedScope = "today";
+    dashboardScheduleState.selectedStructure = "all";
+    const scopeSelect = document.getElementById("dashboard-schedule-scope");
+    if (scopeSelect) scopeSelect.value = "today";
+    const structSelect = document.getElementById("dashboard-schedule-structure-filter");
+    if (structSelect) structSelect.value = "all";
+    renderDailyOperationalSchedule();
+    showToast("Cronograma Oficial do PCM (1.697 tarefas) recarregado com sucesso!", "success");
+}
+
+function filterDashboardScheduleByScope(scope) {
+    dashboardScheduleState.selectedScope = scope;
+    renderDailyOperationalSchedule();
+}
+
+function startScheduleTaskAction(structure, targetTab) {
+    if (targetTab === 'readings') {
+        switchTab('readings');
+        showToast(`Iniciando fluxo de coleta para ${structure}...`);
+    } else if (targetTab === 'inspections') {
+        switchTab('inspections');
+        const select = document.getElementById("ins-structure");
+        if (select) {
+            for (let i = 0; i < select.options.length; i++) {
+                if (normalizeComparable(select.options[i].value) === normalizeComparable(structure)) {
+                    select.selectedIndex = i;
+                    break;
+                }
+            }
+        }
+        showToast(`Iniciando checklist de inspeção para ${structure}...`);
+    } else if (targetTab === 'georef') {
+        switchTab('georef');
+        if (typeof selectGeorefStructure === "function") {
+            selectGeorefStructure(structure);
+        }
+    } else {
+        switchTab(targetTab);
+    }
+}
+
 function renderDailyOperationalSchedule() {
+    const allTasks = getOfficialPcmScheduleTasks();
+    const totalBadge = document.getElementById("dashboard-schedule-total-badge");
+    if (totalBadge) {
+        totalBadge.innerHTML = `<i class="fa-solid fa-calendar-check"></i> ${allTasks.length.toLocaleString('pt-BR')} tarefas (PCM Oficial)`;
+    }
+
     const today = new Date();
     const dateFormatted = today.toLocaleDateString("pt-BR", { weekday: "long", day: "2-digit", month: "2-digit", year: "numeric" });
     setTextContent("daily-schedule-current-date", `Hoje (${dateFormatted})`);
@@ -7719,68 +7729,183 @@ function renderDailyOperationalSchedule() {
         dateInput.value = dashboardScheduleState.selectedDate;
     }
 
+    const scopeSelect = document.getElementById("dashboard-schedule-scope");
+    if (scopeSelect && scopeSelect.value !== dashboardScheduleState.selectedScope) {
+        scopeSelect.value = dashboardScheduleState.selectedScope;
+    }
+
     const structureSelect = document.getElementById("dashboard-schedule-structure-filter");
     if (structureSelect && structureSelect.options.length <= 1) {
-        const structures = getGeospatialStructureList();
+        const structures = window.CRONOGRAMA_PCM_DATA?.structuresList || getGeospatialStructureList();
         structureSelect.innerHTML = `<option value="all">Todas as Estruturas</option>` +
             structures.map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join("");
     }
 
-    // Filter items
-    const filtered = dashboardScheduleState.scheduleItems.filter(item => {
+    // Filter by Scope
+    const targetDate = dashboardScheduleState.selectedDate;
+    const targetDateObj = new Date(targetDate + "T12:00:00");
+    const weekEndDateObj = new Date(targetDateObj);
+    weekEndDateObj.setDate(weekEndDateObj.getDate() + 7);
+    const weekEndStr = weekEndDateObj.toISOString().slice(0, 10);
+    const monthPrefix = targetDate.slice(0, 7); // "YYYY-MM"
+
+    let filteredByScope = allTasks.filter(t => {
+        if (!t.datePlanned) return false;
+        if (dashboardScheduleState.selectedScope === "today") {
+            return t.datePlanned === targetDate;
+        } else if (dashboardScheduleState.selectedScope === "week") {
+            return t.datePlanned >= targetDate && t.datePlanned <= weekEndStr;
+        } else if (dashboardScheduleState.selectedScope === "month") {
+            return t.datePlanned.startsWith(monthPrefix);
+        }
+        return true; // "all"
+    });
+
+    // Filter by Structure
+    let filtered = filteredByScope.filter(item => {
         if (dashboardScheduleState.selectedStructure !== "all" && normalizeComparable(item.structure) !== normalizeComparable(dashboardScheduleState.selectedStructure)) {
             return false;
         }
         return true;
     });
 
-    // Update Activity Summary Stats
-    const totalInstruments = Object.keys(INSTRUMENT_REGISTRY).length;
-    setTextContent("activity-instruments-target", `${totalInstruments} instrumentos`);
-    const instrumentProgress = Math.min(100, Math.round((readingsDatabase.length / (totalInstruments || 1)) * 100));
-    setTextContent("activity-instruments-progress", `${instrumentProgress}%`);
+    // Calculate Summary Stats for 3 Main Cards based on the current scope (or month)
+    const scopeOrMonthTasks = filteredByScope.length > 0 ? filteredByScope : allTasks.filter(t => t.datePlanned && t.datePlanned.startsWith(monthPrefix));
 
-    const photoInspections = inspectionsDatabase.filter(i => (i.photoCount || 0) > 0 || (i.generalPhotos && i.generalPhotos.length > 0));
-    setTextContent("activity-photo-target", `${getGeospatialStructureList().length} estruturas`);
-    setTextContent("activity-photo-progress", `${photoInspections.length} fotos`);
+    // 1. Leitura de Instrumentos
+    const instrumentTasks = scopeOrMonthTasks.filter(t => t.category === "Leitura de Instrumentos");
+    const instrumentTasksDone = instrumentTasks.filter(t => t.status === "Concluído").length;
+    const totalRegisteredInst = Object.keys(INSTRUMENT_REGISTRY).length;
+    setTextContent("activity-instruments-target", `${totalRegisteredInst} instrumentos (${instrumentTasks.length} rotinas)`);
+    const instProgressPct = instrumentTasks.length > 0 ? Math.round((instrumentTasksDone / instrumentTasks.length) * 100) : 100;
+    setTextContent("activity-instruments-progress", `${instProgressPct}%`);
+    const instBadge = document.getElementById("activity-instruments-badge");
+    if (instBadge) {
+        if (instProgressPct === 100 && instrumentTasks.length > 0) {
+            instBadge.className = "schedule-status-badge completed";
+            instBadge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Concluído`;
+        } else {
+            instBadge.className = "schedule-status-badge in-progress";
+            instBadge.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Em Andamento`;
+        }
+    }
 
-    const normalInspections = inspectionsDatabase.filter(i => i.insRisk === "Sem Anomalias Significativas" || i.insRisk === "Normal").length;
-    setTextContent("activity-sensory-target", `${inspectionsDatabase.length} checklists`);
-    setTextContent("activity-sensory-status", normalInspections >= (inspectionsDatabase.length * 0.8) ? "Sem Anomalias" : "Com Apontamentos");
+    // 2. Registro Fotográfico
+    const photoTasks = scopeOrMonthTasks.filter(t => t.category === "Registro Fotográfico" || t.photoRequired);
+    const photoTasksDone = photoTasks.filter(t => t.status === "Concluído").length;
+    setTextContent("activity-photo-target", `${photoTasks.length} vistorias c/ foto`);
+    setTextContent("activity-photo-progress", `${photoTasksDone} concluídas`);
+    const photoBadge = document.getElementById("activity-photo-badge");
+    if (photoBadge) {
+        if (photoTasksDone === photoTasks.length && photoTasks.length > 0) {
+            photoBadge.className = "schedule-status-badge completed";
+            photoBadge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Concluído`;
+        } else {
+            photoBadge.className = "schedule-status-badge pending";
+            photoBadge.innerHTML = `<i class="fa-solid fa-camera"></i> Programado`;
+        }
+    }
+
+    // 3. Monitoramento Sensorial
+    const sensoryTasks = scopeOrMonthTasks.filter(t => t.category === "Monitoramento Sensorial");
+    const sensoryTasksDone = sensoryTasks.filter(t => t.status === "Concluído").length;
+    setTextContent("activity-sensory-target", `${sensoryTasks.length} inspeções de campo`);
+    setTextContent("activity-sensory-status", `${sensoryTasksDone} realizadas`);
+    const sensoryBadge = document.getElementById("activity-sensory-badge");
+    if (sensoryBadge) {
+        if (sensoryTasksDone === sensoryTasks.length && sensoryTasks.length > 0) {
+            sensoryBadge.className = "schedule-status-badge completed";
+            sensoryBadge.innerHTML = `<i class="fa-solid fa-shield-check"></i> Estável`;
+        } else {
+            sensoryBadge.className = "schedule-status-badge in-progress";
+            sensoryBadge.innerHTML = `<i class="fa-solid fa-clock"></i> Pendente`;
+        }
+    }
 
     // Populate schedule table
     const tbody = document.getElementById("dashboard-schedule-table-body");
     if (!tbody) return;
 
     if (!filtered.length) {
-        tbody.innerHTML = `<tr><td colspan="7" class="text-center text-secondary py-3">Nenhuma atividade programada para os filtros selecionados.</td></tr>`;
+        // Find next 5 upcoming tasks
+        const upcoming = allTasks
+            .filter(t => t.datePlanned && t.datePlanned >= targetDate)
+            .sort((a, b) => a.datePlanned.localeCompare(b.datePlanned))
+            .slice(0, 5);
+
+        let fallbackRows = "";
+        if (upcoming.length > 0) {
+            fallbackRows = upcoming.map(item => renderScheduleTableRow(item)).join("");
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="7" class="text-center py-2" style="background: rgba(56, 189, 248, 0.08); color: #38bdf8;">
+                        <i class="fa-solid fa-circle-info"></i> Nenhuma atividade agendada exatamente para <strong>${formatDateBRShort(targetDate)}</strong>. Exibindo as próximas atividades programadas no Cronograma PCM:
+                    </td>
+                </tr>
+                ${fallbackRows}
+            `;
+        } else {
+            tbody.innerHTML = `<tr><td colspan="7" class="text-center text-secondary py-3">Nenhuma atividade encontrada para os filtros selecionados.</td></tr>`;
+        }
         return;
     }
 
-    tbody.innerHTML = filtered.map(item => {
-        let catIcon = "fa-chart-line text-primary";
-        if (item.category === "Registro Fotográfico") catIcon = "fa-camera text-purple";
-        else if (item.category === "Monitoramento Sensorial") catIcon = "fa-eye text-warning";
+    // Sort by date then structure
+    const sorted = [...filtered].sort((a, b) => (a.datePlanned || "").localeCompare(b.datePlanned || "") || (a.structure || "").localeCompare(b.structure || ""));
+    tbody.innerHTML = sorted.map(item => renderScheduleTableRow(item)).join("");
+}
 
-        let statusBadge = `<span class="schedule-status-badge pending"><i class="fa-solid fa-clock"></i> Pendente</span>`;
-        if (item.status === "in-progress") {
-            statusBadge = `<span class="schedule-status-badge in-progress"><i class="fa-solid fa-spinner fa-spin"></i> Em Andamento</span>`;
-        } else if (item.status === "completed") {
-            statusBadge = `<span class="schedule-status-badge completed"><i class="fa-solid fa-circle-check"></i> Concluída</span>`;
-        }
+function renderScheduleTableRow(item) {
+    let catIcon = "fa-chart-line text-primary";
+    let actionBtn = `<button type="button" class="btn btn-primary btn-sm" onclick="startScheduleTaskAction('${escapeHtml(item.structure)}', 'readings')"><i class="fa-solid fa-gauge"></i> Coleta</button>`;
 
-        return `
-            <tr>
-                <td><strong>${escapeHtml(item.time)}</strong></td>
-                <td><span class="badge badge-outline">${escapeHtml(item.structure)}</span></td>
-                <td><strong>${escapeHtml(item.activity)}</strong></td>
-                <td><i class="fa-solid ${catIcon}"></i> ${escapeHtml(item.category)}</td>
-                <td>${escapeHtml(item.frequency)}</td>
-                <td><span class="text-secondary">${escapeHtml(item.team)}</span></td>
-                <td>${statusBadge}</td>
-            </tr>
-        `;
-    }).join("");
+    if (item.category === "Registro Fotográfico") {
+        catIcon = "fa-camera text-purple";
+        actionBtn = `<button type="button" class="btn btn-secondary btn-sm" onclick="startScheduleTaskAction('${escapeHtml(item.structure)}', 'inspections')"><i class="fa-solid fa-camera"></i> Fotos</button>`;
+    } else if (item.category === "Monitoramento Sensorial") {
+        catIcon = "fa-eye text-warning";
+        actionBtn = `<button type="button" class="btn btn-warning btn-sm" onclick="startScheduleTaskAction('${escapeHtml(item.structure)}', 'inspections')"><i class="fa-solid fa-clipboard-check"></i> Inspecionar</button>`;
+    } else if (item.category === "Relatórios & Banco de Dados") {
+        catIcon = "fa-file-lines text-info";
+        actionBtn = `<button type="button" class="btn btn-secondary btn-sm" onclick="startScheduleTaskAction('${escapeHtml(item.structure)}', 'reports')"><i class="fa-solid fa-file-export"></i> Relatório</button>`;
+    } else if (item.category === "Vistorias & Auditorias Técnicas") {
+        catIcon = "fa-user-tie text-success";
+        actionBtn = `<button type="button" class="btn btn-secondary btn-sm" onclick="startScheduleTaskAction('${escapeHtml(item.structure)}', 'georef')"><i class="fa-solid fa-map-location-dot"></i> Mapa</button>`;
+    }
+
+    let statusBadge = `<span class="schedule-status-badge pending"><i class="fa-solid fa-calendar-day"></i> Programado</span>`;
+    if (item.status === "Concluído") {
+        statusBadge = `<span class="schedule-status-badge completed"><i class="fa-solid fa-circle-check"></i> Concluído</span>`;
+    } else if (item.status === "Em Andamento") {
+        statusBadge = `<span class="schedule-status-badge in-progress"><i class="fa-solid fa-spinner fa-spin"></i> Em Andamento</span>`;
+    } else if (item.status === "Reprogramada") {
+        statusBadge = `<span class="schedule-status-badge" style="background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3);"><i class="fa-solid fa-calendar-xmark"></i> Reprogramada</span>`;
+    }
+
+    const photoIndicator = item.photoRequired
+        ? ` <span class="badge badge-outline text-purple" style="font-size: 10.5px; border-color: #a855f7; margin-left: 4px;"><i class="fa-solid fa-camera"></i> Foto</span>`
+        : "";
+
+    return `
+        <tr>
+            <td>
+                <strong>${formatDateBRShort(item.datePlanned)}</strong>
+                ${item.cycle ? `<small class="text-secondary d-block">Ciclo ${escapeHtml(item.cycle)}</small>` : ""}
+            </td>
+            <td><span class="badge badge-outline">${escapeHtml(item.structure)}</span></td>
+            <td>
+                <strong>${escapeHtml(item.action)}</strong>
+                ${photoIndicator}
+                ${item.justification ? `<small class="text-warning d-block">${escapeHtml(item.justification)}</small>` : ""}
+            </td>
+            <td><i class="fa-solid ${catIcon}"></i> ${escapeHtml(item.category)}</td>
+            <td>
+                <span class="text-secondary">${escapeHtml(item.responsibleTeam)}</span>
+            </td>
+            <td>${statusBadge}</td>
+            <td>${actionBtn}</td>
+        </tr>
+    `;
 }
 
 function filterDashboardScheduleByDate(date) {
@@ -7814,18 +7939,19 @@ function importInspectionScheduleSpreadsheet(event) {
                 if (parts.length < 3) continue;
 
                 parsedItems.push({
-                    time: parts[0] || "08:00 - 17:00",
+                    id: String(i),
+                    datePlanned: parts[0] || new Date().toISOString().slice(0, 10),
                     structure: getCanonicalStructureName(parts[1] || "Barragem B1"),
-                    activity: parts[2] || "Inspeção Operacional de Campo",
+                    action: parts[2] || "Inspeção Operacional de Campo",
                     category: parts[3] || "Monitoramento Sensorial",
                     frequency: parts[4] || "Diária",
-                    team: parts[5] || "Equipe Geotecnia",
-                    status: "pending"
+                    responsibleTeam: parts[5] || "Equipe Geotecnia",
+                    status: "Programado"
                 });
             }
 
             if (parsedItems.length > 0) {
-                dashboardScheduleState.scheduleItems = parsedItems;
+                localStorage.setItem("geosync_custom_schedule", JSON.stringify(parsedItems));
                 renderDailyOperationalSchedule();
                 showToast(`Cronograma importado: ${parsedItems.length} atividades carregadas!`, "success");
             } else {

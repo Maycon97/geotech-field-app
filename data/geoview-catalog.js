@@ -1,15 +1,15 @@
 window.MDSYNC_GEOVIEW_CATALOG = {
     "version": "2026-09-02-pcmi-live",
     "sourcePath": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI",
-    "generatedAt": "2026-09-03T16:08:30.256060",
+    "generatedAt": "2026-09-04T07:27:15.576193",
     "summary": {
-        "totalDashboards": 52,
+        "totalDashboards": 49,
         "totalPowerBi": 54,
         "totalExcel": 3554,
-        "totalImages": 30251,
-        "totalPdfs": 6703,
+        "totalImages": 30342,
+        "totalPdfs": 6705,
         "totalDocs": 700,
-        "totalFiles": 43916
+        "totalFiles": 44009
     },
     "dashboards": [
         {
@@ -74,7 +74,7 @@ window.MDSYNC_GEOVIEW_CATALOG = {
             "pdfs": 0,
             "docs": 1,
             "totalFiles": 37,
-            "lastUpdated": "2026-09-03T11:49:03"
+            "lastUpdated": "2026-09-04T07:14:18"
         },
         {
             "id": "00-gest-o-vista-04-chamados",
@@ -135,10 +135,10 @@ window.MDSYNC_GEOVIEW_CATALOG = {
             "powerbi": 7,
             "excel": 11,
             "images": 0,
-            "pdfs": 27,
+            "pdfs": 29,
             "docs": 1,
-            "totalFiles": 47,
-            "lastUpdated": "2026-09-02T18:19:39"
+            "totalFiles": 49,
+            "lastUpdated": "2026-09-04T04:10:43"
         },
         {
             "id": "01-implanta-o-00-arquivado",
@@ -214,11 +214,11 @@ window.MDSYNC_GEOVIEW_CATALOG = {
             "path": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI/02) Monitoramentos/01) Barragens",
             "powerbi": 4,
             "excel": 3175,
-            "images": 10495,
+            "images": 10522,
             "pdfs": 5704,
             "docs": 431,
-            "totalFiles": 20844,
-            "lastUpdated": "2026-09-02T18:16:01"
+            "totalFiles": 20871,
+            "lastUpdated": "2026-09-03T16:32:42"
         },
         {
             "id": "02-monitoramentos-02-cavas",
@@ -294,11 +294,11 @@ window.MDSYNC_GEOVIEW_CATALOG = {
             "path": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI/02) Monitoramentos/06) Pilhas",
             "powerbi": 0,
             "excel": 28,
-            "images": 9270,
-            "pdfs": 74,
+            "images": 9279,
+            "pdfs": 81,
             "docs": 17,
-            "totalFiles": 9494,
-            "lastUpdated": "2026-09-03T15:09:19.664608"
+            "totalFiles": 9510,
+            "lastUpdated": "2026-09-03T16:34:13"
         },
         {
             "id": "02-monitoramentos-07-sumps",
@@ -310,11 +310,11 @@ window.MDSYNC_GEOVIEW_CATALOG = {
             "path": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI/02) Monitoramentos/07) Sumps",
             "powerbi": 0,
             "excel": 5,
-            "images": 1653,
+            "images": 1708,
             "pdfs": 112,
             "docs": 20,
-            "totalFiles": 1973,
-            "lastUpdated": "2026-09-02T17:53:27"
+            "totalFiles": 2028,
+            "lastUpdated": "2026-09-03T17:54:34"
         },
         {
             "id": "02-monitoramentos-08-outros-arquivos",
@@ -338,63 +338,15 @@ window.MDSYNC_GEOVIEW_CATALOG = {
             "title": "FOTOS ORGANIZAR",
             "area": "Monitoramento Geotécnico",
             "description": "Dados e indicadores de FOTOS ORGANIZAR vinculados a pasta 02) Monitoramentos.",
-            "content": "2434 registros e arquivos de campo.",
+            "content": "Cava_1 de set. de 2025.pdf, Cava_1 de set. de 2025_2.pdf, Cava_15 de set. de 2025.pdf, Cava_20 de jan. de 2026.pdf",
             "path": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI/02) Monitoramentos/FOTOS ORGANIZAR",
             "powerbi": 0,
             "excel": 0,
-            "images": 2281,
-            "pdfs": 0,
+            "images": 2307,
+            "pdfs": 20,
             "docs": 2,
-            "totalFiles": 2434,
-            "lastUpdated": "2025-09-03T13:32:38"
-        },
-        {
-            "id": "02-monitoramentos-ficha-de-inspe-o-regular-fir-rev02-15072025",
-            "folder": "02) Monitoramentos / Ficha de Inspeção Regular - FIR-rev02 - 15072025",
-            "title": "Ficha de Inspeção Regular - FIR-rev02 - 15072025",
-            "area": "Monitoramento Geotécnico",
-            "description": "Dados e indicadores de Ficha de Inspeção Regular - FIR-rev02 - 15072025 vinculados a pasta 02) Monitoramentos.",
-            "content": "Cava_1 de set. de 2025.pdf, Cava_1 de set. de 2025_2.pdf, Cava_15 de set. de 2025.pdf, Cava_20 de jan. de 2026.pdf",
-            "path": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI/02) Monitoramentos/Ficha de Inspeção Regular - FIR-rev02 - 15072025",
-            "powerbi": 0,
-            "excel": 0,
-            "images": 0,
-            "pdfs": 27,
-            "docs": 0,
-            "totalFiles": 27,
+            "totalFiles": 2501,
             "lastUpdated": "2026-03-02T14:18:33"
-        },
-        {
-            "id": "02-monitoramentos-fotos-drone",
-            "folder": "02) Monitoramentos / Fotos Drone",
-            "title": "Fotos Drone",
-            "area": "Monitoramento Geotécnico",
-            "description": "Dados e indicadores de Fotos Drone vinculados a pasta 02) Monitoramentos.",
-            "content": "21 registros e arquivos de campo.",
-            "path": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI/02) Monitoramentos/Fotos Drone",
-            "powerbi": 0,
-            "excel": 0,
-            "images": 0,
-            "pdfs": 0,
-            "docs": 0,
-            "totalFiles": 21,
-            "lastUpdated": "2025-09-05T12:58:55"
-        },
-        {
-            "id": "02-monitoramentos-fotos-estruturas-drone-2025",
-            "folder": "02) Monitoramentos / Fotos Estruturas Drone 2025",
-            "title": "Fotos Estruturas Drone 2025",
-            "area": "Monitoramento Geotécnico",
-            "description": "Dados e indicadores de Fotos Estruturas Drone 2025 vinculados a pasta 02) Monitoramentos.",
-            "content": "26 registros e arquivos de campo.",
-            "path": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI/02) Monitoramentos/Fotos Estruturas Drone 2025",
-            "powerbi": 0,
-            "excel": 0,
-            "images": 26,
-            "pdfs": 0,
-            "docs": 0,
-            "totalFiles": 26,
-            "lastUpdated": "2025-10-28T19:05:50"
         },
         {
             "id": "02-monitoramentos-google-earth",

@@ -259,6 +259,15 @@
                                 <p class="text-secondary small mt-1">Cronograma de Campo Integrado • <strong id="daily-schedule-current-date">Hoje</strong></p>
                             </div>
                             <div class="schedule-header-controls">
+                                <span class="badge badge-primary" id="dashboard-schedule-total-badge"><i class="fa-solid fa-calendar-check"></i> 1.697 tarefas (PCM Oficial)</span>
+                                <div class="form-group mb-0">
+                                    <select id="dashboard-schedule-scope" class="form-control form-control-sm" onchange="filterDashboardScheduleByScope(this.value)">
+                                        <option value="today">Apenas Hoje</option>
+                                        <option value="week">Próximos 7 Dias</option>
+                                        <option value="month">Mês Atual</option>
+                                        <option value="all">Todo o Cronograma</option>
+                                    </select>
+                                </div>
                                 <div class="form-group mb-0">
                                     <input type="date" id="dashboard-schedule-date" class="form-control form-control-sm" onchange="filterDashboardScheduleByDate(this.value)">
                                 </div>
@@ -268,8 +277,11 @@
                                     </select>
                                 </div>
                                 <input type="file" id="schedule-file-import" class="sr-only-file" accept=".xlsx,.xls,.csv" onchange="importInspectionScheduleSpreadsheet(event)">
-                                <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('schedule-file-import').click()">
-                                    <i class="fa-solid fa-file-excel text-success"></i> Importar Cronograma
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('schedule-file-import').click()" title="Importar nova planilha XLSX/CSV">
+                                    <i class="fa-solid fa-file-excel text-success"></i> Importar Planilha
+                                </button>
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="reloadOfficialPcmSchedule()" title="Restaurar dados oficiais do CronogramaPCM.xlsx">
+                                    <i class="fa-solid fa-rotate text-primary"></i> Recarregar Oficial
                                 </button>
                             </div>
                         </div>
@@ -396,13 +408,13 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Horário / Data</th>
+                                            <th>Data Planejada</th>
                                             <th>Estrutura</th>
-                                            <th>Atividade Programada</th>
+                                            <th>Atividade / Ação Geotécnica</th>
                                             <th>Categoria</th>
-                                            <th>Frequência</th>
-                                            <th>Equipe Responsável</th>
+                                            <th>Equipe / Ciclo</th>
                                             <th>Status</th>
+                                            <th>Ação de Campo</th>
                                         </tr>
                                     </thead>
                                     <tbody id="dashboard-schedule-table-body">
@@ -1945,10 +1957,11 @@
 
     <!-- Script Injection -->
     <script src="vendor/leaflet/leaflet.js"></script>
-    <script src="data/geosync-database.js?v=dashboard-schedule-20260903g"></script>
-    <script src="data/geoview-catalog.js?v=dashboard-schedule-20260903g"></script>
-    <script src="data/geoview-operational.js?v=dashboard-schedule-20260903g"></script>
-    <script src="data/google-earth-geospatial.js?v=dashboard-schedule-20260903g"></script>
-    <script src="app.js?v=dashboard-schedule-20260903g"></script>
+    <script src="data/geosync-database.js?v=dashboard-schedule-20260904h"></script>
+    <script src="data/geoview-catalog.js?v=dashboard-schedule-20260904h"></script>
+    <script src="data/geoview-operational.js?v=dashboard-schedule-20260904h"></script>
+    <script src="data/google-earth-geospatial.js?v=dashboard-schedule-20260904h"></script>
+    <script src="data/cronograma-pcm.js?v=dashboard-schedule-20260904h"></script>
+    <script src="app.js?v=dashboard-schedule-20260904h"></script>
 </body>
 </html>
