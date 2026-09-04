@@ -20,7 +20,7 @@
     <!-- Chart.js local fallback for offline field use -->
     <script src="vendor/chart.umd.min.js?v=authless-20260610c" defer></script>
     <script src="vendor/jszip.min.js?v=authless-20260610c" defer></script>
-    <link rel="stylesheet" href="styles.css?v=mdhub-20260904b">
+    <link rel="stylesheet" href="styles.css?v=mdhub-20260904c">
     <style>
         body .pilhas-bi-map-panel .pilhas-location-map {
             background-image:
@@ -138,42 +138,42 @@
                     </div>
                 </div>
                 <div class="md-hub-chips-track">
-                    <button type="button" class="md-hub-chip" onclick="openStructureDatasheetModal()" title="Módulo 1: Ficha técnica cadastral, geometria, cotas e classificação de risco ANM/GISTM">
+                    <button type="button" class="md-hub-chip" data-hub-id="datasheet" onclick="openStructureDatasheetModal()" title="Módulo 1: Ficha técnica cadastral, geometria, cotas e classificação de risco ANM/GISTM">
                         <i class="fa-solid fa-file-invoice"></i>
                         <span>1. Ficha Técnica</span>
                         <span class="chip-tag tag-cadastral">Cadastral</span>
                     </button>
-                    <button type="button" class="md-hub-chip" onclick="switchTab('reports')" title="Módulo 2: Repositório documental do PSB, PAEBM, DCEs e relatórios de auditoria">
+                    <button type="button" class="md-hub-chip" data-hub-id="reports" onclick="switchTab('reports')" title="Módulo 2: Repositório documental do PSB, PAEBM, DCEs e relatórios de auditoria">
                         <i class="fa-solid fa-folder-closed"></i>
                         <span>2. PSB & Docs</span>
                         <span class="chip-tag tag-governanca">Governança</span>
                     </button>
-                    <button type="button" class="md-hub-chip" onclick="switchTab('readings')" title="Módulo 3: Monitoramento de piezômetros PZ/INA, NAs, marcos e pluviometria">
+                    <button type="button" class="md-hub-chip" data-hub-id="readings" onclick="switchTab('readings')" title="Módulo 3: Monitoramento de piezômetros PZ/INA, NAs, marcos e pluviometria">
                         <i class="fa-solid fa-gauge-high"></i>
                         <span>3. Monitoramento</span>
                         <span class="chip-tag tag-tarp">TARP</span>
                     </button>
-                    <button type="button" class="md-hub-chip" onclick="switchTab('inspections'); scrollToSection('action-plan-section');" title="Módulo 4: Inspeções de campo FIR e Plano de Ação Corretiva com ciclo fechado">
+                    <button type="button" class="md-hub-chip" data-hub-id="inspections" onclick="switchTab('inspections'); scrollToSection('action-plan-section');" title="Módulo 4: Inspeções de campo FIR e Plano de Ação Corretiva com ciclo fechado">
                         <i class="fa-solid fa-clipboard-check"></i>
                         <span>4. Inspeções & Ação</span>
                         <span class="chip-tag tag-tratativas">Tratativas</span>
                     </button>
-                    <button type="button" class="md-hub-chip" onclick="openFmeaModal()" title="Módulo 5: Gestão de riscos por modos de falha (liquefação, piping, sobre-elevação freática e galgamento) e cálculo de RPN">
+                    <button type="button" class="md-hub-chip" data-hub-id="fmea" onclick="openFmeaModal()" title="Módulo 5: Gestão de riscos por modos de falha (liquefação, piping, sobre-elevação freática e galgamento) e cálculo de RPN">
                         <i class="fa-solid fa-triangle-exclamation"></i>
                         <span>5. Gestão de Riscos</span>
                         <span class="chip-tag tag-fmea">FMEA / RPN</span>
                     </button>
-                    <button type="button" class="md-hub-chip" onclick="openAlertPaebmModal()" title="Módulo 6: Níveis de emergência 0/1/2/3 (Res. ANM 95/2022), ZAS e prontidão de sirenes">
+                    <button type="button" class="md-hub-chip" data-hub-id="alert" onclick="openAlertPaebmModal()" title="Módulo 6: Níveis de emergência 0/1/2/3 (Res. ANM 95/2022), ZAS e prontidão de sirenes">
                         <i class="fa-solid fa-tower-broadcast"></i>
                         <span>6. ALERT (PAEBM)</span>
                         <span class="chip-tag tag-alerta">Emergência</span>
                     </button>
-                    <button type="button" class="md-hub-chip" onclick="switchTab('indicators')" title="Módulo 7: Business Intelligence, dashboards executivos e mapa de calor">
+                    <button type="button" class="md-hub-chip" data-hub-id="indicators" onclick="switchTab('indicators')" title="Módulo 7: Business Intelligence, dashboards executivos e mapa de calor">
                         <i class="fa-solid fa-chart-pie"></i>
                         <span>7. BI & Indicadores</span>
                         <span class="chip-tag tag-executivo">Executivo</span>
                     </button>
-                    <button type="button" class="md-hub-chip" onclick="switchTab('geoview')" title="Módulo 8: Cartografia GIS, ortofotos e fatores de segurança">
+                    <button type="button" class="md-hub-chip" data-hub-id="geoview" onclick="switchTab('geoview')" title="Módulo 8: Cartografia GIS, ortofotos e fatores de segurança">
                         <i class="fa-solid fa-earth-americas"></i>
                         <span>8. SYSGEO GIS</span>
                         <span class="chip-tag tag-espacial">Espacial</span>
@@ -2508,6 +2508,6 @@
     <script src="data/pluviometria.js?v=pcmi-20260904i"></script>
     <script src="data/frota-veicular.js?v=pcmi-20260904i"></script>
     <script src="data/inspections-fir.js?v=pcmi-20260904i"></script>
-    <script src="app.js?v=mdhub-20260904b"></script>
+    <script src="app.js?v=mdhub-20260904c"></script>
 </body>
 </html>

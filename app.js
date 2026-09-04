@@ -3228,6 +3228,14 @@ function switchTab(tabId) {
     const activeNav = document.getElementById(`nav-${tabId}`);
     if (activeNav) activeNav.classList.add("active");
 
+    if (typeof updateMdHubActiveChip === "function") {
+        updateMdHubActiveChip(tabId);
+    }
+    if (tabId !== 'inspections') {
+        const cb = document.querySelector('.content-body');
+        if (cb) cb.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     // Dynamic header subtitle adjustments
     const titleEl = document.getElementById("page-title");
     const subEl = document.getElementById("page-subtitle");
@@ -5763,18 +5771,12 @@ let currentStandardsCategory = "all";
 let currentStandardsQuery = "";
 
 function openMiningStandardsModal() {
-    const modal = document.getElementById("modal-mining-standards");
-    if (!modal) return;
-    modal.style.display = "flex";
-    setTimeout(() => modal.classList.add("active"), 10);
     renderStandardsCatalog();
+    openModalElement("modal-mining-standards");
 }
 
 function closeMiningStandardsModal() {
-    const modal = document.getElementById("modal-mining-standards");
-    if (!modal) return;
-    modal.classList.remove("active");
-    setTimeout(() => { modal.style.display = "none"; }, 250);
+    closeModalElement("modal-mining-standards");
 }
 
 function selectStandardsCategory(category, el) {
@@ -9237,11 +9239,11 @@ function updateDashboardKPIs() {
 
 // Quick Modals
 function triggerQuickReading() {
-    document.getElementById("quick-reading-modal").style.display = "flex";
+    openModalElement("quick-reading-modal");
 }
 
 function closeQuickReading() {
-    document.getElementById("quick-reading-modal").style.display = "none";
+    closeModalElement("quick-reading-modal");
 }
 
 function goToReadingsTab() {
@@ -9417,13 +9419,81 @@ function initializeLivePCMISync() {
 // Benchmark de Inteligência: sysdam.com.br
 // ==========================================================================
 
+function openModalElement(modalTarget) {
+    const modal = typeof modalTarget === "string" ? document.getElementById(modalTarget) : modalTarget;
+    if (!modal) return;
+    modal.style.display = "flex";
+    modal.classList.add("active", "show");
+    document.body.classList.add("modal-open");
+}
+
+function closeModalElement(modalTarget) {
+    const modal = typeof modalTarget === "string" ? document.getElementById(modalTarget) : modalTarget;
+    if (!modal) return;
+    modal.classList.remove("active", "show");
+    modal.style.display = "none";
+    const openModals = document.querySelectorAll('.modal.active, .modal.show, .modal[style*="display: flex"], .modal[style*="display:flex"]');
+    if (!openModals || openModals.length === 0) {
+        document.body.classList.remove("modal-open");
+    }
+    const activeTab = document.querySelector('.tab-pane.active');
+    if (activeTab && activeTab.id) {
+        const tabId = activeTab.id.replace('tab-', '');
+        updateMdHubActiveChip(tabId);
+    } else {
+        updateMdHubActiveChip(null);
+    }
+}
+
+function setupModalEventListeners() {
+    if (window.__modalListenersInstalled) return;
+    window.__modalListenersInstalled = true;
+
+    // Fechamento ao clicar fora do conteudo (no backdrop escuro)
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModalElement(modal);
+            }
+        });
+    });
+
+    // Fechamento ao pressionar a tecla Escape
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const openModals = document.querySelectorAll('.modal.active, .modal.show, .modal[style*="display: flex"], .modal[style*="display:flex"]');
+            openModals.forEach(m => closeModalElement(m));
+        }
+    });
+}
+
+function updateMdHubActiveChip(activeKey) {
+    document.querySelectorAll('.md-hub-chip').forEach(chip => {
+        chip.classList.remove('active');
+    });
+    if (!activeKey) return;
+    const targetChip = document.querySelector(`.md-hub-chip[data-hub-id="${activeKey}"]`);
+    if (targetChip) targetChip.classList.add('active');
+}
+
 function scrollToSection(sectionId) {
     setTimeout(() => {
         const el = document.getElementById(sectionId);
         if (el) {
-            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const container = document.querySelector('.content-body');
+            if (container) {
+                const headerOffset = 18;
+                const elementPosition = el.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + container.scrollTop - container.getBoundingClientRect().top - headerOffset;
+                container.scrollTo({
+                    top: Math.max(0, offsetPosition),
+                    behavior: 'smooth'
+                });
+            } else {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
-    }, 150);
+    }, 180);
 }
 
 // --- MÓDULO 1: DADOS DA ESTRUTURA (FICHA TÉCNICA CADASTRAL) ---
@@ -9687,12 +9757,12 @@ function openStructureDatasheetModal(structureName) {
         if (select) select.value = structureName;
     }
     renderStructureDatasheetDetails();
-    modal.style.display = "flex";
+    updateMdHubActiveChip("datasheet");
+    openModalElement(modal);
 }
 
 function closeStructureDatasheetModal() {
-    const modal = document.getElementById("modal-structure-datasheet");
-    if (modal) modal.style.display = "none";
+    closeModalElement("modal-structure-datasheet");
 }
 
 function populateDatasheetStructures() {
@@ -10034,7 +10104,7 @@ function openNewActionModal() {
     nextWeek.setDate(nextWeek.getDate() + 7);
     document.getElementById("action-item-deadline").value = nextWeek.toISOString().substring(0, 10);
 
-    modal.style.display = "flex";
+    openModalElement(modal);
 }
 
 function openEditActionModal(actionId) {
@@ -10056,12 +10126,11 @@ function openEditActionModal(actionId) {
     document.getElementById("action-item-closure-notes").value = item.closureNotes || "";
 
     document.getElementById("action-item-modal-title").innerHTML = `<i class="fa-solid fa-pen-to-square text-primary"></i> Editar Tratativa [${item.id}]`;
-    modal.style.display = "flex";
+    openModalElement(modal);
 }
 
 function closeActionPlanModal() {
-    const modal = document.getElementById("modal-action-plan-item");
-    if (modal) modal.style.display = "none";
+    closeModalElement("modal-action-plan-item");
 }
 
 function saveActionPlanItem(event) {
@@ -10252,12 +10321,12 @@ function openFmeaModal(structureName) {
         if (select) select.value = structureName;
     }
     updateFmeaAnalysis();
-    modal.style.display = "flex";
+    updateMdHubActiveChip("fmea");
+    openModalElement(modal);
 }
 
 function closeFmeaModal() {
-    const modal = document.getElementById("modal-fmea-risk");
-    if (modal) modal.style.display = "none";
+    closeModalElement("modal-fmea-risk");
 }
 
 function populateFmeaStructures() {
@@ -10518,12 +10587,12 @@ function openAlertPaebmModal(structureName) {
         if (select) select.value = structureName;
     }
     renderAlertPaebmDetails();
-    modal.style.display = "flex";
+    updateMdHubActiveChip("alert");
+    openModalElement(modal);
 }
 
 function closeAlertPaebmModal() {
-    const modal = document.getElementById("modal-alert-paebm");
-    if (modal) modal.style.display = "none";
+    closeModalElement("modal-alert-paebm");
 }
 
 function populateAlertStructures() {
@@ -10700,6 +10769,7 @@ function initializeMdHubModules() {
     populateAlertStructures();
     populateActionFilterStructures();
     renderActionPlanTable();
+    setupModalEventListeners();
 }
 
 function initializeSysdamModules() {
