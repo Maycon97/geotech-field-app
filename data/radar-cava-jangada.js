@@ -1,6 +1,6 @@
 /**
  * MDSync - Módulo de Monitoramento por Radar 24/7 (Hexagon Mining) & Cava Jangada
- * Renderização 3D da Cava Jangada, Linha do Tempo Interferométrica e Feed de WhatsApp.
+ * Renderização 3D com Ortofoto de Satélite Google Earth / ESRI, Linha do Tempo e Feed de WhatsApp.
  */
 
 (function() {
@@ -23,11 +23,24 @@
             lastMouseX: 0,
             lastMouseY: 0
         },
-        viewMode: 'full', // 'full', 'mesh', 'heat'
+        viewMode: 'sat', // 'sat' (Ortofoto Satélite 3D), 'full', 'mesh', 'heat'
         activeFilter: 'all',
         searchTerm: '',
-        reportZoom: 1.0
+        reportZoom: 1.0,
+        satelliteZoom: 1.0,
+        satelliteActiveLayer: 'annotated' // 'annotated' or 'raw'
     };
+
+    // Preload Real Satellite Orthophoto Images
+    const satImage = new Image();
+    satImage.src = 'assets/cava-jangada-satellite-orthophoto.jpg';
+    let satLoaded = false;
+    satImage.onload = () => { satLoaded = true; };
+
+    const satAnnotatedImage = new Image();
+    satAnnotatedImage.src = 'assets/cava-jangada-satellite-annotated.jpg';
+    let satAnnotatedLoaded = false;
+    satAnnotatedImage.onload = () => { satAnnotatedLoaded = true; };
 
     // Sub-tab switcher: Radar vs Convencional
     window.switchMonitoringSubTab = function(tab) {
@@ -63,7 +76,7 @@
     };
 
     // ----------------------------------------------------
-    // 1. 3D CANVAS ENGINE: CAVA JANGADA & HEXAGON RADAR
+    // 1. 3D CANVAS ENGINE: ORTOFOTO DE SATÉLITE & RADAR
     // ----------------------------------------------------
     let canvas, ctx;
     let animFrameId = null;
@@ -162,9 +175,11 @@
 
     window.setRadar3DMode = function(mode) {
         window.radarState.viewMode = mode;
+        const bSat = document.getElementById('btn-view-3d-sat');
         const bFull = document.getElementById('btn-view-3d-full');
         const bMesh = document.getElementById('btn-view-3d-mesh');
         const bHeat = document.getElementById('btn-view-3d-heat');
+        if (bSat) bSat.classList.toggle('active', mode === 'sat');
         if (bFull) bFull.classList.toggle('active', mode === 'full');
         if (bMesh) bMesh.classList.toggle('active', mode === 'mesh');
         if (bHeat) bHeat.classList.toggle('active', mode === 'heat');
@@ -214,10 +229,12 @@
         // 1. Draw subtle background coordinate compass
         drawCompassAndGrid(ctx, width, height, cam);
 
-        // 2. Build Cava Jangada benches geometry
-        // Centroid of pit: (0, 0, 0). 
-        // Parede Norte is at negative Y (in azimuth default, looking North).
-        // North crest elevation: +120px (Cota 1280m), Pit floor: -80px (Cota 1080m)
+        // 2. Draw Real Satellite Orthophoto Layer (Google Earth / ESRI)
+        if (satLoaded && (window.radarState.viewMode === 'sat' || window.radarState.viewMode === 'full')) {
+            drawSatelliteOrthophoto(ctx, cx, cy, cam);
+        }
+
+        // 3. Bench definitions
         const benches = [
             { cota: 1280, rX: 250, rY: 170, z: 90, name: "Crista Superior (1280m)" },
             { cota: 1260, rX: 225, rY: 150, z: 70, name: "Banco 1260m" },
@@ -229,13 +246,13 @@
             { cota: 1080, rX: 55, rY: 35, z: -75, name: "Fundo de Cava (1080m)", isFloor: true }
         ];
 
-        // Draw Terraced Pit Benches (Bottom to Top with shading)
-        for (let b = benches.length - 1; b >= 0; b--) {
-            drawBenchRing(ctx, benches[b], cx, cy, cam, window.radarState.viewMode);
+        // Draw Benches if in full or mesh mode
+        if (window.radarState.viewMode === 'mesh' || window.radarState.viewMode === 'full') {
+            for (let b = benches.length - 1; b >= 0; b--) {
+                drawBenchRing(ctx, benches[b], cx, cy, cam, window.radarState.viewMode);
+            }
+            drawHaulRoad(ctx, cx, cy, cam);
         }
-
-        // Draw Haul Road / Rampa de Acesso
-        drawHaulRoad(ctx, cx, cy, cam);
 
         // Draw Radar Station (Base Sul)
         const radarPos = { x: 10, y: 165, z: 75 }; // South ridge
@@ -254,13 +271,54 @@
         animFrameId = requestAnimationFrame(renderRadar3DLoop);
     }
 
+    // DRAW SATELLITE ORTHOPHOTO UNDER 3D PERSPECTIVE
+    function drawSatelliteOrthophoto(ctx, cx, cy, cam) {
+        ctx.save();
+
+        // Compute 3D ground projection anchor points
+        const groundPt = project3D(0, 0, -25, cx, cy, cam);
+        const pSouth = project3D(0, 100, -25, cx, cy, cam);
+        const pNorth = project3D(0, -100, -25, cx, cy, cam);
+        const pWest = project3D(-100, 0, -25, cx, cy, cam);
+        const pEast = project3D(100, 0, -25, cx, cy, cam);
+
+        // Calculate rotation and scaling to match 3D camera
+        const rotAngle = Math.atan2(pNorth.y - pSouth.y, pNorth.x - pSouth.x) + Math.PI / 2;
+        const scaleX = (Math.hypot(pEast.x - pWest.x, pEast.y - pWest.y) / 200) * 0.76;
+        const scaleY = (Math.hypot(pNorth.x - pSouth.x, pNorth.y - pSouth.y) / 200) * 0.76;
+
+        ctx.translate(groundPt.x, groundPt.y);
+        ctx.rotate(rotAngle);
+        ctx.scale(scaleX, scaleY);
+
+        // Clip terrain quad with soft vignette edges
+        ctx.beginPath();
+        ctx.roundRect(-420, -420, 840, 840, [32]);
+        ctx.clip();
+
+        // Opacity based on mode
+        ctx.globalAlpha = (window.radarState.viewMode === 'sat') ? 0.96 : 0.75;
+
+        // Pit center on 1024x1024 image is roughly (435, 489)
+        ctx.drawImage(satImage, -435, -489, 1024, 1024);
+
+        // Atmospheric aerial shadow overlay
+        const shadowGrad = ctx.createRadialGradient(0, 0, 100, 0, 0, 420);
+        shadowGrad.addColorStop(0, 'rgba(0, 0, 0, 0.0)');
+        shadowGrad.addColorStop(0.7, 'rgba(2, 18, 30, 0.25)');
+        shadowGrad.addColorStop(1, 'rgba(2, 11, 18, 0.75)');
+        ctx.fillStyle = shadowGrad;
+        ctx.fillRect(-420, -420, 840, 840);
+
+        ctx.restore();
+    }
+
     function drawCompassAndGrid(ctx, w, h, cam) {
-        // Subtle North indicator in 3D
         const origin = project3D(0, 0, -80, w / 2, h / 2, cam);
         const northPt = project3D(0, -220, -80, w / 2, h / 2, cam);
 
         ctx.save();
-        ctx.strokeStyle = 'rgba(65, 174, 189, 0.18)';
+        ctx.strokeStyle = 'rgba(65, 174, 189, 0.22)';
         ctx.lineWidth = 1;
         ctx.setLineDash([4, 4]);
         ctx.beginPath();
@@ -280,7 +338,6 @@
 
         for (let i = 0; i <= segments; i++) {
             const angle = (i / segments) * Math.PI * 2;
-            // Pit asymmetry: wider in East-West, slightly curved North wall
             let rx = bench.rX * (1 + 0.08 * Math.cos(angle * 2));
             let ry = bench.rY * (1 - 0.05 * Math.sin(angle));
 
@@ -292,7 +349,7 @@
 
         ctx.save();
 
-        if (mode !== 'heat') {
+        if (mode === 'mesh') {
             // Fill bench terrace
             ctx.beginPath();
             ctx.moveTo(pts[0].x, pts[0].y);
@@ -301,22 +358,21 @@
             }
             ctx.closePath();
 
-            if (bench.isFloor) {
-                ctx.fillStyle = 'rgba(23, 49, 69, 0.85)';
-            } else if (bench.isCriticalSector) {
-                ctx.fillStyle = 'rgba(45, 62, 78, 0.88)';
-            } else {
-                ctx.fillStyle = 'rgba(12, 38, 58, 0.72)';
-            }
+            ctx.fillStyle = bench.isFloor ? 'rgba(23, 49, 69, 0.85)' : 'rgba(12, 38, 58, 0.72)';
             ctx.fill();
-
-            // Stroke bench berm edge
-            ctx.lineWidth = bench.isCriticalSector ? 2 : 1;
-            ctx.strokeStyle = bench.isCriticalSector ? 'rgba(239, 68, 68, 0.65)' : 'rgba(92, 189, 186, 0.35)';
-            ctx.stroke();
         }
 
-        // Label for critical sector
+        // Contour lines over satellite orthophoto
+        ctx.beginPath();
+        ctx.moveTo(pts[0].x, pts[0].y);
+        for (let i = 1; i < pts.length; i++) {
+            ctx.lineTo(pts[i].x, pts[i].y);
+        }
+        ctx.closePath();
+        ctx.lineWidth = bench.isCriticalSector ? 2.5 : 1;
+        ctx.strokeStyle = bench.isCriticalSector ? 'rgba(239, 68, 68, 0.85)' : 'rgba(92, 189, 186, 0.45)';
+        ctx.stroke();
+
         if (bench.isCriticalSector) {
             const labelPt = project3D(-35, -bench.rY, bench.z, cx, cy, cam);
             ctx.fillStyle = '#fca5a5';
@@ -328,7 +384,6 @@
     }
 
     function drawHaulRoad(ctx, cx, cy, cam) {
-        // Ramp spiraling down along the east wall
         const rampPts = [
             project3D(180, 50, 85, cx, cy, cam),
             project3D(160, -20, 60, cx, cy, cam),
@@ -339,7 +394,7 @@
         ];
 
         ctx.save();
-        ctx.strokeStyle = 'rgba(252, 177, 28, 0.45)';
+        ctx.strokeStyle = 'rgba(252, 177, 28, 0.55)';
         ctx.lineWidth = 3;
         ctx.setLineDash([6, 3]);
         ctx.beginPath();
@@ -355,7 +410,7 @@
         const pt = project3D(pos.x, pos.y, pos.z, cx, cy, cam);
 
         ctx.save();
-        // Radar Station Tripod Base
+        // Tripod Base
         ctx.strokeStyle = '#38bdf8';
         ctx.lineWidth = 2;
         ctx.beginPath();
@@ -393,7 +448,6 @@
 
         ctx.save();
 
-        // Microwave Line-of-Sight Beam Cone
         const angle = Math.atan2(pt2.y - pt1.y, pt2.x - pt1.x);
         const perpX = Math.sin(angle) * 18;
         const perpY = -Math.cos(angle) * 18;
@@ -429,18 +483,17 @@
         const pt = project3D(targetPos.x, targetPos.y, targetPos.z, cx, cy, cam);
         const series = window.MDSYNC_RADAR_FEED.timelineSeries;
         const curData = series[window.radarState.currentIndex] || series[8];
-        const intensity = curData.heatIntensity;
 
         ctx.save();
 
         // Elliptical heat polygon representing the 204.52 m² area
-        const heatRadius = 26 * cam.zoom;
+        const heatRadius = 28 * cam.zoom;
         const radGrad = ctx.createRadialGradient(pt.x, pt.y, 2, pt.x, pt.y, heatRadius);
 
         if (curData.level === 3) {
-            radGrad.addColorStop(0, 'rgba(239, 68, 68, 0.92)');
-            radGrad.addColorStop(0.35, 'rgba(249, 115, 22, 0.75)');
-            radGrad.addColorStop(0.7, 'rgba(234, 179, 8, 0.45)');
+            radGrad.addColorStop(0, 'rgba(239, 68, 68, 0.95)');
+            radGrad.addColorStop(0.35, 'rgba(249, 115, 22, 0.8)');
+            radGrad.addColorStop(0.7, 'rgba(234, 179, 8, 0.5)');
             radGrad.addColorStop(1, 'rgba(16, 185, 129, 0)');
         } else if (curData.level === 2) {
             radGrad.addColorStop(0, 'rgba(249, 115, 22, 0.85)');
@@ -470,11 +523,11 @@
 
         // Target reticle
         ctx.strokeStyle = '#fff';
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 1.5;
         ctx.beginPath();
-        ctx.arc(pt.x, pt.y, 4, 0, Math.PI * 2);
-        ctx.moveTo(pt.x - 8, pt.y); ctx.lineTo(pt.x + 8, pt.y);
-        ctx.moveTo(pt.x, pt.y - 8); ctx.lineTo(pt.x, pt.y + 8);
+        ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
+        ctx.moveTo(pt.x - 10, pt.y); ctx.lineTo(pt.x + 10, pt.y);
+        ctx.moveTo(pt.x, pt.y - 10); ctx.lineTo(pt.x, pt.y + 10);
         ctx.stroke();
 
         // Centroid Technical Tag
@@ -489,7 +542,7 @@
         if (window.radarState.currentIndex >= 7 && window.radarState.currentIndex <= 9) {
             ctx.fillStyle = '#f59e0b';
             ctx.font = 'bold 12px FontAwesome, Segoe UI';
-            ctx.fillText('🚜 PERFURATRIZ EM OPERAÇÃO', pt.x - 70, pt.y - 28);
+            ctx.fillText('🚜 PERFURATRIZ EM OPERAÇÃO', pt.x - 75, pt.y - 28);
         }
 
         ctx.restore();
@@ -501,9 +554,8 @@
         const curData = series[window.radarState.currentIndex] || series[8];
 
         ctx.save();
-        // Vector pointing in direction of movement (towards LoS and bench toe)
-        const vectorLen = Math.max(12, curData.displacement * 4 * cam.zoom);
-        const vecAngle = Math.PI * 0.65; // Towards camera/radar
+        const vectorLen = Math.max(12, curData.displacement * 4.5 * cam.zoom);
+        const vecAngle = Math.PI * 0.65;
         const vx = pt.x + Math.cos(vecAngle) * vectorLen;
         const vy = pt.y + Math.sin(vecAngle) * vectorLen;
 
@@ -514,7 +566,6 @@
         ctx.lineTo(vx, vy);
         ctx.stroke();
 
-        // Arrow head
         const headlen = 8;
         ctx.fillStyle = '#ef4444';
         ctx.beginPath();
@@ -536,17 +587,17 @@
         window.radarState.currentIndex = idx;
         const item = series[idx];
 
-        // 1. Update slider
+        // Update slider
         const slider = document.getElementById('radar-timeline-slider');
         if (slider) slider.value = idx;
 
-        // 2. Update ticks highlight
+        // Update ticks highlight
         const ticks = document.querySelectorAll('.timeline-ticks .tick');
         ticks.forEach((t, i) => {
             t.classList.toggle('active-tick', i === idx);
         });
 
-        // 3. Update top banner badges
+        // Update top banner badges
         const liveDisp = document.getElementById('radar-live-disp-badge');
         const liveVel = document.getElementById('radar-live-vel-badge');
         const liveTarp = document.getElementById('radar-live-tarp-badge');
@@ -557,7 +608,7 @@
             liveTarp.style.color = item.color;
         }
 
-        // 4. Update HUD Overlays
+        // Update HUD Overlays
         const hudDisp = document.getElementById('hud-displacement');
         const hudVel = document.getElementById('hud-velocity');
         const hudStatus = document.getElementById('hud-vector-status');
@@ -567,7 +618,7 @@
             hudStatus.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color:${item.color}"></i> ${item.status}`;
         }
 
-        // 5. Update Timeline Clock & Pill
+        // Update Timeline Clock & Pill
         const clockEl = document.getElementById('timeline-clock-val');
         const pillEl = document.getElementById('timeline-tarp-pill');
         const noteEl = document.getElementById('timeline-event-text');
@@ -579,7 +630,7 @@
         }
         if (noteEl) noteEl.textContent = `${item.time} - ${item.eventNote}`;
 
-        // 6. Update chart current values
+        // Update chart current values
         const cDisp = document.getElementById('chart-disp-val');
         const cVel = document.getElementById('chart-vel-val');
         const cInv = document.getElementById('chart-inv-val');
@@ -587,7 +638,6 @@
         if (cVel) cVel.textContent = `${item.velocity.toFixed(2)} mm/h`;
         if (cInv) cInv.textContent = `${item.invVelocity.toFixed(2)} h/mm`;
 
-        // Re-render telemetry charts with cursor at idx
         renderTelemetryCharts(idx);
     };
 
@@ -609,7 +659,6 @@
     };
 
     window.jumpToCriticalMoment = function() {
-        // Index 8 is 09:24 FR012 Peak
         updateRadarTimelineUI(8);
         focusParedeNorte();
     };
@@ -637,7 +686,7 @@
             const series = window.MDSYNC_RADAR_FEED.timelineSeries;
             let next = window.radarState.currentIndex + 1;
             if (next >= series.length) {
-                next = 0; // Loop back
+                next = 0;
             }
             updateRadarTimelineUI(next);
         }, baseInterval);
@@ -706,14 +755,12 @@
         }
         ctx.stroke();
 
-        // Y-axis label
         ctx.fillStyle = '#64748b';
         ctx.font = '9px monospace';
         ctx.fillText(maxVal.toFixed(1), 4, padTop + 8);
         ctx.fillText((maxVal / 2).toFixed(1), 4, padTop + plotH / 2 + 4);
         ctx.fillText('0.0', 4, padTop + plotH);
 
-        // Compute points
         const points = [];
         const n = dataVals.length;
         for (let i = 0; i < n; i++) {
@@ -722,7 +769,6 @@
             points.push({ x: px, y: py });
         }
 
-        // Draw area gradient
         const grad = ctx.createLinearGradient(0, padTop, 0, padTop + plotH);
         grad.addColorStop(0, strokeColor.replace(')', ', 0.35)').replace('rgb', 'rgba'));
         grad.addColorStop(1, 'rgba(0, 0, 0, 0.0)');
@@ -737,7 +783,6 @@
         ctx.closePath();
         ctx.fill();
 
-        // Draw line curve
         ctx.strokeStyle = strokeColor;
         ctx.lineWidth = 2;
         ctx.beginPath();
@@ -747,7 +792,6 @@
         }
         ctx.stroke();
 
-        // Draw dots
         for (let i = 0; i < n; i++) {
             ctx.fillStyle = (i === activeIdx) ? '#fff' : strokeColor;
             ctx.beginPath();
@@ -760,7 +804,6 @@
             }
         }
 
-        // Vertical active cursor line
         if (points[activeIdx]) {
             ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
             ctx.setLineDash([3, 3]);
@@ -799,7 +842,6 @@
             return matchesCat && matchesSearch;
         });
 
-        // Update badge count
         const countBadge = document.getElementById('wa-filter-count');
         if (countBadge) countBadge.textContent = `${filtered.length} Mensagens`;
 
@@ -824,9 +866,20 @@
                             <img src="${msg.attachmentImage}" alt="Flash Report FR012" class="wa-attachment-thumb">
                             <div class="wa-attachment-info">
                                 <div class="wa-attachment-title"><i class="fa-solid fa-file-pdf text-danger"></i> ${msg.attachmentText || 'Relatório Oficial'}</div>
-                                <div class="wa-attachment-desc">Toque para abrir em tela cheia com zoom e metadados</div>
+                                <div class="wa-attachment-desc">Toque para abrir laudo oficial em tela cheia com zoom e metadados</div>
                             </div>
                             <i class="fa-solid fa-magnifying-glass-plus text-primary"></i>
+                        </div>
+                    `;
+                } else if (msg.attachmentText && msg.attachmentText.includes('Mapa de Deslocamento')) {
+                    attachmentHtml = `
+                        <div class="wa-attachment-card" onclick="openSatelliteModal()">
+                            <img src="assets/cava-jangada-satellite-annotated.jpg" alt="Ortofoto Cava Jangada" class="wa-attachment-thumb">
+                            <div class="wa-attachment-info">
+                                <div class="wa-attachment-title"><i class="fa-solid fa-satellite text-primary"></i> Ortofoto de Satélite Google Earth (Cava Jangada)</div>
+                                <div class="wa-attachment-desc">Mapeamento da Parede Norte e Estação IBIS-FM em alta definição</div>
+                            </div>
+                            <i class="fa-solid fa-expand text-primary"></i>
                         </div>
                     `;
                 } else {
@@ -885,7 +938,6 @@
         if (idx !== -1) {
             updateRadarTimelineUI(idx);
             focusParedeNorte();
-            // Scroll to 3D Viewport smoothly
             const vp = document.getElementById('radarCanvasContainer');
             if (vp) vp.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
@@ -926,6 +978,64 @@
         if (img) {
             img.style.transform = `scale(${window.radarState.reportZoom})`;
             img.style.transformOrigin = 'top center';
+        }
+    }
+
+    // ----------------------------------------------------
+    // 6. SATELLITE ORTHOPHOTO MODAL & ZOOM
+    // ----------------------------------------------------
+    window.openSatelliteModal = function() {
+        const modal = document.getElementById('modal-satellite-orthophoto');
+        if (modal) modal.style.display = 'flex';
+        resetSatelliteImageZoom();
+        updateSatelliteModalView();
+    };
+
+    window.closeSatelliteModal = function() {
+        const modal = document.getElementById('modal-satellite-orthophoto');
+        if (modal) modal.style.display = 'none';
+    };
+
+    window.closeSatelliteModalOnBackdrop = function(e) {
+        if (e.target.id === 'modal-satellite-orthophoto') {
+            closeSatelliteModal();
+        }
+    };
+
+    window.setSatelliteModalLayer = function(layer) {
+        window.radarState.satelliteActiveLayer = layer;
+        const bAnn = document.getElementById('btn-sat-annotated');
+        const bRaw = document.getElementById('btn-sat-raw');
+        if (bAnn) bAnn.classList.toggle('active', layer === 'annotated');
+        if (bRaw) bRaw.classList.toggle('active', layer === 'raw');
+        updateSatelliteModalView();
+    };
+
+    function updateSatelliteModalView() {
+        const img = document.getElementById('satellite-modal-img');
+        if (!img) return;
+        if (window.radarState.satelliteActiveLayer === 'annotated') {
+            img.src = 'assets/cava-jangada-satellite-annotated.jpg';
+        } else {
+            img.src = 'assets/cava-jangada-satellite-orthophoto.jpg';
+        }
+    }
+
+    window.zoomSatelliteImage = function(factor) {
+        window.radarState.satelliteZoom = Math.max(0.6, Math.min(3.5, window.radarState.satelliteZoom * factor));
+        applySatelliteImageZoom();
+    };
+
+    window.resetSatelliteImageZoom = function() {
+        window.radarState.satelliteZoom = 1.0;
+        applySatelliteImageZoom();
+    };
+
+    function applySatelliteImageZoom() {
+        const img = document.getElementById('satellite-modal-img');
+        if (img) {
+            img.style.transform = `scale(${window.radarState.satelliteZoom})`;
+            img.style.transformOrigin = 'center center';
         }
     }
 
