@@ -4,6 +4,15 @@
  */
 
 window.MDSYNC_RADAR_FEED = {
+    groupInfo: {
+        title: "Monitoramento 24/7 - Itaminas",
+        inviteUrl: "https://chat.whatsapp.com/C3qNTCqvcrN0JOLb4hid1O?s=sw&p=i&mlu=4&ilr=4",
+        avatarPath: "assets/whatsapp-group-avatar.jpg",
+        description: "Canal operacional oficial de comunicação e laudos técnicos do radar Hexagon IBIS-FM da Cava Jangada.",
+        organization: "ITAMINAS Mineração & Hexagon Mining",
+        regime: "24/7 em Tempo Real"
+    },
+
     radarInfo: {
         system: "Hexagon Mining IBIS-FM / Guardian",
         unitId: "ITAMINAS_IBISFM_01",

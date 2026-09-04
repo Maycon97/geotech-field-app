@@ -680,6 +680,9 @@
                                 <button type="button" class="btn btn-secondary" onclick="resetRadarCamera()">
                                     <i class="fa-solid fa-earth-americas"></i> Resetar Câmera (340° / 65°)
                                 </button>
+                                <a href="https://chat.whatsapp.com/C3qNTCqvcrN0JOLb4hid1O?s=sw&p=i&mlu=4&ilr=4" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="border-color: #25d366; color: #25d366;" title="Acessar Grupo Oficial WhatsApp Monitoramento 24/7">
+                                    <i class="fa-brands fa-whatsapp"></i> Grupo WhatsApp 24/7
+                                </a>
                             </div>
                             <div class="radar-action-right">
                                 <span class="badge badge-outline"><i class="fa-solid fa-tower-broadcast"></i> Radar IBIS-FM EVO: Base Sul (1140m)</span>
@@ -848,9 +851,6 @@
                                                 <strong class="clock-value font-mono" id="timeline-clock-val">04/09/2026 09:24:00</strong>
                                                 <span class="badge badge-danger" id="timeline-tarp-pill">NÍVEL 3 (CRÍTICO)</span>
                                                 <span class="badge badge-success" id="live-stream-status-pill" style="display: none;"><i class="fa-solid fa-circle fa-beat-fade text-danger"></i> AO VIVO 24/7</span>
-                                                <span class="clock-label">DATA &amp; HORA DO RADAR:</span>
-                                                <strong class="clock-value font-mono" id="timeline-clock-val">04/09/2026 09:24:00</strong>
-                                                <span class="badge badge-danger" id="timeline-tarp-pill">NÍVEL 3 (CRÍTICO)</span>
                                             </div>
                                         </div>
 
@@ -971,21 +971,43 @@
 <!-- 2. OPERATIONAL WHATSAPP FEED & RADAR INTEGRATION -->
                         <div class="card mb-4" id="whatsapp-radar-card">
                             <div class="card-header justify-between">
-                                <div class="d-flex align-center gap-2">
-                                    <div class="whatsapp-logo-badge">
-                                        <i class="fa-brands fa-whatsapp"></i>
+                                <div class="d-flex align-center gap-3">
+                                    <div class="whatsapp-group-avatar-container" title="Monitoramento 24/7 - Itaminas">
+                                        <img src="assets/whatsapp-group-avatar.jpg" alt="Avatar Grupo WhatsApp Monitoramento 24/7 Itaminas" class="whatsapp-group-avatar-img">
+                                        <span class="wa-status-indicator" title="Canal Oficial Ativo 24h"></span>
                                     </div>
                                     <div>
-                                        <h3 class="m-0">Monitoramento 24/7 - Itaminas &amp; Hexagon Mining</h3>
-                                        <p class="text-secondary small m-0">Canal operacional direto entre a Central Hexagon 24/7 e o CMG Itaminas • Criptografia Geotécnica</p>
+                                        <div class="d-flex align-center gap-2 flex-wrap">
+                                            <h3 class="m-0">Monitoramento 24/7 - Itaminas</h3>
+                                            <span class="badge badge-success"><i class="fa-solid fa-circle-dot"></i> Canal Oficial 24h</span>
+                                        </div>
+                                        <p class="text-secondary small m-0">Canal operacional direto entre a Central Hexagon 24/7 e o CMG Itaminas • Radar Cava Jangada</p>
                                     </div>
                                 </div>
-                                <div class="d-flex align-center gap-2">
-                                    <span class="badge badge-success"><i class="fa-solid fa-circle-dot"></i> Canal 24h Online</span>
+                                <div class="d-flex align-center gap-2 flex-wrap">
+                                    <a href="https://chat.whatsapp.com/C3qNTCqvcrN0JOLb4hid1O?s=sw&p=i&mlu=4&ilr=4" target="_blank" rel="noopener noreferrer" class="wa-join-btn" title="Entrar no Grupo Oficial de Monitoramento no WhatsApp">
+                                        <i class="fa-brands fa-whatsapp"></i> Entrar no Grupo Oficial
+                                    </a>
+                                    <button type="button" class="btn btn-secondary btn-sm" onclick="copyWhatsAppInvite()" title="Copiar link de convite do grupo">
+                                        <i class="fa-solid fa-copy"></i> Copiar Link
+                                    </button>
                                     <span class="badge badge-primary" id="wa-filter-count">18 Mensagens</span>
                                 </div>
                             </div>
                             <div class="card-body">
+                                <!-- WhatsApp Group Info Ribbon -->
+                                <div class="whatsapp-info-ribbon">
+                                    <div class="whatsapp-info-ribbon-left">
+                                        <i class="fa-brands fa-whatsapp"></i>
+                                        <span><strong>Grupo Oficial WhatsApp:</strong> <code>Monitoramento 24/7 - Itaminas</code> (Hexagon Mining &amp; CMG Itaminas). Alertas de radar, detonações e laudos FR012 integrados.</span>
+                                    </div>
+                                    <div class="whatsapp-info-ribbon-right">
+                                        <a href="https://chat.whatsapp.com/C3qNTCqvcrN0JOLb4hid1O?s=sw&p=i&mlu=4&ilr=4" target="_blank" rel="noopener noreferrer" class="text-info small" style="text-decoration: underline;">
+                                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir WhatsApp Web / Desktop
+                                        </a>
+                                    </div>
+                                </div>
+
                                 <!-- Chat Filter Bar -->
                                 <div class="whatsapp-filter-bar mb-3">
                                     <div class="whatsapp-filter-pills">

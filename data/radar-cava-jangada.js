@@ -959,6 +959,20 @@
         }
     };
 
+    window.copyWhatsAppInvite = function() {
+        const url = (window.MDSYNC_RADAR_FEED && window.MDSYNC_RADAR_FEED.groupInfo && window.MDSYNC_RADAR_FEED.groupInfo.inviteUrl) 
+            || 'https://chat.whatsapp.com/C3qNTCqvcrN0JOLb4hid1O?s=sw&p=i&mlu=4&ilr=4';
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(() => {
+                alert('Link de convite do Grupo de WhatsApp copiado com sucesso!\n' + url);
+            }).catch(() => {
+                prompt('Link de convite do Grupo de WhatsApp (copie manualmente):', url);
+            });
+        } else {
+            prompt('Link de convite do Grupo de WhatsApp (copie manualmente):', url);
+        }
+    };
+
     // ----------------------------------------------------
     // 5. FLASH REPORT FR012 MODAL & ZOOM
     // ----------------------------------------------------
