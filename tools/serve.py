@@ -78,12 +78,13 @@ def run():
     print(f"  Base Monitorada: {PCMI_PATH}                                   ")
     print(f"  URL Local: http://127.0.0.1:{PORT}/index.html                  ")
     print("==================================================================")
-    
-    # Realiza varredura inicial da base PCMI
-    scan()
+    sys.stdout.flush()
     
     # Inicia o observador de arquivos em background
     observer = start_watcher()
+    
+    # Executa varredura inicial em thread de background
+    threading.Thread(target=scan, daemon=True).start()
     
     socketserver.TCPServer.allow_reuse_address = True
     with socketserver.TCPServer(("127.0.0.1", PORT), Handler) as httpd:
