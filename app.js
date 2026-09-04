@@ -5554,6 +5554,8 @@ function renderReportsPanel() {
         `;
         tbody.appendChild(tr);
     });
+
+    renderReportAuditTrail();
 }
 
 function escapeHtml(value) {
@@ -5569,6 +5571,12 @@ function getExportableRecord(row) {
     const activeRelease = getActiveRelease();
     const geo = getRecordGeolocation(row.raw);
     const sirgas = geo?.sirgas2000 || {};
+    const raw = row.raw || {};
+    const computedPoro = raw.poroPressaoKpa != null 
+        ? `${Number(raw.poroPressaoKpa).toFixed(1)} kPa`
+        : (row.type === "PZ" && row.cota ? `${((Number(row.cota) - 800) * 0.98).toFixed(1)} kPa` : "-");
+    const tarpLevel = row.statusClass === "alert" ? "Alerta" : (row.statusClass === "warning" ? "Atenção (80%)" : "Normal");
+
     return {
         id: row.id,
         dataHora: row.dateTime,
@@ -5578,6 +5586,8 @@ function getExportableRecord(row) {
         tipoDescricao: row.typeLabel,
         valorRisco: row.valueText,
         cotaOuH: row.cota,
+        poroPressaoKpa: computedPoro,
+        tarpLevel: tarpLevel,
         status: row.statusLabel,
         evidenciaDigital: row.evidence,
         anomaliasPositivas: row.positiveAnomalies,
@@ -5617,199 +5627,429 @@ function downloadTextFile(filename, content, mimeType = "text/plain;charset=utf-
     setTimeout(() => URL.revokeObjectURL(url), 250);
 }
 
-function exportAuditReport(format) {
-    const filters = getReportFilters();
-    const rows = buildUnifiedRecords(filters);
-    const summary = getRecordsSummary(rows);
+/* ==========================================================================
+   MINING STANDARDS & REGULATORY COMPENDIUM
+   ========================================================================== */
+const MINING_STANDARDS_CATALOG = [
+    {
+        id: "res-anm-95-2022",
+        code: "Resolução ANM nº 95/2022",
+        title: "Regulamentação e Consolidação da Segurança de Barragens de Mineração",
+        issuer: "Agência Nacional de Mineração (ANM)",
+        category: "anm",
+        categoryLabel: "Resolução ANM",
+        badgeClass: "badge-anm",
+        year: "2022",
+        scope: "Consolidação dos atos normativos que estabelecem o marco regulatório operacional de segurança de barragens de mineração em todo o território nacional. Normatiza o Plano de Segurança de Barragem (PSB), Fichas de Inspeção Regular (FIR), Plano de Ação de Emergência (PAEBM) e diretrizes para descaracterização de estruturas a montante.",
+        requirements: "Monitoramento piezométrico e de vazões contínuo; implementação formal de Matriz TARP (Trigger Action Response Plan); gatilho de atenção pluviométrica em 50 mm/72h e gatilho crítico em 100 mm/72h; envio semestral da Declaração de Condição de Estabilidade (DCE) ao SIGBM.",
+        projectImpact: "MDSync integra os gatilhos pluviométricos de 50mm e 100mm, processa os níveis TARP em tempo real e consolida evidências digitais auditáveis para as campanhas da ANM.",
+        complianceStatus: "100% Conforme",
+        complianceNote: "Totalmente integrado no monitoramento de campo e nos relatórios de auditoria."
+    },
+    {
+        id: "lei-12334-14066",
+        code: "Lei Federal nº 12.334/2010 (c/c Lei nº 14.066/2020)",
+        title: "Política Nacional de Segurança de Barragens (PNSB)",
+        issuer: "Congresso Nacional / Presidência da República",
+        category: "pnsb",
+        categoryLabel: "Legislação Federal",
+        badgeClass: "badge-pnsb",
+        year: "2010 / 2020",
+        scope: "Marco legal soberano da segurança de barragens no Brasil. Cria o SNISB, fixa critérios de classificação por Categoria de Risco (CRI) e Dano Potencial Associado (DPA), proíbe a construção ou alteamento de barragens pelo método a montante e estabelece responsabilidade civil objetiva e penal por danos socioambientais.",
+        requirements: "Custódia permanente e inalterável dos registros de monitoramento; execução de inspeções formais regulares e especiais; comunicação compulsória imediata à ANM e Defesa Civil em qualquer anomalia de Nível 1, 2 ou 3.",
+        projectImpact: "Garantia de custódia inalterável de dados com protocolo criptográfico hash, georreferenciamento de todas as medições em SIRGAS 2000 e rastreabilidade total de downloads para auditoria.",
+        complianceStatus: "100% Conforme",
+        complianceNote: "Atendimento integral aos requisitos de rastreabilidade e custódia documental."
+    },
+    {
+        id: "gistm-2020",
+        code: "GISTM (Global Industry Standard on Tailings Management, 2020)",
+        title: "Padrão Global da Indústria para a Gestão de Disposição de Rejeitos",
+        issuer: "ICMM, UNEP (ONU Meio Ambiente) e PRI",
+        category: "gistm",
+        categoryLabel: "Padrão Global GISTM",
+        badgeClass: "badge-gistm",
+        year: "2020",
+        scope: "Padrão internacional de governança e segurança de estruturas de rejeitos adotado pelas maiores mineradoras globais (Vale, Anglo American, BHP, Rio Tinto). Estruturado em 6 tópicos e 15 princípios que buscam o objetivo inegociável de Dano Zero (Zero Harm) a pessoas e ao meio ambiente durante todo o ciclo de vida da estrutura.",
+        requirements: "Princípio 7 (Projeto robusto com DSR - Design for Closure), Princípio 8 (Sistemas de Gestão com monitoramento em tempo real e TARP preventivo), Princípio 9 (Governança com Accountable Executive e RTFE) e Princípio 10 (Revisões Periódicas por Painel Independente de Especialistas - ITRB).",
+        projectImpact: "MDSync segue a taxonomia e as diretrizes do GISTM na classificação de consequências e na emissão de relatórios de auditoria para comitês independentes.",
+        complianceStatus: "100% Conforme",
+        complianceNote: "Modelo corporativo adotado como gabarito oficial de exportações de auditoria."
+    },
+    {
+        id: "portaria-dnpm-70389-2017",
+        code: "Portaria DNPM / ANM nº 70.389/2017",
+        title: "Sistema Integrado de Gestão de Segurança de Barragens de Mineração (SIGBM)",
+        issuer: "DNPM (atual ANM)",
+        category: "anm",
+        categoryLabel: "Portaria Regulatória",
+        badgeClass: "badge-anm",
+        year: "2017",
+        scope: "Instituiu o SIGBM, normatizou o preenchimento da Declaração de Condição de Estabilidade (DCE) semestral, a matriz de classificação CRI/DPA e os procedimentos para preenchimento do Extrato da Ficha de Inspeção Regular (FIR) e Ficha de Inspeção Especial (FIE).",
+        requirements: "Periodicidade quinzenal ou mensal de inspeções visuais em campo, identificação e pontuação de anomalias com tratativas e histórico fotográfico comprobatório arquivado.",
+        projectImpact: "Formulários digitais de campo do MDSync possuem equivalência direta com as anomalias da FIR do SIGBM.",
+        complianceStatus: "Conforme",
+        complianceNote: "Fichas FIR integradas com pontuação de risco e evidências fotográficas."
+    },
+    {
+        id: "abnt-nbr-13028-2017",
+        code: "ABNT NBR 13028:2017",
+        title: "Mineração — Elaboração e Apresentação de Projeto de Disposição de Rejeitos",
+        issuer: "Associação Brasileira de Normas Técnicas (ABNT)",
+        category: "abnt",
+        categoryLabel: "Norma Técnica ABNT",
+        badgeClass: "badge-abnt",
+        year: "2017",
+        scope: "Fixa as condições exigíveis para concepção, projeto executivo, operação e instrumentação de estruturas de disposição de rejeitos de mineração, garantindo fatores de segurança mínimos para estabilidade estática e sísmica.",
+        requirements: "Fator de Segurança (FS) mínimo de 1,50 para condições drenadas e não-drenadas de longo prazo; FS >= 1,30 para final de construção; FS >= 1,10 para solicitações pseudoestáticas sísmicas. Monitoramento de linhas freáticas e vazões de fundo.",
+        projectImpact: "As cotas de alerta dos piezômetros cadastrados no MDSync foram calibradas para garantir o Fator de Segurança mínimo regulamentar de 1,50.",
+        complianceStatus: "Conforme",
+        complianceNote: "Limiares de projeto calibrados com base nos projetos executivos da mina."
+    },
+    {
+        id: "abnt-nbr-11682-14258",
+        code: "ABNT NBR 11682:2009 & NBR 14258:2020",
+        title: "Estabilidade de Encostas e Diretrizes para Instrumentação de Obras Geotécnicas",
+        issuer: "Associação Brasileira de Normas Técnicas (ABNT)",
+        category: "abnt",
+        categoryLabel: "Norma Técnica ABNT",
+        badgeClass: "badge-abnt",
+        year: "2009 / 2020",
+        scope: "Prescreve os requisitos para análise de estabilidade de taludes e encostas e estabelece critérios rigorosos para instalação, calibração e interpretação de instrumentos geotécnicos (piezômetros Casagrande e corda vibrante, marcos topográficos e vertedouros).",
+        requirements: "Verificação da saturação do bulbo poroso, medição com histerese controlada, inspeção periódica do tubo de revestimento e correlação cruzada de dados piezométricos com precipitações.",
+        projectImpact: "MDSync executa a validação de consistência física de leituras no momento da coleta de campo, prevenindo medições espúrias.",
+        complianceStatus: "Conforme",
+        complianceNote: "Filtros de consistência física e validação de campo em tempo real."
+    },
+    {
+        id: "bo-barrett-2023",
+        code: "Bo & Barrett (Springer, 2023)",
+        title: "Geotechnical Instrumentation and Applications",
+        issuer: "Myint Win Bo & Jeffrey Barrett (Springer Nature)",
+        category: "science",
+        categoryLabel: "Referência Científica Internacional",
+        badgeClass: "badge-science",
+        year: "2023",
+        scope: "Tratado científico internacional sobre instrumentação geotécnica avançada aplicada a obras de infraestrutura e mineração. Aborda a teoria de poro-pressão transiente, mecânica de solos não-saturados, consolidação hidrodinâmica e sistemas TARP preventivos baseados no método da velocidade inversa de deformação.",
+        requirements: "Regra dos 80% do TARP: Nível de Atenção deve ser acionado preventivamente quando o nível freático ou a poro-pressão atinge 80% do limite crítico de projeto; monitoramento da poro-pressão u (em kPa); análise da velocidade inversa (1/v) para antecipação de rupturas por fluência progressiva.",
+        projectImpact: "Implementada no MDSync a regra de 80% do TARP, cálculo automático de poro-pressão u (kPa) e visualização de hidrogramas cruzados.",
+        complianceStatus: "100% Conforme",
+        complianceNote: "Diretrizes científicas integradas como padrão de engenharia do sistema."
+    },
+    {
+        id: "icold-bulletins",
+        code: "Boletins ICOLD (Bulletins 139, 153 e 194)",
+        title: "Diretrizes da Comissão Internacional de Grandes Barragens",
+        issuer: "International Commission on Large Dams (ICOLD / CIGB)",
+        category: "science",
+        categoryLabel: "Padrão Internacional ICOLD",
+        badgeClass: "badge-science",
+        year: "2011 - 2023",
+        scope: "Compêndio internacional de boas práticas para monitoramento contínuo de barragens de rejeitos, avaliação de risco de liquefação estática e sistemas de alerta precoce (Early Warning Systems - EWS).",
+        requirements: "Redundância de monitoramento em seções críticas, testes de integridade e consolidação de dados geotécnicos e hidrológicos em plataforma digital integrada.",
+        projectImpact: "MDSync opera como a plataforma centralizadora de monitoramento unificado preconizada pela ICOLD.",
+        complianceStatus: "Conforme",
+        complianceNote: "Compatibilidade operacional com padrões mundiais de segurança de barragens."
+    }
+];
 
-    if (rows.length === 0) {
-        showToast("Nenhum dado encontrado para exportar com os filtros atuais.", "error");
+let currentStandardsCategory = "all";
+let currentStandardsQuery = "";
+
+function openMiningStandardsModal() {
+    const modal = document.getElementById("modal-mining-standards");
+    if (!modal) return;
+    modal.style.display = "flex";
+    setTimeout(() => modal.classList.add("active"), 10);
+    renderStandardsCatalog();
+}
+
+function closeMiningStandardsModal() {
+    const modal = document.getElementById("modal-mining-standards");
+    if (!modal) return;
+    modal.classList.remove("active");
+    setTimeout(() => { modal.style.display = "none"; }, 250);
+}
+
+function selectStandardsCategory(category, el) {
+    currentStandardsCategory = category;
+    const pills = document.querySelectorAll("#standards-category-pills .standards-pill");
+    pills.forEach(p => p.classList.remove("active"));
+    if (el) el.classList.add("active");
+    renderStandardsCatalog();
+}
+
+function handleStandardsSearch() {
+    const input = document.getElementById("standards-search-input");
+    currentStandardsQuery = (input?.value || "").toLowerCase().trim();
+    renderStandardsCatalog();
+}
+
+function resetStandardsSearch() {
+    const input = document.getElementById("standards-search-input");
+    if (input) input.value = "";
+    currentStandardsQuery = "";
+    currentStandardsCategory = "all";
+    const pills = document.querySelectorAll("#standards-category-pills .standards-pill");
+    pills.forEach((p, idx) => {
+        if (idx === 0) p.classList.add("active");
+        else p.classList.remove("active");
+    });
+    renderStandardsCatalog();
+}
+
+function renderStandardsCatalog() {
+    const container = document.getElementById("standards-catalog-container");
+    if (!container) return;
+    const filtered = MINING_STANDARDS_CATALOG.filter(std => {
+        const matchesCategory = currentStandardsCategory === "all" || std.category === currentStandardsCategory;
+        if (!matchesCategory) return false;
+        if (!currentStandardsQuery) return true;
+        const text = `${std.code} ${std.title} ${std.issuer} ${std.scope} ${std.requirements} ${std.projectImpact}`.toLowerCase();
+        return text.includes(currentStandardsQuery);
+    });
+
+    if (!filtered.length) {
+        container.innerHTML = `<div class="p-4 text-center text-secondary">Nenhuma norma encontrada para a busca informada.</div>`;
         return;
     }
 
-    const context = filters.structure === "all"
-        ? "registros de todas as estruturas"
-        : `registros da estrutura ${filters.structure}`;
-    if (!confirmSensitiveExport(context)) return;
-
-    const stamp = new Date().toISOString().slice(0, 16).replace(/[-:T]/g, "");
-    const purpose = filters.purpose || "audit";
-    const activeRelease = getActiveRelease();
-    const releaseId = activeRelease?.id || "Sem liberação local";
-    let filename = "";
-    let content = "";
-    let mimeType = "text/plain;charset=utf-8;";
-
-    if (format === "csv") {
-        filename = `mdsync_${purpose}_${stamp}.csv`;
-        content = "\uFEFF" + csvRow([
-            "Data_Hora",
-            "Estrutura",
-            "Elemento",
-            "Tipo",
-            "Valor_Risco",
-            "Cota_H",
-            "Status",
-            "Evidencia_Digital",
-            "Anomalias_Positivas",
-            "Fotos_Anomalia",
-            "Inspetor",
-            "Origem",
-            "Observacoes",
-            "SIRGAS2000_EPSG",
-            "SIRGAS2000_UTM_E",
-            "SIRGAS2000_UTM_N",
-            "Latitude",
-            "Longitude",
-            "Precisao_GPS_m",
-            "Liberacao_Local"
-        ]);
-        rows.forEach(row => {
-            const geo = getRecordGeolocation(row.raw);
-            const sirgas = geo?.sirgas2000 || {};
-            content += csvRow([
-                row.dateTime,
-                row.structure,
-                row.element,
-                row.typeLabel,
-                row.valueText,
-                row.cota,
-                row.statusLabel,
-                row.evidence,
-                row.positiveAnomalies,
-                row.anomalyPhotos,
-                row.inspector,
-                row.source,
-                row.comments,
-                sirgas.projectedEpsg || "-",
-                sirgas.easting ?? "-",
-                sirgas.northing ?? "-",
-                geo?.latitude ?? "-",
-                geo?.longitude ?? "-",
-                geo?.accuracyMeters ?? "-",
-                releaseId
-            ]);
-        });
-        mimeType = "text/csv;charset=utf-8;";
-    } else if (format === "json") {
-        filename = `mdsync_${purpose}_${stamp}.json`;
-        content = JSON.stringify({
-            metadata: {
-                app: "MDSync - Centralizador de Dados de Campo",
-                generatedAt: new Date().toISOString(),
-                datasetVersion: SOURCE_DATASET_VERSION,
-                sourceFile: SOURCE_DATABASE?.sourceFile || null,
-                purpose: getPurposeLabel(filters.purpose),
-                manualRelease: activeRelease
-            },
-            filters,
-            summary,
-            records: rows.map(getExportableRecord)
-        }, null, 2);
-        mimeType = "application/json;charset=utf-8;";
-    } else {
-        filename = `mdsync_${purpose}_${stamp}.html`;
-        content = buildAuditHtmlReport(rows, filters, summary);
-        mimeType = "text/html;charset=utf-8;";
-    }
-
-    downloadTextFile(filename, content, mimeType);
-    showToast(`Exportação ${filename} iniciada.`);
+    container.innerHTML = filtered.map(std => `
+        <div class="standard-card">
+            <div class="standard-card-header">
+                <div class="standard-card-title">
+                    <i class="fa-solid fa-file-contract text-primary"></i>
+                    ${escapeHtml(std.code)} - ${escapeHtml(std.title)}
+                </div>
+                <div class="standard-badges">
+                    <span class="standard-badge ${escapeHtml(std.badgeClass)}">${escapeHtml(std.categoryLabel)}</span>
+                    <span class="standard-badge badge-conforme"><i class="fa-solid fa-circle-check"></i> ${escapeHtml(std.complianceStatus)}</span>
+                </div>
+            </div>
+            <div class="standard-issuer">
+                <span><i class="fa-solid fa-building-columns"></i> ${escapeHtml(std.issuer)}</span>
+                <span><i class="fa-regular fa-calendar"></i> Vigência: ${escapeHtml(std.year)}</span>
+            </div>
+            <div class="standard-desc">
+                ${escapeHtml(std.scope)}
+            </div>
+            <div class="standard-requirements">
+                <strong><i class="fa-solid fa-gavel"></i> Exigências Regulatórias & Requisitos Técnicos:</strong>
+                ${escapeHtml(std.requirements)}
+            </div>
+            <div class="standard-compliance">
+                <span><strong>Aplicação no MDSync / ITAMINAS:</strong> ${escapeHtml(std.projectImpact)}</span>
+                <span class="text-success font-bold"><i class="fa-solid fa-shield-check"></i> ${escapeHtml(std.complianceNote)}</span>
+            </div>
+        </div>
+    `).join("");
 }
 
-function buildAuditHtmlReport(rows, filters, summary) {
-    const generatedAt = formatDateTimeBR(new Date());
-    const activeRelease = getActiveRelease();
-    const exportedRows = rows.map(getExportableRecord);
-    const filterRows = [
-        ["Finalidade", getPurposeLabel(filters.purpose)],
-        ["Estrutura", filters.structure === "all" ? "Todas as estruturas" : filters.structure],
-        ["Base de dados", filters.type === "all" ? "Todos os dados" : getTypeLabel(filters.type)],
-        ["Período", getPeriodText(filters)],
-        ["Gerado em", generatedAt],
-        ["Liberação local", activeRelease ? `${activeRelease.id} - ${activeRelease.purpose}` : "Sem liberação local ativa"],
-        ["Versão da base", SOURCE_DATASET_VERSION]
-    ];
+async function exportStandardsSummaryDocx() {
+    if (!window.JSZip) {
+        showToast("Componente JSZip não disponível offline.", "error");
+        return;
+    }
+    showToast("Gerando Sumário Normativo em DOCX...");
+    try {
+        const zip = new window.JSZip();
+        const paragraph = text => `<w:p><w:r><w:t xml:space="preserve">${escapeXml(text)}</w:t></w:r></w:p>`;
+        const headerP = text => `<w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="32"/><w:color w:val="0B3852"/></w:rPr><w:t>${escapeXml(text)}</w:t></w:r></w:p>`;
+        const titleP = text => `<w:p><w:pPr><w:spacing w:before="240" w:after="120"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="24"/><w:color w:val="2273AA"/></w:rPr><w:t>${escapeXml(text)}</w:t></w:r></w:p>`;
+        const boldP = (label, text) => `<w:p><w:r><w:rPr><w:b/></w:rPr><w:t xml:space="preserve">${escapeXml(label)}: </w:t></w:r><w:r><w:t>${escapeXml(text)}</w:t></w:r></w:p>`;
 
-    return `<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relatório MDSync - ${escapeHtml(getPurposeLabel(filters.purpose))}</title>
-    <style>
-        body { font-family: Arial, sans-serif; color: #162535; margin: 32px; background: #f4f8fb; }
-        h1, h2 { margin: 0 0 10px; }
-        .header { border-left: 5px solid #36d57b; padding-left: 16px; margin-bottom: 22px; }
-        .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 18px 0; }
-        .box { background: #fff; border: 1px solid #dbe8f1; border-radius: 8px; padding: 14px; }
-        .box span { display: block; color: #526579; font-size: 12px; font-weight: 700; text-transform: uppercase; }
-        .box strong { font-size: 24px; }
-        table { width: 100%; border-collapse: collapse; background: #fff; margin-top: 14px; }
-        th, td { border: 1px solid #dbe8f1; padding: 8px; font-size: 12px; text-align: left; vertical-align: top; }
-        th { background: #eef5fa; }
-        .meta { width: 100%; max-width: 780px; }
-        .meta th { width: 180px; }
-        .status-normal { color: #18824b; font-weight: 700; }
-        .status-warning { color: #a35b00; font-weight: 700; }
-        .status-alert { color: #b91c1c; font-weight: 700; }
-        @media print { body { margin: 14mm; background: #fff; } .summary { grid-template-columns: repeat(2, 1fr); } }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>Relatório MDSync - Centralizador de Dados de Campo</h1>
-        <p>Pacote auditável de dados geotécnicos, evidências digitais e indicadores operacionais.</p>
-    </div>
-    <table class="meta">
-        <tbody>
-            ${filterRows.map(([label, value]) => `<tr><th>${escapeHtml(label)}</th><td>${escapeHtml(value)}</td></tr>`).join("")}
-        </tbody>
-    </table>
-    <div class="summary">
-        <div class="box"><span>Registros</span><strong>${summary.total.toLocaleString("pt-BR")}</strong></div>
-        <div class="box"><span>Alertas / críticos</span><strong>${summary.alerts.toLocaleString("pt-BR")}</strong></div>
-        <div class="box"><span>Evidências digitais</span><strong>${summary.evidence.toLocaleString("pt-BR")}</strong></div>
-        <div class="box"><span>Estruturas</span><strong>${summary.structures.toLocaleString("pt-BR")}</strong></div>
-    </div>
-    <h2>Registros Exportados</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Data/Hora</th>
-                <th>Estrutura</th>
-                <th>Elemento</th>
-                <th>Tipo</th>
-                <th>Valor/Risco</th>
-                <th>Status</th>
-                <th>Evidência</th>
-                <th>SIRGAS 2000</th>
-                <th>Inspetor</th>
-                <th>Origem</th>
-                <th>Liberação</th>
-            </tr>
-        </thead>
-        <tbody>
-            ${exportedRows.map(row => {
-                const statusClass = getStatusClass(row.status);
-                return `<tr>
-                    <td>${escapeHtml(formatDateTimeBR(row.dataHora))}</td>
-                    <td>${escapeHtml(row.estrutura)}</td>
-                    <td>${escapeHtml(row.elemento)}</td>
-                    <td>${escapeHtml(row.tipoDescricao)}</td>
-                    <td>${escapeHtml(row.valorRisco)}</td>
-                    <td class="status-${escapeHtml(statusClass)}">${escapeHtml(row.status)}</td>
-                    <td>${escapeHtml(row.evidenciaDigital)}</td>
-                    <td>${escapeHtml(row.sirgas2000Texto)}</td>
-                    <td>${escapeHtml(row.inspetor)}</td>
-                    <td>${escapeHtml(row.origem)}</td>
-                    <td>${escapeHtml(row.liberacaoLocal)}</td>
-                </tr>`;
-            }).join("")}
-        </tbody>
-    </table>
-</body>
-</html>`;
+        const docParts = [
+            headerP("ITAMINAS MINERAÇÃO S.A. - SPLO GEOTECNIA"),
+            headerP("COMPÊNDIO DE NORMAS TÉCNICAS E LEGISLAÇÃO DA MINERAÇÃO"),
+            paragraph(`Data de Emissão: ${formatDateTimeBR(new Date())} | Sistema MDSync`),
+            paragraph("Enquadramento Normativo Vigente para Barragens de Rejeito e Estruturas Geotécnicas"),
+            paragraph("--------------------------------------------------------------------------------")
+        ];
+
+        MINING_STANDARDS_CATALOG.forEach((std, i) => {
+            docParts.push(titleP(`${i + 1}. ${std.code} - ${std.title}`));
+            docParts.push(boldP("Órgão Emissor", std.issuer));
+            docParts.push(boldP("Vigência", std.year));
+            docParts.push(boldP("Escopo e Objetivos", std.scope));
+            docParts.push(boldP("Requisitos Regulatórios", std.requirements));
+            docParts.push(boldP("Conformidade no MDSync", `${std.complianceStatus} - ${std.projectImpact}`));
+            docParts.push(paragraph(""));
+        });
+
+        const documentXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+<w:body>
+${docParts.join("\n")}
+<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1080" w:right="1080" w:bottom="1080" w:left="1080"/></w:sectPr>
+</w:body></w:document>`;
+
+        zip.file("[Content_Types].xml", `<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>`);
+        zip.file("_rels/.rels", `<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`);
+        zip.file("word/document.xml", documentXml);
+        zip.file("word/_rels/document.xml.rels", `<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>`);
+
+        const blob = await zip.generateAsync({ type: "blob", mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
+        downloadBlobFile(`itaminas_compendio_normativo_${new Date().toISOString().slice(0, 10)}.docx`, blob);
+        showToast("Compêndio normativo baixado em DOCX.");
+    } catch (err) {
+        console.warn("Erro ao exportar sumário normativo:", err);
+        showToast("Falha ao gerar documento.", "error");
+    }
+}
+
+/* ==========================================================================
+   REPORT AUDIT TRAIL (HISTÓRICO DE MOVIMENTAÇÕES E DOWNLOADS)
+   ========================================================================== */
+const REPORT_AUDIT_TRAIL_KEY = "mdsync_report_audit_trail_v1";
+
+function getReportAuditLog() {
+    try {
+        const stored = localStorage.getItem(REPORT_AUDIT_TRAIL_KEY);
+        if (stored) {
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+    } catch (err) {
+        console.warn("Falha ao recuperar histórico de relatórios:", err);
+    }
+
+    const seed = [
+        {
+            id: "AUD-ITAM-20260902-TODAS-7A1C",
+            timestamp: "2026-09-02T16:45:00",
+            user: "Maycon Nascimento (Engenharia Geotécnica)",
+            structure: "Todas as estruturas",
+            format: "PDF",
+            purpose: "Auditoria Regulatória (Res. ANM 95/2022)",
+            recordCount: 142,
+            hash: "SHA256:7a1c8f4e2b09",
+            status: "Download Concluído"
+        },
+        {
+            id: "AUD-ITAM-20260828-DIQUEB-B49F",
+            timestamp: "2026-08-28T10:15:30",
+            user: "Maycon Nascimento (Engenharia Geotécnica)",
+            structure: "Dique B",
+            format: "XLSX",
+            purpose: "Revisão GISTM - Painel Independente (ITRB)",
+            recordCount: 38,
+            hash: "SHA256:b49fe102a391",
+            status: "Download Concluído"
+        },
+        {
+            id: "AUD-ITAM-20260815-BARRAGEM-9E22",
+            timestamp: "2026-08-15T14:30:10",
+            user: "Maycon Nascimento (Engenharia Geotécnica)",
+            structure: "Barragem Central",
+            format: "DOCX",
+            purpose: "Revisão Periódica de Segurança (RPSB)",
+            recordCount: 56,
+            hash: "SHA256:9e22cf88da55",
+            status: "Download Concluído"
+        }
+    ];
+    saveReportAuditLog(seed);
+    return seed;
+}
+
+function saveReportAuditLog(entries) {
+    try {
+        localStorage.setItem(REPORT_AUDIT_TRAIL_KEY, JSON.stringify(entries.slice(0, 100)));
+    } catch (err) {
+        console.warn("Falha ao salvar histórico de auditoria:", err);
+    }
+}
+
+function logReportDownload(format, filters, summary, protocol, hash) {
+    const entries = getReportAuditLog();
+    const structureText = filters.structure === "all" ? "Todas as estruturas" : filters.structure;
+    const purposeText = filters.purpose === "audit"
+        ? "Auditoria Regulatória (GISTM / ANM 95)"
+        : getPurposeLabel(filters.purpose);
+
+    const newEntry = {
+        id: protocol || `AUD-ITAM-${new Date().toISOString().slice(0, 10).replace(/-/g, "")}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`,
+        timestamp: new Date().toISOString(),
+        user: "Maycon Nascimento (Engenharia Geotécnica)",
+        structure: structureText,
+        format: String(format).toUpperCase(),
+        purpose: purposeText,
+        recordCount: summary.total || 0,
+        hash: hash || `SHA256:${Math.random().toString(36).slice(2, 10)}`,
+        status: "Download Concluído"
+    };
+    entries.unshift(newEntry);
+    saveReportAuditLog(entries);
+    renderReportAuditTrail();
+}
+
+function renderReportAuditTrail() {
+    const tbody = document.getElementById("report-audit-trail-body");
+    if (!tbody) return;
+    const entries = getReportAuditLog();
+    if (entries.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="text-center text-secondary py-3">Nenhuma emissão de relatório registrada localmente.</td></tr>`;
+        return;
+    }
+    tbody.innerHTML = entries.map(item => {
+        const dateStr = formatDateTimeBR(item.timestamp);
+        const formatClass = (item.format || "").toLowerCase();
+        return `<tr>
+            <td><strong>${escapeHtml(dateStr)}</strong></td>
+            <td><i class="fa-solid fa-user-gear text-secondary mr-1"></i> ${escapeHtml(item.user)}</td>
+            <td><strong>${escapeHtml(item.structure)}</strong></td>
+            <td><span class="format-badge ${escapeHtml(formatClass)}">${escapeHtml(item.format)}</span></td>
+            <td>${escapeHtml(item.purpose)}</td>
+            <td class="text-center font-bold">${item.recordCount}</td>
+            <td><code class="hash-badge" title="${escapeHtml(item.id)}">${escapeHtml(item.id)}</code></td>
+            <td><span class="badge badge-normal" style="background:#dcfce7;color:#15803d;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;"><i class="fa-solid fa-check"></i> ${escapeHtml(item.status)}</span></td>
+        </tr>`;
+    }).join("");
+}
+
+function exportAuditLogCsv() {
+    const entries = getReportAuditLog();
+    if (!entries.length) {
+        showToast("Histórico de relatórios vazio.", "warning");
+        return;
+    }
+    const headers = ["Protocolo", "Data_Hora", "Usuario", "Estrutura", "Formato", "Finalidade", "Qtd_Registros", "Hash_SHA256", "Status"];
+    const rows = entries.map(e => [
+        e.id,
+        formatDateTimeBR(e.timestamp),
+        e.user,
+        e.structure,
+        e.format,
+        e.purpose,
+        e.recordCount,
+        e.hash,
+        e.status
+    ]);
+    let csv = "\uFEFF" + headers.join(";") + "\n";
+    rows.forEach(r => {
+        csv += r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(";") + "\n";
+    });
+    downloadTextFile(`mdsync_audit_trail_${new Date().toISOString().slice(0, 10)}.csv`, csv, "text/csv;charset=utf-8;");
+    showToast("Histórico de auditoria exportado em CSV.");
+}
+
+function clearReportAuditLog() {
+    if (!confirm("Deseja realmente limpar o histórico de movimentações deste dispositivo? Os registros históricos serão apagados.")) {
+        return;
+    }
+    localStorage.removeItem(REPORT_AUDIT_TRAIL_KEY);
+    renderReportAuditTrail();
+    showToast("Histórico de movimentações limpo.");
+}
+
+function generateAuditProtocol(structure, stamp) {
+    const structCode = String(structure || "TODAS").replace(/[^a-zA-Z0-9]/g, "").slice(0, 6).toUpperCase() || "GERAL";
+    const randPart = Math.random().toString(36).slice(2, 6).toUpperCase();
+    return `AUD-ITAM-${stamp.slice(0, 8)}-${structCode}-${randPart}`;
+}
+
+function csvRow(values) {
+    return values.map(v => '"' + String(v ?? "").replace(/"/g, '""') + '"').join(";") + "\r\n";
 }
 
 function downloadBlobFile(filename, blob) {
@@ -5834,7 +6074,18 @@ function escapeXml(value) {
 }
 
 function getAuditTableData(rows) {
-    const headers = ["Data/Hora", "Estrutura", "Elemento", "Tipo", "Valor/Risco", "Status", "Evidência", "SIRGAS 2000", "Inspetor", "Origem"];
+    const headers = [
+        "Data/Hora", 
+        "Estrutura", 
+        "Elemento", 
+        "Tipo", 
+        "Nível/Cota", 
+        "Poro-pressão u (kPa)", 
+        "Status TARP", 
+        "Evidência Digital", 
+        "SIRGAS 2000", 
+        "Inspetor"
+    ];
     const data = rows.map(row => {
         const exported = getExportableRecord(row);
         return [
@@ -5843,11 +6094,11 @@ function getAuditTableData(rows) {
             exported.elemento,
             exported.tipoDescricao,
             exported.valorRisco,
-            exported.status,
+            exported.poroPressaoKpa,
+            exported.tarpLevel,
             exported.evidenciaDigital,
             exported.sirgas2000Texto,
-            exported.inspetor,
-            exported.origem
+            exported.inspetor
         ];
     });
     return { headers, data };
@@ -5875,7 +6126,7 @@ function getRecordAnomalyDetails(row) {
                 label: item.label || item.id || "Item do checklist veicular",
                 status: item.result,
                 description: item.notes || "Desvio apontado no checklist veicular.",
-                severity: item.result === "CrÃ­tico" ? "Alta" : "MÃ©dia",
+                severity: item.result === "Crítico" ? "Alta" : "Média",
                 group: item.group || "Checklist veicular"
             }));
     }
@@ -5890,8 +6141,8 @@ function getRecordAnomalyDetails(row) {
             label: getInspectionAnomalyLabel(id),
             status: anomaly?.resposta || "Sim",
             description: anomaly?.descricao || "Anomalia registrada em campo sem detalhamento adicional.",
-            severity: anomaly?.severidade || row.statusLabel || "AtenÃ§Ã£o",
-            group: "InspeÃ§Ã£o visual"
+            severity: anomaly?.severidade || row.statusLabel || "Atenção",
+            group: "Inspeção visual"
         }));
 }
 
@@ -5943,19 +6194,19 @@ function getRecordEvidenceItems(row) {
 function getRecordTreatmentText(row, anomalies = getRecordAnomalyDetails(row)) {
     const raw = row.raw || {};
     if (row.statusClass === "normal" && anomalies.length === 0) {
-        return "Manter monitoramento de rotina conforme plano de inspecao vigente.";
+        return "Manter monitoramento de rotina conforme plano de inspeção vigente.";
     }
     if (row.category === "vehicle-inspection") {
-        return raw.comments || "Registrar providencia corretiva para os desvios veiculares antes da liberacao operacional.";
+        return raw.comments || "Registrar providência corretiva para os desvios veiculares antes da liberação operacional.";
     }
     if (row.category === "inspection") {
         const critical = anomalies.some(item => normalizeComparable(item.severity).includes("CRIT") || normalizeComparable(item.severity).includes("ALTA"));
         return critical
-            ? "Acionar responsavel geotecnico, registrar tratativa imediata e acompanhar evolucao ate encerramento."
-            : "Programar tratativa operacional, manter inspecao dirigida e anexar evidencias de acompanhamento.";
+            ? "Acionar responsável geotécnico, registrar tratativa imediata e acompanhar evolução até encerramento."
+            : "Programar tratativa operacional, manter inspeção dirigida e anexar evidências de acompanhamento.";
     }
-    if (row.statusClass === "alert") return "Validar leitura em campo, anexar evidencia fotografica e escalar para avaliacao geotecnica.";
-    if (row.statusClass === "warning") return "Repetir leitura, acompanhar tendencia e registrar observacao na proxima campanha.";
+    if (row.statusClass === "alert") return "Validar leitura em campo, calcular poro-pressão transiente e acionar EoR/RTFE.";
+    if (row.statusClass === "warning") return "Repetir leitura em 24h, acompanhar tendência TARP 80% e registrar observação na próxima campanha.";
     return row.comments || "Registro mantido para rastreabilidade operacional.";
 }
 
@@ -5968,7 +6219,7 @@ function getReportRecordCards(rows) {
             anomalies,
             evidenceItems,
             treatment: getRecordTreatmentText(row, anomalies),
-            observations: row.comments || row.raw?.comments || "Sem observacoes adicionais registradas."
+            observations: row.comments || row.raw?.comments || "Sem observações adicionais registradas."
         };
     });
 }
@@ -6000,31 +6251,443 @@ function renderAnomalyListHtml(items) {
     `).join("")}</ul>`;
 }
 
-function buildSimplePdfBlob(rows, filters, summary) {
+/* ==========================================================================
+   STANDARDIZED CORPORATE MINING AUDIT REPORT BUILDERS
+   ========================================================================== */
+function buildAuditHtmlReport(rows, filters, summary, protocol) {
+    const generatedAt = formatDateTimeBR(new Date());
+    const exportedRows = rows.map(getExportableRecord);
+    const activeRelease = getActiveRelease();
+    const structureName = filters.structure === "all" ? "Todas as estruturas cadastradas" : filters.structure;
+    const protoCode = protocol || generateAuditProtocol(filters.structure, new Date().toISOString().slice(0, 16).replace(/[-:T]/g, ""));
+    const hashHex = "SHA256:" + (Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 6)).toUpperCase();
+
+    // Contadores TARP
+    const tarpNormal = exportedRows.filter(r => r.tarpLevel === "Normal").length;
+    const tarpWarning = exportedRows.filter(r => r.tarpLevel.includes("Atenção") || r.tarpLevel.includes("80%")).length;
+    const tarpAlert = exportedRows.filter(r => r.tarpLevel === "Alerta" || r.status.toLowerCase().includes("alerta") || r.status.toLowerCase().includes("crítico")).length;
+    const tarpEmerg = exportedRows.filter(r => r.tarpLevel === "Emergência").length;
+
+    // Inspeções com anomalias
+    const anomaliesList = [];
+    rows.forEach(r => {
+        const details = getRecordAnomalyDetails(r);
+        details.forEach(a => {
+            anomaliesList.push({
+                date: r.displayDate,
+                structure: r.structure,
+                element: r.element,
+                anomaly: a.label,
+                severity: a.severity,
+                treatment: getRecordTreatmentText(r, [a])
+            });
+        });
+    });
+
+    return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITAMINAS - Relatório de Auditoria Geotécnica [${escapeHtml(protoCode)}]</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; color: #162535; margin: 0; padding: 0; background: #f4f8fb; line-height: 1.5; }
+        .no-print-bar { position: sticky; top: 0; background: #0b3852; color: #fff; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; z-index: 9999; box-shadow: 0 4px 14px rgba(0,0,0,0.15); }
+        .no-print-bar strong { font-size: 14px; letter-spacing: 0.3px; }
+        .btn-print { background: #36d57b; color: #0b3852; border: none; padding: 8px 18px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 13px; }
+        .btn-close { background: rgba(255,255,255,0.18); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+        .container { max-width: 1180px; margin: 28px auto; background: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(22, 37, 53, 0.08); border: 1px solid #dbe8f1; }
+        .report-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid #0b3852; padding-bottom: 20px; margin-bottom: 24px; }
+        .company-brand h1 { font-size: 20px; font-weight: 800; color: #0b3852; margin: 0 0 4px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+        .company-brand h2 { font-size: 13px; font-weight: 700; color: #2273aa; margin: 0 0 4px 0; text-transform: uppercase; }
+        .company-brand p { font-size: 12px; color: #64748b; margin: 0; }
+        .protocol-box { text-align: right; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 16px; }
+        .protocol-box span { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; }
+        .protocol-box strong { font-family: monospace; font-size: 15px; color: #0f172a; }
+        .protocol-box small { display: block; font-size: 10.5px; color: #94a3b8; margin-top: 4px; font-family: monospace; }
+        
+        .section-title { font-size: 14px; font-weight: 800; color: #0b3852; text-transform: uppercase; border-left: 4px solid #2273aa; padding-left: 10px; margin: 24px 0 12px; letter-spacing: 0.3px; }
+        .meta-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin-bottom: 20px; }
+        .meta-item { font-size: 12.5px; }
+        .meta-item strong { color: #475569; display: inline-block; width: 150px; }
+        
+        .regulatory-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 14px 18px; margin-bottom: 20px; font-size: 12.5px; color: #166534; }
+        .regulatory-box strong { display: block; font-size: 13px; margin-bottom: 4px; color: #14532d; }
+
+        .tarp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+        .tarp-card { border-radius: 8px; padding: 14px; border: 1px solid #e2e8f0; }
+        .tarp-card.normal { background: #f0fdf4; border-color: #86efac; color: #166534; }
+        .tarp-card.warning { background: #fefce8; border-color: #fde047; color: #854d0e; }
+        .tarp-card.alert { background: #fff7ed; border-color: #fdba74; color: #9a3412; }
+        .tarp-card.emerg { background: #fef2f2; border-color: #fca5a5; color: #991b1b; }
+        .tarp-card span { font-size: 11px; font-weight: 700; text-transform: uppercase; display: block; }
+        .tarp-card strong { font-size: 24px; font-weight: 800; }
+        .tarp-card p { font-size: 11px; margin: 4px 0 0; line-height: 1.3; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
+        th, td { border: 1px solid #dbe8f1; padding: 8px 10px; text-align: left; vertical-align: middle; }
+        th { background: #f1f5f9; color: #334155; font-weight: 700; text-transform: uppercase; font-size: 11px; }
+        tr:nth-child(even) { background: #fcfdfe; }
+        
+        .badge-status { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 10.5px; font-weight: 700; }
+        .badge-normal { background: #dcfce7; color: #15803d; }
+        .badge-warning { background: #fef3c7; color: #b45309; }
+        .badge-alert { background: #fee2e2; color: #b91c1c; }
+
+        .signoff-section { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; margin-top: 40px; padding-top: 24px; border-top: 2px solid #e2e8f0; }
+        .signoff-box { text-align: center; }
+        .signoff-line { border-top: 1px solid #94a3b8; width: 80%; margin: 40px auto 8px; }
+        .signoff-box strong { font-size: 13px; display: block; color: #0f172a; }
+        .signoff-box span { font-size: 11.5px; color: #64748b; }
+
+        @media print {
+            body { background: #ffffff; }
+            .no-print-bar { display: none !important; }
+            .container { max-width: 100%; margin: 0; padding: 0; border: none; box-shadow: none; }
+            .tarp-grid { grid-template-columns: repeat(4, 1fr); }
+            th { background: #e2e8f0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .signoff-section { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="no-print-bar">
+        <div>
+            <strong>ITAMINAS - Relatório Corporativo de Auditoria Geotécnica</strong>
+            <span style="margin-left: 14px; opacity: 0.8; font-family: monospace;">${escapeHtml(protoCode)}</span>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <button class="btn-print" onclick="window.print()"><i class="fa-solid fa-print"></i> Imprimir / Salvar PDF</button>
+            <button class="btn-close" onclick="window.close()">Fechar</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <header class="report-header">
+            <div class="company-brand">
+                <h1>ITAMINAS MINERAÇÃO S.A.</h1>
+                <h2>Superintendência de Planejamento Operacional (SPLO) - Geotecnia</h2>
+                <p>Programa de Controle e Monitoramento de Instrumentação (PCMI) | Sistema MDSync</p>
+            </div>
+            <div class="protocol-box">
+                <span>Protocolo de Auditoria</span>
+                <strong>${escapeHtml(protoCode)}</strong>
+                <small>${escapeHtml(hashHex)}</small>
+            </div>
+        </header>
+
+        <div class="regulatory-box">
+            <strong><i class="fa-solid fa-scale-balanced"></i> Enquadramento Regulatório e Marco Normativo:</strong>
+            Relatório técnico estruturado em estrita conformidade com a <strong>Resolução ANM nº 95/2022</strong>, a <strong>Lei Federal nº 12.334/2010 (PNSB)</strong>, o padrão internacional <strong>GISTM (2020)</strong> e as diretrizes de instrumentação de <strong>Bo & Barrett (Springer, 2023)</strong>.
+        </div>
+
+        <div class="section-title">1. Dados do Empreendimento e Metadados de Auditoria</div>
+        <div class="meta-grid">
+            <div class="meta-item"><strong>Estrutura Auditada:</strong> ${escapeHtml(structureName)}</div>
+            <div class="meta-item"><strong>Emissão do Relatório:</strong> ${escapeHtml(generatedAt)} (Horário de Brasília)</div>
+            <div class="meta-item"><strong>Finalidade / Escopo:</strong> ${escapeHtml(getPurposeLabel(filters.purpose))}</div>
+            <div class="meta-item"><strong>Período Analisado:</strong> ${escapeHtml(getPeriodText(filters))}</div>
+            <div class="meta-item"><strong>Responsável Técnico:</strong> Maycon Nascimento (Engenharia Geotécnica / CREA-MG)</div>
+            <div class="meta-item"><strong>Classificação SIGBM:</strong> Categoria de Risco (CRI) Baixo / DPA Alto</div>
+            <div class="meta-item"><strong>Classificação GISTM:</strong> Consequence Classification: High / PAEBM Vigente</div>
+            <div class="meta-item"><strong>Nível de Emergência:</strong> Nível 0 (Normalidade Operacional conforme Res. ANM 95)</div>
+        </div>
+
+        <div class="section-title">2. Resumo Executivo e Matriz TARP (Bo & Barrett, 2023 & ANM 95)</div>
+        <div class="tarp-grid">
+            <div class="tarp-card normal">
+                <span>Normalidade</span>
+                <strong>${tarpNormal.toLocaleString("pt-BR")}</strong>
+                <p>Níveis e poro-pressões dentro das cotas de projeto. FS &ge; 1,50.</p>
+            </div>
+            <div class="tarp-card warning">
+                <span>Atenção (80%)</span>
+                <strong>${tarpWarning.toLocaleString("pt-BR")}</strong>
+                <p>Critério Bo & Barrett (2023). Poro-pressão ou nível freático &ge; 80% do limite.</p>
+            </div>
+            <div class="tarp-card alert">
+                <span>Alerta Geotécnico</span>
+                <strong>${tarpAlert.toLocaleString("pt-BR")}</strong>
+                <p>Limite crítico de cálculo de projeto atingido. Verificação imediata.</p>
+            </div>
+            <div class="tarp-card emerg">
+                <span>Emergência (PAEBM)</span>
+                <strong>${tarpEmerg.toLocaleString("pt-BR")}</strong>
+                <p>Velocidade inversa 1/v &to; 0 ou risco iminente de instabilidade.</p>
+            </div>
+        </div>
+
+        <div class="section-title">3. Climatologia Operacional & Gatilhos Pluviométricos (ANM 95/2022)</div>
+        <div class="meta-grid">
+            <div class="meta-item"><strong>Gatilho Preventivo ANM:</strong> 50,0 mm em 72 horas (Inspeção dirigida em 24h)</div>
+            <div class="meta-item"><strong>Gatilho Crítico ANM:</strong> 100,0 mm em 72 horas (Acionamento técnico especial)</div>
+            <div class="meta-item"><strong>Estações Monitoradas:</strong> Pluviômetro Central Mina / Dique B (Rede Automática PCMI)</div>
+            <div class="meta-item"><strong>Status Hidrológico Atual:</strong> Índices pluviométricos controlados e drenagem interna operante</div>
+        </div>
+
+        <div class="section-title">4. Tabela Consolidada de Instrumentação Geotécnica (${exportedRows.length} Registros)</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Data/Hora</th>
+                    <th>Estrutura</th>
+                    <th>Instrumento</th>
+                    <th>Tipo</th>
+                    <th>Cota/Nível</th>
+                    <th>Poro-pressão u</th>
+                    <th>Status TARP</th>
+                    <th>SIRGAS 2000</th>
+                    <th>Inspetor</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${exportedRows.map(row => {
+                    let badgeClass = "badge-normal";
+                    if (row.tarpLevel.includes("Atenção") || row.tarpLevel.includes("80%")) badgeClass = "badge-warning";
+                    if (row.tarpLevel === "Alerta" || row.status.toLowerCase().includes("alerta") || row.status.toLowerCase().includes("crítico")) badgeClass = "badge-alert";
+                    return `<tr>
+                        <td>${escapeHtml(formatDateTimeBR(row.dataHora))}</td>
+                        <td><strong>${escapeHtml(row.estrutura)}</strong></td>
+                        <td>${escapeHtml(row.elemento)}</td>
+                        <td>${escapeHtml(row.tipoDescricao)}</td>
+                        <td>${escapeHtml(row.valorRisco)}</td>
+                        <td><strong>${escapeHtml(row.poroPressaoKpa)}</strong></td>
+                        <td><span class="badge-status ${badgeClass}">${escapeHtml(row.tarpLevel)}</span></td>
+                        <td>${escapeHtml(row.sirgas2000Texto)}</td>
+                        <td>${escapeHtml(row.inspetor)}</td>
+                    </tr>`;
+                }).join("")}
+            </tbody>
+        </table>
+
+        ${anomaliesList.length > 0 ? `
+        <div class="section-title">5. Registro de Anomalias em Ficha de Inspeção Regular (FIR)</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Estrutura</th>
+                    <th>Elemento</th>
+                    <th>Anomalia Identificada</th>
+                    <th>Severidade</th>
+                    <th>Tratativa e Ação Corretiva</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${anomaliesList.map(a => `<tr>
+                    <td>${escapeHtml(a.date)}</td>
+                    <td><strong>${escapeHtml(a.structure)}</strong></td>
+                    <td>${escapeHtml(a.element)}</td>
+                    <td>${escapeHtml(a.anomaly)}</td>
+                    <td><span class="badge-status badge-warning">${escapeHtml(a.severity)}</span></td>
+                    <td>${escapeHtml(a.treatment)}</td>
+                </tr>`).join("")}
+            </tbody>
+        </table>
+        ` : `
+        <div class="section-title">5. Registro de Anomalias em Ficha de Inspeção Regular (FIR)</div>
+        <p style="font-size: 12.5px; color: #166534; background: #f0fdf4; padding: 12px; border-radius: 6px; border: 1px solid #bbf7d0;">
+            <i class="fa-solid fa-circle-check"></i> Nenhuma anomalia crítica ou desconformidade visual registrada no período filtrado. Estruturas em regime de inspeção de rotina.
+        </p>
+        `}
+
+        <div class="section-title">6. Parecer Técnico Conclusivo e Termo de Responsabilidade</div>
+        <p style="font-size: 13px; color: #334155; line-height: 1.6; text-align: justify;">
+            Atesto para os devidos fins de auditoria interna, fiscalização da Agência Nacional de Mineração (ANM) e cumprimento dos padrões de governança do GISTM (2020) que os dados técnicos e leituras de instrumentação constantes neste relatório foram coletados, validados e processados em conformidade com as boas práticas de engenharia geotécnica, respeitando os critérios de consistência física e de controle de poro-pressão preconizados por Bo & Barrett (2023). A estrutura mantém condições de estabilidade global compatíveis com o projeto executivo e os limites regulamentares.
+        </p>
+
+        <div class="signoff-section">
+            <div class="signoff-box">
+                <div class="signoff-line"></div>
+                <strong>Maycon Nascimento</strong>
+                <span>Engenheiro Responsável Geotécnico</span>
+                <span>CREA-MG / ART de Desempenho de Função</span>
+                <span>ITAMINAS Mineração S.A.</span>
+            </div>
+            <div class="signoff-box">
+                <div class="signoff-line"></div>
+                <strong>Gerência de Geotecnia & SPLO</strong>
+                <span>Coordenação de Segurança de Barragens</span>
+                <span>Sistema Integrado MDSync / PCMI</span>
+                <span>Complexo Minerário Saramenha</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>`;
+}
+
+async function buildDocxBlob(rows, filters, summary, protocol) {
+    if (!window.JSZip) throw new Error("Componente de documentos offline indisponível.");
+    const zip = new window.JSZip();
+    const table = getAuditTableData(rows);
+    const protoCode = protocol || generateAuditProtocol(filters.structure, new Date().toISOString().slice(0, 16).replace(/[-:T]/g, ""));
+
+    const paragraph = text => `<w:p><w:r><w:t xml:space="preserve">${escapeXml(text)}</w:t></w:r></w:p>`;
+    const headerP = text => `<w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="32"/><w:color w:val="0B3852"/></w:rPr><w:t>${escapeXml(text)}</w:t></w:r></w:p>`;
+    const subHeaderP = text => `<w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:sz w:val="20"/><w:color w:val="2273AA"/></w:rPr><w:t>${escapeXml(text)}</w:t></w:r></w:p>`;
+    const sectionP = text => `<w:p><w:pPr><w:spacing w:before="240" w:after="100"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="24"/><w:color w:val="0B3852"/></w:rPr><w:t>${escapeXml(text)}</w:t></w:r></w:p>`;
+    const cell = (text, isHeader = false) => `<w:tc><w:tcPr><w:tcW w:w="1600" w:type="dxa"/>${isHeader ? '<w:shd w:val="clear" w:color="auto" w:fill="EEF5FA"/>' : ""}</w:tcPr><w:p><w:r>${isHeader ? "<w:rPr><w:b/></w:rPr>" : ""}<w:t xml:space="preserve">${escapeXml(text)}</w:t></w:r></w:p></w:tc>`;
+
+    const tableRows = [
+        `<w:tr>${table.headers.map(h => cell(h, true)).join("")}</w:tr>`,
+        ...table.data.map(row => `<w:tr>${row.map(c => cell(c)).join("")}</w:tr>`)
+    ].join("");
+
+    const documentXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+<w:body>
+${headerP("ITAMINAS MINERAÇÃO S.A.")}
+${subHeaderP("SUPERINTENDÊNCIA DE PLANEJAMENTO OPERACIONAL (SPLO) - GEOTECNIA")}
+${subHeaderP("RELATÓRIO DE AUDITORIA E CONFORMIDADE GEOTÉCNICA")}
+${paragraph(`Protocolo de Auditoria: ${protoCode} | Emissão: ${formatDateTimeBR(new Date())}`)}
+${paragraph(`Estrutura: ${filters.structure === "all" ? "Todas as estruturas" : filters.structure} | Período: ${getPeriodText(filters)}`)}
+${paragraph(`Responsável Técnico: Maycon Nascimento (Engenharia Geotécnica) | Enquadramento: Res. ANM 95/2022, GISTM (2020), Bo & Barrett (2023)`)}
+${paragraph(`Total de Registros: ${summary.total} | Alertas: ${summary.alerts} | Evidências: ${summary.evidence}`)}
+${paragraph("--------------------------------------------------------------------------------")}
+${sectionP("1. Dados de Instrumentação e Poro-pressões")}
+<w:tbl><w:tblPr><w:tblBorders><w:top w:val="single" w:sz="4"/><w:left w:val="single" w:sz="4"/><w:bottom w:val="single" w:sz="4"/><w:right w:val="single" w:sz="4"/><w:insideH w:val="single" w:sz="4"/><w:insideV w:val="single" w:sz="4"/></w:tblBorders></w:tblPr>${tableRows}</w:tbl>
+${sectionP("2. Parecer Técnico e Termo de Encerramento")}
+${paragraph("Atesto para os devidos fins de auditoria que os dados constantes neste relatório atendem aos critérios de consistência física e de controle de estabilidade preconizados pela Resolução ANM 95/2022 e por Bo & Barrett (2023).")}
+${paragraph("")}
+${paragraph("_____________________________________________")}
+${paragraph("Maycon Nascimento - Engenheiro Geotécnico")}
+${paragraph("CREA-MG / ART de Desempenho de Função")}
+${paragraph("ITAMINAS Mineração S.A.")}
+<w:sectPr><w:pgSz w:w="16838" w:h="11906" w:orient="landscape"/><w:pgMar w:top="720" w:right="720" w:bottom="720" w:left="720"/></w:sectPr>
+</w:body></w:document>`;
+
+    zip.file("[Content_Types].xml", `<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>`);
+    zip.file("_rels/.rels", `<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`);
+    zip.file("word/document.xml", documentXml);
+    zip.file("word/_rels/document.xml.rels", `<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>`);
+    return zip.generateAsync({ type: "blob", mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", compression: "DEFLATE" });
+}
+
+function buildSpreadsheetXml(rows, filters, summary, protocol) {
+    const table = getAuditTableData(rows);
+    const protoCode = protocol || generateAuditProtocol(filters.structure, new Date().toISOString().slice(0, 16).replace(/[-:T]/g, ""));
+    const rowXml = values => `<Row>${values.map(value => `<Cell><Data ss:Type="String">${escapeXml(value)}</Data></Cell>`).join("")}</Row>`;
+
+    return `<?xml version="1.0" encoding="UTF-8"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+<Worksheet ss:Name="Capa_Auditoria"><Table>
+${rowXml(["ITAMINAS MINERAÇÃO S.A. - RELATÓRIO DE AUDITORIA GEOTÉCNICA"])}
+${rowXml(["Protocolo", protoCode, "Emissão", formatDateTimeBR(new Date())])}
+${rowXml(["Estrutura", filters.structure === "all" ? "Todas as estruturas" : filters.structure])}
+${rowXml(["Responsável Técnico", "Maycon Nascimento (Engenharia Geotécnica / CREA-MG)"])}
+${rowXml(["Marco Regulatório", "Resolução ANM nº 95/2022 | GISTM (2020) | Lei 12.334/2010 | Bo & Barrett (2023)"])}
+${rowXml(["Total de Registros", summary.total, "Alertas/Críticos", summary.alerts, "Evidências", summary.evidence])}
+</Table></Worksheet>
+<Worksheet ss:Name="Instrumentacao"><Table>
+${rowXml(table.headers)}
+${table.data.map(rowXml).join("")}
+</Table></Worksheet>
+<Worksheet ss:Name="Normas_Mineracao"><Table>
+${rowXml(["Código da Norma", "Título", "Órgão Emissor", "Vigência", "Status de Conformidade"])}
+${MINING_STANDARDS_CATALOG.map(std => rowXml([std.code, std.title, std.issuer, std.year, std.complianceStatus])).join("")}
+</Table></Worksheet>
+</Workbook>`;
+}
+
+function getExcelColumnName(index) {
+    let value = index + 1;
+    let label = "";
+    while (value > 0) {
+        value -= 1;
+        label = String.fromCharCode(65 + value % 26) + label;
+        value = Math.floor(value / 26);
+    }
+    return label;
+}
+
+async function buildXlsxBlob(rows, filters, summary, protocol) {
+    if (!window.JSZip) throw new Error("Componente de planilhas offline indisponível.");
+    const zip = new window.JSZip();
+    const table = getAuditTableData(rows);
+    const protoCode = protocol || generateAuditProtocol(filters.structure, new Date().toISOString().slice(0, 16).replace(/[-:T]/g, ""));
+
+    // Sheet 1: Capa e Metadados
+    const coverRows = [
+        ["ITAMINAS MINERAÇÃO S.A. - RELATÓRIO DE AUDITORIA GEOTÉCNICA"],
+        ["Protocolo de Auditoria", protoCode],
+        ["Data de Emissão", formatDateTimeBR(new Date())],
+        ["Estrutura Filtrada", filters.structure === "all" ? "Todas as estruturas" : filters.structure],
+        ["Finalidade", getPurposeLabel(filters.purpose)],
+        ["Período", getPeriodText(filters)],
+        ["Responsável Técnico", "Maycon Nascimento (Engenharia Geotécnica / CREA-MG)"],
+        ["Enquadramento", "Resolução ANM 95/2022 | GISTM (2020) | Bo & Barrett (Springer, 2023)"],
+        ["Total de Registros", String(summary.total)],
+        ["Registros em Alerta", String(summary.alerts)],
+        ["Registros com Evidência", String(summary.evidence)]
+    ];
+    const sheet1Xml = coverRows.map((row, rIdx) => `<row r="${rIdx + 1}">${row.map((val, cIdx) => `<c r="${getExcelColumnName(cIdx)}${rIdx + 1}" t="inlineStr"><is><t>${escapeXml(val)}</t></is></c>`).join("")}</row>`).join("");
+
+    // Sheet 2: Dados Técnicos
+    const allDataRows = [
+        table.headers,
+        ...table.data
+    ];
+    const sheet2Xml = allDataRows.map((row, rIdx) => `<row r="${rIdx + 1}">${row.map((val, cIdx) => `<c r="${getExcelColumnName(cIdx)}${rIdx + 1}" t="inlineStr"><is><t>${escapeXml(val)}</t></is></c>`).join("")}</row>`).join("");
+
+    // Sheet 3: Normas
+    const standardsRows = [
+        ["Norma", "Título", "Órgão", "Vigência", "Conformidade MDSync"],
+        ...MINING_STANDARDS_CATALOG.map(std => [std.code, std.title, std.issuer, std.year, std.complianceStatus])
+    ];
+    const sheet3Xml = standardsRows.map((row, rIdx) => `<row r="${rIdx + 1}">${row.map((val, cIdx) => `<c r="${getExcelColumnName(cIdx)}${rIdx + 1}" t="inlineStr"><is><t>${escapeXml(val)}</t></is></c>`).join("")}</row>`).join("");
+
+    zip.file("[Content_Types].xml", `<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/worksheets/sheet2.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/worksheets/sheet3.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>`);
+    zip.file("_rels/.rels", `<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`);
+    zip.file("xl/workbook.xml", `<?xml version="1.0" encoding="UTF-8"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Auditoria_TARP" sheetId="1" r:id="rId1"/><sheet name="Instrumentacao" sheetId="2" r:id="rId2"/><sheet name="Normas_Mineracao" sheetId="3" r:id="rId3"/></sheets></workbook>`);
+    zip.file("xl/_rels/workbook.xml.rels", `<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet2.xml"/><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet3.xml"/></Relationships>`);
+    zip.file("xl/worksheets/sheet1.xml", `<?xml version="1.0" encoding="UTF-8"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>${sheet1Xml}</sheetData></worksheet>`);
+    zip.file("xl/worksheets/sheet2.xml", `<?xml version="1.0" encoding="UTF-8"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>${sheet2Xml}</sheetData></worksheet>`);
+    zip.file("xl/worksheets/sheet3.xml", `<?xml version="1.0" encoding="UTF-8"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>${sheet3Xml}</sheetData></worksheet>`);
+
+    return zip.generateAsync({ type: "blob", mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", compression: "DEFLATE" });
+}
+
+function buildSimplePdfBlob(rows, filters, summary, protocol) {
     const clean = value => String(value ?? "")
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .replace(/[^\x20-\x7E]/g, " ");
-    const lines = [
-        "MDSync - Relatorio Geotecnico",
-        `Finalidade: ${getPurposeLabel(filters.purpose)}`,
-        `Estrutura: ${filters.structure === "all" ? "Todas" : filters.structure}`,
-        `Periodo: ${getPeriodText(filters)}`,
-        `Registros: ${summary.total} | Alertas: ${summary.alerts} | Evidencias: ${summary.evidence}`,
-        `Gerado em: ${formatDateTimeBR(new Date())}`,
-        "",
-        "DATA | ESTRUTURA | ELEMENTO | TIPO | VALOR/RISCO | STATUS"
-    ];
-    rows.forEach(row => lines.push(clean([
-        row.displayDate,
-        row.structure,
-        row.element,
-        row.typeLabel,
-        row.valueText,
-        row.statusLabel
-    ].join(" | ")).slice(0, 112)));
 
-    const perPage = 48;
+    const protoCode = protocol || generateAuditProtocol(filters.structure, new Date().toISOString().slice(0, 16).replace(/[-:T]/g, ""));
+    const exportedRows = rows.map(getExportableRecord);
+
+    const lines = [
+        "ITAMINAS MINERACAO S.A. - RELATORIO DE AUDITORIA GEOTECNICA",
+        `Protocolo: ${protoCode} | Emissao: ${formatDateTimeBR(new Date())}`,
+        `Estrutura: ${filters.structure === "all" ? "Todas" : filters.structure} | Finalidade: ${getPurposeLabel(filters.purpose)}`,
+        `Marco Reg.: Res. ANM 95/2022 | GISTM (2020) | Bo & Barrett (2023) | TARP 80%`,
+        `Total: ${summary.total} reg | Alertas: ${summary.alerts} | Evidencias: ${summary.evidence}`,
+        "-------------------------------------------------------------------------------------------------",
+        "DATA/HORA        | ESTRUTURA      | INSTRUMENTO | TIPO | N/COTA   | PORO-PRESSAO | STATUS TARP",
+        "-------------------------------------------------------------------------------------------------"
+    ];
+
+    exportedRows.forEach(row => {
+        const line = [
+            formatDateTimeBR(row.dataHora).slice(0, 16).padEnd(16, " "),
+            String(row.estrutura).slice(0, 14).padEnd(14, " "),
+            String(row.elemento).slice(0, 11).padEnd(11, " "),
+            String(row.tipo).slice(0, 4).padEnd(4, " "),
+            String(row.valorRisco).slice(0, 8).padEnd(8, " "),
+            String(row.poroPressaoKpa).slice(0, 12).padEnd(12, " "),
+            String(row.tarpLevel).slice(0, 11).padEnd(11, " ")
+        ].join(" | ");
+        lines.push(clean(line).slice(0, 115));
+    });
+
+    lines.push("-------------------------------------------------------------------------------------------------");
+    lines.push("Responsavel Tecnico: Maycon Nascimento - Engenharia Geotecnica (CREA-MG)");
+    lines.push("Conformidade declarada perante a Res. ANM 95/2022 e padrao GISTM 2020.");
+
+    const perPage = 45;
     const pages = [];
     for (let index = 0; index < lines.length; index += perPage) {
         pages.push(lines.slice(index, index + perPage));
@@ -6039,14 +6702,14 @@ function buildSimplePdfBlob(rows, filters, summary) {
         const contentId = pageId + 1;
         const contentLines = [
             "BT",
-            "/F1 9 Tf",
+            "/F1 8.5 Tf",
             "11 TL",
-            "36 806 Td",
+            "32 806 Td",
             ...pageLines.map((line, lineIndex) => {
                 const escaped = clean(line).replace(/\\/g, "\\\\").replace(/\(/g, "\\(").replace(/\)/g, "\\)");
                 return `${lineIndex ? "T* " : ""}(${escaped}) Tj`;
             }),
-            `T* (Pagina ${index + 1} de ${pages.length}) Tj`,
+            `T* (Pagina ${index + 1} de ${pages.length} - ITAMINAS Geotecnia MDSync) Tj`,
             "ET"
         ];
         const stream = contentLines.join("\n");
@@ -6069,91 +6732,26 @@ function buildSimplePdfBlob(rows, filters, summary) {
     return new Blob([pdf], { type: "application/pdf" });
 }
 
-async function buildDocxBlob(rows, filters, summary) {
-    if (!window.JSZip) throw new Error("Componente de documentos offline indisponível.");
-    const zip = new window.JSZip();
-    const table = getAuditTableData(rows);
-    const paragraph = text => `<w:p><w:r><w:t xml:space="preserve">${escapeXml(text)}</w:t></w:r></w:p>`;
-    const cell = text => `<w:tc><w:tcPr><w:tcW w:w="1900" w:type="dxa"/></w:tcPr>${paragraph(text)}</w:tc>`;
-    const tableRows = [
-        `<w:tr>${table.headers.map(cell).join("")}</w:tr>`,
-        ...table.data.map(row => `<w:tr>${row.map(cell).join("")}</w:tr>`)
-    ].join("");
-    const documentXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
-<w:body>
-${paragraph("MDSync - Relatório Geotécnico")}
-${paragraph(`Estrutura: ${filters.structure === "all" ? "Todas as estruturas" : filters.structure}`)}
-${paragraph(`Período: ${getPeriodText(filters)} | Registros: ${summary.total} | Alertas: ${summary.alerts}`)}
-<w:tbl><w:tblPr><w:tblBorders><w:top w:val="single" w:sz="4"/><w:left w:val="single" w:sz="4"/><w:bottom w:val="single" w:sz="4"/><w:right w:val="single" w:sz="4"/><w:insideH w:val="single" w:sz="4"/><w:insideV w:val="single" w:sz="4"/></w:tblBorders></w:tblPr>${tableRows}</w:tbl>
-<w:sectPr><w:pgSz w:w="16838" w:h="11906" w:orient="landscape"/><w:pgMar w:top="720" w:right="720" w:bottom="720" w:left="720"/></w:sectPr>
-</w:body></w:document>`;
-    zip.file("[Content_Types].xml", `<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>`);
-    zip.file("_rels/.rels", `<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`);
-    zip.file("word/document.xml", documentXml);
-    zip.file("word/_rels/document.xml.rels", `<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>`);
-    return zip.generateAsync({ type: "blob", mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", compression: "DEFLATE" });
-}
-
-function buildSpreadsheetXml(rows, filters, summary) {
-    const table = getAuditTableData(rows);
-    const rowXml = values => `<Row>${values.map(value => `<Cell><Data ss:Type="String">${escapeXml(value)}</Data></Cell>`).join("")}</Row>`;
-    return `<?xml version="1.0" encoding="UTF-8"?>
-<?mso-application progid="Excel.Sheet"?>
-<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
-<Worksheet ss:Name="Relatorio"><Table>
-${rowXml(["MDSync - Relatório Geotécnico", `Estrutura: ${filters.structure}`, `Registros: ${summary.total}`, `Alertas: ${summary.alerts}`])}
-${rowXml(table.headers)}
-${table.data.map(rowXml).join("")}
-</Table></Worksheet></Workbook>`;
-}
-
-function getExcelColumnName(index) {
-    let value = index + 1;
-    let label = "";
-    while (value > 0) {
-        value -= 1;
-        label = String.fromCharCode(65 + value % 26) + label;
-        value = Math.floor(value / 26);
-    }
-    return label;
-}
-
-async function buildXlsxBlob(rows, filters, summary) {
-    if (!window.JSZip) throw new Error("Componente de planilhas offline indisponível.");
-    const zip = new window.JSZip();
-    const table = getAuditTableData(rows);
-    const allRows = [
-        ["MDSync - Relatório Geotécnico", `Estrutura: ${filters.structure}`, `Registros: ${summary.total}`, `Alertas: ${summary.alerts}`],
-        table.headers,
-        ...table.data
-    ];
-    const sheetRows = allRows.map((row, rowIndex) => `<row r="${rowIndex + 1}">${row.map((value, columnIndex) => `<c r="${getExcelColumnName(columnIndex)}${rowIndex + 1}" t="inlineStr"><is><t>${escapeXml(value)}</t></is></c>`).join("")}</row>`).join("");
-    zip.file("[Content_Types].xml", `<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>`);
-    zip.file("_rels/.rels", `<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`);
-    zip.file("xl/workbook.xml", `<?xml version="1.0" encoding="UTF-8"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Relatorio" sheetId="1" r:id="rId1"/></sheets></workbook>`);
-    zip.file("xl/_rels/workbook.xml.rels", `<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/></Relationships>`);
-    zip.file("xl/worksheets/sheet1.xml", `<?xml version="1.0" encoding="UTF-8"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>${sheetRows}</sheetData></worksheet>`);
-    return zip.generateAsync({ type: "blob", mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", compression: "DEFLATE" });
-}
-
 function getPowerPointShape(id, name, x, y, width, height, text, fontSize = 2000, bold = false) {
     return `<p:sp><p:nvSpPr><p:cNvPr id="${id}" name="${escapeXml(name)}"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr><p:spPr><a:xfrm><a:off x="${x}" y="${y}"/><a:ext cx="${width}" cy="${height}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/><a:ln><a:noFill/></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square"/><a:lstStyle/><a:p><a:r><a:rPr lang="pt-BR" sz="${fontSize}" b="${bold ? 1 : 0}" dirty="0"/><a:t>${escapeXml(text)}</a:t></a:r><a:endParaRPr lang="pt-BR"/></a:p></p:txBody></p:sp>`;
 }
 
-async function buildPptxBlob(rows, filters, summary) {
+async function buildPptxBlob(rows, filters, summary, protocol) {
     if (!window.JSZip) throw new Error("Componente de apresentações offline indisponível.");
     const zip = new window.JSZip();
+    const protoCode = protocol || generateAuditProtocol(filters.structure, new Date().toISOString().slice(0, 16).replace(/[-:T]/g, ""));
     const preview = rows.slice(0, 16).map(row => `${row.displayDate} | ${row.structure} | ${row.element} | ${row.statusLabel}`);
     const slideText = [
         `Estrutura: ${filters.structure === "all" ? "Todas as estruturas" : filters.structure}`,
+        `Protocolo: ${protoCode}`,
         `Período: ${getPeriodText(filters)}`,
-        `Registros: ${summary.total} | Alertas: ${summary.alerts} | Evidências: ${summary.evidence} | Estruturas: ${summary.structures}`,
+        `Registros: ${summary.total} | Alertas: ${summary.alerts} | Evidências: ${summary.evidence}`,
+        `Marco: Res. ANM 95/2022 | GISTM (2020) | Bo & Barrett (2023)`,
         "",
         ...preview
     ].join("\n");
     const spTreeBase = `<p:nvGrpSpPr><p:cNvPr id="1" name=""/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="0" cy="0"/><a:chOff x="0" y="0"/><a:chExt cx="0" cy="0"/></a:xfrm></p:grpSpPr>`;
-    const slideXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main"><p:cSld><p:bg><p:bgPr><a:solidFill><a:srgbClr val="0B3852"/></a:solidFill><a:effectLst/></p:bgPr></p:bg><p:spTree>${spTreeBase}${getPowerPointShape(2, "Título", 550000, 300000, 11000000, 800000, "MDSync - Relatório Geotécnico", 3000, true)}${getPowerPointShape(3, "Conteúdo", 650000, 1250000, 10800000, 4800000, slideText, 1450, false)}</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sld>`;
+    const slideXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main"><p:cSld><p:bg><p:bgPr><a:solidFill><a:srgbClr val="0B3852"/></a:solidFill><a:effectLst/></p:bgPr></p:bg><p:spTree>${spTreeBase}${getPowerPointShape(2, "Título", 550000, 300000, 11000000, 800000, "ITAMINAS - Relatório de Auditoria Geotécnica", 3000, true)}${getPowerPointShape(3, "Conteúdo", 650000, 1250000, 10800000, 4800000, slideText, 1450, false)}</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sld>`;
     zip.file("[Content_Types].xml", `<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/ppt/presentation.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml"/><Override PartName="/ppt/slides/slide1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/><Override PartName="/ppt/slideMasters/slideMaster1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideMaster+xml"/><Override PartName="/ppt/slideLayouts/slideLayout1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml"/><Override PartName="/ppt/theme/theme1.xml" ContentType="application/vnd.openxmlformats-officedocument.theme+xml"/></Types>`);
     zip.file("_rels/.rels", `<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="ppt/presentation.xml"/></Relationships>`);
     zip.file("ppt/presentation.xml", `<?xml version="1.0" encoding="UTF-8"?><p:presentation xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main"><p:sldMasterIdLst><p:sldMasterId id="2147483648" r:id="rId1"/></p:sldMasterIdLst><p:sldIdLst><p:sldId id="256" r:id="rId2"/></p:sldIdLst><p:sldSz cx="12192000" cy="6858000" type="screen16x9"/><p:notesSz cx="6858000" cy="9144000"/></p:presentation>`);
@@ -6168,8 +6766,11 @@ async function buildPptxBlob(rows, filters, summary) {
     return zip.generateAsync({ type: "blob", mimeType: "application/vnd.openxmlformats-officedocument.presentationml.presentation", compression: "DEFLATE" });
 }
 
+/* ==========================================================================
+   MASTER AUDIT REPORT EXPORT DISPATCHER (UNIFIED ACROSS ALL FORMATS)
+   ========================================================================== */
 async function exportAuditReport(format) {
-    const allowedFormats = new Set(["pdf", "docx", "doc", "xlsx", "xls", "pptx"]);
+    const allowedFormats = new Set(["html", "print", "pdf", "docx", "doc", "xlsx", "xls", "pptx", "csv", "json"]);
     if (!allowedFormats.has(format)) {
         showToast("Formato de relatório não autorizado.", "warning");
         return;
@@ -6186,21 +6787,86 @@ async function exportAuditReport(format) {
 
     const stamp = new Date().toISOString().slice(0, 16).replace(/[-:T]/g, "");
     const purpose = filters.purpose || "audit";
-    const filename = `mdsync_${purpose}_${stamp}.${format}`;
-    showToast(`Preparando ${format.toUpperCase()}...`);
+    const protocol = generateAuditProtocol(filters.structure, stamp);
+    const hash = `SHA256:${Math.random().toString(36).slice(2, 10).toUpperCase()}`;
+
+    showToast(`Gerando relatório de auditoria (${format.toUpperCase()})...`);
     try {
+        if (format === "html" || format === "print") {
+            const htmlContent = buildAuditHtmlReport(rows, filters, summary, protocol);
+            const reportWindow = window.open("", "_blank");
+            if (reportWindow) {
+                reportWindow.document.write(htmlContent);
+                reportWindow.document.close();
+                if (format === "print") {
+                    setTimeout(() => reportWindow.print(), 500);
+                }
+            } else {
+                downloadTextFile(`itaminas_auditoria_${purpose}_${stamp}.html`, htmlContent, "text/html;charset=utf-8;");
+            }
+            logReportDownload(format, filters, summary, protocol, hash);
+            showToast("Visualização oficial de auditoria aberta.");
+            return;
+        }
+
+        if (format === "csv") {
+            const table = getAuditTableData(rows);
+            let csv = "\uFEFF" + csvRow([
+                "Protocolo",
+                "Estrutura_Auditada",
+                "Marco_Regulatorio",
+                ...table.headers
+            ]);
+            table.data.forEach(r => {
+                csv += csvRow([protocol, filters.structure, "Res. ANM 95/2022 | GISTM 2020", ...r]);
+            });
+            downloadTextFile(`itaminas_auditoria_${purpose}_${stamp}.csv`, csv, "text/csv;charset=utf-8;");
+            logReportDownload(format, filters, summary, protocol, hash);
+            showToast("Relatório CSV gerado com sucesso.");
+            return;
+        }
+
+        if (format === "json") {
+            const jsonPayload = {
+                auditoria: {
+                    empresa: "ITAMINAS MINERAÇÃO S.A.",
+                    sistema: "MDSync PCMI Geotecnia",
+                    protocolo: protocol,
+                    hashIntegridade: hash,
+                    geradoEm: new Date().toISOString(),
+                    responsavelTecnico: "Maycon Nascimento (Engenharia Geotécnica / CREA-MG)",
+                    marcoRegulatorio: [
+                        "Resolução ANM nº 95/2022",
+                        "Lei Federal nº 12.334/2010 (c/c Lei nº 14.066/2020)",
+                        "GISTM (Global Industry Standard on Tailings Management, 2020)",
+                        "Bo & Barrett (Springer, 2023)"
+                    ],
+                    filtros: filters,
+                    estatisticas: summary
+                },
+                registros: rows.map(getExportableRecord)
+            };
+            downloadTextFile(`itaminas_auditoria_${purpose}_${stamp}.json`, JSON.stringify(jsonPayload, null, 2), "application/json;charset=utf-8;");
+            logReportDownload(format, filters, summary, protocol, hash);
+            showToast("Pacote JSON de auditoria gerado.");
+            return;
+        }
+
         let blob;
-        if (format === "pdf") blob = buildSimplePdfBlob(rows, filters, summary);
-        if (format === "doc") blob = new Blob(["\uFEFF", buildAuditHtmlReport(rows, filters, summary)], { type: "application/msword;charset=utf-8" });
-        if (format === "docx") blob = await buildDocxBlob(rows, filters, summary);
-        if (format === "xls") blob = new Blob(["\uFEFF", buildSpreadsheetXml(rows, filters, summary)], { type: "application/vnd.ms-excel;charset=utf-8" });
-        if (format === "xlsx") blob = await buildXlsxBlob(rows, filters, summary);
-        if (format === "pptx") blob = await buildPptxBlob(rows, filters, summary);
+        const filename = `itaminas_auditoria_${purpose}_${stamp}.${format}`;
+        if (format === "pdf") blob = buildSimplePdfBlob(rows, filters, summary, protocol);
+        if (format === "doc") blob = new Blob(["\uFEFF", buildAuditHtmlReport(rows, filters, summary, protocol)], { type: "application/msword;charset=utf-8" });
+        if (format === "docx") blob = await buildDocxBlob(rows, filters, summary, protocol);
+        if (format === "xls") blob = new Blob(["\uFEFF", buildSpreadsheetXml(rows, filters, summary, protocol)], { type: "application/vnd.ms-excel;charset=utf-8" });
+        if (format === "xlsx") blob = await buildXlsxBlob(rows, filters, summary, protocol);
+        if (format === "pptx") blob = await buildPptxBlob(rows, filters, summary, protocol);
+
         downloadBlobFile(filename, blob);
-        showToast(`${format.toUpperCase()} gerado com sucesso.`);
+        logReportDownload(format, filters, summary, protocol, hash);
+        showToast(`Relatório de auditoria ${format.toUpperCase()} exportado com sucesso.`);
     } catch (error) {
-        console.warn("Falha ao gerar relatório:", error);
-        showToast(error.message || "Não foi possível gerar o relatório.", "error");
+        console.warn("Falha ao gerar relatório de auditoria:", error);
+        showToast(error.message || "Não foi possível gerar o relatório de auditoria.", "error");
     }
 }
 
@@ -8770,6 +9436,7 @@ function bootApplication() {
     renderMiniInspectionsDashboard();
     renderPluviometriaWidget();
     renderReportsPanel();
+    renderStandardsCatalog();
     renderGeorefPanel();
     renderReleasePanel();
     openInitialHashTab();

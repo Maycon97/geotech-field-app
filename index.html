@@ -1111,8 +1111,16 @@
                 <section id="tab-reports" class="tab-pane">
                     <div class="card">
                         <div class="card-header justify-between">
-                            <h3><i class="fa-solid fa-file-shield text-primary"></i> Relatórios e Evidências para Auditoria</h3>
+                            <div class="flex items-center gap-3">
+                                <h3><i class="fa-solid fa-file-shield text-primary"></i> Relatórios e Evidências para Auditoria</h3>
+                                <button type="button" class="btn btn-outline btn-sm" onclick="openMiningStandardsModal()" title="Consultar compêndio de normas e legislação da mineração">
+                                    <i class="fa-solid fa-book-bookmark text-primary"></i> Normas Técnicas & Legislação
+                                </button>
+                            </div>
                             <div class="report-export-actions" aria-label="Formatos autorizados para download do relatório">
+                                <button class="btn btn-secondary btn-sm" onclick="exportAuditReport('html')" title="Visualizar e Imprimir Relatório Corporativo">
+                                    <i class="fa-solid fa-print"></i> Visualizar / Imprimir
+                                </button>
                                 <button class="btn btn-secondary btn-sm" onclick="exportAuditReport('pdf')" title="Baixar PDF">
                                     <i class="fa-solid fa-file-pdf"></i> PDF
                                 </button>
@@ -1134,6 +1142,25 @@
                             </div>
                         </div>
                         <div class="card-body">
+                            <!-- Banner Corporativo Padrão Grandes Mineradoras -->
+                            <div class="audit-corporate-banner">
+                                <div class="audit-banner-content">
+                                    <div class="audit-banner-icon">
+                                        <i class="fa-solid fa-shield-halved"></i>
+                                    </div>
+                                    <div class="audit-banner-text">
+                                        <h4>Padrão Corporativo de Auditoria Geotécnica (GISTM & ANM 95/2022)</h4>
+                                        <p>Estruturado conforme os requisitos das grandes mineradoras, integrando monitoramento piezométrico contínuo, TARP de 4 níveis (Bo & Barrett, 2023) e rastreabilidade total por protocolo criptográfico.</p>
+                                    </div>
+                                </div>
+                                <div class="audit-banner-tags">
+                                    <span class="audit-banner-tag"><i class="fa-solid fa-check"></i> Res. ANM 95/2022</span>
+                                    <span class="audit-banner-tag"><i class="fa-solid fa-check"></i> GISTM 2020</span>
+                                    <span class="audit-banner-tag"><i class="fa-solid fa-check"></i> Lei 12.334 / 14.066</span>
+                                    <span class="audit-banner-tag"><i class="fa-solid fa-check"></i> TARP Bo & Barrett</span>
+                                </div>
+                            </div>
+
                             <div class="report-filter-grid">
                                 <div class="form-group">
                                     <label for="report-structure">Estrutura</label>
@@ -1227,6 +1254,44 @@
                                     </tbody>
                                 </table>
                             </div>
+
+                            <!-- Histórico de Movimentações (Audit Trail de Downloads) -->
+                            <div class="audit-trail-section" id="report-audit-trail-container">
+                                <div class="audit-trail-header">
+                                    <h4>
+                                        <i class="fa-solid fa-clock-rotate-left text-primary"></i> 
+                                        Histórico de Emissões & Rastreabilidade de Auditoria
+                                    </h4>
+                                    <div class="flex gap-2">
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="exportAuditLogCsv()" title="Exportar log em CSV">
+                                            <i class="fa-solid fa-file-csv"></i> Exportar Log
+                                        </button>
+                                        <button type="button" class="btn btn-outline btn-sm text-danger" onclick="clearReportAuditLog()" title="Limpar histórico local">
+                                            <i class="fa-solid fa-trash-can"></i> Limpar
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-hover audit-trail-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Data / Hora</th>
+                                                <th>Usuário / Responsável</th>
+                                                <th>Estrutura Filtrada</th>
+                                                <th>Formato</th>
+                                                <th>Finalidade</th>
+                                                <th>Registros</th>
+                                                <th>Protocolo Hash</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="report-audit-trail-body">
+                                            <!-- Dynamic audit log entries -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </section>
@@ -2036,6 +2101,40 @@
             <div class="modal-footer">
                 <button class="btn btn-secondary" onclick="closeQuickReading()">Fechar</button>
                 <button class="btn btn-primary" onclick="goToReadingsTab()">Abrir leitura</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mining Standards & Legislation Modal (Compêndio Normativo) -->
+    <div class="modal" id="modal-mining-standards" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="mining-standards-modal-title">
+        <div class="modal-content modal-xl">
+            <div class="modal-header">
+                <h3 id="mining-standards-modal-title">
+                    <i class="fa-solid fa-scale-balanced text-primary"></i> 
+                    Compêndio de Normas Técnicas & Legislação da Mineração
+                </h3>
+                <span class="close" onclick="closeMiningStandardsModal()" title="Fechar janela">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="standards-search-bar">
+                    <input type="text" id="standards-search-input" placeholder="Buscar por norma, órgão, número ou palavra-chave (ex: 95/2022, GISTM, TARP, drenagem, liquefação)..." oninput="handleStandardsSearch()">
+                    <button type="button" class="btn btn-secondary" onclick="resetStandardsSearch()"><i class="fa-solid fa-rotate-left"></i> Limpar</button>
+                </div>
+                <div class="standards-category-pills" id="standards-category-pills">
+                    <span class="standards-pill active" onclick="selectStandardsCategory('all', this)">Todas as Normas</span>
+                    <span class="standards-pill" onclick="selectStandardsCategory('anm', this)">Resoluções ANM</span>
+                    <span class="standards-pill" onclick="selectStandardsCategory('pnsb', this)">Lei 12.334 / PNSB</span>
+                    <span class="standards-pill" onclick="selectStandardsCategory('gistm', this)">Padrão Global GISTM</span>
+                    <span class="standards-pill" onclick="selectStandardsCategory('abnt', this)">Normas ABNT</span>
+                    <span class="standards-pill" onclick="selectStandardsCategory('science', this)">Bo & Barrett / Ciência</span>
+                </div>
+                <div class="standards-grid" id="standards-catalog-container">
+                    <!-- Dynamic standard cards rendered by app.js -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeMiningStandardsModal()">Fechar</button>
+                <button type="button" class="btn btn-primary" onclick="exportStandardsSummaryDocx()"><i class="fa-solid fa-file-word"></i> Baixar Sumário Normativo (DOCX)</button>
             </div>
         </div>
     </div>
