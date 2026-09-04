@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 r"""
 MDSync Local Development Server & Live Sync Hub
 Inicia o servidor HTTP local e o monitor de alterações em tempo real para a pasta PCMI:
@@ -42,6 +42,8 @@ class PCMIChangeHandler(FileSystemEventHandler):
         print(f"\n[{time.strftime('%H:%M:%S')}] Alteracao em PCMI ({event.event_type}): {Path(event.src_path).name}")
         try:
             scan()
+            from extract_pcmi_master import main as extract_main
+            extract_main()
             print(f"[{time.strftime('%H:%M:%S')}] Sincronizacao em tempo real concluida! App atualizado.")
         except Exception as e:
             print(f"Erro durante sincronizacao: {e}")

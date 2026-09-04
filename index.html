@@ -425,6 +425,53 @@
                         </div>
                     </div>
 
+                    <!-- PLUVIOMETRIA & CLIMATOLOGIA GEOTÉCNICA (PCMI) -->
+                    <div class="card mt-4" id="pluviometria-card">
+                        <div class="card-header justify-between">
+                            <div>
+                                <h3><i class="fa-solid fa-cloud-showers-heavy text-primary"></i> Monitoramento Pluviométrico & Climatológico (PCMI)</h3>
+                                <p class="text-secondary small mt-1">
+                                    Base Oficial: <code>PLUVIOMETRIA.xlsx</code> • 4 Estações de Monitoramento • <strong id="pluvio-last-updated-date">02/09/2026</strong>
+                                </p>
+                            </div>
+                            <div class="d-flex gap-2 align-center">
+                                <span class="badge badge-primary" id="pluvio-total-badge"><i class="fa-solid fa-database"></i> 14.127 medições</span>
+                                <span class="badge badge-success" id="pluvio-72h-status-badge"><i class="fa-solid fa-shield-halved"></i> 72h Estável (&lt; 50mm)</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- 4 Stations Grid -->
+                            <div class="pluvio-stations-grid" id="pluvio-stations-grid">
+                                <!-- Preenchido dinamicamente com as 4 estações -->
+                            </div>
+
+                            <!-- Pluviometry Historical Table Preview -->
+                            <div class="d-flex justify-between align-center mt-3 mb-2">
+                                <h4 class="text-secondary" style="font-size: 13px; font-weight: 700; margin: 0;">
+                                    <i class="fa-solid fa-clock-rotate-left"></i> Histórico Recente de Chuva Diária por Estação
+                                </h4>
+                                <span class="text-secondary small"><i class="fa-solid fa-user-check text-primary"></i> Coletor de campo: <strong id="pluvio-collector-name">Nauberty</strong></span>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Data</th>
+                                            <th>Estação</th>
+                                            <th>Precipitação Diária</th>
+                                            <th>Acumulado 72h Estação</th>
+                                            <th>Nível de Risco</th>
+                                            <th>Responsável</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pluvio-history-table-body">
+                                        <!-- Preenchido dinamicamente -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- MINI DASHBOARD DE INSPEÇÕES ANTERIORES & ALERTAS -->
                     <div class="dashboard-row mt-4">
                         <!-- Mini Dashboard de Auditoria de Inspeções -->
@@ -654,10 +701,14 @@
                                         <div class="form-group col-6">
                                             <label for="ins-structure">Estrutura Monitorada</label>
                                             <select id="ins-structure" class="form-control" required>
-                                                <option value="Barragem Sul">Barragem Sul</option>
-                                                <option value="Cava Norte - Talude Leste">Cava Norte - Talude Leste</option>
-                                                <option value="Pilha de Estéril Oeste">Pilha de Estéril Oeste</option>
-                                                <option value="Dique de Contenção Auxiliar">Dique de Contenção Auxiliar</option>
+                                                <option value="Barragem B1">Barragem B1</option>
+                                                <option value="Barragem B4">Barragem B4</option>
+                                                <option value="Cava Jangada">Cava Jangada</option>
+                                                <option value="Engenho Seco">Engenho Seco</option>
+                                                <option value="PDE Jacó">PDE Jacó</option>
+                                                <option value="PDE Mangaba">PDE Mangaba</option>
+                                                <option value="Pde Es1">PDE ES I</option>
+                                                <option value="Pilha B2">Pilha B2</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-6">
@@ -845,8 +896,12 @@
                                             <div class="form-group col-4">
                                                 <label for="vehicle-plate">Placa do veículo</label>
                                                 <select id="vehicle-plate" class="form-control" required onchange="updateVehicleSelection()">
-                                                    <option value="PZB-1G94">PZB-1G94</option>
-                                                    <option value="TXY-7J22">TXY-7J22</option>
+                                                    <option value="RNR-4J82">RNR-4J82 (Hilux - Geotecnia)</option>
+                                                    <option value="RMW-9B14">RMW-9B14 (L200 - Instrumentação)</option>
+                                                    <option value="RFZ-7C31">RFZ-7C31 (Ranger - Engenharia)</option>
+                                                    <option value="QPS-5E29">QPS-5E29 (S10 - Geologia)</option>
+                                                    <option value="PZB-1G94">PZB-1G94 (Jeep Renegade)</option>
+                                                    <option value="TXY-7J22">TXY-7J22 (Jeep Renegade)</option>
                                                     <option value="TEQ-1E02">TEQ-1E02</option>
                                                     <option value="TEQ-1E17">TEQ-1E17</option>
                                                     <option value="Outro">Outro</option>
@@ -1957,11 +2012,14 @@
 
     <!-- Script Injection -->
     <script src="vendor/leaflet/leaflet.js"></script>
-    <script src="data/geosync-database.js?v=dashboard-schedule-20260904h"></script>
-    <script src="data/geoview-catalog.js?v=dashboard-schedule-20260904h"></script>
-    <script src="data/geoview-operational.js?v=dashboard-schedule-20260904h"></script>
-    <script src="data/google-earth-geospatial.js?v=dashboard-schedule-20260904h"></script>
-    <script src="data/cronograma-pcm.js?v=dashboard-schedule-20260904h"></script>
-    <script src="app.js?v=dashboard-schedule-20260904h"></script>
+    <script src="data/geosync-database.js?v=pcmi-20260904i"></script>
+    <script src="data/geoview-catalog.js?v=pcmi-20260904i"></script>
+    <script src="data/geoview-operational.js?v=pcmi-20260904i"></script>
+    <script src="data/google-earth-geospatial.js?v=pcmi-20260904i"></script>
+    <script src="data/cronograma-pcm.js?v=pcmi-20260904i"></script>
+    <script src="data/pluviometria.js?v=pcmi-20260904i"></script>
+    <script src="data/frota-veicular.js?v=pcmi-20260904i"></script>
+    <script src="data/inspections-fir.js?v=pcmi-20260904i"></script>
+    <script src="app.js?v=pcmi-20260904i"></script>
 </body>
 </html>

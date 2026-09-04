@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 r"""
 MDSync Real-time File Watcher & Auto-Sync
 Monitora continuamente o caminho oficial:
@@ -40,6 +40,8 @@ class PCMIChangeHandler(FileSystemEventHandler):
         print(f"\n[{time.strftime('%H:%M:%S')}] Alteracao detectada em {PCMI_PATH.name}: {event.event_type} - {Path(event.src_path).name}")
         try:
             scan()
+            from extract_pcmi_master import main as extract_main
+            extract_main()
             print(f"[{time.strftime('%H:%M:%S')}] Sincronizacao em tempo real concluida! O site/app foi notificado.")
         except Exception as e:
             print(f"Erro durante sincronizacao automatica: {e}")

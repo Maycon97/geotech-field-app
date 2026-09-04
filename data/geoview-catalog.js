@@ -1,7 +1,7 @@
 window.MDSYNC_GEOVIEW_CATALOG = {
     "version": "2026-09-02-pcmi-live",
     "sourcePath": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI",
-    "generatedAt": "2026-09-04T07:27:15.576193",
+    "generatedAt": "2026-09-04T08:54:28.308187",
     "summary": {
         "totalDashboards": 49,
         "totalPowerBi": 54,
@@ -26,7 +26,7 @@ window.MDSYNC_GEOVIEW_CATALOG = {
             "pdfs": 0,
             "docs": 0,
             "totalFiles": 3,
-            "lastUpdated": "2026-09-03T09:57:28"
+            "lastUpdated": "2026-09-04T07:37:22"
         },
         {
             "id": "00-gest-o-vista-01-sumps",

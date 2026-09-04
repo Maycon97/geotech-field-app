@@ -5951,3 +5951,95 @@ body.dark-theme {
         background-attachment: scroll;
     }
 }
+
+/* ==========================================================================
+   PLUVIOMETRIA & CLIMATOLOGIA GEOTÉCNICA (PCMI)
+   ========================================================================== */
+.pluvio-stations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.pluvio-station-card {
+    background: #ffffff;
+    border: 1px solid #d8e5ee;
+    border-radius: 12px;
+    padding: 14px 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.pluvio-station-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(2, 34, 48, 0.08);
+}
+
+.pluvio-station-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.pluvio-station-title {
+    font-weight: 700;
+    font-size: 13.5px;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.pluvio-station-badge {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: #e0f2fe;
+    color: #0369a1;
+    font-weight: 600;
+}
+
+.pluvio-station-metrics {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 6px;
+}
+
+.pluvio-station-val {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.pluvio-station-val small {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.pluvio-station-sub {
+    font-size: 11.5px;
+    color: var(--text-secondary);
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px dashed #e2e8f0;
+}
+
+body.dark-theme .pluvio-station-card {
+    background: #0f2438;
+    border-color: #1e3a5f;
+}
+
+body.dark-theme .pluvio-station-val {
+    color: #f8fafc;
+}
+
+body.dark-theme .pluvio-station-sub {
+    border-top-color: #1e3a5f;
+}
+

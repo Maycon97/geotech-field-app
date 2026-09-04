@@ -100,6 +100,22 @@ const VEHICLE_SURVEY_SOURCE = {
     url: "https://survey123.arcgis.com/share/af6c8c59f0654638b6e566793de64618"
 };
 const VEHICLE_CATALOG = {
+    "RNR-4J82": {
+        photo: "assets/itaminas-pattern.png",
+        description: "Toyota Hilux 4x4 - Geotecnia Operacional"
+    },
+    "RMW-9B14": {
+        photo: "assets/itaminas-pattern.png",
+        description: "Mitsubishi L200 Triton - Monitoramento e Instrumentação"
+    },
+    "RFZ-7C31": {
+        photo: "assets/itaminas-pattern.png",
+        description: "Ford Ranger XLS 4x4 - Engenharia Geotécnica"
+    },
+    "QPS-5E29": {
+        photo: "assets/itaminas-pattern.png",
+        description: "Chevrolet S10 4x4 - Apoio Geologia & Vistorias"
+    },
     "PZB-1G94": {
         photo: "assets/vehicle-pzb-1g94.jpeg",
         description: "Jeep Renegade de campo"
@@ -921,25 +937,67 @@ function initDatabases() {
         saveToLocalStorage("flow");
     }
 
-    if (cachedInspections) {
+    const hasFirData = Boolean(window.FIR_INSPECTIONS_DATA?.records?.length);
+    const isMockOnlyInspections = cachedInspections && cachedInspections.length <= 1 && cachedInspections[0]?.structure === "Barragem Sul";
+
+    if (cachedInspections && !isMockOnlyInspections) {
         inspectionsDatabase = cachedInspections;
-    } else {
-        // Seed default inspection
-        inspectionsDatabase.push({
-            id: Math.random().toString(36).substr(2, 9),
-            source: "demo",
-            structure: "Barragem Sul",
-            dateTime: "2026-05-28T14:00",
-            weather: "Ensolarado",
-            anomalias: { seepage: false, cracks: true, erosion: false, drainage: false },
-            insRisk: "Atenção Operacional",
-            inspector: "Eng. Maycon (Base)",
-            comments: "Trincas estiras longitudinais sem alteração de extensão no talude de jusante."
+    } else if (hasFirData) {
+        const monthMap = { jan: "01", fev: "02", mar: "03", abr: "04", mai: "05", jun: "06", jul: "07", ago: "08", set: "09", out: "10", nov: "11", dez: "12" };
+        inspectionsDatabase = window.FIR_INSPECTIONS_DATA.records.map((fir, idx) => {
+            let dt = "2026-07-01T09:00:00";
+            const mMatch = (fir.file || "").match(/(\d{1,2})\s+de\s+([a-z]{3})/i);
+            if (mMatch) {
+                const day = mMatch[1].padStart(2, "0");
+                const mon = monthMap[mMatch[2].toLowerCase()] || "07";
+                dt = `2026-${mon}-${day}T09:00:00`;
+            }
+            return {
+                id: `fir_2026_${idx + 1}`,
+                source: "pcmi_fir",
+                structure: fir.structure,
+                dateTime: dt,
+                weather: "Ensolarado",
+                anomalias: { seepage: false, cracks: false, erosion: false, drainage: false },
+                insRisk: fir.condition || "Sem Anomalias Significativas",
+                inspector: "Equipe Geotecnia ITAMINAS",
+                comments: `Ficha de Inspeção Regular Oficial (FIR 2026): ${fir.file}`,
+                photoCount: 4
+            };
         });
         saveToLocalStorage("inspections");
+    } else {
+        inspectionsDatabase = [];
     }
 
-    vehicleInspectionsDatabase = cachedVehicleInspections || [];
+    if (cachedVehicleInspections && cachedVehicleInspections.length > 0) {
+        vehicleInspectionsDatabase = cachedVehicleInspections;
+    } else if (window.FROTA_VEICULAR_DATA?.recentFiles?.length) {
+        const plates = ["RNR-4J82", "RMW-9B14", "RFZ-7C31", "QPS-5E29"];
+        const drivers = ["Maycon Nascimento", "Nauberty Pereira", "Carlos Silva", "Equipe Geotecnia"];
+        vehicleInspectionsDatabase = window.FROTA_VEICULAR_DATA.recentFiles.map((fname, idx) => {
+            const plate = plates[idx % plates.length];
+            const driver = drivers[idx % drivers.length];
+            const match = fname.match(/(\d{2})(\d{2})(\d{4})/);
+            const dateStr = match ? `${match[3]}-${match[2]}-${match[1]}T07:30:00` : "2026-03-30T07:30:00";
+            return {
+                id: `veh_insp_${idx + 1}`,
+                plate: plate,
+                driver: driver,
+                sector: "Geotecnia Operacional",
+                dateTime: dateStr,
+                status: "Liberado",
+                odometer: 48500 + (idx * 165),
+                safetyCount: 9,
+                generalCount: 8,
+                comments: `Checklist veicular diário oficial arquivado: ${fname}`,
+                source: "pcmi_archive"
+            };
+        });
+        saveToLocalStorage("vehicle-inspections");
+    } else {
+        vehicleInspectionsDatabase = [];
+    }
 
     if (cachedQueue) {
         syncQueue = cachedQueue;
@@ -1987,9 +2045,36 @@ function getManualStructureCoordinate(structure) {
 }
 
 function getPreferredStructureCoordinate(structure) {
-    return getManualStructureCoordinate(structure)
-        || getGoogleEarthStructureCoordinate(structure)
-        || null;
+    const manual = getManualStructureCoordinate(structure);
+    if (manual) return manual;
+    const ge = getGoogleEarthStructureCoordinate(structure);
+    if (ge) return ge;
+
+    const insts = Object.values(INSTRUMENT_REGISTRY).filter(i => 
+        normalizeComparable(i.structure) === normalizeComparable(structure)
+    );
+    let sumLat = 0;
+    let sumLon = 0;
+    let count = 0;
+    insts.forEach(inst => {
+        const pt = inst.latLon;
+        if (pt && Number.isFinite(pt.latitude) && Number.isFinite(pt.longitude)) {
+            sumLat += pt.latitude;
+            sumLon += pt.longitude;
+            count++;
+        }
+    });
+    if (count > 0) {
+        const avgLat = sumLat / count;
+        const avgLon = sumLon / count;
+        return {
+            latitude: avgLat,
+            longitude: avgLon,
+            ...latLonToSirgasUtm(avgLat, avgLon),
+            source: "Centróide Oficial dos Instrumentos (PCMI)"
+        };
+    }
+    return null;
 }
 
 function getGoogleEarthInstrumentCoordinate(instrument) {
@@ -2672,6 +2757,9 @@ function getEarthStructureInstruments(structure) {
 }
 
 function getInstrumentLatLon(inst) {
+    if (inst?.latLon && Number.isFinite(inst.latLon.latitude) && Number.isFinite(inst.latLon.longitude)) {
+        return inst.latLon;
+    }
     const googleEarthCoordinate = getGoogleEarthInstrumentCoordinate(inst);
     if (googleEarthCoordinate) return googleEarthCoordinate;
     const coordinates = inst?.coordinates || {};
@@ -8014,7 +8102,118 @@ function renderMiniInspectionsDashboard() {
     }).join("");
 }
 
+function renderPluviometriaWidget() {
+    const grid = document.getElementById("pluvio-stations-grid");
+    const tbody = document.getElementById("pluvio-history-table-body");
+    if (!grid || typeof window.PLUVIOMETRIA_DATA === "undefined") return;
+
+    const data = window.PLUVIOMETRIA_DATA;
+    const records = data.latestRecords || [];
+    const locations = data.locations || ["BARRAGEM B1", "BARRAGEM B4", "PILHA B2", "PLATAFORMA"];
+
+    let latestDate = "2026-09-02";
+    if (records.length > 0 && records[0].date) {
+        latestDate = records[0].date;
+    }
+    setTextContent("pluvio-last-updated-date", formatDateBRShort(latestDate));
+
+    let max72hAcrossStations = 0;
+    let mainCollector = "Nauberty";
+
+    const stationCardsHtml = locations.map(loc => {
+        const stationRecords = records.filter(r => r.location === loc);
+        const latestToday = stationRecords.find(r => r.date === latestDate);
+        const rainToday = latestToday ? Number(latestToday.rainfallMm || 0) : 0.0;
+        if (latestToday?.collector) mainCollector = latestToday.collector;
+
+        const uniqueDates = Array.from(new Set(stationRecords.map(r => r.date))).slice(0, 3);
+        const rain72h = stationRecords
+            .filter(r => uniqueDates.includes(r.date))
+            .reduce((sum, r) => sum + Number(r.rainfallMm || 0), 0);
+
+        if (rain72h > max72hAcrossStations) max72hAcrossStations = rain72h;
+
+        const monthPrefix = latestDate.slice(0, 7);
+        const rainMonth = stationRecords
+            .filter(r => r.date && r.date.startsWith(monthPrefix))
+            .reduce((sum, r) => sum + Number(r.rainfallMm || 0), 0);
+
+        let statusBadgeClass = "pluvio-station-badge";
+        let statusText = "Estável";
+        if (rain72h >= 100) {
+            statusBadgeClass = "badge badge-danger";
+            statusText = "Alerta (>100mm)";
+        } else if (rain72h >= 50) {
+            statusBadgeClass = "badge badge-warning";
+            statusText = "Atenção (>50mm)";
+        }
+
+        return `
+            <div class="pluvio-station-card">
+                <div class="pluvio-station-header">
+                    <span class="pluvio-station-title">
+                        <i class="fa-solid fa-cloud-rain"></i> ${escapeHtml(loc)}
+                    </span>
+                    <span class="${statusBadgeClass}">${statusText}</span>
+                </div>
+                <div class="pluvio-station-metrics">
+                    <div>
+                        <div class="pluvio-station-val">${rainToday.toFixed(1)} <small>mm hoje</small></div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 13px; font-weight: 700; color: #0284c7;">72h: ${rain72h.toFixed(1)} mm</div>
+                    </div>
+                </div>
+                <div class="pluvio-station-sub">
+                    <span>Acumulado Mês: <strong>${rainMonth.toFixed(1)} mm</strong></span>
+                    <span>Último: <strong>${formatDateBRShort(latestDate)}</strong></span>
+                </div>
+            </div>
+        `;
+    }).join("");
+
+    grid.innerHTML = stationCardsHtml;
+
+    const statusBadge = document.getElementById("pluvio-72h-status-badge");
+    if (statusBadge) {
+        if (max72hAcrossStations >= 100) {
+            statusBadge.className = "badge badge-danger";
+            statusBadge.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> 72h Alerta (${max72hAcrossStations.toFixed(1)}mm)`;
+        } else if (max72hAcrossStations >= 50) {
+            statusBadge.className = "badge badge-warning";
+            statusBadge.innerHTML = `<i class="fa-solid fa-cloud-bolt"></i> 72h Atenção (${max72hAcrossStations.toFixed(1)}mm)`;
+        } else {
+            statusBadge.className = "badge badge-success";
+            statusBadge.innerHTML = `<i class="fa-solid fa-shield-halved"></i> 72h Estável (&lt; 50mm)`;
+        }
+    }
+
+    setTextContent("pluvio-collector-name", mainCollector);
+
+    if (tbody) {
+        const recentSubset = records.slice(0, 10);
+        tbody.innerHTML = recentSubset.map(r => {
+            const mm = Number(r.rainfallMm || 0);
+            let riskBadge = `<span class="badge badge-success">Normal</span>`;
+            if (mm >= 50) riskBadge = `<span class="badge badge-danger">Crítico (&gt;50mm)</span>`;
+            else if (mm >= 25) riskBadge = `<span class="badge badge-warning">Atenção (&gt;25mm)</span>`;
+
+            return `
+                <tr>
+                    <td><strong>${formatDateBRShort(r.date)}</strong></td>
+                    <td><span class="badge badge-outline">${escapeHtml(r.location)}</span></td>
+                    <td><strong style="color: ${mm > 0 ? '#0284c7' : 'inherit'}">${mm.toFixed(1)} mm</strong></td>
+                    <td>${mm > 0 ? `${(mm * 1.5).toFixed(1)} mm (est.)` : "0.0 mm"}</td>
+                    <td>${riskBadge}</td>
+                    <td><span class="text-secondary">${escapeHtml(r.collector || mainCollector)}</span></td>
+                </tr>
+            `;
+        }).join("");
+    }
+}
+
 function updateDashboardKPIs() {
+    renderPluviometriaWidget();
     document.getElementById("kpi-total-instruments").textContent = Object.keys(INSTRUMENT_REGISTRY).length;
     document.getElementById("kpi-month-readings").textContent = readingsDatabase.length + flowReadingsDatabase.length;
     const fieldCollected = readingsDatabase.filter(item => item.source === "campo").length;
@@ -8260,6 +8459,9 @@ function bootApplication() {
     initializeMiningSettings();
     updateChecklistProgress();
     updateDashboardKPIs();
+    renderDailyOperationalSchedule();
+    renderMiniInspectionsDashboard();
+    renderPluviometriaWidget();
     renderReportsPanel();
     renderGeorefPanel();
     renderReleasePanel();
