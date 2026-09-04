@@ -6498,4 +6498,495 @@ body.dark-theme .hash-badge {
     color: #cbd5e1;
 }
 
+/* ==========================================================================
+   SYSDAM INTEGRATION MODULES (MDSYNC PCMI / ITAMINAS)
+   Benchmark: sysdam.com.br
+   ========================================================================== */
+
+/* 1. SYSDAM Hub Strip (Top Navigation Bar) */
+.sysdam-hub-strip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, rgba(8, 28, 48, 0.95), rgba(11, 44, 72, 0.92));
+    border-bottom: 1px solid rgba(65, 174, 189, 0.35);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    overflow-x: auto;
+    white-space: nowrap;
+    z-index: 90;
+    backdrop-filter: blur(8px);
+}
+
+.sysdam-hub-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: #f59e0b;
+    padding-right: 12px;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+    flex-shrink: 0;
+}
+
+.sysdam-chips-track {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-grow: 1;
+}
+
+.sysdam-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #e2e8f0;
+    background: rgba(15, 36, 56, 0.7);
+    border: 1px solid rgba(92, 189, 186, 0.2);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    user-select: none;
+}
+
+.sysdam-chip:hover {
+    background: rgba(65, 174, 189, 0.22);
+    border-color: rgba(65, 174, 189, 0.55);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.sysdam-chip.active {
+    background: linear-gradient(135deg, #104868, #1e6992);
+    border-color: #41aebd;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(65, 174, 189, 0.3);
+}
+
+.sysdam-chip i {
+    font-size: 13px;
+    color: #41aebd;
+}
+
+.sysdam-chip:hover i {
+    color: #5cbdbf;
+}
+
+.sysdam-chip .chip-tag {
+    font-size: 9px;
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: rgba(245, 158, 11, 0.2);
+    color: #fbbf24;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+/* 2. Action Plan Tracker (Modulo 4 SYSDAM) */
+.action-plan-card {
+    background: var(--bg-dark-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin-top: 24px;
+}
+
+.action-plan-header-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+}
+
+.action-stat-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: rgba(9, 32, 51, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.action-stat-pill.total { border-color: rgba(65, 174, 189, 0.4); }
+.action-stat-pill.pending { border-color: rgba(252, 177, 28, 0.4); }
+.action-stat-pill.progress { border-color: rgba(65, 174, 189, 0.6); }
+.action-stat-pill.done { border-color: rgba(162, 207, 73, 0.4); }
+.action-stat-pill.overdue { border-color: rgba(214, 69, 80, 0.5); }
+
+.action-stat-pill .stat-num {
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.action-stat-pill .stat-lbl {
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.action-plan-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.action-plan-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.action-table-wrapper {
+    overflow-x: auto;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.action-plan-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+}
+
+.action-plan-table th {
+    background: #081a2b;
+    color: #94a3b8;
+    padding: 10px 12px;
+    font-weight: 700;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    white-space: nowrap;
+}
+
+.action-plan-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    vertical-align: middle;
+}
+
+.action-plan-table tr:hover {
+    background: rgba(65, 174, 189, 0.06);
+}
+
+.priority-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.priority-badge.critica { background: rgba(214, 69, 80, 0.2); color: #f87171; border: 1px solid rgba(214, 69, 80, 0.4); }
+.priority-badge.alta { background: rgba(240, 127, 47, 0.2); color: #fb923c; border: 1px solid rgba(240, 127, 47, 0.4); }
+.priority-badge.media { background: rgba(252, 177, 28, 0.2); color: #fbbf24; border: 1px solid rgba(252, 177, 28, 0.4); }
+.priority-badge.baixa { background: rgba(162, 207, 73, 0.2); color: #a3e635; border: 1px solid rgba(162, 207, 73, 0.4); }
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 9px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.status-badge.pendente { background: rgba(252, 177, 28, 0.18); color: #f59e0b; }
+.status-badge.andamento { background: rgba(65, 174, 189, 0.18); color: #38bdf8; }
+.status-badge.concluido { background: rgba(162, 207, 73, 0.18); color: #4ade80; }
+
+/* 3. FMEA Gestao de Riscos (Modulo 5 SYSDAM) */
+.fmea-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 14px;
+}
+
+@media (max-width: 900px) {
+    .fmea-grid { grid-template-columns: 1fr; }
+}
+
+.fmea-card {
+    background: rgba(11, 35, 54, 0.85);
+    border: 1px solid rgba(92, 189, 186, 0.25);
+    border-radius: 8px;
+    padding: 14px;
+    transition: all 0.2s ease;
+}
+
+.fmea-card:hover {
+    border-color: rgba(65, 174, 189, 0.5);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.fmea-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 8px;
+}
+
+.rpn-gauge {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 60px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 800;
+    text-align: center;
+}
+
+.rpn-gauge.critical { background: rgba(214, 69, 80, 0.25); color: #ef4444; border: 1px solid #ef4444; }
+.rpn-gauge.high { background: rgba(240, 127, 47, 0.25); color: #f97316; border: 1px solid #f97316; }
+.rpn-gauge.moderate { background: rgba(252, 177, 28, 0.25); color: #f59e0b; border: 1px solid #f59e0b; }
+.rpn-gauge.low { background: rgba(162, 207, 73, 0.25); color: #22c55e; border: 1px solid #22c55e; }
+
+.fmea-params-steppers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 10px 0;
+    background: rgba(5, 20, 32, 0.6);
+    padding: 8px;
+    border-radius: 6px;
+}
+
+.fmea-stepper-box {
+    text-align: center;
+}
+
+.fmea-stepper-box label {
+    display: block;
+    font-size: 10.5px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.fmea-stepper-box select {
+    width: 100%;
+    padding: 4px;
+    font-size: 12px;
+    border-radius: 4px;
+    background: #0f2e46;
+    color: #fff;
+    border: 1px solid rgba(65, 174, 189, 0.3);
+    margin-top: 3px;
+}
+
+.fmea-barriers-list {
+    font-size: 11.5px;
+    color: #cbd5e1;
+    margin-top: 8px;
+    padding-left: 18px;
+}
+
+.fmea-barriers-list li {
+    margin-bottom: 3px;
+}
+
+/* Matriz 5x5 */
+.matrix-5x5-wrapper {
+    background: rgba(8, 25, 40, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 14px;
+}
+
+.matrix-grid-5x5 {
+    display: grid;
+    grid-template-columns: 80px repeat(5, 1fr);
+    gap: 4px;
+    margin-top: 8px;
+}
+
+.matrix-cell {
+    min-height: 48px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    position: relative;
+}
+
+.matrix-cell.c-green { background: rgba(34, 197, 94, 0.22); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+.matrix-cell.c-yellow { background: rgba(234, 179, 8, 0.22); color: #facc15; border: 1px solid rgba(234, 179, 8, 0.3); }
+.matrix-cell.c-orange { background: rgba(249, 115, 22, 0.25); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.35); }
+.matrix-cell.c-red { background: rgba(239, 68, 68, 0.3); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.45); }
+
+.matrix-pin-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: #0f172a;
+    color: #fff;
+    border: 1px solid #38bdf8;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+}
+
+/* 4. ALERT & PAEBM (Modulo 6 SYSDAM) */
+.alert-levels-deck {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+}
+
+.alert-level-card {
+    border-radius: 8px;
+    padding: 14px;
+    background: rgba(9, 27, 43, 0.85);
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.alert-level-card.lvl-0 { border-color: rgba(34, 197, 94, 0.4); }
+.alert-level-card.lvl-0.active { background: rgba(34, 197, 94, 0.15); border-color: #22c55e; box-shadow: 0 0 12px rgba(34, 197, 94, 0.3); }
+
+.alert-level-card.lvl-1 { border-color: rgba(234, 179, 8, 0.4); }
+.alert-level-card.lvl-1.active { background: rgba(234, 179, 8, 0.15); border-color: #eab308; box-shadow: 0 0 12px rgba(234, 179, 8, 0.3); }
+
+.alert-level-card.lvl-2 { border-color: rgba(249, 115, 22, 0.4); }
+.alert-level-card.lvl-2.active { background: rgba(249, 115, 22, 0.18); border-color: #f97316; box-shadow: 0 0 14px rgba(249, 115, 22, 0.35); }
+
+.alert-level-card.lvl-3 { border-color: rgba(239, 68, 68, 0.4); }
+.alert-level-card.lvl-3.active { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; box-shadow: 0 0 16px rgba(239, 68, 68, 0.45); animation: pulse-alert 2s infinite; }
+
+@keyframes pulse-alert {
+    0%, 100% { box-shadow: 0 0 12px rgba(239, 68, 68, 0.4); }
+    50% { box-shadow: 0 0 22px rgba(239, 68, 68, 0.8); }
+}
+
+.alert-level-card .lvl-tag {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    margin-bottom: 4px;
+}
+
+.alert-zas-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin: 14px 0;
+}
+
+.zas-metric-card {
+    background: rgba(5, 20, 32, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    padding: 12px;
+    text-align: center;
+}
+
+.zas-metric-card .num {
+    font-size: 22px;
+    font-weight: 800;
+    color: #38bdf8;
+    display: block;
+}
+
+.zas-metric-card .lbl {
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+/* 5. Structure Datasheet (Modulo 1 SYSDAM) */
+.datasheet-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    background: linear-gradient(135deg, #0a253a, #113c5e);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(65, 174, 189, 0.3);
+}
+
+.datasheet-specs-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin: 10px 0;
+}
+
+.datasheet-specs-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.datasheet-specs-table td:first-child {
+    color: var(--text-secondary);
+    font-weight: 600;
+    width: 40%;
+}
+
+.datasheet-specs-table td:last-child {
+    color: #fff;
+    font-weight: 700;
+}
+
+.datasheet-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 850px) {
+    .datasheet-grid { grid-template-columns: 1fr; }
+}
+
+.datasheet-section-card {
+    background: rgba(9, 32, 51, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 14px;
+}
+
+.datasheet-section-card h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #38bdf8;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 6px;
+}
+
+
 

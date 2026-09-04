@@ -20,7 +20,7 @@
     <!-- Chart.js local fallback for offline field use -->
     <script src="vendor/chart.umd.min.js?v=authless-20260610c" defer></script>
     <script src="vendor/jszip.min.js?v=authless-20260610c" defer></script>
-    <link rel="stylesheet" href="styles.css?v=restore-ui-20260903f">
+    <link rel="stylesheet" href="styles.css?v=sysdam-20260904a">
     <style>
         body .pilhas-bi-map-panel .pilhas-location-map {
             background-image:
@@ -125,6 +125,56 @@
                     </button>
                 </div>
             </header>
+
+            <!-- SYSDAM Hub Strip (8 Módulos de Gestão Geotécnica Integrada - Benchmark sysdam.com.br) -->
+            <div class="sysdam-hub-strip" id="sysdam-hub-strip" role="navigation" aria-label="Módulos SYSDAM">
+                <div class="sysdam-hub-title" title="Diretriz Operacional Corporativa baseada em SYSDAM (sysdam.com.br)">
+                    <i class="fa-solid fa-cubes-stacked"></i>
+                    <span>SYSDAM Hub</span>
+                </div>
+                <div class="sysdam-chips-track">
+                    <button type="button" class="sysdam-chip" onclick="openStructureDatasheetModal()" title="Módulo 1: Ficha técnica cadastral, geometria, cotas e classificação de risco ANM/GISTM">
+                        <i class="fa-solid fa-file-invoice"></i>
+                        <span>1. Ficha Técnica</span>
+                        <span class="chip-tag">Cadastral</span>
+                    </button>
+                    <button type="button" class="sysdam-chip" onclick="switchTab('reports')" title="Módulo 2: Repositório documental do PSB, PAEBM, DCEs e relatórios de auditoria">
+                        <i class="fa-solid fa-folder-closed"></i>
+                        <span>2. PSB & Docs</span>
+                        <span class="chip-tag">Governança</span>
+                    </button>
+                    <button type="button" class="sysdam-chip" onclick="switchTab('readings')" title="Módulo 3: Monitoramento de piezômetros PZ/INA, NAs, marcos e pluviometria">
+                        <i class="fa-solid fa-gauge-high"></i>
+                        <span>3. Monitoramento</span>
+                        <span class="chip-tag">TARP</span>
+                    </button>
+                    <button type="button" class="sysdam-chip" onclick="switchTab('inspections'); scrollToSection('action-plan-section');" title="Módulo 4: Inspeções de campo FIR e Plano de Ação Corretiva com ciclo fechado">
+                        <i class="fa-solid fa-clipboard-check"></i>
+                        <span>4. Inspeções & Ação</span>
+                        <span class="chip-tag">Tratativas</span>
+                    </button>
+                    <button type="button" class="sysdam-chip" onclick="openFmeaModal()" title="Módulo 5: Gestão de riscos por modos de falha (liquefação, piping, sobre-elevação freática e galgamento) e cálculo de RPN">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <span>5. Gestão de Riscos</span>
+                        <span class="chip-tag">FMEA/RPN</span>
+                    </button>
+                    <button type="button" class="sysdam-chip" onclick="openAlertPaebmModal()" title="Módulo 6: Níveis de emergência 0/1/2/3 (Res. ANM 95/2022), ZAS e prontidão de sirenes">
+                        <i class="fa-solid fa-tower-broadcast"></i>
+                        <span>6. ALERT (PAEBM)</span>
+                        <span class="chip-tag">Emergência</span>
+                    </button>
+                    <button type="button" class="sysdam-chip" onclick="switchTab('indicators')" title="Módulo 7: Business Intelligence, dashboards executivos e mapa de calor">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span>7. BI & Indicadores</span>
+                        <span class="chip-tag">Executivo</span>
+                    </button>
+                    <button type="button" class="sysdam-chip" onclick="switchTab('geoview')" title="Módulo 8: Cartografia GIS, ortofotos e fatores de segurança">
+                        <i class="fa-solid fa-earth-americas"></i>
+                        <span>8. SYSGEO GIS</span>
+                        <span class="chip-tag">Espacial</span>
+                    </button>
+                </div>
+            </div>
 
             <!-- Scrollable Content -->
             <div class="content-body">
@@ -1045,6 +1095,92 @@
                                     </button>
                                 </div>
                             </form>
+                    </div>
+
+                    <!-- ACTION PLAN TRACKER (MÓDULO 4 SYSDAM: INSPEÇÃO E PLANO DE AÇÃO) -->
+                    <div class="card action-plan-card" id="action-plan-section">
+                        <div class="card-header justify-between">
+                            <div>
+                                <h3><i class="fa-solid fa-list-check text-primary"></i> Plano de Ação Corretiva & Tratativas (Módulo 4 SYSDAM)</h3>
+                                <p class="text-secondary text-sm">Gestão do ciclo fechado para anomalias de campo: identificação, mitigação, prazos e comprovação de fechamento com evidências.</p>
+                            </div>
+                            <div class="card-header-actions">
+                                <button type="button" class="btn btn-primary btn-sm" onclick="openNewActionModal()">
+                                    <i class="fa-solid fa-plus"></i> Nova Tratativa Geotécnica
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- Summary Counters -->
+                            <div class="action-plan-header-stats" id="action-plan-stats">
+                                <div class="action-stat-pill total">
+                                    <div class="stat-num text-primary" id="stat-action-total">0</div>
+                                    <div class="stat-lbl">Total Ações</div>
+                                </div>
+                                <div class="action-stat-pill pending">
+                                    <div class="stat-num text-warning" id="stat-action-pending">0</div>
+                                    <div class="stat-lbl">Pendentes</div>
+                                </div>
+                                <div class="action-stat-pill progress">
+                                    <div class="stat-num text-primary" id="stat-action-progress">0</div>
+                                    <div class="stat-lbl">Em Tratamento</div>
+                                </div>
+                                <div class="action-stat-pill done">
+                                    <div class="stat-num text-success" id="stat-action-done">0</div>
+                                    <div class="stat-lbl">Concluídas</div>
+                                </div>
+                                <div class="action-stat-pill overdue">
+                                    <div class="stat-num text-danger" id="stat-action-overdue">0</div>
+                                    <div class="stat-lbl">Prazo Vencido</div>
+                                </div>
+                            </div>
+
+                            <!-- Filters Toolbar -->
+                            <div class="action-plan-toolbar">
+                                <div class="action-plan-filters">
+                                    <select id="action-filter-structure" class="form-control form-control-sm" onchange="renderActionPlanTable()">
+                                        <option value="all">Todas as Estruturas</option>
+                                    </select>
+                                    <select id="action-filter-status" class="form-control form-control-sm" onchange="renderActionPlanTable()">
+                                        <option value="all">Todos os Status</option>
+                                        <option value="Pendente">Pendente</option>
+                                        <option value="Em Andamento">Em Andamento</option>
+                                        <option value="Concluído">Concluído</option>
+                                    </select>
+                                    <select id="action-filter-priority" class="form-control form-control-sm" onchange="renderActionPlanTable()">
+                                        <option value="all">Todas as Prioridades</option>
+                                        <option value="Crítica">Crítica</option>
+                                        <option value="Alta">Alta</option>
+                                        <option value="Média">Média</option>
+                                        <option value="Baixa">Baixa</option>
+                                    </select>
+                                </div>
+                                <div class="action-plan-search">
+                                    <input type="text" id="action-search-input" class="form-control form-control-sm" placeholder="Buscar por ação, responsável ou anomalia..." oninput="renderActionPlanTable()">
+                                </div>
+                            </div>
+
+                            <!-- Table container -->
+                            <div class="action-table-wrapper">
+                                <table class="action-plan-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Estrutura</th>
+                                            <th>Anomalia / Desvio</th>
+                                            <th>Ação Recomendada</th>
+                                            <th>Responsável</th>
+                                            <th>Prazo</th>
+                                            <th>Prioridade</th>
+                                            <th>Status</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="action-plan-table-body">
+                                        <!-- Dynamic items rendered by app.js -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -2139,6 +2275,224 @@
         </div>
     </div>
 
+    <!-- MÓDULO 5 SYSDAM: MODAL GESTÃO DE RISCOS & FMEA GEOTÉCNICO -->
+    <div class="modal" id="modal-fmea-risk" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="fmea-modal-title">
+        <div class="modal-content modal-xl">
+            <div class="modal-header">
+                <h3 id="fmea-modal-title">
+                    <i class="fa-solid fa-triangle-exclamation text-warning"></i>
+                    Gestão de Riscos Geotécnicos & FMEA (Módulo 5 SYSDAM)
+                </h3>
+                <span class="close" onclick="closeFmeaModal()" title="Fechar janela">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="dashboard-row" style="align-items:center; justify-content:space-between; margin-bottom:12px;">
+                    <div>
+                        <p class="text-secondary m-0 text-sm">
+                            Avaliação analítica dos <strong>Modos de Falha</strong> (FMEA / ETA) com cálculo dinâmico do <strong>RPN</strong> (Risk Priority Number = Severidade × Ocorrência × Detecção).
+                        </p>
+                    </div>
+                    <div style="min-width:240px;">
+                        <label for="fmea-structure-select" class="text-xs text-secondary font-bold">Estrutura Avaliada:</label>
+                        <select id="fmea-structure-select" class="form-control form-control-sm" onchange="updateFmeaAnalysis()">
+                            <!-- Preenchido via app.js -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 4 Failure Modes Cards -->
+                <div class="fmea-grid" id="fmea-cards-container">
+                    <!-- Rendered dynamically by app.js -->
+                </div>
+
+                <!-- 5x5 Risk Matrix -->
+                <div class="matrix-5x5-wrapper">
+                    <div class="justify-between" style="display:flex; align-items:center;">
+                        <h4 class="m-0 text-sm"><i class="fa-solid fa-border-all text-primary"></i> Matriz de Riscos 5x5 (Severidade vs Ocorrência)</h4>
+                        <span class="text-xs text-secondary">Classificação ponderada conforme NBR 13028 e Bo & Barrett (2010)</span>
+                    </div>
+                    <div class="matrix-grid-5x5" id="matrix-grid-5x5">
+                        <!-- Matriz interativa 5x5 renderizada por app.js -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeFmeaModal()">Fechar</button>
+                <button type="button" class="btn btn-primary" onclick="exportFmeaReportDocx()">
+                    <i class="fa-solid fa-file-word"></i> Exportar Laudo FMEA (DOCX)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MÓDULO 6 SYSDAM: MODAL ALERT & GESTÃO DE EMERGÊNCIA (PAEBM) -->
+    <div class="modal" id="modal-alert-paebm" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="alert-modal-title">
+        <div class="modal-content modal-xl">
+            <div class="modal-header">
+                <h3 id="alert-modal-title">
+                    <i class="fa-solid fa-tower-broadcast text-danger"></i>
+                    ALERT: Gestão de Emergência & PAEBM (Módulo 6 SYSDAM)
+                </h3>
+                <span class="close" onclick="closeAlertPaebmModal()" title="Fechar janela">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="dashboard-row" style="align-items:center; justify-content:space-between; margin-bottom:14px;">
+                    <div>
+                        <p class="text-secondary m-0 text-sm">
+                            Enquadramento regulatório estrito conforme <strong>Art. 36 da Resolução ANM nº 95/2022</strong> e controle de prontidão da <strong>Zona de Auto-Salvamento (ZAS)</strong>.
+                        </p>
+                    </div>
+                    <div style="min-width:240px;">
+                        <label for="alert-structure-select" class="text-xs text-secondary font-bold">Estrutura Monitorada:</label>
+                        <select id="alert-structure-select" class="form-control form-control-sm" onchange="renderAlertPaebmDetails()">
+                            <!-- Preenchido via app.js -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Emergency Levels Deck (Níveis 0, 1, 2 e 3) -->
+                <div class="alert-levels-deck" id="alert-levels-deck">
+                    <!-- Rendered dynamically by app.js -->
+                </div>
+
+                <!-- ZAS & PAEBM Operational Details -->
+                <div id="alert-structure-operational-details">
+                    <!-- Dynamic details rendered by app.js -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeAlertPaebmModal()">Fechar</button>
+                <button type="button" class="btn btn-outline text-warning" onclick="triggerSimulatedSirenTest()">
+                    <i class="fa-solid fa-bullhorn"></i> Teste de Telemetria de Sirenes
+                </button>
+                <button type="button" class="btn btn-primary" onclick="exportPaebmDossierDocx()">
+                    <i class="fa-solid fa-file-shield"></i> Exportar Dossiê PAEBM (DOCX)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MÓDULO 1 SYSDAM: MODAL DADOS DA ESTRUTURA (FICHA TÉCNICA CADASTRAL) -->
+    <div class="modal" id="modal-structure-datasheet" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="datasheet-modal-title">
+        <div class="modal-content modal-xl">
+            <div class="modal-header">
+                <h3 id="datasheet-modal-title">
+                    <i class="fa-solid fa-file-invoice text-primary"></i>
+                    Ficha Técnica Cadastral da Estrutura (Módulo 1 SYSDAM)
+                </h3>
+                <span class="close" onclick="closeStructureDatasheetModal()" title="Fechar janela">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="dashboard-row" style="align-items:center; justify-content:space-between; margin-bottom:14px;">
+                    <div>
+                        <p class="text-secondary m-0 text-sm">
+                            Dados cadastrais oficiais, parâmetros geométricos, hidráulicos, método construtivo e governança técnica regulatória (SIGBM/GISTM).
+                        </p>
+                    </div>
+                    <div style="min-width:240px;">
+                        <label for="datasheet-structure-select" class="text-xs text-secondary font-bold">Selecionar Estrutura:</label>
+                        <select id="datasheet-structure-select" class="form-control form-control-sm" onchange="renderStructureDatasheetDetails()">
+                            <!-- Preenchido via app.js -->
+                        </select>
+                    </div>
+                </div>
+
+                <div id="datasheet-content-container">
+                    <!-- Rendered dynamically by app.js -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeStructureDatasheetModal()">Fechar</button>
+                <button type="button" class="btn btn-primary" onclick="exportDatasheetPdfDocx()">
+                    <i class="fa-solid fa-file-word"></i> Baixar Ficha Cadastral Oficial (DOCX)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: NOVA / EDITAR TRATATIVA DO PLANO DE AÇÃO CORRETIVA -->
+    <div class="modal" id="modal-action-plan-item" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="action-item-modal-title">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="action-item-modal-title">
+                    <i class="fa-solid fa-clipboard-check text-primary"></i>
+                    Nova Tratativa Geotécnica (Plano de Ação)
+                </h3>
+                <span class="close" onclick="closeActionPlanModal()" title="Fechar janela">&times;</span>
+            </div>
+            <form id="action-plan-form" onsubmit="saveActionPlanItem(event)">
+                <div class="modal-body">
+                    <input type="hidden" id="action-item-id">
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label for="action-item-structure">Estrutura</label>
+                            <select id="action-item-structure" class="form-control" required>
+                                <option value="Barragem B1">Barragem B1</option>
+                                <option value="Barragem B4">Barragem B4</option>
+                                <option value="Cava Jangada">Cava Jangada</option>
+                                <option value="Engenho Seco">Engenho Seco</option>
+                                <option value="PDE Jacó">PDE Jacó</option>
+                                <option value="PDE Mangaba">PDE Mangaba</option>
+                                <option value="Pde Es1">PDE ES I</option>
+                                <option value="Pilha B2">Pilha B2</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="action-item-priority">Prioridade da Ação</label>
+                            <select id="action-item-priority" class="form-control" required>
+                                <option value="Média">Média</option>
+                                <option value="Alta">Alta</option>
+                                <option value="Crítica">Crítica</option>
+                                <option value="Baixa">Baixa</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-2">
+                        <label for="action-item-anomaly">Anomalia de Origem / Não Conformidade</label>
+                        <input type="text" id="action-item-anomaly" class="form-control" placeholder="Ex: Trinca longitudinal na berma 3, surgência d'água turva no dreno D-02..." required>
+                    </div>
+
+                    <div class="form-group mt-2">
+                        <label for="action-item-action">Ação Recomendada / Medida Mitigadora</label>
+                        <textarea id="action-item-action" class="form-control" rows="2" placeholder="Ex: Executar selagem de trinca com argila compactada e intensificar leitura piezométrica..." required></textarea>
+                    </div>
+
+                    <div class="form-row mt-2">
+                        <div class="form-group col-6">
+                            <label for="action-item-assignee">Responsável Geotécnico</label>
+                            <input type="text" id="action-item-assignee" class="form-control" value="Eng. Geotécnico de Campo" required>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="action-item-deadline">Prazo Limite para Conclusão</label>
+                            <input type="date" id="action-item-deadline" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-2">
+                        <label for="action-item-status">Status da Tratativa</label>
+                        <select id="action-item-status" class="form-control" required>
+                            <option value="Pendente">Pendente</option>
+                            <option value="Em Andamento">Em Andamento</option>
+                            <option value="Concluído">Concluído</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mt-2">
+                        <label for="action-item-closure-notes">Evidência / Notas de Conclusão</label>
+                        <textarea id="action-item-closure-notes" class="form-control" rows="2" placeholder="Registros de execução, número da OS ou foto de fechamento do serviço..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeActionPlanModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-save"></i> Salvar Tratativa
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Script Injection -->
     <script src="vendor/leaflet/leaflet.js"></script>
     <script src="data/geosync-database.js?v=pcmi-20260904i"></script>
@@ -2149,6 +2503,6 @@
     <script src="data/pluviometria.js?v=pcmi-20260904i"></script>
     <script src="data/frota-veicular.js?v=pcmi-20260904i"></script>
     <script src="data/inspections-fir.js?v=pcmi-20260904i"></script>
-    <script src="app.js?v=pcmi-20260904i"></script>
+    <script src="app.js?v=sysdam-20260904a"></script>
 </body>
 </html>

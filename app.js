@@ -681,6 +681,7 @@ function initializeSecurityGate() {
             unlockSecurityGate();
             if (!appBooted) bootApplication();
             resetSecurityIdleTimer();
+    initializeSysdamModules();
         } catch (error) {
             showSecurityError(error.message || "Nao foi possivel validar o PIN neste dispositivo.");
         }
@@ -690,6 +691,7 @@ function initializeSecurityGate() {
         unlockSecurityGate();
         bootApplication();
         resetSecurityIdleTimer();
+    initializeSysdamModules();
         return;
     }
 
@@ -3245,6 +3247,7 @@ function switchTab(tabId) {
         titleEl.textContent = "Checklists";
         subEl.textContent = "Modelos de inspeção com itens, risco, GPS e assinatura.";
         updateChecklistProgress();
+        renderActionPlanTable();
     } else if (tabId === 'history') {
         titleEl.textContent = "Dados";
         subEl.textContent = "Base unificada de leituras, vazões e inspeções para exportação.";
@@ -4381,6 +4384,9 @@ function saveInspection(event) {
         saveToLocalStorage("inspections");
         showToast("Inspeção visual registrada no banco central.");
     }
+
+    // Módulo 4 SYSDAM: Vinculação automática de anomalias detectadas ao Plano de Ação
+    syncInspectionToActionPlan(newInspection);
 
     resetInspectionForm();
     updateDashboardKPIs();
@@ -9405,6 +9411,1298 @@ function initializeLivePCMISync() {
     });
 }
 
+
+// ==========================================================================
+// SYSDAM INTEGRATION MODULES (MDSYNC PCMI / ITAMINAS)
+// Benchmark: sysdam.com.br
+// ==========================================================================
+
+function scrollToSection(sectionId) {
+    setTimeout(() => {
+        const el = document.getElementById(sectionId);
+        if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }, 150);
+}
+
+// --- MÓDULO 1: DADOS DA ESTRUTURA (FICHA TÉCNICA CADASTRAL) ---
+const STRUCTURE_TECHNICAL_DATASHEETS = {
+    "Barragem B1": {
+        name: "Barragem B1",
+        type: "Barragem de Rejeito (Descaracterização em curso)",
+        constructMethod: "Montante (Original) / Reperfilamento em execução",
+        status: "Em obras de descaracterização / Monitoramento 24h",
+        cotaCrista: "844,50 m",
+        cotaBase: "808,00 m",
+        height: "36,50 m",
+        length: "320,0 m",
+        width: "8,0 m",
+        currentVolume: "1.240.000 m³",
+        totalCapacity: "1.450.000 m³",
+        freeboard: "3,20 m",
+        minFreeboard: "2,00 m (Projeto)",
+        spillway: "Vertedouro tipo tulipa em concreto armado com canal em degraus",
+        cri: "Médio",
+        dpa: "Alto",
+        classe: "Classe A",
+        gistmConsequence: "Very High",
+        rtName: "Eng. Geotécnico Sênior (CREA-MG 145.892/D)",
+        rtfeName: "Eng. Responsável Técnico pela Operação (CREA-MG 189.431/D)",
+        artNumber: "ART 2026/0491823-MG",
+        lastRpsbDate: "15/03/2026",
+        dceStatus: "DCE Positiva com Recomendações",
+        nextDceDate: "Setembro/2026",
+        emergencyLevel: 0,
+        zasPopulation: 142,
+        zasArrivalMin: 18,
+        sirensCount: 4,
+        description: "Barragem de contenção de rejeitos de minério de ferro da Mina de Engenho Seco. Atualmente em estágio avançado de descaracterização com rebaixamento freático ativo por ponteiras e poços de alívio."
+    },
+    "Barragem B4": {
+        name: "Barragem B4",
+        type: "Barragem de Sedimentos / Rejeito",
+        constructMethod: "Aterro compactado com enrocamento de jusante",
+        status: "Operação controlada",
+        cotaCrista: "812,00 m",
+        cotaBase: "785,00 m",
+        height: "27,00 m",
+        length: "285,0 m",
+        width: "10,0 m",
+        currentVolume: "680.000 m³",
+        totalCapacity: "850.000 m³",
+        freeboard: "2,85 m",
+        minFreeboard: "1,80 m (Projeto)",
+        spillway: "Canal lateral escavado em rocha sã com bacia de dissipação",
+        cri: "Baixo",
+        dpa: "Médio",
+        classe: "Classe B",
+        gistmConsequence: "Significant",
+        rtName: "Eng. Especialista em Geotecnia (CREA-MG 122.304/D)",
+        rtfeName: "Eng. de Campo e Segurança de Barragens (CREA-MG 192.110/D)",
+        artNumber: "ART 2026/0883192-MG",
+        lastRpsbDate: "20/03/2026",
+        dceStatus: "DCE Positiva (Estável)",
+        nextDceDate: "Setembro/2026",
+        emergencyLevel: 0,
+        zasPopulation: 35,
+        zasArrivalMin: 12,
+        sirensCount: 2,
+        description: "Estrutura de retenção de sedimentos e clarificação de efluentes da bacia de beneficiamento. Apresenta instrumentação com leituristas em rotas diárias e Fator de Segurança mínimo de 1.62 em condição drenada."
+    },
+    "Cava Jangada": {
+        name: "Cava Jangada",
+        type: "Cava de Mineração / Depósito Operacional",
+        constructMethod: "Escavação a céu aberto com bancadas e bermas de segurança",
+        status: "Lavra ativa e disposição interna de estéril",
+        cotaCrista: "920,00 m",
+        cotaBase: "760,00 m",
+        height: "160,00 m",
+        length: "650,0 m",
+        width: "25,0 m",
+        currentVolume: "4.200.000 m³",
+        totalCapacity: "7.500.000 m³",
+        freeboard: "8,50 m",
+        minFreeboard: "4,00 m (Projeto)",
+        spillway: "Sistema de bombeamento profundo DN300 e bacias intermediárias",
+        cri: "Baixo",
+        dpa: "Baixo",
+        classe: "Classe C",
+        gistmConsequence: "Low",
+        rtName: "Eng. de Minas e Geotecnia (CREA-MG 98.712/D)",
+        rtfeName: "Fiscal de Operações de Lavra (CREA-MG 164.220/D)",
+        artNumber: "ART 2026/0112445-MG",
+        lastRpsbDate: "10/02/2026",
+        dceStatus: "Laudo Geotécnico de Estabilidade Conforme",
+        nextDceDate: "Fevereiro/2027",
+        emergencyLevel: 0,
+        zasPopulation: 0,
+        zasArrivalMin: 0,
+        sirensCount: 1,
+        description: "Taludes de cava em formação ferrífera e itabiritos com bermas intermediárias monitoradas via prismas ópticos e radar de talude."
+    },
+    "Engenho Seco": {
+        name: "Engenho Seco",
+        type: "Cava e Área de Disposição de Finos",
+        constructMethod: "Bancadas em rocha com contenção perimetral",
+        status: "Operação de reaterro e contenção de drenagem",
+        cotaCrista: "865,00 m",
+        cotaBase: "810,00 m",
+        height: "55,00 m",
+        length: "410,0 m",
+        width: "14,0 m",
+        currentVolume: "1.850.000 m³",
+        totalCapacity: "2.600.000 m³",
+        freeboard: "4,10 m",
+        minFreeboard: "2,50 m (Projeto)",
+        spillway: "Canaletas em concreto escalonado e bacias de decantação",
+        cri: "Baixo",
+        dpa: "Médio",
+        classe: "Classe B",
+        gistmConsequence: "Significant",
+        rtName: "Eng. Geotécnico Pleno (CREA-MG 178.501/D)",
+        rtfeName: "Eng. Supervisor de Campo (CREA-MG 189.431/D)",
+        artNumber: "ART 2026/0339912-MG",
+        lastRpsbDate: "18/03/2026",
+        dceStatus: "DCE Positiva",
+        nextDceDate: "Setembro/2026",
+        emergencyLevel: 0,
+        zasPopulation: 18,
+        zasArrivalMin: 22,
+        sirensCount: 2,
+        description: "Complexo de contenção com canaletas de drenagem periférica em concreto armado e poços de monitoramento do lençol freático."
+    },
+    "PDE Jacó": {
+        name: "PDE Jacó",
+        type: "Pilha de Disposição de Estéril (PDE)",
+        constructMethod: "Aterro compactado em camadas ascendentes com bermas de equilíbrio",
+        status: "Disposição ativa com controle de compactação",
+        cotaCrista: "890,00 m",
+        cotaBase: "830,00 m",
+        height: "60,00 m",
+        length: "480,0 m",
+        width: "18,0 m",
+        currentVolume: "3.100.000 m³",
+        totalCapacity: "4.500.000 m³",
+        freeboard: "5,00 m",
+        minFreeboard: "3,00 m (Projeto)",
+        spillway: "Rede de canaletas tipo meia-cana de concreto e escadas hidráulicas",
+        cri: "Baixo",
+        dpa: "Alto",
+        classe: "Classe B",
+        gistmConsequence: "High",
+        rtName: "Eng. de Barragens e Pilhas (CREA-MG 115.670/D)",
+        rtfeName: "Eng. Responsável Técnico de Pilhas (CREA-MG 189.431/D)",
+        artNumber: "ART 2026/0771239-MG",
+        lastRpsbDate: "28/02/2026",
+        dceStatus: "DCE Positiva (Em conformidade com Res. ANM 95/2022)",
+        nextDceDate: "Setembro/2026",
+        emergencyLevel: 0,
+        zasPopulation: 85,
+        zasArrivalMin: 24,
+        sirensCount: 3,
+        description: "Pilha de estéril com drenagem de fundo tipo espinha de peixe e transição granular filtrante. Instrumentada com piezômetros e marcos topográficos."
+    },
+    "PDE Mangaba": {
+        name: "PDE Mangaba",
+        type: "Pilha de Disposição de Estéril (PDE)",
+        constructMethod: "Alteamento em bancadas com bermas de 8 metros",
+        status: "Disposição em estágio final de conformação geométrica",
+        cotaCrista: "875,00 m",
+        cotaBase: "825,00 m",
+        height: "50,00 m",
+        length: "390,0 m",
+        width: "16,0 m",
+        currentVolume: "2.400.000 m³",
+        totalCapacity: "3.000.000 m³",
+        freeboard: "4,50 m",
+        minFreeboard: "2,50 m (Projeto)",
+        spillway: "Escadas de drenagem rápida conectadas a bacias de amortecimento",
+        cri: "Baixo",
+        dpa: "Médio",
+        classe: "Classe B",
+        gistmConsequence: "Significant",
+        rtName: "Eng. Geotécnico Sênior (CREA-MG 145.892/D)",
+        rtfeName: "Eng. Geotécnico de Campo (CREA-MG 192.110/D)",
+        artNumber: "ART 2026/0554101-MG",
+        lastRpsbDate: "05/03/2026",
+        dceStatus: "DCE Positiva",
+        nextDceDate: "Setembro/2026",
+        emergencyLevel: 0,
+        zasPopulation: 42,
+        zasArrivalMin: 28,
+        sirensCount: 2,
+        description: "Pilha de estéril em processo de revegetação nos taludes inferiores para controle de erosão superficial e dissipação de energia pluvial."
+    },
+    "Pde Es1": {
+        name: "PDE ES I",
+        type: "Pilha de Disposição de Estéril 1 (PDE ES I)",
+        constructMethod: "Aterro mecanizado com taludes 1V:2H",
+        status: "Estabilizada e monitorada",
+        cotaCrista: "850,00 m",
+        cotaBase: "815,00 m",
+        height: "35,00 m",
+        length: "310,0 m",
+        width: "12,0 m",
+        currentVolume: "1.200.000 m³",
+        totalCapacity: "1.500.000 m³",
+        freeboard: "3,80 m",
+        minFreeboard: "2,00 m (Projeto)",
+        spillway: "Canaletas em gabião tipo colchão reno e descidas d'água metálicas",
+        cri: "Baixo",
+        dpa: "Baixo",
+        classe: "Classe C",
+        gistmConsequence: "Low",
+        rtName: "Eng. Especialista Geotecnia (CREA-MG 122.304/D)",
+        rtfeName: "Eng. de Campo (CREA-MG 192.110/D)",
+        artNumber: "ART 2026/0228810-MG",
+        lastRpsbDate: "12/01/2026",
+        dceStatus: "DCE Positiva",
+        nextDceDate: "Setembro/2026",
+        emergencyLevel: 0,
+        zasPopulation: 10,
+        zasArrivalMin: 35,
+        sirensCount: 1,
+        description: "Estrutura conformada com drenagem superficial perimetral íntegra e sem registros históricos de anomalias críticas."
+    },
+    "Pilha B2": {
+        name: "Pilha B2",
+        type: "Pilha de Estéril e Rejeito Filtrado",
+        constructMethod: "Empilhamento drenado com enrocamento basal",
+        status: "Operação contínua de alteamento",
+        cotaCrista: "860,00 m",
+        cotaBase: "818,00 m",
+        height: "42,00 m",
+        length: "360,0 m",
+        width: "15,0 m",
+        currentVolume: "1.950.000 m³",
+        totalCapacity: "2.800.000 m³",
+        freeboard: "4,20 m",
+        minFreeboard: "2,50 m (Projeto)",
+        spillway: "Sistema de canaletas pré-moldadas e caixas de passagem",
+        cri: "Baixo",
+        dpa: "Alto",
+        classe: "Classe B",
+        gistmConsequence: "High",
+        rtName: "Eng. de Barragens e Pilhas (CREA-MG 115.670/D)",
+        rtfeName: "Eng. Responsável Técnico pela Operação (CREA-MG 189.431/D)",
+        artNumber: "ART 2026/0993411-MG",
+        lastRpsbDate: "22/03/2026",
+        dceStatus: "DCE Positiva",
+        nextDceDate: "Setembro/2026",
+        emergencyLevel: 0,
+        zasPopulation: 60,
+        zasArrivalMin: 19,
+        sirensCount: 3,
+        description: "Pilha com monitoramento de umidade e poropressão por corda vibrante, drenos de alívio e berma de jusante com contenção vegetal."
+    }
+};
+
+function openStructureDatasheetModal(structureName) {
+    const modal = document.getElementById("modal-structure-datasheet");
+    if (!modal) return;
+    populateDatasheetStructures();
+    if (structureName && STRUCTURE_TECHNICAL_DATASHEETS[structureName]) {
+        const select = document.getElementById("datasheet-structure-select");
+        if (select) select.value = structureName;
+    }
+    renderStructureDatasheetDetails();
+    modal.style.display = "flex";
+}
+
+function closeStructureDatasheetModal() {
+    const modal = document.getElementById("modal-structure-datasheet");
+    if (modal) modal.style.display = "none";
+}
+
+function populateDatasheetStructures() {
+    const select = document.getElementById("datasheet-structure-select");
+    if (!select || select.dataset.populated === "true") return;
+    select.innerHTML = Object.keys(STRUCTURE_TECHNICAL_DATASHEETS).map(name => 
+        `<option value="${name}">${name}</option>`
+    ).join("");
+    select.dataset.populated = "true";
+}
+
+function renderStructureDatasheetDetails() {
+    const select = document.getElementById("datasheet-structure-select");
+    const container = document.getElementById("datasheet-content-container");
+    if (!select || !container) return;
+    const structureName = select.value || Object.keys(STRUCTURE_TECHNICAL_DATASHEETS)[0];
+    const data = STRUCTURE_TECHNICAL_DATASHEETS[structureName];
+    if (!data) return;
+
+    container.innerHTML = `
+        <div class="datasheet-hero">
+            <div>
+                <h3 class="m-0" style="font-size: 20px; color: #fff;">${data.name}</h3>
+                <span style="font-size: 13px; color: #38bdf8; font-weight: 600;">${data.type}</span>
+                <p style="font-size: 12px; color: #cbd5e1; margin: 6px 0 0 0; max-width: 680px;">${data.description}</p>
+            </div>
+            <div style="text-align: right;">
+                <span class="status-badge ${data.emergencyLevel === 0 ? 'concluido' : 'pendente'}" style="font-size: 13px; padding: 6px 12px;">
+                    <i class="fa-solid fa-shield-halved"></i> Nível ${data.emergencyLevel} (ANM)
+                </span>
+                <div style="font-size: 11px; color: #94a3b8; margin-top: 6px;">Status: <strong>${data.status}</strong></div>
+            </div>
+        </div>
+
+        <div class="datasheet-grid">
+            <div class="datasheet-section-card">
+                <h4><i class="fa-solid fa-ruler-combined text-primary"></i> Geometria e Hidráulica</h4>
+                <table class="datasheet-specs-table">
+                    <tr><td>Cota da Crista</td><td>${data.cotaCrista}</td></tr>
+                    <tr><td>Cota do Fundo (Base)</td><td>${data.cotaBase}</td></tr>
+                    <tr><td>Altura Máxima Estrutural</td><td>${data.height}</td></tr>
+                    <tr><td>Comprimento do Coroamento</td><td>${data.length}</td></tr>
+                    <tr><td>Largura da Crista</td><td>${data.width}</td></tr>
+                    <tr><td>Volume Atual de Rejeito</td><td>${data.currentVolume}</td></tr>
+                    <tr><td>Capacidade Total da Bacia</td><td>${data.totalCapacity}</td></tr>
+                    <tr><td>Borda Livre Atual vs Mínima</td><td>${data.freeboard} (Mín: ${data.minFreeboard})</td></tr>
+                    <tr><td>Tipo de Extravasor</td><td>${data.spillway}</td></tr>
+                </table>
+            </div>
+
+            <div class="datasheet-section-card">
+                <h4><i class="fa-solid fa-scale-balanced text-primary"></i> Governança Regulatória & PAEBM</h4>
+                <table class="datasheet-specs-table">
+                    <tr><td>Categoria de Risco (CRI)</td><td><span class="badge ${data.cri === 'Baixo' ? 'badge-success' : 'badge-warning'}">${data.cri}</span></td></tr>
+                    <tr><td>Dano Potencial Associado (DPA)</td><td><span class="badge ${data.dpa === 'Alto' ? 'badge-danger' : 'badge-warning'}">${data.dpa}</span></td></tr>
+                    <tr><td>Classificação Integrada ANM</td><td><strong>${data.classe}</strong></td></tr>
+                    <tr><td>Classificação Global GISTM</td><td><span class="badge badge-outline">${data.gistmConsequence}</span></td></tr>
+                    <tr><td>Responsável Técnico Projeto (RT)</td><td>${data.rtName}</td></tr>
+                    <tr><td>Responsável Operação (RTFE)</td><td>${data.rtfeName}</td></tr>
+                    <tr><td>ART Vigente</td><td>${data.artNumber}</td></tr>
+                    <tr><td>Último RPSB Realizado</td><td>${data.lastRpsbDate}</td></tr>
+                    <tr><td>Status DCE Atual</td><td><strong class="text-success">${data.dceStatus}</strong></td></tr>
+                    <tr><td>Próxima DCE Obrigatória</td><td>${data.nextDceDate}</td></tr>
+                </table>
+            </div>
+        </div>
+    `;
+}
+
+function exportDatasheetPdfDocx() {
+    const select = document.getElementById("datasheet-structure-select");
+    const name = select ? select.value : "Estrutura";
+    const data = STRUCTURE_TECHNICAL_DATASHEETS[name];
+    if (!data) return;
+
+    const htmlContent = `
+        <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+        <head><title>Ficha Técnica Cadastral - ${escapeHtml(data.name)}</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; color: #1e293b; }
+            h1 { color: #0b3852; font-size: 20pt; border-bottom: 2px solid #41aebd; padding-bottom: 8px; }
+            h2 { color: #2273aa; font-size: 14pt; margin-top: 16pt; }
+            table { width: 100%; border-collapse: collapse; margin-top: 10pt; }
+            th, td { border: 1px solid #cbd5e1; padding: 8pt; font-size: 10pt; text-align: left; }
+            th { background-color: #f1f5f9; color: #0f172a; font-weight: bold; }
+        </style>
+        </head>
+        <body>
+            <h1>ITAMINAS MINERAÇÃO S.A. - SPLO GEOTECNIA</h1>
+            <p><strong>FICHA TÉCNICA CADASTRAL OFICIAL - MÓDULO 1 SYSDAM</strong></p>
+            <p>Emissão: ${formatDateTimeBR(new Date())} | Sistema MDSync</p>
+            <hr/>
+            <h2>1. Identificação Geral</h2>
+            <p><strong>Nome:</strong> ${escapeHtml(data.name)}</p>
+            <p><strong>Tipologia:</strong> ${escapeHtml(data.type)}</p>
+            <p><strong>Método Construtivo:</strong> ${escapeHtml(data.constructMethod)}</p>
+            <p><strong>Status Operacional:</strong> ${escapeHtml(data.status)}</p>
+            <p><strong>Descrição:</strong> ${escapeHtml(data.description)}</p>
+            <h2>2. Parâmetros Geométricos e Hidráulicos</h2>
+            <table>
+                <tr><th>Parâmetro</th><th>Valor de Projeto / Campo</th></tr>
+                <tr><td>Cota Crista</td><td>${escapeHtml(data.cotaCrista)}</td></tr>
+                <tr><td>Cota Base</td><td>${escapeHtml(data.cotaBase)}</td></tr>
+                <tr><td>Altura Máxima</td><td>${escapeHtml(data.height)}</td></tr>
+                <tr><td>Comprimento Coroamento</td><td>${escapeHtml(data.length)}</td></tr>
+                <tr><td>Largura Crista</td><td>${escapeHtml(data.width)}</td></tr>
+                <tr><td>Volume Atual Armazenado</td><td>${escapeHtml(data.currentVolume)}</td></tr>
+                <tr><td>Capacidade Total Reservatório</td><td>${escapeHtml(data.totalCapacity)}</td></tr>
+                <tr><td>Borda Livre Operacional</td><td>${escapeHtml(data.freeboard)}</td></tr>
+                <tr><td>Extravasor / Vertedouro</td><td>${escapeHtml(data.spillway)}</td></tr>
+            </table>
+            <h2>3. Enquadramento e Governança Regulatória</h2>
+            <table>
+                <tr><th>Item</th><th>Classificação Oficial</th></tr>
+                <tr><td>Categoria de Risco (CRI)</td><td>${escapeHtml(data.cri)}</td></tr>
+                <tr><td>Dano Potencial Associado (DPA)</td><td>${escapeHtml(data.dpa)}</td></tr>
+                <tr><td>Classe Integrada ANM 95/2022</td><td>${escapeHtml(data.classe)}</td></tr>
+                <tr><td>Padrão Global GISTM</td><td>${escapeHtml(data.gistmConsequence)}</td></tr>
+                <tr><td>Responsável Técnico Projeto (RT)</td><td>${escapeHtml(data.rtName)}</td></tr>
+                <tr><td>Responsável Operação (RTFE)</td><td>${escapeHtml(data.rtfeName)}</td></tr>
+                <tr><td>ART Vigente</td><td>${escapeHtml(data.artNumber)}</td></tr>
+                <tr><td>Status da DCE</td><td>${escapeHtml(data.dceStatus)}</td></tr>
+            </table>
+        </body>
+        </html>
+    `;
+    const blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `Ficha_Tecnica_${data.name.replace(/\s+/g, '_')}_SYSDAM.doc`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    if (typeof showToast === "function") showToast("Ficha Cadastral baixada com sucesso.", "success");
+}
+
+// --- MÓDULO 4: PLANO DE AÇÃO CORRETIVA (ACTION PLAN TRACKER) ---
+const ACTION_PLAN_STORAGE_KEY = "mdsync_action_plan_v1";
+
+const DEFAULT_ACTION_PLAN_ITEMS = [
+    {
+        id: "ACT-001",
+        structure: "Barragem B1",
+        anomaly: "Desgaste de argamassa em junta de dilatação da canaleta de crista (Estaca 12 a 15)",
+        action: "Recompor argamassa armada e selar juntas com mastique asfáltico elastomérico.",
+        assignee: "Eng. Geotécnico de Campo",
+        deadline: "2026-09-14",
+        priority: "Média",
+        status: "Em Andamento",
+        closureNotes: "",
+        createdAt: "2026-09-01"
+    },
+    {
+        id: "ACT-002",
+        structure: "PDE Jacó",
+        anomaly: "Sedimentação e assoreamento na bacia de amortecimento do extravasor norte",
+        action: "Remover material assoreado por sucção e desobstruir tela metálica de retenção de finos.",
+        assignee: "Equipe de Manutenção Civil",
+        deadline: "2026-09-10",
+        priority: "Alta",
+        status: "Pendente",
+        closureNotes: "",
+        createdAt: "2026-09-02"
+    },
+    {
+        id: "ACT-003",
+        structure: "Pilha B2",
+        anomaly: "Erosão em sulco incipiente na berma 2 após precipitação pluviométrica de 48 mm",
+        action: "Reconformar berma com camada de enrocamento graduado e direcionar escoamento para descida d'água.",
+        assignee: "Supervisor de Terraplenagem",
+        deadline: "2026-09-08",
+        priority: "Alta",
+        status: "Concluído",
+        closureNotes: "OS-8491 executada com sucesso em 03/09/2026. Berma estabilizada com geotêxtil e rachão.",
+        createdAt: "2026-08-30",
+        resolvedAt: "2026-09-03"
+    },
+    {
+        id: "ACT-004",
+        structure: "Barragem B4",
+        anomaly: "Presença de vegetação de porte arbustivo na berma intermediária de jusante",
+        action: "Realizar roçada e remoção manual de raízes arbustivas, mantendo cobertura vegetal rasteira de gramíneas.",
+        assignee: "Equipe de Meio Ambiente",
+        deadline: "2026-09-18",
+        priority: "Baixa",
+        status: "Concluído",
+        closureNotes: "Roçada concluída em 02/09/2026. Talude liberado sem interferência no sistema drenante.",
+        createdAt: "2026-08-28",
+        resolvedAt: "2026-09-02"
+    },
+    {
+        id: "ACT-005",
+        structure: "Cava Jangada",
+        anomaly: "Calibração periódica de transdutor elétrico de poropressão PZ-04",
+        action: "Enviar unidade de leitura (readout) e sensor para aferição metrológica com calibração RBC.",
+        assignee: "Técnico de Instrumentação",
+        deadline: "2026-09-12",
+        priority: "Média",
+        status: "Em Andamento",
+        closureNotes: "",
+        createdAt: "2026-09-03"
+    }
+];
+
+function getActionPlanItems() {
+    try {
+        const stored = localStorage.getItem(ACTION_PLAN_STORAGE_KEY);
+        if (stored) {
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed) && parsed.length) return parsed;
+        }
+    } catch (e) {
+        console.warn("Erro ao ler plano de ação do localStorage", e);
+    }
+    saveActionPlanItems(DEFAULT_ACTION_PLAN_ITEMS);
+    return DEFAULT_ACTION_PLAN_ITEMS;
+}
+
+function saveActionPlanItems(items) {
+    try {
+        localStorage.setItem(ACTION_PLAN_STORAGE_KEY, JSON.stringify(items));
+    } catch (e) {
+        console.warn("Erro ao salvar plano de ação no localStorage", e);
+    }
+}
+
+function populateActionFilterStructures() {
+    const select = document.getElementById("action-filter-structure");
+    if (!select || select.dataset.populated === "true") return;
+    const structures = Object.keys(STRUCTURE_TECHNICAL_DATASHEETS);
+    select.innerHTML = `<option value="all">Todas as Estruturas</option>` + structures.map(s => 
+        `<option value="${s}">${s}</option>`
+    ).join("");
+    select.dataset.populated = "true";
+}
+
+function renderActionPlanTable() {
+    populateActionFilterStructures();
+    const items = getActionPlanItems();
+    const filterStructure = document.getElementById("action-filter-structure")?.value || "all";
+    const filterStatus = document.getElementById("action-filter-status")?.value || "all";
+    const filterPriority = document.getElementById("action-filter-priority")?.value || "all";
+    const searchText = (document.getElementById("action-search-input")?.value || "").toLowerCase().trim();
+
+    const todayStr = new Date().toISOString().substring(0, 10);
+
+    // Filter items
+    const filtered = items.filter(item => {
+        if (filterStructure !== "all" && item.structure !== filterStructure) return false;
+        if (filterStatus !== "all" && item.status !== filterStatus) return false;
+        if (filterPriority !== "all" && item.priority !== filterPriority) return false;
+        if (searchText) {
+            const match = (item.id + " " + item.structure + " " + item.anomaly + " " + item.action + " " + item.assignee).toLowerCase();
+            if (!match.includes(searchText)) return false;
+        }
+        return true;
+    });
+
+    // Calculate stats
+    const total = items.length;
+    const pending = items.filter(i => i.status === "Pendente").length;
+    const progress = items.filter(i => i.status === "Em Andamento").length;
+    const done = items.filter(i => i.status === "Concluído").length;
+    const overdue = items.filter(i => i.status !== "Concluído" && i.deadline && i.deadline < todayStr).length;
+
+    const elTotal = document.getElementById("stat-action-total");
+    const elPending = document.getElementById("stat-action-pending");
+    const elProgress = document.getElementById("stat-action-progress");
+    const elDone = document.getElementById("stat-action-done");
+    const elOverdue = document.getElementById("stat-action-overdue");
+
+    if (elTotal) elTotal.textContent = total;
+    if (elPending) elPending.textContent = pending;
+    if (elProgress) elProgress.textContent = progress;
+    if (elDone) elDone.textContent = done;
+    if (elOverdue) elOverdue.textContent = overdue;
+
+    const tbody = document.getElementById("action-plan-table-body");
+    if (!tbody) return;
+
+    if (!filtered.length) {
+        tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding: 24px; color: #94a3b8;">Nenhuma tratativa encontrada com os filtros selecionados.</td></tr>`;
+        return;
+    }
+
+    tbody.innerHTML = filtered.map(item => {
+        const isOverdue = item.status !== "Concluído" && item.deadline && item.deadline < todayStr;
+        const priorityClass = normalizeComparable(item.priority);
+        const statusClass = normalizeComparable(item.status);
+
+        return `
+            <tr>
+                <td><strong>${item.id}</strong></td>
+                <td><span class="badge badge-outline">${item.structure}</span></td>
+                <td style="max-width: 220px; font-weight:600;">${item.anomaly}</td>
+                <td style="max-width: 260px; color: #cbd5e1;">${item.action}</td>
+                <td>${item.assignee}</td>
+                <td>
+                    <span style="${isOverdue ? 'color:#ef4444; font-weight:700;' : ''}">
+                        ${item.deadline ? item.deadline.split('-').reverse().join('/') : '-'}
+                        ${isOverdue ? ' <i class="fa-solid fa-triangle-exclamation text-danger" title="Prazo vencido"></i>' : ''}
+                    </span>
+                </td>
+                <td><span class="priority-badge ${priorityClass}">${item.priority}</span></td>
+                <td><span class="status-badge ${statusClass}">${item.status}</span></td>
+                <td>
+                    <div style="display:flex; gap:6px;">
+                        ${item.status !== 'Concluído' ? `
+                            <button type="button" class="btn btn-outline btn-sm" onclick="resolveActionWithEvidence('${item.id}')" title="Concluir com evidência">
+                                <i class="fa-solid fa-check text-success"></i> Concluir
+                            </button>
+                        ` : `
+                            <button type="button" class="btn btn-outline btn-sm" onclick="openEditActionModal('${item.id}')" title="Ver detalhes de fechamento">
+                                <i class="fa-solid fa-eye text-primary"></i> Detalhes
+                            </button>
+                        `}
+                        <button type="button" class="btn btn-outline btn-sm" onclick="openEditActionModal('${item.id}')" title="Editar">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join("");
+}
+
+function openNewActionModal() {
+    const modal = document.getElementById("modal-action-plan-item");
+    const form = document.getElementById("action-plan-form");
+    if (!modal || !form) return;
+    form.reset();
+    document.getElementById("action-item-id").value = "";
+    document.getElementById("action-item-modal-title").innerHTML = `<i class="fa-solid fa-clipboard-check text-primary"></i> Nova Tratativa Geotécnica`;
+    
+    // Default deadline: +7 days
+    const nextWeek = new Date();
+    nextWeek.setDate(nextWeek.getDate() + 7);
+    document.getElementById("action-item-deadline").value = nextWeek.toISOString().substring(0, 10);
+
+    modal.style.display = "flex";
+}
+
+function openEditActionModal(actionId) {
+    const items = getActionPlanItems();
+    const item = items.find(i => i.id === actionId);
+    if (!item) return;
+
+    const modal = document.getElementById("modal-action-plan-item");
+    if (!modal) return;
+
+    document.getElementById("action-item-id").value = item.id;
+    document.getElementById("action-item-structure").value = item.structure;
+    document.getElementById("action-item-priority").value = item.priority;
+    document.getElementById("action-item-anomaly").value = item.anomaly;
+    document.getElementById("action-item-action").value = item.action;
+    document.getElementById("action-item-assignee").value = item.assignee;
+    document.getElementById("action-item-deadline").value = item.deadline || "";
+    document.getElementById("action-item-status").value = item.status;
+    document.getElementById("action-item-closure-notes").value = item.closureNotes || "";
+
+    document.getElementById("action-item-modal-title").innerHTML = `<i class="fa-solid fa-pen-to-square text-primary"></i> Editar Tratativa [${item.id}]`;
+    modal.style.display = "flex";
+}
+
+function closeActionPlanModal() {
+    const modal = document.getElementById("modal-action-plan-item");
+    if (modal) modal.style.display = "none";
+}
+
+function saveActionPlanItem(event) {
+    event.preventDefault();
+    const idField = document.getElementById("action-item-id").value;
+    const structure = document.getElementById("action-item-structure").value;
+    const priority = document.getElementById("action-item-priority").value;
+    const anomaly = document.getElementById("action-item-anomaly").value;
+    const action = document.getElementById("action-item-action").value;
+    const assignee = document.getElementById("action-item-assignee").value;
+    const deadline = document.getElementById("action-item-deadline").value;
+    const status = document.getElementById("action-item-status").value;
+    const closureNotes = document.getElementById("action-item-closure-notes").value;
+
+    const items = getActionPlanItems();
+
+    if (idField) {
+        // Edit existing
+        const index = items.findIndex(i => i.id === idField);
+        if (index !== -1) {
+            items[index] = {
+                ...items[index],
+                structure,
+                priority,
+                anomaly,
+                action,
+                assignee,
+                deadline,
+                status,
+                closureNotes,
+                resolvedAt: status === "Concluído" ? (items[index].resolvedAt || new Date().toISOString().substring(0, 10)) : ""
+            };
+        }
+    } else {
+        // Create new
+        const newId = "ACT-" + String(items.length + 1).padStart(3, "0");
+        items.unshift({
+            id: newId,
+            structure,
+            priority,
+            anomaly,
+            action,
+            assignee,
+            deadline,
+            status,
+            closureNotes,
+            createdAt: new Date().toISOString().substring(0, 10),
+            resolvedAt: status === "Concluído" ? new Date().toISOString().substring(0, 10) : ""
+        });
+    }
+
+    saveActionPlanItems(items);
+    closeActionPlanModal();
+    renderActionPlanTable();
+    if (typeof showToast === "function") showToast("Tratativa salva com sucesso no Plano de Ação.", "success");
+}
+
+function resolveActionWithEvidence(actionId) {
+    const notes = prompt("Digite as notas de fechamento / evidência de conclusão da tratativa (ex: OS concluída, laudo fotográfico conforme):");
+    if (notes === null) return; // cancelado
+    const items = getActionPlanItems();
+    const index = items.findIndex(i => i.id === actionId);
+    if (index !== -1) {
+        items[index].status = "Concluído";
+        items[index].closureNotes = notes.trim() || "Tratativa concluída e verificada em campo.";
+        items[index].resolvedAt = new Date().toISOString().substring(0, 10);
+        saveActionPlanItems(items);
+        renderActionPlanTable();
+        if (typeof showToast === "function") showToast(`Tratativa ${actionId} concluída com sucesso!`, "success");
+    }
+}
+
+function syncInspectionToActionPlan(inspection) {
+    if (!inspection) return;
+    const items = getActionPlanItems();
+    let actionsAdded = 0;
+
+    // Check if inspection had positive anomalies or High risk
+    const positiveAnomalies = Array.isArray(inspection.anomalias) ? inspection.anomalias.filter(a => a.value === "sim") : [];
+    
+    if (positiveAnomalies.length > 0) {
+        positiveAnomalies.forEach(ano => {
+            const newId = "ACT-" + String(items.length + 1).padStart(3, "0");
+            const priority = inspection.criticality === "Crítica" ? "Crítica" : (inspection.insRisk === "Alto" ? "Alta" : "Média");
+            const nextDate = new Date();
+            nextDate.setDate(nextDate.getDate() + (priority === "Crítica" ? 3 : (priority === "Alta" ? 7 : 15)));
+
+            items.unshift({
+                id: newId,
+                structure: inspection.structure || "Estrutura Geral",
+                anomaly: ano.title || "Anomalia de campo",
+                action: `Intervenção geotécnica corretiva: ${ano.description || ano.title}. Notas de campo: ${ano.obs || 'Verificar e retificar na vistoria'}.`,
+                assignee: "Eng. Geotécnico de Campo",
+                deadline: nextDate.toISOString().substring(0, 10),
+                priority: priority,
+                status: "Pendente",
+                closureNotes: "",
+                createdAt: new Date().toISOString().substring(0, 10)
+            });
+            actionsAdded++;
+        });
+        saveActionPlanItems(items);
+        renderActionPlanTable();
+        if (typeof showToast === "function") {
+            showToast(`${actionsAdded} tratativa(s) gerada(s) automaticamente no Plano de Ação!`, "success");
+        }
+    }
+}
+
+// --- MÓDULO 5: GESTÃO DE RISCOS & FMEA (MODOS DE FALHA GEOTÉCNICOS) ---
+const FMEA_FAILURE_MODES = [
+    {
+        id: "liquefaction",
+        code: "MF-01",
+        name: "Liquefação Estática / Dinâmica",
+        trigger: "Elevação rápida de poro-pressão u em rejeitos não drenados contráteis sob carregamento rápido ou sismo.",
+        S: 5,
+        O: 1,
+        D: 2,
+        rpn: 10,
+        threshold: "Poro-pressão u (kPa) e linha de estado crítico (CSL). Monitoramento piezométrico contínuo em frequências (Hz) com termocompensação.",
+        barriers: [
+            "Sistema ativo de rebaixamento do lençol freático por ponteiras e poços de alívio.",
+            "Monitoramento diário de piezômetros com critério TARP a 80% (Bo & Barrett, 2010).",
+            "Campanhas periódicas de ensaios de CPTu e SCPTu para determinação do estado de contração.",
+            "Interdição imediata de tráfego de equipamentos pesados sobre rejeito saturado."
+        ]
+    },
+    {
+        id: "piping",
+        code: "MF-02",
+        name: "Piping (Erosão Interna) & Carreador de Finos",
+        trigger: "Gradiente hidráulico de saída crítico nos filtros ou transições de dreno de fundo com carreamento de partículas de solo.",
+        S: 4,
+        O: 2,
+        D: 2,
+        rpn: 16,
+        threshold: "Turbidez da água de drenagem (NTU) e vazão de percolação Q (L/s). Regra prática: aumento súbito de vazão com água turva indica erosão ativa.",
+        barriers: [
+            "Inspeções visuais em medidores de vazão (MV) com teste de turvação.",
+            "Filtros de transição granulométrica projetados com critério de Terzaghi (D15/d85 < 5).",
+            "Monitoramento quinzenal de condutividade elétrica da água e sólidos em suspensão.",
+            "Limpeza e desobstrução preventiva de bacias de descarga e drenos coletores."
+        ]
+    },
+    {
+        id: "slope_instability",
+        code: "MF-03",
+        name: "Instabilidade Global de Talude (Cisalhamento)",
+        trigger: "Elevação da linha freática provocando redução da tensão efetiva (σ' = σ - u) e deslizamento rotacional ou translacional.",
+        S: 4,
+        O: 2,
+        D: 2,
+        rpn: 16,
+        threshold: "Fator de Segurança mínimo (NBR 13028: FS drenado ≥ 1.50, não-drenado ≥ 1.30, pseudo-estático ≥ 1.10). Deslocamentos milimétricos em marcos superficiais.",
+        barriers: [
+            "Leitura semanal de marcos topográficos e sensores de deslocamento.",
+            "Inspeção visual sistemática para mapeamento de trincas de tração longitudinais ou degraus.",
+            "Reperfilamento de taludes e compactação de bermas de estabilização.",
+            "Drenagem superficial com canaletas impermeabilizadas para evitar infiltração direta."
+        ]
+    },
+    {
+        id: "overtopping",
+        code: "MF-04",
+        name: "Galgamento (Overtopping / Transbordamento)",
+        trigger: "Evento hidrológico extremo (chuva decamilenar TR 10.000 anos) associado a obstrução ou insuficiência do vertedouro.",
+        S: 5,
+        O: 1,
+        D: 1,
+        rpn: 5,
+        threshold: "Borda Livre Operacional BL (m) ≥ 2.0 m. Precipitação acumulada em 24h e 72h cruzada com curva cota-volume-área.",
+        barriers: [
+            "Vertedouro dimensionado para cheia decamilenar (PMP) com folga de segurança.",
+            "Monitoramento contínuo das estações pluviométricas automáticas da mina.",
+            "Inspeção e limpeza imediata de galhos, vegetação e resíduos no canal do extravasor.",
+            "Plano de contingência com bombas reserva de drenagem profunda instaladas na bacia."
+        ]
+    }
+];
+
+function openFmeaModal(structureName) {
+    const modal = document.getElementById("modal-fmea-risk");
+    if (!modal) return;
+    populateFmeaStructures();
+    if (structureName && STRUCTURE_TECHNICAL_DATASHEETS[structureName]) {
+        const select = document.getElementById("fmea-structure-select");
+        if (select) select.value = structureName;
+    }
+    updateFmeaAnalysis();
+    modal.style.display = "flex";
+}
+
+function closeFmeaModal() {
+    const modal = document.getElementById("modal-fmea-risk");
+    if (modal) modal.style.display = "none";
+}
+
+function populateFmeaStructures() {
+    const select = document.getElementById("fmea-structure-select");
+    if (!select || select.dataset.populated === "true") return;
+    select.innerHTML = Object.keys(STRUCTURE_TECHNICAL_DATASHEETS).map(name => 
+        `<option value="${name}">${name}</option>`
+    ).join("");
+    select.dataset.populated = "true";
+}
+
+function onFmeaParamChange(modeId, param, value) {
+    const mode = FMEA_FAILURE_MODES.find(m => m.id === modeId);
+    if (!mode) return;
+    mode[param] = parseInt(value, 10);
+    mode.rpn = mode.S * mode.O * mode.D;
+    updateFmeaAnalysis();
+}
+
+function updateFmeaAnalysis() {
+    renderFmeaCards();
+    renderRiskMatrix5x5();
+}
+
+function getRpnCategory(rpn) {
+    if (rpn <= 30) return { label: "Baixo", class: "low" };
+    if (rpn <= 70) return { label: "Moderado", class: "moderate" };
+    if (rpn <= 120) return { label: "Alto", class: "high" };
+    return { label: "Crítico", class: "critical" };
+}
+
+function renderFmeaCards() {
+    const container = document.getElementById("fmea-cards-container");
+    if (!container) return;
+
+    container.innerHTML = FMEA_FAILURE_MODES.map(mode => {
+        const cat = getRpnCategory(mode.rpn);
+        return `
+            <div class="fmea-card">
+                <div class="fmea-card-header">
+                    <div>
+                        <span class="badge badge-outline text-xs">${mode.code}</span>
+                        <strong style="color: #fff; margin-left: 6px; font-size: 13px;">${mode.name}</strong>
+                    </div>
+                    <div class="rpn-gauge ${cat.class}">
+                        <span style="font-size: 16px;">${mode.rpn}</span>
+                        <span style="font-size: 9px; text-transform: uppercase;">RPN (${cat.label})</span>
+                    </div>
+                </div>
+                <div style="font-size: 11.5px; color: #cbd5e1; margin-bottom: 8px;">
+                    <strong>Gatilho FMEA:</strong> ${mode.trigger}
+                </div>
+
+                <div class="fmea-params-steppers">
+                    <div class="fmea-stepper-box">
+                        <label>Severidade (S)</label>
+                        <select onchange="onFmeaParamChange('${mode.id}', 'S', this.value)">
+                            ${[1,2,3,4,5].map(v => `<option value="${v}" ${mode.S === v ? 'selected' : ''}>${v} - ${getSeverityLabel(v)}</option>`).join("")}
+                        </select>
+                    </div>
+                    <div class="fmea-stepper-box">
+                        <label>Ocorrência (O)</label>
+                        <select onchange="onFmeaParamChange('${mode.id}', 'O', this.value)">
+                            ${[1,2,3,4,5].map(v => `<option value="${v}" ${mode.O === v ? 'selected' : ''}>${v} - ${getOccurrenceLabel(v)}</option>`).join("")}
+                        </select>
+                    </div>
+                    <div class="fmea-stepper-box">
+                        <label>Detecção (D)</label>
+                        <select onchange="onFmeaParamChange('${mode.id}', 'D', this.value)">
+                            ${[1,2,3,4,5].map(v => `<option value="${v}" ${mode.D === v ? 'selected' : ''}>${v} - ${getDetectionLabel(v)}</option>`).join("")}
+                        </select>
+                    </div>
+                </div>
+
+                <div style="font-size: 11px; color: #38bdf8; margin-top: 6px;">
+                    <i class="fa-solid fa-gauge-high"></i> <strong>Limiar Crítico:</strong> ${mode.threshold}
+                </div>
+
+                <div style="margin-top: 8px;">
+                    <strong style="font-size: 11px; color: #e2e8f0;"><i class="fa-solid fa-shield-halved text-success"></i> Barreiras Preventivas:</strong>
+                    <ul class="fmea-barriers-list">
+                        ${mode.barriers.map(b => `<li>${b}</li>`).join("")}
+                    </ul>
+                </div>
+            </div>
+        `;
+    }).join("");
+}
+
+function getSeverityLabel(val) {
+    const labels = { 1: "Desprezível", 2: "Menor", 3: "Moderada", 4: "Grave", 5: "Catastrófica" };
+    return labels[val] || val;
+}
+function getOccurrenceLabel(val) {
+    const labels = { 1: "Rara", 2: "Baixa", 3: "Média", 4: "Alta", 5: "Frequente" };
+    return labels[val] || val;
+}
+function getDetectionLabel(val) {
+    const labels = { 1: "Imediata", 2: "Rápida", 3: "Moderada", 4: "Difícil", 5: "Indetectável" };
+    return labels[val] || val;
+}
+
+function renderRiskMatrix5x5() {
+    const container = document.getElementById("matrix-grid-5x5");
+    if (!container) return;
+
+    let html = `
+        <div style="font-weight:bold; color:#94a3b8; font-size:10px; display:flex; align-items:center; justify-content:center;">Sev \\ Ocor</div>
+        <div style="text-align:center; color:#94a3b8; font-size:10px; font-weight:bold;">1 (Rara)</div>
+        <div style="text-align:center; color:#94a3b8; font-size:10px; font-weight:bold;">2 (Baixa)</div>
+        <div style="text-align:center; color:#94a3b8; font-size:10px; font-weight:bold;">3 (Média)</div>
+        <div style="text-align:center; color:#94a3b8; font-size:10px; font-weight:bold;">4 (Alta)</div>
+        <div style="text-align:center; color:#94a3b8; font-size:10px; font-weight:bold;">5 (Freq)</div>
+    `;
+
+    // Rows: Severidade 5 down to 1
+    for (let s = 5; s >= 1; s--) {
+        html += `<div style="display:flex; align-items:center; font-weight:bold; color:#94a3b8; font-size:10px;">${s} - ${getSeverityLabel(s)}</div>`;
+        for (let o = 1; o <= 5; o++) {
+            const riskProduct = s * o;
+            let cellClass = "c-green";
+            if (riskProduct >= 15) cellClass = "c-red";
+            else if (riskProduct >= 9) cellClass = "c-orange";
+            else if (riskProduct >= 5) cellClass = "c-yellow";
+
+            // Check if any failure mode is in this cell (S == s && O == o)
+            const matches = FMEA_FAILURE_MODES.filter(m => m.S === s && m.O === o);
+            let pinsHtml = "";
+            if (matches.length > 0) {
+                pinsHtml = matches.map(m => `<span class="matrix-pin-badge" title="${m.name} (RPN: ${m.rpn})">${m.code.replace('MF-0','')}</span>`).join("");
+            }
+
+            html += `
+                <div class="matrix-cell ${cellClass}">
+                    <span>${riskProduct}</span>
+                    ${pinsHtml}
+                </div>
+            `;
+        }
+    }
+
+    container.innerHTML = html;
+}
+
+function exportFmeaReportDocx() {
+    const select = document.getElementById("fmea-structure-select");
+    const name = select ? select.value : "Estrutura Geral";
+
+    const htmlContent = `
+        <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+        <head><title>Laudo FMEA Geotécnico - ${escapeHtml(name)}</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; color: #1e293b; }
+            h1 { color: #0b3852; font-size: 18pt; border-bottom: 2px solid #41aebd; padding-bottom: 6px; }
+            h2 { color: #2273aa; font-size: 13pt; margin-top: 14pt; }
+            table { width: 100%; border-collapse: collapse; margin-top: 8pt; }
+            th, td { border: 1px solid #cbd5e1; padding: 6pt 8pt; font-size: 9.5pt; text-align: left; }
+            th { background-color: #f1f5f9; color: #0f172a; font-weight: bold; }
+        </style>
+        </head>
+        <body>
+            <h1>ITAMINAS MINERAÇÃO S.A. - SPLO GEOTECNIA</h1>
+            <p><strong>LAUDO DE AVALIAÇÃO DE RISCOS GEOTÉCNICOS (FMEA) - MÓDULO 5 SYSDAM</strong></p>
+            <p>Estrutura Avaliada: <strong>${escapeHtml(name)}</strong> | Emissão: ${formatDateTimeBR(new Date())}</p>
+            <hr/>
+            <h2>1. Matriz de Modos de Falha Geotécnicos & RPN</h2>
+            <table>
+                <tr>
+                    <th>Código</th>
+                    <th>Modo de Falha</th>
+                    <th>Gatilho Operacional</th>
+                    <th>S</th>
+                    <th>O</th>
+                    <th>D</th>
+                    <th>RPN</th>
+                    <th>Classificação</th>
+                </tr>
+                ${FMEA_FAILURE_MODES.map(m => {
+                    const cat = getRpnCategory(m.rpn);
+                    return `
+                        <tr>
+                            <td><strong>${m.code}</strong></td>
+                            <td><strong>${escapeHtml(m.name)}</strong></td>
+                            <td>${escapeHtml(m.trigger)}</td>
+                            <td>${m.S}</td>
+                            <td>${m.O}</td>
+                            <td>${m.D}</td>
+                            <td><strong>${m.rpn}</strong></td>
+                            <td><strong>${cat.label}</strong></td>
+                        </tr>
+                    `;
+                }).join("")}
+            </table>
+            <h2>2. Barreiras Preventivas e Mitigadoras Implementadas</h2>
+            ${FMEA_FAILURE_MODES.map(m => `
+                <p><strong>${m.code} - ${escapeHtml(m.name)}:</strong></p>
+                <ul>
+                    ${m.barriers.map(b => `<li>${escapeHtml(b)}</li>`).join("")}
+                </ul>
+            `).join("")}
+        </body>
+        </html>
+    `;
+    const blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `Laudo_FMEA_${name.replace(/\s+/g, '_')}_SYSDAM.doc`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    if (typeof showToast === "function") showToast("Laudo FMEA baixado com sucesso.", "success");
+}
+
+// --- MÓDULO 6: ALERT & GESTÃO DE EMERGÊNCIA (PAEBM) ---
+const ALERT_PAEBM_LEVELS = [
+    {
+        level: 0,
+        title: "Nível 0: Normalidade Operacional",
+        badge: "Normal",
+        badgeClass: "lvl-0",
+        description: "Instrumentos piezométricos, vazões e marcos topográficos operando estritamente dentro da faixa normal de TARP. Inspeções sem anomalias com pontuação de risco.",
+        actions: "Rotina de leitura regular pelos leituristas. Relatórios quinzenais e inspeções visuais mensais."
+    },
+    {
+        level: 1,
+        title: "Nível 1: Atenção Técnica (Res. ANM 95/2022)",
+        badge: "Atenção",
+        badgeClass: "lvl-1",
+        description: "Anomalia que não extingue em inspeção ou ultrapassagem do nível de controle de instrumentação (ex: TARP 80% atingido). Sem risco iminente de ruptura.",
+        actions: "Notificação imediata no SIGBM pela ITAMINAS. Vistorias diárias pelo RTFE e intensificação de leituras para periodicidade diária."
+    },
+    {
+        level: 2,
+        title: "Nível 2: Alerta / Potencial Ruptura (Res. ANM 95/2022)",
+        badge: "Alerta",
+        badgeClass: "lvl-2",
+        description: "Anomalia classificada como não controlada, Fator de Segurança abaixo dos mínimos normativos ou aceleração de deformação em radar de talude.",
+        actions: "Notificação imediata à Defesa Civil Municipal e Estadual. Prontidão total do PAEBM, preparação de equipes e aviso à população da ZAS."
+    },
+    {
+        level: 3,
+        title: "Nível 3: Ruptura Iminente ou em Curso (Res. ANM 95/2022)",
+        badge: "Emergência",
+        badgeClass: "lvl-3",
+        description: "Constatação de risco iminente de ruptura estrutural ou rompimento já iniciado.",
+        actions: "Acionamento imediato de sirenes sonoras do PAEBM. Evacuação imediata da ZAS em direção aos Pontos de Encontro e fechamento de acessos."
+    }
+];
+
+function openAlertPaebmModal(structureName) {
+    const modal = document.getElementById("modal-alert-paebm");
+    if (!modal) return;
+    populateAlertStructures();
+    if (structureName && STRUCTURE_TECHNICAL_DATASHEETS[structureName]) {
+        const select = document.getElementById("alert-structure-select");
+        if (select) select.value = structureName;
+    }
+    renderAlertPaebmDetails();
+    modal.style.display = "flex";
+}
+
+function closeAlertPaebmModal() {
+    const modal = document.getElementById("modal-alert-paebm");
+    if (modal) modal.style.display = "none";
+}
+
+function populateAlertStructures() {
+    const select = document.getElementById("alert-structure-select");
+    if (!select || select.dataset.populated === "true") return;
+    select.innerHTML = Object.keys(STRUCTURE_TECHNICAL_DATASHEETS).map(name => 
+        `<option value="${name}">${name}</option>`
+    ).join("");
+    select.dataset.populated = "true";
+}
+
+function renderAlertPaebmDetails() {
+    const select = document.getElementById("alert-structure-select");
+    const container = document.getElementById("alert-structure-operational-details");
+    const levelsDeck = document.getElementById("alert-levels-deck");
+    if (!select || !container || !levelsDeck) return;
+
+    const structureName = select.value || Object.keys(STRUCTURE_TECHNICAL_DATASHEETS)[0];
+    const data = STRUCTURE_TECHNICAL_DATASHEETS[structureName];
+    if (!data) return;
+
+    const currentLevel = data.emergencyLevel;
+
+    // Render levels deck
+    levelsDeck.innerHTML = ALERT_PAEBM_LEVELS.map(lvl => `
+        <div class="alert-level-card ${lvl.badgeClass} ${currentLevel === lvl.level ? 'active' : ''}" onclick="selectEmergencyLevel(${lvl.level})">
+            <span class="lvl-tag ${lvl.badgeClass}">${lvl.badge}</span>
+            <strong style="display:block; color:#fff; font-size:12.5px; margin-bottom:4px;">${lvl.title}</strong>
+            <p style="font-size:11px; color:#cbd5e1; margin:0 0 6px 0;">${lvl.description}</p>
+            <div style="font-size:10.5px; color:#94a3b8;"><strong>Ação ANM:</strong> ${lvl.actions}</div>
+        </div>
+    `).join("");
+
+    // Render operational stats
+    container.innerHTML = `
+        <div class="alert-zas-panel">
+            <div class="zas-metric-card">
+                <span class="num">${data.zasPopulation}</span>
+                <span class="lbl">População Residente na ZAS</span>
+            </div>
+            <div class="zas-metric-card">
+                <span class="num">${data.zasArrivalMin} min</span>
+                <span class="lbl">Tempo Crítico Fuga (Dam Break)</span>
+            </div>
+            <div class="zas-metric-card">
+                <span class="num">${data.sirensCount}</span>
+                <span class="lbl">Sirenes Instaladas & Operacionais</span>
+            </div>
+            <div class="zas-metric-card">
+                <span class="num" style="color:#22c55e;">100%</span>
+                <span class="lbl">Telemetria & Baterias OK</span>
+            </div>
+        </div>
+
+        <div class="datasheet-grid" style="margin-top:14px;">
+            <div class="datasheet-section-card">
+                <h4><i class="fa-solid fa-person-walking-dashed-line-arrow-right text-primary"></i> Rotas de Fuga & Pontos de Encontro (PE)</h4>
+                <table class="datasheet-specs-table">
+                    <tr><td>Ponto de Encontro 01 (PE-01)</td><td>Trevo Norte - Estrada Municipal (Capacidade: 200 pessoas)</td></tr>
+                    <tr><td>Ponto de Encontro 02 (PE-02)</td><td>Acesso Superior Mina Engenho Seco (Capacidade: 150 pessoas)</td></tr>
+                    <tr><td>Ponto de Encontro 03 (PE-03)</td><td>Plataforma Administrativa Central (Capacidade: 300 pessoas)</td></tr>
+                    <tr><td>Sinalização de Campo</td><td>100% das placas refletivas em conformidade com ABNT NBR 13434</td></tr>
+                    <tr><td>Simulado de Evacuação</td><td>Último simulado prático com comunidade: 14/06/2026</td></tr>
+                </table>
+            </div>
+
+            <div class="datasheet-section-card">
+                <h4><i class="fa-solid fa-phone-volume text-primary"></i> Matriz de Notificação de Emergência 24h</h4>
+                <table class="datasheet-specs-table">
+                    <tr><td>Defesa Civil Sarzedo / Ibirité</td><td>(31) 3577-7700 / (31) 2129-2400</td></tr>
+                    <tr><td>Corpo de Bombeiros Militar de MG</td><td><strong>193</strong></td></tr>
+                    <tr><td>Polícia Militar Rodoviária</td><td>(31) 3389-9000</td></tr>
+                    <tr><td>Plantão ANM Barragens</td><td>(61) 3312-6699</td></tr>
+                    <tr><td>Sala de Situação ITAMINAS (24h)</td><td>(31) 3577-9000 (Ramal 9100)</td></tr>
+                </table>
+            </div>
+        </div>
+    `;
+}
+
+function selectEmergencyLevel(level) {
+    const select = document.getElementById("alert-structure-select");
+    const name = select ? select.value : Object.keys(STRUCTURE_TECHNICAL_DATASHEETS)[0];
+    const data = STRUCTURE_TECHNICAL_DATASHEETS[name];
+    if (!data) return;
+
+    data.emergencyLevel = level;
+    renderAlertPaebmDetails();
+    if (typeof showToast === "function") {
+        if (level === 0) showToast(`Nível de Emergência de ${name}: Nível 0 (Normalidade).`, "success");
+        else if (level === 1) showToast(`Alerta: ${name} enquadrada em NÍVEL 1 (Atenção Técnica)!`, "warning");
+        else if (level === 2) showToast(`ALERTA CRÍTICO: ${name} enquadrada em NÍVEL 2 (Prontidão PAEBM)!`, "warning");
+        else if (level === 3) showToast(`EMERGÊNCIA MÁXIMA: ${name} em NÍVEL 3 (Ruptura Iminente/Sirenes)!`, "danger");
+    }
+}
+
+function triggerSimulatedSirenTest() {
+    if (typeof showToast === "function") {
+        showToast("Disparando teste de telemetria e pulso acústico nas sirenes da ZAS...", "warning");
+    }
+    setTimeout(() => {
+        if (typeof showToast === "function") {
+            showToast("Telemetria concluída: 100% das sirenes responderam com sinal de rádio e baterias plenas.", "success");
+        }
+    }, 1200);
+}
+
+function exportPaebmDossierDocx() {
+    const select = document.getElementById("alert-structure-select");
+    const name = select ? select.value : "Estrutura Geral";
+    const data = STRUCTURE_TECHNICAL_DATASHEETS[name] || STRUCTURE_TECHNICAL_DATASHEETS["Barragem B1"];
+
+    const htmlContent = `
+        <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+        <head><title>Dossiê PAEBM - ${escapeHtml(name)}</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; color: #1e293b; }
+            h1 { color: #0b3852; font-size: 18pt; border-bottom: 2px solid #ef4444; padding-bottom: 6px; }
+            h2 { color: #b91c1c; font-size: 13pt; margin-top: 14pt; }
+            table { width: 100%; border-collapse: collapse; margin-top: 8pt; }
+            th, td { border: 1px solid #cbd5e1; padding: 6pt 8pt; font-size: 9.5pt; text-align: left; }
+            th { background-color: #fee2e2; color: #991b1b; font-weight: bold; }
+        </style>
+        </head>
+        <body>
+            <h1>ITAMINAS MINERAÇÃO S.A. - SPLO GEOTECNIA</h1>
+            <p><strong>DOSSIÊ OPERACIONAL DO PAEBM - MÓDULO 6 SYSDAM (ALERT)</strong></p>
+            <p>Estrutura Monitorada: <strong>${escapeHtml(name)}</strong> | Emissão: ${formatDateTimeBR(new Date())}</p>
+            <p>Enquadramento: <strong>Art. 36 da Resolução ANM nº 95/2022</strong> e Lei Federal nº 12.334/2010 (PNSB)</p>
+            <hr/>
+            <h2>1. Parâmetros da Zona de Auto-Salvamento (ZAS)</h2>
+            <table>
+                <tr><th>Indicador</th><th>Dado Mapeado</th></tr>
+                <tr><td>População Estimada na ZAS</td><td>${data.zasPopulation} pessoas</td></tr>
+                <tr><td>Tempo de Chegada da Mancha (Dam Break)</td><td>${data.zasArrivalMin} minutos</td></tr>
+                <tr><td>Sirenes Operacionais Instaladas</td><td>${data.sirensCount} unidades</td></tr>
+                <tr><td>Nível Atual de Emergência</td><td>Nível ${data.emergencyLevel}</td></tr>
+            </table>
+            <h2>2. Pontos de Encontro (PE) e Rotas de Fuga</h2>
+            <ul>
+                <li><strong>PE-01:</strong> Trevo Norte - Estrada Municipal (Capacidade: 200 pessoas)</li>
+                <li><strong>PE-02:</strong> Acesso Superior Mina Engenho Seco (Capacidade: 150 pessoas)</li>
+                <li><strong>PE-03:</strong> Plataforma Administrativa Central (Capacidade: 300 pessoas)</li>
+            </ul>
+            <h2>3. Contatos de Emergência 24h</h2>
+            <table>
+                <tr><th>Órgão</th><th>Telefone</th></tr>
+                <tr><td>Defesa Civil Sarzedo / Ibirité</td><td>(31) 3577-7700 / (31) 2129-2400</td></tr>
+                <tr><td>Corpo de Bombeiros Militar de MG</td><td>193</td></tr>
+                <tr><td>Plantão ANM Barragens</td><td>(61) 3312-6699</td></tr>
+                <tr><td>Sala de Situação ITAMINAS</td><td>(31) 3577-9000 (Ramal 9100)</td></tr>
+            </table>
+        </body>
+        </html>
+    `;
+    const blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `Dossie_PAEBM_${name.replace(/\s+/g, '_')}_SYSDAM.doc`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    if (typeof showToast === "function") showToast("Dossiê PAEBM baixado com sucesso.", "success");
+}
+
+// --- INICIALIZADOR GERAL DOS MÓDULOS SYSDAM ---
+function initializeSysdamModules() {
+    // Garante que o plano de ação existe no localStorage
+    getActionPlanItems();
+    populateDatasheetStructures();
+    populateFmeaStructures();
+    populateAlertStructures();
+    populateActionFilterStructures();
+    renderActionPlanTable();
+}
+
+
 function bootApplication() {
     if (appBooted) return;
     appBooted = true;
@@ -9443,6 +10741,7 @@ function bootApplication() {
     registerServiceWorker();
     installSecurityActivityListeners();
     resetSecurityIdleTimer();
+    initializeSysdamModules();
 }
 
 // Window Loader Initializer
