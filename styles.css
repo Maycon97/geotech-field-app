@@ -8713,3 +8713,32 @@ body.dark-theme .hash-badge {
     background: #ef4444;
     color: #fff;
 }
+
+
+/* Live Stream & GitHub Pages Sync Notification Toast */
+.hex-sync-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: rgba(8, 24, 40, 0.95);
+    border: 1px solid rgba(56, 189, 248, 0.5);
+    border-radius: 8px;
+    padding: 12px 18px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+    color: #fff;
+    z-index: 9999;
+    backdrop-filter: blur(8px);
+    display: none;
+    animation: toastSlideUp 0.3s ease-out;
+}
+
+@keyframes toastSlideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+#btn-live-stream {
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    transition: all 0.3s ease;
+}

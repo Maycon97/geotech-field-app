@@ -73,6 +73,7 @@
         renderWhatsAppFeed(window.radarState.activeFilter, window.radarState.searchTerm);
         updateRadarTimelineUI(window.radarState.currentIndex);
         renderTelemetryCharts();
+        initGitHubPagesLiveSync();
         
     };
 
@@ -1122,6 +1123,149 @@
         const station = document.querySelector('.hex-radar-station-pin');
         if (aoi) aoi.style.display = (layer === 'annotated') ? 'block' : 'none';
         if (station) station.style.display = (layer === 'annotated') ? 'block' : 'none';
+    };
+
+    
+    // =============================================================
+    // REAL-TIME 24/7 LIVE STREAM & RADAR ACQUISITION FLOW
+    // =============================================================
+    window.radarState.isLiveStream = false;
+    window.radarState.liveTimer = null;
+    window.radarState.scanProgress = 0;
+
+    window.toggleRadarLiveStream = function() {
+        window.radarState.isLiveStream = !window.radarState.isLiveStream;
+        const btn = document.getElementById('btn-live-stream');
+        const label = document.getElementById('label-live-stream');
+        const pill = document.getElementById('live-stream-status-pill');
+        const clockLbl = document.getElementById('clock-stream-label');
+
+        if (window.radarState.isLiveStream) {
+            // Stop replay timeline if running
+            if (window.radarState.isPlaying) toggleRadarPlayback();
+            
+            if (btn) {
+                btn.className = 'btn btn-danger';
+                btn.style.boxShadow = '0 0 15px rgba(239, 68, 68, 0.5)';
+            }
+            if (label) label.textContent = 'Parar Ao Vivo';
+            if (pill) pill.style.display = 'inline-flex';
+            if (clockLbl) clockLbl.textContent = 'TRANSMISSÃO AO VIVO (TEMPO REAL):';
+
+            startLiveStreamLoop();
+        } else {
+            if (btn) {
+                btn.className = 'btn btn-success';
+                btn.style.boxShadow = 'none';
+            }
+            if (label) label.textContent = 'Tempo Real 24/7 (Ao Vivo)';
+            if (pill) pill.style.display = 'none';
+            if (clockLbl) clockLbl.textContent = 'DATA & HORA DO RADAR:';
+
+            stopLiveStreamLoop();
+            // Revert back to selected timeline index
+            updateRadarTimelineUI(window.radarState.currentIndex);
+        }
+    };
+
+    function startLiveStreamLoop() {
+        stopLiveStreamLoop();
+        window.radarState.liveTimer = setInterval(function() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('pt-BR');
+            const timeStr = now.toLocaleTimeString('pt-BR');
+
+            const clockEl = document.getElementById('timeline-clock-val');
+            if (clockEl) clockEl.textContent = `${dateStr} ${timeStr}`;
+
+            // Increment scan cycle (0 to 100%)
+            window.radarState.scanProgress = (window.radarState.scanProgress + 5) % 100;
+            const noteEl = document.getElementById('timeline-event-text');
+            if (noteEl) {
+                const secToNext = Math.round((100 - window.radarState.scanProgress) * 1.8);
+                noteEl.innerHTML = `<strong><i class="fa-solid fa-satellite-dish text-success"></i> FLUXO EM TEMPO REAL ATIVO:</strong> Varredura Banda Ku em progresso (${window.radarState.scanProgress}%). Próxima imagem SAR em ${secToNext}s. Telemetria conectada ao GitHub Pages &amp; Central Hexagon 24/7.`;
+            }
+
+            // Small live telemetry noise simulation (0.01 mm)
+            const baseDisp = 9.48;
+            const noise = (Math.random() - 0.5) * 0.04;
+            const liveDisp = (baseDisp + noise).toFixed(2);
+            const liveVel = (2.78 + (Math.random() - 0.5) * 0.06).toFixed(2);
+
+            const cDisp = document.getElementById('chart-disp-val');
+            const cVel = document.getElementById('chart-vel-val');
+            const topDisp = document.getElementById('radar-live-disp-badge');
+            const topVel = document.getElementById('radar-live-vel-badge');
+
+            if (cDisp) cDisp.textContent = `${liveDisp} mm`;
+            if (cVel) cVel.textContent = `${liveVel} mm/h`;
+            if (topDisp) topDisp.textContent = `${liveDisp} mm`;
+            if (topVel) topVel.textContent = `${liveVel} mm/h`;
+
+        }, 1000);
+    }
+
+    function stopLiveStreamLoop() {
+        if (window.radarState.liveTimer) {
+            clearInterval(window.radarState.liveTimer);
+            window.radarState.liveTimer = null;
+        }
+    }
+
+    // =============================================================
+    // GITHUB PAGES AUTOMATIC REFRESH & COMMITS SYNC FLOW
+    // =============================================================
+    window.initGitHubPagesLiveSync = function() {
+        let lastCommitSha = null;
+        
+        async function checkRemoteUpdates() {
+            try {
+                // Query public GitHub Commits API for the repo
+                const res = await fetch('https://api.github.com/repos/Maycon97/geotech-field-app/commits/main', {
+                    headers: { 'Accept': 'application/vnd.github.v3+json' },
+                    cache: 'no-store'
+                });
+                if (!res.ok) return;
+                const data = await res.json();
+                const currentSha = data.sha;
+
+                if (lastCommitSha && lastCommitSha !== currentSha) {
+                    console.log("[GitHub Pages Sync] Nova versão detectada:", currentSha);
+                    showLiveUpdateToast(data.commit ? data.commit.message : "Nova atualização publicada");
+                }
+                lastCommitSha = currentSha;
+            } catch (err) {
+                // Silently ignore offline or rate-limit
+            }
+        }
+
+        function showLiveUpdateToast(msg) {
+            let toast = document.getElementById('hex-live-sync-toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'hex-live-sync-toast';
+                toast.className = 'hex-sync-toast';
+                document.body.appendChild(toast);
+            }
+            toast.innerHTML = `
+                <div class="d-flex align-center gap-2">
+                    <i class="fa-solid fa-cloud-arrow-down text-info fa-bounce"></i>
+                    <div>
+                        <strong>Atualização em Tempo Real (GitHub Pages)</strong>
+                        <div class="small text-muted">${msg.substring(0, 50)}...</div>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-sm ml-auto" onclick="window.location.reload(true)">Sincronizar</button>
+                </div>
+            `;
+            toast.style.display = 'block';
+            setTimeout(() => {
+                if (toast) toast.style.display = 'none';
+            }, 12000);
+        }
+
+        // Check on boot and every 60s
+        checkRemoteUpdates();
+        setInterval(checkRemoteUpdates, 60000);
     };
 
     // Auto-boot if already on readings tab
