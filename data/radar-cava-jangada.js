@@ -73,7 +73,7 @@
         renderWhatsAppFeed(window.radarState.activeFilter, window.radarState.searchTerm);
         updateRadarTimelineUI(window.radarState.currentIndex);
         renderTelemetryCharts();
-        renderMiningControlFleetTable();
+        
     };
 
     // ----------------------------------------------------
@@ -643,6 +643,16 @@
         if (cVel) cVel.textContent = `${item.velocity.toFixed(2)} mm/h`;
         if (cInv) cInv.textContent = `${item.invVelocity.toFixed(2)} h/mm`;
 
+                // Update top Hexagon KPI metrics in real time
+        const topTarp = document.getElementById('radar-live-tarp-badge');
+        const topDisp = document.getElementById('radar-live-disp-badge');
+        const topVel = document.getElementById('radar-live-vel-badge');
+        const topInv = document.getElementById('radar-live-inv-badge');
+        if (topTarp) topTarp.textContent = item.levelLabel;
+        if (topDisp) topDisp.textContent = `${item.displacement.toFixed(2)} mm`;
+        if (topVel) topVel.textContent = `${item.velocity.toFixed(2)} mm/h`;
+        if (topInv) topInv.textContent = `${item.invVelocity.toFixed(2)} h/mm`;
+
         renderTelemetryCharts(idx);
     };
 
@@ -1045,41 +1055,59 @@
     }
 
     
+        // =============================================================
+    // HEXAGON GUARDIAN DISPLAY MODE CONTROLLER (3D Sat, 2D Ortho, 3D Full, 3D Heat)
     // =============================================================
-    // MULTI-VIEW TAB SWITCHER (Satellite Map, 3D Cockpit, Fleet)
-    // =============================================================
-    window.switchRadarMainView = function(viewTab) {
-        const tabs = [
-            { id: 'satellite', btn: 'tab-btn-satellite-map', panel: 'view-panel-satellite-map' },
-            { id: 'cockpit3d', btn: 'tab-btn-cockpit-3d', panel: 'view-panel-cockpit-3d' },
-            { id: 'fleet', btn: 'tab-btn-equipment-fleet', panel: 'view-panel-equipment-fleet' }
-        ];
+    window.setRadarDisplayMode = function(mode) {
+        const btn3dSat = document.getElementById('btn-view-3d-sat');
+        const btn2dOrtho = document.getElementById('btn-view-2d-ortho');
+        const btn3dFull = document.getElementById('btn-view-3d-full');
+        const btn3dHeat = document.getElementById('btn-view-3d-heat');
 
-        tabs.forEach(t => {
-            const btn = document.getElementById(t.btn);
-            const panel = document.getElementById(t.panel);
-            const isActive = (t.id === viewTab);
-            if (btn) btn.classList.toggle('active', isActive);
-            if (panel) {
-                panel.style.display = isActive ? 'block' : 'none';
-                panel.classList.toggle('active-panel', isActive);
-            }
+        const container3D = document.getElementById('radarCanvasContainer');
+        const container2D = document.getElementById('radar2DOrthoContainer');
+
+        [btn3dSat, btn2dOrtho, btn3dFull, btn3dHeat].forEach(b => {
+            if (b) b.classList.remove('active');
         });
 
-        if (viewTab === 'cockpit3d') {
-            if (typeof resizeRadarCanvas === 'function') resizeRadarCanvas();
-        } else if (viewTab === 'fleet') {
-            renderMiningControlFleetTable();
+        if (mode === '2d-ortho') {
+            if (btn2dOrtho) btn2dOrtho.classList.add('active');
+            if (container3D) container3D.style.display = 'none';
+            if (container2D) container2D.style.display = 'block';
+        } else {
+            if (container2D) container2D.style.display = 'none';
+            if (container3D) container3D.style.display = 'block';
+            resizeRadarCanvas();
+
+            if (mode === '3d-sat') {
+                if (btn3dSat) btn3dSat.classList.add('active');
+                window.radarState.viewMode = 'sat';
+            } else if (mode === '3d-full') {
+                if (btn3dFull) btn3dFull.classList.add('active');
+                window.radarState.viewMode = 'full';
+            } else if (mode === '3d-heat') {
+                if (btn3dHeat) btn3dHeat.classList.add('active');
+                window.radarState.viewMode = 'heat';
+            }
         }
     };
 
+    // Legacy fallback mapper for previous calls
+    window.setRadar3DMode = function(m) {
+        if (m === 'sat') setRadarDisplayMode('3d-sat');
+        else if (m === 'full') setRadarDisplayMode('3d-full');
+        else if (m === 'mesh') setRadarDisplayMode('3d-full');
+        else if (m === 'heat') setRadarDisplayMode('3d-heat');
+    };
+
     // =============================================================
-    // INLINE SATELLITE LAYER SWITCHER (Annotated vs Raw)
+    // 2D ORTHOPHOTO LAYER TOGGLE (Fast2Mine Satellite Annotated vs Raw)
     // =============================================================
-    window.setInlineSatLayer = function(layer) {
-        const img = document.getElementById('inline-sat-image');
-        const bAnn = document.getElementById('btn-satview-annotated');
-        const bRaw = document.getElementById('btn-satview-raw');
+    window.toggleHex2DLayer = function(layer) {
+        const img = document.getElementById('hex-2d-ortho-img');
+        const bAnn = document.getElementById('btn-hex-2d-ann');
+        const bRaw = document.getElementById('btn-hex-2d-raw');
 
         if (bAnn) bAnn.classList.toggle('active', layer === 'annotated');
         if (bRaw) bRaw.classList.toggle('active', layer === 'raw');
@@ -1090,72 +1118,13 @@
                 : 'assets/cava-jangada-satellite-orthophoto.jpg';
         }
 
-        const pins = document.querySelectorAll('.inline-sat-viewport .sat-interactive-pin');
-        pins.forEach(pin => {
-            pin.style.display = (layer === 'annotated') ? 'block' : 'none';
-        });
+        const aoi = document.querySelector('.hex-aoi-target');
+        const station = document.querySelector('.hex-radar-station-pin');
+        if (aoi) aoi.style.display = (layer === 'annotated') ? 'block' : 'none';
+        if (station) station.style.display = (layer === 'annotated') ? 'block' : 'none';
     };
 
-    // =============================================================
-    // MININGCONTROL FLEET TABLE RENDERER
-    // =============================================================
-    window.renderMiningControlFleetTable = function() {
-        const tbody = document.getElementById('miningcontrol-fleet-table-body');
-        if (!tbody) return;
-
-        if (!window.MDSYNC_MININGCONTROL || !window.MDSYNC_MININGCONTROL.equipments) {
-            tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted p-3">Nenhum dado de frota disponível do MiningControl F2M.</td></tr>';
-            return;
-        }
-
-        const equips = window.MDSYNC_MININGCONTROL.equipments;
-        const totalCountEl = document.getElementById('mc-total-equip');
-        if (totalCountEl) totalCountEl.textContent = `${equips.length} Ativos`;
-
-        const fleetCountBadge = document.getElementById('fleet-count-badge');
-        if (fleetCountBadge) fleetCountBadge.textContent = `${equips.length} Ativos`;
-
-        let rowsHtml = '';
-        equips.forEach(eq => {
-            const isHighlight = eq.highlight;
-            const rowClass = isHighlight ? 'table-row-highlight-critical' : '';
-            const statusBadge = isHighlight 
-                ? '<span class="badge badge-danger"><i class="fa-solid fa-triangle-exclamation"></i> Recuo Solicitado (FR012)</span>'
-                : '<span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> Operando Normal</span>';
-
-            const geotechAction = isHighlight
-                ? '<span class="text-danger font-weight-bold"><i class="fa-solid fa-hand"></i> Afastado da Crista 1250m</span>'
-                : '<span class="text-success"><i class="fa-solid fa-check"></i> Monitorado em Rotina</span>';
-
-            rowsHtml += `
-                <tr class="${rowClass}">
-                    <td>
-                        <div class="d-flex align-center gap-2">
-                            <i class="${eq.icon} ${isHighlight ? 'text-danger' : 'text-primary'}"></i>
-                            <strong>${eq.id}</strong>
-                            ${isHighlight ? '<span class="badge badge-danger">CRÍTICO</span>' : ''}
-                        </div>
-                    </td>
-                    <td>
-                        <div><strong>${eq.model}</strong></div>
-                        <small class="text-secondary">${eq.fleet}</small>
-                    </td>
-                    <td>${eq.operator}</td>
-                    <td>
-                        <span class="badge badge-outline">${eq.polygonAllocation}</span>
-                        <div class="small text-secondary">${eq.sector}</div>
-                    </td>
-                    <td>${statusBadge}</td>
-                    <td class="font-mono">${eq.speedKmh.toFixed(1)} km/h</td>
-                    <td>${geotechAction}</td>
-                </tr>
-            `;
-        });
-
-        tbody.innerHTML = rowsHtml;
-    };
-
-// Auto-boot if already on readings tab
+    // Auto-boot if already on readings tab
     document.addEventListener('DOMContentLoaded', function() {
         setTimeout(function() {
             initRadarCockpit();

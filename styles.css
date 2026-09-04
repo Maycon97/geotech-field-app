@@ -8434,3 +8434,282 @@ body.dark-theme .hash-badge {
         left: 8px;
     }
 }
+
+
+/* ==========================================================================
+   HEXAGON GUARDIAN™ & FAST2MINE SATELLITE INTEGRATION STYLES
+   ========================================================================== */
+
+.hex-badge-icon {
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg, rgba(14, 165, 233, 0.25) 0%, rgba(6, 78, 119, 0.5) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #38bdf8;
+    font-size: 16px;
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.2);
+}
+
+.badge-hisense {
+    background: rgba(14, 165, 233, 0.18);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    font-weight: 600;
+}
+
+/* 2D Planimetric Orthophoto Viewport */
+.radar-2d-ortho-container {
+    position: relative;
+    width: 100%;
+    height: 520px;
+    background: #020b12;
+    overflow: hidden;
+}
+
+.ortho-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hex-ortho-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    user-select: none;
+}
+
+/* Hexagon Guardian AOI Reticle */
+.hex-aoi-target {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 25;
+}
+
+.hex-aoi-box {
+    width: 60px;
+    height: 60px;
+    border: 2px dashed #ef4444;
+    background: rgba(239, 68, 68, 0.2);
+    border-radius: 6px;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 2px;
+    transition: all 0.2s ease;
+}
+
+.hex-aoi-target:hover .hex-aoi-box {
+    border-color: #f87171;
+    background: rgba(239, 68, 68, 0.35);
+    transform: scale(1.08);
+}
+
+.hex-aoi-tag {
+    font-size: 9px;
+    font-weight: 800;
+    color: #fff;
+    background: #ef4444;
+    padding: 1px 4px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+}
+
+.hex-aoi-pulse {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 6px;
+    border: 2px solid #ef4444;
+    animation: hexAoiPulse 2s infinite ease-out;
+    pointer-events: none;
+}
+
+@keyframes hexAoiPulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.8); opacity: 0; }
+}
+
+.hex-aoi-callout {
+    position: absolute;
+    bottom: 68px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(2, 18, 30, 0.95);
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 11px;
+    color: #fff;
+    white-space: nowrap;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 30;
+}
+
+.hex-aoi-target:hover .hex-aoi-callout {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-4px);
+}
+
+/* Radar Station Pin */
+.hex-radar-station-pin {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 24;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.hex-station-marker {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #0284c7;
+    border: 2px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 14px;
+    box-shadow: 0 0 12px rgba(14, 165, 233, 0.6);
+}
+
+.hex-station-label {
+    background: rgba(2, 18, 30, 0.9);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 10px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    white-space: nowrap;
+}
+
+/* 2D HUD Pills */
+.hex-2d-hud {
+    position: absolute;
+    bottom: 12px;
+    left: 14px;
+    display: flex;
+    gap: 8px;
+    z-index: 26;
+    flex-wrap: wrap;
+}
+
+.hex-hud-pill {
+    background: rgba(2, 18, 30, 0.88);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    color: #cbd5e1;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    backdrop-filter: blur(4px);
+}
+
+.hex-2d-layers {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    display: flex;
+    gap: 4px;
+    background: rgba(2, 18, 30, 0.88);
+    padding: 4px;
+    border-radius: 6px;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    z-index: 26;
+}
+
+/* Hexagon TARP Matrix Box */
+.hex-tarp-matrix-box {
+    background: rgba(8, 20, 32, 0.6);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+.hex-tarp-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #cbd5e1;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.hex-tarp-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+}
+
+.hex-tarp-level {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-size: 10px;
+    gap: 2px;
+}
+
+.hex-tarp-level .tarp-badge {
+    font-weight: 800;
+    font-size: 10px;
+    padding: 1px 4px;
+    border-radius: 3px;
+}
+
+.hex-tarp-level .tarp-criteria {
+    font-family: monospace;
+    font-size: 10px;
+    color: #cbd5e1;
+}
+
+.hex-tarp-level small {
+    font-size: 9px;
+    color: var(--text-muted);
+}
+
+.level-green .tarp-badge { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+.level-yellow .tarp-badge { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+.level-orange .tarp-badge { background: rgba(249, 115, 22, 0.2); color: #f97316; }
+.level-red .tarp-badge { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+
+.active-tarp {
+    border-color: #ef4444 !important;
+    background: rgba(239, 68, 68, 0.15) !important;
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+}
+
+.active-tarp .tarp-badge {
+    background: #ef4444;
+    color: #fff;
+}

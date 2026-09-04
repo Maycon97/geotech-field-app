@@ -618,30 +618,31 @@
 
                     <!-- 1. RADAR 24/7 & CAVA JANGADA PANEL (ACTIVE BY DEFAULT) -->
                     <div id="panel-radar-monitoring" class="radar-panel-container">
-                        <!-- Top Summary KPI Banner -->
+                        <!-- Top Hexagon Guardian KPI Banner -->
                         <div class="radar-kpi-banner mb-3">
                             <div class="radar-kpi-main">
                                 <div class="radar-brand-badge">
-                                    <span class="badge badge-hexagon"><i class="fa-solid fa-radar"></i> HEXAGON MINING</span>
+                                    <span class="badge badge-hexagon"><i class="fa-solid fa-radar"></i> HEXAGON | IDS GeoRadar</span>
                                     <span class="badge badge-itaminas"><i class="fa-solid fa-shield-halved"></i> ITAMINAS CMG 24/7</span>
+                                    <span class="badge badge-hisense"><i class="fa-solid fa-wind"></i> Hi-Sense™ Atmosférico: ATIVO</span>
                                 </div>
                                 <h2 class="radar-banner-title">
-                                    <i class="fa-solid fa-mountain-sun text-primary"></i> Monitoramento Geotécnico por Radar: Cava Jangada
+                                    <i class="fa-solid fa-crosshairs text-primary"></i> Hexagon Guardian™: Monitoramento Geotécnico de Taludes
                                 </h2>
                                 <p class="radar-banner-desc">
-                                    Interferometria Diferencial Radar de Onda Contínua (IBIS-FM / Guardian) • Setor Crítico: <strong>Parede Norte Superior (N_Sup_1231.44)</strong> • Centróide UTM: <code>595.159,60 m E | 7.778.037,06 m N | Cota 1.231,44 m</code>
+                                    Radar Interferométrico de Solo <strong>IBIS-FM EVO 01</strong> (Banda Ku 17.2 GHz) • Ortofoto Georreferenciada de Satélite (Fast2Mine) • Alvo Crítico: <strong>AOI_01 Parede Norte Superior (N_Sup_1231.44)</strong> • Centróide: <code>595.159,60 m E | 7.778.037,06 m N | Cota 1.231,44 m</code>
                                 </p>
                             </div>
                             <div class="radar-kpi-metrics">
                                 <div class="radar-metric-box metric-danger">
-                                    <span class="metric-label">Status TARP</span>
+                                    <span class="metric-label">Status TARP (Hexagon)</span>
                                     <strong class="metric-val" id="radar-live-tarp-badge">NÍVEL 3 (CRÍTICO)</strong>
-                                    <small class="metric-sub">Aceleração Progressiva</small>
+                                    <small class="metric-sub">Evacuação &amp; Alerta Sonoro</small>
                                 </div>
                                 <div class="radar-metric-box">
-                                    <span class="metric-label">Deslocamento Acumulado</span>
+                                    <span class="metric-label">Deslocamento LoS</span>
                                     <strong class="metric-val text-danger" id="radar-live-disp-badge">9.48 mm</strong>
-                                    <small class="metric-sub">Vetor Linha de Visada (LoS)</small>
+                                    <small class="metric-sub">Linha de Visada (0.1 mm precisão)</small>
                                 </div>
                                 <div class="radar-metric-box">
                                     <span class="metric-label">Velocidade Máxima</span>
@@ -649,189 +650,72 @@
                                     <small class="metric-sub">Pico registrado às 09:24</small>
                                 </div>
                                 <div class="radar-metric-box">
-                                    <span class="metric-label">Diagnóstico de Lavra</span>
-                                    <strong class="metric-val text-primary">PERFURATRIZ</strong>
-                                    <small class="metric-sub">Operação em bancada</small>
+                                    <span class="metric-label">Previsão Ruptura 1/v</span>
+                                    <strong class="metric-val text-purple" id="radar-live-inv-badge">0.36 h/mm</strong>
+                                    <small class="metric-sub">Método Fukuzono / Voight</small>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Action Bar for Radar -->
+                        <!-- Action Bar for Radar & Guardian Tools -->
                         <div class="radar-action-bar mb-3">
                             <div class="radar-action-left">
                                 <button type="button" class="btn btn-primary" onclick="openFlashReportModal()">
-                                    <i class="fa-solid fa-file-waveform"></i> Abrir Laudo Diário Oficial (Flash Report FR012)
+                                    <i class="fa-solid fa-file-waveform"></i> Abrir Laudo Oficial Hexagon (Flash Report FR012)
                                 </button>
                                 <button type="button" class="btn btn-warning" onclick="jumpToCriticalMoment()">
                                     <i class="fa-solid fa-bolt"></i> Sincronizar Pico da Deformação (09:24)
                                 </button>
-                                <button type="button" class="btn btn-secondary" onclick="openSatelliteModal()" style="border-color: #38bdf8; color: #38bdf8;" title="Visualizar Ortofoto de Satélite em Alta Definição">
-                                    <i class="fa-solid fa-satellite"></i> Ortofoto Satélite Google Earth HD
+                                <button type="button" class="btn btn-secondary" onclick="openSatelliteModal()" style="border-color: #38bdf8; color: #38bdf8;" title="Visualizar Ortofoto de Satélite Fast2Mine em Alta Definição">
+                                    <i class="fa-solid fa-satellite"></i> Ortofoto Satélite Fast2Mine HD
                                 </button>
                                 <button type="button" class="btn btn-secondary" onclick="resetRadarCamera()">
-                                    <i class="fa-solid fa-earth-americas"></i> Resetar Ângulo Google Earth (340° / 65°)
+                                    <i class="fa-solid fa-earth-americas"></i> Resetar Câmera (340° / 65°)
                                 </button>
                             </div>
                             <div class="radar-action-right">
-                                <span class="badge badge-outline"><i class="fa-solid fa-clock"></i> Último Evento: 04/09/2026 09:31</span>
+                                <span class="badge badge-outline"><i class="fa-solid fa-tower-broadcast"></i> Radar IBIS-FM EVO: Base Sul (1140m)</span>
                                 <span class="badge badge-success"><i class="fa-solid fa-cloud-sun"></i> Pluvio 24h: 0.0 mm</span>
                             </div>
                         </div>
 
-                        <!-- 3D Cockpit & Charts Grid -->
-                        
-                        <!-- MULTI-VIEW TABS SELECTOR: SATELLITE (DEFAULT) | 3D COCKPIT | MININGCONTROL FLEET -->
-                        <div class="radar-main-view-tabs mb-3">
-                            <button type="button" class="view-tab-btn active" id="tab-btn-satellite-map" onclick="switchRadarMainView('satellite')">
-                                <i class="fa-solid fa-satellite text-primary"></i>
-                                <span>🛰️ Ortofoto de Satélite &amp; Mapeamento Cava Jangada</span>
-                                <span class="badge badge-success">Google Earth HD</span>
-                            </button>
-                            <button type="button" class="view-tab-btn" id="tab-btn-cockpit-3d" onclick="switchRadarMainView('cockpit3d')">
-                                <i class="fa-solid fa-cube text-warning"></i>
-                                <span>🎮 Cockpit 3D &amp; Radar IBIS-FM (Animação)</span>
-                                <span class="badge badge-danger">FR012 Nível 3</span>
-                            </button>
-                            <button type="button" class="view-tab-btn" id="tab-btn-equipment-fleet" onclick="switchRadarMainView('fleet')">
-                                <i class="fa-solid fa-truck-monster text-info"></i>
-                                <span>🚜 Mapeamento de Equipamentos (MiningControl F2M)</span>
-                                <span class="badge badge-primary" id="fleet-count-badge">8 Ativos</span>
-                            </button>
-                        </div>
-
-                        <!-- VIEW 1: SATELLITE ORTHOPHOTO & MAP VIEW (ACTIVE BY DEFAULT) -->
-                        <div id="view-panel-satellite-map" class="radar-view-panel active-panel mb-4">
-                            <div class="card">
-                                <div class="card-header justify-between">
-                                    <div class="d-flex align-center gap-2">
-                                        <h3><i class="fa-solid fa-satellite text-primary"></i> Ortofoto de Satélite Georreferenciada: Cava Jangada</h3>
-                                        <span class="badge badge-primary">Resolução Submétrica 0.50m • SIRGAS 2000</span>
-                                    </div>
-                                    <div class="d-flex align-center gap-2">
-                                        <div class="sat-layer-switcher">
-                                            <button type="button" class="btn-tool active" id="btn-satview-annotated" onclick="setInlineSatLayer('annotated')">Anotada (Radar + Alvo)</button>
-                                            <button type="button" class="btn-tool" id="btn-satview-raw" onclick="setInlineSatLayer('raw')">Satélite Puro</button>
-                                        </div>
-                                        <button type="button" class="btn btn-secondary btn-sm" onclick="openSatelliteModal()" title="Abrir em Tela Cheia">
-                                            <i class="fa-solid fa-expand"></i> Tela Cheia
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body p-0">
-                                    <!-- Interactive Satellite Orthophoto Container with Overlaid Hotspots -->
-                                    <div class="inline-sat-viewport" id="inlineSatViewport">
-                                        <img src="assets/cava-jangada-satellite-annotated.jpg" alt="Ortofoto Satélite Cava Jangada" id="inline-sat-image" class="inline-sat-img">
-                                        
-                                        <!-- Overlay Hotspot: Parede Norte Superior -->
-                                        <div class="sat-interactive-pin pin-critical" style="top: 28.8%; left: 35.7%;" onclick="jumpToCriticalMoment(); switchRadarMainView('cockpit3d');" title="Clique para sincronizar no 3D">
-                                            <div class="pin-pulse pulse-red"></div>
-                                            <div class="pin-marker"><i class="fa-solid fa-triangle-exclamation"></i></div>
-                                            <div class="pin-tooltip">
-                                                <strong>ALVO: Parede Norte Superior</strong><br>
-                                                Setor N_Sup_1231.44 (204.52 m²)<br>
-                                                Desloc: <span class="text-danger">9.48 mm</span> | Vel: <span class="text-warning">2.78 mm/h</span><br>
-                                                <small class="text-muted">Clique para abrir simulação 3D</small>
-                                            </div>
-                                        </div>
-
-                                        <!-- Overlay Hotspot: Estação Radar IBIS-FM -->
-                                        <div class="sat-interactive-pin pin-radar" style="top: 66.8%; left: 50.6%;" onclick="switchRadarMainView('cockpit3d');" title="Estação Radar IBIS-FM (Base Sul)">
-                                            <div class="pin-pulse pulse-blue"></div>
-                                            <div class="pin-marker"><i class="fa-solid fa-satellite-dish"></i></div>
-                                            <div class="pin-tooltip">
-                                                <strong>RADAR IBIS-FM 01 (Hexagon)</strong><br>
-                                                Base Sul • Cota 1.140 m<br>
-                                                Visada LoS: Direta para Parede Norte (~240m)
-                                            </div>
-                                        </div>
-
-                                        <!-- Overlay Hotspot: Perfuratriz PF-01 (MiningControl) -->
-                                        <div class="sat-interactive-pin pin-equipment" style="top: 27.5%; left: 35.0%;" onclick="switchRadarMainView('fleet');" title="Perfuratriz PF-01 (Sandvik DP1500i)">
-                                            <div class="pin-marker pin-drill"><i class="fa-solid fa-bore-hole"></i></div>
-                                            <div class="pin-tooltip">
-                                                <strong class="text-warning">🚜 PERFURATRIZ PF-01 (Itaminas)</strong><br>
-                                                Modelo: Sandvik Pantera DP1500i<br>
-                                                Alocação: 1250_NORTE_1_JGD (Crista)<br>
-                                                <span class="badge badge-danger">Fonte da Vibração FR012</span>
-                                            </div>
-                                        </div>
-
-                                        <!-- Overlay Hotspot: Escavadeira ESC-01 -->
-                                        <div class="sat-interactive-pin pin-equipment" style="top: 47.0%; left: 46.5%;" title="Escavadeira ESC-01 (CAT 374F)">
-                                            <div class="pin-marker pin-excavator"><i class="fa-solid fa-trowel-bricks"></i></div>
-                                            <div class="pin-tooltip">
-                                                <strong>Escavadeira ESC-01</strong><br>
-                                                CAT 374F • Praça 1120m Oeste
-                                            </div>
-                                        </div>
-
-                                        <!-- Overlay Hotspot: Caminhão CBALT0319 -->
-                                        <div class="sat-interactive-pin pin-equipment" style="top: 75.0%; left: 51.0%;" title="Caminhão CBALT0319 (Scania 28T)">
-                                            <div class="pin-marker pin-truck"><i class="fa-solid fa-truck-monster"></i></div>
-                                            <div class="pin-tooltip">
-                                                <strong>Caminhão CBALT0319</strong><br>
-                                                Scania 28T • Rampa Principal (24.5 km/h)
-                                            </div>
-                                        </div>
-
-                                        <!-- Floating Map HUD -->
-                                        <div class="inline-sat-hud">
-                                            <div class="sat-hud-box">
-                                                <span class="hud-label"><i class="fa-solid fa-location-dot text-danger"></i> Centróide Norte:</span>
-                                                <span class="hud-value font-mono">595159.6 E | 7778037.1 N | 1231.4 m Z</span>
-                                            </div>
-                                            <div class="sat-hud-box">
-                                                <span class="hud-label"><i class="fa-solid fa-cloud-arrow-up text-primary"></i> MiningControl F2M:</span>
-                                                <span class="hud-value text-success">Online (34 Equipamentos)</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Satellite Legend Bar -->
-                                    <div class="sat-map-footer-legend">
-                                        <div class="legend-item"><span class="legend-dot dot-red"></span> Alvo Crítico FR012 (Parede Norte 1231m)</div>
-                                        <div class="legend-item"><span class="legend-dot dot-blue"></span> Estação Radar IBIS-FM (Base Sul 1140m)</div>
-                                        <div class="legend-item"><span class="legend-dot dot-amber"></span> Perfuratriz Operando na Crista (MiningControl)</div>
-                                        <div class="legend-item"><span class="legend-dot dot-green"></span> Escavadeiras e Caminhões em Produção</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- VIEW 2: 3D COCKPIT & TIMELINE ANIMATION -->
-                        <div id="view-panel-cockpit-3d" class="radar-view-panel" style="display: none;">
-                            <div class="radar-cockpit-grid mb-4">
-                            <!-- Left: 3D Viewport & Timeline Controls -->
+                        <!-- UNIFIED HEXAGON GUARDIAN COCKPIT & CHARTS GRID -->
+                        <div class="radar-cockpit-grid mb-4">
+                            <!-- Left: Hexagon Guardian Interactive Viewport (3D Drape & 2D Orthomap) -->
                             <div class="radar-3d-card card">
                                 <div class="card-header justify-between">
                                     <div class="d-flex align-center gap-2">
-                                        <h3><i class="fa-solid fa-cube text-primary"></i> Modelo 3D da Cava Jangada &amp; Mancha Interferométrica do Radar</h3>
-                                        <span class="badge badge-primary">Google Earth / Ortofoto 3D</span>
+                                        <div class="hex-badge-icon"><i class="fa-solid fa-crosshairs"></i></div>
+                                        <div>
+                                            <h3 class="m-0">Hexagon Guardian™: Cockpit de Monitoramento da Cava Jangada</h3>
+                                            <span class="small text-secondary">Fusão de Ortofoto de Satélite (Fast2Mine) e Interferometria IBIS-FM</span>
+                                        </div>
                                     </div>
                                     <div class="radar-view-mode-toggle">
-                                        <button type="button" class="btn-tool active" id="btn-view-3d-sat" onclick="setRadar3DMode('sat')" title="Ortofoto de Satélite 3D (Google Earth)"><i class="fa-solid fa-satellite"></i> Satélite 3D</button>
-                                        <button type="button" class="btn-tool" id="btn-view-3d-full" onclick="setRadar3DMode('full')" title="Satélite + Bancadas"><i class="fa-solid fa-layer-group"></i> Satélite + Bancadas</button>
-                                        <button type="button" class="btn-tool" id="btn-view-3d-mesh" onclick="setRadar3DMode('mesh')" title="Topografia das Bancadas"><i class="fa-solid fa-mountain"></i> Bancadas</button>
-                                        <button type="button" class="btn-tool" id="btn-view-3d-heat" onclick="setRadar3DMode('heat')" title="Mancha de Calor Hexagon"><i class="fa-solid fa-fire"></i> Mancha Radar</button>
+                                        <button type="button" class="btn-tool active" id="btn-view-3d-sat" onclick="setRadarDisplayMode('3d-sat')" title="Modelo 3D com Ortofoto de Satélite Fast2Mine"><i class="fa-solid fa-cube"></i> 3D Satélite</button>
+                                        <button type="button" class="btn-tool" id="btn-view-2d-ortho" onclick="setRadarDisplayMode('2d-ortho')" title="Ortofoto 2D Planimétrica com Retículo Hexagon"><i class="fa-solid fa-map"></i> 2D Ortofoto</button>
+                                        <button type="button" class="btn-tool" id="btn-view-3d-full" onclick="setRadarDisplayMode('3d-full')" title="Satélite + Bancadas Topográficas"><i class="fa-solid fa-layer-group"></i> Satélite + Bancadas</button>
+                                        <button type="button" class="btn-tool" id="btn-view-3d-heat" onclick="setRadarDisplayMode('3d-heat')" title="Mancha Interferométrica do Radar"><i class="fa-solid fa-fire"></i> Mancha Radar</button>
                                     </div>
                                 </div>
                                 <div class="card-body p-0 radar-viewport-wrapper">
-                                    <!-- 3D Canvas Viewport -->
+                                    <!-- 1. 3D Canvas Viewport (Active by Default) -->
                                     <div class="radar-canvas-container" id="radarCanvasContainer">
                                         <canvas id="cavaJangadaCanvas" width="920" height="520"></canvas>
                                         
                                         <!-- Overlay HUD Top Left: Geo Data -->
                                         <div class="radar-hud-overlay hud-top-left">
-                                            <div class="hud-item"><span class="hud-lbl">ALVO:</span> <strong class="hud-val text-warning">CAVA JANGADA • PAREDE NORTE</strong></div>
-                                            <div class="hud-item"><span class="hud-lbl">SETOR:</span> <strong class="hud-val">N_Sup_1231.44 (Área: 204.52 m²)</strong></div>
+                                            <div class="hud-item"><span class="hud-lbl">HEXAGON GUARDIAN:</span> <strong class="hud-val text-info">IBIS-FM EVO 01</strong></div>
+                                            <div class="hud-item"><span class="hud-lbl">ALVO:</span> <strong class="hud-val text-warning">AOI_01 • PAREDE NORTE SUPERIOR</strong></div>
+                                            <div class="hud-item"><span class="hud-lbl">SETOR:</span> <strong class="hud-val">N_Sup_1231.44 (204.52 m²)</strong></div>
                                             <div class="hud-item"><span class="hud-lbl">CENTROIDE:</span> <span class="hud-val font-mono">595159.6 E | 7778037.1 N | 1231.4 m Z</span></div>
-                                            <div class="hud-item"><span class="hud-lbl">ESTAÇÃO RADAR:</span> <span class="hud-val font-mono">IBIS-FM Base Sul (LoS 340°)</span></div>
+                                            <div class="hud-item"><span class="hud-lbl">ESTAÇÃO RADAR:</span> <span class="hud-val font-mono">Base Sul (1140m) • LoS Azimute 340°</span></div>
                                         </div>
 
                                         <!-- Overlay HUD Top Right: Heat Scale -->
                                         <div class="radar-hud-overlay hud-top-right">
                                             <div class="radar-heat-scale">
-                                                <div class="heat-scale-title">Escala LoS (mm)</div>
+                                                <div class="heat-scale-title">Escala LoS Hexagon (mm)</div>
                                                 <div class="heat-scale-gradient"></div>
                                                 <div class="heat-scale-labels">
                                                     <span>-20</span>
@@ -866,13 +750,67 @@
                                                 <button type="button" class="cam-btn" onclick="pitchRadarCamera(-10)" title="Inclinar Baixo"><i class="fa-solid fa-angle-down"></i></button>
                                                 <button type="button" class="cam-btn" onclick="zoomRadarCamera(1.2)" title="Zoom Aproximar"><i class="fa-solid fa-plus"></i></button>
                                                 <button type="button" class="cam-btn" onclick="zoomRadarCamera(0.8)" title="Zoom Afastar"><i class="fa-solid fa-minus"></i></button>
-                                                <button type="button" class="cam-btn" onclick="focusParedeNorte()" title="Focar Parede Norte"><i class="fa-solid fa-crosshairs"></i></button>
+                                                <button type="button" class="cam-btn" onclick="focusParedeNorte()" title="Focar Alvo Parede Norte"><i class="fa-solid fa-crosshairs"></i></button>
                                                 <button type="button" class="cam-btn" onclick="resetRadarCamera()" title="Visão Padrão"><i class="fa-solid fa-arrows-rotate"></i></button>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <!-- Integrated Timeline Controller Bar -->
+                                    <!-- 2. 2D Planimetric Orthophoto Viewport (Fast2Mine Satellite + Hexagon Guardian Overlays) -->
+                                    <div class="radar-2d-ortho-container" id="radar2DOrthoContainer" style="display: none;">
+                                        <div class="ortho-image-wrapper">
+                                            <img src="assets/cava-jangada-satellite-annotated.jpg" alt="Ortofoto Satélite Cava Jangada" id="hex-2d-ortho-img" class="hex-ortho-img">
+                                            
+                                            <!-- Hexagon Guardian AOI Reticle (Parede Norte Superior) -->
+                                            <div class="hex-aoi-target" style="top: 28.8%; left: 35.7%;" onclick="setRadarDisplayMode('3d-sat'); jumpToCriticalMoment();" title="Clique para focar no 3D">
+                                                <div class="hex-aoi-pulse"></div>
+                                                <div class="hex-aoi-box">
+                                                    <span class="hex-aoi-tag">AOI_01 (FR012)</span>
+                                                </div>
+                                                <div class="hex-aoi-callout">
+                                                    <strong>HEXAGON GUARDIAN • AOI_01</strong><br>
+                                                    Parede Norte Superior (1231.44m)<br>
+                                                    Desloc: <span class="text-danger">9.48 mm</span> | Vel: <span class="text-warning">2.78 mm/h</span><br>
+                                                    <small class="text-info"><i class="fa-solid fa-arrow-pointer"></i> Clique para sincronizar na visualização 3D</small>
+                                                </div>
+                                            </div>
+
+                                            <!-- Hexagon IBIS-FM EVO Radar Station Marker (Base Sul) -->
+                                            <div class="hex-radar-station-pin" style="top: 66.8%; left: 50.6%;" onclick="setRadarDisplayMode('3d-sat');" title="Estação Radar IBIS-FM EVO 01">
+                                                <div class="hex-station-marker">
+                                                    <i class="fa-solid fa-satellite-dish"></i>
+                                                </div>
+                                                <div class="hex-station-label">
+                                                    <span>IBIS-FM EVO 01</span>
+                                                    <small>Base Sul (1140m)</small>
+                                                </div>
+                                            </div>
+
+                                            <!-- Floating 2D HUD -->
+                                            <div class="hex-2d-hud">
+                                                <div class="hex-hud-pill">
+                                                    <i class="fa-solid fa-satellite text-primary"></i>
+                                                    <span>Satélite: Fast2Mine / Google Earth HD (0.5m)</span>
+                                                </div>
+                                                <div class="hex-hud-pill">
+                                                    <i class="fa-solid fa-wave-square text-info"></i>
+                                                    <span>Banda Ku • Coerência: &gamma; = 0.94</span>
+                                                </div>
+                                                <div class="hex-hud-pill">
+                                                    <i class="fa-solid fa-wind text-success"></i>
+                                                    <span>Hi-Sense™: Compensação Atmosférica Ativa</span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Layer Switcher for 2D -->
+                                            <div class="hex-2d-layers">
+                                                <button type="button" class="btn-tool active" id="btn-hex-2d-ann" onclick="toggleHex2DLayer('annotated')">Com Retículo Hexagon</button>
+                                                <button type="button" class="btn-tool" id="btn-hex-2d-raw" onclick="toggleHex2DLayer('raw')">Satélite Puro</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Integrated Guardian Timeline Controller Bar -->
                                     <div class="radar-timeline-panel">
                                         <div class="timeline-header">
                                             <div class="timeline-playback-tools">
@@ -933,14 +871,14 @@
                             <!-- Right: Synchronized Geotechnical Charts & Diagnostic Dossier -->
                             <div class="radar-charts-card card">
                                 <div class="card-header justify-between">
-                                    <h3><i class="fa-solid fa-chart-line text-primary"></i> Telemetria Cinemática &amp; Método 1/v</h3>
-                                    <span class="badge badge-primary">Hexagon Guardian</span>
+                                    <h3><i class="fa-solid fa-chart-line text-primary"></i> Cinemática de Talude &amp; Análise Preditiva</h3>
+                                    <span class="badge badge-primary">Hexagon Guardian™</span>
                                 </div>
                                 <div class="card-body">
                                     <!-- Mini-chart 1: Deslocamento Acumulado -->
                                     <div class="telemetry-chart-block mb-3">
                                         <div class="telemetry-chart-header">
-                                            <span class="chart-title"><i class="fa-solid fa-ruler-horizontal text-danger"></i> Deslocamento Acumulado (mm)</span>
+                                            <span class="chart-title"><i class="fa-solid fa-ruler-horizontal text-danger"></i> Deslocamento Acumulado LoS (mm)</span>
                                             <span class="chart-cur-val font-mono text-danger" id="chart-disp-val">9.48 mm</span>
                                         </div>
                                         <div class="telemetry-canvas-box">
@@ -951,7 +889,7 @@
                                     <!-- Mini-chart 2: Velocidade de Deformação -->
                                     <div class="telemetry-chart-block mb-3">
                                         <div class="telemetry-chart-header">
-                                            <span class="chart-title"><i class="fa-solid fa-gauge-high text-warning"></i> Velocidade de Deformação (mm/h)</span>
+                                            <span class="chart-title"><i class="fa-solid fa-gauge-high text-warning"></i> Velocidade de Deformação LoS (mm/h)</span>
                                             <span class="chart-cur-val font-mono text-warning" id="chart-vel-val">2.78 mm/h</span>
                                         </div>
                                         <div class="telemetry-canvas-box">
@@ -962,7 +900,7 @@
                                     <!-- Mini-chart 3: Inverso da Velocidade (1/v) -->
                                     <div class="telemetry-chart-block mb-3">
                                         <div class="telemetry-chart-header">
-                                            <span class="chart-title"><i class="fa-solid fa-chart-simple text-purple"></i> Inverso da Velocidade 1/v (Fukuzono / Voight)</span>
+                                            <span class="chart-title"><i class="fa-solid fa-chart-simple text-purple"></i> Inverso da Velocidade 1/v (Método Fukuzono / Voight)</span>
                                             <span class="chart-cur-val font-mono text-purple" id="chart-inv-val">0.36 h/mm</span>
                                         </div>
                                         <div class="telemetry-canvas-box">
@@ -970,87 +908,50 @@
                                         </div>
                                     </div>
 
-                                    <!-- Geotechnical Engineering Synthesis Card -->
+                                    <!-- Hexagon TARP Matrix & Safety Zone -->
+                                    <div class="hex-tarp-matrix-box mb-3">
+                                        <div class="hex-tarp-header">
+                                            <i class="fa-solid fa-shield-halved text-danger"></i>
+                                            <strong>Critérios de Alarme TARP (Hexagon / Itaminas)</strong>
+                                        </div>
+                                        <div class="hex-tarp-grid">
+                                            <div class="hex-tarp-level level-green">
+                                                <span class="tarp-badge">NORMAL</span>
+                                                <span class="tarp-criteria">v &lt; 1.0 mm/h</span>
+                                                <small>Rotina Operacional</small>
+                                            </div>
+                                            <div class="hex-tarp-level level-yellow">
+                                                <span class="tarp-badge">NÍVEL 1</span>
+                                                <span class="tarp-criteria">v &ge; 1.0 mm/h</span>
+                                                <small>Atenção / Vigilância</small>
+                                            </div>
+                                            <div class="hex-tarp-level level-orange">
+                                                <span class="tarp-badge">NÍVEL 2</span>
+                                                <span class="tarp-criteria">v &ge; 1.8 mm/h</span>
+                                                <small>Alerta Geotécnico</small>
+                                            </div>
+                                            <div class="hex-tarp-level level-red active-tarp">
+                                                <span class="tarp-badge">NÍVEL 3</span>
+                                                <span class="tarp-criteria">v &ge; 2.5 mm/h</span>
+                                                <small>EVACUAÇÃO (FR012)</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- HxGN MineProtect Geofence Integration Card -->
                                     <div class="geotech-synthesis-box">
                                         <div class="synthesis-header">
-                                            <i class="fa-solid fa-clipboard-check text-success"></i>
-                                            <strong>Diagnóstico do Laudo FR012 &amp; Alinhamento CMG</strong>
+                                            <i class="fa-solid fa-satellite-dish text-info"></i>
+                                            <strong>Interdição HxGN MineProtect™ &amp; Laudo FR012</strong>
                                         </div>
                                         <p class="synthesis-text">
-                                            O comportamento progressivo registrado na Parede Norte Superior às 09:24 foi correlacionado diretamente à <strong>perfuratriz em operação na crista do banco</strong> (informado por Werlen Henrique / CMG às 09:31). A vibração contínua provocou deformação plástica superficial sem cisalhamento profundo.
+                                            O radar IBIS-FM disparou a cerca virtual de interdição (geofence) no setor <strong>AOI_01 (Cota 1231m)</strong>. A vibração decorrente da perfuração foi confirmada pelo CMG e a equipe operacional realizou a paralisação preventiva imediata.
                                         </p>
                                         <div class="synthesis-footer">
                                             <button type="button" class="btn btn-primary btn-sm w-100" onclick="openFlashReportModal()">
-                                                <i class="fa-solid fa-magnifying-glass-plus"></i> Inspecionar Flash Report FR012 Completo
+                                                <i class="fa-solid fa-magnifying-glass-plus"></i> Inspecionar Flash Report FR012 Oficial
                                             </button>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-
-                        <!-- VIEW 3: MININGCONTROL FLEET & EQUIPMENT MAPPING -->
-                        <div id="view-panel-equipment-fleet" class="radar-view-panel mb-4" style="display: none;">
-                            <div class="card">
-                                <div class="card-header justify-between">
-                                    <div class="d-flex align-center gap-2">
-                                        <div class="f2m-logo-badge">F2M</div>
-                                        <div>
-                                            <h3 class="m-0">Frotas &amp; Mapeamento de Equipamentos - MiningControl Cloud</h3>
-                                            <p class="text-secondary small m-0">Integração oficial: <code>https://itaminas.report.miningcontrol.cloud</code> • Sistema F2M Itaminas</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-center gap-2">
-                                        <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> Conexão Estabelecida</span>
-                                        <a href="https://itaminas.report.miningcontrol.cloud/" target="_blank" class="btn btn-primary btn-sm">
-                                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir MiningControl
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <!-- Fleet KPI Cards -->
-                                    <div class="miningcontrol-kpi-grid mb-3">
-                                        <div class="mc-kpi-box">
-                                            <span class="mc-label">Equipamentos Mapeados na Cava</span>
-                                            <strong class="mc-val text-primary" id="mc-total-equip">8 Ativos</strong>
-                                            <small class="mc-sub">Cava Jangada (JGD)</small>
-                                        </div>
-                                        <div class="mc-kpi-box border-danger">
-                                            <span class="mc-label">Equipamento em Alerta Geotécnico</span>
-                                            <strong class="mc-val text-danger">PF-01 (Perfuratriz)</strong>
-                                            <small class="mc-sub">Bancada N_Sup_1231.44 (FR012)</small>
-                                        </div>
-                                        <div class="mc-kpi-box">
-                                            <span class="mc-label">Polígono de Lavra Crítico</span>
-                                            <strong class="mc-val text-warning">1250_NORTE_1_JGD</strong>
-                                            <small class="mc-sub">Área de isolamento temporário</small>
-                                        </div>
-                                        <div class="mc-kpi-box">
-                                            <span class="mc-label">Telemetria &amp; Conectividade</span>
-                                            <strong class="mc-val text-success">Rede 4G / LTE</strong>
-                                            <small class="mc-sub">Sinal 100% no Maciço</small>
-                                        </div>
-                                    </div>
-
-                                    <!-- Equipment List Table -->
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Equipamento</th>
-                                                    <th>Tipo / Modelo</th>
-                                                    <th>Operador</th>
-                                                    <th>Polígono F2M / Bancada</th>
-                                                    <th>Status Operacional</th>
-                                                    <th>Velocidade</th>
-                                                    <th>Ação Geotécnica</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="miningcontrol-fleet-table-body">
-                                                <!-- Populated dynamically from window.MDSYNC_MININGCONTROL.equipments -->
-                                            </tbody>
-                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -3233,7 +3134,6 @@
     <script src="data/frota-veicular.js?v=pcmi-20260904i"></script>
     <script src="data/inspections-fir.js?v=pcmi-20260904i"></script>
     <script src="data/whatsapp-radar-feed.js?v=mdhub-20260904d"></script>
-    <script src="data/miningcontrol-equipment.js?v=mdhub-20260904e"></script>
     <script src="data/radar-cava-jangada.js?v=mdhub-20260904d"></script>
     <script src="app.js?v=mdhub-20260904d"></script>
 </body>
