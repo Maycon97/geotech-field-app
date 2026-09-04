@@ -32,18 +32,19 @@ Ao desenvolver ou manter este projeto, siga rigorosamente as diretrizes abaixo:
 - **Projeção Padrão**: Universal Transversa de Mercator (UTM), Zona 23 Sul (EPSG: 31983).
 - **Validação de Coordenadas**: Todas as coordenadas Este (EW/X ~ 590000 - 600000) e Norte (NS/Y ~ 7770000 - 7790000) devem ser validadas contra valores nulos ou fora do quadrante da mina.
 
-## 2. Integridade dos Dados Geotécnicos
+## 2. Integridade dos Dados Geotécnicos e Normas de Referência
+- **Base Canônica**: Diretrizes de Myint Win Bo & Jeffrey Barrett (2023), detalhadas em `.agents/rules/geotechnical-instrumentation-bo-barrett.md`.
 - **Tipos de Instrumentos**:
-  - `INA` (Indicador de Nível D'Água / Piezômetro Casagrande)
-  - `PZ` (Piezômetro de Corda Vibrante / Elétrico)
-  - `VZ` / `MCD` / `ETR` (Medidores de Vazão e Calhas Parshall)
-  - `MV` / `MS` (Marcos Superficiais de Deslocamento)
+  - `INA` (Indicador de Nível D'Água / Piezômetro Casagrande): Cota NA = Cota Boca - Profundidade Medida; Poro-pressão com base na cota da ponta; atenção ao efeito de retardo (time lag) em solos finos.
+  - `PZ` (Piezômetro de Corda Vibrante / Elétrico): Leitura direta de poro-pressão sem retardo hidrodinâmico; compensação térmica e barométrica.
+  - `VZ` / `MCD` / `ETR` (Medidores de Vazão e Calhas Parshall): Balanço hídrico e controle de carreamento de finos.
+  - `MV` / `MS` (Marcos Superficiais de Deslocamento): Decomposição cinemática (recalque vertical e deslocamento horizontal).
   - `NA` (Nível d'Água do Reservatório)
-- **Validação de Limites**: As leituras devem ser comparadas com os limites operacionais:
-  - *Normal* (dentro dos parâmetros de segurança)
-  - *Atenção* (requer acompanhamento e repetição de leitura)
-  - *Alerta* (inspeção imediata no local)
-  - *Emergência* (acionamento do PAEBM / plano de contingência)
+- **Validação de Limites Operacionais e TARP**:
+  - *Normal*: Dentro dos parâmetros de segurança e faixa sazonal histórica.
+  - *Atenção / Alert*: Atingimento de 70% a 80% do limite crítico ou aceleração na taxa de deformação; duplicação da frequência de leitura e checagem cruzada.
+  - *Alerta / Trigger*: Atingimento do limite crítico de projeto ou instabilidade cinemática; intervenção de campo imediata.
+  - *Emergência*: Acionamento do PAEBM / plano de contingência com evacuação e mitigação de risco.
 
 ## 3. Arquitetura Offline-First
 - O app deve funcionar 100% desconectado em campo.
