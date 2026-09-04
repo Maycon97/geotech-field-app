@@ -681,7 +681,7 @@ function initializeSecurityGate() {
             unlockSecurityGate();
             if (!appBooted) bootApplication();
             resetSecurityIdleTimer();
-    initializeSysdamModules();
+            initializeMdHubModules();
         } catch (error) {
             showSecurityError(error.message || "Nao foi possivel validar o PIN neste dispositivo.");
         }
@@ -691,7 +691,7 @@ function initializeSecurityGate() {
         unlockSecurityGate();
         bootApplication();
         resetSecurityIdleTimer();
-    initializeSysdamModules();
+        initializeMdHubModules();
         return;
     }
 
@@ -4385,7 +4385,7 @@ function saveInspection(event) {
         showToast("Inspeção visual registrada no banco central.");
     }
 
-    // Módulo 4 SYSDAM: Vinculação automática de anomalias detectadas ao Plano de Ação
+    // Módulo 4 MD Hub: Vinculação automática de anomalias detectadas ao Plano de Ação
     syncInspectionToActionPlan(newInspection);
 
     resetInspectionForm();
@@ -9413,8 +9413,8 @@ function initializeLivePCMISync() {
 
 
 // ==========================================================================
-// SYSDAM INTEGRATION MODULES (MDSYNC PCMI / ITAMINAS)
-// Benchmark: sysdam.com.br
+// MD HUB INTEGRATION MODULES (MDSYNC PCMI / ITAMINAS)
+// Benchmark de Inteligência: sysdam.com.br
 // ==========================================================================
 
 function scrollToSection(sectionId) {
@@ -9782,7 +9782,7 @@ function exportDatasheetPdfDocx() {
         </head>
         <body>
             <h1>ITAMINAS MINERAÇÃO S.A. - SPLO GEOTECNIA</h1>
-            <p><strong>FICHA TÉCNICA CADASTRAL OFICIAL - MÓDULO 1 SYSDAM</strong></p>
+            <p><strong>FICHA TÉCNICA CADASTRAL OFICIAL - MÓDULO 1 MD HUB</strong></p>
             <p>Emissão: ${formatDateTimeBR(new Date())} | Sistema MDSync</p>
             <hr/>
             <h2>1. Identificação Geral</h2>
@@ -9823,7 +9823,7 @@ function exportDatasheetPdfDocx() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `Ficha_Tecnica_${data.name.replace(/\s+/g, '_')}_SYSDAM.doc`;
+    a.download = `Ficha_Tecnica_${data.name.replace(/\s+/g, '_')}_MDHub.doc`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -10420,7 +10420,7 @@ function exportFmeaReportDocx() {
         </head>
         <body>
             <h1>ITAMINAS MINERAÇÃO S.A. - SPLO GEOTECNIA</h1>
-            <p><strong>LAUDO DE AVALIAÇÃO DE RISCOS GEOTÉCNICOS (FMEA) - MÓDULO 5 SYSDAM</strong></p>
+            <p><strong>LAUDO DE AVALIAÇÃO DE RISCOS GEOTÉCNICOS (FMEA) - MÓDULO 5 MD HUB</strong></p>
             <p>Estrutura Avaliada: <strong>${escapeHtml(name)}</strong> | Emissão: ${formatDateTimeBR(new Date())}</p>
             <hr/>
             <h2>1. Matriz de Modos de Falha Geotécnicos & RPN</h2>
@@ -10465,7 +10465,7 @@ function exportFmeaReportDocx() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `Laudo_FMEA_${name.replace(/\s+/g, '_')}_SYSDAM.doc`;
+    a.download = `Laudo_FMEA_${name.replace(/\s+/g, '_')}_MDHub.doc`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -10650,7 +10650,7 @@ function exportPaebmDossierDocx() {
         </head>
         <body>
             <h1>ITAMINAS MINERAÇÃO S.A. - SPLO GEOTECNIA</h1>
-            <p><strong>DOSSIÊ OPERACIONAL DO PAEBM - MÓDULO 6 SYSDAM (ALERT)</strong></p>
+            <p><strong>DOSSIÊ OPERACIONAL DO PAEBM - MÓDULO 6 MD HUB (ALERT)</strong></p>
             <p>Estrutura Monitorada: <strong>${escapeHtml(name)}</strong> | Emissão: ${formatDateTimeBR(new Date())}</p>
             <p>Enquadramento: <strong>Art. 36 da Resolução ANM nº 95/2022</strong> e Lei Federal nº 12.334/2010 (PNSB)</p>
             <hr/>
@@ -10683,7 +10683,7 @@ function exportPaebmDossierDocx() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `Dossie_PAEBM_${name.replace(/\s+/g, '_')}_SYSDAM.doc`;
+    a.download = `Dossie_PAEBM_${name.replace(/\s+/g, '_')}_MDHub.doc`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -10691,8 +10691,8 @@ function exportPaebmDossierDocx() {
     if (typeof showToast === "function") showToast("Dossiê PAEBM baixado com sucesso.", "success");
 }
 
-// --- INICIALIZADOR GERAL DOS MÓDULOS SYSDAM ---
-function initializeSysdamModules() {
+// --- INICIALIZADOR GERAL DOS MÓDULOS MD HUB ---
+function initializeMdHubModules() {
     // Garante que o plano de ação existe no localStorage
     getActionPlanItems();
     populateDatasheetStructures();
@@ -10700,6 +10700,10 @@ function initializeSysdamModules() {
     populateAlertStructures();
     populateActionFilterStructures();
     renderActionPlanTable();
+}
+
+function initializeSysdamModules() {
+    initializeMdHubModules();
 }
 
 
@@ -10741,7 +10745,7 @@ function bootApplication() {
     registerServiceWorker();
     installSecurityActivityListeners();
     resetSecurityIdleTimer();
-    initializeSysdamModules();
+    initializeMdHubModules();
 }
 
 // Window Loader Initializer

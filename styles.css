@@ -6499,97 +6499,255 @@ body.dark-theme .hash-badge {
 }
 
 /* ==========================================================================
-   SYSDAM INTEGRATION MODULES (MDSYNC PCMI / ITAMINAS)
-   Benchmark: sysdam.com.br
+   MD HUB - CENTRAL INTEGRADA DE GESTÃO GEOTÉCNICA (MDSYNC / ITAMINAS)
    ========================================================================== */
 
-/* 1. SYSDAM Hub Strip (Top Navigation Bar) */
+/* 1. MD Hub Strip (Top Navigation Bar) */
+.md-hub-strip,
 .sysdam-hub-strip {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    background: linear-gradient(135deg, rgba(8, 28, 48, 0.95), rgba(11, 44, 72, 0.92));
+    gap: 10px;
+    padding: 8px 18px;
+    background: linear-gradient(90deg, rgba(3, 26, 43, 0.96) 0%, rgba(5, 46, 74, 0.92) 50%, rgba(3, 26, 43, 0.96) 100%);
     border-bottom: 1px solid rgba(65, 174, 189, 0.35);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 22px rgba(0, 15, 28, 0.45);
     overflow-x: auto;
     white-space: nowrap;
     z-index: 90;
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(14px);
+    transition: background 0.3s ease;
 }
 
+.md-hub-strip::-webkit-scrollbar,
+.sysdam-hub-strip::-webkit-scrollbar {
+    height: 3px;
+}
+
+.md-hub-strip::-webkit-scrollbar-thumb,
+.sysdam-hub-strip::-webkit-scrollbar-thumb {
+    background: rgba(65, 174, 189, 0.4);
+    border-radius: 3px;
+}
+
+/* Título e Identidade Visual MD Hub */
+.md-hub-title,
 .sysdam-hub-title {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    color: #f59e0b;
-    padding-right: 12px;
-    border-right: 1px solid rgba(255, 255, 255, 0.12);
+    gap: 9px;
+    padding: 3px 12px 3px 3px;
+    border-right: 1px solid rgba(65, 174, 189, 0.25);
     flex-shrink: 0;
-}
-
-.sysdam-chips-track {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-grow: 1;
-}
-
-.sysdam-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 600;
-    color: #e2e8f0;
-    background: rgba(15, 36, 56, 0.7);
-    border: 1px solid rgba(92, 189, 186, 0.2);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-decoration: none;
     user-select: none;
 }
 
-.sysdam-chip:hover {
-    background: rgba(65, 174, 189, 0.22);
-    border-color: rgba(65, 174, 189, 0.55);
-    color: #ffffff;
-    transform: translateY(-1px);
+.md-hub-title-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background: linear-gradient(135deg, rgba(65, 174, 189, 0.28), rgba(162, 207, 73, 0.22));
+    border: 1px solid rgba(65, 174, 189, 0.45);
+    color: #38bdf8;
+    font-size: 13px;
+    animation: md-hub-pulse 3s infinite ease-in-out;
 }
 
+@keyframes md-hub-pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 6px rgba(65, 174, 189, 0.35);
+    }
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 16px rgba(65, 174, 189, 0.75);
+    }
+}
+
+.md-hub-brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.md-hub-brand-name {
+    font-size: 12.5px;
+    font-weight: 900;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #f6fbff 0%, #5cbdbf 50%, #a2cf49 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.md-hub-brand-sub {
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    color: #a2cf49;
+    text-transform: uppercase;
+}
+
+/* Track de Chips */
+.md-hub-chips-track,
+.sysdam-chips-track {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-grow: 1;
+}
+
+/* Chips / Botões de Módulo */
+.md-hub-chip,
+.sysdam-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 13px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #e2e8f0;
+    background: linear-gradient(145deg, rgba(8, 38, 62, 0.72), rgba(4, 25, 42, 0.86));
+    border: 1px solid rgba(92, 189, 186, 0.22);
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.md-hub-chip::before,
+.sysdam-chip::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+    transition: left 0.5s ease;
+}
+
+.md-hub-chip:hover::before,
+.sysdam-chip:hover::before {
+    left: 100%;
+}
+
+.md-hub-chip:hover,
+.sysdam-chip:hover {
+    background: linear-gradient(145deg, rgba(14, 58, 92, 0.88), rgba(7, 36, 58, 0.96));
+    border-color: rgba(65, 174, 189, 0.65);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(65, 174, 189, 0.3), inset 0 0 10px rgba(65, 174, 189, 0.12);
+}
+
+.md-hub-chip:active,
+.sysdam-chip:active {
+    transform: translateY(0);
+}
+
+.md-hub-chip.active,
 .sysdam-chip.active {
-    background: linear-gradient(135deg, #104868, #1e6992);
+    background: linear-gradient(135deg, rgba(16, 72, 104, 0.95), rgba(10, 52, 80, 0.95));
     border-color: #41aebd;
     color: #ffffff;
-    box-shadow: 0 2px 8px rgba(65, 174, 189, 0.3);
+    box-shadow: 0 0 14px rgba(65, 174, 189, 0.45), inset 0 0 8px rgba(65, 174, 189, 0.25);
 }
 
+.md-hub-chip i,
 .sysdam-chip i {
     font-size: 13px;
     color: #41aebd;
+    transition: transform 0.25s ease, color 0.25s ease;
 }
 
+.md-hub-chip:hover i,
 .sysdam-chip:hover i {
     color: #5cbdbf;
+    transform: scale(1.18);
 }
 
+/* Tags internas de categoria com cores harmônicas */
+.md-hub-chip .chip-tag,
 .sysdam-chip .chip-tag {
     font-size: 9px;
-    padding: 1px 5px;
+    padding: 2px 6px;
     border-radius: 4px;
-    background: rgba(245, 158, 11, 0.2);
-    color: #fbbf24;
     font-weight: 700;
     letter-spacing: 0.3px;
+    transition: all 0.2s ease;
 }
 
-/* 2. Action Plan Tracker (Modulo 4 SYSDAM) */
+.md-hub-chip .chip-tag.tag-cadastral,
+.sysdam-chip .chip-tag.tag-cadastral {
+    background: rgba(56, 189, 248, 0.16);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.md-hub-chip .chip-tag.tag-governanca,
+.sysdam-chip .chip-tag.tag-governanca {
+    background: rgba(162, 207, 73, 0.16);
+    color: #a2cf49;
+    border: 1px solid rgba(162, 207, 73, 0.3);
+}
+
+.md-hub-chip .chip-tag.tag-tarp,
+.sysdam-chip .chip-tag.tag-tarp {
+    background: rgba(92, 189, 186, 0.18);
+    color: #5cbdbf;
+    border: 1px solid rgba(92, 189, 186, 0.3);
+}
+
+.md-hub-chip .chip-tag.tag-tratativas,
+.sysdam-chip .chip-tag.tag-tratativas {
+    background: rgba(252, 177, 28, 0.18);
+    color: #fcb11c;
+    border: 1px solid rgba(252, 177, 28, 0.3);
+}
+
+.md-hub-chip .chip-tag.tag-fmea,
+.sysdam-chip .chip-tag.tag-fmea {
+    background: rgba(240, 127, 47, 0.18);
+    color: #f07f2f;
+    border: 1px solid rgba(240, 127, 47, 0.3);
+}
+
+.md-hub-chip .chip-tag.tag-alerta,
+.sysdam-chip .chip-tag.tag-alerta {
+    background: rgba(214, 69, 80, 0.2);
+    color: #f87171;
+    border: 1px solid rgba(214, 69, 80, 0.4);
+    animation: alert-chip-pulse 2s infinite ease-in-out;
+}
+
+@keyframes alert-chip-pulse {
+    0%, 100% { box-shadow: 0 0 2px rgba(214, 69, 80, 0.4); }
+    50% { box-shadow: 0 0 8px rgba(214, 69, 80, 0.7); }
+}
+
+.md-hub-chip .chip-tag.tag-executivo,
+.sysdam-chip .chip-tag.tag-executivo {
+    background: rgba(167, 139, 250, 0.18);
+    color: #c4b5fd;
+    border: 1px solid rgba(167, 139, 250, 0.3);
+}
+
+.md-hub-chip .chip-tag.tag-espacial,
+.sysdam-chip .chip-tag.tag-espacial {
+    background: rgba(14, 165, 233, 0.18);
+    color: #7dd3fc;
+    border: 1px solid rgba(14, 165, 233, 0.3);
+}
+
+/* 2. Action Plan Tracker (Modulo 4 MD Hub) */
 .action-plan-card {
     background: var(--bg-dark-card);
     border: 1px solid var(--border-color);
@@ -6711,7 +6869,7 @@ body.dark-theme .hash-badge {
 .status-badge.andamento { background: rgba(65, 174, 189, 0.18); color: #38bdf8; }
 .status-badge.concluido { background: rgba(162, 207, 73, 0.18); color: #4ade80; }
 
-/* 3. FMEA Gestao de Riscos (Modulo 5 SYSDAM) */
+/* 3. FMEA Gestao de Riscos (Modulo 5 MD Hub) */
 .fmea-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -6856,7 +7014,7 @@ body.dark-theme .hash-badge {
     font-weight: 800;
 }
 
-/* 4. ALERT & PAEBM (Modulo 6 SYSDAM) */
+/* 4. ALERT & PAEBM (Modulo 6 MD Hub) */
 .alert-levels-deck {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -6927,7 +7085,7 @@ body.dark-theme .hash-badge {
     text-transform: uppercase;
 }
 
-/* 5. Structure Datasheet (Modulo 1 SYSDAM) */
+/* 5. Structure Datasheet (Modulo 1 MD Hub) */
 .datasheet-hero {
     display: flex;
     align-items: center;

@@ -20,7 +20,7 @@
     <!-- Chart.js local fallback for offline field use -->
     <script src="vendor/chart.umd.min.js?v=authless-20260610c" defer></script>
     <script src="vendor/jszip.min.js?v=authless-20260610c" defer></script>
-    <link rel="stylesheet" href="styles.css?v=sysdam-20260904a">
+    <link rel="stylesheet" href="styles.css?v=mdhub-20260904b">
     <style>
         body .pilhas-bi-map-panel .pilhas-location-map {
             background-image:
@@ -126,52 +126,57 @@
                 </div>
             </header>
 
-            <!-- SYSDAM Hub Strip (8 Módulos de Gestão Geotécnica Integrada - Benchmark sysdam.com.br) -->
-            <div class="sysdam-hub-strip" id="sysdam-hub-strip" role="navigation" aria-label="Módulos SYSDAM">
-                <div class="sysdam-hub-title" title="Diretriz Operacional Corporativa baseada em SYSDAM (sysdam.com.br)">
-                    <i class="fa-solid fa-cubes-stacked"></i>
-                    <span>SYSDAM Hub</span>
+            <!-- MD HUB - CENTRAL INTEGRADA DE GESTÃO GEOTÉCNICA -->
+            <div class="md-hub-strip" id="md-hub-strip" role="navigation" aria-label="MD Hub - Módulos de Gestão Geotécnica">
+                <div class="md-hub-title" title="MD Hub - Central Integrada de Módulos Geotécnicos MDSync">
+                    <div class="md-hub-title-icon">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <div class="md-hub-brand-text">
+                        <span class="md-hub-brand-name">MD Hub</span>
+                        <span class="md-hub-brand-sub">Geotecnia</span>
+                    </div>
                 </div>
-                <div class="sysdam-chips-track">
-                    <button type="button" class="sysdam-chip" onclick="openStructureDatasheetModal()" title="Módulo 1: Ficha técnica cadastral, geometria, cotas e classificação de risco ANM/GISTM">
+                <div class="md-hub-chips-track">
+                    <button type="button" class="md-hub-chip" onclick="openStructureDatasheetModal()" title="Módulo 1: Ficha técnica cadastral, geometria, cotas e classificação de risco ANM/GISTM">
                         <i class="fa-solid fa-file-invoice"></i>
                         <span>1. Ficha Técnica</span>
-                        <span class="chip-tag">Cadastral</span>
+                        <span class="chip-tag tag-cadastral">Cadastral</span>
                     </button>
-                    <button type="button" class="sysdam-chip" onclick="switchTab('reports')" title="Módulo 2: Repositório documental do PSB, PAEBM, DCEs e relatórios de auditoria">
+                    <button type="button" class="md-hub-chip" onclick="switchTab('reports')" title="Módulo 2: Repositório documental do PSB, PAEBM, DCEs e relatórios de auditoria">
                         <i class="fa-solid fa-folder-closed"></i>
                         <span>2. PSB & Docs</span>
-                        <span class="chip-tag">Governança</span>
+                        <span class="chip-tag tag-governanca">Governança</span>
                     </button>
-                    <button type="button" class="sysdam-chip" onclick="switchTab('readings')" title="Módulo 3: Monitoramento de piezômetros PZ/INA, NAs, marcos e pluviometria">
+                    <button type="button" class="md-hub-chip" onclick="switchTab('readings')" title="Módulo 3: Monitoramento de piezômetros PZ/INA, NAs, marcos e pluviometria">
                         <i class="fa-solid fa-gauge-high"></i>
                         <span>3. Monitoramento</span>
-                        <span class="chip-tag">TARP</span>
+                        <span class="chip-tag tag-tarp">TARP</span>
                     </button>
-                    <button type="button" class="sysdam-chip" onclick="switchTab('inspections'); scrollToSection('action-plan-section');" title="Módulo 4: Inspeções de campo FIR e Plano de Ação Corretiva com ciclo fechado">
+                    <button type="button" class="md-hub-chip" onclick="switchTab('inspections'); scrollToSection('action-plan-section');" title="Módulo 4: Inspeções de campo FIR e Plano de Ação Corretiva com ciclo fechado">
                         <i class="fa-solid fa-clipboard-check"></i>
                         <span>4. Inspeções & Ação</span>
-                        <span class="chip-tag">Tratativas</span>
+                        <span class="chip-tag tag-tratativas">Tratativas</span>
                     </button>
-                    <button type="button" class="sysdam-chip" onclick="openFmeaModal()" title="Módulo 5: Gestão de riscos por modos de falha (liquefação, piping, sobre-elevação freática e galgamento) e cálculo de RPN">
+                    <button type="button" class="md-hub-chip" onclick="openFmeaModal()" title="Módulo 5: Gestão de riscos por modos de falha (liquefação, piping, sobre-elevação freática e galgamento) e cálculo de RPN">
                         <i class="fa-solid fa-triangle-exclamation"></i>
                         <span>5. Gestão de Riscos</span>
-                        <span class="chip-tag">FMEA/RPN</span>
+                        <span class="chip-tag tag-fmea">FMEA / RPN</span>
                     </button>
-                    <button type="button" class="sysdam-chip" onclick="openAlertPaebmModal()" title="Módulo 6: Níveis de emergência 0/1/2/3 (Res. ANM 95/2022), ZAS e prontidão de sirenes">
+                    <button type="button" class="md-hub-chip" onclick="openAlertPaebmModal()" title="Módulo 6: Níveis de emergência 0/1/2/3 (Res. ANM 95/2022), ZAS e prontidão de sirenes">
                         <i class="fa-solid fa-tower-broadcast"></i>
                         <span>6. ALERT (PAEBM)</span>
-                        <span class="chip-tag">Emergência</span>
+                        <span class="chip-tag tag-alerta">Emergência</span>
                     </button>
-                    <button type="button" class="sysdam-chip" onclick="switchTab('indicators')" title="Módulo 7: Business Intelligence, dashboards executivos e mapa de calor">
+                    <button type="button" class="md-hub-chip" onclick="switchTab('indicators')" title="Módulo 7: Business Intelligence, dashboards executivos e mapa de calor">
                         <i class="fa-solid fa-chart-pie"></i>
                         <span>7. BI & Indicadores</span>
-                        <span class="chip-tag">Executivo</span>
+                        <span class="chip-tag tag-executivo">Executivo</span>
                     </button>
-                    <button type="button" class="sysdam-chip" onclick="switchTab('geoview')" title="Módulo 8: Cartografia GIS, ortofotos e fatores de segurança">
+                    <button type="button" class="md-hub-chip" onclick="switchTab('geoview')" title="Módulo 8: Cartografia GIS, ortofotos e fatores de segurança">
                         <i class="fa-solid fa-earth-americas"></i>
                         <span>8. SYSGEO GIS</span>
-                        <span class="chip-tag">Espacial</span>
+                        <span class="chip-tag tag-espacial">Espacial</span>
                     </button>
                 </div>
             </div>
@@ -1097,11 +1102,11 @@
                             </form>
                     </div>
 
-                    <!-- ACTION PLAN TRACKER (MÓDULO 4 SYSDAM: INSPEÇÃO E PLANO DE AÇÃO) -->
+                    <!-- ACTION PLAN TRACKER (MD HUB: INSPEÇÃO E PLANO DE AÇÃO) -->
                     <div class="card action-plan-card" id="action-plan-section">
                         <div class="card-header justify-between">
                             <div>
-                                <h3><i class="fa-solid fa-list-check text-primary"></i> Plano de Ação Corretiva & Tratativas (Módulo 4 SYSDAM)</h3>
+                                <h3><i class="fa-solid fa-list-check text-primary"></i> Plano de Ação Corretiva & Tratativas (MD Hub - Tratativas)</h3>
                                 <p class="text-secondary text-sm">Gestão do ciclo fechado para anomalias de campo: identificação, mitigação, prazos e comprovação de fechamento com evidências.</p>
                             </div>
                             <div class="card-header-actions">
@@ -2275,13 +2280,13 @@
         </div>
     </div>
 
-    <!-- MÓDULO 5 SYSDAM: MODAL GESTÃO DE RISCOS & FMEA GEOTÉCNICO -->
+    <!-- MÓDULO 5 MD HUB: MODAL GESTÃO DE RISCOS & FMEA GEOTÉCNICO -->
     <div class="modal" id="modal-fmea-risk" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="fmea-modal-title">
         <div class="modal-content modal-xl">
             <div class="modal-header">
                 <h3 id="fmea-modal-title">
                     <i class="fa-solid fa-triangle-exclamation text-warning"></i>
-                    Gestão de Riscos Geotécnicos & FMEA (Módulo 5 SYSDAM)
+                    Gestão de Riscos Geotécnicos & FMEA (MD Hub - Riscos)
                 </h3>
                 <span class="close" onclick="closeFmeaModal()" title="Fechar janela">&times;</span>
             </div>
@@ -2325,13 +2330,13 @@
         </div>
     </div>
 
-    <!-- MÓDULO 6 SYSDAM: MODAL ALERT & GESTÃO DE EMERGÊNCIA (PAEBM) -->
+    <!-- MÓDULO 6 MD HUB: MODAL ALERT & GESTÃO DE EMERGÊNCIA (PAEBM) -->
     <div class="modal" id="modal-alert-paebm" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="alert-modal-title">
         <div class="modal-content modal-xl">
             <div class="modal-header">
                 <h3 id="alert-modal-title">
                     <i class="fa-solid fa-tower-broadcast text-danger"></i>
-                    ALERT: Gestão de Emergência & PAEBM (Módulo 6 SYSDAM)
+                    ALERT: Gestão de Emergência & PAEBM (MD Hub - Emergência)
                 </h3>
                 <span class="close" onclick="closeAlertPaebmModal()" title="Fechar janela">&times;</span>
             </div>
@@ -2372,13 +2377,13 @@
         </div>
     </div>
 
-    <!-- MÓDULO 1 SYSDAM: MODAL DADOS DA ESTRUTURA (FICHA TÉCNICA CADASTRAL) -->
+    <!-- MÓDULO 1 MD HUB: MODAL DADOS DA ESTRUTURA (FICHA TÉCNICA CADASTRAL) -->
     <div class="modal" id="modal-structure-datasheet" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="datasheet-modal-title">
         <div class="modal-content modal-xl">
             <div class="modal-header">
                 <h3 id="datasheet-modal-title">
                     <i class="fa-solid fa-file-invoice text-primary"></i>
-                    Ficha Técnica Cadastral da Estrutura (Módulo 1 SYSDAM)
+                    Ficha Técnica Cadastral da Estrutura (MD Hub - Ficha Técnica)
                 </h3>
                 <span class="close" onclick="closeStructureDatasheetModal()" title="Fechar janela">&times;</span>
             </div>
@@ -2503,6 +2508,6 @@
     <script src="data/pluviometria.js?v=pcmi-20260904i"></script>
     <script src="data/frota-veicular.js?v=pcmi-20260904i"></script>
     <script src="data/inspections-fir.js?v=pcmi-20260904i"></script>
-    <script src="app.js?v=sysdam-20260904a"></script>
+    <script src="app.js?v=mdhub-20260904b"></script>
 </body>
 </html>
