@@ -1024,44 +1024,119 @@ function saveToLocalStorage(type) {
 }
 
 function getReadingEvaluation(inst, value) {
-    if (!inst) return { status: "Normal", mode: "depth" };
+    if (!inst) return { status: "Normal", severity: "normal", mode: "depth", tarpGuidance: null };
     const numericValue = Number(value);
-    if (!Number.isFinite(numericValue)) return { status: "Normal", mode: inst.thresholdMode || "depth" };
+    if (!Number.isFinite(numericValue)) return { status: "Normal", severity: "normal", mode: inst.thresholdMode || "depth", tarpGuidance: null };
 
-    if (inst.thresholdMode === "elevation" && inst.thresholds) {
-        const cotaBoca = Number(inst.cotaBoca);
-        const attentionElevation = Number(inst.thresholds.attentionElevation);
-        const alertElevation = Number(inst.thresholds.alertElevation);
-        const emergencyElevation = Number(inst.thresholds.emergencyElevation);
+    const cotaBoca = Number(inst.cotaBoca || inst.cotaTopo || 0);
+    const cotaFundo = Number(inst.cotaFundo || inst.cotaBase || 0);
+    const profMax = Number(inst.profMax || inst.totalLengthMeters || 0);
+    const thresholds = inst.thresholds || {};
+
+    // Harmonizacao de chaves de limites (geosync-database vs arquivos modulares)
+    const normalElevation = Number(thresholds.normalElevation ?? thresholds.normal);
+    let attentionElevation = Number(thresholds.attentionElevation ?? thresholds.warning ?? thresholds.attention);
+    const alertElevation = Number(thresholds.alertElevation ?? thresholds.alert);
+    const emergencyElevation = Number(thresholds.emergencyElevation ?? thresholds.emergency);
+
+    // Se thresholdMode for elevation OU se houver cotaBoca e limites de elevacao (> 100)
+    const hasElevationLimits = (Number.isFinite(alertElevation) && alertElevation > 100) ||
+                               (Number.isFinite(emergencyElevation) && emergencyElevation > 100) ||
+                               inst.thresholdMode === "elevation";
+
+    if (hasElevationLimits && Number.isFinite(cotaBoca) && cotaBoca > 0) {
+        const measuredElevation = Number((cotaBoca - numericValue).toFixed(3));
+        
+        // Poro-pressao u = (Cota NA - Cota Fundo) * 9.81 kPa (Bo & Barrett, 2023)
+        let porePressureKPa = null;
+        if (Number.isFinite(cotaFundo) && cotaFundo > 0) {
+            porePressureKPa = Number((Math.max(0, measuredElevation - cotaFundo) * 9.81).toFixed(2));
+        }
+
+        // Calibracao Bo & Barrett: Se Atencao nao estiver definida ou for igual a Alerta, aplicar 80% do range critico
+        if (!Number.isFinite(attentionElevation) || attentionElevation <= 0 || attentionElevation === alertElevation) {
+            if (Number.isFinite(alertElevation) && alertElevation > 0) {
+                const baseRef = (Number.isFinite(cotaFundo) && cotaFundo > 0) 
+                    ? cotaFundo 
+                    : (Number.isFinite(normalElevation) && normalElevation > 0 ? normalElevation : alertElevation - 10);
+                attentionElevation = Number((baseRef + 0.80 * (alertElevation - baseRef)).toFixed(2));
+            }
+        }
+
         const criticalElevation = Number.isFinite(emergencyElevation) ? emergencyElevation : alertElevation;
-        const measuredElevation = Number.isFinite(cotaBoca) ? cotaBoca - numericValue : null;
 
-        if (!Number.isFinite(measuredElevation) || !Number.isFinite(criticalElevation)) {
-            return { status: "Normal", mode: "elevation" };
+        // Verificacao de consistencia fisica (Bo & Barrett, Cap. 8)
+        let anomalyFlag = null;
+        if (numericValue < 0) {
+            anomalyFlag = "Nível d'água acima da boca do tubo (condição de surgência/artesianismo ou cota de referência invertida).";
+        } else if (profMax > 0 && numericValue > profMax * 1.05) {
+            anomalyFlag = `Profundidade medida (${numericValue.toFixed(2)}m) excede o comprimento total do tubo (${profMax.toFixed(2)}m). Verifique se a fita não enroscou ou se houve assoreamento.`;
         }
 
         let status = "Normal";
-        if (measuredElevation >= criticalElevation) status = "Crítico";
-        else if (Number.isFinite(attentionElevation) && measuredElevation >= attentionElevation) status = "Atenção";
+        let severity = "normal";
+        let tarpGuidance = "Operação normal. Manter periodicidade padrão de monitoramento e inspeção visual de rotina.";
+
+        if (Number.isFinite(emergencyElevation) && emergencyElevation > 0 && measuredElevation >= emergencyElevation) {
+            status = "Emergência";
+            severity = "emergency";
+            tarpGuidance = "EMERGÊNCIA GEOTÉCNICA (Nível 3): Poro-pressão atingiu o limiar de ruptura. Comunicar imediatamente a Coordenação de Geotecnia, paralisar atividades a jusante e acionar o PAEBM.";
+        } else if (Number.isFinite(alertElevation) && alertElevation > 0 && measuredElevation >= alertElevation) {
+            status = "Alerta";
+            severity = "alert";
+            tarpGuidance = "ALERTA TÉCNICO (Nível 2): Cota piezométrica excedeu o limite crítico de projeto. Realizar leitura confirmatória imediata, inspecionar taludes em busca de trincas/surgências e acionar a engenharia.";
+        } else if (Number.isFinite(attentionElevation) && attentionElevation > 0 && measuredElevation >= attentionElevation) {
+            status = "Atenção";
+            severity = "warning";
+            tarpGuidance = "ATENÇÃO PREVENTIVA (Nível 1 - 80% Bo & Barrett): Cota na faixa de vigilância. Dobrar a frequência de monitoramento (inspeção diária), verificar calibração e correlacionar com a pluviometria recente.";
+        }
 
         return {
             status,
+            severity,
             mode: "elevation",
             measuredElevation,
-            warningValue: Number.isFinite(attentionElevation) ? cotaBoca - attentionElevation : null,
-            criticalValue: cotaBoca - criticalElevation,
-            attentionElevation,
-            criticalElevation
+            porePressureKPa,
+            anomalyFlag,
+            warningValue: Number.isFinite(attentionElevation) ? Number((cotaBoca - attentionElevation).toFixed(2)) : null,
+            criticalValue: Number.isFinite(criticalElevation) ? Number((cotaBoca - criticalElevation).toFixed(2)) : null,
+            normalElevation: Number.isFinite(normalElevation) ? normalElevation : null,
+            attentionElevation: Number.isFinite(attentionElevation) ? attentionElevation : null,
+            alertElevation: Number.isFinite(alertElevation) ? alertElevation : null,
+            emergencyElevation: Number.isFinite(emergencyElevation) ? emergencyElevation : null,
+            tarpGuidance
         };
     }
 
     const criticalValue = Number(inst.limiteCritico || inst.profMax || 0);
-    if (!Number.isFinite(criticalValue) || criticalValue <= 0) return { status: "Normal", mode: "depth" };
+    if (!Number.isFinite(criticalValue) || criticalValue <= 0) {
+        return { status: "Normal", severity: "normal", mode: "depth", tarpGuidance: "Monitoramento de rotina." };
+    }
     const ratio = numericValue / criticalValue;
     let status = "Normal";
-    if (ratio >= 1.0) status = "Crítico";
-    else if (ratio >= 0.8) status = "Atenção";
-    return { status, mode: "depth", warningValue: criticalValue * 0.8, criticalValue };
+    let severity = "normal";
+    let tarpGuidance = "Monitoramento padrão em conformidade.";
+
+    if (ratio >= 1.0) {
+        status = "Alerta";
+        severity = "alert";
+        tarpGuidance = "ALERTA: Medição atingiu 100% da capacidade ou deslocamento crítico admissível. Exige inspeção física imediata.";
+    } else if (ratio >= 0.8) {
+        status = "Atenção";
+        severity = "warning";
+        tarpGuidance = "ATENÇÃO: Medição na faixa preventiva de 80%. Acompanhar tendência temporal nas próximas 24h.";
+    }
+
+    return {
+        status,
+        severity,
+        mode: "depth",
+        measuredElevation: null,
+        porePressureKPa: null,
+        warningValue: Number((criticalValue * 0.8).toFixed(2)),
+        criticalValue: criticalValue,
+        tarpGuidance
+    };
 }
 
 // Helper to determine safety states based on design thresholds
@@ -1071,13 +1146,13 @@ function getReadingStatus(instId, value) {
 
 function getStatusClass(status) {
     const normalized = String(status || "Normal").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-    if (normalized.includes("critic")) return "alert";
-    if (normalized.includes("atenc") || normalized.includes("verificar")) return "warning";
+    if (normalized.includes("emerg")) return "danger";
+    if (normalized.includes("alert") || normalized.includes("critic")) return "alert";
+    if (normalized.includes("atenc") || normalized.includes("warn") || normalized.includes("verificar")) return "warning";
     return "normal";
 }
 
 function formatNumber(value, digits = 2, fallback = "-") {
-    if (value === null || value === undefined || value === "") return fallback;
     const numeric = Number(value);
     return Number.isFinite(numeric) ? numeric.toFixed(digits) : fallback;
 }
@@ -3230,13 +3305,45 @@ function toggleContrastMode() {
     }
 }
 
+function getStationForStructure(structureName) {
+    if (!structureName) return "PLATAFORMA";
+    const mapped = GEOVIEW_OPERATIONAL.rainfallStations?.[structureName];
+    if (mapped) return mapped;
+    const norm = normalizeComparable(structureName);
+    if (norm.includes("b1")) return "BARRAGEM B1";
+    if (norm.includes("b4")) return "BARRAGEM B4";
+    if (norm.includes("b2")) return "PILHA B2";
+    if (norm.includes("pde") || norm.includes("jaco") || norm.includes("mangaba")) return "PLATAFORMA";
+    return "PLATAFORMA";
+}
+
+function getDailyRainfallForDate(station, dateStr) {
+    if (!station || !dateStr) return 0;
+    const normStation = normalizeComparable(station);
+    const datePrefix = String(dateStr).substring(0, 10);
+    
+    if (Array.isArray(GEOVIEW_OPERATIONAL.rainfall) && GEOVIEW_OPERATIONAL.rainfall.length) {
+        const item = GEOVIEW_OPERATIONAL.rainfall.find(r => 
+            normalizeComparable(r.location) === normStation && String(r.date).substring(0, 10) === datePrefix
+        );
+        if (item && Number.isFinite(Number(item.millimeters))) return Number(item.millimeters);
+    }
+    if (window.PLUVIOMETRIA_DATA?.latestRecords?.length) {
+        const item = window.PLUVIOMETRIA_DATA.latestRecords.find(r => 
+            normalizeComparable(r.location) === normStation && String(r.date).substring(0, 10) === datePrefix
+        );
+        if (item && Number.isFinite(Number(item.rainfallMm))) return Number(item.rainfallMm);
+    }
+    return 0;
+}
+
 // --- 3. DYNAMIC CHARTS AND GRAPHICS ---
 function renderInstrumentChart(instId) {
     const ctx = document.getElementById('instrumentChart').getContext('2d');
     const inst = INSTRUMENT_REGISTRY[instId];
     if (!inst) return;
 
-    // Get historical dataset sorted by date
+    // Obter historico ordenado cronologicamente
     const localData = readingsDatabase
         .filter(r => r.instrumentId === instId)
         .filter(r => Number.isFinite(Number(r.value)))
@@ -3249,17 +3356,26 @@ function renderInstrumentChart(instId) {
         }
         document.getElementById("chart-fallback").style.display = "flex";
         document.getElementById("chart-legend-box").style.display = "none";
-        document.getElementById("active-chart-label").textContent = `${inst.name} - Sem histórico`;
+        document.getElementById("active-chart-label").textContent = `${inst.name} (Sem histórico)`;
         return;
     }
 
     const labels = localData.map(r => {
         const d = new Date(r.dateTime);
-        return `${d.getDate()}/${d.getMonth()+1}`;
+        return `${d.getDate().toString().padStart(2, '0')}/${(d.getMonth()+1).toString().padStart(2, '0')}`;
     });
-    const values = localData.map(r => Number(r.value));
 
-    // Destroy existing chart to prevent memory leaks and overlapping charts
+    const isElevationMode = ["INA", "PZ"].includes(inst.type) || (Number(inst.cotaBoca) > 0 && Number(inst.thresholds?.alertElevation || inst.thresholds?.alert) > 100);
+    const cotaBoca = Number(inst.cotaBoca || inst.cotaTopo || 0);
+    const cotaFundo = Number(inst.cotaFundo || inst.cotaBase || 0);
+
+    const values = localData.map(r => {
+        if (isElevationMode) {
+            return getInstrumentChartValue(r, inst);
+        }
+        return Number(r.value);
+    });
+
     if (instrumentChart) {
         instrumentChart.destroy();
     }
@@ -3267,91 +3383,219 @@ function renderInstrumentChart(instId) {
     document.getElementById("chart-fallback").style.display = "none";
     document.getElementById("chart-legend-box").style.display = "flex";
 
-    // Setup color system based on contrast mode
     const textCol = isHighContrast ? '#000000' : '#94a3b8';
     const gridCol = isHighContrast ? '#e2e8f0' : 'rgba(255,255,255,0.06)';
 
-    // Dynamic Thresholds
-    const latestEvaluation = getReadingEvaluation(inst, values[values.length - 1]);
-    const criticalVal = Number(latestEvaluation.criticalValue || inst.limiteCritico || inst.profMax || Math.max(...values));
-    const warningVal = Number(latestEvaluation.warningValue || criticalVal * 0.8);
+    const evalData = getReadingEvaluation(inst, localData[localData.length - 1].value);
+    const station = getStationForStructure(inst.structure);
+    const rainfallData = localData.map(r => getDailyRainfallForDate(station, r.dateTime));
+    const maxRain = Math.max(0, ...rainfallData);
+
+    const datasets = [];
+
+    // 1. Dataset de Pluviometria (Eixo Secundario)
+    datasets.push({
+        type: 'bar',
+        label: `Chuva diária (${station}) [mm]`,
+        data: rainfallData,
+        yAxisID: 'rainfall',
+        backgroundColor: 'rgba(56, 189, 248, 0.28)',
+        borderColor: 'rgba(56, 189, 248, 0.65)',
+        borderWidth: 1,
+        order: 3
+    });
+
+    // 2. Dataset da Curva do Instrumento
+    datasets.push({
+        type: 'line',
+        label: isElevationMode ? `Cota Piezométrica (m)` : `Leitura (m)`,
+        data: values,
+        yAxisID: 'y',
+        borderColor: '#38bdf8',
+        backgroundColor: 'rgba(56, 189, 248, 0.12)',
+        borderWidth: 2.5,
+        tension: 0.15,
+        pointRadius: localData.length > 60 ? 1 : 3,
+        pointHoverRadius: 6,
+        pointBackgroundColor: '#38bdf8',
+        fill: true,
+        order: 1
+    });
+
+    // 3. Linhas de Limites de Seguranca (Bo & Barrett, 2023)
+    if (isElevationMode) {
+        if (Number.isFinite(evalData.emergencyElevation) && evalData.emergencyElevation > 0) {
+            datasets.push({
+                type: 'line',
+                label: `Emergência (${formatNumber(evalData.emergencyElevation, 2)}m)`,
+                data: Array(labels.length).fill(evalData.emergencyElevation),
+                yAxisID: 'y',
+                borderColor: '#ef4444',
+                borderWidth: 2,
+                pointRadius: 0,
+                fill: false,
+                order: 2
+            });
+        }
+        if (Number.isFinite(evalData.alertElevation) && evalData.alertElevation > 0) {
+            datasets.push({
+                type: 'line',
+                label: `Alerta (${formatNumber(evalData.alertElevation, 2)}m)`,
+                data: Array(labels.length).fill(evalData.alertElevation),
+                yAxisID: 'y',
+                borderColor: '#f59e0b',
+                borderWidth: 1.8,
+                borderDash: [6, 4],
+                pointRadius: 0,
+                fill: false,
+                order: 2
+            });
+        }
+        if (Number.isFinite(evalData.attentionElevation) && evalData.attentionElevation > 0) {
+            datasets.push({
+                type: 'line',
+                label: `Atenção 80% (${formatNumber(evalData.attentionElevation, 2)}m)`,
+                data: Array(labels.length).fill(evalData.attentionElevation),
+                yAxisID: 'y',
+                borderColor: '#eab308',
+                borderWidth: 1.5,
+                borderDash: [4, 4],
+                pointRadius: 0,
+                fill: false,
+                order: 2
+            });
+        }
+        if (Number.isFinite(cotaFundo) && cotaFundo > 0) {
+            datasets.push({
+                type: 'line',
+                label: `Cota Fundo (${formatNumber(cotaFundo, 2)}m)`,
+                data: Array(labels.length).fill(cotaFundo),
+                yAxisID: 'y',
+                borderColor: '#64748b',
+                borderWidth: 1.2,
+                pointRadius: 0,
+                fill: false,
+                order: 2
+            });
+        }
+        if (Number.isFinite(cotaBoca) && cotaBoca > 0) {
+            datasets.push({
+                type: 'line',
+                label: `Cota Boca (${formatNumber(cotaBoca, 2)}m)`,
+                data: Array(labels.length).fill(cotaBoca),
+                yAxisID: 'y',
+                borderColor: '#cbd5e1',
+                borderWidth: 1.2,
+                borderDash: [8, 4],
+                pointRadius: 0,
+                fill: false,
+                order: 2
+            });
+        }
+    } else {
+        const crit = Number(evalData.criticalValue || inst.limiteCritico || inst.profMax);
+        if (Number.isFinite(crit) && crit > 0) {
+            datasets.push({
+                type: 'line',
+                label: `Limite Crítico (${formatNumber(crit, 2)}m)`,
+                data: Array(labels.length).fill(crit),
+                yAxisID: 'y',
+                borderColor: '#ef4444',
+                borderWidth: 1.8,
+                pointRadius: 0,
+                fill: false,
+                order: 2
+            });
+            datasets.push({
+                type: 'line',
+                label: `Atenção 80% (${formatNumber(crit * 0.8, 2)}m)`,
+                data: Array(labels.length).fill(crit * 0.8),
+                yAxisID: 'y',
+                borderColor: '#f59e0b',
+                borderWidth: 1.5,
+                borderDash: [6, 4],
+                pointRadius: 0,
+                fill: false,
+                order: 2
+            });
+        }
+    }
 
     instrumentChart = new Chart(ctx, {
         type: 'line',
-        data: {
-            labels: labels,
-            datasets: [
-                {
-                    label: `Nível D'água (m - boca)`,
-                    data: values,
-                    borderColor: '#2563eb',
-                    backgroundColor: 'rgba(37, 99, 235, 0.15)',
-                    borderWidth: 3,
-                    tension: 0.2,
-                    pointRadius: 6,
-                    pointHoverRadius: 8,
-                    pointBackgroundColor: '#2563eb',
-                    fill: true
-                },
-                {
-                    label: latestEvaluation.mode === "elevation" ? 'Faixa de atenção por cota' : 'Faixa de Atenção (80%)',
-                    data: Array(labels.length).fill(warningVal),
-                    borderColor: '#f59e0b',
-                    borderWidth: 2,
-                    borderDash: [6, 6],
-                    pointRadius: 0,
-                    fill: false
-                },
-                {
-                    label: latestEvaluation.mode === "elevation" ? 'Cota crítica convertida em leitura' : 'Critério crítico (100%)',
-                    data: Array(labels.length).fill(criticalVal),
-                    borderColor: '#ef4444',
-                    borderWidth: 2,
-                    pointRadius: 0,
-                    fill: false
-                }
-            ]
-        },
+        data: { labels, datasets },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             animation: false,
-            responsiveAnimationDuration: 0,
+            interaction: { mode: 'index', intersect: false },
             scales: {
                 y: {
+                    position: 'left',
                     grid: { color: gridCol },
                     ticks: { color: textCol },
                     title: {
                         display: true,
-                        text: 'Profundidade medida (m)',
+                        text: isElevationMode ? 'Cota Piezométrica (m)' : 'Medição (m)',
                         color: textCol,
                         font: { size: 12, weight: 600 }
                     }
                 },
+                rainfall: {
+                    position: 'right',
+                    grid: { display: false },
+                    ticks: { color: '#38bdf8' },
+                    title: {
+                        display: true,
+                        text: 'Chuva (mm)',
+                        color: '#38bdf8',
+                        font: { size: 11, weight: 600 }
+                    },
+                    min: 0,
+                    max: Math.max(30, maxRain * 1.5)
+                },
                 x: {
                     grid: { display: false },
-                    ticks: { color: textCol }
+                    ticks: { color: textCol, maxRotation: 45, autoSkip: true, maxTicksLimit: 14 }
                 }
             },
             plugins: {
                 legend: {
                     display: true,
-                    labels: { color: textCol }
+                    labels: { color: textCol, boxWidth: 14, font: { size: 11 } }
+                },
+                tooltip: {
+                    callbacks: {
+                        label(context) {
+                            if (context.dataset.yAxisID === 'rainfall') {
+                                return `Chuva: ${formatNumber(context.raw, 1)} mm`;
+                            }
+                            const elev = Number(context.raw);
+                            let labelStr = `${context.dataset.label}: ${formatNumber(elev, 2)}m`;
+                            if (isElevationMode && cotaFundo > 0 && context.dataset.label.includes('Cota Piezométrica')) {
+                                const u = Math.max(0, (elev - cotaFundo) * 9.81);
+                                labelStr += ` | Poro-pressão: ${formatNumber(u, 1)} kPa`;
+                            }
+                            return labelStr;
+                        }
+                    }
                 }
             }
         }
     });
 
-    document.getElementById("active-chart-label").textContent = `${inst.name} - Histórico`;
+    document.getElementById("active-chart-label").textContent = `${inst.name} (Hidrograma Geotécnico)`;
 }
 
 // --- 4. FORM LOGIC & FIELD VALIDATIONS ---
 function loadInstrumentDetails() {
     const instId = document.getElementById("instrument-select").value;
     const metaBox = document.getElementById("inst-meta");
+    const calcBox = document.getElementById("reading-calc-preview");
     
     if (!instId) {
         metaBox.style.display = "none";
+        if (calcBox) calcBox.style.display = "none";
         document.getElementById("chart-fallback").style.display = "flex";
         document.getElementById("chart-legend-box").style.display = "none";
         if (instrumentChart) {
@@ -3366,8 +3610,15 @@ function loadInstrumentDetails() {
     metaBox.style.display = "grid";
 
     // Set parameters
-    document.getElementById("meta-cota").textContent = formatNumber(inst.cotaBoca);
-    document.getElementById("meta-prof").textContent = formatNumber(inst.profMax);
+    document.getElementById("meta-cota").textContent = formatNumber(inst.cotaBoca || inst.cotaTopo);
+    document.getElementById("meta-prof").textContent = formatNumber(inst.profMax || inst.totalLengthMeters);
+    if (document.getElementById("meta-fundo")) {
+        document.getElementById("meta-fundo").textContent = formatNumber(inst.cotaFundo || inst.cotaBase);
+    }
+    if (document.getElementById("meta-alerta")) {
+        const alertVal = inst.thresholds?.alertElevation ?? inst.thresholds?.alert ?? inst.limiteCritico;
+        document.getElementById("meta-alerta").textContent = formatNumber(alertVal);
+    }
 
     // Get last reading
     const readings = readingsDatabase
@@ -3376,7 +3627,7 @@ function loadInstrumentDetails() {
     if (readings.length > 0) {
         const last = readings[readings.length - 1];
         const lastDate = new Date(last.dateTime);
-        document.getElementById("meta-last").textContent = `${formatNumber(last.value)}m (${lastDate.getDate()}/${lastDate.getMonth()+1})`;
+        document.getElementById("meta-last").textContent = `${formatNumber(last.value)}m (${lastDate.getDate().toString().padStart(2, '0')}/${(lastDate.getMonth()+1).toString().padStart(2, '0')})`;
     } else {
         document.getElementById("meta-last").textContent = "Sem leituras";
     }
@@ -3391,39 +3642,59 @@ function validateInputReading() {
     const instId = document.getElementById("instrument-select").value;
     const valueInput = document.getElementById("reading-value").value;
     const alertBox = document.getElementById("form-validation-alert");
+    const calcBox = document.getElementById("reading-calc-preview");
+    const cotaEl = document.getElementById("preview-cota-na");
+    const poroEl = document.getElementById("preview-poro-pressao");
+    const badgeEl = document.getElementById("preview-tarp-badge");
+    const guidanceBox = document.getElementById("preview-tarp-guidance");
+    const guidanceText = document.getElementById("preview-tarp-text");
     
-    if (!instId || !valueInput) {
-        alertBox.style.display = "none";
+    if (!instId || !valueInput || isNaN(parseFloat(valueInput))) {
+        if (alertBox) alertBox.style.display = "none";
+        if (calcBox) calcBox.style.display = "none";
         return;
     }
 
     const inst = INSTRUMENT_REGISTRY[instId];
     const value = parseFloat(valueInput);
     const evaluation = getReadingEvaluation(inst, value);
-    const criticalValue = Number(evaluation.criticalValue || inst.limiteCritico || inst.profMax || 0);
-    if (!Number.isFinite(criticalValue) || criticalValue <= 0) {
-        alertBox.style.display = "none";
-        return;
+
+    // Atualiza caixa de calculo geotecnico em tempo real
+    if (calcBox) {
+        calcBox.style.display = "block";
+        if (cotaEl) cotaEl.textContent = evaluation.measuredElevation !== null ? `${formatNumber(evaluation.measuredElevation, 3)} m` : "N/A";
+        if (poroEl) poroEl.textContent = evaluation.porePressureKPa !== null ? `${formatNumber(evaluation.porePressureKPa, 1)} kPa` : "N/A";
+        if (badgeEl) {
+            badgeEl.textContent = evaluation.status;
+            badgeEl.className = `badge badge-${getStatusClass(evaluation.status)}`;
+        }
+        if (guidanceBox && guidanceText) {
+            if (evaluation.status !== "Normal" && evaluation.tarpGuidance) {
+                guidanceBox.style.display = "block";
+                guidanceText.textContent = evaluation.tarpGuidance;
+            } else {
+                guidanceBox.style.display = "none";
+            }
+        }
     }
 
-    if (evaluation.status === "Crítico") {
-        alertBox.style.display = "flex";
-        alertBox.className = "validation-warning critical-alert";
-        if (evaluation.mode === "elevation") {
-            alertBox.querySelector("p").innerHTML = `A leitura de <strong>${value.toFixed(2)}m</strong> indica cota d'água de <strong>${formatNumber(evaluation.measuredElevation)}m</strong>, acima da cota crítica cadastrada. É necessário incluir foto de comprovação.`;
+    // Alerta de validacao de formulario
+    if (alertBox) {
+        if (evaluation.anomalyFlag) {
+            alertBox.style.display = "flex";
+            alertBox.className = "validation-warning warning-alert";
+            alertBox.querySelector("p").innerHTML = `<strong>Inconsistência Física:</strong> ${evaluation.anomalyFlag}`;
+        } else if (evaluation.severity === "emergency" || evaluation.severity === "alert") {
+            alertBox.style.display = "flex";
+            alertBox.className = "validation-warning critical-alert";
+            alertBox.querySelector("p").innerHTML = `<strong>${evaluation.status.toUpperCase()}:</strong> ${evaluation.tarpGuidance}`;
+        } else if (evaluation.severity === "warning") {
+            alertBox.style.display = "flex";
+            alertBox.className = "validation-warning warning-alert";
+            alertBox.querySelector("p").innerHTML = `<strong>ATENÇÃO (80%):</strong> ${evaluation.tarpGuidance}`;
         } else {
-            alertBox.querySelector("p").innerHTML = `A leitura de <strong>${value.toFixed(2)}m</strong> excede o limite cadastrado de <strong>${formatNumber(inst.limiteCritico)}m</strong>! É necessário incluir foto de comprovação.`;
+            alertBox.style.display = "none";
         }
-    } else if (evaluation.status === "Atenção") {
-        alertBox.style.display = "flex";
-        alertBox.className = "validation-warning warning-alert";
-        if (evaluation.mode === "elevation") {
-            alertBox.querySelector("p").innerHTML = `A leitura de <strong>${value.toFixed(2)}m</strong> indica cota d'água de <strong>${formatNumber(evaluation.measuredElevation)}m</strong>, dentro da faixa de atenção da barragem.`;
-        } else {
-            alertBox.querySelector("p").innerHTML = `A leitura de <strong>${value.toFixed(2)}m</strong> está na faixa de atenção (>80% do limite). Redobre os cuidados de leitura.`;
-        }
-    } else {
-        alertBox.style.display = "none";
     }
 }
 
@@ -3972,9 +4243,32 @@ function saveReading(event) {
     if (!confirmGeorefForSave("A leitura", geoEvidenceState.reading)) return;
 
     const inst = INSTRUMENT_REGISTRY[instId];
-    const cotaBoca = Number(inst.cotaBoca);
+    const evaluation = getReadingEvaluation(inst, value);
+
+    // Validacao de consistencia fisica e anomalias de furacao (Bo & Barrett, Cap. 8)
+    if (evaluation.anomalyFlag) {
+        const proceed = window.confirm(`Atenção Geotécnica:\n${evaluation.anomalyFlag}\n\nDeseja registrar esta leitura mesmo assim?`);
+        if (!proceed) return;
+    }
+
+    // Verificacao de variacao brusca (step-back check)
+    const recentReadings = readingsDatabase
+        .filter(r => r.instrumentId === instId)
+        .sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
+    const lastReading = recentReadings.length ? recentReadings[recentReadings.length - 1] : inst.latestReading;
+    if (lastReading && Number.isFinite(Number(lastReading.value))) {
+        const delta = Math.abs(value - Number(lastReading.value));
+        if (delta >= 1.5) {
+            const confirmDelta = window.confirm(
+                `Variação significativa detectada!\nA leitura digitada (${value.toFixed(2)}m) difere em ${delta.toFixed(2)}m da última medição registrada (${Number(lastReading.value).toFixed(2)}m).\n\nConfirma a exatidão deste valor?`
+            );
+            if (!confirmDelta) return;
+        }
+    }
+
+    const cotaBoca = Number(inst.cotaBoca || inst.cotaTopo);
     const cotaCalculada = Number.isFinite(cotaBoca) ? Number((cotaBoca - value).toFixed(2)) : null;
-    const status = getReadingStatus(instId, value);
+    const status = evaluation.status;
 
     const newReading = {
         id: Math.random().toString(36).substr(2, 9),
@@ -3987,8 +4281,11 @@ function saveReading(event) {
         dateTime: new Date().toISOString().substring(0, 16),
         value: value,
         cotaCalculada: cotaCalculada,
+        porePressureKPa: evaluation.porePressureKPa,
         inspector: "Maycon Nascimento (Campo)",
         status: status,
+        severity: evaluation.severity,
+        tarpGuidance: evaluation.tarpGuidance,
         evidence: {
             gps: document.getElementById("reading-gps-status")?.textContent || "Não informado",
             geolocation: cloneGeorefFix(geoEvidenceState.reading),
@@ -3996,7 +4293,7 @@ function saveReading(event) {
             photo: document.getElementById("uploaded-photo-preview")?.style.display === "block",
             photoFile: readingPhotoEvidence
         },
-        comments: comment || "Leitura de rotina."
+        comments: comment || (status !== "Normal" ? evaluation.tarpGuidance : "Leitura de rotina.")
     };
 
     // If offline, queue it! If online, goes straight to client-side DB but marked as unsynced
@@ -4007,8 +4304,13 @@ function saveReading(event) {
     } else {
         readingsDatabase.push(newReading);
         saveToLocalStorage("readings");
-        // Also save to sync queue as synced for tracking if wanted, or just skip
-        showToast("Leitura salva com sucesso!");
+        if (evaluation.severity === "emergency" || evaluation.severity === "alert") {
+            showToast(`Alerta TARP (${status}): ${evaluation.tarpGuidance}`, "alert");
+        } else if (evaluation.severity === "warning") {
+            showToast(`Atenção TARP: Leitura na faixa preventiva de 80%.`, "warning");
+        } else {
+            showToast("Leitura salva com sucesso!");
+        }
     }
 
     // Reset Form and reload
@@ -4021,6 +4323,8 @@ function saveReading(event) {
 function resetReadingForm() {
     document.getElementById("reading-form").reset();
     document.getElementById("inst-meta").style.display = "none";
+    const calcBox = document.getElementById("reading-calc-preview");
+    if (calcBox) calcBox.style.display = "none";
     document.getElementById("uploaded-photo-preview").style.display = "none";
     document.getElementById("photo-upload-text").textContent = "Toque para registrar foto";
     readingPhotoEvidence = null;
@@ -7387,12 +7691,15 @@ function renderPilhasInstrumentChart() {
     );
     const values = rows.map(row => getInstrumentChartValue(row, instrument));
     const thresholds = instrument.thresholds || {};
+    const attentionVal = thresholds.attentionElevation ?? thresholds.warning ?? thresholds.attention;
+    const alertVal = thresholds.alertElevation ?? thresholds.alert;
+    const emergencyVal = thresholds.emergencyElevation ?? thresholds.emergency;
     const thresholdRows = [
-        ["Nível de atenção", thresholds.attentionElevation, "#facc15"],
-        ["Nível de alerta", thresholds.alertElevation, "#f59e0b"],
-        ["Nível de emergência", thresholds.emergencyElevation, "#ef4444"],
-        ["Cota de fundo", instrument.cotaFundo, "#e5e7eb"],
-        ["Cota de topo", instrument.cotaBoca, "#ffffff"]
+        ["Nível de atenção", attentionVal, "#facc15"],
+        ["Nível de alerta", alertVal, "#f59e0b"],
+        ["Nível de emergência", emergencyVal, "#ef4444"],
+        ["Cota de fundo", instrument.cotaFundo || instrument.cotaBase, "#e5e7eb"],
+        ["Cota de topo", instrument.cotaBoca || instrument.cotaTopo, "#ffffff"]
     ].filter(([, value]) => Number.isFinite(Number(value)) && Number(value) !== 0);
     const datasets = [
         {
