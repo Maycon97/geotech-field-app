@@ -679,7 +679,128 @@
                         </div>
 
                         <!-- 3D Cockpit & Charts Grid -->
-                        <div class="radar-cockpit-grid mb-4">
+                        
+                        <!-- MULTI-VIEW TABS SELECTOR: SATELLITE (DEFAULT) | 3D COCKPIT | MININGCONTROL FLEET -->
+                        <div class="radar-main-view-tabs mb-3">
+                            <button type="button" class="view-tab-btn active" id="tab-btn-satellite-map" onclick="switchRadarMainView('satellite')">
+                                <i class="fa-solid fa-satellite text-primary"></i>
+                                <span>🛰️ Ortofoto de Satélite &amp; Mapeamento Cava Jangada</span>
+                                <span class="badge badge-success">Google Earth HD</span>
+                            </button>
+                            <button type="button" class="view-tab-btn" id="tab-btn-cockpit-3d" onclick="switchRadarMainView('cockpit3d')">
+                                <i class="fa-solid fa-cube text-warning"></i>
+                                <span>🎮 Cockpit 3D &amp; Radar IBIS-FM (Animação)</span>
+                                <span class="badge badge-danger">FR012 Nível 3</span>
+                            </button>
+                            <button type="button" class="view-tab-btn" id="tab-btn-equipment-fleet" onclick="switchRadarMainView('fleet')">
+                                <i class="fa-solid fa-truck-monster text-info"></i>
+                                <span>🚜 Mapeamento de Equipamentos (MiningControl F2M)</span>
+                                <span class="badge badge-primary" id="fleet-count-badge">8 Ativos</span>
+                            </button>
+                        </div>
+
+                        <!-- VIEW 1: SATELLITE ORTHOPHOTO & MAP VIEW (ACTIVE BY DEFAULT) -->
+                        <div id="view-panel-satellite-map" class="radar-view-panel active-panel mb-4">
+                            <div class="card">
+                                <div class="card-header justify-between">
+                                    <div class="d-flex align-center gap-2">
+                                        <h3><i class="fa-solid fa-satellite text-primary"></i> Ortofoto de Satélite Georreferenciada: Cava Jangada</h3>
+                                        <span class="badge badge-primary">Resolução Submétrica 0.50m • SIRGAS 2000</span>
+                                    </div>
+                                    <div class="d-flex align-center gap-2">
+                                        <div class="sat-layer-switcher">
+                                            <button type="button" class="btn-tool active" id="btn-satview-annotated" onclick="setInlineSatLayer('annotated')">Anotada (Radar + Alvo)</button>
+                                            <button type="button" class="btn-tool" id="btn-satview-raw" onclick="setInlineSatLayer('raw')">Satélite Puro</button>
+                                        </div>
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="openSatelliteModal()" title="Abrir em Tela Cheia">
+                                            <i class="fa-solid fa-expand"></i> Tela Cheia
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body p-0">
+                                    <!-- Interactive Satellite Orthophoto Container with Overlaid Hotspots -->
+                                    <div class="inline-sat-viewport" id="inlineSatViewport">
+                                        <img src="assets/cava-jangada-satellite-annotated.jpg" alt="Ortofoto Satélite Cava Jangada" id="inline-sat-image" class="inline-sat-img">
+                                        
+                                        <!-- Overlay Hotspot: Parede Norte Superior -->
+                                        <div class="sat-interactive-pin pin-critical" style="top: 28.8%; left: 35.7%;" onclick="jumpToCriticalMoment(); switchRadarMainView('cockpit3d');" title="Clique para sincronizar no 3D">
+                                            <div class="pin-pulse pulse-red"></div>
+                                            <div class="pin-marker"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                                            <div class="pin-tooltip">
+                                                <strong>ALVO: Parede Norte Superior</strong><br>
+                                                Setor N_Sup_1231.44 (204.52 m²)<br>
+                                                Desloc: <span class="text-danger">9.48 mm</span> | Vel: <span class="text-warning">2.78 mm/h</span><br>
+                                                <small class="text-muted">Clique para abrir simulação 3D</small>
+                                            </div>
+                                        </div>
+
+                                        <!-- Overlay Hotspot: Estação Radar IBIS-FM -->
+                                        <div class="sat-interactive-pin pin-radar" style="top: 66.8%; left: 50.6%;" onclick="switchRadarMainView('cockpit3d');" title="Estação Radar IBIS-FM (Base Sul)">
+                                            <div class="pin-pulse pulse-blue"></div>
+                                            <div class="pin-marker"><i class="fa-solid fa-satellite-dish"></i></div>
+                                            <div class="pin-tooltip">
+                                                <strong>RADAR IBIS-FM 01 (Hexagon)</strong><br>
+                                                Base Sul • Cota 1.140 m<br>
+                                                Visada LoS: Direta para Parede Norte (~240m)
+                                            </div>
+                                        </div>
+
+                                        <!-- Overlay Hotspot: Perfuratriz PF-01 (MiningControl) -->
+                                        <div class="sat-interactive-pin pin-equipment" style="top: 27.5%; left: 35.0%;" onclick="switchRadarMainView('fleet');" title="Perfuratriz PF-01 (Sandvik DP1500i)">
+                                            <div class="pin-marker pin-drill"><i class="fa-solid fa-bore-hole"></i></div>
+                                            <div class="pin-tooltip">
+                                                <strong class="text-warning">🚜 PERFURATRIZ PF-01 (Itaminas)</strong><br>
+                                                Modelo: Sandvik Pantera DP1500i<br>
+                                                Alocação: 1250_NORTE_1_JGD (Crista)<br>
+                                                <span class="badge badge-danger">Fonte da Vibração FR012</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Overlay Hotspot: Escavadeira ESC-01 -->
+                                        <div class="sat-interactive-pin pin-equipment" style="top: 47.0%; left: 46.5%;" title="Escavadeira ESC-01 (CAT 374F)">
+                                            <div class="pin-marker pin-excavator"><i class="fa-solid fa-trowel-bricks"></i></div>
+                                            <div class="pin-tooltip">
+                                                <strong>Escavadeira ESC-01</strong><br>
+                                                CAT 374F • Praça 1120m Oeste
+                                            </div>
+                                        </div>
+
+                                        <!-- Overlay Hotspot: Caminhão CBALT0319 -->
+                                        <div class="sat-interactive-pin pin-equipment" style="top: 75.0%; left: 51.0%;" title="Caminhão CBALT0319 (Scania 28T)">
+                                            <div class="pin-marker pin-truck"><i class="fa-solid fa-truck-monster"></i></div>
+                                            <div class="pin-tooltip">
+                                                <strong>Caminhão CBALT0319</strong><br>
+                                                Scania 28T • Rampa Principal (24.5 km/h)
+                                            </div>
+                                        </div>
+
+                                        <!-- Floating Map HUD -->
+                                        <div class="inline-sat-hud">
+                                            <div class="sat-hud-box">
+                                                <span class="hud-label"><i class="fa-solid fa-location-dot text-danger"></i> Centróide Norte:</span>
+                                                <span class="hud-value font-mono">595159.6 E | 7778037.1 N | 1231.4 m Z</span>
+                                            </div>
+                                            <div class="sat-hud-box">
+                                                <span class="hud-label"><i class="fa-solid fa-cloud-arrow-up text-primary"></i> MiningControl F2M:</span>
+                                                <span class="hud-value text-success">Online (34 Equipamentos)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Satellite Legend Bar -->
+                                    <div class="sat-map-footer-legend">
+                                        <div class="legend-item"><span class="legend-dot dot-red"></span> Alvo Crítico FR012 (Parede Norte 1231m)</div>
+                                        <div class="legend-item"><span class="legend-dot dot-blue"></span> Estação Radar IBIS-FM (Base Sul 1140m)</div>
+                                        <div class="legend-item"><span class="legend-dot dot-amber"></span> Perfuratriz Operando na Crista (MiningControl)</div>
+                                        <div class="legend-item"><span class="legend-dot dot-green"></span> Escavadeiras e Caminhões em Produção</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- VIEW 2: 3D COCKPIT & TIMELINE ANIMATION -->
+                        <div id="view-panel-cockpit-3d" class="radar-view-panel" style="display: none;">
+                            <div class="radar-cockpit-grid mb-4">
                             <!-- Left: 3D Viewport & Timeline Controls -->
                             <div class="radar-3d-card card">
                                 <div class="card-header justify-between">
@@ -867,8 +988,74 @@
                                 </div>
                             </div>
                         </div>
+                        </div>
 
-                        <!-- 2. OPERATIONAL WHATSAPP FEED & RADAR INTEGRATION -->
+                        <!-- VIEW 3: MININGCONTROL FLEET & EQUIPMENT MAPPING -->
+                        <div id="view-panel-equipment-fleet" class="radar-view-panel mb-4" style="display: none;">
+                            <div class="card">
+                                <div class="card-header justify-between">
+                                    <div class="d-flex align-center gap-2">
+                                        <div class="f2m-logo-badge">F2M</div>
+                                        <div>
+                                            <h3 class="m-0">Frotas &amp; Mapeamento de Equipamentos - MiningControl Cloud</h3>
+                                            <p class="text-secondary small m-0">Integração oficial: <code>https://itaminas.report.miningcontrol.cloud</code> • Sistema F2M Itaminas</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-center gap-2">
+                                        <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> Conexão Estabelecida</span>
+                                        <a href="https://itaminas.report.miningcontrol.cloud/" target="_blank" class="btn btn-primary btn-sm">
+                                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir MiningControl
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Fleet KPI Cards -->
+                                    <div class="miningcontrol-kpi-grid mb-3">
+                                        <div class="mc-kpi-box">
+                                            <span class="mc-label">Equipamentos Mapeados na Cava</span>
+                                            <strong class="mc-val text-primary" id="mc-total-equip">8 Ativos</strong>
+                                            <small class="mc-sub">Cava Jangada (JGD)</small>
+                                        </div>
+                                        <div class="mc-kpi-box border-danger">
+                                            <span class="mc-label">Equipamento em Alerta Geotécnico</span>
+                                            <strong class="mc-val text-danger">PF-01 (Perfuratriz)</strong>
+                                            <small class="mc-sub">Bancada N_Sup_1231.44 (FR012)</small>
+                                        </div>
+                                        <div class="mc-kpi-box">
+                                            <span class="mc-label">Polígono de Lavra Crítico</span>
+                                            <strong class="mc-val text-warning">1250_NORTE_1_JGD</strong>
+                                            <small class="mc-sub">Área de isolamento temporário</small>
+                                        </div>
+                                        <div class="mc-kpi-box">
+                                            <span class="mc-label">Telemetria &amp; Conectividade</span>
+                                            <strong class="mc-val text-success">Rede 4G / LTE</strong>
+                                            <small class="mc-sub">Sinal 100% no Maciço</small>
+                                        </div>
+                                    </div>
+
+                                    <!-- Equipment List Table -->
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Equipamento</th>
+                                                    <th>Tipo / Modelo</th>
+                                                    <th>Operador</th>
+                                                    <th>Polígono F2M / Bancada</th>
+                                                    <th>Status Operacional</th>
+                                                    <th>Velocidade</th>
+                                                    <th>Ação Geotécnica</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="miningcontrol-fleet-table-body">
+                                                <!-- Populated dynamically from window.MDSYNC_MININGCONTROL.equipments -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+<!-- 2. OPERATIONAL WHATSAPP FEED & RADAR INTEGRATION -->
                         <div class="card mb-4" id="whatsapp-radar-card">
                             <div class="card-header justify-between">
                                 <div class="d-flex align-center gap-2">
@@ -3046,6 +3233,7 @@
     <script src="data/frota-veicular.js?v=pcmi-20260904i"></script>
     <script src="data/inspections-fir.js?v=pcmi-20260904i"></script>
     <script src="data/whatsapp-radar-feed.js?v=mdhub-20260904d"></script>
+    <script src="data/miningcontrol-equipment.js?v=mdhub-20260904e"></script>
     <script src="data/radar-cava-jangada.js?v=mdhub-20260904d"></script>
     <script src="app.js?v=mdhub-20260904d"></script>
 </body>

@@ -8131,3 +8131,306 @@ body.dark-theme .hash-badge {
     font-size: 13px;
     color: #34d399;
 }
+
+
+/* ==========================================================================
+   MULTI-VIEW RADAR TABS & SATELLITE ORTHOPHOTO & MININGCONTROL FLEET STYLES
+   ========================================================================== */
+
+.radar-main-view-tabs {
+    display: flex;
+    gap: 10px;
+    background: rgba(4, 18, 29, 0.7);
+    padding: 8px;
+    border-radius: 10px;
+    border: 1px solid rgba(65, 174, 189, 0.25);
+    backdrop-filter: blur(8px);
+}
+
+.view-tab-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 18px;
+    background: rgba(10, 30, 48, 0.6);
+    border: 1px solid rgba(65, 174, 189, 0.2);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.view-tab-btn:hover {
+    background: rgba(65, 174, 189, 0.15);
+    color: #fff;
+    border-color: rgba(65, 174, 189, 0.45);
+}
+
+.view-tab-btn.active {
+    background: linear-gradient(135deg, rgba(65, 174, 189, 0.25) 0%, rgba(10, 30, 48, 0.9) 100%);
+    color: #fff;
+    border-color: var(--primary);
+    box-shadow: 0 4px 15px rgba(65, 174, 189, 0.2);
+}
+
+.sat-layer-switcher {
+    display: flex;
+    gap: 4px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 3px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.inline-sat-viewport {
+    position: relative;
+    width: 100%;
+    min-height: 520px;
+    max-height: 640px;
+    background: #020b12;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inline-sat-img {
+    width: 100%;
+    height: 100%;
+    max-height: 640px;
+    object-fit: contain;
+    display: block;
+    user-select: none;
+}
+
+/* Interactive pins on satellite image */
+.sat-interactive-pin {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 20;
+}
+
+.pin-marker {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.6);
+    border: 2px solid #fff;
+    transition: transform 0.2s ease;
+}
+
+.pin-critical .pin-marker {
+    background: #ef4444;
+}
+
+.pin-radar .pin-marker {
+    background: #0ea5e9;
+}
+
+.pin-drill {
+    background: #f59e0b !important;
+}
+
+.pin-excavator {
+    background: #10b981 !important;
+}
+
+.pin-truck {
+    background: #6366f1 !important;
+}
+
+.sat-interactive-pin:hover .pin-marker {
+    transform: scale(1.25);
+}
+
+/* Pulse waves */
+.pin-pulse {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    animation: satPulse 2s infinite ease-out;
+}
+
+.pulse-red {
+    background: rgba(239, 68, 68, 0.7);
+}
+
+.pulse-blue {
+    background: rgba(14, 165, 233, 0.7);
+}
+
+@keyframes satPulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(2.8);
+        opacity: 0;
+    }
+}
+
+/* Tooltip on pin hover */
+.pin-tooltip {
+    position: absolute;
+    bottom: 38px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(2, 18, 30, 0.95);
+    border: 1px solid rgba(65, 174, 189, 0.4);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 11px;
+    color: #fff;
+    white-space: nowrap;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.7);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 30;
+}
+
+.sat-interactive-pin:hover .pin-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-4px);
+}
+
+/* HUD elements over inline satellite */
+.inline-sat-hud {
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+    display: flex;
+    gap: 10px;
+    z-index: 15;
+}
+
+.sat-hud-box {
+    background: rgba(2, 18, 30, 0.85);
+    border: 1px solid rgba(65, 174, 189, 0.3);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    backdrop-filter: blur(4px);
+}
+
+.sat-hud-box .hud-label {
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.sat-hud-box .hud-value {
+    color: #fff;
+}
+
+/* Legend footer */
+.sat-map-footer-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 10px 16px;
+    background: rgba(2, 14, 24, 0.9);
+    border-top: 1px solid rgba(65, 174, 189, 0.15);
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.sat-map-footer-legend .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dot-red { background: #ef4444; box-shadow: 0 0 6px #ef4444; }
+.dot-blue { background: #0ea5e9; box-shadow: 0 0 6px #0ea5e9; }
+.dot-amber { background: #f59e0b; box-shadow: 0 0 6px #f59e0b; }
+.dot-green { background: #10b981; box-shadow: 0 0 6px #10b981; }
+
+/* MiningControl F2M Section */
+.f2m-logo-badge {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    color: #fff;
+    font-weight: 800;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 8px rgba(249, 115, 22, 0.35);
+}
+
+.miningcontrol-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+.mc-kpi-box {
+    background: rgba(10, 30, 48, 0.5);
+    border: 1px solid rgba(65, 174, 189, 0.2);
+    border-radius: 8px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.mc-kpi-box.border-danger {
+    border-color: rgba(239, 68, 68, 0.5);
+    background: rgba(45, 12, 16, 0.4);
+}
+
+.mc-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.mc-val {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.mc-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.table-row-highlight-critical {
+    background: rgba(239, 68, 68, 0.12) !important;
+    border-left: 3px solid #ef4444;
+}
+
+@media (max-width: 768px) {
+    .radar-main-view-tabs {
+        flex-direction: column;
+    }
+    .inline-sat-hud {
+        flex-direction: column;
+        bottom: 8px;
+        left: 8px;
+    }
+}

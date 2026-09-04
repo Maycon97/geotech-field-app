@@ -73,6 +73,7 @@
         renderWhatsAppFeed(window.radarState.activeFilter, window.radarState.searchTerm);
         updateRadarTimelineUI(window.radarState.currentIndex);
         renderTelemetryCharts();
+        renderMiningControlFleetTable();
     };
 
     // ----------------------------------------------------
@@ -293,7 +294,11 @@
 
         // Clip terrain quad with soft vignette edges
         ctx.beginPath();
-        ctx.roundRect(-420, -420, 840, 840, [32]);
+                if (typeof ctx.roundRect === 'function') {
+            ctx.roundRect(-420, -420, 840, 840, [32]);
+        } else {
+            ctx.rect(-420, -420, 840, 840);
+        }
         ctx.clip();
 
         // Opacity based on mode
@@ -1039,7 +1044,118 @@
         }
     }
 
-    // Auto-boot if already on readings tab
+    
+    // =============================================================
+    // MULTI-VIEW TAB SWITCHER (Satellite Map, 3D Cockpit, Fleet)
+    // =============================================================
+    window.switchRadarMainView = function(viewTab) {
+        const tabs = [
+            { id: 'satellite', btn: 'tab-btn-satellite-map', panel: 'view-panel-satellite-map' },
+            { id: 'cockpit3d', btn: 'tab-btn-cockpit-3d', panel: 'view-panel-cockpit-3d' },
+            { id: 'fleet', btn: 'tab-btn-equipment-fleet', panel: 'view-panel-equipment-fleet' }
+        ];
+
+        tabs.forEach(t => {
+            const btn = document.getElementById(t.btn);
+            const panel = document.getElementById(t.panel);
+            const isActive = (t.id === viewTab);
+            if (btn) btn.classList.toggle('active', isActive);
+            if (panel) {
+                panel.style.display = isActive ? 'block' : 'none';
+                panel.classList.toggle('active-panel', isActive);
+            }
+        });
+
+        if (viewTab === 'cockpit3d') {
+            if (typeof resizeRadarCanvas === 'function') resizeRadarCanvas();
+        } else if (viewTab === 'fleet') {
+            renderMiningControlFleetTable();
+        }
+    };
+
+    // =============================================================
+    // INLINE SATELLITE LAYER SWITCHER (Annotated vs Raw)
+    // =============================================================
+    window.setInlineSatLayer = function(layer) {
+        const img = document.getElementById('inline-sat-image');
+        const bAnn = document.getElementById('btn-satview-annotated');
+        const bRaw = document.getElementById('btn-satview-raw');
+
+        if (bAnn) bAnn.classList.toggle('active', layer === 'annotated');
+        if (bRaw) bRaw.classList.toggle('active', layer === 'raw');
+
+        if (img) {
+            img.src = (layer === 'annotated')
+                ? 'assets/cava-jangada-satellite-annotated.jpg'
+                : 'assets/cava-jangada-satellite-orthophoto.jpg';
+        }
+
+        const pins = document.querySelectorAll('.inline-sat-viewport .sat-interactive-pin');
+        pins.forEach(pin => {
+            pin.style.display = (layer === 'annotated') ? 'block' : 'none';
+        });
+    };
+
+    // =============================================================
+    // MININGCONTROL FLEET TABLE RENDERER
+    // =============================================================
+    window.renderMiningControlFleetTable = function() {
+        const tbody = document.getElementById('miningcontrol-fleet-table-body');
+        if (!tbody) return;
+
+        if (!window.MDSYNC_MININGCONTROL || !window.MDSYNC_MININGCONTROL.equipments) {
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted p-3">Nenhum dado de frota disponível do MiningControl F2M.</td></tr>';
+            return;
+        }
+
+        const equips = window.MDSYNC_MININGCONTROL.equipments;
+        const totalCountEl = document.getElementById('mc-total-equip');
+        if (totalCountEl) totalCountEl.textContent = `${equips.length} Ativos`;
+
+        const fleetCountBadge = document.getElementById('fleet-count-badge');
+        if (fleetCountBadge) fleetCountBadge.textContent = `${equips.length} Ativos`;
+
+        let rowsHtml = '';
+        equips.forEach(eq => {
+            const isHighlight = eq.highlight;
+            const rowClass = isHighlight ? 'table-row-highlight-critical' : '';
+            const statusBadge = isHighlight 
+                ? '<span class="badge badge-danger"><i class="fa-solid fa-triangle-exclamation"></i> Recuo Solicitado (FR012)</span>'
+                : '<span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> Operando Normal</span>';
+
+            const geotechAction = isHighlight
+                ? '<span class="text-danger font-weight-bold"><i class="fa-solid fa-hand"></i> Afastado da Crista 1250m</span>'
+                : '<span class="text-success"><i class="fa-solid fa-check"></i> Monitorado em Rotina</span>';
+
+            rowsHtml += `
+                <tr class="${rowClass}">
+                    <td>
+                        <div class="d-flex align-center gap-2">
+                            <i class="${eq.icon} ${isHighlight ? 'text-danger' : 'text-primary'}"></i>
+                            <strong>${eq.id}</strong>
+                            ${isHighlight ? '<span class="badge badge-danger">CRÍTICO</span>' : ''}
+                        </div>
+                    </td>
+                    <td>
+                        <div><strong>${eq.model}</strong></div>
+                        <small class="text-secondary">${eq.fleet}</small>
+                    </td>
+                    <td>${eq.operator}</td>
+                    <td>
+                        <span class="badge badge-outline">${eq.polygonAllocation}</span>
+                        <div class="small text-secondary">${eq.sector}</div>
+                    </td>
+                    <td>${statusBadge}</td>
+                    <td class="font-mono">${eq.speedKmh.toFixed(1)} km/h</td>
+                    <td>${geotechAction}</td>
+                </tr>
+            `;
+        });
+
+        tbody.innerHTML = rowsHtml;
+    };
+
+// Auto-boot if already on readings tab
     document.addEventListener('DOMContentLoaded', function() {
         setTimeout(function() {
             initRadarCockpit();
