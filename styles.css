@@ -7142,3 +7142,992 @@ body.dark-theme .hash-badge {
 
 
 
+
+
+/* --- RADAR 24/7 & CAVA JANGADA STYLES --- */
+
+/* 1. Sub-navigation Pills for Tab Readings */
+.monitoring-subnav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(14, 27, 43, 0.75);
+    border: 1px solid rgba(65, 174, 189, 0.25);
+    border-radius: 10px;
+    padding: 8px 14px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.monitoring-subnav-pills {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.subnav-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(15, 36, 56, 0.6);
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.subnav-pill:hover {
+    background: rgba(34, 115, 170, 0.25);
+    color: #fff;
+    border-color: rgba(65, 174, 189, 0.4);
+}
+
+.subnav-pill.active {
+    background: linear-gradient(135deg, rgba(34, 115, 170, 0.5), rgba(7, 78, 103, 0.8));
+    color: #fff;
+    border-color: #41aebd;
+    box-shadow: 0 2px 10px rgba(65, 174, 189, 0.3);
+}
+
+.pulse-icon {
+    animation: pulseGlow 1.8s infinite alternate;
+}
+
+@keyframes pulseGlow {
+    from { transform: scale(1); filter: drop-shadow(0 0 2px #41aebd); }
+    to { transform: scale(1.15); filter: drop-shadow(0 0 8px #ef4444); }
+}
+
+.monitoring-subnav-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 2. Top Summary KPI Banner */
+.radar-kpi-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    background: linear-gradient(135deg, rgba(7, 36, 58, 0.88), rgba(12, 54, 82, 0.72));
+    border: 1px solid rgba(65, 174, 189, 0.35);
+    border-radius: 12px;
+    padding: 16px 20px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+}
+
+.radar-kpi-main {
+    flex: 1;
+}
+
+.radar-brand-badge {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.badge-hexagon {
+    background: #0f4c3a;
+    color: #34d399;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(52, 211, 153, 0.4);
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+.badge-itaminas {
+    background: #1e3a8a;
+    color: #93c5fd;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(147, 197, 253, 0.4);
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+.radar-banner-title {
+    margin: 0 0 4px 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.radar-banner-desc {
+    margin: 0;
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.radar-kpi-metrics {
+    display: flex;
+    gap: 12px;
+}
+
+.radar-metric-box {
+    background: rgba(4, 25, 41, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 10px 14px;
+    text-align: center;
+    min-width: 120px;
+}
+
+.radar-metric-box.metric-danger {
+    background: rgba(220, 38, 38, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.45);
+}
+
+.metric-label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+}
+
+.metric-val {
+    display: block;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.metric-sub {
+    display: block;
+    font-size: 10px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+/* 3. Action Bar */
+.radar-action-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.radar-action-left {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.radar-action-right {
+    display: flex;
+    gap: 8px;
+}
+
+/* 4. Cockpit Grid */
+.radar-cockpit-grid {
+    display: grid;
+    grid-template-columns: 2.1fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 1200px) {
+    .radar-cockpit-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.radar-3d-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.radar-view-mode-toggle {
+    display: flex;
+    gap: 4px;
+}
+
+.btn-tool {
+    padding: 4px 10px;
+    font-size: 11px;
+    background: rgba(15, 36, 56, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-tool:hover, .btn-tool.active {
+    background: #2273aa;
+    color: #fff;
+    border-color: #41aebd;
+}
+
+/* 5. 3D Canvas Viewport */
+.radar-viewport-wrapper {
+    position: relative;
+    background: #020d16;
+}
+
+.radar-canvas-container {
+    position: relative;
+    width: 100%;
+    height: 480px;
+    background: radial-gradient(circle at center, #07253a 0%, #020b12 85%);
+    overflow: hidden;
+    cursor: grab;
+}
+
+.radar-canvas-container:active {
+    cursor: grabbing;
+}
+
+#cavaJangadaCanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* 6. Overlays HUD */
+.radar-hud-overlay {
+    position: absolute;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.hud-top-left {
+    top: 12px;
+    left: 14px;
+    background: rgba(2, 18, 30, 0.78);
+    border: 1px solid rgba(65, 174, 189, 0.3);
+    border-radius: 6px;
+    padding: 8px 12px;
+    backdrop-filter: blur(4px);
+}
+
+.hud-item {
+    font-size: 11px;
+    margin-bottom: 2px;
+}
+
+.hud-lbl {
+    color: #7fa4af;
+    font-weight: 700;
+}
+
+.hud-val {
+    color: #fff;
+}
+
+.hud-top-right {
+    top: 12px;
+    right: 14px;
+}
+
+.radar-heat-scale {
+    background: rgba(2, 18, 30, 0.78);
+    border: 1px solid rgba(65, 174, 189, 0.3);
+    border-radius: 6px;
+    padding: 6px 10px;
+    backdrop-filter: blur(4px);
+    width: 170px;
+}
+
+.heat-scale-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.heat-scale-gradient {
+    height: 12px;
+    border-radius: 3px;
+    background: linear-gradient(to right, #2563eb, #06b6d4, #10b981, #eab308, #f97316, #ef4444);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+}
+
+.heat-scale-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    font-family: monospace;
+    color: #cbd5e1;
+    margin-top: 3px;
+}
+
+.hud-bottom-left {
+    bottom: 12px;
+    left: 14px;
+}
+
+.hud-vector-card {
+    background: rgba(2, 18, 30, 0.85);
+    border-left: 3px solid #ef4444;
+    border-radius: 0 6px 6px 0;
+    padding: 8px 12px;
+    backdrop-filter: blur(4px);
+}
+
+.vector-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #94a3b8;
+    margin-bottom: 2px;
+}
+
+.vector-metric {
+    display: flex;
+    gap: 12px;
+    font-size: 15px;
+    font-weight: 800;
+    font-family: monospace;
+}
+
+.vector-status {
+    font-size: 11px;
+    color: #fca5a5;
+    margin-top: 4px;
+}
+
+.hud-bottom-right {
+    bottom: 12px;
+    right: 14px;
+    pointer-events: auto;
+}
+
+.camera-control-toolbar {
+    display: grid;
+    grid-template-columns: repeat(4, 32px);
+    gap: 4px;
+    background: rgba(2, 18, 30, 0.8);
+    border: 1px solid rgba(65, 174, 189, 0.3);
+    border-radius: 6px;
+    padding: 4px;
+    backdrop-filter: blur(4px);
+}
+
+.cam-btn {
+    width: 32px;
+    height: 32px;
+    background: rgba(14, 36, 56, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: all 0.15s ease;
+}
+
+.cam-btn:hover {
+    background: #2273aa;
+    color: #fff;
+    border-color: #41aebd;
+}
+
+/* 7. Radar Timeline Controller */
+.radar-timeline-panel {
+    background: rgba(6, 26, 42, 0.95);
+    border-top: 1px solid rgba(65, 174, 189, 0.25);
+    padding: 12px 18px;
+}
+
+.timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.timeline-playback-tools {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-timeline-ctrl {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(15, 42, 67, 0.8);
+    border: 1px solid rgba(65, 174, 189, 0.3);
+    color: #fff;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-timeline-ctrl:hover {
+    background: #2273aa;
+    border-color: #5cbdbf;
+}
+
+.timeline-speed-selector {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 10px;
+}
+
+.speed-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.btn-speed {
+    padding: 2px 8px;
+    font-size: 11px;
+    background: rgba(15, 36, 56, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.btn-speed.active {
+    background: #41aebd;
+    color: #031f33;
+    font-weight: 700;
+    border-color: #5cbdbf;
+}
+
+.timeline-clock-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.clock-label {
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+}
+
+.clock-value {
+    font-size: 15px;
+    color: #38bdf8;
+}
+
+.timeline-slider-wrapper {
+    position: relative;
+    margin: 8px 0 16px 0;
+}
+
+.timeline-slider {
+    width: 100%;
+    accent-color: #ef4444;
+    cursor: pointer;
+    height: 8px;
+    border-radius: 4px;
+}
+
+.timeline-ticks {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+}
+
+.tick {
+    font-size: 10px;
+    font-family: monospace;
+    color: #94a3b8;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 3px;
+    transition: all 0.15s ease;
+}
+
+.tick:hover {
+    color: #fff;
+    background: rgba(65, 174, 189, 0.2);
+}
+
+.tick.active-tick {
+    color: #ef4444;
+    font-weight: 800;
+    border-bottom: 2px solid #ef4444;
+}
+
+.timeline-note-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(4, 19, 32, 0.6);
+    border-left: 3px solid #41aebd;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #e2e8f0;
+}
+
+/* 8. Telemetry Mini-Charts */
+.radar-charts-card .card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.telemetry-chart-block {
+    background: rgba(3, 20, 33, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 6px;
+    padding: 8px 10px;
+}
+
+.telemetry-chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.chart-title {
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.chart-cur-val {
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.telemetry-canvas-box {
+    position: relative;
+    width: 100%;
+    height: 105px;
+}
+
+.geotech-synthesis-box {
+    background: rgba(6, 27, 44, 0.7);
+    border: 1px solid rgba(65, 174, 189, 0.2);
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 4px;
+}
+
+.synthesis-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #34d399;
+    margin-bottom: 6px;
+}
+
+.synthesis-text {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.45;
+    margin: 0 0 10px 0;
+}
+
+/* 9. WhatsApp Operational Feed */
+.whatsapp-logo-badge {
+    width: 36px;
+    height: 36px;
+    background: #25d366;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 2px 10px rgba(37, 211, 102, 0.35);
+}
+
+.whatsapp-filter-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    background: rgba(7, 27, 44, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+.whatsapp-filter-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.wa-filter-pill {
+    padding: 5px 12px;
+    font-size: 12px;
+    background: rgba(14, 38, 60, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.15s ease;
+}
+
+.wa-filter-pill:hover, .wa-filter-pill.active {
+    background: #075e54;
+    color: #fff;
+    border-color: #25d366;
+}
+
+.whatsapp-search-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(3, 16, 27, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
+    padding: 5px 10px;
+    width: 250px;
+}
+
+.whatsapp-search-box input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 12px;
+    width: 100%;
+}
+
+.whatsapp-chat-stream {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-height: 540px;
+    overflow-y: auto;
+    padding: 12px;
+    background: #0b141a;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0);
+    background-size: 24px 24px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.whatsapp-msg-row {
+    display: flex;
+    gap: 10px;
+    max-width: 82%;
+    animation: fadeInMsg 0.25s ease;
+}
+
+@keyframes fadeInMsg {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.whatsapp-msg-row.from-hexagon {
+    align-self: flex-start;
+}
+
+.whatsapp-msg-row.from-itaminas {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.wa-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.avatar-hexagon {
+    background: #064e3b;
+    color: #34d399;
+    border: 1px solid #10b981;
+}
+
+.avatar-itaminas {
+    background: #1e3a8a;
+    color: #93c5fd;
+    border: 1px solid #3b82f6;
+}
+
+.avatar-management {
+    background: #581c87;
+    color: #d8b4fe;
+    border: 1px solid #a855f7;
+}
+
+.wa-bubble {
+    background: #202c33;
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: #e9edef;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.whatsapp-msg-row.from-itaminas .wa-bubble {
+    background: #005c4b;
+    color: #e9edef;
+}
+
+.whatsapp-msg-row.critical-alert .wa-bubble {
+    border: 1.5px solid #ef4444;
+    background: #3b1414;
+    box-shadow: 0 0 16px rgba(239, 68, 68, 0.3);
+}
+
+.wa-msg-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 4px;
+}
+
+.wa-sender-name {
+    font-weight: 700;
+    font-size: 12px;
+    color: #53bdeb;
+}
+
+.whatsapp-msg-row.from-itaminas .wa-sender-name {
+    color: #34d399;
+}
+
+.wa-badge {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.badge-alert-fr {
+    background: #991b1b;
+    color: #fecaca;
+}
+
+.badge-blast {
+    background: #854d0e;
+    color: #fef08a;
+}
+
+.badge-shift {
+    background: #1e293b;
+    color: #94a3b8;
+}
+
+.badge-cmg {
+    background: #1e3a8a;
+    color: #bfdbfe;
+}
+
+.wa-text {
+    font-size: 12.5px;
+    line-height: 1.45;
+    margin-bottom: 6px;
+    white-space: pre-line;
+    word-break: break-word;
+}
+
+.wa-attachment-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin: 8px 0 6px 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.wa-attachment-card:hover {
+    background: rgba(0, 0, 0, 0.5);
+    border-color: #41aebd;
+}
+
+.wa-attachment-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.wa-attachment-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 4px;
+    background: #0f2b43;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #38bdf8;
+}
+
+.wa-attachment-info {
+    flex: 1;
+}
+
+.wa-attachment-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.wa-attachment-desc {
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+.wa-msg-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    color: #8696a0;
+    margin-top: 4px;
+}
+
+.wa-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.wa-sync-btn {
+    background: rgba(34, 115, 170, 0.35);
+    border: 1px solid rgba(65, 174, 189, 0.4);
+    color: #7dd3fc;
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: 4px;
+    padding: 2px 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.wa-sync-btn:hover {
+    background: #2273aa;
+    color: #fff;
+}
+
+/* 10. Flash Report Dossier Modal */
+.modal-xl {
+    max-width: 1240px;
+    width: 95%;
+}
+
+.flash-report-dossier-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 0;
+    min-height: 640px;
+}
+
+@media (max-width: 992px) {
+    .flash-report-dossier-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.flash-report-image-col {
+    background: #09121a;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+}
+
+.report-image-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(4, 18, 29, 0.9);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 8px 14px;
+}
+
+.report-image-scrollable {
+    flex: 1;
+    overflow: auto;
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    max-height: 680px;
+}
+
+.report-main-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+    transition: transform 0.2s ease;
+}
+
+.flash-report-data-col {
+    padding: 18px 22px;
+    background: #0f1c29;
+    overflow-y: auto;
+    max-height: 680px;
+}
+
+.dossier-section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #38bdf8;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dossier-specs-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.dossier-specs-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.dossier-specs-table td:first-child {
+    color: var(--text-secondary);
+    font-weight: 600;
+    width: 44%;
+}
+
+.dossier-specs-table td:last-child {
+    color: #fff;
+}
+
+.dossier-conclusion-card {
+    background: rgba(6, 40, 31, 0.4);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.dossier-conclusion-card h4 {
+    margin: 0 0 6px 0;
+    font-size: 13px;
+    color: #34d399;
+}

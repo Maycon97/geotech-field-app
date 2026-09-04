@@ -596,7 +596,319 @@
 
                 <!-- TAB 2: INSTRUMENT READINGS -->
                 <section id="tab-readings" class="tab-pane">
-                    <div class="dashboard-row">
+                    <!-- SUB-NAV TOGGLE BAR FOR MONITORING TAB -->
+                    <div class="monitoring-subnav-bar mb-3">
+                        <div class="monitoring-subnav-pills">
+                            <button type="button" class="subnav-pill active" id="pill-radar-247" onclick="switchMonitoringSubTab('radar')">
+                                <i class="fa-solid fa-satellite-dish text-primary pulse-icon"></i>
+                                <span>Radar 24/7 &amp; Cava Jangada (Hexagon Mining)</span>
+                                <span class="badge badge-danger">FR012 Nível 3</span>
+                            </button>
+                            <button type="button" class="subnav-pill" id="pill-conventional" onclick="switchMonitoringSubTab('conventional')">
+                                <i class="fa-solid fa-ruler-vertical text-secondary"></i>
+                                <span>Instrumentação Convencional (Piezômetros PZ/INA)</span>
+                                <span class="badge badge-outline">24 Instrumentos</span>
+                            </button>
+                        </div>
+                        <div class="monitoring-subnav-status">
+                            <span class="status-indicator online"></span>
+                            <span class="small font-mono text-secondary">IBIS-FM 01 • Monitoramento Contínuo Ativo</span>
+                        </div>
+                    </div>
+
+                    <!-- 1. RADAR 24/7 & CAVA JANGADA PANEL (ACTIVE BY DEFAULT) -->
+                    <div id="panel-radar-monitoring" class="radar-panel-container">
+                        <!-- Top Summary KPI Banner -->
+                        <div class="radar-kpi-banner mb-3">
+                            <div class="radar-kpi-main">
+                                <div class="radar-brand-badge">
+                                    <span class="badge badge-hexagon"><i class="fa-solid fa-radar"></i> HEXAGON MINING</span>
+                                    <span class="badge badge-itaminas"><i class="fa-solid fa-shield-halved"></i> ITAMINAS CMG 24/7</span>
+                                </div>
+                                <h2 class="radar-banner-title">
+                                    <i class="fa-solid fa-mountain-sun text-primary"></i> Monitoramento Geotécnico por Radar: Cava Jangada
+                                </h2>
+                                <p class="radar-banner-desc">
+                                    Interferometria Diferencial Radar de Onda Contínua (IBIS-FM / Guardian) • Setor Crítico: <strong>Parede Norte Superior (N_Sup_1231.44)</strong> • Centróide UTM: <code>595.159,60 m E | 7.778.037,06 m N | Cota 1.231,44 m</code>
+                                </p>
+                            </div>
+                            <div class="radar-kpi-metrics">
+                                <div class="radar-metric-box metric-danger">
+                                    <span class="metric-label">Status TARP</span>
+                                    <strong class="metric-val" id="radar-live-tarp-badge">NÍVEL 3 (CRÍTICO)</strong>
+                                    <small class="metric-sub">Aceleração Progressiva</small>
+                                </div>
+                                <div class="radar-metric-box">
+                                    <span class="metric-label">Deslocamento Acumulado</span>
+                                    <strong class="metric-val text-danger" id="radar-live-disp-badge">9.48 mm</strong>
+                                    <small class="metric-sub">Vetor Linha de Visada (LoS)</small>
+                                </div>
+                                <div class="radar-metric-box">
+                                    <span class="metric-label">Velocidade Máxima</span>
+                                    <strong class="metric-val text-warning" id="radar-live-vel-badge">2.78 mm/h</strong>
+                                    <small class="metric-sub">Pico registrado às 09:24</small>
+                                </div>
+                                <div class="radar-metric-box">
+                                    <span class="metric-label">Diagnóstico de Lavra</span>
+                                    <strong class="metric-val text-primary">PERFURATRIZ</strong>
+                                    <small class="metric-sub">Operação em bancada</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Bar for Radar -->
+                        <div class="radar-action-bar mb-3">
+                            <div class="radar-action-left">
+                                <button type="button" class="btn btn-primary" onclick="openFlashReportModal()">
+                                    <i class="fa-solid fa-file-waveform"></i> Abrir Laudo Diário Oficial (Flash Report FR012)
+                                </button>
+                                <button type="button" class="btn btn-warning" onclick="jumpToCriticalMoment()">
+                                    <i class="fa-solid fa-bolt"></i> Sincronizar Pico da Deformação (09:24)
+                                </button>
+                                <button type="button" class="btn btn-secondary" onclick="resetRadarCamera()">
+                                    <i class="fa-solid fa-earth-americas"></i> Resetar Ângulo Google Earth (340° / 65°)
+                                </button>
+                            </div>
+                            <div class="radar-action-right">
+                                <span class="badge badge-outline"><i class="fa-solid fa-clock"></i> Último Evento: 04/09/2026 09:31</span>
+                                <span class="badge badge-success"><i class="fa-solid fa-cloud-sun"></i> Pluvio 24h: 0.0 mm</span>
+                            </div>
+                        </div>
+
+                        <!-- 3D Cockpit & Charts Grid -->
+                        <div class="radar-cockpit-grid mb-4">
+                            <!-- Left: 3D Viewport & Timeline Controls -->
+                            <div class="radar-3d-card card">
+                                <div class="card-header justify-between">
+                                    <div class="d-flex align-center gap-2">
+                                        <h3><i class="fa-solid fa-cube text-primary"></i> Modelo 3D da Cava Jangada &amp; Mancha Interferométrica do Radar</h3>
+                                        <span class="badge badge-primary">Google Earth / Ortofoto 3D</span>
+                                    </div>
+                                    <div class="radar-view-mode-toggle">
+                                        <button type="button" class="btn-tool active" id="btn-view-3d-full" onclick="setRadar3DMode('full')" title="Visão 3D Completa">3D Completo</button>
+                                        <button type="button" class="btn-tool" id="btn-view-3d-mesh" onclick="setRadar3DMode('mesh')" title="Topografia das Bancadas">Bancadas</button>
+                                        <button type="button" class="btn-tool" id="btn-view-3d-heat" onclick="setRadar3DMode('heat')" title="Mancha de Calor Hexagon">Mancha Radar</button>
+                                    </div>
+                                </div>
+                                <div class="card-body p-0 radar-viewport-wrapper">
+                                    <!-- 3D Canvas Viewport -->
+                                    <div class="radar-canvas-container" id="radarCanvasContainer">
+                                        <canvas id="cavaJangadaCanvas" width="920" height="520"></canvas>
+                                        
+                                        <!-- Overlay HUD Top Left: Geo Data -->
+                                        <div class="radar-hud-overlay hud-top-left">
+                                            <div class="hud-item"><span class="hud-lbl">ALVO:</span> <strong class="hud-val text-warning">CAVA JANGADA • PAREDE NORTE</strong></div>
+                                            <div class="hud-item"><span class="hud-lbl">SETOR:</span> <strong class="hud-val">N_Sup_1231.44 (Área: 204.52 m²)</strong></div>
+                                            <div class="hud-item"><span class="hud-lbl">CENTROIDE:</span> <span class="hud-val font-mono">595159.6 E | 7778037.1 N | 1231.4 m Z</span></div>
+                                            <div class="hud-item"><span class="hud-lbl">ESTAÇÃO RADAR:</span> <span class="hud-val font-mono">IBIS-FM Base Sul (LoS 340°)</span></div>
+                                        </div>
+
+                                        <!-- Overlay HUD Top Right: Heat Scale -->
+                                        <div class="radar-hud-overlay hud-top-right">
+                                            <div class="radar-heat-scale">
+                                                <div class="heat-scale-title">Escala LoS (mm)</div>
+                                                <div class="heat-scale-gradient"></div>
+                                                <div class="heat-scale-labels">
+                                                    <span>-20</span>
+                                                    <span>-10</span>
+                                                    <span>0</span>
+                                                    <span>+10</span>
+                                                    <span>+20</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Overlay HUD Bottom Left: Vector & Telemetry -->
+                                        <div class="radar-hud-overlay hud-bottom-left">
+                                            <div class="hud-vector-card">
+                                                <div class="vector-title"><i class="fa-solid fa-arrows-up-down-left-right"></i> Vetor Resultante LoS</div>
+                                                <div class="vector-metric">
+                                                    <span class="v-disp text-danger" id="hud-displacement">-9.48 mm</span>
+                                                    <span class="v-vel text-warning" id="hud-velocity">2.78 mm/h</span>
+                                                </div>
+                                                <div class="vector-status" id="hud-vector-status">
+                                                    <i class="fa-solid fa-triangle-exclamation text-danger"></i> Deformação progressiva no banco superior
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Overlay HUD Bottom Right: Camera Controls -->
+                                        <div class="radar-hud-overlay hud-bottom-right">
+                                            <div class="camera-control-toolbar">
+                                                <button type="button" class="cam-btn" onclick="rotateRadarCamera(-15)" title="Girar Esquerda"><i class="fa-solid fa-rotate-left"></i></button>
+                                                <button type="button" class="cam-btn" onclick="rotateRadarCamera(15)" title="Girar Direita"><i class="fa-solid fa-rotate-right"></i></button>
+                                                <button type="button" class="cam-btn" onclick="pitchRadarCamera(10)" title="Inclinar Cima"><i class="fa-solid fa-angle-up"></i></button>
+                                                <button type="button" class="cam-btn" onclick="pitchRadarCamera(-10)" title="Inclinar Baixo"><i class="fa-solid fa-angle-down"></i></button>
+                                                <button type="button" class="cam-btn" onclick="zoomRadarCamera(1.2)" title="Zoom Aproximar"><i class="fa-solid fa-plus"></i></button>
+                                                <button type="button" class="cam-btn" onclick="zoomRadarCamera(0.8)" title="Zoom Afastar"><i class="fa-solid fa-minus"></i></button>
+                                                <button type="button" class="cam-btn" onclick="focusParedeNorte()" title="Focar Parede Norte"><i class="fa-solid fa-crosshairs"></i></button>
+                                                <button type="button" class="cam-btn" onclick="resetRadarCamera()" title="Visão Padrão"><i class="fa-solid fa-arrows-rotate"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Integrated Timeline Controller Bar -->
+                                    <div class="radar-timeline-panel">
+                                        <div class="timeline-header">
+                                            <div class="timeline-playback-tools">
+                                                <button type="button" class="btn-timeline-ctrl" id="btn-radar-play" onclick="toggleRadarPlayback()">
+                                                    <i class="fa-solid fa-play" id="icon-radar-play"></i> <span id="label-radar-play">Reproduzir</span>
+                                                </button>
+                                                <button type="button" class="btn-timeline-ctrl" onclick="stepRadarTimeline(-1)" title="Passo Anterior">
+                                                    <i class="fa-solid fa-backward-step"></i>
+                                                </button>
+                                                <button type="button" class="btn-timeline-ctrl" onclick="stepRadarTimeline(1)" title="Próximo Passo">
+                                                    <i class="fa-solid fa-forward-step"></i>
+                                                </button>
+                                                <button type="button" class="btn-timeline-ctrl" onclick="restartRadarTimeline()" title="Reiniciar às 06:00">
+                                                    <i class="fa-solid fa-arrow-rotate-left"></i>
+                                                </button>
+                                                
+                                                <div class="timeline-speed-selector">
+                                                    <span class="speed-label">Velocidade:</span>
+                                                    <button type="button" class="btn-speed active" onclick="setRadarPlaySpeed(1)">1x</button>
+                                                    <button type="button" class="btn-speed" onclick="setRadarPlaySpeed(2)">2x</button>
+                                                    <button type="button" class="btn-speed" onclick="setRadarPlaySpeed(5)">5x</button>
+                                                </div>
+                                            </div>
+
+                                            <div class="timeline-clock-display">
+                                                <span class="clock-label">DATA &amp; HORA DO RADAR:</span>
+                                                <strong class="clock-value font-mono" id="timeline-clock-val">04/09/2026 09:24:00</strong>
+                                                <span class="badge badge-danger" id="timeline-tarp-pill">NÍVEL 3 (CRÍTICO)</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Interactive Slider & Milestones -->
+                                        <div class="timeline-slider-wrapper">
+                                            <input type="range" min="0" max="9" value="8" step="1" id="radar-timeline-slider" oninput="onRadarSliderChange(this.value)" class="timeline-slider">
+                                            <div class="timeline-ticks">
+                                                <span class="tick" onclick="setRadarTimelineIndex(0)" title="06:00 - Regime Basal">06:00</span>
+                                                <span class="tick" onclick="setRadarTimelineIndex(1)" title="07:00 - Estável">07:00</span>
+                                                <span class="tick" onclick="setRadarTimelineIndex(2)" title="07:16 - Assunção Juliana">07:16</span>
+                                                <span class="tick" onclick="setRadarTimelineIndex(3)" title="07:45 - Início Atenção N1">07:45</span>
+                                                <span class="tick" onclick="setRadarTimelineIndex(4)" title="08:15 - Posicionamento Perfuratriz">08:15</span>
+                                                <span class="tick" onclick="setRadarTimelineIndex(5)" title="08:40 - Aceleração N2">08:40</span>
+                                                <span class="tick" onclick="setRadarTimelineIndex(6)" title="08:55 - Contato 0800 CMG">08:55</span>
+                                                <span class="tick" onclick="setRadarTimelineIndex(7)" title="09:15 - Disparo Guardian">09:15</span>
+                                                <span class="tick active-tick" onclick="setRadarTimelineIndex(8)" title="09:24 - Pico FR012 N3">09:24 (PICO FR012)</span>
+                                                <span class="tick" onclick="setRadarTimelineIndex(9)" title="09:31 - Confirmação Perfuratriz">09:31</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Contextual Note at current time -->
+                                        <div class="timeline-note-bar" id="timeline-note-bar">
+                                            <i class="fa-solid fa-info-circle text-primary"></i>
+                                            <span id="timeline-event-text">09:24 - PICO DE DEFORMAÇÃO: 9.48 mm acumulados | v_max 2.78 mm/h no setor N_Sup_1231.44. Flash Report FR012 emitido pela Hexagon.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right: Synchronized Geotechnical Charts & Diagnostic Dossier -->
+                            <div class="radar-charts-card card">
+                                <div class="card-header justify-between">
+                                    <h3><i class="fa-solid fa-chart-line text-primary"></i> Telemetria Cinemática &amp; Método 1/v</h3>
+                                    <span class="badge badge-primary">Hexagon Guardian</span>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Mini-chart 1: Deslocamento Acumulado -->
+                                    <div class="telemetry-chart-block mb-3">
+                                        <div class="telemetry-chart-header">
+                                            <span class="chart-title"><i class="fa-solid fa-ruler-horizontal text-danger"></i> Deslocamento Acumulado (mm)</span>
+                                            <span class="chart-cur-val font-mono text-danger" id="chart-disp-val">9.48 mm</span>
+                                        </div>
+                                        <div class="telemetry-canvas-box">
+                                            <canvas id="chartRadarDisplacement" height="110"></canvas>
+                                        </div>
+                                    </div>
+
+                                    <!-- Mini-chart 2: Velocidade de Deformação -->
+                                    <div class="telemetry-chart-block mb-3">
+                                        <div class="telemetry-chart-header">
+                                            <span class="chart-title"><i class="fa-solid fa-gauge-high text-warning"></i> Velocidade de Deformação (mm/h)</span>
+                                            <span class="chart-cur-val font-mono text-warning" id="chart-vel-val">2.78 mm/h</span>
+                                        </div>
+                                        <div class="telemetry-canvas-box">
+                                            <canvas id="chartRadarVelocity" height="110"></canvas>
+                                        </div>
+                                    </div>
+
+                                    <!-- Mini-chart 3: Inverso da Velocidade (1/v) -->
+                                    <div class="telemetry-chart-block mb-3">
+                                        <div class="telemetry-chart-header">
+                                            <span class="chart-title"><i class="fa-solid fa-chart-simple text-purple"></i> Inverso da Velocidade 1/v (Fukuzono / Voight)</span>
+                                            <span class="chart-cur-val font-mono text-purple" id="chart-inv-val">0.36 h/mm</span>
+                                        </div>
+                                        <div class="telemetry-canvas-box">
+                                            <canvas id="chartRadarInvVelocity" height="110"></canvas>
+                                        </div>
+                                    </div>
+
+                                    <!-- Geotechnical Engineering Synthesis Card -->
+                                    <div class="geotech-synthesis-box">
+                                        <div class="synthesis-header">
+                                            <i class="fa-solid fa-clipboard-check text-success"></i>
+                                            <strong>Diagnóstico do Laudo FR012 &amp; Alinhamento CMG</strong>
+                                        </div>
+                                        <p class="synthesis-text">
+                                            O comportamento progressivo registrado na Parede Norte Superior às 09:24 foi correlacionado diretamente à <strong>perfuratriz em operação na crista do banco</strong> (informado por Werlen Henrique / CMG às 09:31). A vibração contínua provocou deformação plástica superficial sem cisalhamento profundo.
+                                        </p>
+                                        <div class="synthesis-footer">
+                                            <button type="button" class="btn btn-primary btn-sm w-100" onclick="openFlashReportModal()">
+                                                <i class="fa-solid fa-magnifying-glass-plus"></i> Inspecionar Flash Report FR012 Completo
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. OPERATIONAL WHATSAPP FEED & RADAR INTEGRATION -->
+                        <div class="card mb-4" id="whatsapp-radar-card">
+                            <div class="card-header justify-between">
+                                <div class="d-flex align-center gap-2">
+                                    <div class="whatsapp-logo-badge">
+                                        <i class="fa-brands fa-whatsapp"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="m-0">Monitoramento 24/7 - Itaminas &amp; Hexagon Mining</h3>
+                                        <p class="text-secondary small m-0">Canal operacional direto entre a Central Hexagon 24/7 e o CMG Itaminas • Criptografia Geotécnica</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-center gap-2">
+                                    <span class="badge badge-success"><i class="fa-solid fa-circle-dot"></i> Canal 24h Online</span>
+                                    <span class="badge badge-primary" id="wa-filter-count">18 Mensagens</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <!-- Chat Filter Bar -->
+                                <div class="whatsapp-filter-bar mb-3">
+                                    <div class="whatsapp-filter-pills">
+                                        <button type="button" class="wa-filter-pill active" onclick="filterWhatsAppFeed('all')" data-wa-cat="all">Todas as Mensagens</button>
+                                        <button type="button" class="wa-filter-pill" onclick="filterWhatsAppFeed('alert')" data-wa-cat="alert">🚨 Alertas de Radar (FR011/FR012)</button>
+                                        <button type="button" class="wa-filter-pill" onclick="filterWhatsAppFeed('blast')" data-wa-cat="blast">💥 Desmontes com Fogo</button>
+                                        <button type="button" class="wa-filter-pill" onclick="filterWhatsAppFeed('shift')" data-wa-cat="shift">📋 Passagem de Turno</button>
+                                        <button type="button" class="wa-filter-pill" onclick="filterWhatsAppFeed('operation')" data-wa-cat="operation">🚜 Operação &amp; Lavra</button>
+                                    </div>
+                                    <div class="whatsapp-search-box">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                        <input type="text" id="whatsapp-search-input" placeholder="Buscar no histórico do chat..." oninput="onWhatsAppSearch(this.value)">
+                                    </div>
+                                </div>
+
+                                <!-- WhatsApp Messages Stream -->
+                                <div class="whatsapp-chat-stream" id="whatsapp-chat-stream">
+                                    <!-- Rendered dynamically from window.MDSYNC_RADAR_FEED.messages -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. CONVENTIONAL READINGS PANEL (PZ / INA / MARCOS) -->
+                    <div id="panel-conventional-readings" style="display: none;">
+
+<div class="dashboard-row">
                         <!-- Reading Form Card -->
                         <div class="card col-5">
                             <div class="card-header">
@@ -746,6 +1058,7 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                     </div>
                 </section>
 
@@ -2498,6 +2811,122 @@
         </div>
     </div>
 
+    
+    <!-- MODAL DOSSIÊ FLASH REPORT FR012 - HEXAGON MINING -->
+    <div id="modal-flash-report-fr012" class="modal-overlay" style="display: none;" onclick="closeFlashReportModalOnBackdrop(event)">
+        <div class="modal-dialog modal-xl" onclick="event.stopPropagation()">
+            <div class="modal-header justify-between">
+                <div class="d-flex align-center gap-2">
+                    <span class="badge badge-danger"><i class="fa-solid fa-triangle-exclamation"></i> LAUDO CRÍTICO FR012</span>
+                    <h3 class="m-0">Flash Report FR012 - Hexagon Mining IBIS-FM / Guardian</h3>
+                </div>
+                <button type="button" class="modal-close-btn" onclick="closeFlashReportModal()">&times;</button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="flash-report-dossier-grid">
+                    <!-- Left: Full Image Viewer with Zoom -->
+                    <div class="flash-report-image-col">
+                        <div class="report-image-toolbar">
+                            <span class="text-secondary small"><i class="fa-solid fa-image"></i> Documento Oficial Enviado via WhatsApp às 09:29</span>
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn-tool" onclick="zoomReportImage(1.2)" title="Ampliar Imagem"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                                <button type="button" class="btn-tool" onclick="zoomReportImage(0.8)" title="Reduzir Imagem"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                                <button type="button" class="btn-tool" onclick="resetReportImageZoom()" title="Tamanho Original"><i class="fa-solid fa-expand"></i></button>
+                            </div>
+                        </div>
+                        <div class="report-image-scrollable" id="reportImageScrollContainer">
+                            <img src="assets/hexagon-flash-report-fr012.jpg" alt="Flash Report FR012 Hexagon Mining" id="flash-report-img" class="report-main-img">
+                        </div>
+                    </div>
+
+                    <!-- Right: Technical Extraction & Metadata Table -->
+                    <div class="flash-report-data-col">
+                        <div class="dossier-section-title">
+                            <i class="fa-solid fa-table-list text-primary"></i> Metadados Extraídos do Relatório
+                        </div>
+                        
+                        <table class="dossier-specs-table">
+                            <tbody>
+                                <tr>
+                                    <td>Identificador do Laudo:</td>
+                                    <td><strong class="text-danger font-mono">FR012</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Data e Hora de Emissão:</td>
+                                    <td><strong>04/09/2026 09:24:00</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Setor Monitorado:</td>
+                                    <td><span class="badge badge-warning">N_Sup_1231.44</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Macro Área:</td>
+                                    <td><strong>Parede Norte Superior</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Área Mapeada:</td>
+                                    <td><strong>204.52 m²</strong> (Escala de bancada: 1)</td>
+                                </tr>
+                                <tr>
+                                    <td>Centróide UTM 23S:</td>
+                                    <td><code class="font-mono">X: 595.159,60 m<br>Y: 7.778.037,06 m<br>Z: 1.231,44 m</code></td>
+                                </tr>
+                                <tr>
+                                    <td>Coordenadas Geográficas:</td>
+                                    <td><code class="font-mono">Lat: -20.092372°<br>Lon: -44.089795°</code></td>
+                                </tr>
+                                <tr>
+                                    <td>Deslocamento Acumulado:</td>
+                                    <td><strong class="text-danger" style="font-size: 16px;">9.48 mm</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Velocidade Máxima:</td>
+                                    <td><strong class="text-warning" style="font-size: 16px;">2.78 mm/h</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Tendência Cinemática:</td>
+                                    <td><span class="badge badge-danger">Progressiva (Aceleração)</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Nível de Alerta (TARP):</td>
+                                    <td><strong class="text-danger">NÍVEL 3 (CRÍTICO)</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Pluviometria 24h:</td>
+                                    <td><strong>0.0 mm</strong> (Causa não-hidráulica)</td>
+                                </tr>
+                                <tr>
+                                    <td>Analista Emissor (Hexagon):</td>
+                                    <td><strong>Juliana Brito</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Receptor Técnico (CMG):</td>
+                                    <td><strong>Werlen Henrique</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="dossier-conclusion-card mt-3">
+                            <h4><i class="fa-solid fa-shield-halved text-success"></i> Parecer Geotécnico de Campo</h4>
+                            <p class="small text-secondary m-0">
+                                Movimentação provocada por <strong>perfuratriz atuando diretamente na crista da bancada</strong> (confirmado por Werlen Henrique às 09:31 via WhatsApp). A área retornou para desaceleração controlada pós-parada do equipamento.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-between">
+                <span class="text-secondary small"><i class="fa-solid fa-lock"></i> Documento auditado pelo Centro de Monitoramento Geotécnico ITAMINAS</span>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-secondary" onclick="closeFlashReportModal()">Fechar Dossiê</button>
+                    <a href="assets/hexagon-flash-report-fr012.jpg" download="Flash-Report-FR012-Hexagon-Cava-Jangada.jpg" class="btn btn-primary">
+                        <i class="fa-solid fa-download"></i> Baixar Imagem Original
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Script Injection -->
     <script src="vendor/leaflet/leaflet.js"></script>
     <script src="data/geosync-database.js?v=pcmi-20260904i"></script>
@@ -2508,6 +2937,8 @@
     <script src="data/pluviometria.js?v=pcmi-20260904i"></script>
     <script src="data/frota-veicular.js?v=pcmi-20260904i"></script>
     <script src="data/inspections-fir.js?v=pcmi-20260904i"></script>
-    <script src="app.js?v=mdhub-20260904c"></script>
+    <script src="data/whatsapp-radar-feed.js?v=mdhub-20260904d"></script>
+    <script src="data/radar-cava-jangada.js?v=mdhub-20260904d"></script>
+    <script src="app.js?v=mdhub-20260904d"></script>
 </body>
 </html>

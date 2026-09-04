@@ -3248,9 +3248,12 @@ function switchTab(tabId) {
         renderMiniInspectionsDashboard();
         renderSurveyAnomalies();
     } else if (tabId === 'readings') {
-        titleEl.textContent = "Coletas";
-        subEl.textContent = "Fluxo guiado para leituras de instrumentos com evidências digitais.";
+        titleEl.textContent = "Monitoramento & Coletas";
+        subEl.textContent = "Radar 24/7 (Hexagon IBIS-FM) • Cava Jangada • Instrumentação e evidências digitais.";
         loadInstrumentDetails();
+        if (typeof initRadarCockpit === "function") {
+            setTimeout(initRadarCockpit, 50);
+        }
     } else if (tabId === 'inspections') {
         titleEl.textContent = "Checklists";
         subEl.textContent = "Modelos de inspeção com itens, risco, GPS e assinatura.";
@@ -10816,6 +10819,9 @@ function bootApplication() {
     installSecurityActivityListeners();
     resetSecurityIdleTimer();
     initializeMdHubModules();
+    if (typeof initRadarCockpit === "function") {
+        setTimeout(initRadarCockpit, 100);
+    }
 }
 
 // Window Loader Initializer
