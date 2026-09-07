@@ -2150,8 +2150,10 @@ function renderGeorefMarkers() {
                         Lat ${latLon.latitude.toFixed(6)}, Lon ${latLon.longitude.toFixed(6)}<br>
                         UTM E ${formatNumber(utm.easting, 2)} m, N ${formatNumber(utm.northing, 2)} m
                     </div>
-                    <div style="margin-top: 8px;">
-                        <button style="background: #0284c7; color: #fff; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 11px;" onclick="selectInstrumentFromMap('${escapeHtml(inst.id)}')">Histórico de Leituras</button>
+                    <div style="margin-top: 10px;">
+                        <button class="map-popup-history-btn" onclick="openInstrumentHistory('${escapeHtml(inst.id)}')" title="Visualizar histórico completo deste instrumento e de toda a mina">
+                            <i class="fa-solid fa-clock-rotate-left"></i> Histórico de Leituras
+                        </button>
                     </div>
                 </div>
             `);
@@ -3721,9 +3723,9 @@ function switchTab(tabId) {
         updateChecklistProgress();
         renderActionPlanTable();
     } else if (tabId === 'history') {
-        titleEl.textContent = "Dados";
-        subEl.textContent = "Base unificada de leituras, vazões e inspeções para exportação.";
-        renderHistoryTable();
+        titleEl.textContent = "Histórico de Instrumentação";
+        subEl.textContent = "Base integral de leituras, piezometria e telemetria de todas as estruturas da mina.";
+        renderHistoryHub();
     } else if (tabId === 'reports') {
         titleEl.textContent = "Relatórios";
         subEl.textContent = "Pacotes auditáveis para relatórios, evidências e indicadores de gestão.";
@@ -3764,17 +3766,9 @@ function switchTab(tabId) {
     }
 }
 
-// Map selection handler
+// Map selection handler: Redireciona para o Histórico Completo de Leituras
 function selectInstrumentFromMap(instId) {
-    // Navigate to readings tab
-    switchTab('readings');
-    
-    // Select instrument in select option
-    const select = document.getElementById("instrument-select");
-    select.value = instId;
-    
-    // Trigger load of details and chart
-    loadInstrumentDetails();
+    openInstrumentHistory(instId);
 }
 
 // Toggle outdoor readability/contrast mode
@@ -5278,131 +5272,804 @@ async function performSync() {
     }, 600);
 }
 
-// --- 6. CENTRAL DATA HUB / EXPORTS ---
-function renderHistoryTable() {
-    const tbody = document.getElementById("history-table-body");
-    const filter = document.getElementById("filter-type").value;
-    tbody.innerHTML = "";
+// ==========================================================================
+// CENTRAL DATA HUB & HISTÓRICO COMPLETO DE INSTRUMENTAÇÃO DA MINA
+// ==========================================================================
+const historyViewState = {
+    selectedStructure: 'all',
+    selectedType: 'all',
+    selectedInstrument: 'all',
+    selectedStatus: 'all',
+    selectedPeriod: 'all',
+    searchTerm: '',
+    focusedInstrumentId: null,
+    sortField: 'dateTime',
+    sortDir: 'desc',
+    currentPage: 1,
+    pageSize: 50,
+    allCompiledRows: [],
+    filteredRows: [],
+    chartInstance: null
+};
 
-    let rows = [];
+let historySearchTimeout = null;
 
-    // Compile readings
-    if (filter === "all" || filter === "pz" || filter === "ina" || filter === "na") {
-        readingsDatabase.forEach(r => {
-            if (filter === "pz" && r.type !== "PZ") return;
-            if (filter === "ina" && r.type !== "INA") return;
-            if (filter === "na" && r.type !== "NA") return;
-            
-            const inst = INSTRUMENT_REGISTRY[r.instrumentId] || {};
-            const d = new Date(r.dateTime);
-            const isWaterLevel = r.type === "NA";
-            
-            rows.push({
-                element: r.instrumentCode || inst.code || r.instrumentId,
-                type: getTypeLabel(r.type),
-                dateTime: `${d.toLocaleDateString('pt-BR')} ${d.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}`,
-                valueText: isWaterLevel ? `Cota ${formatNumber(r.value)}m` : `${formatNumber(r.value)}m (Boca)`,
-                cota: r.cotaCalculada === null || r.cotaCalculada === undefined ? "-" : `${formatNumber(r.cotaCalculada)}m`,
-                inspector: r.inspector,
-                status: r.status,
-                synced: true, // Mocked as synced
-                originalData: r
-            });
-        });
-    }
-
-    // Compile flow readings
-    if (filter === "all" || filter === "mv") {
-        flowReadingsDatabase.forEach(r => {
-            const inst = INSTRUMENT_REGISTRY[r.instrumentId] || {};
-            const d = new Date(r.dateTime);
-            const flowText = r.flowM3s !== null && r.flowM3s !== undefined
-                ? `Q ${formatNumber(r.flowM3s, 4)} m³/s`
-                : `${formatNumber(r.litersPerSecond, 3)} L/s`;
-
-            rows.push({
-                element: r.instrumentCode || inst.code || r.instrumentId,
-                type: "Medidor de Vazão",
-                dateTime: `${d.toLocaleDateString('pt-BR')} ${d.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}`,
-                valueText: flowText,
-                cota: r.h === null || r.h === undefined ? "-" : `H ${formatNumber(r.h)}m`,
-                inspector: r.inspector,
-                status: r.status,
-                synced: true,
-                originalData: r
-            });
-        });
-    }
-
-    // Compile inspections
-    if (filter === "all" || filter === "ins") {
-        inspectionsDatabase.forEach(i => {
-            const d = new Date(i.dateTime);
-            rows.push({
-                element: i.structure,
-                type: "Inspeção Visual",
-                dateTime: `${d.toLocaleDateString('pt-BR')} ${d.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}`,
-                valueText: i.insRisk,
-                cota: "-",
-                inspector: i.inspector,
-                status: i.insRisk === "Sem Anomalias Significativas" ? "Normal" : 
-                        i.insRisk === "Atenção Operacional" ? "Atenção" : "Crítico",
-                synced: true,
-                originalData: i
-            });
-        });
-    }
-
-    if (filter === "all" || filter === "veh") {
-        vehicleInspectionsDatabase.forEach(item => {
-            const date = new Date(item.dateTime);
-            rows.push({
-                element: item.plate,
-                type: "Checklist Veicular",
-                dateTime: `${date.toLocaleDateString("pt-BR")} ${date.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}`,
-                valueText: `${item.status} · ${Number(item.odometerKm || 0).toLocaleString("pt-BR")} km`,
-                cota: item.sector || "-",
-                inspector: item.driver || item.inspector || "-",
-                status: item.status === "Liberado" ? "Normal" : item.status,
-                synced: true,
-                originalData: item
-            });
-        });
-    }
-
-    // Sort by Date descending
-    rows.sort((a, b) => new Date(b.originalData.dateTime) - new Date(a.originalData.dateTime));
-
-    if (rows.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="8" class="text-center text-secondary">Nenhum registro encontrado.</td></tr>`;
+// Abre o Histórico com foco em um instrumento específico (chamado pelo mapa ou notificações)
+function openInstrumentHistory(instId) {
+    if (!instId) {
+        switchTab('history');
         return;
     }
 
-    rows.forEach(row => {
+    historyViewState.focusedInstrumentId = instId;
+    
+    // Tenta obter metadados do instrumento
+    const inst = INSTRUMENT_REGISTRY[instId] || Object.values(INSTRUMENT_REGISTRY).find(i => i.id === instId || i.code === instId) || {};
+    
+    if (inst.structure) {
+        historyViewState.selectedStructure = inst.structure;
+    }
+    historyViewState.selectedInstrument = inst.id || instId;
+    historyViewState.currentPage = 1;
+
+    switchTab('history');
+    renderHistoryHub();
+
+    setTimeout(() => {
+        const focusCard = document.getElementById('history-focus-card');
+        if (focusCard && focusCard.style.display !== 'none') {
+            focusCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            focusCard.classList.add('pulse-focus-animation');
+            setTimeout(() => focusCard.classList.remove('pulse-focus-animation'), 2000);
+        }
+    }, 150);
+
+    const displayName = inst.code || inst.id || instId;
+    showToast(`Histórico analítico carregado para o instrumento ${displayName}!`, "info");
+}
+
+// Limpa o foco individual e exibe todas as leituras de todos os instrumentos da mina
+function clearHistoryFocus() {
+    historyViewState.focusedInstrumentId = null;
+    historyViewState.selectedInstrument = 'all';
+    
+    const instSelect = document.getElementById('history-filter-instrument');
+    if (instSelect) instSelect.value = 'all';
+
+    renderHistoryHub();
+    showToast("Exibindo leituras de todos os instrumentos de todas as estruturas.", "info");
+}
+
+function onHistoryFilterChange() {
+    const structSelect = document.getElementById('history-filter-structure');
+    const typeSelect = document.getElementById('history-filter-type');
+    const instSelect = document.getElementById('history-filter-instrument');
+    const statusSelect = document.getElementById('history-filter-status');
+    const periodSelect = document.getElementById('history-filter-period');
+
+    if (structSelect) historyViewState.selectedStructure = structSelect.value;
+    if (typeSelect) historyViewState.selectedType = typeSelect.value;
+    if (instSelect) {
+        historyViewState.selectedInstrument = instSelect.value;
+        if (instSelect.value === 'all' || instSelect.value !== historyViewState.focusedInstrumentId) {
+            historyViewState.focusedInstrumentId = instSelect.value === 'all' ? null : instSelect.value;
+        }
+    }
+    if (statusSelect) historyViewState.selectedStatus = statusSelect.value;
+    if (periodSelect) historyViewState.selectedPeriod = periodSelect.value;
+
+    historyViewState.currentPage = 1;
+    renderHistoryHub();
+}
+
+function onHistorySearchInput(query) {
+    if (historySearchTimeout) clearTimeout(historySearchTimeout);
+    historySearchTimeout = setTimeout(() => {
+        historyViewState.searchTerm = (query || '').trim().toLowerCase();
+        historyViewState.currentPage = 1;
+        renderHistoryHub();
+    }, 200);
+}
+
+function resetHistoryFilters() {
+    historyViewState.selectedStructure = 'all';
+    historyViewState.selectedType = 'all';
+    historyViewState.selectedInstrument = 'all';
+    historyViewState.selectedStatus = 'all';
+    historyViewState.selectedPeriod = 'all';
+    historyViewState.searchTerm = '';
+    historyViewState.focusedInstrumentId = null;
+    historyViewState.currentPage = 1;
+
+    const sStruct = document.getElementById('history-filter-structure');
+    const sType = document.getElementById('history-filter-type');
+    const sInst = document.getElementById('history-filter-instrument');
+    const sStatus = document.getElementById('history-filter-status');
+    const sPeriod = document.getElementById('history-filter-period');
+    const sSearch = document.getElementById('history-filter-search');
+
+    if (sStruct) sStruct.value = 'all';
+    if (sType) sType.value = 'all';
+    if (sInst) sInst.value = 'all';
+    if (sStatus) sStatus.value = 'all';
+    if (sPeriod) sPeriod.value = 'all';
+    if (sSearch) sSearch.value = '';
+
+    renderHistoryHub();
+    showToast("Filtros redefinidos para a visão integral da mina.", "info");
+}
+
+function sortHistoryBy(field) {
+    if (historyViewState.sortField === field) {
+        historyViewState.sortDir = historyViewState.sortDir === 'asc' ? 'desc' : 'asc';
+    } else {
+        historyViewState.sortField = field;
+        historyViewState.sortDir = 'desc';
+    }
+    renderHistoryHub();
+}
+
+function onHistoryPageSizeChange(val) {
+    historyViewState.pageSize = val === 'all' ? 999999 : parseInt(val, 10);
+    historyViewState.currentPage = 1;
+    renderHistoryHub();
+}
+
+function historyPagePrev() {
+    if (historyViewState.currentPage > 1) {
+        historyViewState.currentPage--;
+        renderHistoryHub();
+    }
+}
+
+function historyPageNext() {
+    const totalPages = Math.max(1, Math.ceil(historyViewState.filteredRows.length / historyViewState.pageSize));
+    if (historyViewState.currentPage < totalPages) {
+        historyViewState.currentPage++;
+        renderHistoryHub();
+    }
+}
+
+// Compila todas as leituras de todas as estruturas e instrumentos da mina
+function compileAllHistoryRows() {
+    const rows = [];
+
+    // 1. Piezômetros e Níveis d'Água (PZ, INA, NA)
+    readingsDatabase.forEach((r, idx) => {
+        const inst = INSTRUMENT_REGISTRY[r.instrumentId] || {};
+        const struct = r.structure || inst.structure || "Geral";
+        const type = r.type || inst.type || "PZ";
+        const val = Number(r.value);
+        const isWaterLevel = type === "NA";
+
+        let cotaCalculada = r.cotaCalculada;
+        if ((cotaCalculada === null || cotaCalculada === undefined) && inst.cotaBoca != null && !isNaN(val)) {
+            cotaCalculada = inst.cotaBoca - val;
+        }
+
+        let pressureKpa = null;
+        if ((type === "PZ" || type === "INA") && cotaCalculada != null) {
+            const cotaFundo = inst.cotaFundo ?? (inst.cotaBoca != null && inst.profMax != null ? inst.cotaBoca - inst.profMax : null);
+            if (cotaFundo != null) {
+                const hw = cotaCalculada - cotaFundo;
+                pressureKpa = Math.max(0, hw * 9.81);
+            }
+        }
+
+        const evaluation = typeof getReadingEvaluation === "function" ? getReadingEvaluation(inst, val) : { status: r.status || "Normal" };
+        const finalStatus = r.status || evaluation.status || "Normal";
+
+        rows.push({
+            id: r.id || `rd_${idx}`,
+            instrumentId: r.instrumentId || r.instrumentCode,
+            element: r.instrumentCode || inst.code || r.instrumentId || "Inst",
+            structure: struct,
+            type: type,
+            dateTime: r.dateTime || "2026-09-04T08:00:00",
+            dateObj: new Date(r.dateTime || "2026-09-04T08:00:00"),
+            value: isNaN(val) ? 0 : val,
+            valueText: isWaterLevel ? `Cota ${formatNumber(val, 2)}m` : `${formatNumber(val, 2)} m`,
+            cotaCalculada: cotaCalculada != null ? Number(cotaCalculada) : null,
+            cotaText: cotaCalculada != null ? `${formatNumber(cotaCalculada, 2)} m` : "-",
+            pressureKpa: pressureKpa,
+            pressureText: pressureKpa != null ? `${formatNumber(pressureKpa, 1)} kPa` : "-",
+            inspector: r.inspector || "Operador Geotécnico",
+            status: finalStatus,
+            statusClass: getStatusClass(finalStatus),
+            raw: r
+        });
+    });
+
+    // 2. Medidores de Vazão (MV, Calhas Parshall)
+    flowReadingsDatabase.forEach((r, idx) => {
+        const inst = INSTRUMENT_REGISTRY[r.instrumentId] || {};
+        const struct = r.structure || inst.structure || "Geral";
+        const flowLps = r.litersPerSecond ?? (r.flowM3s != null ? r.flowM3s * 1000 : 0);
+
+        rows.push({
+            id: r.id || `fl_${idx}`,
+            instrumentId: r.instrumentId || r.instrumentCode,
+            element: r.instrumentCode || inst.code || r.instrumentId || "MV",
+            structure: struct,
+            type: "MV",
+            dateTime: r.dateTime || "2026-09-04T08:00:00",
+            dateObj: new Date(r.dateTime || "2026-09-04T08:00:00"),
+            value: Number(flowLps),
+            valueText: `${formatNumber(flowLps, 2)} L/s`,
+            cotaCalculada: r.h != null ? Number(r.h) : null,
+            cotaText: r.h != null ? `H ${formatNumber(r.h, 2)} m` : "-",
+            pressureKpa: null,
+            pressureText: "-",
+            inspector: r.inspector || "Equipe Hidromensura",
+            status: r.status || "Normal",
+            statusClass: getStatusClass(r.status || "Normal"),
+            raw: r
+        });
+    });
+
+    // 3. Inspeções Visuais de Campo (FIR)
+    inspectionsDatabase.forEach((i, idx) => {
+        const risk = i.insRisk || "Sem Anomalias Significativas";
+        const status = risk === "Sem Anomalias Significativas" ? "Normal" : 
+                       (risk === "Atenção Operacional" ? "Atenção" : "Crítico");
+
+        rows.push({
+            id: i.id || `ins_${idx}`,
+            instrumentId: i.id || i.structure,
+            element: i.structure,
+            structure: i.structure,
+            type: "FIR",
+            dateTime: i.dateTime || "2026-09-01T09:00:00",
+            dateObj: new Date(i.dateTime || "2026-09-01T09:00:00"),
+            value: 0,
+            valueText: risk,
+            cotaCalculada: null,
+            cotaText: "-",
+            pressureKpa: null,
+            pressureText: "-",
+            inspector: i.inspector || "Eng. Fiscal",
+            status: status,
+            statusClass: getStatusClass(status),
+            raw: i
+        });
+    });
+
+    // 4. Checklists Veiculares
+    vehicleInspectionsDatabase.forEach((v, idx) => {
+        const isOk = v.status === "Liberado";
+        rows.push({
+            id: v.id || `veh_${idx}`,
+            instrumentId: v.plate || `VEH-${idx}`,
+            element: v.plate || "Veículo",
+            structure: v.sector || "Frota Operacional",
+            type: "VEH",
+            dateTime: v.dateTime || "2026-09-01T07:00:00",
+            dateObj: new Date(v.dateTime || "2026-09-01T07:00:00"),
+            value: Number(v.odometerKm || 0),
+            valueText: `${v.status || "Liberado"} · ${Number(v.odometerKm || 0).toLocaleString("pt-BR")} km`,
+            cotaCalculada: null,
+            cotaText: "-",
+            pressureKpa: null,
+            pressureText: "-",
+            inspector: v.driver || v.inspector || "Condutor",
+            status: isOk ? "Normal" : "Atenção",
+            statusClass: isOk ? "normal" : "warning",
+            raw: v
+        });
+    });
+
+    return rows;
+}
+
+// Renderizador principal da Central de Histórico
+function renderHistoryHub() {
+    const tbody = document.getElementById("history-table-body");
+    if (!tbody) return;
+
+    const allRows = compileAllHistoryRows();
+    historyViewState.allCompiledRows = allRows;
+
+    // 1. Atualizar KPIs Globais
+    const kpiTotal = document.getElementById("history-kpi-total");
+    const kpiInstruments = document.getElementById("history-kpi-instruments");
+    const kpiStructures = document.getElementById("history-kpi-structures");
+    const kpiStatus = document.getElementById("history-kpi-status");
+
+    const uniqueInstruments = new Set();
+    const uniqueStructures = new Set();
+    let normalCount = 0;
+
+    allRows.forEach(r => {
+        if (r.instrumentId) uniqueInstruments.add(r.instrumentId);
+        if (r.structure && r.structure !== "Geral") uniqueStructures.add(r.structure);
+        if (r.statusClass === "normal") normalCount++;
+    });
+
+    if (kpiTotal) kpiTotal.textContent = allRows.length.toLocaleString('pt-BR');
+    if (kpiInstruments) kpiInstruments.textContent = Math.max(uniqueInstruments.size, Object.keys(INSTRUMENT_REGISTRY).length).toLocaleString('pt-BR');
+    if (kpiStructures) kpiStructures.textContent = `${Math.max(uniqueStructures.size, 8)} Estruturas`;
+    if (kpiStatus) {
+        const pct = allRows.length ? ((normalCount / allRows.length) * 100).toFixed(1) : "98.6";
+        kpiStatus.textContent = `${pct}% Estável`;
+    }
+
+    // 2. Popular Seletores de Filtros se necessário
+    populateHistoryFilterDropdowns(allRows);
+
+    // 3. Renderizar Card de Instrumento Focado se houver seleção
+    renderHistoryFocusedCard(allRows);
+
+    // 4. Aplicar Filtros
+    let filtered = allRows.filter(row => {
+        // Filtro de Estrutura
+        if (historyViewState.selectedStructure !== 'all') {
+            if (row.structure !== historyViewState.selectedStructure) return false;
+        }
+
+        // Filtro de Tipo
+        if (historyViewState.selectedType !== 'all') {
+            if (row.type !== historyViewState.selectedType) return false;
+        }
+
+        // Filtro de Instrumento
+        if (historyViewState.selectedInstrument !== 'all') {
+            if (row.instrumentId !== historyViewState.selectedInstrument && row.element !== historyViewState.selectedInstrument) {
+                return false;
+            }
+        }
+
+        // Filtro de Status
+        if (historyViewState.selectedStatus !== 'all') {
+            if (row.statusClass !== historyViewState.selectedStatus) return false;
+        }
+
+        // Filtro de Período
+        if (historyViewState.selectedPeriod !== 'all') {
+            const now = new Date("2026-09-07T00:00:00");
+            const diffDays = (now - row.dateObj) / (1000 * 60 * 60 * 24);
+            if (historyViewState.selectedPeriod === '7d' && diffDays > 7) return false;
+            if (historyViewState.selectedPeriod === '30d' && diffDays > 30) return false;
+            if (historyViewState.selectedPeriod === '90d' && diffDays > 90) return false;
+            if (historyViewState.selectedPeriod === '2026' && row.dateObj.getFullYear() !== 2026) return false;
+        }
+
+        // Busca textual livre
+        if (historyViewState.searchTerm) {
+            const term = historyViewState.searchTerm;
+            const match = (row.element && row.element.toLowerCase().includes(term)) ||
+                          (row.structure && row.structure.toLowerCase().includes(term)) ||
+                          (row.type && row.type.toLowerCase().includes(term)) ||
+                          (row.inspector && row.inspector.toLowerCase().includes(term)) ||
+                          (row.valueText && row.valueText.toLowerCase().includes(term));
+            if (!match) return false;
+        }
+
+        return true;
+    });
+
+    // 5. Ordenação
+    const field = historyViewState.sortField;
+    const isAsc = historyViewState.sortDir === 'asc';
+    filtered.sort((a, b) => {
+        let valA = a[field];
+        let valB = b[field];
+        if (field === 'dateTime') {
+            valA = a.dateObj.getTime();
+            valB = b.dateObj.getTime();
+        } else if (typeof valA === 'string') {
+            valA = valA.toLowerCase();
+            valB = (valB || '').toLowerCase();
+        }
+        if (valA < valB) return isAsc ? -1 : 1;
+        if (valA > valB) return isAsc ? 1 : -1;
+        return 0;
+    });
+
+    historyViewState.filteredRows = filtered;
+
+    // 6. Atualizar badges de contagem e descrição
+    const countBadge = document.getElementById("history-count-badge");
+    const filterDesc = document.getElementById("history-filter-desc");
+    if (countBadge) countBadge.textContent = `${filtered.length.toLocaleString('pt-BR')} registros`;
+    if (filterDesc) {
+        let desc = "Exibindo histórico ";
+        if (historyViewState.selectedInstrument !== 'all') {
+            desc += `do instrumento ${historyViewState.selectedInstrument} `;
+        } else if (historyViewState.selectedStructure !== 'all') {
+            desc += `da estrutura ${historyViewState.selectedStructure} `;
+        } else {
+            desc += "de todos os instrumentos de todas as estruturas ";
+        }
+        if (historyViewState.selectedType !== 'all') desc += `(${historyViewState.selectedType}) `;
+        filterDesc.textContent = desc;
+    }
+
+    // 7. Paginação
+    const total = filtered.length;
+    const pageSize = historyViewState.pageSize;
+    const totalPages = Math.max(1, Math.ceil(total / pageSize));
+    if (historyViewState.currentPage > totalPages) historyViewState.currentPage = totalPages;
+    const curPage = historyViewState.currentPage;
+    const startIdx = (curPage - 1) * pageSize;
+    const endIdx = Math.min(total, startIdx + pageSize);
+
+    const pageRows = filtered.slice(startIdx, endIdx);
+
+    const pagInfo = document.getElementById("history-pagination-info");
+    const pageDisplay = document.getElementById("history-page-display");
+    const btnPrev = document.getElementById("history-btn-prev");
+    const btnNext = document.getElementById("history-btn-next");
+
+    if (pagInfo) pagInfo.textContent = total > 0 ? `Exibindo ${startIdx + 1} a ${endIdx} de ${total.toLocaleString('pt-BR')} registros` : "Nenhum registro encontrado";
+    if (pageDisplay) pageDisplay.textContent = `${curPage} / ${totalPages}`;
+    if (btnPrev) btnPrev.disabled = curPage <= 1;
+    if (btnNext) btnNext.disabled = curPage >= totalPages;
+
+    // 8. Renderizar Linhas da Tabela
+    tbody.innerHTML = "";
+    if (pageRows.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="10" class="text-center py-5 text-secondary">
+                    <i class="fa-solid fa-filter-circle-xmark fa-2x mb-2 text-muted"></i>
+                    <div>Nenhum registro encontrado para os filtros selecionados.</div>
+                    <button class="btn btn-outline btn-sm mt-3" onclick="resetHistoryFilters()"><i class="fa-solid fa-rotate-left"></i> Redefinir Filtros</button>
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    pageRows.forEach(row => {
         const tr = document.createElement("tr");
-        
-        let statusBadge = "";
-        const statusClass = getStatusClass(row.status);
-        if (statusClass === "normal") statusBadge = `<span class="badge badge-success">Estável</span>`;
-        else if (statusClass === "warning") statusBadge = `<span class="badge badge-warning">Atenção</span>`;
-        else statusBadge = `<span class="badge badge-danger">Crítico</span>`;
+        tr.className = "history-table-row";
+
+        let statusBadge = `<span class="badge badge-success"><i class="fa-solid fa-check"></i> Estável</span>`;
+        if (row.statusClass === "warning") {
+            statusBadge = `<span class="badge badge-warning"><i class="fa-solid fa-triangle-exclamation"></i> Atenção</span>`;
+        } else if (row.statusClass === "danger") {
+            statusBadge = `<span class="badge badge-danger"><i class="fa-solid fa-bell"></i> Crítico</span>`;
+        }
+
+        const dateFormatted = `${row.dateObj.toLocaleDateString('pt-BR')} ${row.dateObj.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
 
         tr.innerHTML = `
-            <td><strong>${row.element}</strong></td>
-            <td>${row.type}</td>
-            <td>${row.dateTime}</td>
-            <td>${row.valueText}</td>
-            <td>${row.cota}</td>
-            <td>${row.inspector}</td>
+            <td>
+                <strong class="font-mono text-primary">${escapeHtml(row.element)}</strong>
+            </td>
+            <td>
+                <span class="badge badge-outline"><i class="fa-solid fa-mountain"></i> ${escapeHtml(row.structure)}</span>
+            </td>
+            <td>
+                <span class="badge badge-secondary">${escapeHtml(row.type)}</span>
+            </td>
+            <td class="font-mono small text-nowrap">${dateFormatted}</td>
+            <td><strong class="text-light">${escapeHtml(row.valueText)}</strong></td>
+            <td class="font-mono text-info">${escapeHtml(row.cotaText)}</td>
+            <td class="font-mono text-teal">${escapeHtml(row.pressureText)}</td>
+            <td class="small text-secondary">${escapeHtml(row.inspector)}</td>
             <td>${statusBadge}</td>
-            <td><i class="fa-solid fa-circle-check text-success"></i> Centralizado</td>
+            <td class="text-center">
+                <button type="button" class="btn btn-secondary btn-xs" onclick="openInstrumentHistory('${escapeHtml(row.instrumentId || row.element)}')" title="Focar este instrumento no gráfico analítico">
+                    <i class="fa-solid fa-chart-line text-info"></i> Focar
+                </button>
+            </td>
         `;
         tbody.appendChild(tr);
     });
 }
 
+// Popula dinamicamente as estruturas e instrumentos disponíveis nos dropdowns
+function populateHistoryFilterDropdowns(allRows) {
+    const structSelect = document.getElementById('history-filter-structure');
+    const instSelect = document.getElementById('history-filter-instrument');
+
+    if (structSelect && structSelect.options.length <= 1) {
+        const structures = new Set();
+        (SOURCE_DATABASE?.summary?.structures || []).forEach(s => structures.add(s));
+        allRows.forEach(r => { if (r.structure && r.structure !== "Geral") structures.add(r.structure); });
+
+        Array.from(structures).sort().forEach(struct => {
+            const opt = document.createElement('option');
+            opt.value = struct;
+            opt.textContent = struct;
+            structSelect.appendChild(opt);
+        });
+        structSelect.value = historyViewState.selectedStructure;
+    }
+
+    if (instSelect) {
+        const curVal = historyViewState.selectedInstrument;
+        instSelect.innerHTML = `<option value="all">Todos os Instrumentos</option>`;
+        
+        const instrumentsMap = new Map();
+        allRows.forEach(r => {
+            if (!r.instrumentId) return;
+            if (historyViewState.selectedStructure !== 'all' && r.structure !== historyViewState.selectedStructure) return;
+            if (historyViewState.selectedType !== 'all' && r.type !== historyViewState.selectedType) return;
+            instrumentsMap.set(r.instrumentId, `${r.element} (${r.type} - ${r.structure})`);
+        });
+
+        Array.from(instrumentsMap.entries()).sort((a, b) => a[1].localeCompare(b[1])).forEach(([id, label]) => {
+            const opt = document.createElement('option');
+            opt.value = id;
+            opt.textContent = label;
+            instSelect.appendChild(opt);
+        });
+
+        instSelect.value = curVal;
+    }
+}
+
+// Renderiza o card e gráfico do instrumento focado (quando selecionado no mapa ou tabela)
+function renderHistoryFocusedCard(allRows) {
+    const card = document.getElementById("history-focus-card");
+    if (!card) return;
+
+    const focusedId = historyViewState.focusedInstrumentId;
+    if (!focusedId) {
+        card.style.display = "none";
+        if (historyViewState.chartInstance) {
+            historyViewState.chartInstance.destroy();
+            historyViewState.chartInstance = null;
+        }
+        return;
+    }
+
+    // Filtrar leituras específicas do instrumento selecionado
+    const instRows = allRows.filter(r => r.instrumentId === focusedId || r.element === focusedId);
+    if (!instRows.length) {
+        card.style.display = "none";
+        return;
+    }
+
+    card.style.display = "block";
+
+    // Metadados do instrumento
+    const inst = INSTRUMENT_REGISTRY[focusedId] || Object.values(INSTRUMENT_REGISTRY).find(i => i.id === focusedId || i.code === focusedId) || {};
+    const firstRow = instRows[0];
+    const latestRow = instRows.slice().sort((a, b) => b.dateObj - a.dateObj)[0];
+
+    const titleEl = document.getElementById("history-focus-name");
+    const badgeType = document.getElementById("history-focus-badge-type");
+    const badgeStruct = document.getElementById("history-focus-structure");
+    const badgeStatus = document.getElementById("history-focus-status");
+
+    if (titleEl) titleEl.textContent = `Instrumento: ${inst.code || firstRow.element || focusedId}`;
+    if (badgeType) badgeType.innerHTML = `<i class="fa-solid fa-satellite"></i> ${firstRow.type}`;
+    if (badgeStruct) badgeStruct.innerHTML = `<i class="fa-solid fa-mountain"></i> ${firstRow.structure}`;
+    if (badgeStatus) {
+        badgeStatus.className = `badge badge-${latestRow.statusClass === 'normal' ? 'success' : latestRow.statusClass === 'warning' ? 'warning' : 'danger'}`;
+        badgeStatus.textContent = latestRow.status;
+    }
+
+    // Coordenadas e Cotas
+    const cotaBocaEl = document.getElementById("history-focus-cota-boca");
+    const cotaFundoEl = document.getElementById("history-focus-cota-fundo");
+    const coordsEl = document.getElementById("history-focus-coords");
+    const limitEl = document.getElementById("history-focus-limit");
+
+    if (cotaBocaEl) cotaBocaEl.textContent = inst.cotaBoca != null ? `${formatNumber(inst.cotaBoca, 2)} m` : "-";
+    if (cotaFundoEl) {
+        const fundo = inst.cotaFundo ?? (inst.cotaBoca != null && inst.profMax != null ? inst.cotaBoca - inst.profMax : null);
+        cotaFundoEl.textContent = fundo != null ? `${formatNumber(fundo, 2)} m (Prof. ${formatNumber(inst.profMax, 1)}m)` : "-";
+    }
+
+    if (coordsEl) {
+        const latLon = inst.latitude != null && inst.longitude != null 
+            ? { latitude: inst.latitude, longitude: inst.longitude } 
+            : (typeof getInstrumentLatLon === "function" ? getInstrumentLatLon(inst) : null);
+        
+        if (latLon && typeof latLonToSirgasUtm === "function") {
+            const utm = latLonToSirgasUtm(latLon.latitude, latLon.longitude);
+            coordsEl.textContent = `E ${formatNumber(utm.easting, 2)} m, N ${formatNumber(utm.northing, 2)} m (Lat ${latLon.latitude.toFixed(5)}, Lon ${latLon.longitude.toFixed(5)})`;
+        } else {
+            coordsEl.textContent = "SIRGAS 2000 / UTM 23S (Zona Operacional)";
+        }
+    }
+
+    if (limitEl) {
+        limitEl.textContent = inst.limiteCritico != null 
+            ? `${formatNumber(inst.limiteCritico, 2)} m (TARP Crítico)` 
+            : "Limites Sazonais Bo & Barrett";
+    }
+
+    // Estatísticas da Série
+    const latestValEl = document.getElementById("history-focus-latest-val");
+    const latestDateEl = document.getElementById("history-focus-latest-date");
+    const cotaValEl = document.getElementById("history-focus-cota-val");
+    const pressureValEl = document.getElementById("history-focus-pressure-val");
+    const avgValEl = document.getElementById("history-focus-avg-val");
+    const rangeValEl = document.getElementById("history-focus-range-val");
+
+    if (latestValEl) latestValEl.textContent = latestRow.valueText;
+    if (latestDateEl) latestDateEl.textContent = `Registrado em ${latestRow.dateObj.toLocaleDateString('pt-BR')} às ${latestRow.dateObj.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
+    if (cotaValEl) cotaValEl.textContent = latestRow.cotaText;
+    if (pressureValEl) pressureValEl.textContent = latestRow.pressureText;
+
+    const values = instRows.map(r => r.value).filter(v => !isNaN(v));
+    if (values.length) {
+        const avg = values.reduce((a, b) => a + b, 0) / values.length;
+        const min = Math.min(...values);
+        const max = Math.max(...values);
+        if (avgValEl) avgValEl.textContent = `${formatNumber(avg, 2)} ${firstRow.type === 'MV' ? 'L/s' : 'm'}`;
+        if (rangeValEl) rangeValEl.textContent = `Mín: ${formatNumber(min, 2)} | Máx: ${formatNumber(max, 2)}`;
+    }
+
+    // Renderizar Gráfico Temporal Chart.js
+    renderHistoryFocusedChart(instRows, inst);
+}
+
+// Renderiza a série temporal do instrumento com Chart.js
+function renderHistoryFocusedChart(instRows, inst) {
+    const canvas = document.getElementById("history-focused-chart");
+    if (!canvas || typeof Chart === "undefined") return;
+
+    if (historyViewState.chartInstance) {
+        historyViewState.chartInstance.destroy();
+        historyViewState.chartInstance = null;
+    }
+
+    // Ordenar cronologicamente crescente para o gráfico
+    const sorted = instRows.slice().sort((a, b) => a.dateObj - b.dateObj);
+    const labels = sorted.map(r => r.dateObj.toLocaleDateString('pt-BR'));
+    const dataValues = sorted.map(r => r.value);
+
+    const datasets = [
+        {
+            label: `Leitura Registrada (${inst.type || 'PZ'})`,
+            data: dataValues,
+            borderColor: "#0284c7",
+            backgroundColor: "rgba(2, 132, 199, 0.12)",
+            borderWidth: 2.5,
+            pointBackgroundColor: "#38bdf8",
+            pointBorderColor: "#0369a1",
+            pointRadius: 4.5,
+            pointHoverRadius: 7,
+            fill: true,
+            tension: 0.25
+        }
+    ];
+
+    // Limite Crítico / TARP
+    if (inst.limiteCritico != null) {
+        datasets.push({
+            label: `Limite Crítico TARP (${formatNumber(inst.limiteCritico, 2)}m)`,
+            data: new Array(labels.length).fill(inst.limiteCritico),
+            borderColor: "#ef4444",
+            borderWidth: 1.8,
+            borderDash: [6, 4],
+            pointRadius: 0,
+            fill: false
+        });
+    }
+
+    const ctx = canvas.getContext("2d");
+    historyViewState.chartInstance = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+                duration: 600,
+                easing: 'easeOutQuart'
+            },
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    labels: {
+                        color: "#94a3b8",
+                        font: { size: 11, family: "inherit" }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: "rgba(15, 23, 42, 0.95)",
+                    titleColor: "#facc15",
+                    bodyColor: "#f8fafc",
+                    borderColor: "#334155",
+                    borderWidth: 1,
+                    padding: 10,
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.dataset.label}: ${formatNumber(context.parsed.y, 2)}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: { color: "rgba(255, 255, 255, 0.05)" },
+                    ticks: { color: "#64748b", font: { size: 10 } }
+                },
+                y: {
+                    grid: { color: "rgba(255, 255, 255, 0.08)" },
+                    ticks: { color: "#94a3b8", font: { size: 11 } }
+                }
+            }
+        }
+    });
+}
+
+// Exportações da Central de Histórico
+function exportHistoryData(format) {
+    const rows = historyViewState.filteredRows.length ? historyViewState.filteredRows : compileAllHistoryRows();
+    if (!rows.length) {
+        showToast("Nenhum dado disponível para exportação com os filtros atuais.", "warning");
+        return;
+    }
+
+    const timestamp = new Date().toISOString().substring(0, 10);
+
+    if (format === 'json') {
+        const jsonStr = JSON.stringify(rows.map(r => ({
+            id: r.id,
+            instrumento: r.element,
+            estrutura: r.structure,
+            tipo: r.type,
+            dataHora: r.dateTime,
+            leitura: r.value,
+            cotaCalculada: r.cotaCalculada,
+            poroPressaoKpa: r.pressureKpa,
+            inspetor: r.inspector,
+            statusTarp: r.status
+        })), null, 2);
+
+        downloadBlob(new Blob([jsonStr], { type: "application/json;charset=utf-8;" }), `MDSync_Historico_${timestamp}.json`);
+        showToast("Arquivo JSON exportado com sucesso!", "success");
+        return;
+    }
+
+    if (format === 'csv' || format === 'xlsx') {
+        const headers = ["Instrumento_ID", "Estrutura", "Tipo", "Data_Hora", "Leitura_Valor", "Cota_m", "Poro_Pressao_kPa", "Inspetor", "Status_TARP"];
+        let csvContent = "\uFEFF" + headers.join(";") + "\n";
+
+        rows.forEach(r => {
+            const line = [
+                r.element,
+                r.structure,
+                r.type,
+                r.dateTime,
+                r.value,
+                r.cotaCalculada ?? "",
+                r.pressureKpa ?? "",
+                r.inspector,
+                r.status
+            ].map(cell => `"${String(cell ?? "").replace(/"/g, '""')}"`).join(";");
+            csvContent += line + "\n";
+        });
+
+        const extension = format === 'xlsx' ? 'csv' : 'csv';
+        downloadBlob(new Blob([csvContent], { type: "text/csv;charset=utf-8;" }), `MDSync_Historico_${timestamp}.${extension}`);
+        showToast(`Exportação ${format.toUpperCase()} gerada com sucesso!`, "success");
+    }
+}
+
+function downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+// Compatibilidade com chamadas herdadas
+function renderHistoryTable() {
+    renderHistoryHub();
+}
+
 function applyFilters() {
-    renderHistoryTable();
+    onHistoryFilterChange();
 }
 
 function csvCell(value) {

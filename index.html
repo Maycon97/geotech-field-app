@@ -64,9 +64,9 @@
                     <i class="fa-solid fa-clipboard-check"></i>
                     <span>Checklists</span>
                 </a>
-                <a href="#" class="nav-item apk-hidden" id="nav-history" onclick="switchTab('history')">
-                    <i class="fa-solid fa-database"></i>
-                    <span>Dados</span>
+                <a href="#" class="nav-item" id="nav-history" onclick="switchTab('history')">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>Histórico</span>
                 </a>
                 <a href="#" class="nav-item" id="nav-reports" onclick="switchTab('reports')">
                     <i class="fa-solid fa-file-contract"></i>
@@ -201,6 +201,11 @@
                         <i class="fa-solid fa-earth-americas"></i>
                         <span>8. SYSGEO GIS</span>
                         <span class="chip-tag tag-espacial">Espacial</span>
+                    </button>
+                    <button type="button" class="md-hub-chip" data-hub-id="history" onclick="switchTab('history')" title="Módulo 9: Central de Histórico de Leituras de todos os instrumentos de todas as estruturas">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        <span>9. Histórico Mina</span>
+                        <span class="chip-tag tag-tarp">3.000+ Leituras</span>
                     </button>
                 </div>
             </div>
@@ -1344,57 +1349,243 @@
                 </section>
 
 
-                <!-- TAB 4: CENTRAL DATA HUB -->
+                <!-- TAB 4: CENTRAL DATA HUB / HISTÓRICO DE LEITURAS -->
                 <section id="tab-history" class="tab-pane">
-                    <div class="card">
+                    <!-- Global KPIs Strip -->
+                    <div class="history-kpis-grid mb-3">
+                        <div class="history-kpi-card">
+                            <div class="kpi-icon-box bg-blue"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                            <div class="kpi-content">
+                                <span class="kpi-label">Total de Leituras</span>
+                                <strong class="kpi-value" id="history-kpi-total">3.094</strong>
+                                <span class="kpi-sub">Série histórica consolidada</span>
+                            </div>
+                        </div>
+                        <div class="history-kpi-card">
+                            <div class="kpi-icon-box bg-purple"><i class="fa-solid fa-satellite"></i></div>
+                            <div class="kpi-content">
+                                <span class="kpi-label">Instrumentos Ativos</span>
+                                <strong class="kpi-value" id="history-kpi-instruments">218</strong>
+                                <span class="kpi-sub">PZ, INA, NA, Medidores de Vazão</span>
+                            </div>
+                        </div>
+                        <div class="history-kpi-card">
+                            <div class="kpi-icon-box bg-teal"><i class="fa-solid fa-mountain"></i></div>
+                            <div class="kpi-content">
+                                <span class="kpi-label">Estruturas Cobertas</span>
+                                <strong class="kpi-value" id="history-kpi-structures">8 Estruturas</strong>
+                                <span class="kpi-sub">Barragens e Pilhas de Estéril</span>
+                            </div>
+                        </div>
+                        <div class="history-kpi-card">
+                            <div class="kpi-icon-box bg-green"><i class="fa-solid fa-shield-halved"></i></div>
+                            <div class="kpi-content">
+                                <span class="kpi-label">Conformidade TARP</span>
+                                <strong class="kpi-value text-success" id="history-kpi-status">98.6% Normal</strong>
+                                <span class="kpi-sub">Critérios Bo &amp; Barrett (2023)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FOCUSED INSTRUMENT CARD (Redirecionamento do Mapa) -->
+                    <div class="card mb-3 history-focus-card" id="history-focus-card" style="display: none;">
                         <div class="card-header justify-between">
-                            <h3><i class="fa-solid fa-server text-primary"></i> Centralizador de Leituras e Inspeções</h3>
-                            <div class="flex gap-2">
-                                <select id="filter-type" class="form-control form-control-sm" onchange="applyFilters()">
-                                    <option value="all">Todos os Dados</option>
-                                    <option value="pz">Piezômetros (PZ)</option>
-                                    <option value="ina">Indicadores de Nível (INA)</option>
-                                    <option value="na">Nível de Água (NA)</option>
-                                    <option value="mv">Medidores de Vazão (MV)</option>
-                                    <option value="ins">Inspeções</option>
-                                    <option value="veh">Checklists Veiculares</option>
-                                </select>
-                                <button class="btn btn-secondary btn-sm" onclick="exportData('csv')">
-                                    <i class="fa-solid fa-file-csv"></i> Exportar CSV
-                                </button>
-                                <button class="btn btn-secondary btn-sm" onclick="exportData('json')">
-                                    <i class="fa-solid fa-file-code"></i> Exportar JSON
+                            <div class="d-flex align-center gap-2 flex-wrap">
+                                <span class="badge badge-warning" id="history-focus-badge-type"><i class="fa-solid fa-satellite"></i> PZ</span>
+                                <h3 class="m-0" id="history-focus-name">Instrumento Focado: 101</h3>
+                                <span class="badge badge-primary" id="history-focus-structure"><i class="fa-solid fa-mountain"></i> Barragem B1</span>
+                                <span class="badge badge-success" id="history-focus-status">Normal</span>
+                            </div>
+                            <div class="d-flex align-center gap-2">
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="clearHistoryFocus()" title="Limpar foco e visualizar todos os instrumentos da mina">
+                                    <i class="fa-solid fa-layer-group"></i> Ver Todos os Instrumentos da Mina
                                 </button>
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="data-summary-strip">
-                                <div>
-                                    <strong>Base centralizada</strong>
-                                    <span>Leituras, vazões, inspeções e evidências de campo</span>
+                            <!-- Technical coordinates & metadata bar -->
+                            <div class="history-meta-bar mb-3">
+                                <div class="meta-item">
+                                    <span class="meta-lbl">Cota da Boca:</span>
+                                    <strong class="meta-val" id="history-focus-cota-boca">-</strong>
                                 </div>
-                                <div class="data-chip"><i class="fa-solid fa-filter"></i> Filtros rápidos</div>
-                                <div class="data-chip"><i class="fa-solid fa-file-export"></i> Exportação</div>
-                                <div class="data-chip"><i class="fa-solid fa-shield-halved"></i> Rastreável</div>
+                                <div class="meta-item">
+                                    <span class="meta-lbl">Profundidade / Cota Fundo:</span>
+                                    <strong class="meta-val" id="history-focus-cota-fundo">-</strong>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-lbl">Coordenadas SIRGAS 2000 UTM 23S:</span>
+                                    <strong class="meta-val font-mono" id="history-focus-coords">-</strong>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-lbl">Limite Crítico / TARP:</span>
+                                    <strong class="meta-val text-warning" id="history-focus-limit">-</strong>
+                                </div>
                             </div>
+
+                            <!-- Stat Summary Chips -->
+                            <div class="history-stats-grid mb-3">
+                                <div class="history-stat-box">
+                                    <span class="stat-lbl">Última Leitura</span>
+                                    <strong class="stat-val text-primary" id="history-focus-latest-val">-</strong>
+                                    <small class="stat-sub" id="history-focus-latest-date">-</small>
+                                </div>
+                                <div class="history-stat-box">
+                                    <span class="stat-lbl">Cota Piezométrica / NA</span>
+                                    <strong class="stat-val text-info" id="history-focus-cota-val">-</strong>
+                                    <small class="stat-sub">Nível d'água medido</small>
+                                </div>
+                                <div class="history-stat-box">
+                                    <span class="stat-lbl">Poro-pressão Estimada</span>
+                                    <strong class="stat-val text-teal" id="history-focus-pressure-val">-</strong>
+                                    <small class="stat-sub">u = γw · hw (kPa)</small>
+                                </div>
+                                <div class="history-stat-box">
+                                    <span class="stat-lbl">Média da Série</span>
+                                    <strong class="stat-val" id="history-focus-avg-val">-</strong>
+                                    <small class="stat-sub" id="history-focus-range-val">Mín: - | Máx: -</small>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Chart Container -->
+                            <div class="history-chart-container" style="position: relative; height: 260px; width: 100%;">
+                                <canvas id="history-focused-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MAIN HISTORICAL EXPLORER CARD -->
+                    <div class="card">
+                        <div class="card-header justify-between">
+                            <div>
+                                <h3 class="m-0"><i class="fa-solid fa-database text-primary"></i> Histórico Completo de Instrumentação &amp; Inspeções</h3>
+                                <p class="text-secondary small mt-1 mb-0">Base integral de leituras de campo, piezometria, cotas de reservatório, vazões e checklists de todas as estruturas.</p>
+                            </div>
+                            <div class="flex gap-2 flex-wrap">
+                                <button class="btn btn-secondary btn-sm" onclick="exportHistoryData('csv')" title="Exportar dados filtrados em CSV">
+                                    <i class="fa-solid fa-file-csv text-success"></i> CSV
+                                </button>
+                                <button class="btn btn-secondary btn-sm" onclick="exportHistoryData('xlsx')" title="Exportar dados formatados em Excel XLSX">
+                                    <i class="fa-solid fa-file-excel text-success"></i> Excel
+                                </button>
+                                <button class="btn btn-secondary btn-sm" onclick="exportHistoryData('json')" title="Exportar estrutura de dados em JSON">
+                                    <i class="fa-solid fa-file-code text-info"></i> JSON
+                                </button>
+                                <button class="btn btn-secondary btn-sm" onclick="window.print()" title="Imprimir visualização">
+                                    <i class="fa-solid fa-print"></i> Imprimir
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- Advanced Filter Toolbar -->
+                            <div class="history-filter-toolbar mb-3">
+                                <div class="filter-field">
+                                    <label for="history-filter-structure"><i class="fa-solid fa-mountain"></i> Estrutura:</label>
+                                    <select id="history-filter-structure" class="form-control form-control-sm" onchange="onHistoryFilterChange()">
+                                        <option value="all">Todas as Estruturas (Mina Geral)</option>
+                                    </select>
+                                </div>
+                                <div class="filter-field">
+                                    <label for="history-filter-type"><i class="fa-solid fa-tags"></i> Tipo:</label>
+                                    <select id="history-filter-type" class="form-control form-control-sm" onchange="onHistoryFilterChange()">
+                                        <option value="all">Todos os Tipos de Dados</option>
+                                        <option value="PZ">Piezômetros (PZ)</option>
+                                        <option value="INA">Indicadores Nível D'água (INA)</option>
+                                        <option value="NA">Nível de Água (NA)</option>
+                                        <option value="MV">Medidores de Vazão (MV/Calha)</option>
+                                        <option value="FIR">Inspeções de Campo (FIR)</option>
+                                        <option value="VEH">Checklists Veiculares</option>
+                                    </select>
+                                </div>
+                                <div class="filter-field">
+                                    <label for="history-filter-instrument"><i class="fa-solid fa-satellite"></i> Instrumento:</label>
+                                    <select id="history-filter-instrument" class="form-control form-control-sm" onchange="onHistoryFilterChange()">
+                                        <option value="all">Todos os Instrumentos</option>
+                                    </select>
+                                </div>
+                                <div class="filter-field">
+                                    <label for="history-filter-status"><i class="fa-solid fa-shield-halved"></i> Status TARP:</label>
+                                    <select id="history-filter-status" class="form-control form-control-sm" onchange="onHistoryFilterChange()">
+                                        <option value="all">Todos os Status</option>
+                                        <option value="normal">Normal (Estável)</option>
+                                        <option value="warning">Atenção (Alerta)</option>
+                                        <option value="danger">Crítico / Emergência</option>
+                                    </select>
+                                </div>
+                                <div class="filter-field">
+                                    <label for="history-filter-period"><i class="fa-solid fa-calendar"></i> Período:</label>
+                                    <select id="history-filter-period" class="form-control form-control-sm" onchange="onHistoryFilterChange()">
+                                        <option value="all">Todo o Histórico</option>
+                                        <option value="7d">Últimos 7 dias</option>
+                                        <option value="30d">Últimos 30 dias</option>
+                                        <option value="90d">Últimos 90 dias</option>
+                                        <option value="2026">Ano de 2026</option>
+                                    </select>
+                                </div>
+                                <div class="filter-search-box">
+                                    <label for="history-filter-search"><i class="fa-solid fa-magnifying-glass"></i> Busca:</label>
+                                    <input type="text" id="history-filter-search" class="form-control form-control-sm" placeholder="Buscar código, estrutura, técnico..." oninput="onHistorySearchInput(this.value)">
+                                </div>
+                            </div>
+
+                            <!-- Filter summary pill & count indicator -->
+                            <div class="data-summary-strip justify-between">
+                                <div class="d-flex align-center gap-2">
+                                    <strong>Registros Filtrados:</strong>
+                                    <span class="badge badge-primary" id="history-count-badge">Carregando...</span>
+                                    <span class="small text-secondary" id="history-filter-desc">Exibindo histórico de todos os instrumentos da mina</span>
+                                </div>
+                                <div class="d-flex align-center gap-2">
+                                    <button type="button" class="btn btn-outline btn-sm" onclick="resetHistoryFilters()">
+                                        <i class="fa-solid fa-rotate-left"></i> Redefinir Filtros
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Table Responsive -->
                             <div class="table-responsive">
-                                <table class="table" id="data-table">
+                                <table class="table table-hover" id="history-data-table">
                                     <thead>
                                         <tr>
-                                            <th>ID / Elemento</th>
-                                            <th>Tipo</th>
-                                            <th>Data / Hora</th>
-                                            <th>Leitura / Risco</th>
-                                            <th>Cota / H (m)</th>
+                                            <th onclick="sortHistoryBy('element')" class="sortable-th">Instrumento / ID <i class="fa-solid fa-sort"></i></th>
+                                            <th onclick="sortHistoryBy('structure')" class="sortable-th">Estrutura <i class="fa-solid fa-sort"></i></th>
+                                            <th onclick="sortHistoryBy('type')" class="sortable-th">Tipo <i class="fa-solid fa-sort"></i></th>
+                                            <th onclick="sortHistoryBy('dateTime')" class="sortable-th">Data &amp; Hora <i class="fa-solid fa-sort"></i></th>
+                                            <th>Leitura / Vazão</th>
+                                            <th>Cota / Nível (m)</th>
+                                            <th>Poro-pressão</th>
                                             <th>Inspetor</th>
-                                            <th>Status</th>
-                                            <th>Sincronizado</th>
+                                            <th>Status TARP</th>
+                                            <th class="text-center">Ações</th>
                                         </tr>
                                     </thead>
                                     <tbody id="history-table-body">
                                         <!-- Dynamic readings row listing -->
                                     </tbody>
                                 </table>
+                            </div>
+
+                            <!-- Pagination Controls -->
+                            <div class="history-pagination-bar mt-3">
+                                <div class="pagination-info text-secondary small" id="history-pagination-info">
+                                    Exibindo 0 a 0 de 0 registros
+                                </div>
+                                <div class="pagination-controls d-flex align-center gap-2">
+                                    <label for="history-page-size" class="small text-secondary m-0">Por página:</label>
+                                    <select id="history-page-size" class="form-control form-control-sm" style="width: auto;" onchange="onHistoryPageSizeChange(this.value)">
+                                        <option value="25">25</option>
+                                        <option value="50" selected>50</option>
+                                        <option value="100">100</option>
+                                        <option value="all">Todos</option>
+                                    </select>
+                                    <button type="button" class="btn btn-secondary btn-sm" id="history-btn-prev" onclick="historyPagePrev()" disabled>
+                                        <i class="fa-solid fa-chevron-left"></i>
+                                    </button>
+                                    <span class="small font-weight-bold" id="history-page-display">1 / 1</span>
+                                    <button type="button" class="btn btn-secondary btn-sm" id="history-btn-next" onclick="historyPageNext()">
+                                        <i class="fa-solid fa-chevron-right"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>

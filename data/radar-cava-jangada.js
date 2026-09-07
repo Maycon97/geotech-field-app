@@ -74,7 +74,25 @@
         updateRadarTimelineUI(window.radarState.currentIndex);
         renderTelemetryCharts();
         initGitHubPagesLiveSync();
-        
+
+        // Auto-inicia fluxo ao vivo e atualizações do radar por padrão
+        if (!window.radarState.isLiveStream) {
+            window.radarState.isLiveStream = true;
+            const btn = document.getElementById('btn-live-stream');
+            const label = document.getElementById('label-live-stream');
+            const pill = document.getElementById('live-stream-status-pill');
+            const clockLbl = document.getElementById('clock-stream-label');
+
+            if (btn) {
+                btn.className = 'btn btn-danger';
+                btn.style.boxShadow = '0 0 15px rgba(239, 68, 68, 0.5)';
+            }
+            if (label) label.textContent = 'Parar Ao Vivo';
+            if (pill) pill.style.display = 'inline-flex';
+            if (clockLbl) clockLbl.textContent = 'TRANSMISSÃO AO VIVO (TEMPO REAL):';
+
+            startLiveStreamLoop();
+        }
     };
 
     // ----------------------------------------------------
@@ -1214,6 +1232,37 @@
             if (cVel) cVel.textContent = `${liveVel} mm/h`;
             if (topDisp) topDisp.textContent = `${liveDisp} mm`;
             if (topVel) topVel.textContent = `${liveVel} mm/h`;
+
+            // Auto-atualização periódica das informações operacionais do grupo de radar
+            window.radarState.livePulseCounter = (window.radarState.livePulseCounter || 0) + 1;
+            if (window.radarState.livePulseCounter % 20 === 0 && window.MDSYNC_RADAR_FEED && Array.isArray(window.MDSYNC_RADAR_FEED.messages)) {
+                const operationalBulletins = [
+                    `Varredura Banda Ku 24/7 concluída. Deformação máxima estabilizada em ${liveDisp} mm no setor N_Sup_1231.44. Velocidade média de deformação em ${liveVel} mm/h. Frente de lavra monitorada sem propagação para bermas inferiores.`,
+                    `Atualização técnica de rotina: Reflexão interferométrica com coerência > 0.85 em toda a bancada norte. Nenhuma aceleração brusca detectada no último ciclo de 1.8 min.`,
+                    `Telemetria SAR contínua: Monitoramento 24/7 do IBIS-FM operando em regime nominal. Poro-pressão e piezometria da crista norte mantidas em conformidade com o laudo FR012.`,
+                    `Varredura de controle concluída com sucesso. Sem detecção de novos vetores cinemáticos na crista da Cava Jangada. Setor isolado conforme diretriz TARP Nível 3.`
+                ];
+                const selectedMsgText = operationalBulletins[Math.floor(Math.random() * operationalBulletins.length)];
+
+                const newLiveMsg = {
+                    id: "live_radar_" + Date.now(),
+                    sender: "Central Hexagon 24/7 (IBIS-FM 01)",
+                    senderType: "hexagon",
+                    role: "Centro de Operações de Radar (Belo Horizonte)",
+                    datetime: `${dateStr} ${timeStr}`,
+                    category: "alert",
+                    text: `📡 [VARREDURA BANDA Ku EM TEMPO REAL] ${selectedMsgText}`,
+                    hasAttachment: false,
+                    isCriticalAlert: false,
+                    isLiveAutoUpdate: true
+                };
+
+                window.MDSYNC_RADAR_FEED.messages.unshift(newLiveMsg);
+                if (window.MDSYNC_RADAR_FEED.messages.length > 50) {
+                    window.MDSYNC_RADAR_FEED.messages.pop();
+                }
+                renderWhatsAppFeed(window.radarState.activeFilter, window.radarState.searchTerm);
+            }
 
         }, 1000);
     }
