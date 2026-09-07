@@ -2433,6 +2433,9 @@ function invalidateReadingsCache() {
     _isInstrumentCountDirty = true;
     _cachedLatestReadings = null;
     _cachedInstrumentCountMap = null;
+    if (typeof invalidateStructureListCache === "function") {
+        invalidateStructureListCache();
+    }
 }
 
 function getInstrumentReadingsCountMap() {
@@ -3735,8 +3738,9 @@ function switchTab(tabId) {
         renderGeoViewPanel();
         if (geoviewPilhasMap) {
             setTimeout(() => {
-                geoviewPilhasMap.invalidateSize();
-                renderPilhasLocationMap();
+                if (geoviewPilhasMap) {
+                    geoviewPilhasMap.invalidateSize({ pan: false });
+                }
             }, 120);
         }
     } else if (tabId === 'georef') {
@@ -5549,8 +5553,21 @@ function getCanonicalStructureName(structure) {
     return known || raw;
 }
 
+let _cachedStructureList = null;
+let _cachedGeospatialStructureList = null;
+
+function invalidateStructureListCache() {
+    _cachedStructureList = null;
+    _cachedGeospatialStructureList = null;
+}
+
 function getStructureList() {
+    if (_cachedStructureList) return _cachedStructureList;
     const structureOrder = SOURCE_DATABASE?.summary?.structures || [];
+    const orderIndexMap = new Map();
+    structureOrder.forEach((name, idx) => {
+        orderIndexMap.set(normalizeComparable(name), idx);
+    });
     const unique = new Map();
 
     getKnownStructureNames().forEach(name => {
@@ -5574,19 +5591,27 @@ function getStructureList() {
         unique.set(normalizeComparable(structure), structure);
     });
 
-    return Array.from(unique.values()).sort((a, b) => {
-        const indexA = structureOrder.findIndex(name => normalizeComparable(name) === normalizeComparable(a));
-        const indexB = structureOrder.findIndex(name => normalizeComparable(name) === normalizeComparable(b));
+    _cachedStructureList = Array.from(unique.values()).sort((a, b) => {
+        const normA = normalizeComparable(a);
+        const normB = normalizeComparable(b);
+        const indexA = orderIndexMap.has(normA) ? orderIndexMap.get(normA) : -1;
+        const indexB = orderIndexMap.has(normB) ? orderIndexMap.get(normB) : -1;
         if (indexA !== -1 || indexB !== -1) {
             return (indexA === -1 ? Number.MAX_SAFE_INTEGER : indexA)
                 - (indexB === -1 ? Number.MAX_SAFE_INTEGER : indexB);
         }
         return a.localeCompare(b, "pt-BR", { sensitivity: "base" });
     });
+    return _cachedStructureList;
 }
 
 function getGeospatialStructureList() {
+    if (_cachedGeospatialStructureList) return _cachedGeospatialStructureList;
     const sourceStructures = SOURCE_DATABASE?.summary?.structures || [];
+    const orderIndexMap = new Map();
+    sourceStructures.forEach((name, idx) => {
+        orderIndexMap.set(normalizeComparable(name), idx);
+    });
     const instrumentStructures = Object.values(INSTRUMENT_REGISTRY)
         .map(inst => inst.structure)
         .filter(Boolean);
@@ -5604,15 +5629,18 @@ function getGeospatialStructureList() {
         unique.set(normalizeComparable(canonical), canonical);
     });
 
-    return Array.from(unique.values()).sort((a, b) => {
-        const indexA = sourceStructures.findIndex(name => normalizeComparable(name) === normalizeComparable(a));
-        const indexB = sourceStructures.findIndex(name => normalizeComparable(name) === normalizeComparable(b));
+    _cachedGeospatialStructureList = Array.from(unique.values()).sort((a, b) => {
+        const normA = normalizeComparable(a);
+        const normB = normalizeComparable(b);
+        const indexA = orderIndexMap.has(normA) ? orderIndexMap.get(normA) : -1;
+        const indexB = orderIndexMap.has(normB) ? orderIndexMap.get(normB) : -1;
         if (indexA !== -1 || indexB !== -1) {
             return (indexA === -1 ? Number.MAX_SAFE_INTEGER : indexA)
                 - (indexB === -1 ? Number.MAX_SAFE_INTEGER : indexB);
         }
         return a.localeCompare(b, "pt-BR", { sensitivity: "base" });
     });
+    return _cachedGeospatialStructureList;
 }
 
 function toDateInputValue(date) {
@@ -8327,11 +8355,14 @@ function setPilhasIndicatorFilter(key, value) {
 
 function setPilhasStructureFilter(structure) {
     const canonical = getCanonicalStructureName(structure);
+    if (!canonical) return;
+
     pilhasIndicatorFilters.structure = canonical;
     pilhasIndicatorFilters.instrumentId = null;
     geoSpatialState.selectedStructure = canonical;
     earthMapView.focusedInstrumentId = null;
     saveGeospatialState();
+
     const earthSelect = document.getElementById("earth-structure-select");
     if (earthSelect && Array.from(earthSelect.options).some(option => option.value === canonical)) {
         earthSelect.value = canonical;
@@ -8340,9 +8371,39 @@ function setPilhasStructureFilter(structure) {
     if (geoViewSelect && Array.from(geoViewSelect.options).some(option => option.value === canonical)) {
         geoViewSelect.value = canonical;
     }
-    renderPilhasIndicatorDashboard();
-    renderEarthMapPanel();
-    renderGeoViewMaps();
+    const pilhasSelect = document.getElementById("pilhas-structure-filter");
+    if (pilhasSelect && pilhasSelect.value !== canonical) {
+        pilhasSelect.value = canonical;
+    }
+
+    setTextContent("pilhas-bi-title", `INDICADORES - ${canonical}`);
+
+    // 1. Immediately trigger map transition and marker highlight with zero latency
+    renderPilhasLocationMap();
+
+    // 2. Synchronously update fast visual charts & KPIs (<4ms)
+    renderPilhasBarChart("geometria");
+    renderPilhasBarChart("declividade");
+    renderPilhasBarChart("empocamento");
+    renderPilhasBarChart("fator");
+    renderPilhasBarChart("planoLavra");
+    renderPilhasStructureKpis();
+    renderPilhasExecutiveSummary();
+
+    // 3. Defer heavy multi-reading Chart.js construction and secondary DOM updates so 60fps animation is uninterrupted
+    const runDeferred = () => {
+        renderPilhasInstrumentChart();
+        renderGeoViewMaps();
+        if (document.getElementById("tab-cockpit")?.classList.contains("active")) {
+            renderEarthMapPanel();
+        }
+    };
+
+    if (typeof window.requestIdleCallback === "function") {
+        window.requestIdleCallback(runDeferred, { timeout: 300 });
+    } else {
+        setTimeout(runDeferred, 60);
+    }
 }
 
 function setPilhasInstrumentFilter(instrumentId) {
@@ -8528,6 +8589,8 @@ function getGeoViewStructureCoordinate(structure) {
 
 let geoviewPilhasMap = null;
 let geoviewPilhasMarkersGroup = null;
+let geoviewPilhasMarkersMap = new Map();
+let geoviewPilhasGpsMarker = null;
 
 function initGeoViewPilhasMap() {
     const container = document.getElementById("pilhas-location-map");
@@ -8538,11 +8601,18 @@ function initGeoViewPilhasMap() {
             center: [-20.088, -44.103],
             zoom: 15,
             zoomControl: true,
-            attributionControl: false
+            attributionControl: false,
+            preferCanvas: true,
+            fadeAnimation: true,
+            zoomAnimation: true,
+            markerZoomAnimation: true
         });
 
         const esriSatellite = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
-            maxZoom: 19
+            maxZoom: 19,
+            updateWhenIdle: false,
+            updateWhenZooming: false,
+            keepBuffer: 4
         });
         esriSatellite.addTo(geoviewPilhasMap);
 
@@ -8551,7 +8621,7 @@ function initGeoViewPilhasMap() {
 
     setTimeout(() => {
         if (geoviewPilhasMap) {
-            geoviewPilhasMap.invalidateSize();
+            geoviewPilhasMap.invalidateSize({ pan: false });
         }
     }, 150);
 
@@ -8593,10 +8663,6 @@ function renderPilhasLocationMap() {
             return;
         }
 
-        if (geoviewPilhasMarkersGroup) {
-            geoviewPilhasMarkersGroup.clearLayers();
-        }
-
         const metrics = getPilhasRealRows("geometria");
         const geometryByLabel = new Map(metrics.map(row => [normalizeComparable(row.label), row.value]));
         const pointRows = getStructureList()
@@ -8613,6 +8679,7 @@ function renderPilhasLocationMap() {
 
         const currentStructure = pilhasIndicatorFilters.structure;
         let selectedItem = null;
+        const colors = ["#8b5cf6", "#22a5e8", "#e657b7", "#2447e8", "#e33658", "#ff7c3b"];
 
         pointRows.forEach((item, index) => {
             const isSelected = normalizeComparable(item.structure) === normalizeComparable(currentStructure);
@@ -8622,67 +8689,91 @@ function renderPilhasLocationMap() {
             const geomVal = geometryByLabel.get(normalizeComparable(metricName));
             const distance = getDistanceMeters(lastGeolocationFix, item.coordinate);
             const utm = latLonToSirgasUtm(item.coordinate.latitude, item.coordinate.longitude);
-
-            const colors = ["#8b5cf6", "#22a5e8", "#e657b7", "#2447e8", "#e33658", "#ff7c3b"];
             const pointColor = colors[index % colors.length];
-            const pinClass = isSelected ? "geoview-map-pin active-geoview-pin" : "geoview-map-pin";
-            const icon = L.divIcon({
-                className: "geoview-custom-pin-wrapper",
-                html: `
-                    <div class="${pinClass}" style="--pin-color: ${isSelected ? '#38bdf8' : pointColor};">
-                        <span class="geoview-pin-pulse"></span>
-                        <span class="geoview-pin-dot"></span>
-                        <span class="geoview-pin-label">${escapeHtml(item.structure)}</span>
+
+            let markerRecord = geoviewPilhasMarkersMap.get(item.structure);
+            if (!markerRecord) {
+                const pinClass = isSelected ? "geoview-map-pin active-geoview-pin" : "geoview-map-pin";
+                const icon = L.divIcon({
+                    className: "geoview-custom-pin-wrapper",
+                    html: `
+                        <div class="${pinClass}" style="--pin-color: ${isSelected ? '#38bdf8' : pointColor};">
+                            <span class="geoview-pin-pulse"></span>
+                            <span class="geoview-pin-dot"></span>
+                            <span class="geoview-pin-label">${escapeHtml(item.structure)}</span>
+                        </div>
+                    `,
+                    iconSize: [120, 32],
+                    iconAnchor: [60, 16]
+                });
+
+                const marker = L.marker([item.coordinate.latitude, item.coordinate.longitude], { icon });
+
+                marker.bindPopup(`
+                    <div style="font-family: inherit; font-size: 12px; color: #fff; line-height: 1.4;">
+                        <div style="font-weight: 800; color: #38bdf8; font-size: 13px; margin-bottom: 4px;">
+                            <i class="fa-solid fa-layer-group"></i> ${escapeHtml(item.structure)}
+                        </div>
+                        ${geomVal != null ? `<div><b>Geometria:</b> ${geomVal.toLocaleString("pt-BR", { minimumFractionDigits: 1 })}%</div>` : ''}
+                        <div><b>SIRGAS 2000 UTM 23S:</b> E ${formatNumber(utm.easting, 1)} m | N ${formatNumber(utm.northing, 1)} m</div>
+                        ${Number.isFinite(distance) ? `<div><b>Distância GPS:</b> ${formatDistanceMeters(distance)}</div>` : ''}
+                        <button style="margin-top: 6px; background: #0284c7; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 11px;" onclick="setPilhasStructureFilter('${escapeHtml(item.structure)}')">Focar Estrutura</button>
                     </div>
-                `,
-                iconSize: [120, 32],
-                iconAnchor: [60, 16]
-            });
+                `);
 
-            const marker = L.marker([item.coordinate.latitude, item.coordinate.longitude], { icon });
+                marker.on("click", () => {
+                    setPilhasStructureFilter(item.structure);
+                });
 
-            marker.bindPopup(`
-                <div style="font-family: inherit; font-size: 12px; color: #fff; line-height: 1.4;">
-                    <div style="font-weight: 800; color: #38bdf8; font-size: 13px; margin-bottom: 4px;">
-                        <i class="fa-solid fa-layer-group"></i> ${escapeHtml(item.structure)}
-                    </div>
-                    ${geomVal != null ? `<div><b>Geometria:</b> ${geomVal.toLocaleString("pt-BR", { minimumFractionDigits: 1 })}%</div>` : ''}
-                    <div><b>SIRGAS 2000 UTM 23S:</b> E ${formatNumber(utm.easting, 1)} m | N ${formatNumber(utm.northing, 1)} m</div>
-                    ${Number.isFinite(distance) ? `<div><b>Distância GPS:</b> ${formatDistanceMeters(distance)}</div>` : ''}
-                    <button style="margin-top: 6px; background: #0284c7; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 11px;" onclick="setPilhasStructureFilter('${escapeHtml(item.structure)}')">Focar Estrutura</button>
-                </div>
-            `);
-
-            marker.on("click", () => {
-                setPilhasStructureFilter(item.structure);
-            });
-
-            geoviewPilhasMarkersGroup.addLayer(marker);
+                geoviewPilhasMarkersGroup.addLayer(marker);
+                markerRecord = { marker, pointColor };
+                geoviewPilhasMarkersMap.set(item.structure, markerRecord);
+            } else {
+                // Instantly update active state in existing DOM element
+                const el = markerRecord.marker.getElement();
+                if (el) {
+                    const pin = el.querySelector(".geoview-map-pin");
+                    if (pin) {
+                        pin.classList.toggle("active-geoview-pin", isSelected);
+                        pin.style.setProperty("--pin-color", isSelected ? "#38bdf8" : markerRecord.pointColor);
+                    }
+                }
+            }
         });
 
-        // Plot GPS marker if available
+        // Plot or update GPS marker if available
         if (lastGeolocationFix && Number.isFinite(lastGeolocationFix.latitude) && Number.isFinite(lastGeolocationFix.longitude)) {
-            const gpsIcon = L.divIcon({
-                className: "georef-gps-pin-wrapper",
-                html: `<div class="pilhas-gps-point-pulse" title="Posição Atual"></div>`,
-                iconSize: [16, 16],
-                iconAnchor: [8, 8]
-            });
-            const gpsMarker = L.marker([lastGeolocationFix.latitude, lastGeolocationFix.longitude], { icon: gpsIcon });
-            geoviewPilhasMarkersGroup.addLayer(gpsMarker);
+            if (!geoviewPilhasGpsMarker) {
+                const gpsIcon = L.divIcon({
+                    className: "georef-gps-pin-wrapper",
+                    html: `<div class="pilhas-gps-point-pulse" title="Posição Atual"></div>`,
+                    iconSize: [16, 16],
+                    iconAnchor: [8, 8]
+                });
+                geoviewPilhasGpsMarker = L.marker([lastGeolocationFix.latitude, lastGeolocationFix.longitude], { icon: gpsIcon });
+                geoviewPilhasMarkersGroup.addLayer(geoviewPilhasGpsMarker);
+            } else {
+                geoviewPilhasGpsMarker.setLatLng([lastGeolocationFix.latitude, lastGeolocationFix.longitude]);
+            }
         }
 
-        // Animate camera transition with flyTo
+        // Animate camera transition with fluid 60fps flyTo
         if (selectedItem && selectedItem.coordinate && Number.isFinite(Number(selectedItem.coordinate.latitude)) && Number.isFinite(Number(selectedItem.coordinate.longitude))) {
             const lat = Number(selectedItem.coordinate.latitude);
             const lng = Number(selectedItem.coordinate.longitude);
             try {
                 if (container.offsetWidth > 0 && container.offsetHeight > 0) {
-                    geoviewPilhasMap.flyTo(
-                        [lat, lng],
-                        16,
-                        { animate: true, duration: 1.2 }
-                    );
+                    const currentCenter = geoviewPilhasMap.getCenter();
+                    const currentZoom = geoviewPilhasMap.getZoom();
+                    const distLat = Math.abs(currentCenter.lat - lat);
+                    const distLng = Math.abs(currentCenter.lng - lng);
+                    if (distLat > 0.00005 || distLng > 0.00005 || currentZoom !== 16) {
+                        geoviewPilhasMap.flyTo(
+                            [lat, lng],
+                            16,
+                            { animate: true, duration: 0.85, easeLinearity: 0.25 }
+                        );
+                    }
                 } else {
                     geoviewPilhasMap.setView([lat, lng], 16);
                 }
