@@ -1,1379 +1,1175 @@
 {
-  "structure": "PILHA B2",
+  "structure": "Pilha B2",
   "slug": "pilha-b2",
-  "version": "mdsync-combined-9aebb6da9a",
-  "instrumentCount": 9,
+  "version": "pcmi-official-2026",
+  "instrumentCount": 8,
   "instruments": {
-    "PILHA-B2-MV-01": {
-      "id": "PILHA-B2-MV-01",
-      "code": "MV-01",
-      "name": "MV-01 - PILHA B2",
-      "type": "MV",
-      "structure": "PILHA B2",
-      "installationDate": null,
-      "diameter": null,
-      "cotaBoca": 0,
-      "cotaBase": null,
-      "cotaFundo": null,
-      "profMax": 0,
-      "limiteCritico": 1,
-      "coordinates": {
-        "ns": null,
-        "ew": null
-      },
-      "historico": []
-    },
-    "PILHA-B2-PZ-01": {
-      "id": "PILHA-B2-PZ-01",
-      "code": "PZ-01",
-      "name": "PZ-01 - PILHA B2",
+    "Pilha_B2_PZ_1": {
+      "id": "Pilha_B2_PZ_1",
+      "code": "1",
+      "name": "PZ-1 (Pilha B2)",
+      "structure": "Pilha B2",
+      "rawStructure": "PILHA B2",
       "type": "PZ",
-      "structure": "PILHA B2",
-      "installationDate": "2024-05-21",
+      "section": "",
+      "installedDate": "2024-05-21",
       "diameter": "1\"",
-      "cotaBoca": 943.422,
+      "totalLengthMeters": 13.97,
+      "depthMeters": 12.97,
+      "cotaTopo": 943.422,
       "cotaBase": 934.26,
       "cotaFundo": 921.29,
-      "profMax": 14.12,
-      "limiteCritico": 18.36,
+      "cotaBoca": 943.422,
+      "profMax": 12.97,
+      "limiteCritico": 943.422,
+      "thresholds": {
+        "normal": 943.422,
+        "warning": 943.422,
+        "alert": 943.422,
+        "emergency": 943.422,
+        "unit": "m (Cota)"
+      },
       "coordinates": {
         "ns": 7779464.442,
-        "ew": 592719.452
+        "ew": 592719.452,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0795938,
+        "longitude": -44.1132057,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 43,
+      "latestReading": {
+        "id": "read_pz_32201",
+        "instrumentId": "Pilha_B2_PZ_1",
+        "instrumentCode": "1",
+        "structure": "Pilha B2",
+        "type": "PZ",
+        "date": "2026-08-27",
+        "dateTime": "2026-08-27T08:00:00",
+        "value": 13.96,
+        "reading": 13.96,
+        "waterElevation": 929.462,
+        "cotaCalculada": 929.462,
+        "cotaTopo": 943.422,
+        "cotaFundo": 921.29,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
       },
       "historico": [
         {
-          "data": "2024-12-18",
-          "valor": 12.3,
-          "status": "Normal"
-        },
-        {
-          "data": "2024-12-26",
-          "valor": 12.3,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-02",
-          "valor": 12.6,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-08",
-          "valor": 12.51,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-15",
-          "valor": 12.1,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-22",
-          "valor": 11.6,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-29",
-          "valor": 11.74,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-05",
-          "valor": 11.67,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-12",
-          "valor": 11.6,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-19",
-          "valor": 11.2,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-26",
-          "valor": 11.35,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-05",
-          "valor": 11.25,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-12",
-          "valor": 11.62,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-19",
-          "valor": 11.77,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-26",
-          "valor": 11.79,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-04-02",
-          "valor": 11.8,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-04-14",
-          "valor": 12.26,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-05-08",
-          "valor": 12.67,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-05-19",
-          "valor": 12.77,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-05-26",
-          "valor": 12.86,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-06-02",
-          "valor": 12.9,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-06-09",
-          "valor": 12.9,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-06-23",
-          "valor": 14.08,
-          "status": "Normal"
-        },
-        {
           "data": "2025-07-07",
           "valor": 14.08,
-          "status": "Normal"
+          "cota": 929.342
         },
         {
           "data": "2025-07-21",
           "valor": 14.12,
-          "status": "Normal"
+          "cota": 929.302
         },
         {
           "data": "2025-08-08",
           "valor": 14.12,
-          "status": "Normal"
+          "cota": 929.302
         },
         {
           "data": "2025-08-15",
           "valor": 13.03,
-          "status": "Normal"
+          "cota": 930.392
         },
         {
           "data": "2025-08-28",
           "valor": 13.9,
-          "status": "Normal"
+          "cota": 929.522
         },
         {
           "data": "2025-09-03",
           "valor": 13.95,
-          "status": "Atencao"
+          "cota": 929.472
         },
         {
           "data": "2025-10-08",
           "valor": 13.96,
-          "status": "Normal"
+          "cota": 929.462
         },
         {
           "data": "2025-11-10",
-          "valor": 13.93,
-          "status": "Atencao"
+          "valor": 13.930000000000001,
+          "cota": 929.4920000000001
         },
         {
           "data": "2025-11-17",
-          "valor": 13.89,
-          "status": "Normal"
+          "valor": 13.890000000000002,
+          "cota": 929.532
         },
         {
           "data": "2025-12-01",
           "valor": 13.87,
-          "status": "Normal"
+          "cota": 929.552
         },
         {
           "data": "2025-12-15",
           "valor": 0.0,
-          "status": "Normal"
+          "cota": 943.422
         },
         {
           "data": "2026-01-12",
           "valor": 0.0,
-          "status": "Normal"
+          "cota": 943.422
         },
         {
           "data": "2026-01-26",
           "valor": 0.0,
-          "status": "Normal"
+          "cota": 943.422
         },
         {
           "data": "2026-05-26",
           "valor": 12.96,
-          "status": "Normal"
+          "cota": 930.462
+        },
+        {
+          "data": "2026-06-08",
+          "valor": 13.97,
+          "cota": 929.452
+        },
+        {
+          "data": "2026-06-23",
+          "valor": 13.96,
+          "cota": 929.462
+        },
+        {
+          "data": "2026-07-13",
+          "valor": 13.97,
+          "cota": 929.452
+        },
+        {
+          "data": "2026-07-27",
+          "valor": 13.97,
+          "cota": 929.452
+        },
+        {
+          "data": "2026-08-12",
+          "valor": 13.97,
+          "cota": 929.452
+        },
+        {
+          "data": "2026-08-27",
+          "valor": 13.96,
+          "cota": 929.462
         }
       ]
     },
-    "PILHA-B2-PZ-02": {
-      "id": "PILHA-B2-PZ-02",
-      "code": "PZ-02",
-      "name": "PZ-02 - PILHA B2",
+    "Pilha_B2_PZ_2": {
+      "id": "Pilha_B2_PZ_2",
+      "code": "2",
+      "name": "PZ-2 (Pilha B2)",
+      "structure": "Pilha B2",
+      "rawStructure": "PILHA B2",
       "type": "PZ",
-      "structure": "PILHA B2",
-      "installationDate": "2024-05-21",
+      "section": "",
+      "installedDate": "2024-05-21",
       "diameter": "1\"",
-      "cotaBoca": 958.867,
+      "totalLengthMeters": 30.06,
+      "depthMeters": 13.54,
+      "cotaTopo": 958.867,
       "cotaBase": 940.33,
       "cotaFundo": 926.79,
-      "profMax": 30.06,
-      "limiteCritico": 39.08,
+      "cotaBoca": 958.867,
+      "profMax": 13.54,
+      "limiteCritico": 958.867,
+      "thresholds": {
+        "normal": 958.867,
+        "warning": 958.867,
+        "alert": 958.867,
+        "emergency": 958.867,
+        "unit": "m (Cota)"
+      },
       "coordinates": {
         "ns": 7779427.875,
-        "ew": 592753.219
+        "ew": 592753.219,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0799226,
+        "longitude": -44.1128809,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Inativo",
+      "readingMethod": "Manual",
+      "readingsCount": 36,
+      "latestReading": {
+        "id": "read_pz_30059",
+        "instrumentId": "Pilha_B2_PZ_2",
+        "instrumentCode": "2",
+        "structure": "Pilha B2",
+        "type": "PZ",
+        "date": "2026-01-26",
+        "dateTime": "2026-01-26T08:00:00",
+        "value": 0.0,
+        "reading": 0.0,
+        "waterElevation": 958.867,
+        "cotaCalculada": 958.867,
+        "cotaTopo": 958.867,
+        "cotaFundo": 926.79,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
       },
       "historico": [
         {
-          "data": "2024-12-18",
-          "valor": 30.06,
-          "status": "Normal"
-        },
-        {
-          "data": "2024-12-26",
-          "valor": 30.06,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-02",
-          "valor": 30.06,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-08",
-          "valor": 30.06,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-15",
-          "valor": 30.06,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-22",
-          "valor": 30.06,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-29",
-          "valor": 30.06,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-05",
-          "valor": 30.06,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-12",
-          "valor": 30.06,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-19",
-          "valor": 30.06,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-26",
-          "valor": 30.06,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-05",
-          "valor": 30.06,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-12",
-          "valor": 30.06,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-19",
-          "valor": 30.06,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-26",
-          "valor": 30.06,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-04-02",
-          "valor": 30.06,
-          "status": "Normal"
-        },
-        {
           "data": "2025-04-14",
           "valor": 6.37,
-          "status": "Normal"
+          "cota": 952.497
         },
         {
           "data": "2025-05-08",
           "valor": 8.4,
-          "status": "Normal"
+          "cota": 950.467
         },
         {
           "data": "2025-05-19",
           "valor": 8.64,
-          "status": "Normal"
+          "cota": 950.227
         },
         {
           "data": "2025-05-26",
           "valor": 7.01,
-          "status": "Normal"
+          "cota": 951.857
         },
         {
           "data": "2025-06-02",
           "valor": 6.99,
-          "status": "Normal"
+          "cota": 951.877
         },
         {
           "data": "2025-06-09",
           "valor": 6.99,
-          "status": "Normal"
+          "cota": 951.877
         },
         {
           "data": "2025-06-23",
           "valor": 9.0,
-          "status": "Normal"
+          "cota": 949.867
         },
         {
           "data": "2025-07-07",
           "valor": 9.0,
-          "status": "Normal"
+          "cota": 949.867
         },
         {
           "data": "2025-07-21",
           "valor": 8.0,
-          "status": "Normal"
+          "cota": 950.867
         },
         {
           "data": "2025-08-08",
           "valor": 8.0,
-          "status": "Normal"
+          "cota": 950.867
         },
         {
           "data": "2025-08-15",
           "valor": 0.0,
-          "status": "Normal"
+          "cota": 958.867
         },
         {
           "data": "2025-08-28",
           "valor": 5.81,
-          "status": "Normal"
+          "cota": 953.057
         },
         {
           "data": "2025-09-03",
           "valor": 5.9,
-          "status": "Normal"
+          "cota": 952.967
         },
         {
           "data": "2025-10-08",
           "valor": 5.92,
-          "status": "Normal"
+          "cota": 952.947
         },
         {
           "data": "2025-11-10",
           "valor": 5.9,
-          "status": "Normal"
+          "cota": 952.967
         },
         {
           "data": "2025-11-17",
           "valor": 5.86,
-          "status": "Normal"
+          "cota": 953.007
         },
         {
           "data": "2025-12-01",
           "valor": 5.84,
-          "status": "Normal"
+          "cota": 953.0269999999999
         },
         {
           "data": "2025-12-15",
           "valor": 0.0,
-          "status": "Normal"
+          "cota": 958.867
         },
         {
           "data": "2026-01-12",
           "valor": 0.0,
-          "status": "Normal"
+          "cota": 958.867
         },
         {
           "data": "2026-01-26",
           "valor": 0.0,
-          "status": "Normal"
+          "cota": 958.867
         }
       ]
     },
-    "PILHA-B2-PZ-04": {
-      "id": "PILHA-B2-PZ-04",
-      "code": "PZ-04",
-      "name": "PZ-04 - PILHA B2",
+    "Pilha_B2_PZ_4": {
+      "id": "Pilha_B2_PZ_4",
+      "code": "4",
+      "name": "PZ-4 (Pilha B2)",
+      "structure": "Pilha B2",
+      "rawStructure": "PILHA B2",
       "type": "PZ",
-      "structure": "PILHA B2",
-      "installationDate": "2024-05-24",
+      "section": "",
+      "installedDate": "2024-05-24",
       "diameter": "1\"",
-      "cotaBoca": 989.325,
+      "totalLengthMeters": 17.71,
+      "depthMeters": 14.41,
+      "cotaTopo": 989.325,
       "cotaBase": 977.87,
       "cotaFundo": 963.46,
-      "profMax": 24.86,
-      "limiteCritico": 32.32,
+      "cotaBoca": 989.325,
+      "profMax": 14.41,
+      "limiteCritico": 989.325,
+      "thresholds": {
+        "normal": 989.325,
+        "warning": 989.325,
+        "alert": 989.325,
+        "emergency": 989.325,
+        "unit": "m (Cota)"
+      },
       "coordinates": {
         "ns": 7779325.147,
-        "ew": 592868.513
+        "ew": 592868.513,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0808452,
+        "longitude": -44.1117731,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Inativo",
+      "readingMethod": "Manual",
+      "readingsCount": 36,
+      "latestReading": {
+        "id": "read_pz_30060",
+        "instrumentId": "Pilha_B2_PZ_4",
+        "instrumentCode": "4",
+        "structure": "Pilha B2",
+        "type": "PZ",
+        "date": "2026-01-26",
+        "dateTime": "2026-01-26T08:00:00",
+        "value": 0.0,
+        "reading": 0.0,
+        "waterElevation": 989.325,
+        "cotaCalculada": 989.325,
+        "cotaTopo": 989.325,
+        "cotaFundo": 963.46,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
       },
       "historico": [
         {
-          "data": "2024-12-18",
-          "valor": 24.86,
-          "status": "Normal"
-        },
-        {
-          "data": "2024-12-26",
-          "valor": 24.86,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-02",
-          "valor": 24.86,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-08",
-          "valor": 24.86,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-15",
-          "valor": 24.86,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-22",
-          "valor": 24.86,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-29",
-          "valor": 24.86,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-05",
-          "valor": 24.86,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-12",
-          "valor": 24.86,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-19",
-          "valor": 24.86,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-26",
-          "valor": 24.86,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-05",
-          "valor": 24.86,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-12",
-          "valor": 24.86,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-19",
-          "valor": 24.86,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-26",
-          "valor": 24.86,
-          "status": "Normal"
-        },
-        {
           "data": "2025-04-02",
           "valor": 24.86,
-          "status": "Normal"
+          "cota": 964.465
         },
         {
           "data": "2025-04-14",
           "valor": 16.27,
-          "status": "Normal"
+          "cota": 973.0550000000001
         },
         {
           "data": "2025-05-08",
           "valor": 16.32,
-          "status": "Normal"
+          "cota": 973.005
         },
         {
           "data": "2025-05-19",
           "valor": 16.32,
-          "status": "Normal"
+          "cota": 973.005
         },
         {
           "data": "2025-05-26",
           "valor": 15.91,
-          "status": "Normal"
+          "cota": 973.4150000000001
         },
         {
           "data": "2025-06-02",
           "valor": 15.91,
-          "status": "Normal"
+          "cota": 973.4150000000001
         },
         {
           "data": "2025-06-09",
           "valor": 15.91,
-          "status": "Normal"
+          "cota": 973.4150000000001
         },
         {
           "data": "2025-06-23",
           "valor": 17.9,
-          "status": "Normal"
+          "cota": 971.4250000000001
         },
         {
           "data": "2025-07-07",
           "valor": 17.9,
-          "status": "Normal"
+          "cota": 971.4250000000001
         },
         {
           "data": "2025-07-21",
           "valor": 17.93,
-          "status": "Normal"
+          "cota": 971.3950000000001
         },
         {
           "data": "2025-08-08",
           "valor": 17.93,
-          "status": "Normal"
+          "cota": 971.3950000000001
         },
         {
           "data": "2025-08-15",
           "valor": 17.71,
-          "status": "Normal"
+          "cota": 971.615
         },
         {
           "data": "2025-09-03",
           "valor": 17.72,
-          "status": "Normal"
+          "cota": 971.605
         },
         {
           "data": "2025-10-08",
           "valor": 17.71,
-          "status": "Normal"
+          "cota": 971.615
         },
         {
           "data": "2025-11-10",
           "valor": 17.67,
-          "status": "Normal"
+          "cota": 971.6550000000001
         },
         {
           "data": "2025-11-17",
-          "valor": 17.63,
-          "status": "Normal"
+          "valor": 17.630000000000003,
+          "cota": 971.695
         },
         {
           "data": "2025-12-01",
-          "valor": 17.63,
-          "status": "Normal"
+          "valor": 17.630000000000003,
+          "cota": 971.695
         },
         {
           "data": "2025-12-15",
           "valor": 0.0,
-          "status": "Normal"
+          "cota": 989.325
         },
         {
           "data": "2026-01-12",
           "valor": 0.0,
-          "status": "Normal"
+          "cota": 989.325
         },
         {
           "data": "2026-01-26",
           "valor": 0.0,
-          "status": "Normal"
+          "cota": 989.325
         }
       ]
     },
-    "PILHA-B2-PZ-05": {
-      "id": "PILHA-B2-PZ-05",
-      "code": "PZ-05",
-      "name": "PZ-05 - PILHA B2",
+    "Pilha_B2_PZ_5": {
+      "id": "Pilha_B2_PZ_5",
+      "code": "5",
+      "name": "PZ-5 (Pilha B2)",
+      "structure": "Pilha B2",
+      "rawStructure": "PILHA B2",
       "type": "PZ",
-      "structure": "PILHA B2",
-      "installationDate": "2024-06-04",
+      "section": "",
+      "installedDate": "2024-06-04",
       "diameter": "1\"",
-      "cotaBoca": 967.06,
+      "totalLengthMeters": 15.75,
+      "depthMeters": 14.49,
+      "cotaTopo": 967.06,
       "cotaBase": 965.8,
       "cotaFundo": 951.31,
+      "cotaBoca": 967.06,
       "profMax": 14.49,
-      "limiteCritico": 18.84,
+      "limiteCritico": 967.06,
+      "thresholds": {
+        "normal": 967.06,
+        "warning": 967.06,
+        "alert": 967.06,
+        "emergency": 967.06,
+        "unit": "m (Cota)"
+      },
       "coordinates": {
         "ns": 7779256.025,
-        "ew": null
+        "ew": 592951.453,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
       },
+      "latLon": {
+        "latitude": -20.0814658,
+        "longitude": -44.1109764,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Inativo",
+      "readingMethod": "Manual",
+      "readingsCount": 0,
+      "latestReading": null,
       "historico": []
     },
-    "PILHA-B2-PZ-06": {
-      "id": "PILHA-B2-PZ-06",
-      "code": "PZ-06",
-      "name": "PZ-06 - PILHA B2",
+    "Pilha_B2_PZ_7": {
+      "id": "Pilha_B2_PZ_7",
+      "code": "7",
+      "name": "PZ-7 (Pilha B2)",
+      "structure": "Pilha B2",
+      "rawStructure": "PILHA B2",
       "type": "PZ",
-      "structure": "PILHA B2",
-      "installationDate": "2024-06-12",
+      "section": "",
+      "installedDate": "2024-06-07",
       "diameter": "1\"",
-      "cotaBoca": 995.177,
-      "cotaBase": 995.177,
-      "cotaFundo": 965.39,
-      "profMax": 26.99,
-      "limiteCritico": 35.09,
-      "coordinates": {
-        "ns": 7779319.579,
-        "ew": 593005.72
-      },
-      "historico": [
-        {
-          "data": "2024-12-18",
-          "valor": 26.99,
-          "status": "Normal"
-        },
-        {
-          "data": "2024-12-26",
-          "valor": 26.99,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-02",
-          "valor": 26.99,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-08",
-          "valor": 26.99,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-15",
-          "valor": 26.99,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-22",
-          "valor": 26.99,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-29",
-          "valor": 26.99,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-05",
-          "valor": 26.99,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-12",
-          "valor": 26.99,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-19",
-          "valor": 26.99,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-26",
-          "valor": 26.99,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-05",
-          "valor": 26.99,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-12",
-          "valor": 26.99,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-19",
-          "valor": 26.99,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-26",
-          "valor": 26.99,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-04-02",
-          "valor": 26.99,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-04-14",
-          "valor": 18.3,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-05-08",
-          "valor": 18.27,
-          "status": "Atencao"
-        },
-        {
-          "data": "2025-05-19",
-          "valor": 18.27,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-05-26",
-          "valor": 18.27,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-06-02",
-          "valor": 15.97,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-06-09",
-          "valor": 15.97,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-06-23",
-          "valor": 16.72,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-07-07",
-          "valor": 16.72,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-07-21",
-          "valor": 16.72,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-08-08",
-          "valor": 16.72,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-08-15",
-          "valor": 20.73,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-08-28",
-          "valor": 22.84,
-          "status": "Atencao"
-        },
-        {
-          "data": "2025-09-03",
-          "valor": 20.72,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-10-08",
-          "valor": 20.7,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-11-10",
-          "valor": 20.67,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-11-17",
-          "valor": 20.63,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-12-01",
-          "valor": 20.61,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-12-15",
-          "valor": 20.64,
-          "status": "Normal"
-        },
-        {
-          "data": "2026-01-12",
-          "valor": 20.66,
-          "status": "Normal"
-        },
-        {
-          "data": "2026-01-26",
-          "valor": 20.69,
-          "status": "Atencao"
-        }
-      ]
-    },
-    "PILHA-B2-PZ-07": {
-      "id": "PILHA-B2-PZ-07",
-      "code": "PZ-07",
-      "name": "PZ-07 - PILHA B2",
-      "type": "PZ",
-      "structure": "PILHA B2",
-      "installationDate": "2024-06-07",
-      "diameter": "1\"",
-      "cotaBoca": 994.13,
+      "totalLengthMeters": 31.55,
+      "depthMeters": 15.4,
+      "cotaTopo": 994.13,
       "cotaBase": 968.56,
       "cotaFundo": 953.16,
-      "profMax": 31.55,
-      "limiteCritico": 41.02,
+      "cotaBoca": 994.13,
+      "profMax": 15.4,
+      "limiteCritico": 994.13,
+      "thresholds": {
+        "normal": 994.13,
+        "warning": 994.13,
+        "alert": 994.13,
+        "emergency": 994.13,
+        "unit": "m (Cota)"
+      },
       "coordinates": {
         "ns": 7779280.146,
-        "ew": 593036.955
+        "ew": 593036.955,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0812437,
+        "longitude": -44.1101599,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Inativo",
+      "readingMethod": "Manual",
+      "readingsCount": 34,
+      "latestReading": {
+        "id": "read_pz_30063",
+        "instrumentId": "Pilha_B2_PZ_7",
+        "instrumentCode": "7",
+        "structure": "Pilha B2",
+        "type": "PZ",
+        "date": "2026-01-26",
+        "dateTime": "2026-01-26T08:00:00",
+        "value": 0.0,
+        "reading": 0.0,
+        "waterElevation": 994.13,
+        "cotaCalculada": 994.13,
+        "cotaTopo": 994.13,
+        "cotaFundo": 953.16,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
       },
       "historico": [
         {
-          "data": "2024-12-18",
-          "valor": 31.55,
-          "status": "Normal"
-        },
-        {
-          "data": "2024-12-26",
-          "valor": 31.55,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-02",
-          "valor": 31.55,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-08",
-          "valor": 31.55,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-15",
-          "valor": 31.55,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-22",
-          "valor": 31.55,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-29",
-          "valor": 31.55,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-05",
-          "valor": 31.55,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-12",
-          "valor": 31.55,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-19",
-          "valor": 31.55,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-26",
-          "valor": 31.55,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-05",
-          "valor": 31.55,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-12",
-          "valor": 31.55,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-19",
-          "valor": 31.55,
-          "status": "Normal"
-        },
-        {
           "data": "2025-03-26",
           "valor": 31.55,
-          "status": "Normal"
+          "cota": 962.58
         },
         {
           "data": "2025-04-02",
           "valor": 31.55,
-          "status": "Normal"
+          "cota": 962.58
         },
         {
           "data": "2025-04-14",
           "valor": 9.6,
-          "status": "Normal"
+          "cota": 984.53
         },
         {
           "data": "2025-05-08",
           "valor": 11.64,
-          "status": "Normal"
+          "cota": 982.49
         },
         {
           "data": "2025-05-19",
           "valor": 18.34,
-          "status": "Normal"
+          "cota": 975.79
         },
         {
           "data": "2025-05-26",
           "valor": 11.66,
-          "status": "Normal"
+          "cota": 982.47
         },
         {
           "data": "2025-06-02",
           "valor": 11.63,
-          "status": "Normal"
+          "cota": 982.5
         },
         {
           "data": "2025-06-09",
           "valor": 11.63,
-          "status": "Normal"
+          "cota": 982.5
         },
         {
           "data": "2025-06-23",
           "valor": 13.6,
-          "status": "Normal"
+          "cota": 980.53
         },
         {
           "data": "2025-07-07",
           "valor": 13.6,
-          "status": "Normal"
+          "cota": 980.53
         },
         {
           "data": "2025-07-21",
           "valor": 0.0,
-          "status": "Normal"
+          "cota": 994.13
         },
         {
           "data": "2025-08-28",
           "valor": 17.67,
-          "status": "Normal"
+          "cota": 976.46
         },
         {
           "data": "2025-09-03",
           "valor": 17.68,
-          "status": "Atencao"
+          "cota": 976.45
         },
         {
           "data": "2025-10-08",
           "valor": 17.67,
-          "status": "Normal"
+          "cota": 976.46
         },
         {
           "data": "2025-11-10",
-          "valor": 17.63,
-          "status": "Normal"
+          "valor": 17.630000000000003,
+          "cota": 976.5
         },
         {
           "data": "2025-11-17",
-          "valor": 17.59,
-          "status": "Normal"
+          "valor": 17.590000000000003,
+          "cota": 976.54
         },
         {
           "data": "2025-12-01",
-          "valor": 17.59,
-          "status": "Normal"
+          "valor": 17.590000000000003,
+          "cota": 976.54
         },
         {
           "data": "2025-12-15",
           "valor": 0.0,
-          "status": "Normal"
+          "cota": 994.13
         },
         {
           "data": "2026-01-12",
           "valor": 0.0,
-          "status": "Normal"
+          "cota": 994.13
         },
         {
           "data": "2026-01-26",
           "valor": 0.0,
-          "status": "Normal"
+          "cota": 994.13
         }
       ]
     },
-    "PILHA-B2-PZ-08": {
-      "id": "PILHA-B2-PZ-08",
-      "code": "PZ-08",
-      "name": "PZ-08 - PILHA B2",
+    "Pilha_B2_PZ_6": {
+      "id": "Pilha_B2_PZ_6",
+      "code": "6",
+      "name": "PZ-6 (Pilha B2)",
+      "structure": "Pilha B2",
+      "rawStructure": "PILHA B2",
       "type": "PZ",
-      "structure": "PILHA B2",
-      "installationDate": "2024-06-14",
+      "section": "",
+      "installedDate": "2024-06-12",
       "diameter": "1\"",
-      "cotaBoca": 984.9,
-      "cotaBase": 968.55,
-      "cotaFundo": 953.34,
-      "profMax": 31.56,
-      "limiteCritico": 41.03,
+      "totalLengthMeters": 26.73,
+      "depthMeters": 17.0,
+      "cotaTopo": 995.177,
+      "cotaBase": 995.177,
+      "cotaFundo": 965.39,
+      "cotaBoca": 995.177,
+      "profMax": 17.0,
+      "limiteCritico": 995.177,
+      "thresholds": {
+        "normal": 995.177,
+        "warning": 995.177,
+        "alert": 995.177,
+        "emergency": 995.177,
+        "unit": "m (Cota)"
+      },
       "coordinates": {
-        "ns": null,
-        "ew": null
+        "ns": 7779319.579,
+        "ew": 593005.72,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0808889,
+        "longitude": -44.1104606,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Inativo",
+      "readingMethod": "Manual",
+      "readingsCount": 36,
+      "latestReading": {
+        "id": "read_pz_30061",
+        "instrumentId": "Pilha_B2_PZ_6",
+        "instrumentCode": "6",
+        "structure": "Pilha B2",
+        "type": "PZ",
+        "date": "2026-01-26",
+        "dateTime": "2026-01-26T08:00:00",
+        "value": 20.69,
+        "reading": 20.69,
+        "waterElevation": 974.487,
+        "cotaCalculada": 974.487,
+        "cotaTopo": 995.177,
+        "cotaFundo": 965.39,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
       },
       "historico": [
         {
-          "data": "2024-12-18",
-          "valor": 22.84,
-          "status": "Normal"
-        },
-        {
-          "data": "2024-12-26",
-          "valor": 22.84,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-02",
-          "valor": 22.65,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-08",
-          "valor": 21.57,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-15",
-          "valor": 22.35,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-22",
-          "valor": 22.83,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-29",
-          "valor": 21.07,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-05",
-          "valor": 20.49,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-12",
-          "valor": 22.27,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-19",
-          "valor": 22.37,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-26",
-          "valor": 31.56,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-05",
-          "valor": 31.56,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-12",
-          "valor": 31.56,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-19",
-          "valor": 31.56,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-26",
-          "valor": 31.56,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-04-02",
-          "valor": 31.56,
-          "status": "Normal"
-        },
-        {
           "data": "2025-04-14",
-          "valor": 13.17,
-          "status": "Normal"
+          "valor": 18.3,
+          "cota": 976.8770000000001
         },
         {
           "data": "2025-05-08",
-          "valor": 13.17,
-          "status": "Normal"
+          "valor": 18.27,
+          "cota": 976.907
         },
         {
           "data": "2025-05-19",
-          "valor": 13.17,
-          "status": "Normal"
+          "valor": 18.27,
+          "cota": 976.907
         },
         {
           "data": "2025-05-26",
-          "valor": 13.15,
-          "status": "Normal"
+          "valor": 18.27,
+          "cota": 976.907
         },
         {
           "data": "2025-06-02",
-          "valor": 13.15,
-          "status": "Normal"
+          "valor": 15.97,
+          "cota": 979.207
         },
         {
           "data": "2025-06-09",
-          "valor": 0.0,
-          "status": "Normal"
+          "valor": 15.97,
+          "cota": 979.207
         },
         {
           "data": "2025-06-23",
-          "valor": 0.0,
-          "status": "Normal"
+          "valor": 16.72,
+          "cota": 978.457
         },
         {
           "data": "2025-07-07",
-          "valor": 0.0,
-          "status": "Normal"
+          "valor": 16.72,
+          "cota": 978.457
         },
         {
           "data": "2025-07-21",
-          "valor": 0.0,
-          "status": "Normal"
+          "valor": 16.72,
+          "cota": 978.457
+        },
+        {
+          "data": "2025-08-08",
+          "valor": 16.72,
+          "cota": 978.457
+        },
+        {
+          "data": "2025-08-15",
+          "valor": 20.73,
+          "cota": 974.447
+        },
+        {
+          "data": "2025-08-28",
+          "valor": 22.84,
+          "cota": 972.337
+        },
+        {
+          "data": "2025-09-03",
+          "valor": 20.72,
+          "cota": 974.457
+        },
+        {
+          "data": "2025-10-08",
+          "valor": 20.7,
+          "cota": 974.477
+        },
+        {
+          "data": "2025-11-10",
+          "valor": 20.669999999999998,
+          "cota": 974.5070000000001
+        },
+        {
+          "data": "2025-11-17",
+          "valor": 20.63,
+          "cota": 974.547
+        },
+        {
+          "data": "2025-12-01",
+          "valor": 20.61,
+          "cota": 974.567
+        },
+        {
+          "data": "2025-12-15",
+          "valor": 20.64,
+          "cota": 974.537
+        },
+        {
+          "data": "2026-01-12",
+          "valor": 20.66,
+          "cota": 974.517
+        },
+        {
+          "data": "2026-01-26",
+          "valor": 20.69,
+          "cota": 974.487
         }
       ]
     },
-    "PILHA-B2-PZ-09": {
-      "id": "PILHA-B2-PZ-09",
-      "code": "PZ-09",
-      "name": "PZ-09 - PILHA B2",
+    "Pilha_B2_PZ_9": {
+      "id": "Pilha_B2_PZ_9",
+      "code": "9",
+      "name": "PZ-9 (Pilha B2)",
+      "structure": "Pilha B2",
+      "rawStructure": "PILHA B2",
       "type": "PZ",
-      "structure": "PILHA B2",
-      "installationDate": "2024-06-13",
+      "section": "",
+      "installedDate": "2024-06-13",
       "diameter": "1\"",
-      "cotaBoca": 973.166,
+      "totalLengthMeters": 10.49,
+      "depthMeters": 14.5,
+      "cotaTopo": 973.166,
       "cotaBase": 950.69,
       "cotaFundo": 936.19,
+      "cotaBoca": 973.166,
       "profMax": 14.5,
-      "limiteCritico": 18.85,
+      "limiteCritico": 973.166,
+      "thresholds": {
+        "normal": 973.166,
+        "warning": 973.166,
+        "alert": 973.166,
+        "emergency": 973.166,
+        "unit": "m (Cota)"
+      },
       "coordinates": {
         "ns": 7779280.146,
-        "ew": 592753.361
+        "ew": 592753.361,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0812574,
+        "longitude": -44.1128721,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Inativo",
+      "readingMethod": "Manual",
+      "readingsCount": 36,
+      "latestReading": {
+        "id": "read_pz_30062",
+        "instrumentId": "Pilha_B2_PZ_9",
+        "instrumentCode": "9",
+        "structure": "Pilha B2",
+        "type": "PZ",
+        "date": "2026-01-26",
+        "dateTime": "2026-01-26T08:00:00",
+        "value": 0.0,
+        "reading": 0.0,
+        "waterElevation": 973.166,
+        "cotaCalculada": 973.166,
+        "cotaTopo": 973.166,
+        "cotaFundo": 936.19,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
       },
       "historico": [
         {
-          "data": "2024-12-18",
-          "valor": 4.2,
-          "status": "Normal"
-        },
-        {
-          "data": "2024-12-26",
-          "valor": 4.2,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-02",
-          "valor": 4.23,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-08",
-          "valor": 5.26,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-15",
-          "valor": 5.26,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-22",
-          "valor": 5.22,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-01-29",
-          "valor": 5.37,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-05",
-          "valor": 4.28,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-12",
-          "valor": 4.26,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-19",
-          "valor": 7.3,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-02-26",
-          "valor": 7.35,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-05",
-          "valor": 7.32,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-12",
-          "valor": 7.68,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-19",
-          "valor": 7.66,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-03-26",
-          "valor": 8.76,
-          "status": "Normal"
-        },
-        {
-          "data": "2025-04-02",
-          "valor": 8.78,
-          "status": "Normal"
-        },
-        {
           "data": "2025-04-14",
           "valor": 9.02,
-          "status": "Normal"
+          "cota": 964.1460000000001
         },
         {
           "data": "2025-05-08",
           "valor": 6.04,
-          "status": "Atencao"
+          "cota": 967.1260000000001
         },
         {
           "data": "2025-05-19",
           "valor": 6.04,
-          "status": "Normal"
+          "cota": 967.1260000000001
         },
         {
           "data": "2025-05-26",
           "valor": 5.8,
-          "status": "Normal"
+          "cota": 967.3660000000001
         },
         {
           "data": "2025-06-02",
           "valor": 6.03,
-          "status": "Normal"
+          "cota": 967.1360000000001
         },
         {
           "data": "2025-06-09",
           "valor": 6.03,
-          "status": "Normal"
+          "cota": 967.1360000000001
         },
         {
           "data": "2025-06-23",
           "valor": 8.74,
-          "status": "Normal"
+          "cota": 964.426
         },
         {
           "data": "2025-07-07",
           "valor": 8.74,
-          "status": "Normal"
+          "cota": 964.426
         },
         {
           "data": "2025-07-21",
           "valor": 8.74,
-          "status": "Normal"
+          "cota": 964.426
         },
         {
           "data": "2025-08-08",
           "valor": 10.54,
-          "status": "Normal"
+          "cota": 962.6260000000001
         },
         {
           "data": "2025-08-15",
           "valor": 10.49,
-          "status": "Normal"
+          "cota": 962.676
         },
         {
           "data": "2025-08-28",
           "valor": 10.54,
-          "status": "Normal"
+          "cota": 962.6260000000001
         },
         {
           "data": "2025-09-03",
           "valor": 10.56,
-          "status": "Normal"
+          "cota": 962.6060000000001
         },
         {
           "data": "2025-10-08",
           "valor": 10.55,
-          "status": "Normal"
+          "cota": 962.6160000000001
         },
         {
           "data": "2025-11-10",
-          "valor": 10.52,
-          "status": "Normal"
+          "valor": 10.520000000000001,
+          "cota": 962.6460000000001
         },
         {
           "data": "2025-11-17",
-          "valor": 10.48,
-          "status": "Normal"
+          "valor": 10.480000000000002,
+          "cota": 962.686
         },
         {
           "data": "2025-12-01",
-          "valor": 10.48,
-          "status": "Normal"
+          "valor": 10.480000000000002,
+          "cota": 962.686
         },
         {
           "data": "2025-12-15",
           "valor": 0.0,
-          "status": "Normal"
+          "cota": 973.166
         },
         {
           "data": "2026-01-12",
           "valor": 0.0,
-          "status": "Normal"
+          "cota": 973.166
         },
         {
           "data": "2026-01-26",
           "valor": 0.0,
-          "status": "Atencao"
+          "cota": 973.166
+        }
+      ]
+    },
+    "Pilha_B2_PZ_8": {
+      "id": "Pilha_B2_PZ_8",
+      "code": "8",
+      "name": "PZ-8 (Pilha B2)",
+      "structure": "Pilha B2",
+      "rawStructure": "PILHA B2",
+      "type": "PZ",
+      "section": "",
+      "installedDate": "2024-06-14",
+      "diameter": "1\"",
+      "totalLengthMeters": 31.56,
+      "depthMeters": 15.21,
+      "cotaTopo": 984.9,
+      "cotaBase": 968.55,
+      "cotaFundo": 953.34,
+      "cotaBoca": 984.9,
+      "profMax": 15.21,
+      "limiteCritico": 984.9,
+      "thresholds": {
+        "normal": 984.9,
+        "warning": 984.9,
+        "alert": 984.9,
+        "emergency": 984.9,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7779242.069,
+        "ew": 593087.714,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0815853,
+        "longitude": -44.1096725,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Inativo",
+      "readingMethod": "Manual",
+      "readingsCount": 25,
+      "latestReading": {
+        "id": "read_pz_28583",
+        "instrumentId": "Pilha_B2_PZ_8",
+        "instrumentCode": "8",
+        "structure": "Pilha B2",
+        "type": "PZ",
+        "date": "2025-07-21",
+        "dateTime": "2025-07-21T08:00:00",
+        "value": 0.0,
+        "reading": 0.0,
+        "waterElevation": 984.9,
+        "cotaCalculada": 984.9,
+        "cotaTopo": 984.9,
+        "cotaFundo": 953.34,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2025-01-22",
+          "valor": 22.83,
+          "cota": 962.0699999999999
+        },
+        {
+          "data": "2025-01-29",
+          "valor": 21.07,
+          "cota": 963.8299999999999
+        },
+        {
+          "data": "2025-02-05",
+          "valor": 20.49,
+          "cota": 964.41
+        },
+        {
+          "data": "2025-02-12",
+          "valor": 22.27,
+          "cota": 962.63
+        },
+        {
+          "data": "2025-02-19",
+          "valor": 22.37,
+          "cota": 962.53
+        },
+        {
+          "data": "2025-02-26",
+          "valor": 31.56,
+          "cota": 953.34
+        },
+        {
+          "data": "2025-03-05",
+          "valor": 31.56,
+          "cota": 953.34
+        },
+        {
+          "data": "2025-03-12",
+          "valor": 31.56,
+          "cota": 953.34
+        },
+        {
+          "data": "2025-03-19",
+          "valor": 31.56,
+          "cota": 953.34
+        },
+        {
+          "data": "2025-03-26",
+          "valor": 31.56,
+          "cota": 953.34
+        },
+        {
+          "data": "2025-04-02",
+          "valor": 31.56,
+          "cota": 953.34
+        },
+        {
+          "data": "2025-04-14",
+          "valor": 13.17,
+          "cota": 971.73
+        },
+        {
+          "data": "2025-05-08",
+          "valor": 13.17,
+          "cota": 971.73
+        },
+        {
+          "data": "2025-05-19",
+          "valor": 13.17,
+          "cota": 971.73
+        },
+        {
+          "data": "2025-05-26",
+          "valor": 13.15,
+          "cota": 971.75
+        },
+        {
+          "data": "2025-06-02",
+          "valor": 13.15,
+          "cota": 971.75
+        },
+        {
+          "data": "2025-06-09",
+          "valor": 0.0,
+          "cota": 984.9
+        },
+        {
+          "data": "2025-06-23",
+          "valor": 0.0,
+          "cota": 984.9
+        },
+        {
+          "data": "2025-07-07",
+          "valor": 0.0,
+          "cota": 984.9
+        },
+        {
+          "data": "2025-07-21",
+          "valor": 0.0,
+          "cota": 984.9
         }
       ]
     }

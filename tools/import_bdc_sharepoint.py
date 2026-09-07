@@ -13,7 +13,7 @@ import pandas as pd
 
 
 DEFAULT_SHAREPOINT_FOLDER = Path(
-    r"C:\Users\maycon.nascimento\ITAMINAS\SPLO - General\03) Geotecnia\05) PCM\02) Pilhas\Banco de Dados - PILHAS\2026"
+    r"C:\Users\maycon.nascimento\ITAMINAS\SPLO - General\03) Geotecnia\01) PCMI\02) Monitoramentos\06) Pilhas"
 )
 
 

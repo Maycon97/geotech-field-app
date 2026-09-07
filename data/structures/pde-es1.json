@@ -1,0 +1,1618 @@
+{
+  "structure": "Pde Es1",
+  "slug": "pde-es1",
+  "version": "pcmi-official-2026",
+  "instrumentCount": 10,
+  "instruments": {
+    "Pde_Es1_PZ_1": {
+      "id": "Pde_Es1_PZ_1",
+      "code": "1",
+      "name": "PZ-1 (Pde Es1)",
+      "structure": "Pde Es1",
+      "rawStructure": "PDE ES1",
+      "type": "PZ",
+      "section": "",
+      "installedDate": "2022-03-10",
+      "diameter": "1.1/2\"",
+      "totalLengthMeters": 47.3,
+      "depthMeters": 46.16,
+      "cotaTopo": 1135.071,
+      "cotaBase": 1133.931,
+      "cotaFundo": 1087.771,
+      "cotaBoca": 1135.071,
+      "profMax": 46.16,
+      "limiteCritico": 1135.071,
+      "thresholds": {
+        "normal": 1135.071,
+        "warning": 1135.071,
+        "alert": 1135.071,
+        "emergency": 1135.071,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7778213.013,
+        "ew": 593084.844,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0908835,
+        "longitude": -44.1096474,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 136,
+      "latestReading": {
+        "id": "read_pz_32183",
+        "instrumentId": "Pde_Es1_PZ_1",
+        "instrumentCode": "1",
+        "structure": "Pde Es1",
+        "type": "PZ",
+        "date": "2026-08-26",
+        "dateTime": "2026-08-26T08:00:00",
+        "value": 47.28,
+        "reading": 47.28,
+        "waterElevation": 1087.791,
+        "cotaCalculada": 1087.791,
+        "cotaTopo": 1135.071,
+        "cotaFundo": 1087.771,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2025-12-15",
+          "valor": 46.519999999999996,
+          "cota": 1088.551
+        },
+        {
+          "data": "2026-01-12",
+          "valor": 46.519999999999996,
+          "cota": 1088.551
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 46.519999999999996,
+          "cota": 1088.551
+        },
+        {
+          "data": "2026-03-09",
+          "valor": 46.55,
+          "cota": 1088.521
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 47.28,
+          "cota": 1087.791
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 47.3,
+          "cota": 1087.771
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 46.55,
+          "cota": 1088.521
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 47.32,
+          "cota": 1087.751
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 46.55,
+          "cota": 1088.521
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 47.32,
+          "cota": 1087.751
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 46.95,
+          "cota": 1088.1209999999999
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 47.3,
+          "cota": 1087.771
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 47.3,
+          "cota": 1087.771
+        },
+        {
+          "data": "2026-06-08",
+          "valor": 47.29,
+          "cota": 1087.781
+        },
+        {
+          "data": "2026-06-22",
+          "valor": 47.29,
+          "cota": 1087.781
+        },
+        {
+          "data": "2026-07-13",
+          "valor": 47.28,
+          "cota": 1087.791
+        },
+        {
+          "data": "2026-07-15",
+          "valor": 47.3,
+          "cota": 1087.771
+        },
+        {
+          "data": "2026-07-29",
+          "valor": 47.24,
+          "cota": 1087.831
+        },
+        {
+          "data": "2026-08-14",
+          "valor": 47.28,
+          "cota": 1087.791
+        },
+        {
+          "data": "2026-08-26",
+          "valor": 47.28,
+          "cota": 1087.791
+        }
+      ]
+    },
+    "Pde_Es1_PZ_4": {
+      "id": "Pde_Es1_PZ_4",
+      "code": "4",
+      "name": "PZ-4 (Pde Es1)",
+      "structure": "Pde Es1",
+      "rawStructure": "PDE ES1",
+      "type": "PZ",
+      "section": "",
+      "installedDate": "2022-03-22",
+      "diameter": "1.1/2\"",
+      "totalLengthMeters": 54.34,
+      "depthMeters": 53.17,
+      "cotaTopo": 1132.03,
+      "cotaBase": 1130.87,
+      "cotaFundo": 1077.6999999999998,
+      "cotaBoca": 1132.03,
+      "profMax": 53.17,
+      "limiteCritico": 1132.03,
+      "thresholds": {
+        "normal": 1132.03,
+        "warning": 1132.03,
+        "alert": 1132.03,
+        "emergency": 1132.03,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7778156.805,
+        "ew": 593015.028,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0913947,
+        "longitude": -44.1103123,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 136,
+      "latestReading": {
+        "id": "read_pz_32187",
+        "instrumentId": "Pde_Es1_PZ_4",
+        "instrumentCode": "4",
+        "structure": "Pde Es1",
+        "type": "PZ",
+        "date": "2026-08-26",
+        "dateTime": "2026-08-26T08:00:00",
+        "value": 54.32,
+        "reading": 54.32,
+        "waterElevation": 1077.71,
+        "cotaCalculada": 1077.71,
+        "cotaTopo": 1132.03,
+        "cotaFundo": 1077.6999999999998,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2025-12-15",
+          "valor": 55.269999999999996,
+          "cota": 1076.76
+        },
+        {
+          "data": "2026-01-12",
+          "valor": 55.269999999999996,
+          "cota": 1076.76
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 55.269999999999996,
+          "cota": 1076.76
+        },
+        {
+          "data": "2026-03-09",
+          "valor": 55.35,
+          "cota": 1076.68
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 55.34,
+          "cota": 1076.69
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 54.34,
+          "cota": 1077.69
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 48.19,
+          "cota": 1083.84
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 54.33,
+          "cota": 1077.7
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 48.19,
+          "cota": 1083.84
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 54.32,
+          "cota": 1077.71
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 54.15,
+          "cota": 1077.8799999999999
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 54.34,
+          "cota": 1077.69
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 54.34,
+          "cota": 1077.69
+        },
+        {
+          "data": "2026-06-08",
+          "valor": 54.34,
+          "cota": 1077.69
+        },
+        {
+          "data": "2026-06-22",
+          "valor": 54.33,
+          "cota": 1077.7
+        },
+        {
+          "data": "2026-07-13",
+          "valor": 54.35,
+          "cota": 1077.68
+        },
+        {
+          "data": "2026-07-15",
+          "valor": 54.32,
+          "cota": 1077.71
+        },
+        {
+          "data": "2026-07-29",
+          "valor": 54.34,
+          "cota": 1077.69
+        },
+        {
+          "data": "2026-08-14",
+          "valor": 54.32,
+          "cota": 1077.71
+        },
+        {
+          "data": "2026-08-26",
+          "valor": 54.32,
+          "cota": 1077.71
+        }
+      ]
+    },
+    "Pde_Es1_PZ_5": {
+      "id": "Pde_Es1_PZ_5",
+      "code": "5",
+      "name": "PZ-5 (Pde Es1)",
+      "structure": "Pde Es1",
+      "rawStructure": "PDE ES1",
+      "type": "PZ",
+      "section": "",
+      "installedDate": "2022-06-13",
+      "diameter": "1.1/2\"",
+      "totalLengthMeters": 32.21,
+      "depthMeters": 31.15,
+      "cotaTopo": 1104.789,
+      "cotaBase": 1103.72,
+      "cotaFundo": 1072.57,
+      "cotaBoca": 1104.789,
+      "profMax": 31.15,
+      "limiteCritico": 1104.789,
+      "thresholds": {
+        "normal": 1104.789,
+        "warning": 1104.789,
+        "alert": 1104.789,
+        "emergency": 1104.789,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7778204.518,
+        "ew": 592964.68,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0909661,
+        "longitude": -44.1107963,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 136,
+      "latestReading": {
+        "id": "read_pz_32188",
+        "instrumentId": "Pde_Es1_PZ_5",
+        "instrumentCode": "5",
+        "structure": "Pde Es1",
+        "type": "PZ",
+        "date": "2026-08-26",
+        "dateTime": "2026-08-26T08:00:00",
+        "value": 32.04,
+        "reading": 32.04,
+        "waterElevation": 1072.749,
+        "cotaCalculada": 1072.749,
+        "cotaTopo": 1104.789,
+        "cotaFundo": 1072.57,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2025-12-15",
+          "valor": 32.99,
+          "cota": 1071.799
+        },
+        {
+          "data": "2026-01-12",
+          "valor": 32.99,
+          "cota": 1071.799
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 32.99,
+          "cota": 1071.799
+        },
+        {
+          "data": "2026-03-09",
+          "valor": 32.3,
+          "cota": 1072.489
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 32.33,
+          "cota": 1072.459
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 32.21,
+          "cota": 1072.579
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 55.51,
+          "cota": 1049.279
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 32.2,
+          "cota": 1072.589
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 55.51,
+          "cota": 1049.279
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 32.21,
+          "cota": 1072.579
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 31.95,
+          "cota": 1072.839
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 32.19,
+          "cota": 1072.599
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 32.19,
+          "cota": 1072.599
+        },
+        {
+          "data": "2026-06-08",
+          "valor": 32.09,
+          "cota": 1072.699
+        },
+        {
+          "data": "2026-06-22",
+          "valor": 32.07,
+          "cota": 1072.719
+        },
+        {
+          "data": "2026-07-13",
+          "valor": 32.08,
+          "cota": 1072.709
+        },
+        {
+          "data": "2026-07-15",
+          "valor": 32.08,
+          "cota": 1072.709
+        },
+        {
+          "data": "2026-07-29",
+          "valor": 32.07,
+          "cota": 1072.719
+        },
+        {
+          "data": "2026-08-14",
+          "valor": 32.04,
+          "cota": 1072.749
+        },
+        {
+          "data": "2026-08-26",
+          "valor": 32.04,
+          "cota": 1072.749
+        }
+      ]
+    },
+    "Pde_Es1_PZ_6": {
+      "id": "Pde_Es1_PZ_6",
+      "code": "6",
+      "name": "PZ-6 (Pde Es1)",
+      "structure": "Pde Es1",
+      "rawStructure": "PDE ES1",
+      "type": "PZ",
+      "section": "",
+      "installedDate": "2022-07-06",
+      "diameter": "1.1/2\"",
+      "totalLengthMeters": 18.71,
+      "depthMeters": 17.55,
+      "cotaTopo": 1081.758,
+      "cotaBase": 1080.596,
+      "cotaFundo": 1063.046,
+      "cotaBoca": 1081.758,
+      "profMax": 17.55,
+      "limiteCritico": 1081.758,
+      "thresholds": {
+        "normal": 1081.758,
+        "warning": 1081.758,
+        "alert": 1081.758,
+        "emergency": 1081.758,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7778241.281,
+        "ew": 592927.0,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0906357,
+        "longitude": -44.1111585,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 137,
+      "latestReading": {
+        "id": "read_pz_32189",
+        "instrumentId": "Pde_Es1_PZ_6",
+        "instrumentCode": "6",
+        "structure": "Pde Es1",
+        "type": "PZ",
+        "date": "2026-08-26",
+        "dateTime": "2026-08-26T08:00:00",
+        "value": 18.72,
+        "reading": 18.72,
+        "waterElevation": 1063.038,
+        "cotaCalculada": 1063.038,
+        "cotaTopo": 1081.758,
+        "cotaFundo": 1063.046,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2026-01-12",
+          "valor": 18.73,
+          "cota": 1063.028
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 18.73,
+          "cota": 1063.028
+        },
+        {
+          "data": "2026-03-09",
+          "valor": 18.72,
+          "cota": 1063.038
+        },
+        {
+          "data": "2026-03-23",
+          "valor": 18.72,
+          "cota": 1063.038
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 18.74,
+          "cota": 1063.018
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 18.71,
+          "cota": 1063.048
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 32.69,
+          "cota": 1049.068
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 18.7,
+          "cota": 1063.058
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 32.69,
+          "cota": 1049.068
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 18.72,
+          "cota": 1063.038
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 18.77,
+          "cota": 1062.988
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 18.74,
+          "cota": 1063.018
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 18.74,
+          "cota": 1063.018
+        },
+        {
+          "data": "2026-06-08",
+          "valor": 18.72,
+          "cota": 1063.038
+        },
+        {
+          "data": "2026-06-22",
+          "valor": 18.72,
+          "cota": 1063.038
+        },
+        {
+          "data": "2026-07-13",
+          "valor": 18.72,
+          "cota": 1063.038
+        },
+        {
+          "data": "2026-07-15",
+          "valor": 18.74,
+          "cota": 1063.018
+        },
+        {
+          "data": "2026-07-29",
+          "valor": 18.71,
+          "cota": 1063.048
+        },
+        {
+          "data": "2026-08-14",
+          "valor": 18.72,
+          "cota": 1063.038
+        },
+        {
+          "data": "2026-08-26",
+          "valor": 18.72,
+          "cota": 1063.038
+        }
+      ]
+    },
+    "Pde_Es1_INA_1": {
+      "id": "Pde_Es1_INA_1",
+      "code": "1",
+      "name": "INA-1 (Pde Es1)",
+      "structure": "Pde Es1",
+      "rawStructure": "PDE ES1",
+      "type": "INA",
+      "section": "",
+      "installedDate": "2022-05-12",
+      "diameter": "1.1/2\"",
+      "totalLengthMeters": 48.48,
+      "depthMeters": 47.35,
+      "cotaTopo": 1135.037,
+      "cotaBase": 1133.906,
+      "cotaFundo": 1086.556,
+      "cotaBoca": 1135.037,
+      "profMax": 47.35,
+      "limiteCritico": 1135.037,
+      "thresholds": {
+        "normal": 1135.037,
+        "warning": 1135.037,
+        "alert": 1135.037,
+        "emergency": 1135.037,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7778212.299,
+        "ew": 593083.619,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.09089,
+        "longitude": -44.1096591,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 137,
+      "latestReading": {
+        "id": "read_pz_32184",
+        "instrumentId": "Pde_Es1_INA_1",
+        "instrumentCode": "1",
+        "structure": "Pde Es1",
+        "type": "INA",
+        "date": "2026-08-26",
+        "dateTime": "2026-08-26T08:00:00",
+        "value": 48.46,
+        "reading": 48.46,
+        "waterElevation": 1086.577,
+        "cotaCalculada": 1086.577,
+        "cotaTopo": 1135.037,
+        "cotaFundo": 1086.556,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2026-01-12",
+          "valor": 46.8,
+          "cota": 1088.237
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 46.8,
+          "cota": 1088.237
+        },
+        {
+          "data": "2026-03-09",
+          "valor": 53.09,
+          "cota": 1081.9470000000001
+        },
+        {
+          "data": "2026-03-23",
+          "valor": 53.09,
+          "cota": 1081.9470000000001
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 0.0,
+          "cota": 1135.037
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 48.48,
+          "cota": 1086.557
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 18.83,
+          "cota": 1116.207
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 48.46,
+          "cota": 1086.577
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 18.83,
+          "cota": 1116.207
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 48.45,
+          "cota": 1086.587
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 48.2,
+          "cota": 1086.837
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 48.46,
+          "cota": 1086.577
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 48.46,
+          "cota": 1086.577
+        },
+        {
+          "data": "2026-06-08",
+          "valor": 48.47,
+          "cota": 1086.567
+        },
+        {
+          "data": "2026-06-22",
+          "valor": 48.45,
+          "cota": 1086.587
+        },
+        {
+          "data": "2026-07-13",
+          "valor": 48.48,
+          "cota": 1086.557
+        },
+        {
+          "data": "2026-07-15",
+          "valor": 48.48,
+          "cota": 1086.557
+        },
+        {
+          "data": "2026-07-29",
+          "valor": 48.47,
+          "cota": 1086.567
+        },
+        {
+          "data": "2026-08-14",
+          "valor": 48.46,
+          "cota": 1086.577
+        },
+        {
+          "data": "2026-08-26",
+          "valor": 48.46,
+          "cota": 1086.577
+        }
+      ]
+    },
+    "Pde_Es1_INA_2": {
+      "id": "Pde_Es1_INA_2",
+      "code": "2",
+      "name": "INA-2 (Pde Es1)",
+      "structure": "Pde Es1",
+      "rawStructure": "PDE ES1",
+      "type": "INA",
+      "section": "",
+      "installedDate": "2022-06-02",
+      "diameter": "1.1/2\"",
+      "totalLengthMeters": 36.84,
+      "depthMeters": 35.68,
+      "cotaTopo": 1119.301,
+      "cotaBase": 1118.137,
+      "cotaFundo": 1082.4569999999999,
+      "cotaBoca": 1119.301,
+      "profMax": 35.68,
+      "limiteCritico": 1119.301,
+      "thresholds": {
+        "normal": 1119.301,
+        "warning": 1119.301,
+        "alert": 1119.301,
+        "emergency": 1119.301,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7778231.476,
+        "ew": 593037.903,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.090719,
+        "longitude": -44.1100973,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 137,
+      "latestReading": {
+        "id": "read_pz_32185",
+        "instrumentId": "Pde_Es1_INA_2",
+        "instrumentCode": "2",
+        "structure": "Pde Es1",
+        "type": "INA",
+        "date": "2026-08-26",
+        "dateTime": "2026-08-26T08:00:00",
+        "value": 36.8,
+        "reading": 36.8,
+        "waterElevation": 1082.501,
+        "cotaCalculada": 1082.501,
+        "cotaTopo": 1119.301,
+        "cotaFundo": 1082.4569999999999,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2026-01-12",
+          "valor": 37.04,
+          "cota": 1082.261
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 37.04,
+          "cota": 1082.261
+        },
+        {
+          "data": "2026-03-09",
+          "valor": 37.02,
+          "cota": 1082.281
+        },
+        {
+          "data": "2026-03-23",
+          "valor": 37.02,
+          "cota": 1082.281
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 0.0,
+          "cota": 1119.301
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 36.84,
+          "cota": 1082.461
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 49.39,
+          "cota": 1069.9109999999998
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 36.8,
+          "cota": 1082.501
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 49.39,
+          "cota": 1069.9109999999998
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 36.81,
+          "cota": 1082.491
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 36.5,
+          "cota": 1082.801
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 36.83,
+          "cota": 1082.471
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 36.83,
+          "cota": 1082.471
+        },
+        {
+          "data": "2026-06-08",
+          "valor": 36.8,
+          "cota": 1082.501
+        },
+        {
+          "data": "2026-06-22",
+          "valor": 36.79,
+          "cota": 1082.511
+        },
+        {
+          "data": "2026-07-13",
+          "valor": 36.01,
+          "cota": 1083.291
+        },
+        {
+          "data": "2026-07-15",
+          "valor": 36.8,
+          "cota": 1082.501
+        },
+        {
+          "data": "2026-07-29",
+          "valor": 36.79,
+          "cota": 1082.511
+        },
+        {
+          "data": "2026-08-14",
+          "valor": 36.8,
+          "cota": 1082.501
+        },
+        {
+          "data": "2026-08-26",
+          "valor": 36.8,
+          "cota": 1082.501
+        }
+      ]
+    },
+    "Pde_Es1_INA_3": {
+      "id": "Pde_Es1_INA_3",
+      "code": "3",
+      "name": "INA-3 (Pde Es1)",
+      "structure": "Pde Es1",
+      "rawStructure": "PDE ES1",
+      "type": "INA",
+      "section": "",
+      "installedDate": "2022-06-30",
+      "diameter": "1.1/2\"",
+      "totalLengthMeters": 26.36,
+      "depthMeters": 25.88,
+      "cotaTopo": 1094.757,
+      "cotaBase": 1094.27,
+      "cotaFundo": 1068.3899999999999,
+      "cotaBoca": 1094.757,
+      "profMax": 25.88,
+      "limiteCritico": 1094.757,
+      "thresholds": {
+        "normal": 1094.757,
+        "warning": 1094.757,
+        "alert": 1094.757,
+        "emergency": 1094.757,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7778258.489,
+        "ew": 592980.944,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0904776,
+        "longitude": -44.1106435,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 137,
+      "latestReading": {
+        "id": "read_pz_32186",
+        "instrumentId": "Pde_Es1_INA_3",
+        "instrumentCode": "3",
+        "structure": "Pde Es1",
+        "type": "INA",
+        "date": "2026-08-26",
+        "dateTime": "2026-08-26T08:00:00",
+        "value": 26.36,
+        "reading": 26.36,
+        "waterElevation": 1068.3970000000002,
+        "cotaCalculada": 1068.3970000000002,
+        "cotaTopo": 1094.757,
+        "cotaFundo": 1068.3899999999999,
+        "status": "Seco",
+        "rawStatus": "SECO",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2026-01-12",
+          "valor": 37.64,
+          "cota": 1057.117
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 37.64,
+          "cota": 1057.117
+        },
+        {
+          "data": "2026-03-09",
+          "valor": 26.44,
+          "cota": 1068.317
+        },
+        {
+          "data": "2026-03-23",
+          "valor": 26.44,
+          "cota": 1068.317
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 0.0,
+          "cota": 1094.757
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 26.36,
+          "cota": 1068.3970000000002
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 37.69,
+          "cota": 1057.067
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 26.34,
+          "cota": 1068.4170000000001
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 37.69,
+          "cota": 1057.067
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 26.33,
+          "cota": 1068.4270000000001
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 26.35,
+          "cota": 1068.4070000000002
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 26.36,
+          "cota": 1068.3970000000002
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 26.36,
+          "cota": 1068.3970000000002
+        },
+        {
+          "data": "2026-06-08",
+          "valor": 26.35,
+          "cota": 1068.4070000000002
+        },
+        {
+          "data": "2026-06-22",
+          "valor": 26.34,
+          "cota": 1068.4170000000001
+        },
+        {
+          "data": "2026-07-13",
+          "valor": 26.35,
+          "cota": 1068.4070000000002
+        },
+        {
+          "data": "2026-07-15",
+          "valor": 26.36,
+          "cota": 1068.3970000000002
+        },
+        {
+          "data": "2026-07-29",
+          "valor": 26.35,
+          "cota": 1068.4070000000002
+        },
+        {
+          "data": "2026-08-14",
+          "valor": 26.36,
+          "cota": 1068.3970000000002
+        },
+        {
+          "data": "2026-08-26",
+          "valor": 26.36,
+          "cota": 1068.3970000000002
+        }
+      ]
+    },
+    "Pde_Es1_INA_7": {
+      "id": "Pde_Es1_INA_7",
+      "code": "7",
+      "name": "INA-7 (Pde Es1)",
+      "structure": "Pde Es1",
+      "rawStructure": "PDE ES1",
+      "type": "INA",
+      "section": "",
+      "installedDate": "2022-04-12",
+      "diameter": "1.1/2\"",
+      "totalLengthMeters": 48.75,
+      "depthMeters": 47.63,
+      "cotaTopo": 1130.118,
+      "cotaBase": 1128.998,
+      "cotaFundo": 1081.368,
+      "cotaBoca": 1130.118,
+      "profMax": 47.63,
+      "limiteCritico": 1130.118,
+      "thresholds": {
+        "normal": 1130.118,
+        "warning": 1130.118,
+        "alert": 1130.118,
+        "emergency": 1130.118,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7778107.626,
+        "ew": 592932.379,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0918431,
+        "longitude": -44.1111003,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 136,
+      "latestReading": {
+        "id": "read_pz_32192",
+        "instrumentId": "Pde_Es1_INA_7",
+        "instrumentCode": "7",
+        "structure": "Pde Es1",
+        "type": "INA",
+        "date": "2026-08-26",
+        "dateTime": "2026-08-26T08:00:00",
+        "value": 44.7,
+        "reading": 44.7,
+        "waterElevation": 1085.418,
+        "cotaCalculada": 1085.418,
+        "cotaTopo": 1130.118,
+        "cotaFundo": 1081.368,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2025-12-15",
+          "valor": 47.24,
+          "cota": 1082.878
+        },
+        {
+          "data": "2026-01-12",
+          "valor": 47.26,
+          "cota": 1082.858
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 46.3,
+          "cota": 1083.818
+        },
+        {
+          "data": "2026-03-09",
+          "valor": 46.4,
+          "cota": 1083.7179999999998
+        },
+        {
+          "data": "2026-03-23",
+          "valor": 46.44,
+          "cota": 1083.6779999999999
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 0.0,
+          "cota": 1130.118
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 46.3,
+          "cota": 1083.818
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 47.25,
+          "cota": 1082.868
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 46.25,
+          "cota": 1083.868
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 47.25,
+          "cota": 1082.868
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 46.25,
+          "cota": 1083.868
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 45.8,
+          "cota": 1084.318
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 46.22,
+          "cota": 1083.898
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 46.03,
+          "cota": 1084.088
+        },
+        {
+          "data": "2026-06-08",
+          "valor": 46.07,
+          "cota": 1084.048
+        },
+        {
+          "data": "2026-06-22",
+          "valor": 46.05,
+          "cota": 1084.068
+        },
+        {
+          "data": "2026-07-13",
+          "valor": 45.51,
+          "cota": 1084.608
+        },
+        {
+          "data": "2026-07-29",
+          "valor": 45.15,
+          "cota": 1084.9679999999998
+        },
+        {
+          "data": "2026-08-14",
+          "valor": 44.94,
+          "cota": 1085.1779999999999
+        },
+        {
+          "data": "2026-08-26",
+          "valor": 44.7,
+          "cota": 1085.418
+        }
+      ]
+    },
+    "Pde_Es1_INA_8": {
+      "id": "Pde_Es1_INA_8",
+      "code": "8",
+      "name": "INA-8 (Pde Es1)",
+      "structure": "Pde Es1",
+      "rawStructure": "PDE ES1",
+      "type": "INA",
+      "section": "",
+      "installedDate": "2022-05-25",
+      "diameter": "1.1/2\"",
+      "totalLengthMeters": 37.17,
+      "depthMeters": 35.98,
+      "cotaTopo": 1115.386,
+      "cotaBase": 1114.192,
+      "cotaFundo": 1078.212,
+      "cotaBoca": 1115.386,
+      "profMax": 35.98,
+      "limiteCritico": 1115.386,
+      "thresholds": {
+        "normal": 1115.386,
+        "warning": 1115.386,
+        "alert": 1115.386,
+        "emergency": 1115.386,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7778146.694,
+        "ew": 592917.037,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0914908,
+        "longitude": -44.111249,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 137,
+      "latestReading": {
+        "id": "read_pz_32190",
+        "instrumentId": "Pde_Es1_INA_8",
+        "instrumentCode": "8",
+        "structure": "Pde Es1",
+        "type": "INA",
+        "date": "2026-08-26",
+        "dateTime": "2026-08-26T08:00:00",
+        "value": 37.11,
+        "reading": 37.11,
+        "waterElevation": 1078.276,
+        "cotaCalculada": 1078.276,
+        "cotaTopo": 1115.386,
+        "cotaFundo": 1078.212,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2026-01-12",
+          "valor": 37.42,
+          "cota": 1077.966
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 37.42,
+          "cota": 1077.966
+        },
+        {
+          "data": "2026-03-09",
+          "valor": 37.3,
+          "cota": 1078.086
+        },
+        {
+          "data": "2026-03-23",
+          "valor": 37.3,
+          "cota": 1078.086
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 0.0,
+          "cota": 1115.386
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 37.17,
+          "cota": 1078.216
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 47.74,
+          "cota": 1067.646
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 37.18,
+          "cota": 1078.206
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 47.74,
+          "cota": 1067.646
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 37.18,
+          "cota": 1078.206
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 36.92,
+          "cota": 1078.466
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 37.11,
+          "cota": 1078.276
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 37.11,
+          "cota": 1078.276
+        },
+        {
+          "data": "2026-06-08",
+          "valor": 37.11,
+          "cota": 1078.276
+        },
+        {
+          "data": "2026-06-22",
+          "valor": 37.1,
+          "cota": 1078.286
+        },
+        {
+          "data": "2026-07-13",
+          "valor": 37.11,
+          "cota": 1078.276
+        },
+        {
+          "data": "2026-07-15",
+          "valor": 37.12,
+          "cota": 1078.266
+        },
+        {
+          "data": "2026-07-29",
+          "valor": 37.1,
+          "cota": 1078.286
+        },
+        {
+          "data": "2026-08-14",
+          "valor": 37.11,
+          "cota": 1078.276
+        },
+        {
+          "data": "2026-08-26",
+          "valor": 37.11,
+          "cota": 1078.276
+        }
+      ]
+    },
+    "Pde_Es1_INA_9": {
+      "id": "Pde_Es1_INA_9",
+      "code": "9",
+      "name": "INA-9 (Pde Es1)",
+      "structure": "Pde Es1",
+      "rawStructure": "PDE ES1",
+      "type": "INA",
+      "section": "",
+      "installedDate": "2022-06-28",
+      "diameter": "1.1/2\"",
+      "totalLengthMeters": 26.31,
+      "depthMeters": 25.17,
+      "cotaTopo": 1092.866,
+      "cotaBase": 1091.722,
+      "cotaFundo": 1066.552,
+      "cotaBoca": 1092.866,
+      "profMax": 25.17,
+      "limiteCritico": 1092.866,
+      "thresholds": {
+        "normal": 1092.866,
+        "warning": 1092.866,
+        "alert": 1092.866,
+        "emergency": 1092.866,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7778203.82,
+        "ew": 592894.783,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0909757,
+        "longitude": -44.1114647,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 137,
+      "latestReading": {
+        "id": "read_pz_32191",
+        "instrumentId": "Pde_Es1_INA_9",
+        "instrumentCode": "9",
+        "structure": "Pde Es1",
+        "type": "INA",
+        "date": "2026-08-26",
+        "dateTime": "2026-08-26T08:00:00",
+        "value": 26.31,
+        "reading": 26.31,
+        "waterElevation": 1066.556,
+        "cotaCalculada": 1066.556,
+        "cotaTopo": 1092.866,
+        "cotaFundo": 1066.552,
+        "status": "Seco",
+        "rawStatus": "SECO",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2026-01-12",
+          "valor": 26.41,
+          "cota": 1066.456
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 26.41,
+          "cota": 1066.456
+        },
+        {
+          "data": "2026-03-09",
+          "valor": 27.42,
+          "cota": 1065.446
+        },
+        {
+          "data": "2026-03-23",
+          "valor": 27.42,
+          "cota": 1065.446
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 27.43,
+          "cota": 1065.436
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 26.31,
+          "cota": 1066.556
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 37.9,
+          "cota": 1054.966
+        },
+        {
+          "data": "2026-04-13",
+          "valor": 26.31,
+          "cota": 1066.556
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 37.9,
+          "cota": 1054.966
+        },
+        {
+          "data": "2026-04-27",
+          "valor": 26.32,
+          "cota": 1066.546
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 26.35,
+          "cota": 1066.516
+        },
+        {
+          "data": "2026-05-08",
+          "valor": 26.32,
+          "cota": 1066.546
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 26.32,
+          "cota": 1066.546
+        },
+        {
+          "data": "2026-06-08",
+          "valor": 26.27,
+          "cota": 1066.596
+        },
+        {
+          "data": "2026-06-22",
+          "valor": 26.32,
+          "cota": 1066.546
+        },
+        {
+          "data": "2026-07-13",
+          "valor": 26.31,
+          "cota": 1066.556
+        },
+        {
+          "data": "2026-07-15",
+          "valor": 26.31,
+          "cota": 1066.556
+        },
+        {
+          "data": "2026-07-29",
+          "valor": 26.3,
+          "cota": 1066.566
+        },
+        {
+          "data": "2026-08-14",
+          "valor": 26.31,
+          "cota": 1066.556
+        },
+        {
+          "data": "2026-08-26",
+          "valor": 26.31,
+          "cota": 1066.556
+        }
+      ]
+    }
+  }
+}

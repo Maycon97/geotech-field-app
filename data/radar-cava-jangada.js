@@ -214,7 +214,7 @@
     // Main 3D Render Loop
     function renderRadar3DLoop() {
         if (!canvas || !ctx) {
-            animFrameId = requestAnimationFrame(renderRadar3DLoop);
+            animFrameId = null;
             return;
         }
 
@@ -915,7 +915,7 @@
             if (msg.radarSync) {
                 syncBtnHtml = `
                     <button type="button" class="wa-sync-btn" onclick="syncRadarWithWhatsApp('${msg.id}')">
-                        <i class="fa-solid fa-crosshairs"></i> Ver no 3D (${msg.radarSync.time})
+                        <i class="fa-solid fa-chart-line"></i> Sincronizar Telemetria (${msg.radarSync.time})
                     </button>
                 `;
             }
@@ -953,9 +953,8 @@
         const idx = series.findIndex(s => s.time === targetTime);
         if (idx !== -1) {
             updateRadarTimelineUI(idx);
-            focusParedeNorte();
-            const vp = document.getElementById('radarCanvasContainer');
-            if (vp) vp.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            const strip = document.querySelector('.radar-summary-strip');
+            if (strip) strip.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
     };
 

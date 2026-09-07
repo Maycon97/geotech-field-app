@@ -1,0 +1,598 @@
+{
+  "structure": "Engenho Seco",
+  "slug": "engenho-seco",
+  "version": "pcmi-official-2026",
+  "instrumentCount": 5,
+  "instruments": {
+    "Engenho_Seco_INA_ES-01": {
+      "id": "Engenho_Seco_INA_ES-01",
+      "code": "ES-01",
+      "name": "INA-ES-01 (Engenho Seco)",
+      "structure": "Engenho Seco",
+      "rawStructure": "ENGENHO SECO",
+      "type": "INA",
+      "section": "",
+      "installedDate": "2025-04-01",
+      "diameter": "1\"",
+      "totalLengthMeters": 118.0,
+      "depthMeters": 118.0,
+      "cotaTopo": 1137.33,
+      "cotaBase": 1136.33,
+      "cotaFundo": 1018.3299999999999,
+      "cotaBoca": 1137.33,
+      "profMax": 118.0,
+      "limiteCritico": 1137.33,
+      "thresholds": {
+        "normal": 1137.33,
+        "warning": 1137.33,
+        "alert": 1137.33,
+        "emergency": 1137.33,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7777838.0,
+        "ew": 592164.0,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0943161,
+        "longitude": -44.1184355,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 14,
+      "latestReading": {
+        "id": "read_pz_32197",
+        "instrumentId": "Engenho_Seco_INA_ES-01",
+        "instrumentCode": "ES-01",
+        "structure": "Engenho Seco",
+        "type": "INA",
+        "date": "2026-08-26",
+        "dateTime": "2026-08-26T08:00:00",
+        "value": 53.89,
+        "reading": 53.89,
+        "waterElevation": 1083.4399999999998,
+        "cotaCalculada": 1083.4399999999998,
+        "cotaTopo": 1137.33,
+        "cotaFundo": 1018.3299999999999,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2025-07-01",
+          "valor": 51.88,
+          "cota": 1085.4499999999998
+        },
+        {
+          "data": "2025-09-15",
+          "valor": 54.0,
+          "cota": 1083.33
+        },
+        {
+          "data": "2025-10-21",
+          "valor": 55.0,
+          "cota": 1082.33
+        },
+        {
+          "data": "2025-11-25",
+          "valor": 55.49,
+          "cota": 1081.84
+        },
+        {
+          "data": "2025-12-19",
+          "valor": 55.8,
+          "cota": 1081.53
+        },
+        {
+          "data": "2026-01-22",
+          "valor": 55.62,
+          "cota": 1081.71
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 55.08,
+          "cota": 1082.25
+        },
+        {
+          "data": "2026-03-26",
+          "valor": 54.44,
+          "cota": 1082.8899999999999
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 53.19,
+          "cota": 1084.1399999999999
+        },
+        {
+          "data": "2026-05-04",
+          "valor": 53.04,
+          "cota": 1084.29
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 52.75,
+          "cota": 1084.58
+        },
+        {
+          "data": "2026-06-18",
+          "valor": 52.92,
+          "cota": 1084.4099999999999
+        },
+        {
+          "data": "2026-07-13",
+          "valor": 53.28,
+          "cota": 1084.05
+        },
+        {
+          "data": "2026-08-26",
+          "valor": 53.89,
+          "cota": 1083.4399999999998
+        }
+      ]
+    },
+    "Engenho_Seco_INA_ES-02": {
+      "id": "Engenho_Seco_INA_ES-02",
+      "code": "ES-02",
+      "name": "INA-ES-02 (Engenho Seco)",
+      "structure": "Engenho Seco",
+      "rawStructure": "ENGENHO SECO",
+      "type": "INA",
+      "section": "",
+      "installedDate": "2025-07-01",
+      "diameter": "1\"",
+      "totalLengthMeters": 148.0,
+      "depthMeters": 148.0,
+      "cotaTopo": 1244.0,
+      "cotaBase": 1243.0,
+      "cotaFundo": 1095.0,
+      "cotaBoca": 1244.0,
+      "profMax": 148.0,
+      "limiteCritico": 1244.0,
+      "thresholds": {
+        "normal": 1244.0,
+        "warning": 1244.0,
+        "alert": 1244.0,
+        "emergency": 1244.0,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7777510.0,
+        "ew": 591528.0,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0973101,
+        "longitude": -44.124502,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 14,
+      "latestReading": {
+        "id": "read_pz_32198",
+        "instrumentId": "Engenho_Seco_INA_ES-02",
+        "instrumentCode": "ES-02",
+        "structure": "Engenho Seco",
+        "type": "INA",
+        "date": "2026-08-26",
+        "dateTime": "2026-08-26T08:00:00",
+        "value": 85.83,
+        "reading": 85.83,
+        "waterElevation": 1158.17,
+        "cotaCalculada": 1158.17,
+        "cotaTopo": 1244.0,
+        "cotaFundo": 1095.0,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2025-07-01",
+          "valor": 84.19,
+          "cota": 1159.81
+        },
+        {
+          "data": "2025-09-15",
+          "valor": 85.42,
+          "cota": 1158.58
+        },
+        {
+          "data": "2025-10-21",
+          "valor": 86.15,
+          "cota": 1157.85
+        },
+        {
+          "data": "2025-11-25",
+          "valor": 87.85,
+          "cota": 1156.15
+        },
+        {
+          "data": "2025-12-19",
+          "valor": 88.0,
+          "cota": 1156.0
+        },
+        {
+          "data": "2026-01-22",
+          "valor": 87.68,
+          "cota": 1156.32
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 84.82,
+          "cota": 1159.18
+        },
+        {
+          "data": "2026-03-26",
+          "valor": 82.69,
+          "cota": 1161.31
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 85.92,
+          "cota": 1158.08
+        },
+        {
+          "data": "2026-05-04",
+          "valor": 85.93,
+          "cota": 1158.07
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 85.84,
+          "cota": 1158.16
+        },
+        {
+          "data": "2026-06-18",
+          "valor": 85.84,
+          "cota": 1158.16
+        },
+        {
+          "data": "2026-07-13",
+          "valor": 85.84,
+          "cota": 1158.16
+        },
+        {
+          "data": "2026-08-26",
+          "valor": 85.83,
+          "cota": 1158.17
+        }
+      ]
+    },
+    "Engenho_Seco_INA_ES-03": {
+      "id": "Engenho_Seco_INA_ES-03",
+      "code": "ES-03",
+      "name": "INA-ES-03 (Engenho Seco)",
+      "structure": "Engenho Seco",
+      "rawStructure": "ENGENHO SECO",
+      "type": "INA",
+      "section": "",
+      "installedDate": "2025-05-01",
+      "diameter": "1\"",
+      "totalLengthMeters": 180.0,
+      "depthMeters": 180.0,
+      "cotaTopo": 1278.58,
+      "cotaBase": 1277.58,
+      "cotaFundo": 1097.58,
+      "cotaBoca": 1278.58,
+      "profMax": 180.0,
+      "limiteCritico": 1278.58,
+      "thresholds": {
+        "normal": 1278.58,
+        "warning": 1278.58,
+        "alert": 1278.58,
+        "emergency": 1278.58,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7777495.0,
+        "ew": 593790.0,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.097337,
+        "longitude": -44.1028663,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 2,
+      "latestReading": {
+        "id": "read_pz_31613",
+        "instrumentId": "Engenho_Seco_INA_ES-03",
+        "instrumentCode": "ES-03",
+        "structure": "Engenho Seco",
+        "type": "INA",
+        "date": "2026-06-18",
+        "dateTime": "2026-06-18T08:00:00",
+        "value": 182.67,
+        "reading": 182.67,
+        "waterElevation": 1095.9099999999999,
+        "cotaCalculada": 1095.9099999999999,
+        "cotaTopo": 1278.58,
+        "cotaFundo": 1097.58,
+        "status": "Seco",
+        "rawStatus": "SECO",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2025-07-01",
+          "valor": 177.1,
+          "cota": 1101.48
+        },
+        {
+          "data": "2026-06-18",
+          "valor": 182.67,
+          "cota": 1095.9099999999999
+        }
+      ]
+    },
+    "Engenho_Seco_INA_ES-04": {
+      "id": "Engenho_Seco_INA_ES-04",
+      "code": "ES-04",
+      "name": "INA-ES-04 (Engenho Seco)",
+      "structure": "Engenho Seco",
+      "rawStructure": "ENGENHO SECO",
+      "type": "INA",
+      "section": "",
+      "installedDate": "2025-04-01",
+      "diameter": "1\"",
+      "totalLengthMeters": 177.0,
+      "depthMeters": 177.0,
+      "cotaTopo": 1163.11,
+      "cotaBase": 1162.11,
+      "cotaFundo": 985.1099999999999,
+      "cotaBoca": 1163.11,
+      "profMax": 177.0,
+      "limiteCritico": 1163.11,
+      "thresholds": {
+        "normal": 1163.11,
+        "warning": 1163.11,
+        "alert": 1163.11,
+        "emergency": 1163.11,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7777698.0,
+        "ew": 593192.0,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0955317,
+        "longitude": -44.1085963,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 14,
+      "latestReading": {
+        "id": "read_pz_32199",
+        "instrumentId": "Engenho_Seco_INA_ES-04",
+        "instrumentCode": "ES-04",
+        "structure": "Engenho Seco",
+        "type": "INA",
+        "date": "2026-08-26",
+        "dateTime": "2026-08-26T08:00:00",
+        "value": 36.05,
+        "reading": 36.05,
+        "waterElevation": 1127.06,
+        "cotaCalculada": 1127.06,
+        "cotaTopo": 1163.11,
+        "cotaFundo": 985.1099999999999,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2025-07-01",
+          "valor": 34.6,
+          "cota": 1128.51
+        },
+        {
+          "data": "2025-09-15",
+          "valor": 35.28,
+          "cota": 1127.83
+        },
+        {
+          "data": "2025-10-21",
+          "valor": 36.07,
+          "cota": 1127.04
+        },
+        {
+          "data": "2025-11-25",
+          "valor": 36.48,
+          "cota": 1126.6299999999999
+        },
+        {
+          "data": "2025-12-19",
+          "valor": 36.1,
+          "cota": 1127.01
+        },
+        {
+          "data": "2026-01-22",
+          "valor": 35.45,
+          "cota": 1127.6599999999999
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 36.08,
+          "cota": 1127.03
+        },
+        {
+          "data": "2026-03-26",
+          "valor": 36.35,
+          "cota": 1126.76
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 35.73,
+          "cota": 1127.3799999999999
+        },
+        {
+          "data": "2026-05-04",
+          "valor": 35.66,
+          "cota": 1127.4499999999998
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 35.69,
+          "cota": 1127.4199999999998
+        },
+        {
+          "data": "2026-06-18",
+          "valor": 35.93,
+          "cota": 1127.1799999999998
+        },
+        {
+          "data": "2026-07-13",
+          "valor": 35.83,
+          "cota": 1127.28
+        },
+        {
+          "data": "2026-08-26",
+          "valor": 36.05,
+          "cota": 1127.06
+        }
+      ]
+    },
+    "Engenho_Seco_INA_ES-05": {
+      "id": "Engenho_Seco_INA_ES-05",
+      "code": "ES-05",
+      "name": "INA-ES-05 (Engenho Seco)",
+      "structure": "Engenho Seco",
+      "rawStructure": "ENGENHO SECO",
+      "type": "INA",
+      "section": "",
+      "installedDate": "2025-07-01",
+      "diameter": "1\"",
+      "totalLengthMeters": 298.0,
+      "depthMeters": 298.0,
+      "cotaTopo": 1202.0,
+      "cotaBase": 1201.0,
+      "cotaFundo": 903.0,
+      "cotaBoca": 1202.0,
+      "profMax": 298.0,
+      "limiteCritico": 1202.0,
+      "thresholds": {
+        "normal": 1202.0,
+        "warning": 1202.0,
+        "alert": 1202.0,
+        "emergency": 1202.0,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7777804.0,
+        "ew": 593609.0,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0945538,
+        "longitude": -44.1046134,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 13,
+      "latestReading": {
+        "id": "read_pz_32200",
+        "instrumentId": "Engenho_Seco_INA_ES-05",
+        "instrumentCode": "ES-05",
+        "structure": "Engenho Seco",
+        "type": "INA",
+        "date": "2026-08-26",
+        "dateTime": "2026-08-26T08:00:00",
+        "value": 82.44,
+        "reading": 82.44,
+        "waterElevation": 1119.56,
+        "cotaCalculada": 1119.56,
+        "cotaTopo": 1202.0,
+        "cotaFundo": 903.0,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2025-09-15",
+          "valor": 81.8,
+          "cota": 1120.2
+        },
+        {
+          "data": "2025-10-21",
+          "valor": 82.63,
+          "cota": 1119.37
+        },
+        {
+          "data": "2025-11-25",
+          "valor": 82.9,
+          "cota": 1119.1
+        },
+        {
+          "data": "2025-12-19",
+          "valor": 82.65,
+          "cota": 1119.35
+        },
+        {
+          "data": "2026-01-22",
+          "valor": 82.22,
+          "cota": 1119.78
+        },
+        {
+          "data": "2026-02-26",
+          "valor": 82.4,
+          "cota": 1119.6
+        },
+        {
+          "data": "2026-03-26",
+          "valor": 82.57,
+          "cota": 1119.43
+        },
+        {
+          "data": "2026-04-17",
+          "valor": 82.56,
+          "cota": 1119.44
+        },
+        {
+          "data": "2026-05-04",
+          "valor": 82.73,
+          "cota": 1119.27
+        },
+        {
+          "data": "2026-05-26",
+          "valor": 82.8,
+          "cota": 1119.2
+        },
+        {
+          "data": "2026-06-18",
+          "valor": 82.91,
+          "cota": 1119.09
+        },
+        {
+          "data": "2026-07-13",
+          "valor": 82.5,
+          "cota": 1119.5
+        },
+        {
+          "data": "2026-08-26",
+          "valor": 82.44,
+          "cota": 1119.56
+        }
+      ]
+    }
+  }
+}

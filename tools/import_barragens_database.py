@@ -16,7 +16,7 @@ import pandas as pd
 
 
 DEFAULT_BARRAGENS_SOURCE = Path(
-    r"C:\Users\maycon.nascimento\ITAMINAS\SPLO - General\03) Geotecnia\05) PCM\01) Barragens\1) Monitoramentos\1) Dados\BancodeDados.xlsx"
+    r"C:\Users\maycon.nascimento\ITAMINAS\SPLO - General\03) Geotecnia\01) PCMI\02) Monitoramentos\00) Leituras\Banco_De_Dados.xlsx"
 )
 
 

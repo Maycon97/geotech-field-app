@@ -1,149 +1,618 @@
 {
   "structure": "PDE Mangaba",
   "slug": "pde-mangaba",
-  "version": "mdsync-combined-9aebb6da9a",
-  "instrumentCount": 4,
+  "version": "pcmi-official-2026",
+  "instrumentCount": 7,
   "instruments": {
-    "PDE-MANGABA-INA-01": {
-      "id": "PDE-MANGABA-INA-01",
-      "code": "INA-01",
-      "name": "INA-01 - PDE Mangaba",
-      "type": "INA",
+    "PDE_Mangaba_PZ_1": {
+      "id": "PDE_Mangaba_PZ_1",
+      "code": "1",
+      "name": "PZ-1 (PDE Mangaba)",
       "structure": "PDE Mangaba",
-      "installationDate": "2026-04-20",
-      "diameter": null,
-      "cotaBoca": 0,
-      "cotaBase": null,
-      "cotaFundo": null,
-      "profMax": 42.38,
-      "limiteCritico": 55.09,
+      "rawStructure": "PDE MANGABA",
+      "type": "PZ",
+      "section": "",
+      "installedDate": "2026-06-04",
+      "diameter": "1\"",
+      "totalLengthMeters": 54.47,
+      "depthMeters": 53.61,
+      "cotaTopo": 1247.43,
+      "cotaBase": 1246.57,
+      "cotaFundo": 1192.96,
+      "cotaBoca": 1247.43,
+      "profMax": 53.61,
+      "limiteCritico": 1247.43,
+      "thresholds": {
+        "normal": 1247.43,
+        "warning": 1247.43,
+        "alert": 1247.43,
+        "emergency": 1247.43,
+        "unit": "m (Cota)"
+      },
       "coordinates": {
-        "ns": 594901.382,
-        "ew": 7778265.758
+        "ns": 7778223.956,
+        "ew": 594926.443,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0906949,
+        "longitude": -44.0920348,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 4,
+      "latestReading": {
+        "id": "read_pz_32013",
+        "instrumentId": "PDE_Mangaba_PZ_1",
+        "instrumentCode": "1",
+        "structure": "PDE Mangaba",
+        "type": "PZ",
+        "date": "2026-08-07",
+        "dateTime": "2026-08-07T08:00:00",
+        "value": 54.45,
+        "reading": 54.45,
+        "waterElevation": 1192.98,
+        "cotaCalculada": 1192.98,
+        "cotaTopo": 1247.43,
+        "cotaFundo": 1192.96,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
       },
       "historico": [
         {
-          "data": "2026-04-30",
-          "valor": 42.38,
-          "status": "Normal"
+          "data": "2026-06-17",
+          "valor": 54.47,
+          "cota": 1192.96
         },
         {
-          "data": "2026-03-30",
-          "valor": 0.0,
-          "status": "Normal"
+          "data": "2026-07-08",
+          "valor": 54.38,
+          "cota": 1193.05
         },
         {
-          "data": "2026-04-30",
-          "valor": 42.38,
-          "status": "Normal"
+          "data": "2026-07-21",
+          "valor": 54.49,
+          "cota": 1192.94
         },
         {
-          "data": "2026-05-19",
-          "valor": 42.37,
-          "status": "Normal"
+          "data": "2026-08-07",
+          "valor": 54.45,
+          "cota": 1192.98
         }
       ]
     },
-    "PDE-MANGABA-PZ-01": {
-      "id": "PDE-MANGABA-PZ-01",
-      "code": "PZ-01",
-      "name": "PZ-01 - PDE Mangaba",
-      "type": "PZ",
+    "PDE_Mangaba_PZ_2": {
+      "id": "PDE_Mangaba_PZ_2",
+      "code": "2",
+      "name": "PZ-2 (PDE Mangaba)",
       "structure": "PDE Mangaba",
-      "installationDate": null,
-      "diameter": null,
-      "cotaBoca": 0,
-      "cotaBase": null,
-      "cotaFundo": null,
-      "profMax": 0,
-      "limiteCritico": 1.3,
-      "coordinates": {
-        "ns": null,
-        "ew": null
+      "rawStructure": "PDE MANGABA",
+      "type": "PZ",
+      "section": "",
+      "installedDate": "2026-06-25",
+      "diameter": "1\"",
+      "totalLengthMeters": 33.88,
+      "depthMeters": 32.81,
+      "cotaTopo": 1168.54,
+      "cotaBase": 1167.466,
+      "cotaFundo": 1134.656,
+      "cotaBoca": 1168.54,
+      "profMax": 32.81,
+      "limiteCritico": 1168.54,
+      "thresholds": {
+        "normal": 1168.54,
+        "warning": 1168.54,
+        "alert": 1168.54,
+        "emergency": 1168.54,
+        "unit": "m (Cota)"
       },
-      "historico": []
-    },
-    "PDE-MANGABA-PZ-02": {
-      "id": "PDE-MANGABA-PZ-02",
-      "code": "PZ-02",
-      "name": "PZ-02 - PDE Mangaba",
-      "type": "PZ",
-      "structure": "PDE Mangaba",
-      "installationDate": null,
-      "diameter": null,
-      "cotaBoca": 0,
-      "cotaBase": null,
-      "cotaFundo": null,
-      "profMax": 0,
-      "limiteCritico": 1.3,
       "coordinates": {
-        "ns": null,
-        "ew": null
+        "ns": 7778406.83,
+        "ew": 594818.767,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
       },
-      "historico": []
+      "latLon": {
+        "latitude": -20.0890479,
+        "longitude": -44.0930742,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 4,
+      "latestReading": {
+        "id": "read_pz_32316",
+        "instrumentId": "PDE_Mangaba_PZ_2",
+        "instrumentCode": "2",
+        "structure": "PDE Mangaba",
+        "type": "PZ",
+        "date": "2026-09-03",
+        "dateTime": "2026-09-03T08:00:00",
+        "value": 33.97,
+        "reading": 33.97,
+        "waterElevation": 1134.57,
+        "cotaCalculada": 1134.57,
+        "cotaTopo": 1168.54,
+        "cotaFundo": 1134.656,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2026-07-08",
+          "valor": 33.91,
+          "cota": 1134.6299999999999
+        },
+        {
+          "data": "2026-07-21",
+          "valor": 33.91,
+          "cota": 1134.6299999999999
+        },
+        {
+          "data": "2026-08-07",
+          "valor": 33.94,
+          "cota": 1134.6
+        },
+        {
+          "data": "2026-09-03",
+          "valor": 33.97,
+          "cota": 1134.57
+        }
+      ]
     },
-    "PDE-MANGABA-PZ-03": {
-      "id": "PDE-MANGABA-PZ-03",
-      "code": "PZ-03",
-      "name": "PZ-03 - PDE Mangaba",
-      "type": "PZ",
+    "PDE_Mangaba_PZ_3": {
+      "id": "PDE_Mangaba_PZ_3",
+      "code": "3",
+      "name": "PZ-3 (PDE Mangaba)",
       "structure": "PDE Mangaba",
-      "installationDate": null,
-      "diameter": null,
-      "cotaBoca": 0,
-      "cotaBase": null,
-      "cotaFundo": null,
-      "profMax": 21.13,
-      "limiteCritico": 27.47,
+      "rawStructure": "PDE MANGABA",
+      "type": "PZ",
+      "section": "",
+      "installedDate": "2025-12-29",
+      "diameter": "1\"",
+      "totalLengthMeters": 21.11,
+      "depthMeters": 20.1,
+      "cotaTopo": 1136.35,
+      "cotaBase": 1135.34,
+      "cotaFundo": 1115.24,
+      "cotaBoca": 1136.35,
+      "profMax": 20.1,
+      "limiteCritico": 1136.35,
+      "thresholds": {
+        "normal": 1136.35,
+        "warning": 1136.35,
+        "alert": 1136.35,
+        "emergency": 1136.35,
+        "unit": "m (Cota)"
+      },
       "coordinates": {
-        "ns": 594780.155,
-        "ew": 7778470.929
+        "ns": 7778470.929,
+        "ew": 594780.155,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0884706,
+        "longitude": -44.0934468,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 14,
+      "latestReading": {
+        "id": "read_pz_32314",
+        "instrumentId": "PDE_Mangaba_PZ_3",
+        "instrumentCode": "3",
+        "structure": "PDE Mangaba",
+        "type": "PZ",
+        "date": "2026-09-03",
+        "dateTime": "2026-09-03T08:00:00",
+        "value": 20.78,
+        "reading": 20.78,
+        "waterElevation": 1115.57,
+        "cotaCalculada": 1115.57,
+        "cotaTopo": 1136.35,
+        "cotaFundo": 1115.24,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
       },
       "historico": [
         {
           "data": "2026-03-11",
           "valor": 18.84,
-          "status": "Atencao"
-        },
-        {
-          "data": "2026-04-08",
-          "valor": 18.27,
-          "status": "Atencao"
-        },
-        {
-          "data": "2026-04-30",
-          "valor": 20.98,
-          "status": "Atencao"
-        },
-        {
-          "data": "2026-04-08",
-          "valor": 0.0,
-          "status": "Normal"
-        },
-        {
-          "data": "2026-03-30",
-          "valor": 0.0,
-          "status": "Normal"
+          "cota": 1117.51
         },
         {
           "data": "2026-03-17",
           "valor": 18.62,
-          "status": "Atencao"
+          "cota": 1117.73
+        },
+        {
+          "data": "2026-03-30",
+          "valor": 0.0,
+          "cota": 1136.35
         },
         {
           "data": "2026-04-08",
           "valor": 18.27,
-          "status": "Atencao"
+          "cota": 1118.08
+        },
+        {
+          "data": "2026-04-08",
+          "valor": 0.0,
+          "cota": 1136.35
+        },
+        {
+          "data": "2026-04-08",
+          "valor": 18.27,
+          "cota": 1118.08
         },
         {
           "data": "2026-04-30",
           "valor": 20.98,
-          "status": "Atencao"
+          "cota": 1115.37
+        },
+        {
+          "data": "2026-04-30",
+          "valor": 20.98,
+          "cota": 1115.37
         },
         {
           "data": "2026-05-18",
           "valor": 19.47,
-          "status": "Atencao"
+          "cota": 1116.8799999999999
+        },
+        {
+          "data": "2026-06-17",
+          "valor": 20.77,
+          "cota": 1115.58
+        },
+        {
+          "data": "2026-07-08",
+          "valor": 20.3,
+          "cota": 1116.05
+        },
+        {
+          "data": "2026-07-21",
+          "valor": 20.2,
+          "cota": 1116.1499999999999
+        },
+        {
+          "data": "2026-08-07",
+          "valor": 20.64,
+          "cota": 1115.7099999999998
+        },
+        {
+          "data": "2026-09-03",
+          "valor": 20.78,
+          "cota": 1115.57
+        }
+      ]
+    },
+    "PDE_Mangaba_INA_1": {
+      "id": "PDE_Mangaba_INA_1",
+      "code": "1",
+      "name": "INA-1 (PDE Mangaba)",
+      "structure": "PDE Mangaba",
+      "rawStructure": "PDE MANGABA",
+      "type": "INA",
+      "section": "",
+      "installedDate": "2026-04-20",
+      "diameter": "1\"",
+      "totalLengthMeters": 42.38,
+      "depthMeters": 41.59,
+      "cotaTopo": 1223.07,
+      "cotaBase": 1222.28,
+      "cotaFundo": 1180.69,
+      "cotaBoca": 1223.07,
+      "profMax": 41.59,
+      "limiteCritico": 1223.07,
+      "thresholds": {
+        "normal": 1223.07,
+        "warning": 1223.07,
+        "alert": 1223.07,
+        "emergency": 1223.07,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7778265.758,
+        "ew": 594901.382,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0903185,
+        "longitude": -44.0922767,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 9,
+      "latestReading": {
+        "id": "read_pz_32317",
+        "instrumentId": "PDE_Mangaba_INA_1",
+        "instrumentCode": "1",
+        "structure": "PDE Mangaba",
+        "type": "INA",
+        "date": "2026-09-03",
+        "dateTime": "2026-09-03T08:00:00",
+        "value": 42.38,
+        "reading": 42.38,
+        "waterElevation": 1180.6899999999998,
+        "cotaCalculada": 1180.6899999999998,
+        "cotaTopo": 1223.07,
+        "cotaFundo": 1180.69,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2026-03-30",
+          "valor": 0.0,
+          "cota": 1223.07
+        },
+        {
+          "data": "2026-04-30",
+          "valor": 42.38,
+          "cota": 1180.6899999999998
+        },
+        {
+          "data": "2026-04-30",
+          "valor": 42.38,
+          "cota": 1180.6899999999998
+        },
+        {
+          "data": "2026-05-19",
+          "valor": 42.37,
+          "cota": 1180.7
+        },
+        {
+          "data": "2026-06-17",
+          "valor": 42.34,
+          "cota": 1180.73
+        },
+        {
+          "data": "2026-07-08",
+          "valor": 42.35,
+          "cota": 1180.72
+        },
+        {
+          "data": "2026-07-21",
+          "valor": 42.35,
+          "cota": 1180.72
+        },
+        {
+          "data": "2026-08-07",
+          "valor": 42.34,
+          "cota": 1180.73
+        },
+        {
+          "data": "2026-09-03",
+          "valor": 42.38,
+          "cota": 1180.6899999999998
+        }
+      ]
+    },
+    "PDE_Mangaba_INA_4": {
+      "id": "PDE_Mangaba_INA_4",
+      "code": "4",
+      "name": "INA-4 (PDE Mangaba)",
+      "structure": "PDE Mangaba",
+      "rawStructure": "PDE MANGABA",
+      "type": "INA",
+      "section": "",
+      "installedDate": "2026-07-22",
+      "diameter": "1\"",
+      "totalLengthMeters": 20.0,
+      "depthMeters": 20.0,
+      "cotaTopo": 1121.908,
+      "cotaBase": 1121.136,
+      "cotaFundo": 1101.908,
+      "cotaBoca": 1121.908,
+      "profMax": 20.0,
+      "limiteCritico": 1121.908,
+      "thresholds": {
+        "normal": 1121.908,
+        "warning": 1121.908,
+        "alert": 1121.908,
+        "emergency": 1121.908,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7778539.841,
+        "ew": 594736.876,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0878501,
+        "longitude": -44.0938643,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 2,
+      "latestReading": {
+        "id": "read_pz_32312",
+        "instrumentId": "PDE_Mangaba_INA_4",
+        "instrumentCode": "4",
+        "structure": "PDE Mangaba",
+        "type": "INA",
+        "date": "2026-09-03",
+        "dateTime": "2026-09-03T08:00:00",
+        "value": 17.44,
+        "reading": 17.44,
+        "waterElevation": 1104.4679999999998,
+        "cotaCalculada": 1104.4679999999998,
+        "cotaTopo": 1121.908,
+        "cotaFundo": 1101.908,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2026-08-07",
+          "valor": 17.54,
+          "cota": 1104.368
+        },
+        {
+          "data": "2026-09-03",
+          "valor": 17.44,
+          "cota": 1104.4679999999998
+        }
+      ]
+    },
+    "PDE_Mangaba_PZ_4": {
+      "id": "PDE_Mangaba_PZ_4",
+      "code": "4",
+      "name": "PZ-4 (PDE Mangaba)",
+      "structure": "PDE Mangaba",
+      "rawStructure": "PDE MANGABA",
+      "type": "PZ",
+      "section": "",
+      "installedDate": "2026-07-29",
+      "diameter": "1\"",
+      "totalLengthMeters": 25.0,
+      "depthMeters": 25.0,
+      "cotaTopo": 1145.464,
+      "cotaBase": 1144.592,
+      "cotaFundo": 1120.464,
+      "cotaBoca": 1145.464,
+      "profMax": 25.0,
+      "limiteCritico": 1145.464,
+      "thresholds": {
+        "normal": 1145.464,
+        "warning": 1145.464,
+        "alert": 1145.464,
+        "emergency": 1145.464,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7778597.502,
+        "ew": 594999.697,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0873162,
+        "longitude": -44.0913537,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 2,
+      "latestReading": {
+        "id": "read_pz_32313",
+        "instrumentId": "PDE_Mangaba_PZ_4",
+        "instrumentCode": "4",
+        "structure": "PDE Mangaba",
+        "type": "PZ",
+        "date": "2026-09-03",
+        "dateTime": "2026-09-03T08:00:00",
+        "value": 18.12,
+        "reading": 18.12,
+        "waterElevation": 1127.344,
+        "cotaCalculada": 1127.344,
+        "cotaTopo": 1145.464,
+        "cotaFundo": 1120.464,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2026-08-07",
+          "valor": 18.31,
+          "cota": 1127.154
+        },
+        {
+          "data": "2026-09-03",
+          "valor": 18.12,
+          "cota": 1127.344
+        }
+      ]
+    },
+    "PDE_Mangaba_INA_2": {
+      "id": "PDE_Mangaba_INA_2",
+      "code": "2",
+      "name": "INA-2 (PDE Mangaba)",
+      "structure": "PDE Mangaba",
+      "rawStructure": "PDE MANGABA",
+      "type": "INA",
+      "section": "",
+      "installedDate": "03/08/2026",
+      "diameter": "1\"",
+      "totalLengthMeters": 25.0,
+      "depthMeters": 25.0,
+      "cotaTopo": 1165.256,
+      "cotaBase": 1164.524,
+      "cotaFundo": 1140.256,
+      "cotaBoca": 1165.256,
+      "profMax": 25.0,
+      "limiteCritico": 1165.256,
+      "thresholds": {
+        "normal": 1165.256,
+        "warning": 1165.256,
+        "alert": 1165.256,
+        "emergency": 1165.256,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7778541.661,
+        "ew": 595024.685,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0878195,
+        "longitude": -44.0911118,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 2,
+      "latestReading": {
+        "id": "read_pz_32315",
+        "instrumentId": "PDE_Mangaba_INA_2",
+        "instrumentCode": "2",
+        "structure": "PDE Mangaba",
+        "type": "INA",
+        "date": "2026-09-03",
+        "dateTime": "2026-09-03T08:00:00",
+        "value": 26.62,
+        "reading": 26.62,
+        "waterElevation": 1138.6360000000002,
+        "cotaCalculada": 1138.6360000000002,
+        "cotaTopo": 1165.256,
+        "cotaFundo": 1140.256,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2026-08-07",
+          "valor": 25.51,
+          "cota": 1139.746
+        },
+        {
+          "data": "2026-09-03",
+          "valor": 26.62,
+          "cota": 1138.6360000000002
         }
       ]
     }

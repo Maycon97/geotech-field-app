@@ -44,6 +44,8 @@ class PCMIChangeHandler(FileSystemEventHandler):
             scan()
             from extract_pcmi_master import main as extract_main
             extract_main()
+            from partition_database import partition_database
+            partition_database()
             print(f"[{time.strftime('%H:%M:%S')}] Sincronizacao em tempo real concluida! App atualizado.")
         except Exception as e:
             print(f"Erro durante sincronizacao: {e}")

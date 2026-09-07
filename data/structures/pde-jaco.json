@@ -1,177 +1,372 @@
 {
   "structure": "PDE Jacó",
   "slug": "pde-jaco",
-  "version": "mdsync-combined-9aebb6da9a",
+  "version": "pcmi-official-2026",
   "instrumentCount": 3,
   "instruments": {
-    "PDE-JACO-INA-01": {
-      "id": "PDE-JACO-INA-01",
-      "code": "INA-01",
-      "name": "INA-01 - PDE Jacó",
-      "type": "INA",
+    "PDE_Jacó_PZ_2": {
+      "id": "PDE_Jacó_PZ_2",
+      "code": "2",
+      "name": "PZ-2 (PDE Jacó)",
       "structure": "PDE Jacó",
-      "installationDate": null,
-      "diameter": null,
-      "cotaBoca": 0,
-      "cotaBase": null,
-      "cotaFundo": null,
-      "profMax": 69.69,
-      "limiteCritico": 90.6,
-      "coordinates": {
-        "ns": 7776937.0,
-        "ew": 594407.0
-      },
-      "historico": [
-        {
-          "data": "2026-02-12",
-          "valor": 46.29,
-          "status": "Atencao"
-        },
-        {
-          "data": "2026-03-02",
-          "valor": 68.67,
-          "status": "Atencao"
-        },
-        {
-          "data": "2026-03-31",
-          "valor": 69.69,
-          "status": "Normal"
-        },
-        {
-          "data": "2026-04-14",
-          "valor": 68.7,
-          "status": "Normal"
-        },
-        {
-          "data": "2026-04-29",
-          "valor": 68.65,
-          "status": "Normal"
-        },
-        {
-          "data": "2026-02-12",
-          "valor": 68.71,
-          "status": "Normal"
-        },
-        {
-          "data": "2026-03-02",
-          "valor": 68.67,
-          "status": "Normal"
-        },
-        {
-          "data": "2026-03-31",
-          "valor": 68.7,
-          "status": "Normal"
-        },
-        {
-          "data": "2026-04-14",
-          "valor": 68.71,
-          "status": "Normal"
-        },
-        {
-          "data": "2026-04-29",
-          "valor": 68.65,
-          "status": "Normal"
-        },
-        {
-          "data": "2026-05-12",
-          "valor": 68.55,
-          "status": "Normal"
-        }
-      ]
-    },
-    "PDE-JACO-MV-01": {
-      "id": "PDE-JACO-MV-01",
-      "code": "MV-01",
-      "name": "MV-01 - PDE Jacó",
-      "type": "MV",
-      "structure": "PDE Jacó",
-      "installationDate": null,
-      "diameter": null,
-      "cotaBoca": 0,
-      "cotaBase": null,
-      "cotaFundo": null,
-      "profMax": 0,
-      "limiteCritico": 1.3,
-      "coordinates": {
-        "ns": 7776928.0,
-        "ew": 594800.0
-      },
-      "historico": []
-    },
-    "PDE-JACO-PZ-02": {
-      "id": "PDE-JACO-PZ-02",
-      "code": "PZ-02",
-      "name": "PZ-02 - PDE Jacó",
+      "rawStructure": "PDE JACÓ",
       "type": "PZ",
-      "structure": "PDE Jacó",
-      "installationDate": null,
-      "diameter": null,
-      "cotaBoca": 0,
-      "cotaBase": null,
-      "cotaFundo": null,
-      "profMax": 69.0,
-      "limiteCritico": 89.7,
+      "section": "",
+      "installedDate": null,
+      "diameter": "1\"",
+      "totalLengthMeters": 46.02,
+      "depthMeters": 45.19,
+      "cotaTopo": 1079.682,
+      "cotaBase": 1078.854,
+      "cotaFundo": 1033.662,
+      "cotaBoca": 1079.682,
+      "profMax": 45.19,
+      "limiteCritico": 1079.682,
+      "thresholds": {
+        "normal": 1079.682,
+        "warning": 1079.682,
+        "alert": 1079.682,
+        "emergency": 1079.682,
+        "unit": "m (Cota)"
+      },
       "coordinates": {
         "ns": 7776748.0,
-        "ew": 594610.0
+        "ew": 594610.0,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.1040464,
+        "longitude": -44.0949847,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 173,
+      "latestReading": {
+        "id": "read_pz_32097",
+        "instrumentId": "PDE_Jacó_PZ_2",
+        "instrumentCode": "2",
+        "structure": "PDE Jacó",
+        "type": "PZ",
+        "date": "2026-08-13",
+        "dateTime": "2026-08-13T08:00:00",
+        "value": 46.02,
+        "reading": 46.02,
+        "waterElevation": 1033.662,
+        "cotaCalculada": 1033.662,
+        "cotaTopo": 1079.682,
+        "cotaFundo": 1033.662,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
       },
       "historico": [
+        {
+          "data": "2024-10-03",
+          "valor": 46.02,
+          "cota": 1033.662
+        },
+        {
+          "data": "2024-11-01",
+          "valor": 46.02,
+          "cota": 1033.662
+        },
+        {
+          "data": "2024-12-06",
+          "valor": 46.02,
+          "cota": 1033.662
+        },
+        {
+          "data": "2025-07-08",
+          "valor": 46.02,
+          "cota": 1033.662
+        },
+        {
+          "data": "2025-08-05",
+          "valor": 46.02,
+          "cota": 1033.662
+        },
+        {
+          "data": "2025-09-02",
+          "valor": 46.02,
+          "cota": 1033.662
+        },
+        {
+          "data": "2025-10-07",
+          "valor": 46.02,
+          "cota": 1033.662
+        },
+        {
+          "data": "2025-11-04",
+          "valor": 46.02,
+          "cota": 1033.662
+        },
+        {
+          "data": "2025-12-02",
+          "valor": 46.02,
+          "cota": 1033.662
+        },
+        {
+          "data": "2026-01-06",
+          "valor": 46.02,
+          "cota": 1033.662
+        },
         {
           "data": "2026-02-12",
           "valor": 69.0,
-          "status": "Normal"
+          "cota": 1010.682
         },
         {
           "data": "2026-03-02",
           "valor": 46.28,
-          "status": "Atencao"
+          "cota": 1033.402
         },
         {
           "data": "2026-03-31",
           "valor": 46.3,
-          "status": "Normal"
+          "cota": 1033.382
         },
         {
           "data": "2026-04-14",
           "valor": 45.93,
-          "status": "Normal"
+          "cota": 1033.752
         },
         {
           "data": "2026-04-29",
           "valor": 46.05,
-          "status": "Normal"
-        },
-        {
-          "data": "2026-02-12",
-          "valor": 46.02,
-          "status": "Normal"
-        },
-        {
-          "data": "2026-03-02",
-          "valor": 46.0,
-          "status": "Normal"
-        },
-        {
-          "data": "2026-03-31",
-          "valor": 45.99,
-          "status": "Normal"
-        },
-        {
-          "data": "2026-04-14",
-          "valor": 45.98,
-          "status": "Normal"
-        },
-        {
-          "data": "2026-04-29",
-          "valor": 46.0,
-          "status": "Normal"
+          "cota": 1033.632
         },
         {
           "data": "2026-05-12",
           "valor": 46.03,
-          "status": "Normal"
+          "cota": 1033.652
+        },
+        {
+          "data": "2026-06-16",
+          "valor": 46.03,
+          "cota": 1033.652
+        },
+        {
+          "data": "2026-07-09",
+          "valor": 46.02,
+          "cota": 1033.662
+        },
+        {
+          "data": "2026-07-29",
+          "valor": 46.01,
+          "cota": 1033.672
+        },
+        {
+          "data": "2026-08-13",
+          "valor": 46.02,
+          "cota": 1033.662
         }
       ]
+    },
+    "PDE_Jacó_INA_1": {
+      "id": "PDE_Jacó_INA_1",
+      "code": "1",
+      "name": "INA-1 (PDE Jacó)",
+      "structure": "PDE Jacó",
+      "rawStructure": "PDE JACÓ",
+      "type": "INA",
+      "section": "",
+      "installedDate": null,
+      "diameter": "1\"",
+      "totalLengthMeters": 68.72,
+      "depthMeters": 68.01,
+      "cotaTopo": 1164.927,
+      "cotaBase": 1164.2215,
+      "cotaFundo": 1096.2115000000001,
+      "cotaBoca": 1164.927,
+      "profMax": 68.01,
+      "limiteCritico": 1164.927,
+      "thresholds": {
+        "normal": 1164.927,
+        "warning": 1164.927,
+        "alert": 1164.927,
+        "emergency": 1164.927,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7776937.0,
+        "ew": 594407.0,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.1023486,
+        "longitude": -44.0969362,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 103,
+      "latestReading": {
+        "id": "read_pz_32096",
+        "instrumentId": "PDE_Jacó_INA_1",
+        "instrumentCode": "1",
+        "structure": "PDE Jacó",
+        "type": "INA",
+        "date": "2026-08-13",
+        "dateTime": "2026-08-13T08:00:00",
+        "value": 68.52,
+        "reading": 68.52,
+        "waterElevation": 1096.407,
+        "cotaCalculada": 1096.407,
+        "cotaTopo": 1164.927,
+        "cotaFundo": 1096.2115000000001,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2024-10-01",
+          "valor": 68.69,
+          "cota": 1096.2369999999999
+        },
+        {
+          "data": "2024-11-01",
+          "valor": 68.72,
+          "cota": 1096.2069999999999
+        },
+        {
+          "data": "2024-12-06",
+          "valor": 68.72,
+          "cota": 1096.2069999999999
+        },
+        {
+          "data": "2025-07-08",
+          "valor": 68.72,
+          "cota": 1096.2069999999999
+        },
+        {
+          "data": "2025-08-05",
+          "valor": 68.72,
+          "cota": 1096.2069999999999
+        },
+        {
+          "data": "2025-09-02",
+          "valor": 68.72,
+          "cota": 1096.2069999999999
+        },
+        {
+          "data": "2025-10-07",
+          "valor": 68.72,
+          "cota": 1096.2069999999999
+        },
+        {
+          "data": "2025-11-04",
+          "valor": 68.72,
+          "cota": 1096.2069999999999
+        },
+        {
+          "data": "2025-12-02",
+          "valor": 68.72,
+          "cota": 1096.2069999999999
+        },
+        {
+          "data": "2026-01-06",
+          "valor": 68.72,
+          "cota": 1096.2069999999999
+        },
+        {
+          "data": "2026-02-12",
+          "valor": 46.29,
+          "cota": 1118.637
+        },
+        {
+          "data": "2026-03-02",
+          "valor": 68.67,
+          "cota": 1096.2569999999998
+        },
+        {
+          "data": "2026-03-31",
+          "valor": 69.69,
+          "cota": 1095.2369999999999
+        },
+        {
+          "data": "2026-04-14",
+          "valor": 68.7,
+          "cota": 1096.2269999999999
+        },
+        {
+          "data": "2026-04-29",
+          "valor": 68.65,
+          "cota": 1096.2769999999998
+        },
+        {
+          "data": "2026-05-12",
+          "valor": 68.55,
+          "cota": 1096.377
+        },
+        {
+          "data": "2026-06-16",
+          "valor": 68.56,
+          "cota": 1096.367
+        },
+        {
+          "data": "2026-07-09",
+          "valor": 68.54,
+          "cota": 1096.387
+        },
+        {
+          "data": "2026-07-29",
+          "valor": 68.53,
+          "cota": 1096.397
+        },
+        {
+          "data": "2026-08-13",
+          "valor": 68.52,
+          "cota": 1096.407
+        }
+      ]
+    },
+    "PDE_Jacó_MV_1": {
+      "id": "PDE_Jacó_MV_1",
+      "code": "1",
+      "name": "MV-1 (PDE Jacó)",
+      "structure": "PDE Jacó",
+      "rawStructure": "PDE JACÓ",
+      "type": "MV",
+      "section": "",
+      "installedDate": null,
+      "diameter": "1\"",
+      "totalLengthMeters": null,
+      "depthMeters": null,
+      "cotaTopo": null,
+      "cotaBase": 1036.395,
+      "cotaFundo": null,
+      "cotaBoca": null,
+      "profMax": null,
+      "limiteCritico": 0.0,
+      "thresholds": {
+        "normal": 0.0,
+        "warning": 0.0,
+        "alert": 0.0,
+        "emergency": 0.0,
+        "unit": "m"
+      },
+      "coordinates": {
+        "ns": 7776929.006,
+        "ew": 594803.555,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.1024014,
+        "longitude": -44.0931428,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 0,
+      "latestReading": null,
+      "historico": []
     }
   }
 }

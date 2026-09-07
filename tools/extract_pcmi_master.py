@@ -10,11 +10,11 @@ BANCO_DADOS_PATH = os.path.join(PCMI_ROOT, r"02) Monitoramentos\00) Leituras\Ban
 PLUVIOMETRIA_PATH = os.path.join(PCMI_ROOT, r"00) Gestão à Vista\02) Pluviometria\PLUVIOMETRIA.xlsx")
 CRONOGRAMA_PATH = os.path.join(PCMI_ROOT, r"00) Gestão à Vista\00) Cronograma PCMI\CronogramaPCM.xlsx")
 KMZ_PATH = os.path.join(PCMI_ROOT, r"02) Monitoramentos\Google Earth\ESTRUTURAS E INSTRUMENTAÇÃO GEOTECNICA ITAMINAS.kmz")
-VEHICLE_DIR = os.path.join(PCMI_ROOT, r"LORENZO\35) Checklist Veicular")
+VEHICLE_DIR = os.path.join(PCMI_ROOT, r"03) Outros\35) Checklist Veicular")
 B1_FIR_DIR = os.path.join(PCMI_ROOT, r"02) Monitoramentos\01) Barragens\01) Controle de Campo\01) B1\Fichas de Inspeção Regular - FIR")
 B4_FIR_DIR = os.path.join(PCMI_ROOT, r"02) Monitoramentos\01) Barragens\01) Controle de Campo\02) B4\Fichas de Inspeção Regular - FIR")
 
-DATA_DIR = r"C:\Users\maycon.nascimento\.gemini\antigravity\scratch\geotech-field-app\data"
+DATA_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data"))
 
 STRUCTURE_MAP = {
     "BARRAGEM B1": "Barragem B1",
@@ -443,25 +443,27 @@ def main():
     recent_readings = sorted(piezo_readings, key=lambda x: x.get("date") or "", reverse=True)[:5000]
     structures_list = sorted(list(set(i["structure"] for i in instruments.values())))
     
+    master_db = {
+        "version": "pcmi-official-2026",
+        "sourceFile": "Banco_De_Dados.xlsx",
+        "extractedAt": datetime.now().isoformat(),
+        "summary": {
+            "totalInstruments": len(instruments),
+            "totalReadings": len(piezo_readings),
+            "totalFlowReadings": len(flow_readings),
+            "structures": structures_list
+        },
+        "instrumentRegistry": instruments,
+        "readings": recent_readings,
+        "flowReadings": flow_readings
+    }
+
     geosync_db_js = f"""// Master Geosync Database - Gerado automaticamente a partir do PCMI ITAMINAS
 // Total de Instrumentos Oficiais: {len(instruments)}
 // Total de Leituras Piezométricas Processadas: {len(piezo_readings)}
 // Total de Leituras de Vazão Processadas: {len(flow_readings)}
 
-window.GEOSYNC_DATABASE = {{
-    version: "pcmi-official-2026",
-    sourceFile: "Banco_De_Dados.xlsx",
-    extractedAt: "{datetime.now().isoformat()}",
-    summary: {{
-        totalInstruments: {len(instruments)},
-        totalReadings: {len(piezo_readings)},
-        totalFlowReadings: {len(flow_readings)},
-        structures: {json.dumps(structures_list, ensure_ascii=False)}
-    }},
-    instrumentRegistry: {json.dumps(instruments, indent=2, ensure_ascii=False)},
-    readings: {json.dumps(recent_readings, indent=2, ensure_ascii=False)},
-    flowReadings: {json.dumps(flow_readings, indent=2, ensure_ascii=False)}
-}};
+window.GEOSYNC_DATABASE = {json.dumps(master_db, indent=2, ensure_ascii=False)};
 
 window.INITIAL_INSTRUMENT_REGISTRY = window.GEOSYNC_DATABASE.instrumentRegistry;
 window.INITIAL_READINGS_DATABASE = window.GEOSYNC_DATABASE.readings;
@@ -472,18 +474,32 @@ window.INITIAL_FLOW_DATABASE = window.GEOSYNC_DATABASE.flowReadings;
     print(f"Salvo geosync-database.js ({len(instruments)} instrumentos)")
 
     # B) data/geoview-catalog.js & json
+    existing_catalog = {}
+    catalog_json_path = os.path.join(DATA_DIR, "geoview-catalog.json")
+    if os.path.exists(catalog_json_path):
+        try:
+            with open(catalog_json_path, "r", encoding="utf-8") as f:
+                existing_catalog = json.load(f)
+        except Exception:
+            pass
+
     catalog_payload = {
+        "version": existing_catalog.get("version", "2026-09-02-pcmi-live"),
+        "sourcePath": str(PCMI_ROOT).replace("\\", "/"),
         "generatedAt": datetime.now().isoformat(),
+        "summary": existing_catalog.get("summary", {}),
+        "dashboards": existing_catalog.get("dashboards", []),
         "totalInstruments": len(instruments),
         "structures": sorted(list(set(i["structure"] for i in instruments.values()))),
         "instruments": instruments,
         "operationalPoints": kmz_pois
     }
-    with open(os.path.join(DATA_DIR, "geoview-catalog.json"), "w", encoding="utf-8") as f:
+    with open(catalog_json_path, "w", encoding="utf-8") as f:
         json.dump(catalog_payload, f, indent=2, ensure_ascii=False)
     with open(os.path.join(DATA_DIR, "geoview-catalog.js"), "w", encoding="utf-8") as f:
-        f.write(f"window.GEOVIEW_CATALOG = {json.dumps(catalog_payload, indent=2, ensure_ascii=False)};\n")
-    print("Salvo geoview-catalog.js e json")
+        f.write(f"window.MDSYNC_GEOVIEW_CATALOG = {json.dumps(catalog_payload, indent=2, ensure_ascii=False)};\n")
+        f.write("window.GEOVIEW_CATALOG = window.MDSYNC_GEOVIEW_CATALOG;\n")
+    print(f"Salvo geoview-catalog.js e json ({len(catalog_payload['dashboards'])} dashboards, {len(instruments)} instrumentos)")
 
     # C) data/pluviometria.js
     recent_rain = sorted(pluviometria_records, key=lambda x: x.get("date") or "", reverse=True)[:1000]

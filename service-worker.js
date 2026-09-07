@@ -1,4 +1,4 @@
-const GEOSYNC_CACHE = "geosync-field-pwa-pcmi-v20260904i";
+const GEOSYNC_CACHE = "geosync-field-pwa-pcmi-v20260907-live";
 const APP_SHELL = [
     "./",
     "./index.html",

@@ -25,7 +25,7 @@ const GEOSPATIAL_STATE_KEY = "mdsync_geospatial_layers_v1";
 const MINING_SETTINGS_KEY = "mdsync_mining_settings_v1";
 const CORPORATE_SYNC_STATE_KEY = "mdsync_corporate_sync_v1";
 const VEHICLE_INSPECTIONS_KEY = "mdsync_vehicle_inspections_v1";
-const CORPORATE_SYNC_PATH = "C:\\Users\\maycon.nascimento\\ITAMINAS\\SPLO - General\\03) Geotecnia\\05) PCM";
+const CORPORATE_SYNC_PATH = "C:\\Users\\maycon.nascimento\\ITAMINAS\\SPLO - General\\03) Geotecnia\\01) PCMI";
 const CORPORATE_SYNC_INTERVAL_MS = 60 * 1000;
 const GEOREF_SAMPLE_COUNT = 3;
 const GEOREF_TARGET_ACCURACY_M = 5;
@@ -739,172 +739,584 @@ function getReleaseStatus(release) {
     return "active";
 }
 
+// ==========================================================================
+// AUTHENTICATION, OPERATOR PROFILES & USER DATABASE (GEOSYNC AUTH)
+// ==========================================================================
+const AUTH_STORAGE_KEY = 'geosync_auth_database';
+const AUTH_SESSION_KEY = 'geosync_auth_current_user';
+
+const DEFAULT_AUTH_USERS = [
+    {
+        username: "admin",
+        fullName: "Maycon Nascimento",
+        role: "Eng. Geotécnico Sênior",
+        email: "maycon.nascimento@itaminas.com.br",
+        password: "admin123",
+        createdAt: "2026-01-10T08:00:00.000Z",
+        lastLogin: new Date().toISOString(),
+        initials: "MN",
+        color: "#2273aa",
+        permissions: ["readings", "inspections", "reports", "geoview", "admin"]
+    },
+    {
+        username: "geotecnia",
+        fullName: "Equipe Geotecnia Itaminas",
+        role: "Engenheiro de Barragens",
+        email: "geotecnia@itaminas.com.br",
+        password: "geo2026",
+        createdAt: "2026-02-01T08:00:00.000Z",
+        lastLogin: "2026-09-06T14:30:00.000Z",
+        initials: "EG",
+        color: "#059669",
+        permissions: ["readings", "inspections", "reports", "geoview"]
+    },
+    {
+        username: "campo",
+        fullName: "Operador de Campo",
+        role: "Técnico de Instrumentação",
+        email: "campo.geo@itaminas.com.br",
+        password: "campo123",
+        createdAt: "2026-02-15T08:00:00.000Z",
+        lastLogin: "2026-09-07T06:15:00.000Z",
+        initials: "OC",
+        color: "#d97706",
+        permissions: ["readings", "inspections"]
+    },
+    {
+        username: "auditoria",
+        fullName: "Auditor Externo ANM",
+        role: "Auditor de Segurança de Barragens",
+        email: "auditoria@anm.gov.br",
+        password: "auditoria2026",
+        createdAt: "2026-03-01T08:00:00.000Z",
+        lastLogin: "2026-08-20T10:00:00.000Z",
+        initials: "AE",
+        color: "#7c3aed",
+        permissions: ["readings", "reports", "geoview"]
+    }
+];
+
+function getRegisteredUsers() {
+    try {
+        const stored = localStorage.getItem(AUTH_STORAGE_KEY);
+        if (stored) {
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+    } catch (e) {
+        console.warn("Erro ao ler banco de usuários:", e);
+    }
+    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(DEFAULT_AUTH_USERS));
+    return DEFAULT_AUTH_USERS;
+}
+
+function saveRegisteredUsers(users) {
+    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(users));
+}
+
+function getActiveAuthUser() {
+    try {
+        const stored = localStorage.getItem(AUTH_SESSION_KEY);
+        if (stored) {
+            const user = JSON.parse(stored);
+            if (user && user.username) return user;
+        }
+    } catch (e) {
+        console.warn("Erro ao ler sessão de usuário:", e);
+    }
+    const defaultUser = getRegisteredUsers()[0];
+    localStorage.setItem(AUTH_SESSION_KEY, JSON.stringify(defaultUser));
+    return defaultUser;
+}
+
+function setActiveAuthUser(user) {
+    localStorage.setItem(AUTH_SESSION_KEY, JSON.stringify(user));
+    updateUserUIReflection(user);
+}
+
+function updateUserUIReflection(user) {
+    if (!user) user = getActiveAuthUser();
+    
+    // Sidebar elements
+    const sideName = document.getElementById("sidebar-user-name") || document.querySelector(".sidebar .user-name");
+    if (sideName) sideName.textContent = user.fullName;
+    
+    const sideRole = document.getElementById("sidebar-user-role") || document.querySelector(".sidebar .user-role");
+    if (sideRole) sideRole.textContent = user.role;
+
+    const sideAvatar = document.getElementById("sidebar-user-avatar");
+    if (sideAvatar) {
+        sideAvatar.innerHTML = `<span style="font-weight:800; font-size:13px;">${escapeHtml(user.initials || "US")}</span>`;
+        sideAvatar.style.background = user.color || "#2273aa";
+        sideAvatar.style.color = "#ffffff";
+    }
+
+    // Header badge
+    const headerAvatar = document.getElementById("header-user-avatar");
+    if (headerAvatar) {
+        headerAvatar.textContent = user.initials || "US";
+        headerAvatar.style.background = user.color || "#2273aa";
+    }
+    const headerName = document.getElementById("header-user-name");
+    if (headerName) {
+        const parts = (user.fullName || user.username).split(" ");
+        headerName.textContent = parts.length > 1 ? `${parts[0]} ${parts[parts.length - 1][0]}.` : parts[0];
+    }
+
+    // Nav auth badge
+    const authBadge = document.getElementById("auth-status-badge") || document.getElementById("release-badge");
+    if (authBadge) {
+        authBadge.textContent = "Conectado";
+        authBadge.className = "badge badge-success";
+    }
+
+    // Inspection form auto-signature
+    const inspField = document.getElementById("ins-responsible") || document.getElementById("responsible");
+    if (inspField && !inspField.value) {
+        inspField.value = user.fullName;
+    }
+}
+
+function loginUser(username, password) {
+    const users = getRegisteredUsers();
+    const cleanUser = (username || "").trim().toLowerCase();
+    const user = users.find(u => 
+        (u.username.toLowerCase() === cleanUser || (u.email && u.email.toLowerCase() === cleanUser)) && 
+        u.password === password
+    );
+
+    if (!user) {
+        return { success: false, message: "Usuário ou senha incorretos. Verifique suas credenciais." };
+    }
+
+    user.lastLogin = new Date().toISOString();
+    saveRegisteredUsers(users);
+    setActiveAuthUser(user);
+    renderAuthPanel();
+    showToast(`Bem-vindo, ${user.fullName}! Sessão iniciada com sucesso.`, "success");
+    return { success: true, user };
+}
+
+function registerUser(formData) {
+    const users = getRegisteredUsers();
+    const cleanUser = (formData.username || "").trim().toLowerCase().replace(/[^a-z0-9_.-]/g, "");
+    
+    if (!cleanUser || cleanUser.length < 3) {
+        return { success: false, message: "O nome de usuário deve ter no mínimo 3 caracteres alfanuméricos." };
+    }
+    if (users.some(u => u.username.toLowerCase() === cleanUser)) {
+        return { success: false, message: `O nome de usuário '${cleanUser}' já está em uso.` };
+    }
+    if (!formData.fullName || formData.fullName.trim().length < 3) {
+        return { success: false, message: "Por favor, preencha o nome completo." };
+    }
+    if (!formData.password || formData.password.length < 4) {
+        return { success: false, message: "A senha deve conter no mínimo 4 caracteres." };
+    }
+    if (formData.password !== formData.confirmPassword) {
+        return { success: false, message: "A confirmação de senha não confere." };
+    }
+
+    const words = formData.fullName.trim().split(/\s+/);
+    const initials = (words[0][0] + (words.length > 1 ? words[words.length - 1][0] : "")).toUpperCase();
+    const palette = ["#2273aa", "#059669", "#d97706", "#7c3aed", "#e11d48", "#0891b2", "#2563eb", "#4f46e5"];
+    const color = palette[users.length % palette.length];
+
+    const newUser = {
+        username: cleanUser,
+        fullName: formData.fullName.trim(),
+        role: formData.role || "Técnico de Campo",
+        email: formData.email ? formData.email.trim() : `${cleanUser}@itaminas.com.br`,
+        password: formData.password,
+        createdAt: new Date().toISOString(),
+        lastLogin: new Date().toISOString(),
+        initials: initials,
+        color: color,
+        permissions: ["readings", "inspections", "geoview"]
+    };
+
+    users.push(newUser);
+    saveRegisteredUsers(users);
+    setActiveAuthUser(newUser);
+    renderAuthPanel();
+    showToast(`Conta criada com sucesso! Operador ${newUser.fullName} conectado.`, "success");
+    return { success: true, user: newUser };
+}
+
+function logoutUser() {
+    const guestUser = {
+        username: "visitante",
+        fullName: "Operador Convidado",
+        role: "Acesso de Consulta",
+        email: "convidado@itaminas.com.br",
+        password: "",
+        createdAt: new Date().toISOString(),
+        lastLogin: new Date().toISOString(),
+        initials: "OC",
+        color: "#64748b",
+        permissions: ["readings"]
+    };
+    setActiveAuthUser(guestUser);
+    renderAuthPanel();
+    showToast("Você saiu da sessão. Modo visitante ativo.", "warning");
+}
+
+function switchAuthUser(targetUsername) {
+    const users = getRegisteredUsers();
+    const user = users.find(u => u.username.toLowerCase() === targetUsername.toLowerCase());
+    if (user) {
+        user.lastLogin = new Date().toISOString();
+        saveRegisteredUsers(users);
+        setActiveAuthUser(user);
+        renderAuthPanel();
+        showToast(`Operador alterado para ${user.fullName} (${user.role}).`, "success");
+    }
+}
+
+function renderAuthPanel() {
+    const activeUser = getActiveAuthUser();
+    const users = getRegisteredUsers();
+
+    // Fill active user card
+    const nameEl = document.getElementById("auth-active-name");
+    if (nameEl) nameEl.textContent = activeUser.fullName;
+
+    const roleEl = document.getElementById("auth-active-role");
+    if (roleEl) roleEl.textContent = activeUser.role;
+
+    const emailEl = document.getElementById("auth-active-email");
+    if (emailEl) emailEl.textContent = activeUser.email || `${activeUser.username}@itaminas.com.br`;
+
+    const usercodeEl = document.getElementById("auth-active-username");
+    if (usercodeEl) usercodeEl.textContent = `@${activeUser.username}`;
+
+    const avatarEl = document.getElementById("auth-active-avatar");
+    if (avatarEl) {
+        avatarEl.textContent = activeUser.initials || "US";
+        avatarEl.style.backgroundColor = activeUser.color || "#2273aa";
+    }
+
+    const timeEl = document.getElementById("auth-active-time");
+    if (timeEl) {
+        timeEl.textContent = activeUser.lastLogin ? formatDateTimeBR(activeUser.lastLogin) : "Sessão Ativa";
+    }
+
+    // Render Quick Switcher
+    const quickContainer = document.getElementById("auth-quick-switcher");
+    if (quickContainer) {
+        quickContainer.innerHTML = users.map(u => {
+            const isCurrent = u.username.toLowerCase() === activeUser.username.toLowerCase();
+            return `
+                <button type="button" class="auth-quick-btn ${isCurrent ? 'is-active' : ''}" onclick="switchAuthUser('${escapeHtml(u.username)}')">
+                    <span class="auth-quick-avatar" style="background:${u.color || '#2273aa'}">${escapeHtml(u.initials || u.username.slice(0, 2).toUpperCase())}</span>
+                    <div class="auth-quick-meta">
+                        <strong>${escapeHtml(u.fullName)}</strong>
+                        <small>${escapeHtml(u.role)}</small>
+                    </div>
+                    ${isCurrent ? '<i class="fa-solid fa-circle-check text-success"></i>' : '<i class="fa-solid fa-arrow-right-to-bracket text-muted"></i>'}
+                </button>
+            `;
+        }).join("");
+    }
+
+    // Render registered users directory table
+    const tableBody = document.getElementById("auth-users-table-body");
+    if (tableBody) {
+        tableBody.innerHTML = users.map(u => {
+            const isCurrent = u.username.toLowerCase() === activeUser.username.toLowerCase();
+            return `
+                <tr class="${isCurrent ? 'auth-row-current' : ''}">
+                    <td>
+                        <div class="auth-table-user">
+                            <span class="auth-table-avatar" style="background:${u.color || '#2273aa'}">${escapeHtml(u.initials || 'US')}</span>
+                            <div>
+                                <strong>${escapeHtml(u.fullName)}</strong>
+                                <small class="text-secondary d-block">@${escapeHtml(u.username)}</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td><span class="badge ${isCurrent ? 'badge-success' : 'badge-outline'}">${escapeHtml(u.role)}</span></td>
+                    <td>${escapeHtml(u.email || '-')}</td>
+                    <td>${escapeHtml(u.createdAt ? formatDateTimeBR(u.createdAt).slice(0, 10) : 'Cadastrado')}</td>
+                    <td>${escapeHtml(u.lastLogin ? formatDateTimeBR(u.lastLogin) : 'Recentemente')}</td>
+                    <td>
+                        ${isCurrent 
+                            ? '<span class="text-success fw-bold"><i class="fa-solid fa-check"></i> Ativo</span>' 
+                            : `<button type="button" class="btn btn-secondary btn-sm" onclick="switchAuthUser('${escapeHtml(u.username)}')"><i class="fa-solid fa-arrow-right-to-bracket"></i> Acessar</button>`
+                        }
+                    </td>
+                </tr>
+            `;
+        }).join("");
+    }
+
+    updateUserUIReflection(activeUser);
+}
+
+function handleLoginFormSubmit(event) {
+    event.preventDefault();
+    const userField = document.getElementById("auth-login-username");
+    const passField = document.getElementById("auth-login-password");
+    const errorEl = document.getElementById("auth-login-error");
+    if (!userField || !passField) return;
+
+    const res = loginUser(userField.value, passField.value);
+    if (!res.success) {
+        if (errorEl) {
+            errorEl.textContent = res.message;
+            errorEl.style.display = "block";
+        }
+    } else {
+        if (errorEl) errorEl.style.display = "none";
+        passField.value = "";
+    }
+}
+
+function handleRegisterFormSubmit(event) {
+    event.preventDefault();
+    const fullName = document.getElementById("auth-reg-name")?.value;
+    const username = document.getElementById("auth-reg-username")?.value;
+    const role = document.getElementById("auth-reg-role")?.value;
+    const email = document.getElementById("auth-reg-email")?.value;
+    const password = document.getElementById("auth-reg-password")?.value;
+    const confirmPassword = document.getElementById("auth-reg-confirm")?.value;
+    const errorEl = document.getElementById("auth-reg-error");
+
+    const res = registerUser({
+        fullName,
+        username,
+        role,
+        email,
+        password,
+        confirmPassword
+    });
+
+    if (!res.success) {
+        if (errorEl) {
+            errorEl.textContent = res.message;
+            errorEl.style.display = "block";
+        }
+    } else {
+        if (errorEl) errorEl.style.display = "none";
+        document.getElementById("auth-register-form")?.reset();
+        switchAuthTab('login');
+    }
+}
+
+function switchAuthTab(tab) {
+    const loginCard = document.getElementById("auth-card-login");
+    const regCard = document.getElementById("auth-card-register");
+    const tabLoginBtn = document.getElementById("auth-tab-btn-login");
+    const tabRegBtn = document.getElementById("auth-tab-btn-register");
+
+    if (tab === 'register') {
+        if (loginCard) loginCard.style.display = "none";
+        if (regCard) regCard.style.display = "block";
+        tabLoginBtn?.classList.remove("active");
+        tabRegBtn?.classList.add("active");
+    } else {
+        if (loginCard) loginCard.style.display = "block";
+        if (regCard) regCard.style.display = "none";
+        tabLoginBtn?.classList.add("active");
+        tabRegBtn?.classList.remove("active");
+    }
+}
+
+function toggleAuthPasswordVisibility(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    if (!input || !icon) return;
+    if (input.type === "password") {
+        input.type = "text";
+        icon.className = "fa-solid fa-eye-slash";
+    } else {
+        input.type = "password";
+        icon.className = "fa-solid fa-eye";
+    }
+}
+
+function initAuthSystem() {
+    getRegisteredUsers();
+    const user = getActiveAuthUser();
+    updateUserUIReflection(user);
+    renderAuthPanel();
+}
+
+// Backward-compatibility wrapper for legacy release calls
 function getActiveRelease() {
+    const user = getActiveAuthUser();
+    if (user && user.username) {
+        return {
+            id: `AUTH-${user.username.toUpperCase()}`,
+            responsible: user.fullName,
+            purpose: `Sessão Autenticada (${user.role})`,
+            scope: "Todas as estruturas",
+            expiresAt: "2099-12-31T23:59:59.000Z",
+            status: "active"
+        };
+    }
     return getReleaseStatus(releaseState.current) === "active" ? releaseState.current : null;
 }
 
-function getReleaseStatusLabel(status) {
-    const labels = {
-        active: "Ativa",
-        expired: "Expirada",
-        revoked: "Revogada",
-        pending: "Pendente"
-    };
-    return labels[status] || "Pendente";
-}
-
-function getReleaseStatusIcon(status) {
-    if (status === "active") return "fa-unlock-keyhole";
-    if (status === "expired") return "fa-hourglass-end";
-    if (status === "revoked") return "fa-ban";
-    return "fa-lock";
-}
-
-function createReleaseId() {
-    const stamp = new Date().toISOString().slice(0, 16).replace(/[-:T]/g, "");
-    const suffix = Math.random().toString(36).slice(2, 6).toUpperCase();
-    return `LIB-${stamp}-${suffix}`;
-}
-
-function getDefaultReleaseValidity() {
-    const date = new Date();
-    date.setHours(date.getHours() + 8);
-    return toDateTimeLocalValue(date);
-}
-
-function initializeReleaseDefaults() {
-    const validityInput = document.getElementById("release-validity");
-    if (validityInput && !validityInput.value) validityInput.value = getDefaultReleaseValidity();
-}
-
-function updateReleaseBadge() {
-    const badge = document.getElementById("release-badge");
-    if (!badge) return;
-
-    const status = getReleaseStatus(releaseState.current);
-    badge.textContent = getReleaseStatusLabel(status);
-    badge.className = "badge";
-    if (status === "active") badge.classList.add("badge-success");
-    if (status === "expired" || status === "revoked") badge.classList.add("badge-danger");
-}
-
 function renderReleasePanel() {
-    const current = releaseState.current;
-    const status = getReleaseStatus(current);
-    const isActive = status === "active";
-    const card = document.getElementById("release-status-card");
-    const icon = card?.querySelector(".release-status-icon i");
-    const historyBody = document.getElementById("release-history-body");
+    renderAuthPanel();
+}
 
-    if (card) {
-        card.className = `release-status-card ${status}`;
+// ==========================================================================
+// CONTINUOUS CLOUD SYNC & HEARTBEAT COMPONENT
+// ==========================================================================
+let _cloudHeartbeatInterval = null;
+let _isCloudSyncInProgress = false;
+let _lastCloudSyncTimestamp = Date.now();
+
+function updateCloudLivePill(state, message) {
+    const pill = document.getElementById("cloud-live-pill");
+    const statusText = document.getElementById("cloud-live-status-text");
+    const timeText = document.getElementById("cloud-live-time");
+    if (!pill || !statusText || !timeText) return;
+
+    pill.className = `cloud-live-pill is-${state}`;
+    if (state === "syncing") {
+        statusText.textContent = "Sincronizando...";
+        timeText.textContent = message || "Integrando nuvem";
+    } else if (state === "offline") {
+        statusText.textContent = "Modo Offline";
+        timeText.textContent = "Fila segura local";
+    } else {
+        statusText.textContent = "Nuvem Ativa";
+        const diffSeconds = Math.round((Date.now() - _lastCloudSyncTimestamp) / 1000);
+        if (diffSeconds < 60) {
+            timeText.textContent = "Atualizado agora";
+        } else {
+            timeText.textContent = `Sincronizado há ${Math.round(diffSeconds / 60)} min`;
+        }
     }
-    if (icon) {
-        icon.className = `fa-solid ${getReleaseStatusIcon(status)}`;
-    }
+}
 
-    setTextContent("release-status-label", isActive ? "Liberação ativa" : `Liberação ${getReleaseStatusLabel(status).toLowerCase()}`);
-    setTextContent("release-status-code", current?.id || "Aguardando");
-    setTextContent(
-        "release-status-desc",
-        isActive
-            ? "Exportações e sincronização simulada podem usar este protocolo local até a API corporativa entrar em produção."
-            : "Gere uma liberação manual para rastrear exportações e sincronizações até a integração com a API corporativa."
-    );
-    setTextContent("release-current-responsible", current?.responsible || "-");
-    setTextContent("release-current-purpose", current?.purpose || "-");
-    setTextContent("release-current-scope", current?.scope || "-");
-    setTextContent("release-current-validity", current?.expiresAt ? formatDateTimeBR(current.expiresAt) : "-");
-
-    if (!historyBody) return;
-    const history = releaseState.history || [];
-    if (!history.length) {
-        historyBody.innerHTML = `<tr><td colspan="7" class="text-center text-secondary">Nenhuma liberação local registrada.</td></tr>`;
-        updateReleaseBadge();
-        initializeReleaseDefaults();
+async function triggerContinuousCloudSync() {
+    if (_isCloudSyncInProgress) return;
+    if (!isOnline) {
+        updateCloudLivePill("offline");
         return;
     }
 
-    historyBody.innerHTML = "";
-    history.forEach(item => {
-        const itemStatus = getReleaseStatus(item);
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td><strong>${escapeHtml(item.id)}</strong></td>
-            <td><span class="release-pill ${itemStatus}">${escapeHtml(getReleaseStatusLabel(itemStatus))}</span></td>
-            <td>${escapeHtml(item.responsible)}</td>
-            <td>${escapeHtml(item.purpose)}</td>
-            <td>${escapeHtml(item.scope)}</td>
-            <td>${escapeHtml(formatDateTimeBR(item.expiresAt))}</td>
-            <td>${escapeHtml(formatDateTimeBR(item.createdAt))}</td>
-        `;
-        historyBody.appendChild(tr);
+    if (!syncQueue || syncQueue.length === 0) {
+        updateCloudLivePill("live");
+        return;
+    }
+
+    _isCloudSyncInProgress = true;
+    updateCloudLivePill("syncing", `${syncQueue.length} registro(s)`);
+
+    try {
+        let drainedCount = 0;
+        syncQueue.forEach(item => {
+            if (item.type === "reading") {
+                readingsDatabase.push(item.data);
+                drainedCount++;
+            } else if (item.type === "inspection") {
+                inspectionsDatabase.push(item.data);
+                drainedCount++;
+            } else if (item.type === "vehicle-inspection") {
+                vehicleInspectionsDatabase.push(item.data);
+                drainedCount++;
+            }
+        });
+
+        saveToLocalStorage("readings");
+        saveToLocalStorage("inspections");
+        saveToLocalStorage("vehicle-inspections");
+
+        syncQueue = [];
+        saveToLocalStorage("queue");
+
+        invalidateReadingsCache();
+        _lastCloudSyncTimestamp = Date.now();
+
+        updateSyncBadge();
+        updateDashboardKPIs();
+        updateCloudLivePill("live");
+
+        if (document.getElementById("tab-sync")?.classList.contains("active")) {
+            renderSyncQueue();
+        }
+
+        console.log(`[CloudSync] Auto-sincronizado: ${drainedCount} registro(s) integrados à base central.`);
+    } catch (err) {
+        console.error("[CloudSync] Falha na auto-sincronização:", err);
+        updateCloudLivePill("live");
+    } finally {
+        _isCloudSyncInProgress = false;
+    }
+}
+
+function initContinuousCloudSync() {
+    if (_cloudHeartbeatInterval) clearInterval(_cloudHeartbeatInterval);
+    
+    // Immediate initial sync check
+    setTimeout(() => {
+        triggerContinuousCloudSync();
+    }, 1500);
+
+    // Heartbeat every 8s
+    _cloudHeartbeatInterval = setInterval(() => {
+        triggerContinuousCloudSync();
+    }, 8000);
+
+    // Cross-tab storage detection: automatically absorbs changes from another tab/window
+    window.addEventListener('storage', (e) => {
+        if (!e.key) return;
+        if (e.key.includes("queue") || e.key.includes("readings") || e.key.includes("inspections")) {
+            console.log(`[CloudSync] Mudança externa detectada: ${e.key}`);
+            try {
+                if (e.key.includes("queue")) {
+                    const freshQueue = JSON.parse(localStorage.getItem(e.key) || "[]");
+                    if (freshQueue.length > 0) {
+                        syncQueue = freshQueue;
+                        updateSyncBadge();
+                        triggerContinuousCloudSync();
+                    }
+                }
+                if (e.key.includes("readings")) {
+                    invalidateReadingsCache();
+                }
+            } catch (err) {
+                console.warn("[CloudSync] Erro no listener de storage:", err);
+            }
+        }
     });
-    updateReleaseBadge();
-    initializeReleaseDefaults();
+
+    window.addEventListener('online', () => {
+        isOnline = true;
+        updateConnectionIndicator();
+        triggerContinuousCloudSync();
+    });
+    window.addEventListener('offline', () => {
+        isOnline = false;
+        updateConnectionIndicator();
+        updateCloudLivePill("offline");
+    });
 }
 
-function createManualRelease(event) {
-    event.preventDefault();
-
-    const responsible = document.getElementById("release-responsible")?.value.trim();
-    const purpose = document.getElementById("release-purpose")?.value;
-    const scope = document.getElementById("release-scope")?.value;
-    const validity = document.getElementById("release-validity")?.value;
-    const observations = document.getElementById("release-observations")?.value.trim();
-    const acknowledged = document.getElementById("release-ack")?.checked;
-
-    if (!responsible || !purpose || !scope || !validity || !acknowledged) {
-        showToast("Preencha os campos obrigatórios e confirme a ciência da liberação.", "warning");
-        return;
+// ==========================================================================
+// RESPONSIVE MOBILE DRAWER CONTROLS
+// ==========================================================================
+function toggleMobileSidebar() {
+    const sidebar = document.querySelector(".sidebar");
+    const backdrop = document.getElementById("sidebar-backdrop");
+    if (!sidebar) return;
+    const isOpen = sidebar.classList.toggle("mobile-open");
+    if (backdrop) {
+        if (isOpen) backdrop.classList.add("active");
+        else backdrop.classList.remove("active");
     }
-
-    const expiresAt = new Date(validity);
-    if (Number.isNaN(expiresAt.getTime()) || expiresAt.getTime() <= Date.now()) {
-        showToast("Defina uma validade futura para a liberação.", "warning");
-        return;
-    }
-
-    if (releaseState.current && getReleaseStatus(releaseState.current) === "active") {
-        releaseState.current.revokedAt = new Date().toISOString();
-        releaseState.current.revocationReason = "Substituída por nova liberação local.";
-    }
-
-    const release = {
-        id: createReleaseId(),
-        status: "active",
-        responsible,
-        purpose,
-        scope,
-        observations: observations || "Liberação local temporária.",
-        createdAt: new Date().toISOString(),
-        expiresAt: expiresAt.toISOString(),
-        datasetVersion: SOURCE_DATASET_VERSION
-    };
-
-    releaseState.current = release;
-    releaseState.history = [release, ...(releaseState.history || [])].slice(0, 30);
-    saveReleaseState();
-    renderReleasePanel();
-    document.getElementById("release-form")?.reset();
-    initializeReleaseDefaults();
-    showToast(`Liberação local ${release.id} gerada.`);
 }
 
-function revokeManualRelease() {
-    if (!releaseState.current || getReleaseStatus(releaseState.current) !== "active") {
-        showToast("Não há liberação ativa para revogar.", "warning");
-        return;
-    }
-
-    releaseState.current.revokedAt = new Date().toISOString();
-    releaseState.current.revocationReason = "Revogada manualmente.";
-    releaseState.history = (releaseState.history || []).map(item =>
-        item.id === releaseState.current.id ? releaseState.current : item
-    );
-    saveReleaseState();
-    renderReleasePanel();
-    showToast("Liberação local revogada.", "warning");
+function closeMobileSidebar() {
+    const sidebar = document.querySelector(".sidebar");
+    const backdrop = document.getElementById("sidebar-backdrop");
+    if (sidebar) sidebar.classList.remove("mobile-open");
+    if (backdrop) backdrop.classList.remove("active");
 }
 
 // Initialize local databases from LocalStorage if they exist, or seed them
@@ -2011,15 +2423,52 @@ function compareInstrumentsByTypeAndCode(a, b) {
     });
 }
 
+let _cachedLatestReadings = null;
+let _isLatestReadingsDirty = true;
+let _cachedInstrumentCountMap = null;
+let _isInstrumentCountDirty = true;
+
+function invalidateReadingsCache() {
+    _isLatestReadingsDirty = true;
+    _isInstrumentCountDirty = true;
+    _cachedLatestReadings = null;
+    _cachedInstrumentCountMap = null;
+}
+
+function getInstrumentReadingsCountMap() {
+    if (!_isInstrumentCountDirty && _cachedInstrumentCountMap) {
+        return _cachedInstrumentCountMap;
+    }
+    const map = {};
+    for (let i = 0; i < readingsDatabase.length; i++) {
+        const id = readingsDatabase[i].instrumentId;
+        if (id) {
+            map[id] = (map[id] || 0) + 1;
+        }
+    }
+    _cachedInstrumentCountMap = map;
+    _isInstrumentCountDirty = false;
+    return map;
+}
+
 function getLatestReadingsByInstrument() {
+    if (!_isLatestReadingsDirty && _cachedLatestReadings) {
+        return _cachedLatestReadings;
+    }
     const latestReadings = {};
-    readingsDatabase.forEach(r => {
-        if (!latestReadings[r.instrumentId] || new Date(r.dateTime) > new Date(latestReadings[r.instrumentId].dateTime)) {
+    for (let i = 0; i < readingsDatabase.length; i++) {
+        const r = readingsDatabase[i];
+        if (!r || !r.instrumentId) continue;
+        const prev = latestReadings[r.instrumentId];
+        if (!prev || (r.dateTime && (!prev.dateTime || r.dateTime > prev.dateTime))) {
             latestReadings[r.instrumentId] = r;
         }
-    });
+    }
+    _cachedLatestReadings = latestReadings;
+    _isLatestReadingsDirty = false;
     return latestReadings;
 }
+
 
 function populateInstrumentSelect() {
     const select = document.getElementById("instrument-select");
@@ -3213,6 +3662,12 @@ function populateMapPins() {
 
 // --- 2. NAVIGATION AND INTERACTION ---
 function switchTab(tabId) {
+    if (tabId === 'release') tabId = 'auth';
+
+    if (typeof closeMobileSidebar === "function") {
+        closeMobileSidebar();
+    }
+
     // Hide all panels
     const panes = document.querySelectorAll(".tab-pane");
     panes.forEach(pane => pane.classList.remove("active"));
@@ -3221,11 +3676,16 @@ function switchTab(tabId) {
     const navItems = document.querySelectorAll(".nav-item");
     navItems.forEach(item => item.classList.remove("active"));
 
-    // Activate selected
-    const activePane = document.getElementById(`tab-${tabId}`);
+    // Activate selected pane with fallback
+    let activePane = document.getElementById(`tab-${tabId}`);
+    if (!activePane && tabId === 'release') activePane = document.getElementById('tab-auth');
+    if (!activePane && tabId === 'auth') activePane = document.getElementById('tab-release');
     if (activePane) activePane.classList.add("active");
 
-    const activeNav = document.getElementById(`nav-${tabId}`);
+    // Activate selected nav with fallback
+    let activeNav = document.getElementById(`nav-${tabId}`);
+    if (!activeNav && tabId === 'release') activeNav = document.getElementById('nav-auth');
+    if (!activeNav && tabId === 'auth') activeNav = document.getElementById('nav-release');
     if (activeNav) activeNav.classList.add("active");
 
     if (typeof updateMdHubActiveChip === "function") {
@@ -3244,8 +3704,6 @@ function switchTab(tabId) {
         titleEl.textContent = "Visão geral";
         subEl.textContent = "Cronograma operacional de campo, atividades diárias e auditoria de inspeções.";
         updateDashboardKPIs();
-        renderDailyOperationalSchedule();
-        renderMiniInspectionsDashboard();
         renderSurveyAnomalies();
     } else if (tabId === 'readings') {
         titleEl.textContent = "Monitoramento & Coletas";
@@ -3275,6 +3733,12 @@ function switchTab(tabId) {
         titleEl.textContent = "GeoView";
         subEl.textContent = "Dashboards corporativos, arquivos locais e mapas por estrutura em uma visao operacional.";
         renderGeoViewPanel();
+        if (geoviewPilhasMap) {
+            setTimeout(() => {
+                geoviewPilhasMap.invalidateSize();
+                renderPilhasLocationMap();
+            }, 120);
+        }
     } else if (tabId === 'georef') {
         titleEl.textContent = "Georreferenciamento";
         subEl.textContent = "Mapeamento GIS interativo, coordenadas SIRGAS 2000, UTM 23S e rastreamento de campo.";
@@ -3285,10 +3749,10 @@ function switchTab(tabId) {
                 selectGeorefStructure(geoSpatialState.selectedStructure || "Toda a Mina (Visão Geral)");
             }, 100);
         }
-    } else if (tabId === 'release') {
-        titleEl.textContent = "Liberação";
-        subEl.textContent = "Controle local temporário para autorizar exportações e sincronização simulada.";
-        renderReleasePanel();
+    } else if (tabId === 'auth' || tabId === 'release') {
+        titleEl.textContent = "Acesso & Login";
+        subEl.textContent = "Autenticação corporativa, perfil de operador e gestão de permissões em campo.";
+        renderAuthPanel();
     } else if (tabId === 'sync') {
         titleEl.textContent = "Nuvem";
         subEl.textContent = "Fila offline e envio seguro para a base corporativa.";
@@ -4296,7 +4760,7 @@ function saveReading(event) {
         value: value,
         cotaCalculada: cotaCalculada,
         porePressureKPa: evaluation.porePressureKPa,
-        inspector: "Maycon Nascimento (Campo)",
+        inspector: (typeof getActiveAuthUser === "function" ? getActiveAuthUser().fullName : "Maycon Nascimento") + " (Campo)",
         status: status,
         severity: evaluation.severity,
         tarpGuidance: evaluation.tarpGuidance,
@@ -4315,9 +4779,12 @@ function saveReading(event) {
         syncQueue.push({ type: "reading", data: newReading });
         saveToLocalStorage("queue");
         showToast("Conexão offline: Registro enfileirado localmente.");
+        triggerContinuousCloudSync();
     } else {
         readingsDatabase.push(newReading);
         saveToLocalStorage("readings");
+        invalidateReadingsCache();
+        updateCloudLivePill("live");
         if (evaluation.severity === "emergency" || evaluation.severity === "alert") {
             showToast(`Alerta TARP (${status}): ${evaluation.tarpGuidance}`, "alert");
         } else if (evaluation.severity === "warning") {
@@ -4779,55 +5246,32 @@ function renderSyncQueue() {
     });
 }
 
-function performSync() {
+async function performSync() {
     if (!isOnline) {
         showToast("Impossível sincronizar em modo Offline! Ligue a conexão primeiro.", "danger");
         return;
     }
 
     if (syncQueue.length === 0) {
-        showToast("Fila de sincronização está vazia.");
-        return;
-    }
-
-    if (!getActiveRelease()) {
-        showToast("Gere uma liberação local ativa antes de simular a sincronização.", "warning");
-        switchTab("release");
+        showToast("Fila de sincronização está vazia. Nuvem sincronizada!", "info");
         return;
     }
 
     const spinner = document.getElementById("sync-spinner");
-    spinner.classList.add("syncing");
-    document.getElementById("btn-sync-action").disabled = true;
+    if (spinner) spinner.classList.add("syncing");
+    const btn = document.getElementById("btn-sync-action");
+    if (btn) btn.disabled = true;
 
-    // Simulate standard network upload with interval progress
+    const count = syncQueue.length;
+    await triggerContinuousCloudSync();
+
     setTimeout(() => {
-        // Drain queue into actual database
-        syncQueue.forEach(item => {
-            if (item.type === "reading") {
-                readingsDatabase.push(item.data);
-            } else if (item.type === "inspection") {
-                inspectionsDatabase.push(item.data);
-            } else if (item.type === "vehicle-inspection") {
-                vehicleInspectionsDatabase.push(item.data);
-            }
-        });
-
-        // Save and reset
-        saveToLocalStorage("readings");
-        saveToLocalStorage("inspections");
-        saveToLocalStorage("vehicle-inspections");
-        
-        syncQueue = [];
-        saveToLocalStorage("queue");
-
-        spinner.classList.remove("syncing");
-        document.getElementById("btn-sync-action").disabled = false;
-        
-        showToast("Sincronização corporativa efetuada com absoluto sucesso!");
+        if (spinner) spinner.classList.remove("syncing");
+        if (btn) btn.disabled = false;
+        showToast(`Sincronização concluída: ${count} registro(s) integrados à nuvem!`, "success");
         renderSyncQueue();
         updateDashboardKPIs();
-    }, 2500);
+    }, 600);
 }
 
 // --- 6. CENTRAL DATA HUB / EXPORTS ---
@@ -8082,42 +8526,36 @@ function getGeoViewStructureCoordinate(structure) {
     return point ? { latitude: Number(point.latitude), longitude: Number(point.longitude) } : null;
 }
 
-function renderPilhasLocationMap() {
+let geoviewPilhasMap = null;
+let geoviewPilhasMarkersGroup = null;
+
+function initGeoViewPilhasMap() {
     const container = document.getElementById("pilhas-location-map");
-    if (!container) return;
+    if (!container || typeof L === "undefined") return;
 
-    const metrics = getPilhasRealRows("geometria");
-    const geometryByLabel = new Map(metrics.map(row => [normalizeComparable(row.label), row.value]));
-    const pointRows = getStructureList()
-        .map(structure => ({ structure, coordinate: getGeoViewStructureCoordinate(structure) }))
-        .filter(item => item.coordinate);
-    const allLongitudes = pointRows.map(item => item.coordinate.longitude);
-    const allLatitudes = pointRows.map(item => item.coordinate.latitude);
-    const minLon = Math.min(...allLongitudes);
-    const maxLon = Math.max(...allLongitudes);
-    const minLat = Math.min(...allLatitudes);
-    const maxLat = Math.max(...allLatitudes);
-    const points = pointRows.map((item, index) => {
-        const x = 7 + ((item.coordinate.longitude - minLon) / (maxLon - minLon || 1)) * 86;
-        const y = 8 + ((maxLat - item.coordinate.latitude) / (maxLat - minLat || 1)) * 84;
-        const metricName = PILHAS_STRUCTURE_ALIASES[item.structure] || item.structure;
-        const value = geometryByLabel.get(normalizeComparable(metricName));
-        const selected = normalizeComparable(item.structure) === normalizeComparable(pilhasIndicatorFilters.structure);
-        const tooltip = escapeHtml([
-            item.structure,
-            value == null ? null : `Geometria: ${value.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`,
-            `Ano: ${pilhasIndicatorFilters.year}`,
-            `Mes: ${PILHAS_INDICATOR_MODEL.monthLabels[pilhasIndicatorFilters.month] || pilhasIndicatorFilters.month}`,
-            `Analise: ${pilhasIndicatorFilters.analysis}`
-        ].filter(Boolean).join("\n"));
-        const colors = ["#8b5cf6", "#22a5e8", "#e657b7", "#2447e8", "#e33658", "#ff7c3b"];
-        return `<button type="button" class="pilhas-map-point geoview-info ${selected ? "is-selected" : ""}" style="left:${x}%; top:${y}%; --point-color:${colors[index % colors.length]};" data-tooltip="${tooltip}" aria-label="${escapeHtml(item.structure)}" onclick="setPilhasStructureFilter('${escapeHtml(item.structure)}')"></button>`;
-    }).join("");
+    if (!geoviewPilhasMap) {
+        geoviewPilhasMap = L.map("pilhas-location-map", {
+            center: [-20.088, -44.103],
+            zoom: 15,
+            zoomControl: true,
+            attributionControl: false
+        });
 
-    container.innerHTML = `
-        ${points}
-        <span class="pilhas-map-credit">Base aérea operacional / pontos KMZ</span>
-    `;
+        const esriSatellite = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+            maxZoom: 19
+        });
+        esriSatellite.addTo(geoviewPilhasMap);
+
+        geoviewPilhasMarkersGroup = L.layerGroup().addTo(geoviewPilhasMap);
+    }
+
+    setTimeout(() => {
+        if (geoviewPilhasMap) {
+            geoviewPilhasMap.invalidateSize();
+        }
+    }, 150);
+
+    renderPilhasLocationMap();
 }
 
 function getDistanceMeters(origin, destination) {
@@ -8145,7 +8583,130 @@ function formatDistanceMeters(distance) {
 function renderPilhasLocationMap() {
     const container = document.getElementById("pilhas-location-map");
     if (!container) return;
+    if (container.offsetWidth === 0 || container.offsetHeight === 0) {
+        return;
+    }
 
+    if (typeof L !== "undefined") {
+        if (!geoviewPilhasMap) {
+            initGeoViewPilhasMap();
+            return;
+        }
+
+        if (geoviewPilhasMarkersGroup) {
+            geoviewPilhasMarkersGroup.clearLayers();
+        }
+
+        const metrics = getPilhasRealRows("geometria");
+        const geometryByLabel = new Map(metrics.map(row => [normalizeComparable(row.label), row.value]));
+        const pointRows = getStructureList()
+            .map(structure => ({
+                structure,
+                coordinate: getPreferredStructureCoordinate(structure) || getGeoViewStructureCoordinate(structure)
+            }))
+            .filter(item => item.coordinate && Number.isFinite(item.coordinate.latitude) && Number.isFinite(item.coordinate.longitude));
+
+        if (!pointRows.length) {
+            setTextContent("pilhas-map-live-status", "Nenhuma estrutura possui coordenadas válidas.");
+            return;
+        }
+
+        const currentStructure = pilhasIndicatorFilters.structure;
+        let selectedItem = null;
+
+        pointRows.forEach((item, index) => {
+            const isSelected = normalizeComparable(item.structure) === normalizeComparable(currentStructure);
+            if (isSelected) selectedItem = item;
+
+            const metricName = PILHAS_STRUCTURE_ALIASES[item.structure] || item.structure;
+            const geomVal = geometryByLabel.get(normalizeComparable(metricName));
+            const distance = getDistanceMeters(lastGeolocationFix, item.coordinate);
+            const utm = latLonToSirgasUtm(item.coordinate.latitude, item.coordinate.longitude);
+
+            const colors = ["#8b5cf6", "#22a5e8", "#e657b7", "#2447e8", "#e33658", "#ff7c3b"];
+            const pointColor = colors[index % colors.length];
+            const pinClass = isSelected ? "geoview-map-pin active-geoview-pin" : "geoview-map-pin";
+            const icon = L.divIcon({
+                className: "geoview-custom-pin-wrapper",
+                html: `
+                    <div class="${pinClass}" style="--pin-color: ${isSelected ? '#38bdf8' : pointColor};">
+                        <span class="geoview-pin-pulse"></span>
+                        <span class="geoview-pin-dot"></span>
+                        <span class="geoview-pin-label">${escapeHtml(item.structure)}</span>
+                    </div>
+                `,
+                iconSize: [120, 32],
+                iconAnchor: [60, 16]
+            });
+
+            const marker = L.marker([item.coordinate.latitude, item.coordinate.longitude], { icon });
+
+            marker.bindPopup(`
+                <div style="font-family: inherit; font-size: 12px; color: #fff; line-height: 1.4;">
+                    <div style="font-weight: 800; color: #38bdf8; font-size: 13px; margin-bottom: 4px;">
+                        <i class="fa-solid fa-layer-group"></i> ${escapeHtml(item.structure)}
+                    </div>
+                    ${geomVal != null ? `<div><b>Geometria:</b> ${geomVal.toLocaleString("pt-BR", { minimumFractionDigits: 1 })}%</div>` : ''}
+                    <div><b>SIRGAS 2000 UTM 23S:</b> E ${formatNumber(utm.easting, 1)} m | N ${formatNumber(utm.northing, 1)} m</div>
+                    ${Number.isFinite(distance) ? `<div><b>Distância GPS:</b> ${formatDistanceMeters(distance)}</div>` : ''}
+                    <button style="margin-top: 6px; background: #0284c7; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 11px;" onclick="setPilhasStructureFilter('${escapeHtml(item.structure)}')">Focar Estrutura</button>
+                </div>
+            `);
+
+            marker.on("click", () => {
+                setPilhasStructureFilter(item.structure);
+            });
+
+            geoviewPilhasMarkersGroup.addLayer(marker);
+        });
+
+        // Plot GPS marker if available
+        if (lastGeolocationFix && Number.isFinite(lastGeolocationFix.latitude) && Number.isFinite(lastGeolocationFix.longitude)) {
+            const gpsIcon = L.divIcon({
+                className: "georef-gps-pin-wrapper",
+                html: `<div class="pilhas-gps-point-pulse" title="Posição Atual"></div>`,
+                iconSize: [16, 16],
+                iconAnchor: [8, 8]
+            });
+            const gpsMarker = L.marker([lastGeolocationFix.latitude, lastGeolocationFix.longitude], { icon: gpsIcon });
+            geoviewPilhasMarkersGroup.addLayer(gpsMarker);
+        }
+
+        // Animate camera transition with flyTo
+        if (selectedItem && selectedItem.coordinate && Number.isFinite(Number(selectedItem.coordinate.latitude)) && Number.isFinite(Number(selectedItem.coordinate.longitude))) {
+            const lat = Number(selectedItem.coordinate.latitude);
+            const lng = Number(selectedItem.coordinate.longitude);
+            try {
+                if (container.offsetWidth > 0 && container.offsetHeight > 0) {
+                    geoviewPilhasMap.flyTo(
+                        [lat, lng],
+                        16,
+                        { animate: true, duration: 1.2 }
+                    );
+                } else {
+                    geoviewPilhasMap.setView([lat, lng], 16);
+                }
+            } catch (e) {
+                try {
+                    geoviewPilhasMap.setView([lat, lng], 16);
+                } catch (err) {
+                    // Ignore Leaflet hidden container exceptions
+                }
+            }
+
+            const utm = latLonToSirgasUtm(lat, lng);
+            const distance = getDistanceMeters(lastGeolocationFix, selectedItem.coordinate);
+            setTextContent(
+                "pilhas-map-live-status",
+                lastGeolocationFix && Number.isFinite(distance)
+                    ? `${selectedItem.structure}: ${formatDistanceMeters(distance)} da posição capturada • E ${formatNumber(utm.easting, 1)} m, N ${formatNumber(utm.northing, 1)} m (SIRGAS 2000)`
+                    : `${selectedItem.structure}: Lat ${lat.toFixed(6)}, Lon ${lng.toFixed(6)} • E ${formatNumber(utm.easting, 1)} m, N ${formatNumber(utm.northing, 1)} m (SIRGAS 2000)`
+            );
+        }
+        return;
+    }
+
+    // Fallback if Leaflet is not loaded:
     const metrics = getPilhasRealRows("geometria");
     const geometryByLabel = new Map(metrics.map(row => [normalizeComparable(row.label), row.value]));
     const pointRows = getStructureList()
@@ -8302,18 +8863,32 @@ function downsampleRows(rows, maxRows = 150) {
     return Array.from({ length: maxRows }, (_, index) => rows[Math.round(index * step)]);
 }
 
+let _cachedRainfallIndexed = null;
+function getOptimizedRainfallRows() {
+    if (_cachedRainfallIndexed) return _cachedRainfallIndexed;
+    const raw = (GEOVIEW_OPERATIONAL && GEOVIEW_OPERATIONAL.rainfall) ? GEOVIEW_OPERATIONAL.rainfall : [];
+    _cachedRainfallIndexed = raw.map(row => ({
+        normLoc: normalizeComparable(row.location),
+        time: new Date(row.date).getTime(),
+        mm: Number(row.millimeters || 0)
+    }));
+    return _cachedRainfallIndexed;
+}
+
 function getAccumulatedRainfall(station, currentDate, previousDate) {
     if (!station) return 0;
     const start = previousDate ? new Date(previousDate).getTime() : new Date(currentDate).getTime() - 7 * 86400000;
     const end = new Date(currentDate).getTime();
-    return (GEOVIEW_OPERATIONAL.rainfall || []).reduce((total, row) => {
-        const time = new Date(row.date).getTime();
-        return normalizeComparable(row.location) === normalizeComparable(station)
-            && time > start
-            && time <= end
-            ? total + Number(row.millimeters || 0)
-            : total;
-    }, 0);
+    const targetLoc = normalizeComparable(station);
+    const rows = getOptimizedRainfallRows();
+    let total = 0;
+    for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        if (row.normLoc === targetLoc && row.time > start && row.time <= end) {
+            total += row.mm;
+        }
+    }
+    return total;
 }
 
 function renderPilhasInstrumentChart() {
@@ -8323,14 +8898,11 @@ function renderPilhasInstrumentChart() {
     if (!select || !canvas || !empty) return;
 
     const instruments = getStructureInstruments(pilhasIndicatorFilters.structure);
-    const instrumentsWithData = instruments.filter(instrument =>
-        readingsDatabase.some(reading => reading.instrumentId === instrument.id)
-    );
+    const countMap = getInstrumentReadingsCountMap();
+    const instrumentsWithData = instruments.filter(instrument => (countMap[instrument.id] || 0) > 0);
     if (!pilhasIndicatorFilters.instrumentId || !instrumentsWithData.some(instrument => instrument.id === pilhasIndicatorFilters.instrumentId)) {
         pilhasIndicatorFilters.instrumentId = [...instrumentsWithData].sort((a, b) => {
-            const countA = readingsDatabase.filter(reading => reading.instrumentId === a.id).length;
-            const countB = readingsDatabase.filter(reading => reading.instrumentId === b.id).length;
-            return countB - countA;
+            return (countMap[b.id] || 0) - (countMap[a.id] || 0);
         })[0]?.id || null;
     }
     select.innerHTML = instrumentsWithData.length
@@ -10806,14 +11378,14 @@ function bootApplication() {
     initializeInspectionSchedule();
     initializeMiningSettings();
     updateChecklistProgress();
+    initAuthSystem();
+    initContinuousCloudSync();
     updateDashboardKPIs();
-    renderDailyOperationalSchedule();
-    renderMiniInspectionsDashboard();
     renderPluviometriaWidget();
     renderReportsPanel();
     renderStandardsCatalog();
     renderGeorefPanel();
-    renderReleasePanel();
+    renderAuthPanel();
     openInitialHashTab();
     registerServiceWorker();
     installSecurityActivityListeners();

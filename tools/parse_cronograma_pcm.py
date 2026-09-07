@@ -4,9 +4,11 @@ import json
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 
-EXCEL_PATH = r"C:\Users\maycon.nascimento\OneDrive - ITAMINAS\Documentos\Work\Project Comunication 2026\CronogramaPCM.xlsx"
-OUTPUT_JSON = r"C:\Users\maycon.nascimento\.gemini\antigravity\scratch\geotech-field-app\data\cronograma-pcm.json"
-OUTPUT_JS = r"C:\Users\maycon.nascimento\.gemini\antigravity\scratch\geotech-field-app\data\cronograma-pcm.js"
+PCMI_ROOT = r"C:\Users\maycon.nascimento\ITAMINAS\SPLO - General\03) Geotecnia\01) PCMI"
+EXCEL_PATH = os.path.join(PCMI_ROOT, r"00) Gestão à Vista\00) Cronograma PCMI\CronogramaPCM.xlsx")
+DATA_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data"))
+OUTPUT_JSON = os.path.join(DATA_DIR, "cronograma-pcm.json")
+OUTPUT_JS = os.path.join(DATA_DIR, "cronograma-pcm.js")
 
 CANONICAL_STRUCTURES = {
     "B1": "Barragem B1",

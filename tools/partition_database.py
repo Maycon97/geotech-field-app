@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 MDSync Database Partitioner
 Converte o banco monolitico geosync-database.js (15.4MB) em:
@@ -48,6 +48,11 @@ def extract_json_from_js(file_path: Path) -> dict:
 
 def partition_database():
     STRUCTURES_DIR.mkdir(parents=True, exist_ok=True)
+    for old_file in STRUCTURES_DIR.glob("*.json"):
+        try:
+            old_file.unlink()
+        except Exception:
+            pass
     
     data = extract_json_from_js(LEGACY_DB_PATH)
     

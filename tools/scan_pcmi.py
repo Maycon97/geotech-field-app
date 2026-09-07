@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 r"""
 MDSync PCMI Live Scanner
 Varre exclusivamente o caminho oficial:
@@ -146,12 +146,30 @@ def scan():
         "dashboards": dashboards
     }
 
+    # Preservar dados de instrumentos e pontos operacionais se já extraídos
+    if OUTPUT_JSON.exists():
+        try:
+            with open(OUTPUT_JSON, "r", encoding="utf-8") as f_prev:
+                prev_data = json.load(f_prev)
+                if "instruments" in prev_data:
+                    catalog_data["instruments"] = prev_data["instruments"]
+                    catalog_data["totalInstruments"] = prev_data.get("totalInstruments", len(prev_data["instruments"]))
+                if "operationalPoints" in prev_data:
+                    catalog_data["operationalPoints"] = prev_data["operationalPoints"]
+                if "structures" in prev_data:
+                    catalog_data["structures"] = prev_data["structures"]
+        except Exception:
+            pass
+
     # Salvar JSON
     with open(OUTPUT_JSON, "w", encoding="utf-8") as f:
         json.dump(catalog_data, f, ensure_ascii=False, indent=2)
 
-    # Salvar JS
-    js_content = f"window.MDSYNC_GEOVIEW_CATALOG = {json.dumps(catalog_data, ensure_ascii=False, indent=4)};\n"
+    # Salvar JS com ambos os aliases para 100% de compatibilidade
+    js_content = (
+        f"window.MDSYNC_GEOVIEW_CATALOG = {json.dumps(catalog_data, ensure_ascii=False, indent=4)};\n"
+        f"window.GEOVIEW_CATALOG = window.MDSYNC_GEOVIEW_CATALOG;\n"
+    )
     with open(OUTPUT_JS, "w", encoding="utf-8") as f:
         f.write(js_content)
         

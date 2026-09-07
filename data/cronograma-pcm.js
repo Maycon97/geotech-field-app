@@ -1,7 +1,7 @@
 // Cronograma Oficial PCM - Gerado automaticamente a partir de CronogramaPCM.xlsx
 window.CRONOGRAMA_PCM_DATA = {
-  "sourceFile": "C:\\Users\\maycon.nascimento\\OneDrive - ITAMINAS\\Documentos\\Work\\Project Comunication 2026\\CronogramaPCM.xlsx",
-  "extractedAt": "2026-09-04T07:20:37.343057",
+  "sourceFile": "C:\\Users\\maycon.nascimento\\ITAMINAS\\SPLO - General\\03) Geotecnia\\01) PCMI\\00) Gestão à Vista\\00) Cronograma PCMI\\CronogramaPCM.xlsx",
+  "extractedAt": "2026-09-07T01:55:55.107996",
   "totalTasks": 1697,
   "structuresList": [
     "Barragem B1",

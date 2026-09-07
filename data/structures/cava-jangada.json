@@ -1,0 +1,1723 @@
+{
+  "structure": "Cava Jangada",
+  "slug": "cava-jangada",
+  "version": "pcmi-official-2026",
+  "instrumentCount": 21,
+  "instruments": {
+    "Cava_Jangada_INA_13/13": {
+      "id": "Cava_Jangada_INA_13/13",
+      "code": "13/13",
+      "name": "INA-13/13 (Cava Jangada)",
+      "structure": "Cava Jangada",
+      "rawStructure": "JANGADA",
+      "type": "INA",
+      "section": "",
+      "installedDate": "2013-01-01",
+      "diameter": "1.1/2\"",
+      "totalLengthMeters": 197.53,
+      "depthMeters": 197.53,
+      "cotaTopo": 1187.325,
+      "cotaBase": 1186.45,
+      "cotaFundo": 989.795,
+      "cotaBoca": 1187.325,
+      "profMax": 197.53,
+      "limiteCritico": 1187.325,
+      "thresholds": {
+        "normal": 1187.325,
+        "warning": 1187.325,
+        "alert": 1187.325,
+        "emergency": 1187.325,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7777616.71,
+        "ew": 595693.52,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0961438,
+        "longitude": -44.0846666,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 209,
+      "latestReading": {
+        "id": "read_pz_32195",
+        "instrumentId": "Cava_Jangada_INA_13/13",
+        "instrumentCode": "13/13",
+        "structure": "Cava Jangada",
+        "type": "INA",
+        "date": "2026-08-26",
+        "dateTime": "2026-08-26T08:00:00",
+        "value": 156.65,
+        "reading": 156.65,
+        "waterElevation": 1030.675,
+        "cotaCalculada": 1030.675,
+        "cotaTopo": 1187.325,
+        "cotaFundo": 989.795,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2024-11-14",
+          "valor": 104.18,
+          "cota": 1083.145
+        },
+        {
+          "data": "2024-12-20",
+          "valor": 104.17,
+          "cota": 1083.155
+        },
+        {
+          "data": "2025-01-21",
+          "valor": 103.86,
+          "cota": 1083.4650000000001
+        },
+        {
+          "data": "2025-02-28",
+          "valor": 103.82,
+          "cota": 1083.505
+        },
+        {
+          "data": "2025-03-19",
+          "valor": 103.94,
+          "cota": 1083.385
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 103.88,
+          "cota": 1083.4450000000002
+        },
+        {
+          "data": "2025-05-19",
+          "valor": 103.9,
+          "cota": 1083.425
+        },
+        {
+          "data": "2025-06-24",
+          "valor": 103.92,
+          "cota": 1083.405
+        },
+        {
+          "data": "2025-09-25",
+          "valor": 150.5,
+          "cota": 1036.825
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 106.0,
+          "cota": 1081.325
+        },
+        {
+          "data": "2025-11-26",
+          "valor": 105.76,
+          "cota": 1081.565
+        },
+        {
+          "data": "2025-12-22",
+          "valor": 105.71,
+          "cota": 1081.615
+        },
+        {
+          "data": "2026-01-26",
+          "valor": 106.0,
+          "cota": 1081.325
+        },
+        {
+          "data": "2026-02-24",
+          "valor": 109.4,
+          "cota": 1077.925
+        },
+        {
+          "data": "2026-03-24",
+          "valor": 104.8,
+          "cota": 1082.525
+        },
+        {
+          "data": "2026-04-07",
+          "valor": 104.6,
+          "cota": 1082.7250000000001
+        },
+        {
+          "data": "2026-05-04",
+          "valor": 194.44,
+          "cota": 992.885
+        },
+        {
+          "data": "2026-06-01",
+          "valor": 105.1,
+          "cota": 1082.2250000000001
+        },
+        {
+          "data": "2026-07-17",
+          "valor": 105.27,
+          "cota": 1082.055
+        },
+        {
+          "data": "2026-08-26",
+          "valor": 156.65,
+          "cota": 1030.675
+        }
+      ]
+    },
+    "Cava_Jangada_INA_22/15": {
+      "id": "Cava_Jangada_INA_22/15",
+      "code": "22/15",
+      "name": "INA-22/15 (Cava Jangada)",
+      "structure": "Cava Jangada",
+      "rawStructure": "JANGADA",
+      "type": "INA",
+      "section": "",
+      "installedDate": "2015-05-01",
+      "diameter": "1.1/2\"",
+      "totalLengthMeters": 197.53,
+      "depthMeters": 197.53,
+      "cotaTopo": 1130.204,
+      "cotaBase": 1129.22,
+      "cotaFundo": 932.674,
+      "cotaBoca": 1130.204,
+      "profMax": 197.53,
+      "limiteCritico": 1130.204,
+      "thresholds": {
+        "normal": 1130.204,
+        "warning": 1130.204,
+        "alert": 1130.204,
+        "emergency": 1130.204,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7777744.2,
+        "ew": 596061.91,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0949735,
+        "longitude": -44.0811499,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Inativo",
+      "readingMethod": "Manual",
+      "readingsCount": 126,
+      "latestReading": {
+        "id": "read_pz_31956",
+        "instrumentId": "Cava_Jangada_INA_22/15",
+        "instrumentCode": "22/15",
+        "structure": "Cava Jangada",
+        "type": "INA",
+        "date": "2026-07-17",
+        "dateTime": "2026-07-17T08:00:00",
+        "value": 60.46,
+        "reading": 60.46,
+        "waterElevation": 1069.744,
+        "cotaCalculada": 1069.744,
+        "cotaTopo": 1130.204,
+        "cotaFundo": 932.674,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2024-10-15",
+          "valor": 60.35,
+          "cota": 1069.854
+        },
+        {
+          "data": "2024-11-14",
+          "valor": 60.5,
+          "cota": 1069.704
+        },
+        {
+          "data": "2024-12-20",
+          "valor": 60.6,
+          "cota": 1069.604
+        },
+        {
+          "data": "2025-01-21",
+          "valor": 60.39,
+          "cota": 1069.8139999999999
+        },
+        {
+          "data": "2025-02-28",
+          "valor": 60.4,
+          "cota": 1069.8039999999999
+        },
+        {
+          "data": "2025-03-19",
+          "valor": 60.22,
+          "cota": 1069.984
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 60.18,
+          "cota": 1070.024
+        },
+        {
+          "data": "2025-05-19",
+          "valor": 60.15,
+          "cota": 1070.0539999999999
+        },
+        {
+          "data": "2025-06-24",
+          "valor": 60.2,
+          "cota": 1070.004
+        },
+        {
+          "data": "2025-09-25",
+          "valor": 60.93,
+          "cota": 1069.274
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 61.0,
+          "cota": 1069.204
+        },
+        {
+          "data": "2025-11-26",
+          "valor": 61.02,
+          "cota": 1069.184
+        },
+        {
+          "data": "2025-12-22",
+          "valor": 61.01,
+          "cota": 1069.194
+        },
+        {
+          "data": "2026-01-26",
+          "valor": 61.17,
+          "cota": 1069.0339999999999
+        },
+        {
+          "data": "2026-02-24",
+          "valor": 60.94,
+          "cota": 1069.264
+        },
+        {
+          "data": "2026-03-24",
+          "valor": 60.58,
+          "cota": 1069.624
+        },
+        {
+          "data": "2026-04-07",
+          "valor": 60.43,
+          "cota": 1069.774
+        },
+        {
+          "data": "2026-05-04",
+          "valor": 91.32,
+          "cota": 1038.884
+        },
+        {
+          "data": "2026-06-01",
+          "valor": 60.46,
+          "cota": 1069.744
+        },
+        {
+          "data": "2026-07-17",
+          "valor": 60.46,
+          "cota": 1069.744
+        }
+      ]
+    },
+    "Cava_Jangada_INA_23/15": {
+      "id": "Cava_Jangada_INA_23/15",
+      "code": "23/15",
+      "name": "INA-23/15 (Cava Jangada)",
+      "structure": "Cava Jangada",
+      "rawStructure": "JANGADA",
+      "type": "INA",
+      "section": "",
+      "installedDate": "2015-05-02",
+      "diameter": "1.1/2\"",
+      "totalLengthMeters": 185.07,
+      "depthMeters": 185.07,
+      "cotaTopo": 1169.374,
+      "cotaBase": 1168.5,
+      "cotaFundo": 984.304,
+      "cotaBoca": 1169.374,
+      "profMax": 185.07,
+      "limiteCritico": 1169.374,
+      "thresholds": {
+        "normal": 1169.374,
+        "warning": 1169.374,
+        "alert": 1169.374,
+        "emergency": 1169.374,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7777984.47,
+        "ew": 595955.39,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0928079,
+        "longitude": -44.0821814,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 172,
+      "latestReading": {
+        "id": "read_pz_32193",
+        "instrumentId": "Cava_Jangada_INA_23/15",
+        "instrumentCode": "23/15",
+        "structure": "Cava Jangada",
+        "type": "INA",
+        "date": "2026-08-26",
+        "dateTime": "2026-08-26T08:00:00",
+        "value": 141.92,
+        "reading": 141.92,
+        "waterElevation": 1027.454,
+        "cotaCalculada": 1027.454,
+        "cotaTopo": 1169.374,
+        "cotaFundo": 984.304,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2024-11-14",
+          "valor": 145.94,
+          "cota": 1023.434
+        },
+        {
+          "data": "2024-12-20",
+          "valor": 146.2,
+          "cota": 1023.174
+        },
+        {
+          "data": "2025-01-21",
+          "valor": 146.16,
+          "cota": 1023.214
+        },
+        {
+          "data": "2025-02-24",
+          "valor": 145.82,
+          "cota": 1023.5540000000001
+        },
+        {
+          "data": "2025-03-19",
+          "valor": 145.58,
+          "cota": 1023.794
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 145.49,
+          "cota": 1023.884
+        },
+        {
+          "data": "2025-05-19",
+          "valor": 145.45,
+          "cota": 1023.924
+        },
+        {
+          "data": "2025-06-24",
+          "valor": 145.5,
+          "cota": 1023.874
+        },
+        {
+          "data": "2025-09-25",
+          "valor": 144.8,
+          "cota": 1024.574
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 145.0,
+          "cota": 1024.374
+        },
+        {
+          "data": "2025-11-26",
+          "valor": 144.6,
+          "cota": 1024.7740000000001
+        },
+        {
+          "data": "2025-12-22",
+          "valor": 144.3,
+          "cota": 1025.074
+        },
+        {
+          "data": "2026-01-26",
+          "valor": 144.05,
+          "cota": 1025.324
+        },
+        {
+          "data": "2026-02-24",
+          "valor": 142.86,
+          "cota": 1026.5140000000001
+        },
+        {
+          "data": "2026-03-24",
+          "valor": 142.55,
+          "cota": 1026.824
+        },
+        {
+          "data": "2026-04-07",
+          "valor": 142.5,
+          "cota": 1026.874
+        },
+        {
+          "data": "2026-05-04",
+          "valor": 141.9,
+          "cota": 1027.474
+        },
+        {
+          "data": "2026-06-01",
+          "valor": 141.81,
+          "cota": 1027.564
+        },
+        {
+          "data": "2026-07-17",
+          "valor": 141.86,
+          "cota": 1027.5140000000001
+        },
+        {
+          "data": "2026-08-26",
+          "valor": 141.92,
+          "cota": 1027.454
+        }
+      ]
+    },
+    "Cava_Jangada_INA_27/16": {
+      "id": "Cava_Jangada_INA_27/16",
+      "code": "27/16",
+      "name": "INA-27/16 (Cava Jangada)",
+      "structure": "Cava Jangada",
+      "rawStructure": "JANGADA",
+      "type": "INA",
+      "section": "",
+      "installedDate": "2016-09-01",
+      "diameter": "1.1/2\"",
+      "totalLengthMeters": 202.23,
+      "depthMeters": 202.23,
+      "cotaTopo": 1195.774,
+      "cotaBase": 1194.54,
+      "cotaFundo": 993.544,
+      "cotaBoca": 1195.774,
+      "profMax": 202.23,
+      "limiteCritico": 1195.774,
+      "thresholds": {
+        "normal": 1195.774,
+        "warning": 1195.774,
+        "alert": 1195.774,
+        "emergency": 1195.774,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7778102.63,
+        "ew": 595879.72,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.091744,
+        "longitude": -44.0829113,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 155,
+      "latestReading": {
+        "id": "read_pz_32194",
+        "instrumentId": "Cava_Jangada_INA_27/16",
+        "instrumentCode": "27/16",
+        "structure": "Cava Jangada",
+        "type": "INA",
+        "date": "2026-08-26",
+        "dateTime": "2026-08-26T08:00:00",
+        "value": 196.3,
+        "reading": 196.3,
+        "waterElevation": 999.4739999999999,
+        "cotaCalculada": 999.4739999999999,
+        "cotaTopo": 1195.774,
+        "cotaFundo": 993.544,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2024-11-14",
+          "valor": 174.75,
+          "cota": 1021.0239999999999
+        },
+        {
+          "data": "2024-12-20",
+          "valor": 174.47,
+          "cota": 1021.3039999999999
+        },
+        {
+          "data": "2025-01-21",
+          "valor": 175.04,
+          "cota": 1020.7339999999999
+        },
+        {
+          "data": "2025-02-24",
+          "valor": 174.68,
+          "cota": 1021.0939999999998
+        },
+        {
+          "data": "2025-03-19",
+          "valor": 173.8,
+          "cota": 1021.9739999999999
+        },
+        {
+          "data": "2025-04-17",
+          "valor": 173.76,
+          "cota": 1022.0139999999999
+        },
+        {
+          "data": "2025-05-19",
+          "valor": 173.78,
+          "cota": 1021.9939999999999
+        },
+        {
+          "data": "2025-06-24",
+          "valor": 173.8,
+          "cota": 1021.9739999999999
+        },
+        {
+          "data": "2025-09-25",
+          "valor": 172.05,
+          "cota": 1023.7239999999999
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 173.75,
+          "cota": 1022.0239999999999
+        },
+        {
+          "data": "2025-11-26",
+          "valor": 172.6,
+          "cota": 1023.1739999999999
+        },
+        {
+          "data": "2025-12-22",
+          "valor": 172.5,
+          "cota": 1023.2739999999999
+        },
+        {
+          "data": "2026-01-26",
+          "valor": 172.5,
+          "cota": 1023.2739999999999
+        },
+        {
+          "data": "2026-02-24",
+          "valor": 171.31,
+          "cota": 1024.464
+        },
+        {
+          "data": "2026-03-24",
+          "valor": 171.03,
+          "cota": 1024.744
+        },
+        {
+          "data": "2026-04-07",
+          "valor": 171.01,
+          "cota": 1024.764
+        },
+        {
+          "data": "2026-05-04",
+          "valor": 196.3,
+          "cota": 999.4739999999999
+        },
+        {
+          "data": "2026-06-01",
+          "valor": 170.16,
+          "cota": 1025.6139999999998
+        },
+        {
+          "data": "2026-07-17",
+          "valor": 170.67,
+          "cota": 1025.1039999999998
+        },
+        {
+          "data": "2026-08-26",
+          "valor": 196.3,
+          "cota": 999.4739999999999
+        }
+      ]
+    },
+    "Cava_Jangada_INA_19/14": {
+      "id": "Cava_Jangada_INA_19/14",
+      "code": "19/14",
+      "name": "INA-19/14 (Cava Jangada)",
+      "structure": "Cava Jangada",
+      "rawStructure": "JANGADA",
+      "type": "INA",
+      "section": "",
+      "installedDate": "2014-05-01",
+      "diameter": "1.1/2\"",
+      "totalLengthMeters": 264.33000000000004,
+      "depthMeters": 263.33000000000004,
+      "cotaTopo": 1221.852,
+      "cotaBase": 1220.52,
+      "cotaFundo": 957.522,
+      "cotaBoca": 1221.852,
+      "profMax": 263.33000000000004,
+      "limiteCritico": 1220.52,
+      "thresholds": {
+        "normal": 1220.52,
+        "warning": 1220.52,
+        "alert": 1220.52,
+        "emergency": 1220.52,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7776772.0,
+        "ew": 592659.0,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.1039243,
+        "longitude": -44.113647,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Inativo",
+      "readingMethod": "Manual",
+      "readingsCount": 129,
+      "latestReading": {
+        "id": "read_pz_28327",
+        "instrumentId": "Cava_Jangada_INA_19/14",
+        "instrumentCode": "19/14",
+        "structure": "Cava Jangada",
+        "type": "INA",
+        "date": "2025-06-24",
+        "dateTime": "2025-06-24T08:00:00",
+        "value": 154.12,
+        "reading": 154.12,
+        "waterElevation": 1067.732,
+        "cotaCalculada": 1067.732,
+        "cotaTopo": 1221.852,
+        "cotaFundo": 957.522,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2023-01-23",
+          "valor": 144.37,
+          "cota": 1077.482
+        },
+        {
+          "data": "2023-03-27",
+          "valor": 144.6,
+          "cota": 1077.2520000000002
+        },
+        {
+          "data": "2023-04-17",
+          "valor": 144.63,
+          "cota": 1077.2220000000002
+        },
+        {
+          "data": "2023-05-15",
+          "valor": 144.69,
+          "cota": 1077.162
+        },
+        {
+          "data": "2023-06-28",
+          "valor": 144.81,
+          "cota": 1077.0420000000001
+        },
+        {
+          "data": "2023-07-25",
+          "valor": 144.99,
+          "cota": 1076.862
+        },
+        {
+          "data": "2023-08-28",
+          "valor": 145.15,
+          "cota": 1076.702
+        },
+        {
+          "data": "2023-09-25",
+          "valor": 144.91,
+          "cota": 1076.942
+        },
+        {
+          "data": "2023-10-23",
+          "valor": 144.96,
+          "cota": 1076.892
+        },
+        {
+          "data": "2023-11-21",
+          "valor": 145.01,
+          "cota": 1076.842
+        },
+        {
+          "data": "2023-12-19",
+          "valor": 144.97,
+          "cota": 1076.882
+        },
+        {
+          "data": "2024-01-23",
+          "valor": 145.11,
+          "cota": 1076.7420000000002
+        },
+        {
+          "data": "2024-04-19",
+          "valor": 145.24,
+          "cota": 1076.612
+        },
+        {
+          "data": "2024-05-21",
+          "valor": 145.32,
+          "cota": 1076.5320000000002
+        },
+        {
+          "data": "2024-08-19",
+          "valor": 145.59,
+          "cota": 1076.2620000000002
+        },
+        {
+          "data": "2024-09-17",
+          "valor": 145.41,
+          "cota": 1076.442
+        },
+        {
+          "data": "2025-02-28",
+          "valor": 145.32,
+          "cota": 1076.5320000000002
+        },
+        {
+          "data": "2025-03-19",
+          "valor": 145.04,
+          "cota": 1076.8120000000001
+        },
+        {
+          "data": "2025-05-19",
+          "valor": 145.1,
+          "cota": 1076.7520000000002
+        },
+        {
+          "data": "2025-06-24",
+          "valor": 154.12,
+          "cota": 1067.732
+        }
+      ]
+    },
+    "Cava_Jangada_INA_06/02": {
+      "id": "Cava_Jangada_INA_06/02",
+      "code": "06/02",
+      "name": "INA-06/02 (Cava Jangada)",
+      "structure": "Cava Jangada",
+      "rawStructure": "JANGADA",
+      "type": "INA",
+      "section": "",
+      "installedDate": "2018-05-09",
+      "diameter": "1.1/2\"",
+      "totalLengthMeters": 105.79999999999995,
+      "depthMeters": 104.79999999999995,
+      "cotaTopo": 1123.3,
+      "cotaBase": 1119.5,
+      "cotaFundo": 1017.5,
+      "cotaBoca": 1123.3,
+      "profMax": 104.79999999999995,
+      "limiteCritico": 1119.5,
+      "thresholds": {
+        "normal": 1119.5,
+        "warning": 1119.5,
+        "alert": 1119.5,
+        "emergency": 1119.5,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7778079.0,
+        "ew": 592865.0,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.092105,
+        "longitude": -44.1117432,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 294,
+      "latestReading": {
+        "id": "read_pz_31835",
+        "instrumentId": "Cava_Jangada_INA_06/02",
+        "instrumentCode": "06/02",
+        "structure": "Cava Jangada",
+        "type": "INA",
+        "date": "2026-07-13",
+        "dateTime": "2026-07-13T08:00:00",
+        "value": 53.75,
+        "reading": 53.75,
+        "waterElevation": 1069.55,
+        "cotaCalculada": 1069.55,
+        "cotaTopo": 1123.3,
+        "cotaFundo": 1017.5,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2024-08-19",
+          "valor": 53.5,
+          "cota": 1069.8
+        },
+        {
+          "data": "2024-09-03",
+          "valor": 53.53,
+          "cota": 1069.77
+        },
+        {
+          "data": "2024-10-01",
+          "valor": 53.75,
+          "cota": 1069.55
+        },
+        {
+          "data": "2024-11-06",
+          "valor": 53.73,
+          "cota": 1069.57
+        },
+        {
+          "data": "2024-12-04",
+          "valor": 53.68,
+          "cota": 1069.62
+        },
+        {
+          "data": "2025-01-14",
+          "valor": 54.32,
+          "cota": 1068.98
+        },
+        {
+          "data": "2025-03-17",
+          "valor": 54.15,
+          "cota": 1069.1499999999999
+        },
+        {
+          "data": "2025-04-02",
+          "valor": 54.12,
+          "cota": 1069.18
+        },
+        {
+          "data": "2025-05-06",
+          "valor": 53.9,
+          "cota": 1069.3999999999999
+        },
+        {
+          "data": "2025-09-25",
+          "valor": 54.6,
+          "cota": 1068.7
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 53.75,
+          "cota": 1069.55
+        },
+        {
+          "data": "2025-11-26",
+          "valor": 53.75,
+          "cota": 1069.55
+        },
+        {
+          "data": "2025-12-22",
+          "valor": 53.75,
+          "cota": 1069.55
+        },
+        {
+          "data": "2026-01-26",
+          "valor": 53.75,
+          "cota": 1069.55
+        },
+        {
+          "data": "2026-02-24",
+          "valor": 53.75,
+          "cota": 1069.55
+        },
+        {
+          "data": "2026-03-24",
+          "valor": 53.75,
+          "cota": 1069.55
+        },
+        {
+          "data": "2026-04-07",
+          "valor": 53.75,
+          "cota": 1069.55
+        },
+        {
+          "data": "2026-05-04",
+          "valor": 53.75,
+          "cota": 1069.55
+        },
+        {
+          "data": "2026-06-01",
+          "valor": 53.75,
+          "cota": 1069.55
+        },
+        {
+          "data": "2026-07-13",
+          "valor": 53.75,
+          "cota": 1069.55
+        }
+      ]
+    },
+    "Cava_Jangada_PZ_07/04": {
+      "id": "Cava_Jangada_PZ_07/04",
+      "code": "07/04",
+      "name": "PZ-07/04 (Cava Jangada)",
+      "structure": "Cava Jangada",
+      "rawStructure": "JANGADA",
+      "type": "PZ",
+      "section": "",
+      "installedDate": "2005-04-05",
+      "diameter": "1.1/2\"",
+      "totalLengthMeters": 140.29999999999995,
+      "depthMeters": 139.29999999999995,
+      "cotaTopo": 1096.5,
+      "cotaBase": 1095.5,
+      "cotaFundo": 956.2,
+      "cotaBoca": 1096.5,
+      "profMax": 139.29999999999995,
+      "limiteCritico": 1095.5,
+      "thresholds": {
+        "normal": 1095.5,
+        "warning": 1095.5,
+        "alert": 1095.5,
+        "emergency": 1095.5,
+        "unit": "m (Cota)"
+      },
+      "coordinates": {
+        "ns": 7777956.0,
+        "ew": 596609.0,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0930325,
+        "longitude": -44.0759286,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 262,
+      "latestReading": {
+        "id": "read_pz_32196",
+        "instrumentId": "Cava_Jangada_PZ_07/04",
+        "instrumentCode": "07/04",
+        "structure": "Cava Jangada",
+        "type": "PZ",
+        "date": "2026-08-26",
+        "dateTime": "2026-08-26T08:00:00",
+        "value": 0.0,
+        "reading": 0.0,
+        "waterElevation": 1096.5,
+        "cotaCalculada": 1096.5,
+        "cotaTopo": 1096.5,
+        "cotaFundo": 956.2,
+        "status": "Normal",
+        "rawStatus": "NORMAL",
+        "inspector": "Téc. Geotecnia (PCMI)",
+        "source": "banco_pcmi"
+      },
+      "historico": [
+        {
+          "data": "2024-10-01",
+          "valor": 0.0,
+          "cota": 1096.5
+        },
+        {
+          "data": "2024-11-06",
+          "valor": 0.0,
+          "cota": 1096.5
+        },
+        {
+          "data": "2024-12-04",
+          "valor": 0.0,
+          "cota": 1096.5
+        },
+        {
+          "data": "2025-01-14",
+          "valor": 0.0,
+          "cota": 1096.5
+        },
+        {
+          "data": "2025-03-17",
+          "valor": 0.0,
+          "cota": 1096.5
+        },
+        {
+          "data": "2025-04-02",
+          "valor": 0.0,
+          "cota": 1096.5
+        },
+        {
+          "data": "2025-05-06",
+          "valor": 0.0,
+          "cota": 1096.5
+        },
+        {
+          "data": "2025-06-24",
+          "valor": 0.0,
+          "cota": 1096.5
+        },
+        {
+          "data": "2025-09-25",
+          "valor": 0.0,
+          "cota": 1096.5
+        },
+        {
+          "data": "2025-10-22",
+          "valor": 0.0,
+          "cota": 1096.5
+        },
+        {
+          "data": "2025-11-26",
+          "valor": 0.0,
+          "cota": 1096.5
+        },
+        {
+          "data": "2025-12-22",
+          "valor": 0.0,
+          "cota": 1096.5
+        },
+        {
+          "data": "2026-01-26",
+          "valor": 0.0,
+          "cota": 1096.5
+        },
+        {
+          "data": "2026-02-24",
+          "valor": 0.0,
+          "cota": 1096.5
+        },
+        {
+          "data": "2026-03-24",
+          "valor": 0.0,
+          "cota": 1096.5
+        },
+        {
+          "data": "2026-04-07",
+          "valor": 0.0,
+          "cota": 1096.5
+        },
+        {
+          "data": "2026-05-04",
+          "valor": 0.0,
+          "cota": 1096.5
+        },
+        {
+          "data": "2026-06-01",
+          "valor": 0.0,
+          "cota": 1096.5
+        },
+        {
+          "data": "2026-07-17",
+          "valor": 0.0,
+          "cota": 1096.5
+        },
+        {
+          "data": "2026-08-26",
+          "valor": 0.0,
+          "cota": 1096.5
+        }
+      ]
+    },
+    "Cava_Jangada_VT_JGD_VZ_ENG_09/01": {
+      "id": "Cava_Jangada_VT_JGD_VZ_ENG_09/01",
+      "code": "JGD_VZ_ENG_09/01",
+      "name": "VT-JGD_VZ_ENG_09/01 (Cava Jangada)",
+      "structure": "Cava Jangada",
+      "rawStructure": "JANGADA",
+      "type": "VT",
+      "section": "",
+      "installedDate": "2016-11-04",
+      "diameter": "",
+      "totalLengthMeters": null,
+      "depthMeters": null,
+      "cotaTopo": null,
+      "cotaBase": 1091.0,
+      "cotaFundo": null,
+      "cotaBoca": null,
+      "profMax": null,
+      "limiteCritico": 0.0,
+      "thresholds": {
+        "normal": 0.0,
+        "warning": 0.0,
+        "alert": 0.0,
+        "emergency": 0.0,
+        "unit": "m"
+      },
+      "coordinates": {
+        "ns": 7778071.87,
+        "ew": 592444.3,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0921896,
+        "longitude": -44.1157665,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 0,
+      "latestReading": null,
+      "historico": []
+    },
+    "Cava_Jangada_VT_JGDENMM062": {
+      "id": "Cava_Jangada_VT_JGDENMM062",
+      "code": "JGDENMM062",
+      "name": "VT-JGDENMM062 (Cava Jangada)",
+      "structure": "Cava Jangada",
+      "rawStructure": "JANGADA",
+      "type": "VT",
+      "section": "",
+      "installedDate": "2021-11-29",
+      "diameter": "",
+      "totalLengthMeters": null,
+      "depthMeters": null,
+      "cotaTopo": null,
+      "cotaBase": 925.0,
+      "cotaFundo": null,
+      "cotaBoca": null,
+      "profMax": null,
+      "limiteCritico": 0.0,
+      "thresholds": {
+        "normal": 0.0,
+        "warning": 0.0,
+        "alert": 0.0,
+        "emergency": 0.0,
+        "unit": "m"
+      },
+      "coordinates": {
+        "ns": 7776560.87,
+        "ew": 596736.31,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.1056317,
+        "longitude": -44.074637,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 0,
+      "latestReading": null,
+      "historico": []
+    },
+    "Cava_Jangada_VT_JGD_VZ_IND_36/01": {
+      "id": "Cava_Jangada_VT_JGD_VZ_IND_36/01",
+      "code": "JGD_VZ_IND_36/01",
+      "name": "VT-JGD_VZ_IND_36/01 (Cava Jangada)",
+      "structure": "Cava Jangada",
+      "rawStructure": "JANGADA",
+      "type": "VT",
+      "section": "",
+      "installedDate": "2001-01-01",
+      "diameter": "",
+      "totalLengthMeters": null,
+      "depthMeters": null,
+      "cotaTopo": null,
+      "cotaBase": 911.0,
+      "cotaFundo": null,
+      "cotaBoca": null,
+      "profMax": null,
+      "limiteCritico": 0.0,
+      "thresholds": {
+        "normal": 0.0,
+        "warning": 0.0,
+        "alert": 0.0,
+        "emergency": 0.0,
+        "unit": "m"
+      },
+      "coordinates": {
+        "ns": 7776490.87,
+        "ew": 595244.31,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.1063385,
+        "longitude": -44.0889042,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 0,
+      "latestReading": null,
+      "historico": []
+    },
+    "Cava_Jangada_VT_JGD_VZ_JGD_33/01": {
+      "id": "Cava_Jangada_VT_JGD_VZ_JGD_33/01",
+      "code": "JGD_VZ_JGD_33/01",
+      "name": "VT-JGD_VZ_JGD_33/01 (Cava Jangada)",
+      "structure": "Cava Jangada",
+      "rawStructure": "JANGADA",
+      "type": "VT",
+      "section": "",
+      "installedDate": "2001-01-01",
+      "diameter": "",
+      "totalLengthMeters": null,
+      "depthMeters": null,
+      "cotaTopo": null,
+      "cotaBase": 1006.0,
+      "cotaFundo": null,
+      "cotaBoca": null,
+      "profMax": null,
+      "limiteCritico": 0.0,
+      "thresholds": {
+        "normal": 0.0,
+        "warning": 0.0,
+        "alert": 0.0,
+        "emergency": 0.0,
+        "unit": "m"
+      },
+      "coordinates": {
+        "ns": 7777834.87,
+        "ew": 596474.31,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0941337,
+        "longitude": -44.0772104,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 0,
+      "latestReading": null,
+      "historico": []
+    },
+    "Cava_Jangada_VT_JGD_VZ_IND_38/06": {
+      "id": "Cava_Jangada_VT_JGD_VZ_IND_38/06",
+      "code": "JGD_VZ_IND_38/06",
+      "name": "VT-JGD_VZ_IND_38/06 (Cava Jangada)",
+      "structure": "Cava Jangada",
+      "rawStructure": "JANGADA",
+      "type": "VT",
+      "section": "",
+      "installedDate": "2001-01-01",
+      "diameter": "",
+      "totalLengthMeters": null,
+      "depthMeters": null,
+      "cotaTopo": null,
+      "cotaBase": 964.0,
+      "cotaFundo": null,
+      "cotaBoca": null,
+      "profMax": null,
+      "limiteCritico": 0.0,
+      "thresholds": {
+        "normal": 0.0,
+        "warning": 0.0,
+        "alert": 0.0,
+        "emergency": 0.0,
+        "unit": "m"
+      },
+      "coordinates": {
+        "ns": 7776718.87,
+        "ew": 595174.31,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.1042818,
+        "longitude": -44.0895856,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 0,
+      "latestReading": null,
+      "historico": []
+    },
+    "Cava_Jangada_VT_JGD_VZ_BOA_46/01": {
+      "id": "Cava_Jangada_VT_JGD_VZ_BOA_46/01",
+      "code": "JGD_VZ_BOA_46/01",
+      "name": "VT-JGD_VZ_BOA_46/01 (Cava Jangada)",
+      "structure": "Cava Jangada",
+      "rawStructure": "JANGADA",
+      "type": "VT",
+      "section": "",
+      "installedDate": "2001-01-01",
+      "diameter": "",
+      "totalLengthMeters": null,
+      "depthMeters": null,
+      "cotaTopo": null,
+      "cotaBase": 1031.0,
+      "cotaFundo": null,
+      "cotaBoca": null,
+      "profMax": null,
+      "limiteCritico": 0.0,
+      "thresholds": {
+        "normal": 0.0,
+        "warning": 0.0,
+        "alert": 0.0,
+        "emergency": 0.0,
+        "unit": "m"
+      },
+      "coordinates": {
+        "ns": 7779314.87,
+        "ew": 593914.3,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0808875,
+        "longitude": -44.1017712,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 0,
+      "latestReading": null,
+      "historico": []
+    },
+    "Cava_Jangada_VT_JGD_VZ_JGD_54/02": {
+      "id": "Cava_Jangada_VT_JGD_VZ_JGD_54/02",
+      "code": "JGD_VZ_JGD_54/02",
+      "name": "VT-JGD_VZ_JGD_54/02 (Cava Jangada)",
+      "structure": "Cava Jangada",
+      "rawStructure": "JANGADA",
+      "type": "VT",
+      "section": "",
+      "installedDate": "2001-01-01",
+      "diameter": "",
+      "totalLengthMeters": null,
+      "depthMeters": null,
+      "cotaTopo": null,
+      "cotaBase": 1010.0,
+      "cotaFundo": null,
+      "cotaBoca": null,
+      "profMax": null,
+      "limiteCritico": 0.0,
+      "thresholds": {
+        "normal": 0.0,
+        "warning": 0.0,
+        "alert": 0.0,
+        "emergency": 0.0,
+        "unit": "m"
+      },
+      "coordinates": {
+        "ns": 7777578.87,
+        "ew": 596663.31,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0964373,
+        "longitude": -44.0753892,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 0,
+      "latestReading": null,
+      "historico": []
+    },
+    "Cava_Jangada_VT_JGD_VZ_JGD_55/02": {
+      "id": "Cava_Jangada_VT_JGD_VZ_JGD_55/02",
+      "code": "JGD_VZ_JGD_55/02",
+      "name": "VT-JGD_VZ_JGD_55/02 (Cava Jangada)",
+      "structure": "Cava Jangada",
+      "rawStructure": "JANGADA",
+      "type": "VT",
+      "section": "",
+      "installedDate": "2001-01-01",
+      "diameter": "",
+      "totalLengthMeters": null,
+      "depthMeters": null,
+      "cotaTopo": null,
+      "cotaBase": 1004.0,
+      "cotaFundo": null,
+      "cotaBoca": null,
+      "profMax": null,
+      "limiteCritico": 0.0,
+      "thresholds": {
+        "normal": 0.0,
+        "warning": 0.0,
+        "alert": 0.0,
+        "emergency": 0.0,
+        "unit": "m"
+      },
+      "coordinates": {
+        "ns": 7777649.87,
+        "ew": 596522.31,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0958029,
+        "longitude": -44.0767416,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 0,
+      "latestReading": null,
+      "historico": []
+    },
+    "Cava_Jangada_VT_JGD_VZ_ENG_57/02": {
+      "id": "Cava_Jangada_VT_JGD_VZ_ENG_57/02",
+      "code": "JGD_VZ_ENG_57/02",
+      "name": "VT-JGD_VZ_ENG_57/02 (Cava Jangada)",
+      "structure": "Cava Jangada",
+      "rawStructure": "JANGADA",
+      "type": "VT",
+      "section": "",
+      "installedDate": "2001-01-01",
+      "diameter": "",
+      "totalLengthMeters": null,
+      "depthMeters": null,
+      "cotaTopo": null,
+      "cotaBase": 1029.0,
+      "cotaFundo": null,
+      "cotaBoca": null,
+      "profMax": null,
+      "limiteCritico": 0.0,
+      "thresholds": {
+        "normal": 0.0,
+        "warning": 0.0,
+        "alert": 0.0,
+        "emergency": 0.0,
+        "unit": "m"
+      },
+      "coordinates": {
+        "ns": 7778594.87,
+        "ew": 592534.3,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0874597,
+        "longitude": -44.1149323,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 0,
+      "latestReading": null,
+      "historico": []
+    },
+    "Cava_Jangada_VT_JGD_VZ_MAN_60/02": {
+      "id": "Cava_Jangada_VT_JGD_VZ_MAN_60/02",
+      "code": "JGD_VZ_MAN_60/02",
+      "name": "VT-JGD_VZ_MAN_60/02 (Cava Jangada)",
+      "structure": "Cava Jangada",
+      "rawStructure": "JANGADA",
+      "type": "VT",
+      "section": "",
+      "installedDate": "2001-01-01",
+      "diameter": "",
+      "totalLengthMeters": null,
+      "depthMeters": null,
+      "cotaTopo": null,
+      "cotaBase": 1021.0,
+      "cotaFundo": null,
+      "cotaBoca": null,
+      "profMax": null,
+      "limiteCritico": 0.0,
+      "thresholds": {
+        "normal": 0.0,
+        "warning": 0.0,
+        "alert": 0.0,
+        "emergency": 0.0,
+        "unit": "m"
+      },
+      "coordinates": {
+        "ns": 7778717.87,
+        "ew": 598455.31,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0860554,
+        "longitude": -44.0583115,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 0,
+      "latestReading": null,
+      "historico": []
+    },
+    "Cava_Jangada_VT_JGD_VZ_SAM_56/02": {
+      "id": "Cava_Jangada_VT_JGD_VZ_SAM_56/02",
+      "code": "JGD_VZ_SAM_56/02",
+      "name": "VT-JGD_VZ_SAM_56/02 (Cava Jangada)",
+      "structure": "Cava Jangada",
+      "rawStructure": "JANGADA",
+      "type": "VT",
+      "section": "",
+      "installedDate": "2001-01-01",
+      "diameter": "",
+      "totalLengthMeters": null,
+      "depthMeters": null,
+      "cotaTopo": null,
+      "cotaBase": 1010.0,
+      "cotaFundo": null,
+      "cotaBoca": null,
+      "profMax": null,
+      "limiteCritico": 0.0,
+      "thresholds": {
+        "normal": 0.0,
+        "warning": 0.0,
+        "alert": 0.0,
+        "emergency": 0.0,
+        "unit": "m"
+      },
+      "coordinates": {
+        "ns": 7776035.87,
+        "ew": 593224.3,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.1105483,
+        "longitude": -44.1082023,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 0,
+      "latestReading": null,
+      "historico": []
+    },
+    "Cava_Jangada_VT_JGD_VZ_ENG_12/01": {
+      "id": "Cava_Jangada_VT_JGD_VZ_ENG_12/01",
+      "code": "JGD_VZ_ENG_12/01",
+      "name": "VT-JGD_VZ_ENG_12/01 (Cava Jangada)",
+      "structure": "Cava Jangada",
+      "rawStructure": "JANGADA",
+      "type": "VT",
+      "section": "",
+      "installedDate": "2001-01-01",
+      "diameter": "",
+      "totalLengthMeters": null,
+      "depthMeters": null,
+      "cotaTopo": null,
+      "cotaBase": 987.0,
+      "cotaFundo": null,
+      "cotaBoca": null,
+      "profMax": null,
+      "limiteCritico": 0.0,
+      "thresholds": {
+        "normal": 0.0,
+        "warning": 0.0,
+        "alert": 0.0,
+        "emergency": 0.0,
+        "unit": "m"
+      },
+      "coordinates": {
+        "ns": 7778981.87,
+        "ew": 592456.3,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.0839667,
+        "longitude": -44.1156979,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 0,
+      "latestReading": null,
+      "historico": []
+    },
+    "Cava_Jangada_VT_JGD_VZ_SAM_16/01": {
+      "id": "Cava_Jangada_VT_JGD_VZ_SAM_16/01",
+      "code": "JGD_VZ_SAM_16/01",
+      "name": "VT-JGD_VZ_SAM_16/01 (Cava Jangada)",
+      "structure": "Cava Jangada",
+      "rawStructure": "JANGADA",
+      "type": "VT",
+      "section": "",
+      "installedDate": "2001-01-01",
+      "diameter": "",
+      "totalLengthMeters": null,
+      "depthMeters": null,
+      "cotaTopo": null,
+      "cotaBase": 963.0,
+      "cotaFundo": null,
+      "cotaBoca": null,
+      "profMax": null,
+      "limiteCritico": 0.0,
+      "thresholds": {
+        "normal": 0.0,
+        "warning": 0.0,
+        "alert": 0.0,
+        "emergency": 0.0,
+        "unit": "m"
+      },
+      "coordinates": {
+        "ns": 7775709.87,
+        "ew": 593417.3,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.1134845,
+        "longitude": -44.1063395,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 0,
+      "latestReading": null,
+      "historico": []
+    },
+    "Cava_Jangada_VT_JGD_VZ_SAM_08/01": {
+      "id": "Cava_Jangada_VT_JGD_VZ_SAM_08/01",
+      "code": "JGD_VZ_SAM_08/01",
+      "name": "VT-JGD_VZ_SAM_08/01 (Cava Jangada)",
+      "structure": "Cava Jangada",
+      "rawStructure": "JANGADA",
+      "type": "VT",
+      "section": "",
+      "installedDate": "2001-07-03",
+      "diameter": "",
+      "totalLengthMeters": null,
+      "depthMeters": null,
+      "cotaTopo": null,
+      "cotaBase": 929.0,
+      "cotaFundo": null,
+      "cotaBoca": null,
+      "profMax": null,
+      "limiteCritico": 0.0,
+      "thresholds": {
+        "normal": 0.0,
+        "warning": 0.0,
+        "alert": 0.0,
+        "emergency": 0.0,
+        "unit": "m"
+      },
+      "coordinates": {
+        "ns": 7775077.87,
+        "ew": 593333.3,
+        "datum": "SIRGAS2000",
+        "epsg": 31983
+      },
+      "latLon": {
+        "latitude": -20.119199,
+        "longitude": -44.1071106,
+        "projectedEpsg": "SIRGAS 2000 / UTM Zone 23S (EPSG:31983)"
+      },
+      "status": "Ativo",
+      "readingMethod": "Manual",
+      "readingsCount": 0,
+      "latestReading": null,
+      "historico": []
+    }
+  }
+}
