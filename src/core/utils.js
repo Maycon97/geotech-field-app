@@ -1,4 +1,4 @@
-﻿/**
+/**
  * MDSync Core Utilities
  * Funcoes utilitarias para calculos geotecnicos, conversao de coordenadas e formatacao.
  */
@@ -119,3 +119,7 @@ export const Utils = {
             .replace(/'/g, "&#039;");
     }
 };
+
+if (typeof window !== "undefined") {
+    window.MDSyncUtils = Utils;
+}

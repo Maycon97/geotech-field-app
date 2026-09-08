@@ -1459,12 +1459,16 @@ function getReadingEvaluation(inst, value) {
                                inst.thresholdMode === "elevation";
 
     if (hasElevationLimits && Number.isFinite(cotaBoca) && cotaBoca > 0) {
-        const measuredElevation = Number((cotaBoca - numericValue).toFixed(3));
+        const measuredElevation = (typeof window !== "undefined" && window.MDSyncGeotech)
+            ? window.MDSyncGeotech.calculateCotaNA(cotaBoca, numericValue)
+            : Number((cotaBoca - numericValue).toFixed(3));
         
         // Poro-pressao u = (Cota NA - Cota Fundo) * 9.81 kPa (Bo & Barrett, 2023)
         let porePressureKPa = null;
         if (Number.isFinite(cotaFundo) && cotaFundo > 0) {
-            porePressureKPa = Number((Math.max(0, measuredElevation - cotaFundo) * 9.81).toFixed(2));
+            porePressureKPa = (typeof window !== "undefined" && window.MDSyncGeotech)
+                ? window.MDSyncGeotech.calculatePorePressure(measuredElevation, cotaFundo)
+                : Number((Math.max(0, measuredElevation - cotaFundo) * 9.81).toFixed(2));
         }
 
         // Calibracao Bo & Barrett: Se Atencao nao estiver definida ou for igual a Alerta, aplicar 80% do range critico
@@ -12091,6 +12095,136 @@ function exportPaebmDossierDocx() {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     if (typeof showToast === "function") showToast("Dossiê PAEBM baixado com sucesso.", "success");
+}
+
+// --- MÓDULO 10 MD HUB: ACADEMIA GEOTÉCNICA & SIMULADORES DE CAMPO ---
+function openGeotechAcademyModal() {
+    const modal = document.getElementById("modal-geotech-academy");
+    if (!modal) return;
+    if (typeof updateMdHubActiveChip === "function") {
+        updateMdHubActiveChip("academy");
+    }
+    openModalElement(modal);
+}
+
+function closeGeotechAcademyModal() {
+    closeModalElement("modal-geotech-academy");
+}
+
+function switchAcademyTab(tabId) {
+    const tabBtns = document.querySelectorAll(".academy-tab-btn");
+    const tabPanes = document.querySelectorAll(".academy-tab-pane");
+
+    tabBtns.forEach(btn => btn.classList.remove("active"));
+    tabPanes.forEach(pane => pane.classList.remove("active"));
+
+    const targetBtn = document.getElementById(`btn-academy-${tabId}`);
+    const targetPane = document.getElementById(`academy-pane-${tabId}`);
+
+    if (targetBtn) targetBtn.classList.add("active");
+    if (targetPane) targetPane.classList.add("active");
+}
+
+function runPorePressureSimulation() {
+    const cotaBoca = parseFloat(document.getElementById("sim-cota-boca")?.value);
+    const profMedida = parseFloat(document.getElementById("sim-prof-medida")?.value);
+    const cotaFundo = parseFloat(document.getElementById("sim-cota-fundo")?.value);
+    const cotaAlerta = parseFloat(document.getElementById("sim-cota-alerta")?.value);
+    const resultBox = document.getElementById("sim-pore-result");
+
+    if (!resultBox) return;
+
+    if (isNaN(cotaBoca) || isNaN(profMedida) || isNaN(cotaFundo)) {
+        resultBox.style.display = "block";
+        resultBox.innerHTML = "<p class='text-danger m-0 text-xs'>Por favor, preencha Cota Boca, Profundidade e Cota Fundo com valores válidos.</p>";
+        return;
+    }
+
+    const cotaNA = (typeof window !== "undefined" && window.MDSyncGeotech)
+        ? window.MDSyncGeotech.calculateCotaNA(cotaBoca, profMedida)
+        : Number((cotaBoca - profMedida).toFixed(3));
+
+    const uKPa = (typeof window !== "undefined" && window.MDSyncGeotech)
+        ? window.MDSyncGeotech.calculatePorePressure(cotaNA, cotaFundo)
+        : Number((Math.max(0, cotaNA - cotaFundo) * 9.81).toFixed(2));
+
+    const colunaAgua = Math.max(0, cotaNA - cotaFundo);
+    const isAlert = !isNaN(cotaAlerta) && cotaNA >= cotaAlerta;
+
+    resultBox.style.display = "block";
+    resultBox.innerHTML = `
+        <div class="d-flex justify-between items-center mb-2">
+            <strong class="text-teal text-sm"><i class="fa-solid fa-square-check"></i> Resultado do Cálculo Hidrostático:</strong>
+            <span class="badge ${isAlert ? 'badge-danger' : 'badge-success'}">${isAlert ? 'Acima do Limite Crítico' : 'Normal / Conforme'}</span>
+        </div>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:8px; font-size:12px;">
+            <div>Cota NA Calculada: <strong>${cotaNA.toFixed(2)} m</strong></div>
+            <div>Poro-pressão na Ponta (u): <strong class="text-teal">${uKPa.toFixed(2)} kPa</strong></div>
+            <div>Coluna d'Água (hw): <strong>${colunaAgua.toFixed(2)} m</strong></div>
+            <div>Status Operacional: <strong>${isAlert ? 'Alerta Geotécnico' : 'Rotina Segura'}</strong></div>
+        </div>
+        <p class="text-xs text-secondary m-0 mt-2">
+            Formulação canônica Bo & Barrett (2023): u = (Cota NA - Cota Fundo) · 9,81 kN/m³.
+        </p>
+    `;
+}
+
+function runInverseVelocitySimulation() {
+    const v1 = parseFloat(document.getElementById("sim-v1")?.value);
+    const v2 = parseFloat(document.getElementById("sim-v2")?.value);
+    const v3 = parseFloat(document.getElementById("sim-v3")?.value);
+    const resultBox = document.getElementById("sim-inv-result");
+
+    if (!resultBox) return;
+
+    if (isNaN(v1) || isNaN(v2) || isNaN(v3) || v1 <= 0 || v2 <= 0 || v3 <= 0) {
+        resultBox.style.display = "block";
+        resultBox.innerHTML = "<p class='text-danger m-0 text-xs'>Por favor, informe velocidades válidas e maiores que zero.</p>";
+        return;
+    }
+
+    const points = [
+        { t: 0, v: v1 },
+        { t: 4, v: v2 },
+        { t: 8, v: v3 }
+    ];
+
+    let analysis;
+    if (typeof window !== "undefined" && window.MDSyncGeotech) {
+        analysis = window.MDSyncGeotech.fukuzonoInverseVelocity(points);
+    } else {
+        const invV1 = 1 / v1;
+        const invV3 = 1 / v3;
+        const slope = (invV3 - invV1) / 8;
+        const isAcc = slope < 0;
+        analysis = {
+            isAccelerating: isAcc,
+            slope: Number(slope.toFixed(5)),
+            timeToFailureHours: isAcc ? Number((invV3 / Math.abs(slope)).toFixed(1)) : null,
+            guidance: isAcc ? "Regime acelerado detectado." : "Regime estável."
+        };
+    }
+
+    resultBox.style.display = "block";
+    resultBox.innerHTML = `
+        <div class="d-flex justify-between items-center mb-2">
+            <strong class="${analysis.isAccelerating ? 'text-danger' : 'text-success'} text-sm">
+                <i class="fa-solid ${analysis.isAccelerating ? 'fa-triangle-exclamation' : 'fa-circle-check'}"></i>
+                ${analysis.isAccelerating ? 'Cinemática Acelerada (1/v decrescente)' : 'Cinemática Estável / Desacelerada'}
+            </strong>
+            <span class="badge ${analysis.isAccelerating ? 'badge-danger' : 'badge-success'}">
+                ${analysis.isAccelerating ? 'Risco Crítico' : 'Estável'}
+            </span>
+        </div>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap:8px; font-size:12px;">
+            <div>Taxa d(1/v)/dt: <strong>${analysis.slope} h⁻¹·(mm/h)⁻¹</strong></div>
+            <div>Velocidade Atual: <strong>${v3.toFixed(2)} mm/h</strong></div>
+            ${analysis.isAccelerating ? `<div>Tempo até Colapso (tf): <strong class="text-danger font-mono font-bold">~${analysis.timeToFailureHours} horas</strong></div>` : `<div>Horizonte tf: <strong>Indeterminado (Sem aceleração)</strong></div>`}
+        </div>
+        <p class="text-xs ${analysis.isAccelerating ? 'text-warning font-bold' : 'text-secondary'} m-0 mt-2">
+            ${analysis.guidance}
+        </p>
+    `;
 }
 
 // --- INICIALIZADOR GERAL DOS MÓDULOS MD HUB ---

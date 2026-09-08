@@ -1,10 +1,12 @@
-const GEOSYNC_CACHE = "geosync-field-pwa-pcmi-v20260907-live";
+const GEOSYNC_CACHE = "geosync-field-pwa-pcmi-v20260908-robust";
 const APP_SHELL = [
     "./",
     "./index.html",
     "./manifest.webmanifest",
     "./styles.css",
     "./app.js",
+    "./src/core/utils.js",
+    "./src/core/geotech.js",
     "./data/catalog.json",
     "./data/geosync-database.js",
     "./data/geoview-catalog.json",
@@ -15,6 +17,8 @@ const APP_SHELL = [
     "./data/pluviometria.js",
     "./data/frota-veicular.js",
     "./data/inspections-fir.js",
+    "./data/whatsapp-radar-feed.js",
+    "./data/radar-cava-jangada.js",
     "./vendor/leaflet/leaflet.js",
     "./vendor/leaflet/leaflet.css",
     "./vendor/chart.umd.min.js",

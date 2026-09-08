@@ -207,6 +207,11 @@
                         <span>9. Histórico Mina</span>
                         <span class="chip-tag tag-tarp">3.000+ Leituras</span>
                     </button>
+                    <button type="button" class="md-hub-chip" data-hub-id="academy" onclick="openGeotechAcademyModal()" title="Módulo 10: Biblioteca técnica de geotecnia, mecânica dos solos, estabilidade de taludes, contenções e simuladores analíticos">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <span>10. Teoria & Fórmulas</span>
+                        <span class="chip-tag tag-academy">Academia</span>
+                    </button>
                 </div>
             </div>
 
@@ -3183,7 +3188,252 @@
         </div>
     </div>
 
+    <!-- MÓDULO 10 MD HUB: MODAL ACADEMIA GEOTÉCNICA & FÓRMULAS DE CAMPO -->
+    <div class="modal" id="modal-geotech-academy" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="geotech-academy-title">
+        <div class="modal-content modal-xl">
+            <div class="modal-header">
+                <h3 id="geotech-academy-title">
+                    <i class="fa-solid fa-graduation-cap text-teal"></i>
+                    Academia Geotécnica & Fórmulas de Engenharia (MD Hub: Módulo 10)
+                </h3>
+                <span class="close" onclick="closeGeotechAcademyModal()" title="Fechar janela">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p class="text-secondary m-0 text-sm mb-3">
+                    Base canônica de fundamentos teóricos, formulações matemáticas (Bo & Barrett 2023, Terzaghi, Fukuzono) e ferramentas analíticas interativas para suporte imediato à decisão em campo.
+                </p>
+
+                <!-- Navigation Tabs inside Academy Modal -->
+                <div class="academy-nav-tabs" role="tablist">
+                    <button type="button" class="academy-tab-btn active" id="btn-academy-soils" onclick="switchAcademyTab('soils')">
+                        <i class="fa-solid fa-mountain"></i> Mecânica dos Solos
+                    </button>
+                    <button type="button" class="academy-tab-btn" id="btn-academy-piezometers" onclick="switchAcademyTab('piezometers')">
+                        <i class="fa-solid fa-faucet-drip"></i> Piezometria & Poro-pressão
+                    </button>
+                    <button type="button" class="academy-tab-btn" id="btn-academy-kinematics" onclick="switchAcademyTab('kinematics')">
+                        <i class="fa-solid fa-chart-line"></i> Cinemática & Radar (1/v)
+                    </button>
+                    <button type="button" class="academy-tab-btn" id="btn-academy-containments" onclick="switchAcademyTab('containments')">
+                        <i class="fa-solid fa-shield-halved"></i> Contenções & Empuxos
+                    </button>
+                    <button type="button" class="academy-tab-btn" id="btn-academy-regulations" onclick="switchAcademyTab('regulations')">
+                        <i class="fa-solid fa-scale-balanced"></i> Normas ANM & TARP
+                    </button>
+                </div>
+
+                <!-- TAB 1: MECÂNICA DOS SOLOS -->
+                <div class="academy-tab-pane active" id="academy-pane-soils">
+                    <div class="academy-formula-grid">
+                        <div class="academy-card">
+                            <div class="academy-card-title">
+                                <i class="fa-solid fa-weight-hanging"></i> Princípio das Tensões Efetivas (Terzaghi)
+                            </div>
+                            <p class="text-xs text-secondary m-0">A resistência e a deformação do solo são regidas pela tensão transmitida entre os grãos sólidos.</p>
+                            <div class="academy-math-box">σ' = σ - u</div>
+                            <p class="text-xs text-secondary m-0">Onde <code>σ</code> é a tensão total, <code>u</code> é a poro-pressão neutra da água e <code>σ'</code> é a tensão efetiva atuante.</p>
+                        </div>
+
+                        <div class="academy-card">
+                            <div class="academy-card-title">
+                                <i class="fa-solid fa-scissors"></i> Resistência ao Cisalhamento (Mohr-Coulomb)
+                            </div>
+                            <p class="text-xs text-secondary m-0">Critério fundamental de ruptura para solos e interfaces geotécnicas.</p>
+                            <div class="academy-math-box">τ = c' + σ' · tan(φ')</div>
+                            <p class="text-xs text-secondary m-0">Onde <code>c'</code> é a coesão efetiva e <code>φ'</code> é o ângulo de atrito interno efetivo do solo.</p>
+                        </div>
+
+                        <div class="academy-card">
+                            <div class="academy-card-title">
+                                <i class="fa-solid fa-filter"></i> Critério de Filtros Protetores (Terzaghi & Sherard)
+                            </div>
+                            <p class="text-xs text-secondary m-0">Dimensionamento de transições drenantes contra piping e carreamento de finos.</p>
+                            <div class="academy-math-box">D15F / D85B &lt; 4 a 5 (Retenção)<br>D15F / D15B &gt; 4 a 5 (Permeabilidade)</div>
+                            <p class="text-xs text-secondary m-0">Evita erosão interna e garante drenagem livre no tapete e drenos de pé da barragem.</p>
+                        </div>
+
+                        <div class="academy-card">
+                            <div class="academy-card-title">
+                                <i class="fa-solid fa-water"></i> Lei de Darcy e Gradiente Crítico
+                            </div>
+                            <p class="text-xs text-secondary m-0">Fluxo em meio poroso saturado e condição de liquefação ou areia movediça.</p>
+                            <div class="academy-math-box">v = k · i &nbsp;|&nbsp; icr = (γsat - γw) / γw = (Gs - 1) / (1 + e)</div>
+                            <p class="text-xs text-secondary m-0">Quando o gradiente de saída <code>i</code> atinge <code>icr (~1,0)</code>, a tensão efetiva anula-se, deflagrando piping.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: PIEZOMETRIA & PORO-PRESSÃO (COM SIMULADOR) -->
+                <div class="academy-tab-pane" id="academy-pane-piezometers">
+                    <div class="academy-formula-grid">
+                        <div class="academy-card">
+                            <div class="academy-card-title">
+                                <i class="fa-solid fa-bore-hole"></i> Piezômetro Casagrande / Tubo Aberto (INA)
+                            </div>
+                            <p class="text-xs text-secondary m-0">Medição de nível estático com fita piezométrica em tubo perfurado no bulbo filtrante.</p>
+                            <div class="academy-math-box">Cota NA = Cota Boca - Profundidade<br>u = (Cota NA - Cota Ponta) · 9,81 kPa</div>
+                            <p class="text-xs text-secondary m-0">Atenção ao retardo hidrodinâmico (time lag) em solos argilosos e siltosos pós-chuvas.</p>
+                        </div>
+
+                        <div class="academy-card">
+                            <div class="academy-card-title">
+                                <i class="fa-solid fa-wave-square"></i> Corda Vibrante (PZ) & Calibração
+                            </div>
+                            <p class="text-xs text-secondary m-0">Transdutor de diafragma de alta frequência para resposta instantânea de poro-pressão.</p>
+                            <div class="academy-math-box">u_corr = (B · CF) + ΔT · CT - ΔPbaro</div>
+                            <p class="text-xs text-secondary m-0">Exige compensação de temperatura no fio de aço e dedução de variações barométricas atmosféricas.</p>
+                        </div>
+                    </div>
+
+                    <!-- Simulador Interativo de Poro-pressão de Campo -->
+                    <div class="academy-simulator-card">
+                        <h4 class="text-sm m-0 text-teal mb-2">
+                            <i class="fa-solid fa-calculator"></i> Simulador Interativo de Poro-pressão e Cota NA (Bo & Barrett, 2023)
+                        </h4>
+                        <p class="text-xs text-secondary mb-3">
+                            Insira os dados geométricos e a leitura de campo para verificar instantaneamente a cota piezométrica, a pressão neutra na ponta e o enquadramento de segurança.
+                        </p>
+                        <div class="academy-sim-inputs">
+                            <div>
+                                <label class="text-xs text-secondary font-bold">Cota da Boca (m):</label>
+                                <input type="number" id="sim-cota-boca" class="form-control form-control-sm" value="840.00" step="0.01">
+                            </div>
+                            <div>
+                                <label class="text-xs text-secondary font-bold">Profundidade Medida (m):</label>
+                                <input type="number" id="sim-prof-medida" class="form-control form-control-sm" value="12.50" step="0.01">
+                            </div>
+                            <div>
+                                <label class="text-xs text-secondary font-bold">Cota Ponta / Fundo (m):</label>
+                                <input type="number" id="sim-cota-fundo" class="form-control form-control-sm" value="818.00" step="0.01">
+                            </div>
+                            <div>
+                                <label class="text-xs text-secondary font-bold">Cota Limite Alerta (m):</label>
+                                <input type="number" id="sim-cota-alerta" class="form-control form-control-sm" value="830.00" step="0.01">
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="runPorePressureSimulation()">
+                                <i class="fa-solid fa-bolt"></i> Calcular Poro-pressão
+                            </button>
+                        </div>
+                        <div id="sim-pore-result" class="academy-sim-result" style="display:none;">
+                            <!-- Preenchido via app.js -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: CINEMÁTICA, ESTABILIDADE & VELOCIDADE INVERSA -->
+                <div class="academy-tab-pane" id="academy-pane-kinematics">
+                    <div class="academy-formula-grid">
+                        <div class="academy-card">
+                            <div class="academy-card-title">
+                                <i class="fa-solid fa-arrows-split-up-and-left"></i> Razão Cinemática (Matsuo & Kawamura)
+                            </div>
+                            <p class="text-xs text-secondary m-0">Relação entre o deslocamento horizontal no pé (δ) e o recalque vertical na crista (s).</p>
+                            <div class="academy-math-box">Razão = δ / s &nbsp;&lt;&nbsp; 0,90 (Limite Seguro)</div>
+                            <p class="text-xs text-secondary m-0">Quando a razão ultrapassa 0,90 da envoltória empírica, o maciço entra em iminência de ruptura.</p>
+                        </div>
+
+                        <div class="academy-card">
+                            <div class="academy-card-title">
+                                <i class="fa-solid fa-chart-line-up"></i> Taxa de Deformação (Tominaga & Hashimoto)
+                            </div>
+                            <p class="text-xs text-secondary m-0">Taxa diferencial de velocidade entre a base e a crista do talude.</p>
+                            <div class="academy-math-box">Δδ / Δs &gt; 0,70 = Ruptura Ativa</div>
+                            <p class="text-xs text-secondary m-0">Valores superiores a 0,70 evidenciam desenvolvimento contínuo de superfície de cisalhamento.</p>
+                        </div>
+                    </div>
+
+                    <!-- Calculadora de Velocidade Inversa 1/v (Fukuzono / Radar Cava) -->
+                    <div class="academy-simulator-card">
+                        <h4 class="text-sm m-0 text-warning mb-2">
+                            <i class="fa-solid fa-stopwatch"></i> Analisador de Velocidade Inversa (Método de Fukuzono / 1/v → 0)
+                        </h4>
+                        <p class="text-xs text-secondary mb-3">
+                            Utilizado para monitoramento de radares de talude (como o radar da Cava Jangada) e prismas em regime de aceleração. Quando <code>1/v</code> decresce linearmente em direção a zero, estima-se o tempo até o colapso para evacuação segura.
+                        </p>
+                        <div class="academy-sim-inputs">
+                            <div>
+                                <label class="text-xs text-secondary font-bold">Leitura 1 (t = 0h) Vel (mm/h):</label>
+                                <input type="number" id="sim-v1" class="form-control form-control-sm" value="1.20" step="0.05">
+                            </div>
+                            <div>
+                                <label class="text-xs text-secondary font-bold">Leitura 2 (t = 4h) Vel (mm/h):</label>
+                                <input type="number" id="sim-v2" class="form-control form-control-sm" value="2.10" step="0.05">
+                            </div>
+                            <div>
+                                <label class="text-xs text-secondary font-bold">Leitura 3 (t = 8h) Vel (mm/h):</label>
+                                <input type="number" id="sim-v3" class="form-control form-control-sm" value="4.80" step="0.05">
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-warning btn-sm" onclick="runInverseVelocitySimulation()">
+                                <i class="fa-solid fa-chart-line"></i> Projetar Horizonte de Ruptura (tf)
+                            </button>
+                        </div>
+                        <div id="sim-inv-result" class="academy-sim-result" style="display:none;">
+                            <!-- Preenchido via app.js -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 4: CONTENÇÕES & EMPUXOS -->
+                <div class="academy-tab-pane" id="academy-pane-containments">
+                    <div class="academy-formula-grid">
+                        <div class="academy-card">
+                            <div class="academy-card-title">
+                                <i class="fa-solid fa-arrows-left-right"></i> Teoria dos Empuxos de Rankine
+                            </div>
+                            <p class="text-xs text-secondary m-0">Determinação das pressões de terra para maciço horizontal sem atrito solo-muro.</p>
+                            <div class="academy-math-box">Ka = tan²(45° - φ'/2)<br>Kp = tan²(45° + φ'/2)<br>K0 = 1 - sin(φ')</div>
+                            <p class="text-xs text-secondary m-0">Empuxo ativo total: <code>Ea = 0,5 · γ · H² · Ka</code> atuando a <code>H/3</code> da base.</p>
+                        </div>
+
+                        <div class="academy-card">
+                            <div class="academy-card-title">
+                                <i class="fa-solid fa-building-shield"></i> Verificações de Estabilidade de Muros
+                            </div>
+                            <p class="text-xs text-secondary m-0">Critérios de segurança contra colapso geotécnico e estrutural externo.</p>
+                            <div class="academy-math-box">FS_tombamento = Σ M_estabilizadores / Σ M_tombamento &ge; 1,5 a 2,0<br>FS_deslizamento = Σ F_resistentes / Σ F_atuantes &ge; 1,50</div>
+                            <p class="text-xs text-secondary m-0">Exige verificação de capacidade de carga da fundação (FS &ge; 2,5 a 3,0) e drenagem com barbacãs desobstruídos.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 5: LEGISLAÇÃO ANM & TARP -->
+                <div class="academy-tab-pane" id="academy-pane-regulations">
+                    <div class="academy-formula-grid">
+                        <div class="academy-card">
+                            <div class="academy-card-title">
+                                <i class="fa-solid fa-gavel"></i> Resolução ANM nº 95/2022 (Consolidação de Segurança)
+                            </div>
+                            <p class="text-xs text-secondary m-0">Estabelece as diretrizes regulatórias para barragens e estruturas de mineração no Brasil.</p>
+                            <div class="academy-math-box">Classificação = Matriz CRI (Categoria de Risco) × DPA (Dano Potencial)</div>
+                            <p class="text-xs text-secondary m-0">Regula a exigência de monitoramento diário, DCE semestral, inspeções quinzenais e revisão periódica de segurança.</p>
+                        </div>
+
+                        <div class="academy-card">
+                            <div class="academy-card-title">
+                                <i class="fa-solid fa-tower-broadcast"></i> Escalonamento TARP & PAEBM
+                            </div>
+                            <p class="text-xs text-secondary m-0">Fluxo obrigatório de ação operacional e emergencial diante de anomalias.</p>
+                            <div class="academy-math-box">Nível 1 (Atenção / Amarelo): Investigação e inspeção diária<br>Nível 2 (Alerta / Laranja): Intervenção corretiva imediata<br>Nível 3 (Emergência / Vermelho): Acionamento de sirenes e evacuação ZAS</div>
+                            <p class="text-xs text-secondary m-0">Comunicação imediata à Defesa Civil Estadual/Municipal e à ANM via sistema SIGBM.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer justify-between">
+                <span class="text-secondary small"><i class="fa-solid fa-book-bookmark"></i> MDSync Engenharia Geotécnica · Bo & Barrett (2023) · ANM 95/2022</span>
+                <button type="button" class="btn btn-secondary" onclick="closeGeotechAcademyModal()">Fechar</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Script Injection -->
+    <script src="src/core/utils.js?v=robust-20260908"></script>
+    <script src="src/core/geotech.js?v=robust-20260908"></script>
     <script src="vendor/leaflet/leaflet.js"></script>
     <script src="data/geosync-database.js?v=pcmi-20260904i"></script>
     <script src="data/geoview-catalog.js?v=pcmi-20260904i"></script>
@@ -3195,6 +3445,7 @@
     <script src="data/inspections-fir.js?v=pcmi-20260904i"></script>
     <script src="data/whatsapp-radar-feed.js?v=mdhub-20260904d"></script>
     <script src="data/radar-cava-jangada.js?v=mdhub-20260904d"></script>
-    <script src="app.js?v=mdhub-20260904d"></script>
+    <script src="app.js?v=mdhub-20260908a"></script>
 </body>
 </html>
+
