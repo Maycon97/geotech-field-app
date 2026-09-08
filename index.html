@@ -25,7 +25,7 @@
     <!-- Chart.js local fallback for offline field use -->
     <script src="vendor/chart.umd.min.js?v=authless-20260610c" defer></script>
     <script src="vendor/jszip.min.js?v=authless-20260610c" defer></script>
-    <link rel="stylesheet" href="styles.css?v=mdhub-20260904c">
+    <link rel="stylesheet" href="styles.css?v=mdhub-20260908c">
     <style>
         body .pilhas-bi-map-panel .pilhas-location-map {
             background-image:
@@ -34,6 +34,57 @@
             background-size: cover;
             background-position: center;
         }
+
+        /* Resiliência imediata para os KPIs da Central de Histórico */
+        .history-kpis-grid {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)) !important;
+            gap: 16px !important;
+            margin-bottom: 20px !important;
+        }
+        .history-kpi-card {
+            display: flex !important;
+            align-items: center !important;
+            gap: 16px !important;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.88) 0%, rgba(10, 20, 35, 0.94) 100%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 12px !important;
+            padding: 18px 20px !important;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+        .history-kpi-card::before {
+            content: "" !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            height: 3px !important;
+        }
+        .history-kpi-card.card-theme-blue::before { background: linear-gradient(90deg, #0284c7, #38bdf8) !important; }
+        .history-kpi-card.card-theme-purple::before { background: linear-gradient(90deg, #7c3aed, #c084fc) !important; }
+        .history-kpi-card.card-theme-teal::before { background: linear-gradient(90deg, #0f766e, #2dd4bf) !important; }
+        .history-kpi-card.card-theme-green::before { background: linear-gradient(90deg, #15803d, #4ade80) !important; }
+        .history-kpi-card .history-kpi-icon {
+            width: 52px !important;
+            height: 52px !important;
+            min-width: 52px !important;
+            border-radius: 12px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 22px !important;
+            flex-shrink: 0 !important;
+        }
+        .history-kpi-icon.icon-blue { background: rgba(56, 189, 248, 0.12) !important; color: #38bdf8 !important; border: 1px solid rgba(56, 189, 248, 0.28) !important; }
+        .history-kpi-icon.icon-purple { background: rgba(192, 132, 252, 0.12) !important; color: #c084fc !important; border: 1px solid rgba(192, 132, 252, 0.28) !important; }
+        .history-kpi-icon.icon-teal { background: rgba(45, 212, 191, 0.12) !important; color: #2dd4bf !important; border: 1px solid rgba(45, 212, 191, 0.28) !important; }
+        .history-kpi-icon.icon-green { background: rgba(74, 222, 128, 0.12) !important; color: #4ade80 !important; border: 1px solid rgba(74, 222, 128, 0.28) !important; }
+        .history-kpi-card .kpi-content { display: flex !important; flex-direction: column !important; overflow: hidden !important; flex-grow: 1 !important; }
+        .history-kpi-card .kpi-label { font-size: 11px !important; text-transform: uppercase !important; letter-spacing: 0.6px !important; font-weight: 700 !important; color: #94a3b8 !important; margin-bottom: 2px !important; }
+        .history-kpi-card .kpi-value { font-size: 24px !important; color: #f8fafc !important; font-weight: 800 !important; font-family: var(--font-mono, monospace) !important; line-height: 1.2 !important; margin: 2px 0 4px 0 !important; }
+        .history-kpi-card .kpi-sub { font-size: 11.5px !important; color: #64748b !important; display: flex !important; align-items: center !important; gap: 5px !important; font-weight: 500 !important; }
     </style>
 </head>
 <body class="dark-theme">
@@ -1358,36 +1409,36 @@
                 <section id="tab-history" class="tab-pane">
                     <!-- Global KPIs Strip -->
                     <div class="history-kpis-grid mb-3">
-                        <div class="history-kpi-card">
-                            <div class="kpi-icon-box bg-blue"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                        <div class="history-kpi-card card-theme-blue">
+                            <div class="history-kpi-icon icon-blue"><i class="fa-solid fa-clock-rotate-left"></i></div>
                             <div class="kpi-content">
                                 <span class="kpi-label">Total de Leituras</span>
                                 <strong class="kpi-value" id="history-kpi-total">3.094</strong>
-                                <span class="kpi-sub">Série histórica consolidada</span>
+                                <span class="kpi-sub"><i class="fa-solid fa-database text-xs"></i> Série histórica consolidada</span>
                             </div>
                         </div>
-                        <div class="history-kpi-card">
-                            <div class="kpi-icon-box bg-purple"><i class="fa-solid fa-satellite"></i></div>
+                        <div class="history-kpi-card card-theme-purple">
+                            <div class="history-kpi-icon icon-purple"><i class="fa-solid fa-satellite"></i></div>
                             <div class="kpi-content">
                                 <span class="kpi-label">Instrumentos Ativos</span>
                                 <strong class="kpi-value" id="history-kpi-instruments">218</strong>
-                                <span class="kpi-sub">PZ, INA, NA, Medidores de Vazão</span>
+                                <span class="kpi-sub"><i class="fa-solid fa-gauge text-xs"></i> PZ, INA, NA, Medidores de Vazão</span>
                             </div>
                         </div>
-                        <div class="history-kpi-card">
-                            <div class="kpi-icon-box bg-teal"><i class="fa-solid fa-mountain"></i></div>
+                        <div class="history-kpi-card card-theme-teal">
+                            <div class="history-kpi-icon icon-teal"><i class="fa-solid fa-mountain"></i></div>
                             <div class="kpi-content">
                                 <span class="kpi-label">Estruturas Cobertas</span>
                                 <strong class="kpi-value" id="history-kpi-structures">8 Estruturas</strong>
-                                <span class="kpi-sub">Barragens e Pilhas de Estéril</span>
+                                <span class="kpi-sub"><i class="fa-solid fa-layer-group text-xs"></i> Barragens e Pilhas de Estéril</span>
                             </div>
                         </div>
-                        <div class="history-kpi-card">
-                            <div class="kpi-icon-box bg-green"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="history-kpi-card card-theme-green">
+                            <div class="history-kpi-icon icon-green"><i class="fa-solid fa-shield-halved"></i></div>
                             <div class="kpi-content">
                                 <span class="kpi-label">Conformidade TARP</span>
                                 <strong class="kpi-value text-success" id="history-kpi-status">98.6% Normal</strong>
-                                <span class="kpi-sub">Critérios Bo &amp; Barrett (2023)</span>
+                                <span class="kpi-sub"><i class="fa-solid fa-check-double text-xs"></i> Critérios Bo &amp; Barrett (2023)</span>
                             </div>
                         </div>
                     </div>
