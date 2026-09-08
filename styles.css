@@ -10218,4 +10218,277 @@ textarea.form-control:focus {
     margin-top: 10px;
 }
 
+/* ==========================================================================
+   MÓDULO: ROTINA DIÁRIA & CRONOGRAMA PCM
+   ========================================================================== */
+.rotina-hero-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.rotina-alert-card {
+    background: linear-gradient(145deg, rgba(15, 23, 42, 0.92), rgba(11, 28, 56, 0.92));
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+}
+
+.rotina-alert-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--primary, #027bff);
+}
+
+.rotina-alert-card.warn::before { background: #ffc21a; }
+.rotina-alert-card.danger::before { background: #ef4444; }
+.rotina-alert-card.success::before { background: #33d17a; }
+.rotina-alert-card.rain::before { background: #38bdf8; }
+
+.rotina-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.rotina-card-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary, #94a3b8);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.rotina-badge-pill {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 99px;
+    font-weight: 700;
+}
+
+.rotina-weather-box {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 14px;
+    background: rgba(2, 132, 199, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.rotina-weather-temp {
+    font-size: 26px;
+    font-weight: 800;
+    color: #e0f2fe;
+    line-height: 1;
+}
+
+.rotina-quick-pluv-form {
+    display: grid;
+    grid-template-columns: 1fr 100px auto;
+    gap: 8px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* Painel Cronograma PCM */
+.pcm-panel-container {
+    background: var(--bg-dark-card, #0f172a);
+    border: 1px solid var(--border-color, rgba(255,255,255,0.1));
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.2);
+    margin-bottom: 24px;
+}
+
+.pcm-filters-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.pcm-cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+}
+
+.pcm-cal-cell {
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 8px;
+    background: rgba(255,255,255,0.02);
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: all 0.2s ease;
+}
+
+.pcm-cal-cell:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(56, 189, 248, 0.4);
+}
+
+.pcm-cal-cell.today {
+    border-color: #38bdf8;
+    background: rgba(56, 189, 248, 0.08);
+    box-shadow: inset 0 0 0 1px #38bdf8;
+}
+
+.pcm-cal-cell.out {
+    opacity: 0.3;
+    pointer-events: none;
+    border-color: transparent;
+}
+
+.pcm-chip {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   MÓDULO: FLUXOGRAMA DE USUÁRIOS & EQUIPE GEOTÉCNICA
+   ========================================================================== */
+.team-hierarchy-container {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    margin-top: 18px;
+}
+
+.team-level-section {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 20px;
+    position: relative;
+}
+
+.team-level-badge {
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    padding: 4px 12px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.team-level-badge.lideranca { background: #f59e0b; color: #000; }
+.team-level-badge.analitico { background: #0284c7; color: #fff; }
+.team-level-badge.operacional { background: #10b981; color: #fff; }
+.team-level-badge.diretoria { background: #8b5cf6; color: #fff; }
+
+.team-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 16px;
+    margin-top: 6px;
+}
+
+.team-member-card {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.85));
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.team-member-card:hover {
+    transform: translateY(-4px);
+    border-color: #38bdf8;
+    box-shadow: 0 8px 24px rgba(2, 132, 199, 0.25);
+}
+
+.team-member-card.selected-operator {
+    border: 2px solid #33d17a;
+    box-shadow: 0 0 15px rgba(51, 209, 122, 0.35);
+}
+
+.team-photo-frame {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 12px;
+    border: 3px solid;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    background: #1e293b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.team-photo-frame.lideranca { border-color: #f59e0b; }
+.team-photo-frame.analitico { border-color: #38bdf8; }
+.team-photo-frame.operacional { border-color: #10b981; }
+.team-photo-frame.diretoria { border-color: #a855f7; }
+
+.team-photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.team-member-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #f8fafc;
+    margin-bottom: 2px;
+}
+
+.team-member-role {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.team-member-tag {
+    font-size: 10.5px;
+    padding: 3px 8px;
+    border-radius: 99px;
+    background: rgba(255,255,255,0.06);
+    color: #cbd5e1;
+    border: 1px solid rgba(255,255,255,0.1);
+    margin-top: 4px;
+    line-height: 1.3;
+}
+
+
 

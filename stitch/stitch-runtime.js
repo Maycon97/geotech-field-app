@@ -36,6 +36,17 @@
         showToast('Homologação SIGBM Recebida', `Protocolo ${data.protocolo} sincronizado entre os projetos.`, 'success', 5000);
       }
     });
+    bridge.on('PLUVIOMETRIA_SAVED', (data, isLocal) => {
+      if (!isLocal) {
+        const mm = data.mm !== undefined ? data.mm : (data.reading ? data.reading.precipitacao_24h : 0);
+        showToast('Pluviometria Atualizada', `Registro de ${mm} mm coletado por ${data.user || 'Campo'}.`, 'info', 4000);
+      }
+    });
+    bridge.on('OPERATOR_CHANGED', (data, isLocal) => {
+      if (!isLocal && data.operator) {
+        showToast('Operador Ativo Atualizado', `${data.operator.name} (${data.operator.role}) assumiu o turno.`, 'info', 3500);
+      }
+    });
   }
 
   function getCurrentScreenFile() {

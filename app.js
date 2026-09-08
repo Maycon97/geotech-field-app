@@ -3759,6 +3759,18 @@ function switchTab(tabId) {
                 selectGeorefStructure(geoSpatialState.selectedStructure || "Toda a Mina (Visão Geral)");
             }, 100);
         }
+    } else if (tabId === 'rotina') {
+        titleEl.textContent = "Rotina Diária & Cronograma PCM";
+        subEl.textContent = "Atividades programadas do dia, alertas de inspeção de campo e monitoramento pluviométrico.";
+        if (typeof initRotinaDiaria === "function") {
+            initRotinaDiaria();
+        }
+    } else if (tabId === 'users') {
+        titleEl.textContent = "Usuários & Equipe Geotécnica";
+        subEl.textContent = "Organograma funcional, liderança, engenharia analítica e equipe operacional de campo.";
+        if (typeof renderGeotechTeamFluxogram === "function") {
+            renderGeotechTeamFluxogram();
+        }
     } else if (tabId === 'auth' || tabId === 'release') {
         titleEl.textContent = "Acesso & Login";
         subEl.textContent = "Autenticação corporativa, perfil de operador e gestão de permissões em campo.";
@@ -12299,6 +12311,12 @@ function bootApplication() {
     resetSecurityIdleTimer();
     initializeMdHubModules();
     setupSyncBridgeListeners();
+    if (typeof initRotinaDiaria === "function") {
+        initRotinaDiaria();
+    }
+    if (typeof renderGeotechTeamFluxogram === "function") {
+        renderGeotechTeamFluxogram();
+    }
     if (typeof initRadarCockpit === "function") {
         setTimeout(initRadarCockpit, 100);
     }
@@ -12622,6 +12640,586 @@ function setupSyncBridgeListeners() {
             showToast(`[HUB Stitch] Pacote Oficial ANM compilado: ${data.filename}`, "info");
         }
     });
+
+    SyncBridge.on("PLUVIOMETRIA_SAVED", (data) => {
+        if (typeof showToast === "function") {
+            showToast(`[Sincronia] Pluviometria registrada: ${data.rainfallMm} mm em ${data.location} (${data.collector})`, "info");
+        }
+        if (typeof renderRotinaDayAlert === "function") {
+            const dateInput = document.getElementById("rotina-selected-date");
+            const curDate = dateInput && dateInput.value ? dateInput.value : new Date().toISOString().slice(0, 10);
+            renderRotinaDayAlert(curDate);
+        }
+    });
+
+    SyncBridge.on("OPERATOR_CHANGED", (data) => {
+        if (typeof showToast === "function") {
+            showToast(`[Sincronia] Operador ativo alterado: ${data.name} (${data.role})`, "info");
+        }
+        currentOperatingUserId = data.operatorId;
+        if (typeof updateActiveOperatorUI === "function") {
+            updateActiveOperatorUI();
+        }
+    });
+}
+
+// ==========================================================================
+// MÓDULO: ROTINA DIÁRIA, CRONOGRAMA PCM & EQUIPE DE GEOTECNIA
+// ITAMINAS MINERAÇÃO S.A. - SPLO GEOTECNIA
+// ==========================================================================
+
+let pcmFilterState = {
+    ano: "2026",
+    mes: "09",
+    estr: "Todas",
+    ciclo: "Todos"
+};
+let pcmCurrentTab = "op";
+let rotinaTargetStructureCurrent = "PILHA JACÓ";
+let currentOperatingUserId = "maycon_douglas";
+
+function initRotinaDiaria() {
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const dateInput = document.getElementById("rotina-selected-date");
+    if (dateInput && !dateInput.value) {
+        dateInput.value = todayStr;
+    }
+    const curDate = dateInput && dateInput.value ? dateInput.value : todayStr;
+    renderRotinaDayAlert(curDate);
+    renderPcmExecutivePanel();
+}
+
+function onRotinaDateChange(val) {
+    if (!val) return;
+    renderRotinaDayAlert(val);
+}
+
+function setRotinaToday() {
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const dateInput = document.getElementById("rotina-selected-date");
+    if (dateInput) {
+        dateInput.value = todayStr;
+    }
+    renderRotinaDayAlert(todayStr);
+}
+
+function renderRotinaDayAlert(dateStr) {
+    const dateLabel = document.getElementById("rotina-current-date-label");
+    if (dateLabel) {
+        const parts = dateStr.split("-");
+        const dObj = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+        const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+        dateLabel.textContent = "Referência: " + dObj.toLocaleDateString("pt-BR", options);
+    }
+
+    // Buscar atividades do dia na base do cronograma
+    let dayActs = [];
+    if (typeof window.CRONOGRAMA_PAINEL_DATA !== "undefined" && Array.isArray(window.CRONOGRAMA_PAINEL_DATA.acts)) {
+        dayActs = window.CRONOGRAMA_PAINEL_DATA.acts.filter(a => a.plan === dateStr);
+        if (dayActs.length === 0) {
+            // Se não houver atividade na data exata, busca no mesmo mês
+            const mesAno = dateStr.slice(0, 7);
+            const monthActs = window.CRONOGRAMA_PAINEL_DATA.acts.filter(a => a.mesano === mesAno);
+            if (monthActs.length > 0) {
+                dayActs = [monthActs[0]];
+            }
+        }
+    }
+
+    const titleEl = document.getElementById("rotina-activity-title");
+    const descEl = document.getElementById("rotina-activity-desc");
+    const tagsEl = document.getElementById("rotina-activity-tags");
+    const countEl = document.getElementById("rotina-activity-count-text");
+    const badgeEl = document.getElementById("rotina-activity-badge");
+
+    const structTitleEl = document.getElementById("rotina-target-structure");
+    const structDescEl = document.getElementById("rotina-target-structure-desc");
+
+    if (dayActs.length > 0) {
+        const primary = dayActs[0];
+        if (titleEl) titleEl.textContent = `${primary.estr}: ${primary.acao}`;
+        if (descEl) descEl.textContent = `Status: ${primary.status} ${primary.desvio ? '(Desvio: ' + primary.desvio + ')' : ''}`;
+        if (badgeEl) {
+            badgeEl.textContent = primary.status;
+            badgeEl.className = primary.status === 'Concluído' ? 'badge badge-success rotina-badge-pill' :
+                               primary.status === 'Realizado com Atraso' ? 'badge badge-warning rotina-badge-pill' : 'badge badge-info rotina-badge-pill';
+        }
+        if (tagsEl) {
+            tagsEl.innerHTML = `
+                <span class="badge badge-outline"><i class="fa-solid fa-arrows-rotate"></i> Ciclo ${primary.ciclo}</span>
+                <span class="badge badge-outline"><i class="fa-solid fa-calendar-day"></i> Planejado: ${primary.plan}</span>
+                <span class="badge badge-outline"><i class="fa-solid fa-location-dot"></i> ${primary.estr}</span>
+            `;
+        }
+        if (countEl) countEl.textContent = `${dayActs.length} atividade(s) mapeada(s) para esta data`;
+
+        // Identificar a estrutura a ser inspecionada
+        const inspAct = dayActs.find(a => a.acao.includes("INSPEÇÃO") || a.acao.includes("INSPECIONAR") || a.acao.includes("MONITORAR")) || primary;
+        rotinaTargetStructureCurrent = inspAct.estr !== "TODAS" && inspAct.estr !== "ESCRITÓRIO" ? inspAct.estr : "Barragem B1";
+        if (structTitleEl) structTitleEl.textContent = rotinaTargetStructureCurrent;
+        if (structDescEl) structDescEl.textContent = `${inspAct.acao} (Ciclo ${inspAct.ciclo}). Inspeção de campo com checklist digital e registro fotográfico.`;
+    } else {
+        if (titleEl) titleEl.textContent = "Sem atividades críticas cadastradas";
+        if (descEl) descEl.textContent = "Verificação de rotina e inspeção sensorial ordinária da mina.";
+        if (countEl) countEl.textContent = "0 atividades registradas";
+        rotinaTargetStructureCurrent = "Barragem B1";
+        if (structTitleEl) structTitleEl.textContent = "Barragem B1";
+        if (structDescEl) structDescEl.textContent = "Inspeção ordinária de segurança e verificação de drenos.";
+    }
+
+    // Atualizar status de pluviometria para o dia
+    const pluvBadge = document.getElementById("rotina-pluv-status-badge");
+    const pluvLastRecord = document.getElementById("rotina-pluv-last-record");
+    let hasPluv = false;
+    if (typeof window.PLUVIOMETRIA_DATA !== "undefined" && Array.isArray(window.PLUVIOMETRIA_DATA.latestRecords)) {
+        const found = window.PLUVIOMETRIA_DATA.latestRecords.find(r => r.date === dateStr);
+        if (found) {
+            hasPluv = true;
+            if (pluvBadge) {
+                pluvBadge.textContent = "Coletado Hoje (" + found.rainfallMm + " mm)";
+                pluvBadge.className = "badge badge-success rotina-badge-pill";
+            }
+            if (pluvLastRecord) {
+                pluvLastRecord.textContent = `Registrado: ${found.rainfallMm} mm em ${found.location} (Coletor: ${found.collector})`;
+            }
+        }
+    }
+    if (!hasPluv && pluvBadge) {
+        pluvBadge.textContent = "Solicitação Pendente";
+        pluvBadge.className = "badge badge-warning rotina-badge-pill";
+    }
+}
+
+function startInspectionForStructureFromRotina() {
+    const struct = rotinaTargetStructureCurrent || "Barragem B1";
+    switchTab("inspections");
+    setTimeout(() => {
+        const select = document.getElementById("inspection-structure-select") || document.getElementById("structure-select");
+        if (select) {
+            for (let i = 0; i < select.options.length; i++) {
+                if (select.options[i].value.toLowerCase().includes(struct.toLowerCase()) || struct.toLowerCase().includes(select.options[i].value.toLowerCase())) {
+                    select.selectedIndex = i;
+                    select.dispatchEvent(new Event("change"));
+                    break;
+                }
+            }
+        }
+        if (typeof showToast === "function") {
+            showToast(`Iniciando checklist para: ${struct}`, "info");
+        }
+    }, 150);
+}
+
+function saveDailyPluviometriaFromRotina() {
+    const locSelect = document.getElementById("rotina-pluv-location");
+    const valInput = document.getElementById("rotina-pluv-value");
+    const dateInput = document.getElementById("rotina-selected-date");
+
+    const location = locSelect ? locSelect.value : "PILHA B2";
+    const mm = valInput ? parseFloat(valInput.value) || 0.0 : 0.0;
+    const dateStr = dateInput && dateInput.value ? dateInput.value : new Date().toISOString().slice(0, 10);
+    
+    // Obter nome do operador ativo
+    let collectorName = "Nauberty Santos";
+    if (typeof window.getGeotechMemberById === "function") {
+        const member = window.getGeotechMemberById(currentOperatingUserId);
+        if (member) collectorName = member.nome;
+    }
+
+    const newRecord = {
+        date: dateStr,
+        location: location,
+        rainfallMm: mm,
+        collector: collectorName,
+        timestamp: new Date().toISOString()
+    };
+
+    if (typeof window.PLUVIOMETRIA_DATA !== "undefined") {
+        if (!Array.isArray(window.PLUVIOMETRIA_DATA.latestRecords)) {
+            window.PLUVIOMETRIA_DATA.latestRecords = [];
+        }
+        window.PLUVIOMETRIA_DATA.latestRecords.unshift(newRecord);
+        window.PLUVIOMETRIA_DATA.totalRecords = (window.PLUVIOMETRIA_DATA.totalRecords || 0) + 1;
+    }
+
+    // Salvar localmente em localStorage
+    try {
+        const saved = JSON.parse(localStorage.getItem("mdsync_local_pluviometria") || "[]");
+        saved.unshift(newRecord);
+        localStorage.setItem("mdsync_local_pluviometria", JSON.stringify(saved));
+    } catch (e) {
+        console.warn("Storage warning:", e);
+    }
+
+    // Notificar barramento SyncBridge
+    if (typeof SyncBridge !== "undefined") {
+        SyncBridge.emit("PLUVIOMETRIA_SAVED", newRecord);
+    }
+
+    // Feedback visual
+    const pluvBadge = document.getElementById("rotina-pluv-status-badge");
+    if (pluvBadge) {
+        pluvBadge.textContent = "Registrado (" + mm + " mm)";
+        pluvBadge.className = "badge badge-success rotina-badge-pill";
+    }
+    const pluvLastRecord = document.getElementById("rotina-pluv-last-record");
+    if (pluvLastRecord) {
+        pluvLastRecord.textContent = `Salvo: ${mm} mm em ${location} (Coletor: ${collectorName})`;
+    }
+
+    if (typeof showToast === "function") {
+        showToast(`Pluviometria registrada: ${mm} mm em ${location} (${collectorName})`, "success");
+    }
+}
+
+// Sub-abas do Painel Executivo PCMI
+function switchPcmTab(tab) {
+    pcmCurrentTab = tab;
+    const btnOp = document.getElementById("btn-pcm-op");
+    const btnInd = document.getElementById("btn-pcm-ind");
+    const paneOp = document.getElementById("pcm-view-op-container");
+    const paneInd = document.getElementById("pcm-view-ind-container");
+
+    if (tab === "op") {
+        if (btnOp) { btnOp.style.background = "#027bff"; btnOp.style.color = "#fff"; }
+        if (btnInd) { btnInd.style.background = "transparent"; btnInd.style.color = "#9db3d1"; }
+        if (paneOp) paneOp.style.display = "block";
+        if (paneInd) paneInd.style.display = "none";
+        renderPcmCalendar();
+    } else {
+        if (btnInd) { btnInd.style.background = "#027bff"; btnInd.style.color = "#fff"; }
+        if (btnOp) { btnOp.style.background = "transparent"; btnOp.style.color = "#9db3d1"; }
+        if (paneInd) paneInd.style.display = "block";
+        if (paneOp) paneOp.style.display = "none";
+        renderPcmIndicators();
+    }
+}
+
+function onPcmFilterChange() {
+    const selAno = document.getElementById("pcm-sel-ano");
+    const selMes = document.getElementById("pcm-sel-mes");
+    const selEstr = document.getElementById("pcm-sel-estr");
+
+    if (selAno) pcmFilterState.ano = selAno.value;
+    if (selMes) pcmFilterState.mes = selMes.value;
+    if (selEstr) pcmFilterState.estr = selEstr.value;
+
+    renderPcmExecutivePanel();
+}
+
+function setPcmCiclo(ciclo) {
+    pcmFilterState.ciclo = ciclo;
+    ["Todos", "1", "2"].forEach(c => {
+        const btn = document.getElementById("pcm-ciclo-" + c.toLowerCase());
+        if (btn) {
+            btn.className = (c === ciclo) ? "btn btn-secondary active pcm-ciclo-btn" : "btn btn-secondary pcm-ciclo-btn";
+        }
+    });
+    renderPcmExecutivePanel();
+}
+
+function clearPcmFilters() {
+    pcmFilterState = { ano: "2026", mes: "09", estr: "Todas", ciclo: "Todos" };
+    const selAno = document.getElementById("pcm-sel-ano");
+    const selMes = document.getElementById("pcm-sel-mes");
+    const selEstr = document.getElementById("pcm-sel-estr");
+    if (selAno) selAno.value = "2026";
+    if (selMes) selMes.value = "09";
+    if (selEstr) selEstr.value = "Todas";
+    setPcmCiclo("Todos");
+}
+
+function stepPcmMonth(delta) {
+    let y = parseInt(pcmFilterState.ano) || 2026;
+    let m = parseInt(pcmFilterState.mes) || 9;
+    m += delta;
+    if (m < 1) { m = 12; y--; }
+    else if (m > 12) { m = 1; y++; }
+    pcmFilterState.ano = String(y);
+    pcmFilterState.mes = String(m).padStart(2, "0");
+    const selAno = document.getElementById("pcm-sel-ano");
+    const selMes = document.getElementById("pcm-sel-mes");
+    if (selAno) selAno.value = pcmFilterState.ano;
+    if (selMes) selMes.value = pcmFilterState.mes;
+    renderPcmExecutivePanel();
+}
+
+function getFilteredPcmActivities() {
+    if (typeof window.CRONOGRAMA_PAINEL_DATA === "undefined" || !Array.isArray(window.CRONOGRAMA_PAINEL_DATA.acts)) {
+        return [];
+    }
+    return window.CRONOGRAMA_PAINEL_DATA.acts.filter(x => {
+        const matchAno = pcmFilterState.ano === "Todos" || (x.mesano && x.mesano.slice(0, 4) === pcmFilterState.ano);
+        const matchMes = pcmFilterState.mes === "Todos" || (x.mesano && x.mesano.slice(5, 7) === pcmFilterState.mes);
+        const matchEstr = pcmFilterState.estr === "Todas" || x.estr === pcmFilterState.estr;
+        const matchCiclo = pcmFilterState.ciclo === "Todos" || String(x.ciclo) === pcmFilterState.ciclo;
+        return matchAno && matchMes && matchEstr && matchCiclo;
+    });
+}
+
+function renderPcmExecutivePanel() {
+    const acts = getFilteredPcmActivities();
+    const countEl = document.getElementById("pcm-count-num");
+    if (countEl) countEl.textContent = acts.length;
+
+    if (pcmCurrentTab === "op") {
+        renderPcmCalendar();
+    } else {
+        renderPcmIndicators();
+    }
+}
+
+function renderPcmCalendar() {
+    const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+    const y = parseInt(pcmFilterState.ano) || 2026;
+    const mo = parseInt(pcmFilterState.mes) || 9;
+    const ym = `${y}-${String(mo).padStart(2, "0")}`;
+
+    const titleEl = document.getElementById("pcm-cal-month-title");
+    if (titleEl) titleEl.textContent = `${monthNames[mo - 1]} ${y}`;
+
+    // Atividades do mês atual com filtros de estrutura e ciclo
+    const monthActs = (window.CRONOGRAMA_PAINEL_DATA?.acts || []).filter(x => {
+        return x.mesano === ym &&
+            (pcmFilterState.estr === "Todas" || x.estr === pcmFilterState.estr) &&
+            (pcmFilterState.ciclo === "Todos" || String(x.ciclo) === pcmFilterState.ciclo);
+    });
+
+    const concl = monthActs.filter(x => x.status === "Concluído").length;
+    const atraso = monthActs.filter(x => x.status === "Realizado com Atraso" || (x.status === "Ações futuras" && x.plan < "2026-09-08")).length;
+    const futuras = monthActs.filter(x => x.status === "Ações futuras" && x.plan >= "2026-09-08").length;
+
+    const opTotal = document.getElementById("pcm-op-total");
+    const opConcl = document.getElementById("pcm-op-concl");
+    const opAtraso = document.getElementById("pcm-op-atraso");
+    const opFuturas = document.getElementById("pcm-op-futuras");
+
+    if (opTotal) opTotal.textContent = monthActs.length;
+    if (opConcl) opConcl.textContent = concl;
+    if (opAtraso) opAtraso.textContent = atraso;
+    if (opFuturas) opFuturas.textContent = futuras;
+
+    // Agrupar por dia
+    const byDay = {};
+    monthActs.forEach(x => {
+        const d = parseInt(x.plan?.slice(8, 10)) || 1;
+        if (!byDay[d]) byDay[d] = [];
+        byDay[d].push(x);
+    });
+
+    const firstDay = new Date(y, mo - 1, 1).getDay();
+    const daysInMonth = new Date(y, mo, 0).getDate();
+    const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
+
+    const gridEl = document.getElementById("pcm-cal-days-grid");
+    if (!gridEl) return;
+
+    let html = "";
+    const today = new Date();
+    const isCurMonth = today.getFullYear() === y && (today.getMonth() + 1) === mo;
+    const curDay = today.getDate();
+
+    const STCOL = {
+        "Concluído": "#33d17a",
+        "Realizado com Atraso": "#ffc21a",
+        "Ações futuras": "#027bff",
+        "Reprogramada": "#7c8aa3"
+    };
+
+    for (let i = 0; i < totalCells; i++) {
+        const day = i - firstDay + 1;
+        if (day < 1 || day > daysInMonth) {
+            html += '<div class="pcm-cal-cell out"></div>';
+            continue;
+        }
+
+        const isToday = isCurMonth && day === curDay;
+        const actsList = byDay[day] || [];
+        let chipsHtml = "";
+
+        actsList.slice(0, 3).forEach(a => {
+            const col = STCOL[a.status] || "#38bdf8";
+            const tc = (a.status === "Concluído" || a.status === "Realizado com Atraso") ? "#08131f" : "#ffffff";
+            chipsHtml += `<div class="pcm-chip" style="background:${col}; color:${tc};" title="${a.estr} - ${a.acao} (${a.status})">${a.estr}: ${a.acao.slice(0, 16)}...</div>`;
+        });
+
+        if (actsList.length > 3) {
+            chipsHtml += `<small class="text-xs text-muted font-bold">+${actsList.length - 3} mais</small>`;
+        }
+
+        html += `
+            <div class="pcm-cal-cell ${isToday ? 'today' : ''}" onclick="onRotinaDateChange('${y}-${String(mo).padStart(2, '0')}-${String(day).padStart(2, '0')}')" title="Clique para ver detalhes do dia ${day}">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <strong style="font-size: 11px; color: ${isToday ? '#38bdf8' : '#94a3b8'};">${day}</strong>
+                    ${actsList.length > 0 ? `<span class="badge badge-secondary" style="font-size: 9px; padding: 1px 4px;">${actsList.length}</span>` : ''}
+                </div>
+                <div class="d-flex flex-column gap-1 overflow-hidden">
+                    ${chipsHtml}
+                </div>
+            </div>
+        `;
+    }
+    gridEl.innerHTML = html;
+}
+
+function renderPcmIndicators() {
+    const acts = getFilteredPcmActivities();
+    const todayStr = "2026-09-08";
+    const plate = acts.filter(x => x.plan && x.plan <= todayStr);
+    const efet = plate.filter(x => x.status === "Concluído" || x.status === "Realizado com Atraso");
+    const noprazo = plate.filter(x => x.status === "Concluído");
+    const atraso = acts.filter(x => x.status === "Realizado com Atraso" || (x.plan && x.plan < todayStr && x.status !== "Concluído"));
+    const futuras = acts.filter(x => x.status === "Ações futuras");
+
+    const efPct = plate.length > 0 ? Math.round((efet.length / plate.length) * 100) : 75;
+
+    const gaugeValEl = document.getElementById("pcm-gauge-value");
+    const gaugeArcEl = document.getElementById("pcm-gauge-arc");
+    if (gaugeValEl) gaugeValEl.textContent = `${efPct}%`;
+    if (gaugeArcEl) {
+        const r = 50;
+        const c = 2 * Math.PI * r;
+        gaugeArcEl.style.strokeDasharray = c;
+        gaugeArcEl.style.strokeDashoffset = c * (1 - Math.max(0, Math.min(1, efPct / 100)));
+        gaugeArcEl.style.stroke = efPct >= 75 ? "#33d17a" : efPct >= 60 ? "#ffc21a" : "#ef4444";
+    }
+
+    const plAteEl = document.getElementById("pcm-ind-pl-ate-hoje");
+    const efetAteEl = document.getElementById("pcm-ind-efet-ate-hoje");
+    const noPrazoEl = document.getElementById("pcm-ind-noprazo");
+    const atrEl = document.getElementById("pcm-ind-atraso");
+    const futEl = document.getElementById("pcm-ind-futuras");
+    const totEl = document.getElementById("pcm-ind-total");
+
+    if (plAteEl) plAteEl.textContent = plate.length;
+    if (efetAteEl) efetAteEl.textContent = efet.length;
+    if (noPrazoEl) noPrazoEl.textContent = noprazo.length;
+    if (atrEl) atrEl.textContent = atraso.length;
+    if (futEl) futEl.textContent = futuras.length;
+    if (totEl) totEl.textContent = acts.length;
+
+    // Desvios por causas
+    const desviosMap = {};
+    acts.forEach(x => {
+        if (x.desvio) {
+            desviosMap[x.desvio] = (desviosMap[x.desvio] || 0) + 1;
+        }
+    });
+
+    const desviosBox = document.getElementById("pcm-desvios-bars-container");
+    if (desviosBox) {
+        const entries = Object.entries(desviosMap).sort((a, b) => b[1] - a[1]);
+        if (entries.length === 0) {
+            desviosBox.innerHTML = '<div class="text-xs text-muted">Nenhum desvio registrado para a seleção.</div>';
+        } else {
+            const maxVal = Math.max(1, ...entries.map(e => e[1]));
+            desviosBox.innerHTML = entries.map(([causa, qtd]) => `
+                <div class="d-flex align-items-center gap-2 mb-1" style="font-size: 11.5px;">
+                    <div style="width: 110px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #cbd5e1;">${causa}</div>
+                    <div style="flex: 1; height: 8px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden;">
+                        <div style="width: ${(qtd / maxVal) * 100}%; height: 100%; background: #8b5cf6; border-radius: 4px;"></div>
+                    </div>
+                    <strong style="width: 30px; text-align: right; color: #e2e8f0;">${qtd}</strong>
+                </div>
+            `).join("");
+        }
+    }
+}
+
+// FLUXOGRAMA DE USUÁRIOS & EQUIPE
+function renderGeotechTeamFluxogram() {
+    if (typeof window.GEOTECH_TEAM_DATA === "undefined") return;
+    const niveis = window.GEOTECH_TEAM_DATA.niveis;
+
+    const renderCard = (m, levelKey) => {
+        const isSelected = (m.id === currentOperatingUserId);
+        return `
+            <div class="team-member-card ${isSelected ? 'selected-operator' : ''}" onclick="onActiveOperatorChange('${m.id}')" title="Clique para assumir operador ativo: ${m.nome}">
+                <div class="team-photo-frame ${levelKey}">
+                    <img src="${m.foto}" alt="${m.nome}" onerror="this.src='assets/icons/icon-192.png'">
+                </div>
+                <div class="team-member-name">${m.nome}</div>
+                <div class="team-member-role">${m.cargo}</div>
+                ${m.crea ? `<small class="text-xs text-info font-bold">${m.crea}</small>` : ''}
+                <div class="team-member-tag">${m.macroprocesso || m.atividade || m.subprocessos?.[0] || 'Geotecnia'}</div>
+                <div class="mt-2 d-flex align-items-center gap-1">
+                    <span class="badge ${isSelected ? 'badge-success' : 'badge-outline'}" style="font-size: 10px;">
+                        ${isSelected ? '<i class=\"fa-solid fa-circle-check\"></i> Conectado' : m.status || 'Ativo'}
+                    </span>
+                </div>
+            </div>
+        `;
+    };
+
+    const gDiretoria = document.getElementById("grid-team-diretoria");
+    const gLideranca = document.getElementById("grid-team-lideranca");
+    const gAnalitico = document.getElementById("grid-team-analitico");
+    const gOperacional = document.getElementById("grid-team-operacional");
+
+    if (gDiretoria) gDiretoria.innerHTML = niveis.diretoria.map(m => renderCard(m, "diretoria")).join("");
+    if (gLideranca) gLideranca.innerHTML = niveis.lideranca.map(m => renderCard(m, "lideranca")).join("");
+    if (gAnalitico) gAnalitico.innerHTML = niveis.analitico.map(m => renderCard(m, "analitico")).join("");
+    if (gOperacional) gOperacional.innerHTML = niveis.operacional.map(m => renderCard(m, "operacional")).join("");
+
+    updateActiveOperatorUI();
+}
+
+function onActiveOperatorChange(operatorId) {
+    currentOperatingUserId = operatorId;
+    const select = document.getElementById("select-active-operator");
+    if (select && select.value !== operatorId) {
+        select.value = operatorId;
+    }
+    updateActiveOperatorUI();
+
+    const member = typeof window.getGeotechMemberById === "function" ? window.getGeotechMemberById(operatorId) : null;
+    if (member) {
+        // Notificar barramento SyncBridge
+        if (typeof SyncBridge !== "undefined") {
+            SyncBridge.emit("OPERATOR_CHANGED", {
+                operatorId: member.id,
+                name: member.nome,
+                role: member.cargo,
+                crea: member.crea || ""
+            });
+        }
+        if (typeof showToast === "function") {
+            showToast(`Operador de campo alterado: ${member.nome} (${member.cargo})`, "success");
+        }
+    }
+    renderGeotechTeamFluxogram();
+}
+
+function updateActiveOperatorUI() {
+    const member = typeof window.getGeotechMemberById === "function" ? window.getGeotechMemberById(currentOperatingUserId) : null;
+    if (!member) return;
+
+    const avatarImg = document.getElementById("active-operator-avatar-img");
+    const nameEl = document.getElementById("active-operator-name");
+    const roleEl = document.getElementById("active-operator-role");
+
+    if (avatarImg) avatarImg.src = member.foto;
+    if (nameEl) nameEl.textContent = member.nome;
+    if (roleEl) roleEl.textContent = `${member.cargo} ${member.crea ? '· ' + member.crea : ''}`;
+
+    // Atualizar também no Header e Sidebar
+    const sideName = document.getElementById("sidebar-user-name");
+    const sideRole = document.getElementById("sidebar-user-role");
+    const headName = document.getElementById("header-user-name");
+
+    if (sideName) sideName.textContent = member.nome;
+    if (sideRole) sideRole.textContent = member.cargo;
+    if (headName) headName.textContent = member.nome.split(" ")[0];
+}
+
+function openOrganogramaModal() {
+    const modal = document.getElementById("modal-organograma-viewer");
+    if (!modal) return;
+    openModalElement(modal);
+}
+
+function closeOrganogramaModal() {
+    closeModalElement("modal-organograma-viewer");
 }
 
 // Window Loader Initializer

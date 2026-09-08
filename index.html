@@ -107,6 +107,11 @@
                     <i class="fa-solid fa-chart-line"></i>
                     <span>Visão geral</span>
                 </a>
+                <a href="#" class="nav-item" id="nav-rotina" onclick="switchTab('rotina')">
+                    <i class="fa-solid fa-calendar-check" style="color: #38bdf8;"></i>
+                    <span>Rotina Diária</span>
+                    <span class="badge badge-warning" id="rotina-today-badge">PCM</span>
+                </a>
                 <a href="#" class="nav-item" id="nav-readings" onclick="switchTab('readings')">
                     <i class="fa-solid fa-satellite-dish"></i>
                     <span>Monitoramento</span>
@@ -135,9 +140,13 @@
                     <i class="fa-solid fa-location-crosshairs"></i>
                     <span>Georreferenciamento</span>
                 </a>
+                <a href="#" class="nav-item" id="nav-users" onclick="switchTab('users')">
+                    <i class="fa-solid fa-users-gear" style="color: #c084fc;"></i>
+                    <span>Usuários &amp; Equipe</span>
+                </a>
                 <a href="#" class="nav-item" id="nav-auth" onclick="switchTab('auth')">
                     <i class="fa-solid fa-user-shield"></i>
-                    <span>Acesso & Login</span>
+                    <span>Acesso &amp; Login</span>
                     <span class="badge badge-success" id="auth-status-badge">Conectado</span>
                 </a>
                 <a href="#" class="nav-item apk-hidden" id="nav-sync" onclick="switchTab('sync')">
@@ -683,6 +692,285 @@
                     </div>
                 </section>
 
+                <!-- TAB ROTINA DIÁRIA & CRONOGRAMA PCM -->
+                <section id="tab-rotina" class="tab-pane">
+                    <!-- Top Date Selector & Quick Action Bar -->
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3 p-3" style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border-color); border-radius: 12px;">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="header-icon-box" style="width: 38px; height: 38px; border-radius: 8px; background: rgba(56, 189, 248, 0.15); display: flex; align-items: center; justify-content: center; color: #38bdf8;">
+                                <i class="fa-solid fa-calendar-check" style="font-size: 18px;"></i>
+                            </div>
+                            <div>
+                                <h3 class="m-0 text-base font-bold text-light">Rotina Operacional Diária &amp; Cronograma PCM</h3>
+                                <p class="m-0 text-xs text-secondary" id="rotina-current-date-label">Planejamento e Controle de Manutenção Geotécnica · ITAMINAS</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <label class="text-xs text-secondary font-bold m-0">Data de Referência:</label>
+                            <input type="date" id="rotina-selected-date" class="form-control form-control-sm" style="max-width: 155px; background: #0b1e3b; color: #eaf2fb; border: 1px solid rgba(113,209,248,0.3);" onchange="onRotinaDateChange(this.value)">
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="setRotinaToday()" title="Voltar para a data de hoje">
+                                <i class="fa-solid fa-clock"></i> Hoje
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- HERO GRID: 1. ATIVIDADE DO DIA | 2. ESTRUTURA A SER INSPECIONADA | 3. CLIMA & PLUVIOMETRIA -->
+                    <div class="rotina-hero-grid">
+                        <!-- Card 1: Atividade do Dia -->
+                        <div class="rotina-alert-card warn" id="rotina-card-activity">
+                            <div>
+                                <div class="rotina-card-header">
+                                    <div class="rotina-card-title">
+                                        <i class="fa-solid fa-list-check text-warning"></i> Atividade do Dia
+                                    </div>
+                                    <span class="badge badge-warning rotina-badge-pill" id="rotina-activity-badge">Programada</span>
+                                </div>
+                                <div id="rotina-activity-details">
+                                    <h4 class="text-sm font-bold text-light mb-1" id="rotina-activity-title">Carregando atividades...</h4>
+                                    <p class="text-xs text-secondary mb-2" id="rotina-activity-desc">Verificando banco de dados do cronograma PCM...</p>
+                                    <div class="d-flex gap-2 flex-wrap text-xs text-muted" id="rotina-activity-tags">
+                                        <span class="badge badge-outline"><i class="fa-solid fa-arrows-rotate"></i> Ciclo 1</span>
+                                        <span class="badge badge-outline"><i class="fa-solid fa-shield-halved"></i> Monitoramento</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3 pt-2" style="border-top: 1px solid rgba(255,255,255,0.08);">
+                                <small class="text-xs text-muted" id="rotina-activity-count-text">1 atividade no dia</small>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Estrutura a ser Inspecionada -->
+                        <div class="rotina-alert-card danger" id="rotina-card-structure">
+                            <div>
+                                <div class="rotina-card-header">
+                                    <div class="rotina-card-title">
+                                        <i class="fa-solid fa-mountain text-danger"></i> Estrutura a Inspecionar
+                                    </div>
+                                    <span class="badge badge-danger rotina-badge-pill" id="rotina-structure-badge">Inspeção Hoje</span>
+                                </div>
+                                <div>
+                                    <h4 class="text-base font-bold text-warning mb-1" id="rotina-target-structure">PILHA JACÓ</h4>
+                                    <p class="text-xs text-secondary mb-2" id="rotina-target-structure-desc">Inspeção de campo, elaboração de formulário e atualização cadastral.</p>
+                                    <div class="d-flex gap-2 mb-2" style="font-size: 11px;">
+                                        <span class="text-secondary"><i class="fa-solid fa-location-dot"></i> Setor: <strong>Mina Central</strong></span>
+                                        <span class="text-secondary"><i class="fa-solid fa-triangle-exclamation"></i> Risco: <strong>CRI Médio / DPA Alto</strong></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <button type="button" class="btn btn-warning btn-sm w-100" onclick="startInspectionForStructureFromRotina()">
+                                    <i class="fa-solid fa-clipboard-check"></i> Iniciar Checklist da Estrutura
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Clima & Solicitação de Pluviometria -->
+                        <div class="rotina-alert-card rain" id="rotina-card-weather">
+                            <div>
+                                <div class="rotina-card-header">
+                                    <div class="rotina-card-title">
+                                        <i class="fa-solid fa-cloud-showers-heavy text-info"></i> Clima &amp; Pluviometria
+                                    </div>
+                                    <span class="badge badge-info rotina-badge-pill" id="rotina-pluv-status-badge">Solicitação Pendente</span>
+                                </div>
+                                <div class="rotina-weather-box">
+                                    <div>
+                                        <i class="fa-solid fa-cloud-sun text-warning" style="font-size: 32px;"></i>
+                                    </div>
+                                    <div>
+                                        <div class="rotina-weather-temp">23°C</div>
+                                        <div class="text-xs text-secondary">Sarzedo / Mina Engenho Seco · Parcialmente Nublado</div>
+                                    </div>
+                                </div>
+                                <div class="p-2 mb-2" style="background: rgba(255, 188, 125, 0.1); border: 1px dashed rgba(255, 188, 125, 0.4); border-radius: 6px;">
+                                    <p class="m-0 text-xs text-warning">
+                                        <i class="fa-solid fa-circle-exclamation"></i> <strong>Ação Obrigatória do Dia:</strong> O cronograma exige a coleta diária do acumulado pluviométrico de 24h.
+                                    </p>
+                                </div>
+                                <div class="rotina-quick-pluv-form">
+                                    <select id="rotina-pluv-location" class="form-control form-control-sm" style="font-size: 11.5px;">
+                                        <option value="BARRAGEM B1">Pluviômetro B1</option>
+                                        <option value="BARRAGEM B4">Pluviômetro B4</option>
+                                        <option value="PILHA B2" selected>Pluviômetro Pilha B2</option>
+                                        <option value="PLATAFORMA">Plataforma Administrativa</option>
+                                    </select>
+                                    <input type="number" id="rotina-pluv-value" class="form-control form-control-sm" placeholder="mm" step="0.1" min="0" value="0.0">
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="saveDailyPluviometriaFromRotina()" title="Registrar no banco de dados e notificar a equipe">
+                                        <i class="fa-solid fa-check"></i> Salvar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mt-2 pt-1 text-right">
+                                <small class="text-xs text-muted" id="rotina-pluv-last-record">Última coleta: 0.0 mm (Coletor: Nauberty Santos)</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CRONOGRAMA PCM: NAVEGADOR EXECUTIVO (OPERACIONAL & INDICADORES) -->
+                    <div class="pcm-panel-container">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-calendar-days text-primary" style="font-size: 20px;"></i>
+                                <h3 class="m-0 text-base font-bold text-light">Painel Executivo · Cronograma PCMI</h3>
+                            </div>
+                            <div class="htabs" id="pcm-view-tabs" style="display: inline-flex; border: 1px solid rgba(113,209,248,.2); border-radius: 8px; overflow: hidden; background: rgba(255,255,255,.03);">
+                                <button type="button" class="btn-pcm-tab active" id="btn-pcm-op" onclick="switchPcmTab('op')" style="padding: 6px 14px; background: #027bff; color: #fff; border: none; font-size: 12px; font-weight: 700; cursor: pointer;">
+                                    <i class="fa-solid fa-calendar"></i> Operacional
+                                </button>
+                                <button type="button" class="btn-pcm-tab" id="btn-pcm-ind" onclick="switchPcmTab('ind')" style="padding: 6px 14px; background: transparent; color: #9db3d1; border: none; font-size: 12px; font-weight: 700; cursor: pointer;">
+                                    <i class="fa-solid fa-chart-pie"></i> Indicadores Estratégicos
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Filtros do Cronograma -->
+                        <div class="pcm-filters-bar">
+                            <span class="text-xs font-bold text-secondary text-uppercase d-flex align-items-center gap-1">
+                                <i class="fa-solid fa-filter text-primary"></i> Filtros:
+                            </span>
+                            <select class="form-control form-control-sm" id="pcm-sel-ano" style="max-width: 130px;" onchange="onPcmFilterChange()">
+                                <option value="Todos">Todos os anos</option>
+                                <option value="2026" selected>2026</option>
+                                <option value="2025">2025</option>
+                            </select>
+                            <select class="form-control form-control-sm" id="pcm-sel-mes" style="max-width: 140px;" onchange="onPcmFilterChange()">
+                                <option value="Todos">Todos os meses</option>
+                                <option value="01">Janeiro</option>
+                                <option value="02">Fevereiro</option>
+                                <option value="03">Março</option>
+                                <option value="04">Abril</option>
+                                <option value="05">Maio</option>
+                                <option value="06">Junho</option>
+                                <option value="07">Julho</option>
+                                <option value="08">Agosto</option>
+                                <option value="09" selected>Setembro</option>
+                                <option value="10">Outubro</option>
+                                <option value="11">Novembro</option>
+                                <option value="12">Dezembro</option>
+                            </select>
+                            <select class="form-control form-control-sm" id="pcm-sel-estr" style="max-width: 170px;" onchange="onPcmFilterChange()">
+                                <option value="Todas">Todas as estruturas</option>
+                                <option value="B1">Barragem B1</option>
+                                <option value="B4">Barragem B4</option>
+                                <option value="PDE1">PDE 1</option>
+                                <option value="PDE2">PDE 2</option>
+                                <option value="PILHA B2">Pilha B2</option>
+                                <option value="PILHA MANGABA">Pilha Mangaba</option>
+                                <option value="PILHA JACÓ">Pilha Jacó</option>
+                                <option value="CAVA JANGADA">Cava Jangada</option>
+                                <option value="CAVA ENGENHO SECO">Cava Engenho Seco</option>
+                                <option value="DIQUE PDE1">Dique PDE 1</option>
+                                <option value="PILHAS DE PRODUTO">Pilhas de Produto</option>
+                                <option value="SUMPS">Sumps</option>
+                                <option value="TODAS">Todas (Geral)</option>
+                            </select>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button" class="btn btn-secondary active pcm-ciclo-btn" id="pcm-ciclo-todos" onclick="setPcmCiclo('Todos')">Todos Ciclos</button>
+                                <button type="button" class="btn btn-secondary pcm-ciclo-btn" id="pcm-ciclo-1" onclick="setPcmCiclo('1')">Ciclo 1</button>
+                                <button type="button" class="btn btn-secondary pcm-ciclo-btn" id="pcm-ciclo-2" onclick="setPcmCiclo('2')">Ciclo 2</button>
+                            </div>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="clearPcmFilters()">
+                                <i class="fa-solid fa-rotate-left"></i> Limpar
+                            </button>
+                            <span class="ml-auto text-xs text-secondary font-bold" id="pcm-filtered-count-label">
+                                <strong class="text-primary" id="pcm-count-num">0</strong> atividades filtradas
+                            </span>
+                        </div>
+
+                        <!-- VISÃO 1: OPERACIONAL (CALENDÁRIO MENSAL) -->
+                        <div id="pcm-view-op-container">
+                            <div class="row g-2 mb-3">
+                                <div class="col-md-3 col-6">
+                                    <div class="p-2 text-center" style="background: rgba(2, 123, 255, 0.1); border: 1px solid rgba(2, 123, 255, 0.3); border-radius: 8px;">
+                                        <div class="text-xs text-muted uppercase">Atividades no Mês</div>
+                                        <div class="text-xl font-bold text-light" id="pcm-op-total">0</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-6">
+                                    <div class="p-2 text-center" style="background: rgba(51, 209, 122, 0.1); border: 1px solid rgba(51, 209, 122, 0.3); border-radius: 8px;">
+                                        <div class="text-xs text-muted uppercase">Concluídas</div>
+                                        <div class="text-xl font-bold text-success" id="pcm-op-concl">0</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-6">
+                                    <div class="p-2 text-center" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px;">
+                                        <div class="text-xs text-muted uppercase">Em Atraso</div>
+                                        <div class="text-xl font-bold text-danger" id="pcm-op-atraso">0</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-6">
+                                    <div class="p-2 text-center" style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px;">
+                                        <div class="text-xs text-muted uppercase">Ações Futuras</div>
+                                        <div class="text-xl font-bold text-info" id="pcm-op-futuras">0</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Barra de Navegação do Mês -->
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <button type="button" class="btn btn-secondary btn-sm" onclick="stepPcmMonth(-1)">‹</button>
+                                    <h4 class="m-0 text-sm font-bold text-light text-uppercase" id="pcm-cal-month-title">Setembro 2026</h4>
+                                    <button type="button" class="btn btn-secondary btn-sm" onclick="stepPcmMonth(1)">›</button>
+                                </div>
+                                <div class="d-flex gap-3 text-xs text-muted flex-wrap">
+                                    <span><i class="fa-solid fa-circle text-success" style="font-size: 9px;"></i> Concluído</span>
+                                    <span><i class="fa-solid fa-circle text-warning" style="font-size: 9px;"></i> Realizado c/ atraso</span>
+                                    <span><i class="fa-solid fa-circle text-primary" style="font-size: 9px;"></i> Ações futuras</span>
+                                    <span><i class="fa-solid fa-circle text-secondary" style="font-size: 9px;"></i> Reprogramada</span>
+                                </div>
+                            </div>
+
+                            <!-- Cabeçalho Dias da Semana -->
+                            <div class="pcm-cal-grid text-center text-xs font-bold text-muted mb-1">
+                                <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div>
+                            </div>
+                            <!-- Grade de Dias -->
+                            <div class="pcm-cal-grid" id="pcm-cal-days-grid">
+                                <!-- Preenchido dinamicamente via app.js -->
+                            </div>
+                        </div>
+
+                        <!-- VISÃO 2: INDICADORES ESTRATÉGICOS -->
+                        <div id="pcm-view-ind-container" style="display:none;">
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-4">
+                                    <div class="p-3 h-100 text-center" style="background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border-color); border-radius: 10px;">
+                                        <h4 class="text-xs font-bold text-secondary uppercase mb-2">Efetividade PCM (Meta 75%)</h4>
+                                        <div style="position: relative; width: 130px; height: 130px; margin: 0 auto;">
+                                            <svg viewBox="0 0 120 120" width="100%" height="100%">
+                                                <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="12"></circle>
+                                                <circle id="pcm-gauge-arc" cx="60" cy="60" r="50" fill="none" stroke="#33d17a" stroke-width="12" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="78" style="transform: rotate(-90deg); transform-origin: center;"></circle>
+                                            </svg>
+                                            <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                                <span class="text-2xl font-bold text-success" id="pcm-gauge-value">75%</span>
+                                                <small class="text-xs text-muted">Efetividade</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="p-3 h-100" style="background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border-color); border-radius: 10px;">
+                                        <h4 class="text-xs font-bold text-secondary uppercase mb-2">Resumo Executivo do Período</h4>
+                                        <div class="row g-2 text-xs">
+                                            <div class="col-6">Planejado até hoje: <strong id="pcm-ind-pl-ate-hoje" class="text-light">0</strong></div>
+                                            <div class="col-6">Efetivo até hoje: <strong id="pcm-ind-efet-ate-hoje" class="text-success">0</strong></div>
+                                            <div class="col-6">No prazo (concluído): <strong id="pcm-ind-noprazo" class="text-primary">0</strong></div>
+                                            <div class="col-6">Em atraso: <strong id="pcm-ind-atraso" class="text-danger">0</strong></div>
+                                            <div class="col-6">Ações futuras: <strong id="pcm-ind-futuras" class="text-info">0</strong></div>
+                                            <div class="col-6">Total no cronograma: <strong id="pcm-ind-total" class="text-light">0</strong></div>
+                                        </div>
+                                        <hr style="border-color: rgba(255,255,255,0.08); margin: 10px 0;">
+                                        <h5 class="text-xs font-bold text-secondary uppercase mb-2">Desvios por Causa Mapeada:</h5>
+                                        <div id="pcm-desvios-bars-container">
+                                            <!-- Preenchido via app.js -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
                 <!-- TAB 2: INSTRUMENT READINGS -->
                 <section id="tab-readings" class="tab-pane">
@@ -2634,6 +2922,106 @@
                     </div>
                 </section>
 
+                <!-- TAB USUÁRIOS & EQUIPE GEOTÉCNICA (FLUXOGRAMA HIERÁRQUICO) -->
+                <section id="tab-users" class="tab-pane">
+                    <!-- Top Action Bar -->
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3 p-3" style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border-color); border-radius: 12px;">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="header-icon-box" style="width: 38px; height: 38px; border-radius: 8px; background: rgba(192, 132, 252, 0.15); display: flex; align-items: center; justify-content: center; color: #c084fc;">
+                                <i class="fa-solid fa-sitemap" style="font-size: 18px;"></i>
+                            </div>
+                            <div>
+                                <h3 class="m-0 text-base font-bold text-light">Quadro de Colaboradores &amp; Fluxograma Setor Geotecnia</h3>
+                                <p class="m-0 text-xs text-secondary">Superintendência de Infraestrutura e Geotecnia · Gerência de Geotecnia · ITAMINAS</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="openOrganogramaModal()">
+                                <i class="fa-solid fa-image text-warning"></i> Ver Organograma Oficial (Imagem HD)
+                            </button>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="switchTab('auth')">
+                                <i class="fa-solid fa-user-lock"></i> Credenciais &amp; Acesso
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Operador Ativo Atual em Campo -->
+                    <div class="card p-3 mb-4" style="background: linear-gradient(145deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9)); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 12px;">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div id="active-operator-avatar-box" style="width: 60px; height: 60px; border-radius: 50%; overflow: hidden; border: 3px solid #33d17a; box-shadow: 0 0 12px rgba(51, 209, 122, 0.4);">
+                                    <img src="assets/team/maycon_douglas.png" alt="Operador Ativo" id="active-operator-avatar-img" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                                <div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <h4 class="m-0 text-base font-bold text-light" id="active-operator-name">Maycon Douglas</h4>
+                                        <span class="badge badge-success" id="active-operator-badge">Operador Ativo de Campo</span>
+                                    </div>
+                                    <p class="m-0 text-xs text-secondary" id="active-operator-role">Técnico de Pilhas de Estéril e Futuras · CFT-MG 184.920</p>
+                                    <small class="text-xs text-muted"><i class="fa-solid fa-signature"></i> Rubrica digital vinculada aos checklists e telemetria de campo.</small>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <label class="text-xs text-secondary font-bold m-0">Alternar Operador:</label>
+                                <select id="select-active-operator" class="form-control form-control-sm" style="max-width: 220px;" onchange="onActiveOperatorChange(this.value)">
+                                    <option value="maycon_douglas" selected>Maycon Douglas (T. Pilhas)</option>
+                                    <option value="alex_luminatto">Alex Luminatto (T. Cava)</option>
+                                    <option value="werlen_henriques">Werlen Henriques (T. Monitoramento)</option>
+                                    <option value="nauberty_santos">Nauberty Santos (Aux. PCM)</option>
+                                    <option value="itamar_seixas">Itamar Seixas (Eng. Geotécnico)</option>
+                                    <option value="vitor_hugo">Victor Hugo (Hidrogeólogo)</option>
+                                    <option value="lorenzo_rodrigues">Lorenzo Rodrigues (Supervisor)</option>
+                                    <option value="regina_rodrigues">Regina Rodrigues (Gerente)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FLUXOGRAMA HIERÁRQUICO POR CATEGORIAS -->
+                    <div class="team-hierarchy-container">
+
+                        <!-- NÍVEL 1: DIRETORIA & SUPERINTENDÊNCIA -->
+                        <div class="team-level-section">
+                            <span class="team-level-badge diretoria">
+                                <i class="fa-solid fa-building"></i> Diretoria &amp; Superintendência
+                            </span>
+                            <div class="team-cards-grid mt-2" id="grid-team-diretoria">
+                                <!-- Preenchido dinamicamente via app.js -->
+                            </div>
+                        </div>
+
+                        <!-- NÍVEL 2: CARGO DE LIDERANÇA -->
+                        <div class="team-level-section" style="border-color: rgba(245, 158, 11, 0.35);">
+                            <span class="team-level-badge lideranca">
+                                <i class="fa-solid fa-crown"></i> Cargo de Liderança
+                            </span>
+                            <div class="team-cards-grid mt-2" id="grid-team-lideranca">
+                                <!-- Preenchido dinamicamente via app.js -->
+                            </div>
+                        </div>
+
+                        <!-- NÍVEL 3: CARGO ANALÍTICO -->
+                        <div class="team-level-section" style="border-color: rgba(56, 189, 248, 0.35);">
+                            <span class="team-level-badge analitico">
+                                <i class="fa-solid fa-compass-drafting"></i> Cargo Analítico
+                            </span>
+                            <div class="team-cards-grid mt-2" id="grid-team-analitico">
+                                <!-- Preenchido dinamicamente via app.js -->
+                            </div>
+                        </div>
+
+                        <!-- NÍVEL 4: CARGO OPERACIONAL -->
+                        <div class="team-level-section" style="border-color: rgba(16, 185, 129, 0.35);">
+                            <span class="team-level-badge operacional">
+                                <i class="fa-solid fa-helmet-safety"></i> Cargo Operacional
+                            </span>
+                            <div class="team-cards-grid mt-2" id="grid-team-operacional">
+                                <!-- Preenchido dinamicamente via app.js -->
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
 
                 <!-- TAB 8: SYNC MANAGER -->
                 <section id="tab-sync" class="tab-pane">
@@ -3631,6 +4019,31 @@
         </div>
     </div>
 
+    <!-- MODAL 13: VISUALIZADOR DE ORGANOGRAMA OFICIAL HD -->
+    <div class="modal" id="modal-organograma-viewer" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="org-modal-title">
+        <div class="modal-content modal-xl" style="max-width: 95vw;">
+            <div class="modal-header">
+                <h3 id="org-modal-title">
+                    <i class="fa-solid fa-sitemap text-primary"></i>
+                    Organograma Oficial da Gerência de Geotecnia ITAMINAS
+                </h3>
+                <span class="close" onclick="closeOrganogramaModal()" title="Fechar janela">&times;</span>
+            </div>
+            <div class="modal-body text-center" style="max-height: 80vh; overflow: auto; background: #050d23; padding: 16px;">
+                <img src="assets/organograma-geotecnia.png" alt="Organograma Oficial Geotecnia" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 24px rgba(0,0,0,0.5);">
+            </div>
+            <div class="modal-footer justify-between">
+                <span class="text-secondary small"><i class="fa-solid fa-building"></i> Diretoria de Desenvolvimento Técnico · Superintendência de Geotecnia e Infraestrutura</span>
+                <div class="d-flex gap-2">
+                    <a href="assets/organograma-geotecnia.png" download="Organograma-Geotecnia-ITAMINAS.png" class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-download"></i> Baixar Imagem Original
+                    </a>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="closeOrganogramaModal()">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Script Injection -->
     <script src="vendor/jszip.min.js"></script>
     <script src="src/core/sync-bridge.js?v=robust-20260908"></script>
@@ -3642,6 +4055,8 @@
     <script src="data/geoview-operational.js?v=pcmi-20260904i"></script>
     <script src="data/google-earth-geospatial.js?v=pcmi-20260904i"></script>
     <script src="data/cronograma-pcm.js?v=pcmi-20260904i"></script>
+    <script src="data/rotina-equipe.js?v=20260908"></script>
+    <script src="data/cronograma-painel-pcm.js?v=20260908"></script>
     <script src="data/pluviometria.js?v=pcmi-20260904i"></script>
     <script src="data/frota-veicular.js?v=pcmi-20260904i"></script>
     <script src="data/inspections-fir.js?v=pcmi-20260904i"></script>
