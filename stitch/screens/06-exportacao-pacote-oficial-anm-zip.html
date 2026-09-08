@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Outfit:wght@500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "inverse-on-surface": "#283047",
+        "tertiary-fixed": "#ffddb8",
+        "secondary-fixed-dim": "#4edea3",
+        "surface-container-highest": "#2c344c",
+        "on-primary-fixed": "#001e2f",
+        "inverse-primary": "#006591",
+        "tertiary": "#ffb95f",
+        "on-background": "#dbe1ff",
+        "background": "#0a1228",
+        "on-primary-container": "#003751",
+        "on-surface-variant": "#bec8d2",
+        "primary": "#89ceff",
+        "on-secondary": "#003824",
+        "tertiary-container": "#d88a00",
+        "on-secondary-fixed": "#002113",
+        "primary-fixed": "#c9e6ff",
+        "secondary-fixed": "#6ffbbe",
+        "surface-container-lowest": "#050d23",
+        "error-container": "#93000a",
+        "on-tertiary-container": "#4a2c00",
+        "on-surface": "#dbe1ff",
+        "on-primary-fixed-variant": "#004c6e",
+        "on-tertiary-fixed-variant": "#653e00",
+        "on-tertiary": "#472a00",
+        "on-secondary-fixed-variant": "#005236",
+        "outline": "#88929b",
+        "secondary-container": "#00a572",
+        "surface": "#0a1228",
+        "surface-bright": "#313850",
+        "inverse-surface": "#dbe1ff",
+        "on-error": "#690005",
+        "surface-tint": "#89ceff",
+        "on-primary": "#00344d",
+        "on-error-container": "#ffdad6",
+        "outline-variant": "#3e4850",
+        "surface-variant": "#2c344c",
+        "error": "#ffb4ab",
+        "secondary": "#4edea3",
+        "primary-container": "#0ea5e9",
+        "primary-fixed-dim": "#89ceff",
+        "on-secondary-container": "#00311f",
+        "surface-dim": "#0a1228",
+        "surface-container": "#171f35",
+        "surface-container-high": "#222940",
+        "tertiary-fixed-dim": "#ffb95f",
+        "on-tertiary-fixed": "#2a1700",
+        "surface-container-low": "#131b31"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.125rem",
+        "lg": "0.25rem",
+        "xl": "0.5rem",
+        "full": "0.75rem"
+      },
+      "spacing": {
+        "space-2xl": "3rem",
+        "gutter": "1rem",
+        "space-md": "1rem",
+        "space-sm": "0.75rem",
+        "space-2xs": "0.25rem",
+        "space-lg": "1.5rem",
+        "sidebar-width": "260px",
+        "space-xl": "2rem",
+        "space-xs": "0.5rem"
+      },
+      "fontFamily": {
+        "data-metric": ["Outfit"],
+        "title-sm": ["Outfit"],
+        "label-caps": ["Inter"],
+        "body-md": ["Inter"],
+        "body-sm": ["Inter"],
+        "headline-md": ["Outfit"],
+        "headline-xl": ["Outfit"],
+        "code-telemetry": ["JetBrains Mono"],
+        "body-lg": ["Inter"],
+        "headline-lg": ["Outfit"]
+      },
+      "fontSize": {
+        "data-metric": ["32px", {"lineHeight": "36px", "letterSpacing": "-0.03em", "fontWeight": "700"}],
+        "title-sm": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+        "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "600"}],
+        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+        "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+        "code-telemetry": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+        "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600"}]
+      }
+    }
+  }
+}</script></head><body class="bg-background font-body-md text-on-surface min-h-screen antialiased selection:bg-primary-container selection:text-on-primary-container"><aside class="fixed left-0 top-0 h-full w-sidebar-width bg-surface-container-low shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between overflow-hidden"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center justify-between bg-surface-container-lowest/60"><div class="flex items-center gap-space-xs"><img alt="MDSync Geotecnia Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Xs48zES0egZ3wmFdPBpvnV7a21Ly5WZFCmNgHEyZYhfNViwsKr4YO7TSdNgMYBY-z5zwHQ6_Kfqc2diRwV87n74AGFYp23v9UNiXJH0xUsp8janvXfy9xtdRtFQ8cGexi2HRLIKL_IT1XD4PyqhxOc_xj13t2THO6g4g6hnu9Pb1m6YFE7JVxbCb6OsERLTq42_ZFl3hCANPpztB2o-jYd5ZRzkK6yhYwjpxuHg1OkPcO0jb4i6w1tvE38"/><div class="flex flex-col"><span class="font-title-sm text-title-sm text-primary leading-tight tracking-tight">MDSync</span><span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Itaminas Geotecnia</span></div></div><button class="text-on-surface-variant hover:text-on-surface p-space-2xs rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">dock_to_left</span></button></div><div class="px-space-md py-space-xs"><div class="flex items-center gap-space-xs px-space-xs py-space-2xs rounded-full bg-surface-container"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span></span><span class="font-label-caps text-label-caps uppercase text-secondary font-medium tracking-wide truncate">Conectado / Nuvem Ativa</span></div></div><nav class="flex flex-col gap-space-2xs px-space-xs mt-space-2xs" data-active-classes="bg-primary-container text-on-primary-container font-medium shadow-sm"><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="visao-geral" href="#"><span class="material-symbols-outlined text-primary text-[20px]">grid_view</span><span class="truncate">Visão Geral</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="monitoramento-instrumental" href="#"><span class="material-symbols-outlined text-primary text-[20px]">sensors</span><span class="truncate">Monitoramento (TARP/PZ)</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="checklists-fir" href="#"><span class="material-symbols-outlined text-primary text-[20px]">fact_check</span><span class="truncate">Checklists &amp; FIR</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="historico-series" href="#"><span class="material-symbols-outlined text-primary text-[20px]">show_chart</span><span class="truncate">Histórico &amp; Séries</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="relatorios-auditoria" href="#"><span class="material-symbols-outlined text-primary text-[20px]">assignment_turned_in</span><span class="truncate">Relatórios &amp; Auditoria</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="indicadores-bi-fmea" href="#"><span class="material-symbols-outlined text-primary text-[20px]">analytics</span><span class="truncate">Indicadores BI &amp; FMEA</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="geoview-gis-3d" href="#"><span class="material-symbols-outlined text-primary text-[20px]">layers</span><span class="truncate">GeoView &amp; GIS 3D</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="parametros-usuarios" href="#"><span class="material-symbols-outlined text-primary text-[20px]">settings</span><span class="truncate">Parâmetros &amp; Usuários</span></a></nav></div><div class="p-space-sm bg-surface-container-lowest/80 flex flex-col gap-space-xs"><div class="flex items-center justify-between px-space-2xs"><span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Sincronização</span><button class="flex items-center gap-space-2xs text-secondary hover:text-secondary-fixed transition-colors font-label-caps text-label-caps" type="button"><span class="material-symbols-outlined text-[14px]">sync</span><span>Sincronizar</span></button></div><div class="flex items-center gap-space-sm p-space-2xs rounded-xl bg-surface-container-high/40"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="font-title-sm text-title-sm text-on-primary font-bold">MN</span></div><div class="flex flex-col min-w-0 flex-1"><div class="flex items-center gap-space-2xs"><span class="font-body-sm text-body-sm font-semibold text-on-surface truncate">Maycon Nascimento</span><span class="bg-surface-container-highest text-primary font-code-telemetry text-[10px] px-1 py-0.5 rounded-lg shrink-0">@admin</span></div><span class="font-label-caps text-label-caps text-on-surface-variant truncate">Eng. Geotécnico Sênior</span></div></div></div></aside><div class="pl-sidebar-width"><header class="fixed top-0 left-sidebar-width right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-gutter"><div class="flex items-center gap-space-md"><img alt="MDSync Geotecnia Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Xs48zES0egZ3wmFdPBpvnV7a21Ly5WZFCmNgHEyZYhfNViwsKr4YO7TSdNgMYBY-z5zwHQ6_Kfqc2diRwV87n74AGFYp23v9UNiXJH0xUsp8janvXfy9xtdRtFQ8cGexi2HRLIKL_IT1XD4PyqhxOc_xj13t2THO6g4g6hnu9Pb1m6YFE7JVxbCb6OsERLTq42_ZFl3hCANPpztB2o-jYd5ZRzkK6yhYwjpxuHg1OkPcO0jb4i6w1tvE38"/><div class="hidden md:flex items-center gap-space-2xs font-code-telemetry text-code-telemetry bg-surface-container-low px-space-sm py-space-2xs rounded-xl"><span class="material-symbols-outlined text-secondary text-[16px]">radar</span><span class="text-on-surface-variant truncate">Mina Cava Jangada • <strong class="text-on-surface font-semibold">IBIS-FM EVO 01 Ativo</strong></span></div></div><div class="flex items-center gap-space-sm"><div class="hidden lg:flex items-center gap-space-2xs bg-surface-container px-space-sm py-space-2xs rounded-full"><span class="material-symbols-outlined text-primary text-[16px]">cloud_done</span><span class="font-code-telemetry text-code-telemetry text-on-surface-variant">Offline Ready <strong class="text-primary font-medium">(Cache 100%)</strong></span></div><button class="flex items-center gap-space-2xs px-space-md py-space-xs rounded-xl bg-gradient-to-r from-primary-container to-inverse-primary text-on-primary font-title-sm text-title-sm shadow-md hover:brightness-110 active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-[18px]">add_circle</span><span>Nova Coleta</span></button><button class="w-9 h-9 rounded-xl bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">filter_alt</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Dynamic Top Ambient Lighting Scrim -->
+<div class="relative w-full overflow-hidden">
+<div class="absolute -top-32 left-1/4 w-96 h-96 bg-primary-container/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -top-24 right-1/4 w-80 h-80 bg-secondary-container/10 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Main Module Viewport -->
+<div class="relative px-gutter py-space-md flex flex-col gap-space-lg">
+<!-- SECTION 1: Module Header & Compliance Badges & Global Actions -->
+<section class="flex flex-col gap-space-sm">
+<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-space-md">
+<div class="flex flex-col max-w-4xl">
+<div class="flex items-center gap-space-xs text-primary font-code-telemetry text-code-telemetry mb-space-2xs">
+<span class="material-symbols-outlined text-[16px] text-secondary">verified_user</span>
+<span class="tracking-wide uppercase text-secondary font-semibold">Módulo 05 • Gestão de Compliance Geotécnico</span>
+<span class="text-outline-variant">/</span>
+<span class="text-on-surface-variant font-medium">Custódia Criptográfica Ativa (SHA-256)</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface font-semibold tracking-tight">
+              Dossiês de Auditoria &amp; Evidências Geotécnicas
+            </h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-2xs leading-relaxed">
+              Compilação automatizada e imutável de séries temporais piezométricas, inspeções visuais regulares (RPSB/DCE), telemetria de radar cinemático (IBIS-FM) e protocolos oficiais segundo ANM Res. 95/2022, Lei 12.334/14.066 e GISTM 2020.
+            </p>
+</div>
+<!-- Quick Action Triggers -->
+<div class="flex flex-wrap items-center gap-space-xs self-start xl:self-auto">
+<button class="flex items-center gap-space-2xs px-space-sm py-space-xs rounded-xl bg-surface-container-high hover:bg-surface-bright text-primary font-title-sm text-title-sm shadow-sm transition-all active:scale-95" id="btnValidateHash" type="button">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+<span>Validar Hashes</span>
+</button>
+<button class="flex items-center gap-space-2xs px-space-sm py-space-xs rounded-xl bg-surface-container-high hover:bg-surface-bright text-on-surface font-title-sm text-title-sm shadow-sm transition-all active:scale-95" id="btnExportDocs" type="button">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span>Exportar Dossiê (PDF/DOCX)</span>
+</button>
+<button class="flex items-center gap-space-2xs px-space-md py-space-xs rounded-xl bg-gradient-to-r from-primary-container via-inverse-primary to-primary-container text-on-primary font-title-sm text-title-sm shadow-md hover:brightness-110 active:scale-95 transition-all" id="btnGenAnmPackage" type="button">
+<span class="material-symbols-outlined text-[20px]">shield_with_heart</span>
+<span class="font-semibold">Gerar Pacote Fiscalização ANM</span>
+</button>
+</div>
+</div>
+<!-- Compliance Badges Ribbon -->
+<div class="flex flex-wrap items-center gap-space-xs pt-space-xs border-t-0">
+<div class="flex items-center gap-space-2xs px-space-sm py-1 rounded-full bg-surface-container-low text-secondary font-label-caps text-label-caps uppercase tracking-wider">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-secondary"></span>
+            Res. ANM nº 95/2022 (Vigente)
+          </div>
+<div class="flex items-center gap-space-2xs px-space-sm py-1 rounded-full bg-surface-container-low text-primary font-label-caps text-label-caps uppercase tracking-wider">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-primary"></span>
+            GISTM 2020 Padrão Global
+          </div>
+<div class="flex items-center gap-space-2xs px-space-sm py-1 rounded-full bg-surface-container-low text-on-surface-variant font-label-caps text-label-caps uppercase tracking-wider">
+<span class="material-symbols-outlined text-[14px]">balance</span>
+            PNSB Lei 12.334 / 14.066
+          </div>
+<div class="flex items-center gap-space-2xs px-space-sm py-1 rounded-full bg-surface-container-low text-tertiary font-label-caps text-label-caps uppercase tracking-wider">
+<span class="material-symbols-outlined text-[14px]">speed</span>
+            TARP Bo &amp; Barrett (4 Níveis)
+          </div>
+<div class="flex items-center gap-space-2xs px-space-sm py-1 rounded-full bg-surface-container-low text-on-surface font-label-caps text-label-caps uppercase tracking-wider">
+<span class="material-symbols-outlined text-[14px] text-secondary">verified</span>
+            ART CREA-MG 184.920/D
+          </div>
+</div>
+</section>
+<!-- SECTION 2: Advanced Parametric Extraction Filters -->
+<section class="bg-surface-container-low/90 backdrop-blur-md rounded-xl p-space-md shadow-md flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-2xs border-b-0">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">tune</span>
+<span class="font-title-sm text-title-sm text-on-surface">Filtros Paramétricos para Extração de Evidências Oficiais</span>
+</div>
+<div class="flex items-center gap-space-xs font-code-telemetry text-body-sm text-on-surface-variant">
+<span>Escopo Ativo:</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container-highest text-primary font-semibold">Cava Jangada • 8 Estruturas</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Filter 1: Geotechnical Asset Selection -->
+<div class="flex flex-col gap-space-2xs">
+<label class="font-label-caps text-label-caps uppercase text-on-surface-variant font-semibold">Estrutura Geotécnica / Alvo</label>
+<div class="relative">
+<select class="w-full h-10 px-space-sm bg-surface-container rounded-xl text-on-surface font-body-md text-body-md appearance-none focus:outline-none focus:bg-surface-container-high transition-colors cursor-pointer">
+<option value="all">Todas as Estruturas Monitoradas (8)</option>
+<option selected="" value="jangada">Cava Jangada (Talude Norte / Setor 03)</option>
+<option value="b1">Barragem B1 (CRI: Médio / DPA: Alto)</option>
+<option value="b4">Barragem B4 (Mina Jangada)</option>
+<option value="jaco">Pilha de Estéril Jacó</option>
+<option value="mangaba">PDE Mangaba - Bacia de Contenção</option>
+<option value="dique2">Dique de Sedimentos DS-02</option>
+</select>
+<span class="material-symbols-outlined absolute right-space-xs top-2.5 text-on-surface-variant pointer-events-none text-[20px]">expand_more</span>
+</div>
+</div>
+<!-- Filter 2: Purpose / Finality -->
+<div class="flex flex-col gap-space-2xs">
+<label class="font-label-caps text-label-caps uppercase text-on-surface-variant font-semibold">Finalidade do Dossiê Regulatório</label>
+<div class="relative">
+<select class="w-full h-10 px-space-sm bg-surface-container rounded-xl text-on-surface font-body-md text-body-md appearance-none focus:outline-none focus:bg-surface-container-high transition-colors cursor-pointer">
+<option selected="" value="anm">Fiscalização Federal Ordinária ANM</option>
+<option value="eor">Auditoria Externa Independente (EOR)</option>
+<option value="dce">DCE / RPSB Semestral Obrigatório</option>
+<option value="board">Governança Corporativa &amp; Conselho</option>
+<option value="passagem">Passagem de Turno Operacional</option>
+</select>
+<span class="material-symbols-outlined absolute right-space-xs top-2.5 text-on-surface-variant pointer-events-none text-[20px]">expand_more</span>
+</div>
+</div>
+<!-- Filter 3: Temporal Window & Statutory Intervals -->
+<div class="flex flex-col gap-space-2xs">
+<label class="font-label-caps text-label-caps uppercase text-on-surface-variant font-semibold">Marco Fiscal &amp; Período</label>
+<div class="relative">
+<select class="w-full h-10 px-space-sm bg-surface-container rounded-xl text-on-surface font-body-md text-body-md appearance-none focus:outline-none focus:bg-surface-container-high transition-colors cursor-pointer">
+<option value="15d">Últimos 15 Dias (Ciclo Quinzenal ANM)</option>
+<option value="30d">Últimos 30 Dias (Fechamento Mensal)</option>
+<option selected="" value="semestre">Último Semestre (Campanha DCE/RPSB 2026)</option>
+<option value="completa">Série Histórica Completa (3.094 Leituras)</option>
+<option value="custom">Personalizado (Definir Intervalo)</option>
+</select>
+<span class="material-symbols-outlined absolute right-space-xs top-2.5 text-on-surface-variant pointer-events-none text-[20px]">calendar_today</span>
+</div>
+</div>
+<!-- Filter 4: Minimum Confidence Filter -->
+<div class="flex flex-col gap-space-2xs">
+<label class="font-label-caps text-label-caps uppercase text-on-surface-variant font-semibold">Validação Técnica Mínima</label>
+<div class="flex items-center h-10 px-space-sm bg-surface-container rounded-xl justify-between">
+<span class="font-code-telemetry text-body-sm text-secondary flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+                Apenas Leituras Homologadas
+              </span>
+<span class="text-on-surface-variant font-label-caps text-label-caps bg-surface-container-highest px-2 py-0.5 rounded">R² &gt; 0.96</span>
+</div>
+</div>
+</div>
+<!-- Database Element Pills -->
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant font-semibold">Camadas de Dados Inclusas no Empacotamento</span>
+<div class="flex flex-wrap items-center gap-space-xs">
+<label class="flex items-center gap-space-2xs px-space-sm py-1.5 rounded-full bg-surface-container cursor-pointer select-none text-on-surface hover:bg-surface-container-high transition-colors">
+<input checked="" class="accent-primary rounded w-4 h-4 cursor-pointer" type="checkbox"/>
+<span class="font-body-sm text-body-sm">Piezômetros (PZ Corda Vibrante &amp; INA)</span>
+</label>
+<label class="flex items-center gap-space-2xs px-space-sm py-1.5 rounded-full bg-surface-container cursor-pointer select-none text-on-surface hover:bg-surface-container-high transition-colors">
+<input checked="" class="accent-primary rounded w-4 h-4 cursor-pointer" type="checkbox"/>
+<span class="font-body-sm text-body-sm">Radar Cinemático IBIS-FM EVO 01 (FR012)</span>
+</label>
+<label class="flex items-center gap-space-2xs px-space-sm py-1.5 rounded-full bg-surface-container cursor-pointer select-none text-on-surface hover:bg-surface-container-high transition-colors">
+<input checked="" class="accent-primary rounded w-4 h-4 cursor-pointer" type="checkbox"/>
+<span class="font-body-sm text-body-sm">Fichas de Inspeção Regular (FIR com Fotos RTK)</span>
+</label>
+<label class="flex items-center gap-space-2xs px-space-sm py-1.5 rounded-full bg-surface-container cursor-pointer select-none text-on-surface hover:bg-surface-container-high transition-colors">
+<input checked="" class="accent-primary rounded w-4 h-4 cursor-pointer" type="checkbox"/>
+<span class="font-body-sm text-body-sm">Medidores de Vazão &amp; Drenagem Subsuperficial</span>
+</label>
+<label class="flex items-center gap-space-2xs px-space-sm py-1.5 rounded-full bg-surface-container cursor-pointer select-none text-on-surface hover:bg-surface-container-high transition-colors">
+<input checked="" class="accent-primary rounded w-4 h-4 cursor-pointer" type="checkbox"/>
+<span class="font-body-sm text-body-sm">Fórmulas &amp; Ensaios Geotécnicos (Módulo 10)</span>
+</label>
+<label class="flex items-center gap-space-2xs px-space-sm py-1.5 rounded-full bg-surface-container cursor-pointer select-none text-on-surface hover:bg-surface-container-high transition-colors">
+<input class="accent-primary rounded w-4 h-4 cursor-pointer" type="checkbox"/>
+<span class="font-body-sm text-body-sm">Checklists Veiculares &amp; Acessos Críticos</span>
+</label>
+</div>
+</div>
+</section>
+<!-- SECTION 3: Statistical Audit Summary KPI Cards -->
+<section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-md">
+<!-- KPI 1 -->
+<div class="p-space-md rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between relative overflow-hidden group hover:bg-surface-container transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant font-semibold tracking-wider">Registros Selecionados</span>
+<span class="font-code-telemetry text-body-sm px-2 py-0.5 rounded bg-primary-container/20 text-primary font-medium">100% Homologado</span>
+</div>
+<div class="my-space-sm flex items-baseline gap-space-xs">
+<span class="font-data-metric text-data-metric text-on-surface">1.480</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">medições validadas</span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm pt-space-xs">
+<span class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+              Zero pendências brutas
+            </span>
+<span class="font-code-telemetry text-[11px] text-outline">RPSB 2026/02</span>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="p-space-md rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between relative overflow-hidden group hover:bg-surface-container transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant font-semibold tracking-wider">Evidências &amp; Anexos</span>
+<span class="font-code-telemetry text-body-sm px-2 py-0.5 rounded bg-secondary-container/20 text-secondary font-medium">RTK SIRGAS 2000</span>
+</div>
+<div class="my-space-sm flex items-baseline gap-space-xs">
+<span class="font-data-metric text-data-metric text-on-surface">84</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">fotos georreferenciadas</span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm pt-space-xs">
+<span class="truncate">Azimutes e ângulos de visada anexados</span>
+<span class="font-code-telemetry text-[11px] text-outline">1.2 GB ZIP</span>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="p-space-md rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between relative overflow-hidden group hover:bg-surface-container transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant font-semibold tracking-wider">Apontamentos TARP</span>
+<span class="font-code-telemetry text-body-sm px-2 py-0.5 rounded bg-tertiary-container/30 text-tertiary font-medium">Bo &amp; Barrett</span>
+</div>
+<div class="my-space-sm flex items-baseline gap-space-xs">
+<span class="font-data-metric text-data-metric text-tertiary">2 <span class="text-body-lg text-on-surface-variant font-normal">N1</span> + 1 <span class="text-headline-md text-error font-semibold">N3</span></span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm pt-space-xs">
+<span class="text-error flex items-center gap-1 font-medium truncate">
+<span class="material-symbols-outlined text-[16px]">priority_high</span>
+              FR012 Mitigado (Parecer OK)
+            </span>
+<span class="font-code-telemetry text-[11px] text-outline">Cava Jangada</span>
+</div>
+</div>
+<!-- KPI 4 -->
+<div class="p-space-md rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between relative overflow-hidden group hover:bg-surface-container transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant font-semibold tracking-wider">Custódia Criptográfica</span>
+<span class="font-code-telemetry text-body-sm px-2 py-0.5 rounded bg-surface-container-highest text-primary font-medium">SHA-256</span>
+</div>
+<div class="my-space-sm flex flex-col">
+<span class="font-code-telemetry text-[14px] text-primary font-semibold tracking-tight truncate select-all">8f92b740...e4a189f</span>
+<span class="font-body-sm text-body-sm text-secondary flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+              Ledger Local + Cloud Audit
+            </span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm pt-space-xs">
+<span>Registro imutável no fechamento</span>
+<span class="font-code-telemetry text-[11px] text-secondary">VÁLIDO</span>
+</div>
+</div>
+</section>
+<!-- SECTION 4: Preconfigured Dossiers & Official Regulatory Packages -->
+<section class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">folder_special</span>
+<h2 class="font-headline-md text-headline-md text-on-surface font-semibold">Dossiês Oficiais e Modelos Homologados (1-Clique)</h2>
+</div>
+<span class="font-code-telemetry text-body-sm text-on-surface-variant">Última checagem normativa: Hoje, 08:30 (Mina Jangada)</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Dossier A: DCE Semestral -->
+<div class="p-space-lg rounded-xl bg-surface-container-low shadow-md flex flex-col justify-between gap-space-md transition-all hover:bg-surface-container">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-2xs">
+<span class="p-2 rounded-xl bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-[24px]">assignment</span>
+</span>
+<div>
+<span class="font-label-caps text-label-caps uppercase text-primary font-semibold">Resolução ANM 95/2022 • Art. 17</span>
+<h3 class="font-headline-md text-headline-md text-on-surface font-semibold">Declaração de Condição de Estabilidade (DCE)</h3>
+</div>
+</div>
+<span class="px-space-xs py-0.5 rounded-full bg-tertiary-container/20 text-tertiary font-code-telemetry text-body-sm font-semibold">
+                  89% Preenchido
+                </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-2xs">
+                Laudo conclusivo semestral com compilação de fatores de segurança (FS &gt; 1.50 drenado / FS &gt; 1.30 não-drenado), piezometria crítica da crista e talude de jusante, e ART vinculada do responsável técnico.
+              </p>
+<!-- Progress indicator -->
+<div class="flex flex-col gap-1 mt-space-2xs">
+<div class="flex justify-between font-label-caps text-label-caps text-on-surface-variant">
+<span>Prontidão de Dados de Instrumentação</span>
+<span class="text-primary font-semibold">89%</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full transition-all duration-500" style="width: 89%;"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<div class="flex items-center gap-space-2xs text-on-surface-variant font-code-telemetry text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-secondary">check</span>
+<span>Piezometria OK</span>
+<span class="text-outline-variant">•</span>
+<span class="text-tertiary">Pendente ART Assinada</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-sm py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-title-sm text-title-sm transition-colors" type="button">
+                  Minuta Preliminar
+                </button>
+<button class="px-space-sm py-1.5 rounded-lg bg-primary-container hover:bg-primary-container/90 text-on-primary font-title-sm text-title-sm transition-colors flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">folder_zip</span>
+                  Gerar Pacote ZIP
+                </button>
+</div>
+</div>
+</div>
+<!-- Dossier B: RPSB Quinquenal/Anual -->
+<div class="p-space-lg rounded-xl bg-surface-container-low shadow-md flex flex-col justify-between gap-space-md transition-all hover:bg-surface-container">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-2xs">
+<span class="p-2 rounded-xl bg-secondary/10 text-secondary">
+<span class="material-symbols-outlined text-[24px]">menu_book</span>
+</span>
+<div>
+<span class="font-label-caps text-label-caps uppercase text-secondary font-semibold">Lei Federal 12.334/2010 Art. 9º</span>
+<h3 class="font-headline-md text-headline-md text-on-surface font-semibold">Relatório Periódico de Segurança (RPSB)</h3>
+</div>
+</div>
+<span class="px-space-xs py-0.5 rounded-full bg-secondary-container/20 text-secondary font-code-telemetry text-body-sm font-semibold">
+                  Atualizado (Set/2026)
+                </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-2xs">
+                Consolidação quinquenal contendo Matriz de Modos de Falha e Efeitos (FMEA), curvas de permanência freática, histórico de percolação e calibragem decenal de instrumentos de fundação e maciço.
+              </p>
+<div class="flex items-center gap-space-md p-space-xs rounded-xl bg-surface-container mt-space-2xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+<span class="font-body-sm text-body-sm text-on-surface">EOR: Geoconsulting Auditores</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px]">cloud_done</span>
+<span class="font-body-sm text-body-sm text-on-surface">Base de Dados Integrada</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-code-telemetry text-body-sm text-on-surface-variant">Hash: a712e03...899c</span>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-sm py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-title-sm text-title-sm transition-colors" type="button">
+                  Sumário Executivo
+                </button>
+<button class="px-space-sm py-1.5 rounded-lg bg-primary hover:bg-primary-fixed text-on-primary font-title-sm text-title-sm transition-colors flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">file_download</span>
+                  Baixar RPSB Completo
+                </button>
+</div>
+</div>
+</div>
+<!-- Dossier C: Evento FR012 Cava Jangada -->
+<div class="p-space-lg rounded-xl bg-surface-container-low shadow-md flex flex-col justify-between gap-space-md transition-all hover:bg-surface-container">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-2xs">
+<span class="p-2 rounded-xl bg-tertiary/10 text-tertiary">
+<span class="material-symbols-outlined text-[24px]">crisis_alert</span>
+</span>
+<div>
+<span class="font-label-caps text-label-caps uppercase text-tertiary font-semibold">TARP Nível 3 • Parecer Geotécnico Oficial</span>
+<h3 class="font-headline-md text-headline-md text-on-surface font-semibold">Relatório de Evento Anômalo (FR012)</h3>
+</div>
+</div>
+<span class="px-space-xs py-0.5 rounded-full bg-tertiary-container/30 text-tertiary font-code-telemetry text-body-sm font-semibold">
+                  Mitigado • Estabilizado
+                </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-2xs">
+                Documentação do alarme de cinemática na bancada 1.231m da Cava Jangada (04/09/2026). Correlação de vibração de perfuratriz com deformação local no radar IBIS-FM, paralisação imediata, análise 1/v (Fukuzono) e termo de liberação.
+              </p>
+<div class="p-space-xs rounded-xl bg-surface-container-highest/60 font-code-telemetry text-body-sm text-on-surface flex items-center justify-between">
+<span>Vmáx: 18.4 mm/h • Retorno p/ 0.3 mm/h</span>
+<span class="text-secondary font-semibold">Declive Inverso OK</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-code-telemetry text-body-sm text-on-surface-variant">Registro: ANM-SGM-MG-2026/8942</span>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-sm py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-title-sm text-title-sm transition-colors" type="button">
+                  Radar Heatmap
+                </button>
+<button class="px-space-sm py-1.5 rounded-lg bg-secondary-container hover:bg-secondary-container/90 text-on-secondary font-title-sm text-title-sm transition-colors flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">print</span>
+                  Exportar Parecer Assinado
+                </button>
+</div>
+</div>
+</div>
+<!-- Dossier D: Livro de Registros Visuais & FIR -->
+<div class="p-space-lg rounded-xl bg-surface-container-low shadow-md flex flex-col justify-between gap-space-md transition-all hover:bg-surface-container">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-2xs">
+<span class="p-2 rounded-xl bg-primary-container/10 text-primary-container">
+<span class="material-symbols-outlined text-[24px]">fact_check</span>
+</span>
+<div>
+<span class="font-label-caps text-label-caps uppercase text-primary font-semibold">Art. 13 Res. ANM 95 • Inspeções Ordinárias</span>
+<h3 class="font-headline-md text-headline-md text-on-surface font-semibold">Livro de Registro &amp; Checklists Visuais (FIR)</h3>
+</div>
+</div>
+<span class="px-space-xs py-0.5 rounded-full bg-secondary-container/20 text-secondary font-code-telemetry text-body-sm font-semibold">
+                  100% Assinado Digitalmente
+                </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-2xs">
+                Compilação quinzenal de todas as inspeções de campo: cristas, bermas de equilíbrio, canaletas de drenagem, bacias de amortecimento e saídas de drenos sub-horizontais (DHP) com fotos com timestamp auditável.
+              </p>
+<div class="flex items-center justify-between text-body-sm font-body-sm text-on-surface-variant bg-surface-container p-space-xs rounded-xl">
+<span>38 Fichas no Período</span>
+<span class="text-secondary font-semibold">Zero anomalias com pontuação &gt; 4</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-code-telemetry text-body-sm text-on-surface-variant">Campanha: 01/08 a 15/09/2026</span>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-sm py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-title-sm text-title-sm transition-colors" type="button">
+                  Álbum Fotográfico
+                </button>
+<button class="px-space-sm py-1.5 rounded-lg bg-primary-container hover:bg-primary-container/90 text-on-primary font-title-sm text-title-sm transition-colors flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">file_open</span>
+                  Compilar Fichas FIR
+                </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 5: Cryptographic Traceability Table & Audit Issuance Log -->
+<section class="flex flex-col gap-space-sm">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-xs">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-semibold">
+              Rastreabilidade &amp; Log Criptográfico de Emissões Oficiais
+            </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Histórico de exportações homologadas, assinaturas digitais ICP-Brasil e hashes vinculados às inspeções em campo.
+            </p>
+</div>
+<div class="flex items-center gap-space-xs">
+<div class="relative">
+<input class="w-64 h-9 pl-8 pr-3 bg-surface-container-high rounded-xl text-on-surface font-body-sm text-body-sm focus:outline-none placeholder:text-outline" placeholder="Buscar por Hash, Protocolo ou ART..." type="text"/>
+<span class="material-symbols-outlined absolute left-2 top-2 text-on-surface-variant text-[18px]">search</span>
+</div>
+<button class="h-9 px-space-sm bg-surface-container hover:bg-surface-container-high text-primary rounded-xl font-body-sm text-body-sm flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">filter_list</span>
+              Filtrar
+            </button>
+</div>
+</div>
+<!-- High Density Data Table -->
+<div class="overflow-x-auto rounded-xl bg-surface-container-low shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-high/60 font-label-caps text-label-caps uppercase text-on-surface-variant tracking-wider">
+<th class="py-space-sm px-space-md">Código / Dossiê</th>
+<th class="py-space-sm px-space-md">Norma / Regulatório</th>
+<th class="py-space-sm px-space-md">Estrutura Alvo</th>
+<th class="py-space-sm px-space-md">Responsável Técnico / ART</th>
+<th class="py-space-sm px-space-md text-right">Volume</th>
+<th class="py-space-sm px-space-md">Hash SHA-256 (Custódia)</th>
+<th class="py-space-sm px-space-md">Conformidade</th>
+<th class="py-space-sm px-space-md text-center">Formatos</th>
+</tr>
+</thead>
+<tbody class="divide-y-0 font-body-sm text-body-sm">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="py-space-sm px-space-md">
+<div class="flex flex-col">
+<span class="font-code-telemetry font-semibold text-primary">DOS-2026-09-ANM</span>
+<span class="text-on-surface font-medium">DCE Semestral Ordinária</span>
+</div>
+</td>
+<td class="py-space-sm px-space-md">
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-code-telemetry text-[11px]">Res. ANM 95/2022</span>
+</td>
+<td class="py-space-sm px-space-md text-on-surface">Barragem B1 / Cava Jangada</td>
+<td class="py-space-sm px-space-md">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">Maycon Nascimento</span>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant">CREA-MG 184.920/D</span>
+</div>
+</td>
+<td class="py-space-sm px-space-md text-right font-code-telemetry text-on-surface">1.480 regs</td>
+<td class="py-space-sm px-space-md">
+<button class="font-code-telemetry text-[12px] text-primary hover:text-primary-fixed flex items-center gap-1" title="Clique para copiar hash completo" type="button">
+<span class="material-symbols-outlined text-[14px]">key</span>
+<span>8f92b740...e4a1</span>
+</button>
+</td>
+<td class="py-space-sm px-space-md">
+<span class="flex items-center gap-1 text-secondary font-medium">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+                    Homologado
+                  </span>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center justify-center gap-1">
+<button class="px-1.5 py-0.5 rounded bg-surface-container-high hover:bg-primary-container hover:text-on-primary text-[11px] font-code-telemetry text-on-surface transition-colors" title="PDF Assinado" type="button">PDF</button>
+<button class="px-1.5 py-0.5 rounded bg-surface-container-high hover:bg-secondary-container hover:text-on-secondary text-[11px] font-code-telemetry text-on-surface transition-colors" title="Planilha Matriz" type="button">XLSX</button>
+<button class="px-1.5 py-0.5 rounded bg-surface-container-high hover:bg-surface-bright text-[11px] font-code-telemetry text-on-surface-variant transition-colors" title="GIS Shapefile / KMZ" type="button">KMZ</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="bg-surface-container/30 hover:bg-surface-container transition-colors group">
+<td class="py-space-sm px-space-md">
+<div class="flex flex-col">
+<span class="font-code-telemetry font-semibold text-tertiary">EVT-2026-FR012</span>
+<span class="text-on-surface font-medium">Alerta Cinemática Talude Norte</span>
+</div>
+</td>
+<td class="py-space-sm px-space-md">
+<span class="px-2 py-0.5 rounded bg-tertiary-container/20 text-tertiary font-code-telemetry text-[11px]">TARP N3 Bo&amp;Barrett</span>
+</td>
+<td class="py-space-sm px-space-md text-on-surface">Cava Jangada (Bancada 1231)</td>
+<td class="py-space-sm px-space-md">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">Maycon Nascimento</span>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant">RT Geotecnia Jangada</span>
+</div>
+</td>
+<td class="py-space-sm px-space-md text-right font-code-telemetry text-on-surface">420 regs radar</td>
+<td class="py-space-sm px-space-md">
+<button class="font-code-telemetry text-[12px] text-tertiary hover:text-tertiary-fixed flex items-center gap-1" title="Clique para copiar hash completo" type="button">
+<span class="material-symbols-outlined text-[14px]">key</span>
+<span>3c881fa2...77d9</span>
+</button>
+</td>
+<td class="py-space-sm px-space-md">
+<span class="flex items-center gap-1 text-tertiary font-medium">
+<span class="material-symbols-outlined text-[16px]">info</span>
+                    Mitigado
+                  </span>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center justify-center gap-1">
+<button class="px-1.5 py-0.5 rounded bg-surface-container-high hover:bg-primary-container hover:text-on-primary text-[11px] font-code-telemetry text-on-surface transition-colors" type="button">PDF</button>
+<button class="px-1.5 py-0.5 rounded bg-surface-container-high hover:bg-surface-bright text-[11px] font-code-telemetry text-on-surface-variant transition-colors" type="button">JSON</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="py-space-sm px-space-md">
+<div class="flex flex-col">
+<span class="font-code-telemetry font-semibold text-primary">FIR-2026-Q3-LIVRO</span>
+<span class="text-on-surface font-medium">Livro de Fichas de Inspeção</span>
+</div>
+</td>
+<td class="py-space-sm px-space-md">
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-code-telemetry text-[11px]">Art. 13 PNSB</span>
+</td>
+<td class="py-space-sm px-space-md text-on-surface">Barragens B1, B4 e PDE</td>
+<td class="py-space-sm px-space-md">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">Equipe Técnica Campo</span>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant">Fiscais N2</span>
+</div>
+</td>
+<td class="py-space-sm px-space-md text-right font-code-telemetry text-on-surface">38 vistorias</td>
+<td class="py-space-sm px-space-md">
+<button class="font-code-telemetry text-[12px] text-primary hover:text-primary-fixed flex items-center gap-1" title="Clique para copiar hash completo" type="button">
+<span class="material-symbols-outlined text-[14px]">key</span>
+<span>da449bc1...120f</span>
+</button>
+</td>
+<td class="py-space-sm px-space-md">
+<span class="flex items-center gap-1 text-secondary font-medium">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+                    Homologado
+                  </span>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center justify-center gap-1">
+<button class="px-1.5 py-0.5 rounded bg-surface-container-high hover:bg-primary-container hover:text-on-primary text-[11px] font-code-telemetry text-on-surface transition-colors" type="button">PDF</button>
+<button class="px-1.5 py-0.5 rounded bg-surface-container-high hover:bg-surface-bright text-[11px] font-code-telemetry text-on-surface-variant transition-colors" type="button">DOCX</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container transition-colors group">
+<td class="py-space-sm px-space-md">
+<div class="flex flex-col">
+<span class="font-code-telemetry font-semibold text-secondary">RPSB-2026-FMEA</span>
+<span class="text-on-surface font-medium">Matriz de Modos de Falha</span>
+</div>
+</td>
+<td class="py-space-sm px-space-md">
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-code-telemetry text-[11px]">GISTM Princípio 4</span>
+</td>
+<td class="py-space-sm px-space-md text-on-surface">Complexo Jangada Geral</td>
+<td class="py-space-sm px-space-md">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">Geoconsulting Auditores</span>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant">EOR Terceirizado</span>
+</div>
+</td>
+<td class="py-space-sm px-space-md text-right font-code-telemetry text-on-surface">12 seções</td>
+<td class="py-space-sm px-space-md">
+<button class="font-code-telemetry text-[12px] text-secondary hover:text-secondary-fixed flex items-center gap-1" title="Clique para copiar hash completo" type="button">
+<span class="material-symbols-outlined text-[14px]">key</span>
+<span>bb60317e...9811</span>
+</button>
+</td>
+<td class="py-space-sm px-space-md">
+<span class="flex items-center gap-1 text-secondary font-medium">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+                    Aprovado EOR
+                  </span>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center justify-center gap-1">
+<button class="px-1.5 py-0.5 rounded bg-surface-container-high hover:bg-primary-container hover:text-on-primary text-[11px] font-code-telemetry text-on-surface transition-colors" type="button">PDF</button>
+<button class="px-1.5 py-0.5 rounded bg-surface-container-high hover:bg-surface-bright text-[11px] font-code-telemetry text-on-surface-variant transition-colors" type="button">XLSX</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- SECTION 6: GISTM 2020 Compliance Principles & Bo & Barrett Telemetry Assurance -->
+<section class="p-space-lg rounded-xl bg-surface-container-low shadow-md flex flex-col gap-space-md">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-sm pb-space-2xs border-b-0">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[24px]">verified</span>
+<div>
+<h3 class="font-title-sm text-title-sm text-on-surface font-semibold">
+                Padrão Global da Indústria para Gestão de Rejeitos (GISTM 2020) • Aferição de Conformidade
+              </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Evidências automáticas vinculadas aos 6 tópicos do padrão internacional e controle de risco as low as reasonably practicable (ALARP).
+              </p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="font-code-telemetry text-body-sm px-space-sm py-1 rounded-full bg-secondary-container/20 text-secondary font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">health_and_safety</span>
+              Score Geral: 100% Conforme
+            </span>
+</div>
+</div>
+<!-- 6 Principles Interactive Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-sm">
+<!-- P1 -->
+<div class="p-space-sm rounded-xl bg-surface-container flex flex-col justify-between gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-primary font-semibold">Princípio 01 • Comunidades</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">check</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">Direitos humanos, escuta ativa de comunidades a jusante e ZAS mapeada no PAEBM.</p>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant">PAEBM Protocolado ANM • Simulado 2026 OK</span>
+</div>
+<!-- P2 -->
+<div class="p-space-sm rounded-xl bg-surface-container flex flex-col justify-between gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-primary font-semibold">Princípio 02 • Base Integrada</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">check</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">Base de conhecimento geológico-geotécnico interdisciplinar e modelo hidrogeológico calibrado.</p>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant">Séries Temporais PZ: 3.094 pontos contínuos</span>
+</div>
+<!-- P3 -->
+<div class="p-space-sm rounded-xl bg-surface-container flex flex-col justify-between gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-primary font-semibold">Princípio 03 • Projeto Robusto</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">check</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">Fatores de segurança resilientes e análise de rotura induzida por liquefação estática/dinâmica.</p>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant">FS Estabilidade: 1.58 drenado (Mínimo 1.50)</span>
+</div>
+<!-- P4 -->
+<div class="p-space-sm rounded-xl bg-surface-container flex flex-col justify-between gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-primary font-semibold">Princípio 04 • Governança EOR</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">check</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">Engenheiro de Registro (EOR) independente com reuniões trimestrais e parecer técnico vigente.</p>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant">Geoconsulting • Próxima Sessão: 24/Out</span>
+</div>
+<!-- P5 -->
+<div class="p-space-sm rounded-xl bg-surface-container flex flex-col justify-between gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-primary font-semibold">Princípio 05 • Resposta a Emergência</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">check</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">Sirenes de alerta testadas quinzenalmente, rotas de fuga iluminadas e estações repetidoras solares.</p>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant">Disponibilidade Sistema Som: 99.8%</span>
+</div>
+<!-- P6 -->
+<div class="p-space-sm rounded-xl bg-surface-container flex flex-col justify-between gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-primary font-semibold">Princípio 06 • Transparência</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">check</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">Relatórios anuais de sustentabilidade e dados abertos com hashes de integridade inalteráveis.</p>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant">Portal Público de Segurança Atualizado</span>
+</div>
+</div>
+<!-- Technical Telemetry Footer Notice -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-space-xs rounded-xl bg-surface-container-highest/40 font-code-telemetry text-body-sm text-on-surface-variant gap-space-xs">
+<div class="flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-primary text-[18px]">info</span>
+<span>Todas as leituras de piezômetro possuem calibração barométrica automática e correção por fita de nível certificada.</span>
+</div>
+<span class="text-secondary font-medium">Bo &amp; Barrett (2023) • Thresholds Automatizados</span>
+</div>
+</section>
+</div>
+</div>
+</div>
+<script>
+  (function initAuditModule() {
+    // Interactive Hash Validation Micro-interaction
+    const btnValidateHash = document.getElementById('btnValidateHash');
+    if (btnValidateHash) {
+      btnValidateHash.addEventListener('click', () => {
+        const originalHtml = btnValidateHash.innerHTML;
+        btnValidateHash.disabled = true;
+        btnValidateHash.innerHTML = `
+          <span class="material-symbols-outlined text-[18px] animate-spin text-primary">sync</span>
+          <span>Validando Hashes...</span>
+        `;
+        setTimeout(() => {
+          btnValidateHash.innerHTML = `
+            <span class="material-symbols-outlined text-[18px] text-secondary">verified</span>
+            <span class="text-secondary font-semibold">100% Íntegros (4/4)</span>
+          `;
+          setTimeout(() => {
+            btnValidateHash.disabled = false;
+            btnValidateHash.innerHTML = originalHtml;
+          }, 3500);
+        }, 1200);
+      });
+    }
+
+    // Interactive ANM Package Generation Micro-interaction
+    const btnGenAnmPackage = document.getElementById('btnGenAnmPackage');
+    if (btnGenAnmPackage) {
+      btnGenAnmPackage.addEventListener('click', () => {
+        const origContent = btnGenAnmPackage.innerHTML;
+        btnGenAnmPackage.disabled = true;
+        btnGenAnmPackage.innerHTML = `
+          <span class="material-symbols-outlined text-[20px] animate-spin">rotate_right</span>
+          <span>Empacotando Evidências...</span>
+        `;
+        setTimeout(() => {
+          btnGenAnmPackage.innerHTML = `
+            <span class="material-symbols-outlined text-[20px]">download_done</span>
+            <span>Dossiê ANM Gerado (28 MB)!</span>
+          `;
+          setTimeout(() => {
+            btnGenAnmPackage.disabled = false;
+            btnGenAnmPackage.innerHTML = origContent;
+          }, 3000);
+        }, 1600);
+      });
+    }
+
+    // Export Trigger
+    const btnExportDocs = document.getElementById('btnExportDocs');
+    if (btnExportDocs) {
+      btnExportDocs.addEventListener('click', () => {
+        alert('Compilando dossiê multimodal com séries temporais e fotos georreferenciadas (PDF / DOCX). O download iniciará em breve.');
+      });
+    }
+  })();
+</script><div class="fixed inset-0 z-50 flex items-center justify-center p-space-md bg-surface-container-lowest/80 backdrop-blur-md overflow-y-auto animate-fade-in" id="modalAnmPackage"><div class="relative w-full max-w-4xl rounded-xl bg-surface-container-low shadow-2xl overflow-hidden flex flex-col my-auto"><div class="flex items-center justify-between px-space-lg py-space-md bg-surface-container-high/60"><div class="flex items-center gap-space-sm"><div class="p-2 rounded-xl bg-primary/10 text-primary flex items-center justify-center"><span class="material-symbols-outlined text-[24px]">folder_zip</span></div><div class="flex flex-col"><div class="flex items-center gap-space-xs flex-wrap"><span class="font-headline-md text-title-sm font-semibold text-on-surface tracking-tight">Compilação de Pacote Oficial ANM / SIGBM</span><span class="px-space-xs py-0.5 rounded-full bg-secondary-container/20 text-secondary font-code-telemetry text-[11px] font-semibold uppercase tracking-wider flex items-center gap-1"><span class="inline-block w-1.5 h-1.5 rounded-full bg-secondary"></span>PADRÃO ZIP HOMOLOGADO</span></div><span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Resolução ANM nº 95/2022 • Art. 17 e Art. 13 • Fiscalização Federal Ordinária</span></div></div><button class="w-9 h-9 rounded-xl bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer" onclick="document.getElementById('modalAnmPackage').remove()" title="Fechar"><span class="material-symbols-outlined text-[20px]">close</span></button></div><div class="p-space-lg flex flex-col gap-space-md overflow-y-auto max-h-[calc(88vh-140px)]"><div class="p-space-sm rounded-xl bg-surface-container flex flex-col gap-space-xs"><div class="flex items-center justify-between"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-secondary text-[18px]">check_circle</span><span class="font-label-caps text-label-caps uppercase text-secondary font-semibold">Status do Pacote</span><span class="text-outline-variant">•</span><span class="font-body-sm text-body-sm text-on-surface">Compactação Concluída • 100% Validado sem inconsistências</span></div><span class="font-code-telemetry text-body-sm text-primary font-semibold">83.4 MB (6 arquivos)</span></div><div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden"><div class="bg-gradient-to-r from-primary-container via-inverse-primary to-secondary h-full rounded-full w-full"></div></div></div><div class="grid grid-cols-2 md:grid-cols-4 gap-space-xs"><div class="p-space-xs rounded-lg bg-surface-container flex flex-col gap-0.5"><span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Tamanho Total</span><span class="font-code-telemetry text-title-sm text-primary font-semibold">83.4 MB <span class="text-body-sm font-normal text-on-surface-variant">ZIP</span></span></div><div class="p-space-xs rounded-lg bg-surface-container flex flex-col gap-0.5"><span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Leituras Piezometria</span><span class="font-code-telemetry text-title-sm text-secondary font-semibold">1.480 <span class="text-body-sm font-normal text-on-surface-variant">homologadas</span></span></div><div class="p-space-xs rounded-lg bg-surface-container flex flex-col gap-0.5"><span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Estruturas Cobertas</span><span class="font-code-telemetry text-title-sm text-on-surface font-semibold">8 <span class="text-body-sm font-normal text-on-surface-variant">Cava + Barragens</span></span></div><div class="p-space-xs rounded-lg bg-surface-container flex flex-col gap-0.5"><span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Protocolo Preliminar</span><span class="font-code-telemetry text-body-sm text-tertiary font-semibold truncate" title="ANM-SIGBM-DCE-2026-MG-95202">SIGBM-DCE-2026-95202</span></div></div><div class="flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-caps text-label-caps uppercase text-on-surface-variant font-semibold tracking-wider flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-primary">account_tree</span>Estrutura do Pacote ZIP (Arquivos Normativos Inclusos)</span><span class="font-code-telemetry text-body-sm text-secondary flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">verified</span>Certificação EOR Geoconsulting</span></div><div class="flex flex-col gap-space-2xs rounded-xl bg-surface-container/60 p-space-xs"><div class="flex items-center justify-between p-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors"><div class="flex items-center gap-space-xs min-w-0 flex-1"><span class="material-symbols-outlined text-error text-[20px] shrink-0">picture_as_pdf</span><div class="flex flex-col min-w-0 flex-1"><span class="font-code-telemetry text-body-sm text-on-surface font-medium truncate">01_DECLARACAO_ESTABILIDADE_DCE_2026.pdf</span><span class="font-body-sm text-[11px] text-on-surface-variant truncate">Laudo assinado digitalmente ICP-Brasil c/ ART CREA-MG 184.920/D</span></div></div><div class="flex items-center gap-space-sm shrink-0 ml-space-xs"><span class="font-code-telemetry text-body-sm text-on-surface-variant">4.2 MB</span><span class="px-2 py-0.5 rounded bg-secondary-container/20 text-secondary font-code-telemetry text-[11px] font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">check</span>Homologado</span></div></div><div class="flex items-center justify-between p-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors"><div class="flex items-center gap-space-xs min-w-0 flex-1"><span class="material-symbols-outlined text-secondary text-[20px] shrink-0">table_view</span><div class="flex flex-col min-w-0 flex-1"><span class="font-code-telemetry text-body-sm text-on-surface font-medium truncate">02_SERIES_TEMPORAIS_PIEZOMETRIA_MAR2026.xlsx</span><span class="font-body-sm text-[11px] text-on-surface-variant truncate">1.480 leituras calibradas, gráficos de poro-pressão e cotas freáticas</span></div></div><div class="flex items-center gap-space-sm shrink-0 ml-space-xs"><span class="font-code-telemetry text-body-sm text-on-surface-variant">18.5 MB</span><span class="px-2 py-0.5 rounded bg-secondary-container/20 text-secondary font-code-telemetry text-[11px] font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">check</span>Homologado</span></div></div><div class="flex items-center justify-between p-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors"><div class="flex items-center gap-space-xs min-w-0 flex-1"><span class="material-symbols-outlined text-error text-[20px] shrink-0">picture_as_pdf</span><div class="flex flex-col min-w-0 flex-1"><span class="font-code-telemetry text-body-sm text-on-surface font-medium truncate">03_LAUDO_CINEMATICO_RADAR_IBIS_FM_FR012.pdf</span><span class="font-body-sm text-[11px] text-on-surface-variant truncate">Varredura Cava Jangada, Fukuzono 1/v e liberação pós-perfuratriz</span></div></div><div class="flex items-center gap-space-sm shrink-0 ml-space-xs"><span class="font-code-telemetry text-body-sm text-on-surface-variant">12.1 MB</span><span class="px-2 py-0.5 rounded bg-secondary-container/20 text-secondary font-code-telemetry text-[11px] font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">check</span>Homologado</span></div></div><div class="flex items-center justify-between p-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors"><div class="flex items-center gap-space-xs min-w-0 flex-1"><span class="material-symbols-outlined text-error text-[20px] shrink-0">picture_as_pdf</span><div class="flex flex-col min-w-0 flex-1"><span class="font-code-telemetry text-body-sm text-on-surface font-medium truncate">04_FICHAS_INSPECAO_REGULAR_FIR_ALBUM.pdf</span><span class="font-body-sm text-[11px] text-on-surface-variant truncate">38 fichas com carimbo SIRGAS 2000 UTM 23S e 84 fotos RTK</span></div></div><div class="flex items-center gap-space-sm shrink-0 ml-space-xs"><span class="font-code-telemetry text-body-sm text-on-surface-variant">45.8 MB</span><span class="px-2 py-0.5 rounded bg-secondary-container/20 text-secondary font-code-telemetry text-[11px] font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">check</span>Homologado</span></div></div><div class="flex items-center justify-between p-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors"><div class="flex items-center gap-space-xs min-w-0 flex-1"><span class="material-symbols-outlined text-primary text-[20px] shrink-0">map</span><div class="flex flex-col min-w-0 flex-1"><span class="font-code-telemetry text-body-sm text-on-surface font-medium truncate">05_MALHA_GEORREFERENCIADA_GIS.kmz</span><span class="font-body-sm text-[11px] text-on-surface-variant truncate">Vetores de cristas, bermas, piezômetros e bacias em EPSG:31983</span></div></div><div class="flex items-center gap-space-sm shrink-0 ml-space-xs"><span class="font-code-telemetry text-body-sm text-on-surface-variant">2.8 MB</span><span class="px-2 py-0.5 rounded bg-secondary-container/20 text-secondary font-code-telemetry text-[11px] font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">check</span>Homologado</span></div></div><div class="flex items-center justify-between p-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors"><div class="flex items-center gap-space-xs min-w-0 flex-1"><span class="material-symbols-outlined text-outline text-[20px] shrink-0">description</span><div class="flex flex-col min-w-0 flex-1"><span class="font-code-telemetry text-body-sm text-on-surface font-medium truncate">06_CHECKSUM_SHA256_MANIFEST.txt</span><span class="font-body-sm text-[11px] text-on-surface-variant truncate">Assinatura criptográfica individual de cada arquivo</span></div></div><div class="flex items-center gap-space-sm shrink-0 ml-space-xs"><span class="font-code-telemetry text-body-sm text-on-surface-variant">12 KB</span><span class="px-2 py-0.5 rounded bg-secondary-container/20 text-secondary font-code-telemetry text-[11px] font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">check</span>Homologado</span></div></div></div></div><div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-space-xs rounded-xl bg-surface-container-highest/60 gap-space-xs"><div class="flex items-center gap-space-xs min-w-0 flex-1"><span class="material-symbols-outlined text-primary text-[18px] shrink-0">key</span><div class="flex flex-col min-w-0 flex-1"><span class="font-label-caps text-label-caps uppercase text-on-surface-variant font-semibold">Hash Mestre de Custódia SHA-256 (Pacote Completo)</span><span class="font-code-telemetry text-[12px] text-primary font-semibold truncate select-all">8f92b740e53a19b88c7f0932a4e5d619...e4a189f</span></div></div><button class="px-space-xs py-1 rounded bg-surface-container-high hover:bg-surface-bright text-primary font-code-telemetry text-body-sm transition-colors flex items-center gap-1 shrink-0" onclick="navigator.clipboard &amp;&amp; navigator.clipboard.writeText('8f92b740e53a19b88c7f0932a4e5d6198f92b740e53a19b88c7f0932a4e4a189f')" type="button"><span class="material-symbols-outlined text-[14px]">content_copy</span><span>Copiar Hash</span></button></div></div><div class="flex flex-col sm:flex-row items-center justify-between gap-space-sm px-space-lg py-space-md bg-surface-container-high/60"><div class="flex items-center gap-space-xs text-on-surface-variant font-code-telemetry text-body-sm"><span class="material-symbols-outlined text-secondary text-[16px]">lock</span><span>Assinado: Maycon Nascimento (CREA-MG 184.920/D)</span></div><div class="flex items-center gap-space-xs flex-wrap justify-end"><button class="px-space-md py-space-xs rounded-xl bg-surface-container hover:bg-surface-bright text-on-surface font-title-sm text-title-sm transition-colors" onclick="document.getElementById('modalAnmPackage').remove()" type="button">Cancelar / Fechar</button><button class="px-space-md py-space-xs rounded-xl bg-surface-container-high hover:bg-surface-bright text-primary font-title-sm text-title-sm transition-colors flex items-center gap-space-2xs" type="button"><span class="material-symbols-outlined text-[18px]">cloud_upload</span><span>Transmitir Diretamente ao SIGBM via API</span></button><button class="px-space-md py-space-xs rounded-xl bg-gradient-to-r from-primary-container via-inverse-primary to-primary-container text-on-primary font-title-sm text-title-sm shadow-md hover:brightness-110 active:scale-95 transition-all flex items-center gap-space-2xs" type="button"><span class="material-symbols-outlined text-[20px]">download</span><span class="font-semibold">Baixar Pacote ZIP Completo (83.4 MB)</span></button></div></div></div></div></main></div>
+<script src="../../vendor/jszip.min.js"></script>
+<script src="../stitch-runtime.js"></script>
+</body></html>

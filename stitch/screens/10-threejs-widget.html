@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+<!-- STITCH_THREEJS_START:ANIMATION_11 class="fixed inset-0 w-full h-full bg-transparent" -->
+<div class="fixed inset-0 w-full h-full bg-transparent" style="display:block;">
+<script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
+<div id="threejs-container-ANIMATION_11" style="width:100%;height:100%"></div>
+<script>
+(function() {
+  const container = document.getElementById('threejs-container-ANIMATION_11');
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  // Three.js Interactive Geotechnical Mining Pit (Cava 3D) with Sensor Pins and Radar Beam
+const width = container.clientWidth || window.innerWidth;
+const height = container.clientHeight || window.innerHeight;
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45, width / height, 1, 3000);
+camera.position.set(220, 240, 280);
+camera.lookAt(0, 0, 0);
+
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+renderer.setSize(width, height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+container.appendChild(renderer.domElement);
+
+// Ambient and Directional Lights
+const ambientLight = new THREE.AmbientLight(0x38bdf8, 0.4);
+scene.add(ambientLight);
+
+const dirLight = new THREE.DirectionalLight(0x0ea5e9, 1.2);
+dirLight.position.set(150, 250, 100);
+scene.add(dirLight);
+
+const warnLight = new THREE.PointLight(0xef4444, 2.5, 300);
+warnLight.position.set(-35, 25, -20);
+scene.add(warnLight);
+
+// Geotechnical Open Pit Mine (Terraced Benches / Bermas e Taludes)
+const pitGroup = new THREE.Group();
+
+// Terraced Pit Levels
+const levels = 7;
+const benchColors = [0x0c1e3d, 0x0f274e, 0x133261, 0x183d75, 0x1d4787, 0x22539c, 0x2b65bd];
+
+for (let i = 0; i < levels; i++) {
+  const outerR = 170 - i * 18;
+  const innerR = outerR - 14;
+  const ringGeo = new THREE.CylinderGeometry(outerR, innerR, 14, 48, 1, true);
+  const ringMat = new THREE.MeshLambertMaterial({
+    color: benchColors[i % benchColors.length],
+    wireframe: false,
+    side: THREE.DoubleSide
+  });
+  const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+  ringMesh.position.y = -i * 12;
+  pitGroup.add(ringMesh);
+
+  // Wireframe grid lines on berm edges
+  const wireGeo = new THREE.EdgesGeometry(ringGeo);
+  const wireMat = new THREE.LineBasicMaterial({
+    color: 0x0ea5e9,
+    transparent: true,
+    opacity: 0.35 + (i * 0.05)
+  });
+  const wireLines = new THREE.LineSegments(wireGeo, wireMat);
+  wireLines.position.y = -i * 12;
+  pitGroup.add(wireLines);
+}
+
+// Floor of pit
+const floorGeo = new THREE.CircleGeometry(42, 32);
+const floorMat = new THREE.MeshLambertMaterial({ color: 0x061126, side: THREE.DoubleSide });
+const floorMesh = new THREE.Mesh(floorGeo, floorMat);
+floorMesh.rotation.x = Math.PI / 2;
+floorMesh.position.y = -levels * 12;
+pitGroup.add(floorMesh);
+
+scene.add(pitGroup);
+
+// Critical AOI Zone (Talude Norte Alvo N3) Glowing Area
+const aoiGeo = new THREE.BoxGeometry(26, 12, 18);
+const aoiMat = new THREE.MeshBasicMaterial({
+  color: 0xef4444,
+  wireframe: true,
+  transparent: true,
+  opacity: 0.8
+});
+const aoiMesh = new THREE.Mesh(aoiGeo, aoiMat);
+aoiMesh.position.set(-42, 14, -30);
+scene.add(aoiMesh);
+
+// Radar Station (Base Sul)
+const radarBaseGeo = new THREE.CylinderGeometry(6, 9, 8, 16);
+const radarBaseMat = new THREE.MeshLambertMaterial({ color: 0x38bdf8 });
+const radarBase = new THREE.Mesh(radarBaseGeo, radarBaseMat);
+radarBase.position.set(75, 20, 110);
+scene.add(radarBase);
+
+// Radar Scanning Wave Cone (Line from radar to AOI)
+const beamPoints = [
+  new THREE.Vector3(75, 24, 110),
+  new THREE.Vector3(-42, 14, -30)
+];
+const beamGeo = new THREE.BufferGeometry().setFromPoints(beamPoints);
+const beamMat = new THREE.LineDashedMaterial({
+  color: 0x38bdf8,
+  dashSize: 6,
+  gapSize: 4,
+  linewidth: 2,
+  transparent: true,
+  opacity: 0.85
+});
+const beamLine = new THREE.Line(beamGeo, beamMat);
+beamLine.computeLineDistances();
+scene.add(beamLine);
+
+// Sensor Pins in 3D Space
+const sensorPositions = [
+  { name: 'PZ-01', pos: [-70, 8, 40], color: 0x10b981 },
+  { name: 'PZ-02', pos: [-40, 16, -20], color: 0x38bdf8 },
+  { name: 'PZ-04', pos: [30, -30, -50], color: 0x10b981 },
+  { name: 'INA-01', pos: [-10, 12, -70], color: 0x10b981 },
+  { name: 'AOI-01', pos: [-42, 22, -30], color: 0xef4444 }
+];
+
+const pinGroup = new THREE.Group();
+sensorPositions.forEach(s => {
+  const pinGeo = new THREE.SphereGeometry(3.5, 16, 16);
+  const pinMat = new THREE.MeshBasicMaterial({ color: s.color });
+  const pin = new THREE.Mesh(pinGeo, pinMat);
+  pin.position.set(s.pos[0], s.pos[1], s.pos[2]);
+
+  // Stem down to bench
+  const stemGeo = new THREE.BufferGeometry().setFromPoints([
+    new THREE.Vector3(s.pos[0], s.pos[1], s.pos[2]),
+    new THREE.Vector3(s.pos[0], s.pos[1] - 14, s.pos[2])
+  ]);
+  const stemMat = new THREE.LineBasicMaterial({ color: s.color, transparent: true, opacity: 0.7 });
+  const stem = new THREE.Line(stemGeo, stemMat);
+
+  pinGroup.add(pin);
+  pinGroup.add(stem);
+});
+scene.add(pinGroup);
+
+// Geotechnical Topo Elevation Grid
+const gridHelper = new THREE.GridHelper(400, 30, 0x0ea5e9, 0x1e293b);
+gridHelper.position.y = -levels * 12 - 2;
+gridHelper.material.opacity = 0.25;
+gridHelper.material.transparent = true;
+scene.add(gridHelper);
+
+// Interactive Mouse Orbit
+let mouseX = 0;
+let mouseY = 0;
+let targetRotationX = 0;
+let targetRotationY = 0;
+
+function onMouseMove(e) {
+  const rect = container.getBoundingClientRect();
+  const x = (e.clientX - rect.left) / rect.width - 0.5;
+  const y = (e.clientY - rect.top) / rect.height - 0.5;
+  targetRotationY = x * 1.5;
+  targetRotationX = y * 0.8;
+}
+
+container.addEventListener('mousemove', onMouseMove);
+
+function onResize() {
+  const w = container.clientWidth || window.innerWidth;
+  const h = container.clientHeight || window.innerHeight;
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w, h);
+}
+window.addEventListener('resize', onResize);
+
+// Animation Loop
+let clock = new THREE.Clock();
+
+function animate() {
+  requestAnimationFrame(animate);
+  const elapsedTime = clock.getElapsedTime();
+
+  // Subtle natural camera drift + smooth mouse follow
+  camera.position.x += (Math.sin(elapsedTime * 0.2) * 40 + Math.cos(targetRotationY) * 260 - camera.position.x) * 0.04;
+  camera.position.y += (180 + targetRotationX * 120 - camera.position.y) * 0.04;
+  camera.position.z += (Math.cos(elapsedTime * 0.2) * 40 + Math.sin(targetRotationY) * 260 - camera.position.z) * 0.04;
+  camera.lookAt(0, -20, 0);
+
+  // Pulse critical AOI
+  const s = 1.0 + Math.sin(elapsedTime * 4.0) * 0.15;
+  aoiMesh.scale.set(s, s, s);
+
+  // Flash warning light
+  warnLight.intensity = 2.0 + Math.sin(elapsedTime * 5.0) * 1.5;
+
+  // Radar line dash animation
+  beamMat.dashSize = 4 + Math.sin(elapsedTime * 6.0) * 2;
+  beamMat.gapSize = 3;
+
+  // Slow rotation of pit group
+  pitGroup.rotation.y = elapsedTime * 0.04;
+  pinGroup.rotation.y = elapsedTime * 0.04;
+  aoiMesh.rotation.y = elapsedTime * 0.04;
+
+  renderer.render(scene, camera);
+}
+
+animate();
+})();
+</script>
+</div>
+<!-- STITCH_THREEJS_END:ANIMATION_11 -->
+
+<script src="../../vendor/jszip.min.js"></script>
+<script src="../stitch-runtime.js"></script>
+</body>
+</html>

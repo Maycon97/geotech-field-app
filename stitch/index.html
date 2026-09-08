@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDSync - Catálogo de Telas Stitch (Geotech Platform Redesign)</title>
+    <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../vendor/fontawesome/css/all.min.css">
+    <style>
+        :root {
+            --surface-lowest: #050d23;
+            --surface: #0a1228;
+            --surface-container-low: #131b31;
+            --surface-container: #171f35;
+            --surface-container-high: #222940;
+            --surface-container-highest: #2c344c;
+            --on-surface: #dbe1ff;
+            --on-surface-variant: #bec8d2;
+            --outline: #88929b;
+            --outline-variant: #3e4850;
+            --primary: #89ceff;
+            --primary-container: #0ea5e9;
+            --secondary: #4edea3;
+            --tertiary: #ffb95f;
+            --error: #ffb4ab;
+            --font-head: 'Outfit', -apple-system, sans-serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--surface-lowest);
+            color: var(--on-surface);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header Superior */
+        header.app-header {
+            background: linear-gradient(180deg, var(--surface-container) 0%, rgba(23, 31, 53, 0.95) 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            flex-shrink: 0;
+            z-index: 50;
+            backdrop-filter: blur(12px);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .header-brand img {
+            height: 36px;
+            width: auto;
+        }
+
+        .brand-meta {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-family: var(--font-head);
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge-stitch {
+            background: rgba(14, 165, 233, 0.15);
+            color: var(--primary);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .brand-subtitle {
+            font-size: 11px;
+            color: var(--on-surface-variant);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-header {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .btn-header-secondary {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--on-surface);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-header-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+        }
+
+        .btn-header-primary {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+        }
+
+        .btn-header-primary:hover {
+            box-shadow: 0 4px 14px rgba(14, 165, 233, 0.5);
+            transform: translateY(-1px);
+        }
+
+        /* Layout Principal */
+        .app-body {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Barra Lateral de Telas */
+        aside.screens-sidebar {
+            width: 320px;
+            background-color: var(--surface);
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            z-index: 40;
+        }
+
+        .sidebar-search {
+            padding: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .search-input-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input-wrap i {
+            position: absolute;
+            left: 12px;
+            color: var(--outline);
+            font-size: 13px;
+        }
+
+        .search-input {
+            width: 100%;
+            background: var(--surface-container-low);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 8px 12px 8px 34px;
+            color: #ffffff;
+            font-size: 12px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-container);
+        }
+
+        .screens-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .category-header {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--outline);
+            padding: 10px 8px 4px;
+        }
+
+        .screen-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            border-radius: 8px;
+            background: transparent;
+            border: 1px solid transparent;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.15s ease;
+            gap: 10px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .screen-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .screen-item.active {
+            background: var(--surface-container);
+            border-color: rgba(14, 165, 233, 0.4);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .screen-info {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            min-width: 0;
+        }
+
+        .screen-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--on-surface);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .screen-item.active .screen-title {
+            color: var(--primary);
+        }
+
+        .screen-meta {
+            font-size: 11px;
+            color: var(--outline);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-mono);
+        }
+
+        .screen-icon {
+            color: var(--outline);
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .screen-item.active .screen-icon {
+            color: var(--primary);
+        }
+
+        /* Viewport e Conteúdo Principal */
+        main.main-viewport {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--surface-lowest);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .viewport-toolbar {
+            height: 48px;
+            background: var(--surface-container);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            flex-shrink: 0;
+            z-index: 20;
+        }
+
+        .current-screen-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .current-title {
+            font-family: var(--font-head);
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .current-badge {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--secondary);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+        }
+
+        .viewport-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .device-selector {
+            display: flex;
+            background: var(--surface-container-low);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            padding: 2px;
+            gap: 2px;
+        }
+
+        .btn-device {
+            background: transparent;
+            border: none;
+            color: var(--outline);
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.15s;
+        }
+
+        .btn-device:hover {
+            color: #ffffff;
+        }
+
+        .btn-device.active {
+            background: var(--surface-container-high);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .btn-tool {
+            background: var(--surface-container-low);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--on-surface);
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            transition: all 0.15s;
+        }
+
+        .btn-tool:hover {
+            background: var(--surface-container-high);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .iframe-stage {
+            flex: 1;
+            background: #060b18;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: auto;
+            position: relative;
+            padding: 16px;
+        }
+
+        .iframe-wrapper {
+            background: #ffffff;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+
+        .iframe-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: var(--surface);
+        }
+
+        /* Modais e Painéis Laterais */
+        .drawer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .drawer-overlay.active {
+            display: flex;
+        }
+
+        .drawer-card {
+            background: var(--surface-container);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 920px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+        }
+
+        .drawer-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .drawer-title {
+            font-family: var(--font-head);
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-close {
+            background: transparent;
+            border: none;
+            color: var(--outline);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px;
+        }
+
+        .btn-close:hover {
+            color: #ffffff;
+        }
+
+        .drawer-content {
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Galeria de Tokens */
+        .tokens-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 10px;
+        }
+
+        .token-card {
+            background: var(--surface-container-low);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .token-swatch {
+            height: 36px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .token-name {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--on-surface);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .token-hex {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--outline);
+        }
+
+        /* Imagem de Screenshot no modal */
+        .screenshot-img-wrap {
+            max-height: 70vh;
+            overflow: auto;
+            text-align: center;
+        }
+
+        .screenshot-img-wrap img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Superior -->
+    <header class="app-header">
+        <div class="header-brand">
+            <img src="assets/logo.svg" alt="MDSync Geotech Enterprise Logo">
+            <div class="brand-meta">
+                <div class="brand-title">
+                    MDSync
+                    <span class="badge-stitch">Stitch Export</span>
+                </div>
+                <div class="brand-subtitle">Geotech Platform Redesign (ID: 17431042698047576274)</div>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <button class="btn-header btn-header-secondary" onclick="openDesignSystemModal()">
+                <i class="fa-solid fa-swatchbook"></i> Design System & Tokens
+            </button>
+            <a href="../index.html" class="btn-header btn-header-primary">
+                <i class="fa-solid fa-arrow-left"></i> Abrir MDSync de Campo
+            </a>
+        </div>
+    </header>
+
+    <!-- Estrutura Principal -->
+    <div class="app-body">
+        <!-- Barra Lateral de Telas -->
+        <aside class="screens-sidebar">
+            <div class="sidebar-search">
+                <div class="search-input-wrap">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Filtrar telas importadas..." oninput="filterScreens()">
+                </div>
+            </div>
+
+            <div class="screens-list" id="screensList">
+                <!-- Telas geradas via Javascript -->
+            </div>
+        </aside>
+
+        <!-- Viewport Principal com Iframe -->
+        <main class="main-viewport">
+            <div class="viewport-toolbar">
+                <div class="current-screen-info">
+                    <div class="current-title" id="currentTitle">Carregando tela...</div>
+                    <span class="current-badge" id="currentBadge">HTML + Tailwind</span>
+                </div>
+
+                <div class="viewport-controls">
+                    <!-- Seletores de tamanho -->
+                    <div class="device-selector">
+                        <button class="btn-device active" data-width="100%" data-height="100%" onclick="setDevice(this)">
+                            <i class="fa-solid fa-desktop"></i> Tela Cheia
+                        </button>
+                        <button class="btn-device" data-width="1440px" data-height="900px" onclick="setDevice(this)">
+                            <i class="fa-solid fa-laptop"></i> 1440px
+                        </button>
+                        <button class="btn-device" data-width="1024px" data-height="768px" onclick="setDevice(this)">
+                            <i class="fa-solid fa-tablet-screen-button"></i> Tablet
+                        </button>
+                        <button class="btn-device" data-width="412px" data-height="892px" onclick="setDevice(this)">
+                            <i class="fa-solid fa-mobile-screen"></i> Mobile
+                        </button>
+                    </div>
+
+                    <button class="btn-tool" onclick="reloadIframe()" title="Recarregar tela">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </button>
+
+                    <button class="btn-tool" id="btnOpenShot" onclick="openScreenshotModal()" title="Ver Captura em Alta Resolução">
+                        <i class="fa-solid fa-image"></i> Screenshot
+                    </button>
+
+                    <a href="#" id="btnOpenTab" target="_blank" class="btn-tool" title="Abrir em Nova Aba">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Nova Aba
+                    </a>
+                </div>
+            </div>
+
+            <div class="iframe-stage">
+                <div class="iframe-wrapper" id="iframeWrapper">
+                    <iframe id="screenIframe" src="screens/01-visao-geral-geotecnica.html"></iframe>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Screenshot -->
+    <div class="drawer-overlay" id="shotModal" onclick="closeModalOnOverlay(event, 'shotModal')">
+        <div class="drawer-card">
+            <div class="drawer-header">
+                <div class="drawer-title" id="shotModalTitle">
+                    <i class="fa-solid fa-image" style="color: var(--primary);"></i>
+                    Captura Oficial do Stitch
+                </div>
+                <button class="btn-close" onclick="closeModal('shotModal')">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="drawer-content">
+                <div class="screenshot-img-wrap">
+                    <img id="shotModalImg" src="" alt="Screenshot">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal do Design System & Tokens -->
+    <div class="drawer-overlay" id="dsModal" onclick="closeModalOnOverlay(event, 'dsModal')">
+        <div class="drawer-card">
+            <div class="drawer-header">
+                <div class="drawer-title">
+                    <i class="fa-solid fa-palette" style="color: var(--primary);"></i>
+                    Design System: Antigravity Geotechnical Precision
+                </div>
+                <button class="btn-close" onclick="closeModal('dsModal')">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="drawer-content">
+                <div>
+                    <h3 style="font-family: var(--font-head); font-size: 14px; margin-bottom: 12px; color: #ffffff;">Paleta de Cores e Tokens Primários</h3>
+                    <div class="tokens-grid" id="tokensGrid"></div>
+                </div>
+
+                <div style="border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 16px;">
+                    <h3 style="font-family: var(--font-head); font-size: 14px; margin-bottom: 12px; color: #ffffff;">Especificação do Sistema de Design</h3>
+                    <div style="background: var(--surface-container-low); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 8px; padding: 14px; font-size: 12px; line-height: 1.6; color: var(--on-surface-variant); max-height: 300px; overflow-y: auto;">
+                        <p><strong>Nome:</strong> Antigravity Geotechnical Precision</p>
+                        <p><strong>Tipografia:</strong> Outfit (Títulos), Inter (Textos e Tabelas), JetBrains Mono (IDs de Instrumentos, Coordenadas e Leituras de Telemetria)</p>
+                        <p><strong>Elevação e Profundidade:</strong> Translucidez controlada com brilho de borda (Controlled Glassmorphism com 1px cyan highlight), sem sombras excessivas.</p>
+                        <p><strong>Filosofia:</strong> Projetado especificamente para barragens de rejeito, pilhas de estéril e drenagem ácida, mantendo alta densidade de dados e legibilidade em condições de campo.</p>
+                        <p style="margin-top: 10px;">Arquivo completo em: <code>stitch/design-system/DESIGN.md</code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SCREENS_DATA = [
+            {
+                category: "Dashboard & Executivo",
+                id: "01",
+                title: "Visão Geral Geotécnica",
+                file: "screens/01-visao-geral-geotecnica.html",
+                screenshot: "assets/screenshots/01-visao-geral-geotecnica.png",
+                icon: "fa-solid fa-chart-line",
+                badge: "Dashboard"
+            },
+            {
+                category: "Dashboard & Executivo",
+                id: "08",
+                title: "Rotina Diária & Equipe",
+                file: "screens/08-rotina-diaria-equipe-geotecnica.html",
+                screenshot: "assets/screenshots/08-rotina-diaria-equipe-geotecnica.png",
+                icon: "fa-solid fa-users-gear",
+                badge: "Operações"
+            },
+            {
+                category: "Dashboard & Executivo",
+                id: "09",
+                title: "Painel Executivo Cronograma PCMI",
+                file: "screens/09-painel-executivo-cronograma-pcmi.html",
+                screenshot: "assets/screenshots/12-captura-referencia-pcmi.png",
+                icon: "fa-solid fa-timeline",
+                badge: "Cronograma"
+            },
+            {
+                category: "Campo & Inspeção",
+                id: "02",
+                title: "Fluxo de Coleta & Checklist Offline",
+                file: "screens/02-fluxo-coleta-checklist-offline.html",
+                screenshot: "assets/screenshots/02-fluxo-coleta-checklist-offline.png",
+                icon: "fa-solid fa-clipboard-check",
+                badge: "Offline Form"
+            },
+            {
+                category: "3D & Cartografia",
+                id: "03",
+                title: "GeoView & GIS 3D de Campo",
+                file: "screens/03-geoview-gis-3d-campo.html",
+                screenshot: "assets/screenshots/03-geoview-gis-3d-campo.png",
+                icon: "fa-solid fa-map-location-dot",
+                badge: "Cartografia"
+            },
+            {
+                category: "3D & Cartografia",
+                id: "04",
+                title: "GeoView & GIS 3D Interativo (Three.js)",
+                file: "screens/04-geoview-gis-3d-interativo-threejs.html",
+                screenshot: "assets/screenshots/04-geoview-gis-3d-interativo-threejs.png",
+                icon: "fa-solid fa-cube",
+                badge: "Three.js"
+            },
+            {
+                category: "3D & Cartografia",
+                id: "10",
+                title: "Widget Standalone Three.js",
+                file: "screens/10-threejs-widget.html",
+                screenshot: null,
+                icon: "fa-solid fa-shapes",
+                badge: "WebGL"
+            },
+            {
+                category: "Governança & Conformidade",
+                id: "05",
+                title: "Relatórios & Auditoria (GISTM e ANM 95)",
+                file: "screens/05-relatorios-auditoria-gistm-anm95.html",
+                screenshot: "assets/screenshots/05-relatorios-auditoria-gistm-anm95.png",
+                icon: "fa-solid fa-file-shield",
+                badge: "Auditoria"
+            },
+            {
+                category: "Governança & Conformidade",
+                id: "06",
+                title: "Exportação Pacote Oficial ANM (ZIP)",
+                file: "screens/06-exportacao-pacote-oficial-anm-zip.html",
+                screenshot: "assets/screenshots/06-exportacao-pacote-oficial-anm-zip.png",
+                icon: "fa-solid fa-file-zipper",
+                badge: "Exportador"
+            },
+            {
+                category: "Governança & Conformidade",
+                id: "07",
+                title: "Transmissão Homologada API SIGBM",
+                file: "screens/07-transmissao-homologada-api-sigbm.html",
+                screenshot: "assets/screenshots/07-transmissao-homologada-api-sigbm.png",
+                icon: "fa-solid fa-tower-broadcast",
+                badge: "SIGBM API"
+            }
+        ];
+
+        let currentScreenIndex = 0;
+
+        function renderScreensList(filter = "") {
+            const container = document.getElementById("screensList");
+            container.innerHTML = "";
+
+            const categories = [...new Set(SCREENS_DATA.map(s => s.category))];
+            
+            categories.forEach(cat => {
+                const items = SCREENS_DATA.filter(s => {
+                    const matchCat = s.category === cat;
+                    const matchText = s.title.toLowerCase().includes(filter.toLowerCase()) || s.badge.toLowerCase().includes(filter.toLowerCase());
+                    return matchCat && (!filter || matchText);
+                });
+
+                if (items.length === 0) return;
+
+                const catEl = document.createElement("div");
+                catEl.className = "category-header";
+                catEl.textContent = cat;
+                container.appendChild(catEl);
+
+                items.forEach(screen => {
+                    const originalIndex = SCREENS_DATA.indexOf(screen);
+                    const itemEl = document.createElement("div");
+                    itemEl.className = `screen-item ${originalIndex === currentScreenIndex ? "active" : ""}`;
+                    itemEl.onclick = () => selectScreen(originalIndex);
+
+                    itemEl.innerHTML = `
+                        <div class="screen-info">
+                            <div class="screen-title">${screen.title}</div>
+                            <div class="screen-meta">
+                                <span>${screen.badge}</span>
+                            </div>
+                        </div>
+                        <i class="${screen.icon} screen-icon"></i>
+                    `;
+                    container.appendChild(itemEl);
+                });
+            });
+        }
+
+        function selectScreen(index) {
+            currentScreenIndex = index;
+            const screen = SCREENS_DATA[index];
+
+            document.getElementById("currentTitle").textContent = screen.title;
+            document.getElementById("currentBadge").textContent = screen.badge;
+
+            const iframe = document.getElementById("screenIframe");
+            iframe.src = screen.file;
+
+            const btnOpenTab = document.getElementById("btnOpenTab");
+            btnOpenTab.href = screen.file;
+
+            const btnOpenShot = document.getElementById("btnOpenShot");
+            btnOpenShot.style.display = screen.screenshot ? "inline-flex" : "none";
+
+            renderScreensList(document.getElementById("searchInput").value);
+        }
+
+        function filterScreens() {
+            const query = document.getElementById("searchInput").value;
+            renderScreensList(query);
+        }
+
+        function setDevice(button) {
+            document.querySelectorAll(".btn-device").forEach(b => b.classList.remove("active"));
+            button.classList.add("active");
+
+            const w = button.getAttribute("data-width");
+            const h = button.getAttribute("data-height");
+            const wrapper = document.getElementById("iframeWrapper");
+
+            wrapper.style.width = w;
+            wrapper.style.height = h;
+            wrapper.style.maxWidth = w === "100%" ? "100%" : w;
+            wrapper.style.maxHeight = h === "100%" ? "100%" : h;
+        }
+
+        function reloadIframe() {
+            const iframe = document.getElementById("screenIframe");
+            iframe.src = iframe.src;
+        }
+
+        function openScreenshotModal() {
+            const screen = SCREENS_DATA[currentScreenIndex];
+            if (!screen.screenshot) return;
+            document.getElementById("shotModalTitle").innerHTML = `<i class="fa-solid fa-image" style="color: var(--primary);"></i> ${screen.title}`;
+            document.getElementById("shotModalImg").src = screen.screenshot;
+            document.getElementById("shotModal").classList.add("active");
+        }
+
+        function openDesignSystemModal() {
+            document.getElementById("dsModal").classList.add("active");
+            loadTokensGrid();
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove("active");
+        }
+
+        function closeModalOnOverlay(e, modalId) {
+            if (e.target.id === modalId) {
+                closeModal(modalId);
+            }
+        }
+
+        async function loadTokensGrid() {
+            const container = document.getElementById("tokensGrid");
+            if (container.children.length > 0) return;
+
+            try {
+                const res = await fetch("design-system/tokens.json");
+                const data = await res.json();
+                const colors = data.colors || {};
+
+                for (const [key, val] of Object.entries(colors)) {
+                    const card = document.createElement("div");
+                    card.className = "token-card";
+                    card.innerHTML = `
+                        <div class="token-swatch" style="background-color: ${val};"></div>
+                        <div class="token-name" title="${key}">${key}</div>
+                        <div class="token-hex">${val}</div>
+                    `;
+                    container.appendChild(card);
+                }
+            } catch (err) {
+                container.innerHTML = "<p style='color: var(--outline); font-size: 12px;'>Tokens disponíveis no arquivo design-system/tokens.json</p>";
+            }
+        }
+
+        // Inicialização
+        document.addEventListener("DOMContentLoaded", () => {
+            selectScreen(0);
+        });
+    </script>
+</body>
+</html>

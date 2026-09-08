@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Outfit:wght@500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "inverse-on-surface": "#283047",
+        "tertiary-fixed": "#ffddb8",
+        "secondary-fixed-dim": "#4edea3",
+        "surface-container-highest": "#2c344c",
+        "on-primary-fixed": "#001e2f",
+        "inverse-primary": "#006591",
+        "tertiary": "#ffb95f",
+        "on-background": "#dbe1ff",
+        "background": "#0a1228",
+        "on-primary-container": "#003751",
+        "on-surface-variant": "#bec8d2",
+        "primary": "#89ceff",
+        "on-secondary": "#003824",
+        "tertiary-container": "#d88a00",
+        "on-secondary-fixed": "#002113",
+        "primary-fixed": "#c9e6ff",
+        "secondary-fixed": "#6ffbbe",
+        "surface-container-lowest": "#050d23",
+        "error-container": "#93000a",
+        "on-tertiary-container": "#4a2c00",
+        "on-surface": "#dbe1ff",
+        "on-primary-fixed-variant": "#004c6e",
+        "on-tertiary-fixed-variant": "#653e00",
+        "on-tertiary": "#472a00",
+        "on-secondary-fixed-variant": "#005236",
+        "outline": "#88929b",
+        "secondary-container": "#00a572",
+        "surface": "#0a1228",
+        "surface-bright": "#313850",
+        "inverse-surface": "#dbe1ff",
+        "on-error": "#690005",
+        "surface-tint": "#89ceff",
+        "on-primary": "#00344d",
+        "on-error-container": "#ffdad6",
+        "outline-variant": "#3e4850",
+        "surface-variant": "#2c344c",
+        "error": "#ffb4ab",
+        "secondary": "#4edea3",
+        "primary-container": "#0ea5e9",
+        "primary-fixed-dim": "#89ceff",
+        "on-secondary-container": "#00311f",
+        "surface-dim": "#0a1228",
+        "surface-container": "#171f35",
+        "surface-container-high": "#222940",
+        "tertiary-fixed-dim": "#ffb95f",
+        "on-tertiary-fixed": "#2a1700",
+        "surface-container-low": "#131b31"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.125rem",
+        "lg": "0.25rem",
+        "xl": "0.5rem",
+        "full": "0.75rem"
+      },
+      "spacing": {
+        "space-2xl": "3rem",
+        "gutter": "1rem",
+        "space-md": "1rem",
+        "space-sm": "0.75rem",
+        "space-2xs": "0.25rem",
+        "space-lg": "1.5rem",
+        "sidebar-width": "260px",
+        "space-xl": "2rem",
+        "space-xs": "0.5rem"
+      },
+      "fontFamily": {
+        "data-metric": ["Outfit"],
+        "title-sm": ["Outfit"],
+        "label-caps": ["Inter"],
+        "body-md": ["Inter"],
+        "body-sm": ["Inter"],
+        "headline-md": ["Outfit"],
+        "headline-xl": ["Outfit"],
+        "code-telemetry": ["JetBrains Mono"],
+        "body-lg": ["Inter"],
+        "headline-lg": ["Outfit"]
+      },
+      "fontSize": {
+        "data-metric": ["32px", {"lineHeight": "36px", "letterSpacing": "-0.03em", "fontWeight": "700"}],
+        "title-sm": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+        "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "600"}],
+        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+        "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+        "code-telemetry": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+        "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600"}]
+      }
+    }
+  }
+}</script></head><body class="bg-background font-body-md text-on-surface min-h-screen antialiased selection:bg-primary-container selection:text-on-primary-container"><aside class="fixed left-0 top-0 h-full w-sidebar-width bg-surface-container-low shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between overflow-hidden"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center justify-between bg-surface-container-lowest/60"><div class="flex items-center gap-space-xs"><img alt="MDSync Geotecnia Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Xs48zES0egZ3wmFdPBpvnV7a21Ly5WZFCmNgHEyZYhfNViwsKr4YO7TSdNgMYBY-z5zwHQ6_Kfqc2diRwV87n74AGFYp23v9UNiXJH0xUsp8janvXfy9xtdRtFQ8cGexi2HRLIKL_IT1XD4PyqhxOc_xj13t2THO6g4g6hnu9Pb1m6YFE7JVxbCb6OsERLTq42_ZFl3hCANPpztB2o-jYd5ZRzkK6yhYwjpxuHg1OkPcO0jb4i6w1tvE38"/><div class="flex flex-col"><span class="font-title-sm text-title-sm text-primary leading-tight tracking-tight">MDSync</span><span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Itaminas Geotecnia</span></div></div><button class="text-on-surface-variant hover:text-on-surface p-space-2xs rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">dock_to_left</span></button></div><div class="px-space-md py-space-xs"><div class="flex items-center gap-space-xs px-space-xs py-space-2xs rounded-full bg-surface-container"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span></span><span class="font-label-caps text-label-caps uppercase text-secondary font-medium tracking-wide truncate">Conectado / Nuvem Ativa</span></div></div><nav class="flex flex-col gap-space-2xs px-space-xs mt-space-2xs" data-active-classes="bg-primary-container text-on-primary-container font-medium shadow-sm"><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="visao-geral" href="#"><span class="material-symbols-outlined text-primary text-[20px]">grid_view</span><span class="truncate">Visão Geral</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="monitoramento-instrumental" href="#"><span class="material-symbols-outlined text-primary text-[20px]">sensors</span><span class="truncate">Monitoramento (TARP/PZ)</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="checklists-fir" href="#"><span class="material-symbols-outlined text-primary text-[20px]">fact_check</span><span class="truncate">Checklists &amp; FIR</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="historico-series" href="#"><span class="material-symbols-outlined text-primary text-[20px]">show_chart</span><span class="truncate">Histórico &amp; Séries</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="relatorios-auditoria" href="#"><span class="material-symbols-outlined text-primary text-[20px]">assignment_turned_in</span><span class="truncate">Relatórios &amp; Auditoria</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="indicadores-bi-fmea" href="#"><span class="material-symbols-outlined text-primary text-[20px]">analytics</span><span class="truncate">Indicadores BI &amp; FMEA</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="geoview-gis-3d" href="#"><span class="material-symbols-outlined text-primary text-[20px]">layers</span><span class="truncate">GeoView &amp; GIS 3D</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="parametros-usuarios" href="#"><span class="material-symbols-outlined text-primary text-[20px]">settings</span><span class="truncate">Parâmetros &amp; Usuários</span></a></nav></div><div class="p-space-sm bg-surface-container-lowest/80 flex flex-col gap-space-xs"><div class="flex items-center justify-between px-space-2xs"><span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Sincronização</span><button class="flex items-center gap-space-2xs text-secondary hover:text-secondary-fixed transition-colors font-label-caps text-label-caps" type="button"><span class="material-symbols-outlined text-[14px]">sync</span><span>Sincronizar</span></button></div><div class="flex items-center gap-space-sm p-space-2xs rounded-xl bg-surface-container-high/40"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="font-title-sm text-title-sm text-on-primary font-bold">MN</span></div><div class="flex flex-col min-w-0 flex-1"><div class="flex items-center gap-space-2xs"><span class="font-body-sm text-body-sm font-semibold text-on-surface truncate">Maycon Nascimento</span><span class="bg-surface-container-highest text-primary font-code-telemetry text-[10px] px-1 py-0.5 rounded-lg shrink-0">@admin</span></div><span class="font-label-caps text-label-caps text-on-surface-variant truncate">Eng. Geotécnico Sênior</span></div></div></div></aside><div class="pl-sidebar-width"><header class="fixed top-0 left-sidebar-width right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-gutter"><div class="flex items-center gap-space-md"><img alt="MDSync Geotecnia Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Xs48zES0egZ3wmFdPBpvnV7a21Ly5WZFCmNgHEyZYhfNViwsKr4YO7TSdNgMYBY-z5zwHQ6_Kfqc2diRwV87n74AGFYp23v9UNiXJH0xUsp8janvXfy9xtdRtFQ8cGexi2HRLIKL_IT1XD4PyqhxOc_xj13t2THO6g4g6hnu9Pb1m6YFE7JVxbCb6OsERLTq42_ZFl3hCANPpztB2o-jYd5ZRzkK6yhYwjpxuHg1OkPcO0jb4i6w1tvE38"/><div class="hidden md:flex items-center gap-space-2xs font-code-telemetry text-code-telemetry bg-surface-container-low px-space-sm py-space-2xs rounded-xl"><span class="material-symbols-outlined text-secondary text-[16px]">radar</span><span class="text-on-surface-variant truncate">Mina Cava Jangada • <strong class="text-on-surface font-semibold">IBIS-FM EVO 01 Ativo</strong></span></div></div><div class="flex items-center gap-space-sm"><div class="hidden lg:flex items-center gap-space-2xs bg-surface-container px-space-sm py-space-2xs rounded-full"><span class="material-symbols-outlined text-primary text-[16px]">cloud_done</span><span class="font-code-telemetry text-code-telemetry text-on-surface-variant">Offline Ready <strong class="text-primary font-medium">(Cache 100%)</strong></span></div><button class="flex items-center gap-space-2xs px-space-md py-space-xs rounded-xl bg-gradient-to-r from-primary-container to-inverse-primary text-on-primary font-title-sm text-title-sm shadow-md hover:brightness-110 active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-[18px]">add_circle</span><span>Nova Coleta</span></button><button class="w-9 h-9 rounded-xl bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">filter_alt</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Dynamic Gradient Backdrop & Grid Overlay -->
+<div class="relative w-full px-gutter py-space-md flex flex-col gap-space-lg overflow-hidden">
+<!-- Ambient Geotechnical Energy Splashes -->
+<div class="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-primary/10 blur-3xl pointer-events-none"></div>
+<div class="absolute top-1/2 -left-48 w-80 h-80 rounded-full bg-secondary/10 blur-3xl pointer-events-none"></div>
+<!-- SEÇÃO 1: Telemetria de Campo, GPS & Status Offline -->
+<section class="relative bg-surface-container-low/90 backdrop-blur-xl rounded-full p-space-md shadow-xl flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-space-md">
+<!-- Conectividade & Status de Sync -->
+<div class="flex flex-wrap items-center gap-space-md min-w-0">
+<div class="flex items-center gap-space-sm bg-surface-container-lowest/80 px-space-md py-space-xs rounded-xl">
+<div class="relative flex items-center justify-center w-8 h-8 rounded-lg bg-secondary/15 text-secondary">
+<span class="material-symbols-outlined text-[20px]">cloud_off</span>
+<span class="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-secondary animate-pulse"></span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-2xs">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Modo Offline Inteligente</span>
+<span class="bg-secondary/20 text-secondary font-label-caps text-label-caps uppercase px-1.5 py-0.5 rounded-lg">Cache 100% Ativo</span>
+</div>
+<span class="font-code-telemetry text-code-telemetry text-on-surface-variant text-[11px]">Storage Local: SQLite IndexedDB • 0 pendências</span>
+</div>
+</div>
+<!-- Telemetria GPS RTK / SIRGAS 2000 -->
+<div class="flex items-center gap-space-sm bg-surface-container-high/60 px-space-md py-space-xs rounded-xl">
+<span class="material-symbols-outlined text-primary text-[20px]">explore</span>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant">GPS SIRGAS 2000</span>
+<span class="font-code-telemetry text-code-telemetry text-secondary font-semibold text-[11px]">±0.8m RMS (Fix)</span>
+</div>
+<span class="font-code-telemetry text-code-telemetry text-primary-fixed-dim text-[11px]">UTM 23S E: 602.412m • N: 7.748.119m (Z: 450.2m)</span>
+</div>
+</div>
+<!-- Escopo Ativo da Frente de Mina -->
+<div class="hidden 2xl:flex items-center gap-space-xs bg-surface-container px-space-sm py-space-xs rounded-xl">
+<span class="material-symbols-outlined text-tertiary text-[18px]">terrain</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Mina Cava Jangada • Frente B1/B4</span>
+</div>
+</div>
+<!-- Ações Rápidas & Forçar Sync -->
+<div class="flex items-center gap-space-xs shrink-0 self-end xl:self-auto">
+<button class="group flex items-center gap-space-2xs px-space-md py-space-xs rounded-xl bg-surface-container-highest/80 hover:bg-surface-bright text-on-surface transition-all active:scale-95 shadow-sm" id="sync-now-btn" type="button">
+<span class="material-symbols-outlined text-secondary text-[18px] group-hover:rotate-180 transition-transform duration-500">sync</span>
+<span class="font-label-caps text-label-caps uppercase tracking-wider">Forçar Sincronização Local</span>
+</button>
+<div class="h-8 w-px bg-surface-container-highest"></div>
+<div class="flex items-center gap-space-xs pl-space-2xs">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-title-sm text-[12px] font-bold">
+            MN
+          </div>
+<div class="hidden sm:flex flex-col">
+<span class="font-body-sm text-body-sm text-on-surface font-semibold leading-tight">Maycon N.</span>
+<span class="font-label-caps text-label-caps uppercase text-secondary text-[9px]">Auditor Responsável</span>
+</div>
+</div>
+</div>
+</section>
+<!-- BANNER DE PROGRESSO DO FLUXO (WIZARD STEPPER) -->
+<nav aria-label="Progresso da Coleta" class="w-full bg-surface-container-lowest/70 backdrop-blur-md rounded-xl p-space-xs">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-space-2xs">
+<!-- Passo 1: Concluído -->
+<div class="flex items-center gap-space-xs p-space-xs rounded-lg bg-surface-container-high/40 text-on-surface-variant">
+<div class="w-6 h-6 rounded-full bg-secondary text-on-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-caps text-label-caps uppercase text-[9px] text-secondary">Etapa 1 • Fixada</span>
+<span class="font-title-sm text-[13px] text-on-surface truncate">Piezômetro PZ-02</span>
+</div>
+</div>
+<!-- Passo 2: Ativo -->
+<div class="flex items-center gap-space-xs p-space-xs rounded-lg bg-primary-container/20 text-on-surface shadow-md">
+<div class="w-6 h-6 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 font-bold text-[12px]">
+            2
+          </div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-caps text-label-caps uppercase text-[9px] text-primary">Etapa 2 • Atual</span>
+<span class="font-title-sm text-[13px] text-primary-fixed truncate">Leitura NA &amp; Poro-pressão</span>
+</div>
+</div>
+<!-- Passo 3: Pendente -->
+<div class="flex items-center gap-space-xs p-space-xs rounded-lg bg-surface-container-low/50 text-on-surface-variant/70">
+<div class="w-6 h-6 rounded-full bg-surface-container-high flex items-center justify-center shrink-0 font-code-telemetry text-[11px]">
+            3
+          </div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-caps text-label-caps uppercase text-[9px]">Etapa 3</span>
+<span class="font-title-sm text-[13px] truncate">Checklist &amp; Evidências</span>
+</div>
+</div>
+<!-- Passo 4: Pendente -->
+<div class="flex items-center gap-space-xs p-space-xs rounded-lg bg-surface-container-low/50 text-on-surface-variant/70">
+<div class="w-6 h-6 rounded-full bg-surface-container-high flex items-center justify-center shrink-0 font-code-telemetry text-[11px]">
+            4
+          </div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-caps text-label-caps uppercase text-[9px]">Etapa 4</span>
+<span class="font-title-sm text-[13px] truncate">Assinatura &amp; Fila Local</span>
+</div>
+</div>
+</div>
+</nav>
+<!-- GRID PRINCIPAL DE TRABALHO DE CAMPO: 12 Colunas -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
+<!-- COLUNA PRINCIPAL ESQUERDA (WIZARD ETAPA 2 & 3) - 8 Colunas -->
+<main class="lg:col-span-8 flex flex-col gap-space-md">
+<!-- CARD DE ATALHOS & TROCA RÁPIDA DE INSTRUMENTOS (ETAPA 1 CONDENSADA) -->
+<section class="bg-surface-container-low rounded-xl p-space-md flex flex-col gap-space-sm shadow-sm">
+<div class="flex flex-wrap items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">filter_center_focus</span>
+<h2 class="font-title-sm text-title-sm text-on-surface">Instrumento em Medição Ativa</h2>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="flex items-center gap-1 bg-surface-container hover:bg-surface-container-high px-space-xs py-1 rounded-lg text-primary text-[12px] font-label-caps uppercase transition-colors" type="button">
+<span class="material-symbols-outlined text-[15px]">qr_code_scanner</span>
+<span>Ler Tag RFID / QR</span>
+</button>
+<button class="flex items-center gap-1 bg-surface-container hover:bg-surface-container-high px-space-xs py-1 rounded-lg text-on-surface-variant text-[12px] font-label-caps uppercase transition-colors" type="button">
+<span class="material-symbols-outlined text-[15px]">search</span>
+<span>Buscar ID</span>
+</button>
+</div>
+</div>
+<!-- Pílulas de Seleção Rápida de Instrumentos Próximos (Raio 150m) -->
+<div class="flex items-center gap-space-xs overflow-x-auto pb-1">
+<button class="px-space-sm py-space-2xs rounded-lg bg-surface-container-highest text-on-surface-variant font-code-telemetry text-code-telemetry text-[12px] hover:text-on-surface shrink-0" type="button">
+              PZ-01 • 12m
+            </button>
+<button class="px-space-sm py-space-2xs rounded-lg bg-primary-container text-on-primary-container font-code-telemetry text-code-telemetry text-[12px] font-semibold shrink-0 shadow-sm" type="button">
+              • PZ-02 (Atual)
+            </button>
+<button class="px-space-sm py-space-2xs rounded-lg bg-surface-container-highest text-on-surface-variant font-code-telemetry text-code-telemetry text-[12px] hover:text-on-surface shrink-0" type="button">
+              INA-01 • 45m
+            </button>
+<button class="px-space-sm py-space-2xs rounded-lg bg-surface-container-highest text-on-surface-variant font-code-telemetry text-code-telemetry text-[12px] hover:text-on-surface shrink-0" type="button">
+              PZ-04 • 90m
+            </button>
+<button class="px-space-sm py-space-2xs rounded-lg bg-surface-container-highest text-on-surface-variant font-code-telemetry text-code-telemetry text-[12px] hover:text-on-surface shrink-0" type="button">
+              MED-02 • 130m
+            </button>
+</div>
+</section>
+<!-- ETAPA 2 (DESTAQUE MÁXIMO): FORMULÁRIO DE LEITURA PIEZOMÉTRICA & CÁLCULO INSTANTÂNEO -->
+<section class="bg-surface-container rounded-full p-space-lg shadow-xl flex flex-col gap-space-md relative overflow-hidden">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="w-3 h-3 rounded-full bg-primary animate-ping"></span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Piezômetro Casagrande: PZ-02</h2>
+</div>
+<span class="font-code-telemetry text-code-telemetry bg-surface-container-highest text-primary px-space-xs py-1 rounded-lg self-start sm:self-auto">
+              TAG: PZ-JGD-02-B1
+            </span>
+</div>
+<!-- Geometria Física do Tubo (Metadados Imutáveis) -->
+<div class="grid grid-cols-3 gap-space-xs bg-surface-container-lowest/80 p-space-sm rounded-xl">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Cota da Boca (m)</span>
+<span class="font-data-metric text-[20px] text-on-surface font-semibold">450.20 <span class="font-body-sm text-[12px] text-on-surface-variant">m</span></span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Cota da Ponta (m)</span>
+<span class="font-data-metric text-[20px] text-on-surface font-semibold">425.20 <span class="font-body-sm text-[12px] text-on-surface-variant">m</span></span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Prof. Total Furo</span>
+<span class="font-data-metric text-[20px] text-primary font-semibold">25.00 <span class="font-body-sm text-[12px] text-on-surface-variant">m</span></span>
+</div>
+</div>
+<!-- Bloco Principal de Entrada de Dados com Teclado Tátil Numérico -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-title-sm text-title-sm text-on-surface flex items-center justify-between" for="water-depth-input">
+<span>Profundidade Medida do Nível d'Água (Fita Piezométrica)</span>
+<span class="font-label-caps text-label-caps text-secondary uppercase font-semibold">Unidade: Metros (m)</span>
+</label>
+<div class="relative flex items-center">
+<input class="w-full bg-surface-container-lowest text-on-surface font-data-metric text-[40px] px-space-md py-space-sm rounded-xl focus:outline-none focus:bg-surface-container-high transition-colors tracking-tight text-left shadow-inner" id="water-depth-input" placeholder="00.00" step="0.01" type="number" value="11.45"/>
+<span class="absolute right-space-md font-headline-lg text-headline-lg text-outline-variant select-none pointer-events-none">metros</span>
+</div>
+<!-- Alerta de Comparação com Última Leitura -->
+<div class="flex items-center gap-space-xs px-space-xs py-1 rounded-lg bg-surface-container-high/60 text-on-surface-variant font-code-telemetry text-code-telemetry text-[11px]">
+<span class="material-symbols-outlined text-primary text-[15px]">history</span>
+<span>Última Medição Oficial: <strong>11.48 m</strong> (Registrada em 12/05/2024 às 09:30). Variação: <span class="text-secondary">-0.03 m (Estável)</span></span>
+</div>
+</div>
+<!-- Cards de Cálculos Automáticos em Tempo Real -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm pt-space-xs">
+<!-- Cota NA Calculada -->
+<div class="bg-surface-container-low p-space-sm rounded-xl flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Cota N.A. Real</span>
+<span class="material-symbols-outlined text-primary text-[16px]">water_drop</span>
+</div>
+<div class="my-space-xs">
+<span class="font-data-metric text-data-metric text-primary" id="calculated-cota-na">438.75</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant ml-1">m</span>
+</div>
+<span class="font-code-telemetry text-code-telemetry text-on-surface-variant text-[10px]">Cota Boca - Prof. Medida</span>
+</div>
+<!-- Poro-pressão Estimada -->
+<div class="bg-surface-container-low p-space-sm rounded-xl flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Poro-pressão (u)</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">speed</span>
+</div>
+<div class="my-space-xs">
+<span class="font-data-metric text-data-metric text-secondary" id="calculated-pressure">132.8</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant ml-1">kPa</span>
+</div>
+<span class="font-code-telemetry text-code-telemetry text-on-surface-variant text-[10px]">γw • (Cota NA - Cota Ponta)</span>
+</div>
+<!-- Enquadramento TARP (Bo & Barrett 2023) -->
+<div class="bg-surface-container-low p-space-sm rounded-xl flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Enquadramento TARP</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">verified_user</span>
+</div>
+<div class="my-space-xs flex items-center gap-space-2xs">
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<span class="font-title-sm text-title-sm text-secondary font-bold uppercase">Nível Normal</span>
+</div>
+<span class="font-code-telemetry text-code-telemetry text-on-surface-variant text-[10px]">Alerta N1 em Cota &gt; 442.00m</span>
+</div>
+</div>
+</section>
+<!-- ETAPA 3: CHECKLIST VISUAL RÁPIDO & EVIDÊNCIAS GEORREFERENCIADAS -->
+<section class="bg-surface-container rounded-full p-space-lg shadow-xl flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<div class="w-6 h-6 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-[12px]">3</div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Inspeção Visual do Entorno &amp; Evidências</h2>
+</div>
+<span class="font-label-caps text-label-caps uppercase text-secondary">5 / 5 Verificados</span>
+</div>
+<!-- Toggles Rápidos de Campo (Touch 48px Min) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-xs">
+<!-- Item 1: Trincas de Tração -->
+<label class="flex items-center justify-between p-space-sm rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-colors cursor-pointer select-none">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">leak_remove</span>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-medium">Trincas de Tração</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Ausência no raio de 10m</span>
+</div>
+</div>
+<input checked="" class="w-6 h-6 accent-secondary rounded cursor-pointer" type="checkbox"/>
+</label>
+<!-- Item 2: Surgência de Água / Umedecimento -->
+<label class="flex items-center justify-between p-space-sm rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-colors cursor-pointer select-none">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">water</span>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-medium">Surgência de Água</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Sem umedecimento anômalo</span>
+</div>
+</div>
+<input checked="" class="w-6 h-6 accent-secondary rounded cursor-pointer" type="checkbox"/>
+</label>
+<!-- Item 3: Evidência de Piping -->
+<label class="flex items-center justify-between p-space-sm rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-colors cursor-pointer select-none">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">grain</span>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-medium">Sem carreamento (Piping)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Drenos sem turbidez</span>
+</div>
+</div>
+<input checked="" class="w-6 h-6 accent-secondary rounded cursor-pointer" type="checkbox"/>
+</label>
+<!-- Item 4: Integridade da Boca / Tubo -->
+<label class="flex items-center justify-between p-space-sm rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-colors cursor-pointer select-none">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">lock</span>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-medium">Tampa &amp; Cadeado</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Sem quebra ou deformação</span>
+</div>
+</div>
+<input checked="" class="w-6 h-6 accent-secondary rounded cursor-pointer" type="checkbox"/>
+</label>
+</div>
+<!-- Módulo de Captura Fotográfica Georreferenciada -->
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-on-surface">Registros Fotográficos com Carimbo de Auditoria</span>
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant">2 Fotos Obrigatórias</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<!-- Foto 1: Leitura da Fita / Boca do Tubo -->
+<div class="relative bg-surface-container-low rounded-xl overflow-hidden p-space-xs flex flex-col gap-space-xs group">
+<div class="relative w-full h-36 rounded-lg overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Close up photograph of a geotechnical open standpipe piezometer reading tape submerged into PVC borehole casing, showing digital graduation marks on tape, under harsh outdoor mine lighting, high technical precision, dark geotechnical equipment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSqiW_mWU8awiF4GXNDO-Ig443qCoVN6O9i-Xoo2kWm0XzR-AJuJra55QM3-53A9zgrSVhNP8z7g3rSEfvzXcEevv5WtW-wUtKcek4ADwpJUtBEf27k8x7WIlZF5lK9tqlKlYR0ios0zVFwCxDVIbFAb0KFyf_18vV83tQQJeK-sDUXWMn8--UbhfVbctW4exWvhoRuYmeVT2U47kMo9IvftqQyTjS2wz-T9ciG-_aeE4ihcFbHqQFhA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/90 via-transparent to-transparent"></div>
+<!-- Carimbo d'água de telemetria -->
+<div class="absolute bottom-2 left-2 right-2 flex flex-col font-code-telemetry text-[9px] text-primary-fixed leading-tight bg-surface-container-lowest/80 backdrop-blur-md p-1 rounded">
+<span>PZ-02 • 11.45m • UTM 23S: 602412 / 7748119</span>
+<span class="text-on-surface-variant">Az: 142° SE • 14/05/2024 14:22:04 BRT</span>
+</div>
+</div>
+<div class="flex items-center justify-between px-1">
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Boca do Tubo &amp; Leitura</span>
+<button class="text-secondary font-label-caps text-label-caps uppercase flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[14px]">photo_camera</span>
+<span>Recapturar</span>
+</button>
+</div>
+</div>
+<!-- Foto 2: Panorama do Talude / Entorno -->
+<div class="relative bg-surface-container-low rounded-xl overflow-hidden p-space-xs flex flex-col gap-space-xs group">
+<div class="relative w-full h-36 rounded-lg overflow-hidden bg-surface-container-lowest">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Wide angle engineering site photo of an open pit mine bench slope in Brazil, deep iron ore excavation terraces with geotechnical safety berms, clear blue sunny sky with overcast dust clouds, precise engineering vantage point." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwKdr7VNtm_TREHN-RiHw8Xa-8L_jL0Ruf65agc1ep8RgZgri4kG2QNfDtkcbXSBH5TsvHNLg5RLPdCiqKWQA-UD6e84SqA-jyz-JiKbR6RToEGmGlQgfG_av4WqiVq_meJ4JTWUzC0W2K906tdfLqr1MPSMHkcmLRD7RqdqoikuV5yvc5e6pjnpSVWR2teuz-KwsYwtVfQdZRUTFAA-a6blkmU8eE29JQNG2uT2XxI4WyzeHifh6LsA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/90 via-transparent to-transparent"></div>
+<!-- Carimbo d'água de telemetria -->
+<div class="absolute bottom-2 left-2 right-2 flex flex-col font-code-telemetry text-[9px] text-primary-fixed leading-tight bg-surface-container-lowest/80 backdrop-blur-md p-1 rounded">
+<span>PZ-02 Entorno • Berma B4 • Az: 218° SW</span>
+<span class="text-on-surface-variant">GPS ±0.8m • 14/05/2024 14:22:50 BRT</span>
+</div>
+</div>
+<div class="flex items-center justify-between px-1">
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Panorâmica do Talude</span>
+<button class="text-secondary font-label-caps text-label-caps uppercase flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[14px]">photo_camera</span>
+<span>Recapturar</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ETAPA 4: ASSINATURA DIGITAL & DISPARO DE REGISTRO NA FILA OFFLINE -->
+<section class="bg-surface-container rounded-full p-space-lg shadow-xl flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<div class="w-6 h-6 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-[12px]">4</div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Assinatura Digital &amp; Fechamento</h2>
+</div>
+<span class="font-label-caps text-label-caps uppercase text-primary">Pronto para Gravação</span>
+</div>
+<!-- Canvas / Rubrica do Inspetor -->
+<div class="flex flex-col gap-space-2xs">
+<label class="font-title-sm text-title-sm text-on-surface flex items-center justify-between">
+<span>Rubrica Digital do Operador (Maycon Nascimento)</span>
+<button class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary uppercase" type="button">Limpar Campo</button>
+</label>
+<div class="w-full h-24 rounded-xl bg-surface-container-lowest/90 relative flex items-center justify-center cursor-crosshair">
+<!-- Traço decorativo simulado de assinatura -->
+<svg class="w-64 h-16 text-secondary/80 stroke-current fill-none stroke-2" viewbox="0 0 300 100">
+<path d="M 20,60 Q 60,10 100,50 T 180,40 Q 220,90 270,30 Q 240,70 290,65" stroke-linecap="round"></path>
+</svg>
+<div class="absolute bottom-2 right-3 font-code-telemetry text-[10px] text-on-surface-variant/60 select-none">
+                CREA-MG 184.992/D • SHA-256 Validado
+              </div>
+</div>
+</div>
+<!-- Botões Primários de Ação (Grandes touch para campo) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm pt-space-xs">
+<button class="group flex items-center justify-center gap-space-xs px-space-lg py-space-md rounded-xl bg-gradient-to-r from-primary-container to-inverse-primary hover:brightness-110 text-on-primary font-title-sm text-title-sm shadow-xl active:scale-95 transition-all" id="save-next-btn" type="button">
+<span class="material-symbols-outlined text-[22px]">save</span>
+<span>Salvar &amp; Próximo (PZ-03)</span>
+<span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<button class="flex items-center justify-center gap-space-xs px-space-lg py-space-md rounded-xl bg-surface-container-high hover:bg-surface-bright text-on-surface font-title-sm text-title-sm transition-all active:scale-95 shadow-sm" id="save-local-btn" type="button">
+<span class="material-symbols-outlined text-secondary text-[20px]">save_alt</span>
+<span>Salvar Apenas na Memória Local</span>
+</button>
+</div>
+</section>
+</main>
+<!-- COLUNA LATERAL DIREITA: HISTÓRICO LOCAL DO DIA, METAS & GUIA DE BOLSO - 4 Colunas -->
+<aside class="lg:col-span-4 flex flex-col gap-space-md">
+<!-- CARD DE METAS & PROGRESSO DO TURNO -->
+<div class="bg-surface-container rounded-full p-space-md shadow-lg flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Campanha do Dia</span>
+<span class="font-code-telemetry text-code-telemetry text-secondary font-bold">73% Concluído</span>
+</div>
+<!-- Barra de Progresso Customizada -->
+<div class="w-full bg-surface-container-lowest h-3 rounded-full overflow-hidden p-0.5">
+<div class="bg-gradient-to-r from-primary-container to-secondary h-full rounded-full w-[73.6%] transition-all duration-500"></div>
+</div>
+<div class="flex items-center justify-between font-label-caps text-label-caps text-on-surface-variant uppercase">
+<span>28 Instrumentos Lidos</span>
+<span>Meta: 38 Totais</span>
+</div>
+</div>
+<!-- FILA DE COLETAS LOCAIS EM CACHE NO DISPOSITIVO -->
+<div class="bg-surface-container rounded-full p-space-md shadow-lg flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px]">inventory_2</span>
+<h3 class="font-title-sm text-title-sm text-on-surface">Coletas Locais no Turno</h3>
+</div>
+<span class="bg-surface-container-highest font-code-telemetry text-code-telemetry text-[11px] text-primary px-1.5 py-0.5 rounded">
+              3 Gravadas
+            </span>
+</div>
+<!-- Lista Compacta de Registros Salvos -->
+<div class="flex flex-col gap-space-2xs">
+<!-- Item 1: PZ-01 -->
+<div class="flex items-center justify-between p-space-xs rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-space-xs">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<div class="flex flex-col">
+<span class="font-code-telemetry text-code-telemetry font-bold text-on-surface text-[12px]">PZ-01 (Casagrande)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-[11px]">13:48 • NA: 11.45 m</span>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<span class="font-label-caps text-label-caps text-secondary uppercase text-[10px]">Normal</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">chevron_right</span>
+</div>
+</div>
+<!-- Item 2: INA-01 -->
+<div class="flex items-center justify-between p-space-xs rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-space-xs">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<div class="flex flex-col">
+<span class="font-code-telemetry text-code-telemetry font-bold text-on-surface text-[12px]">INA-01 (Inclinômetro)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-[11px]">13:15 • Desl: 0.2 mm</span>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<span class="font-label-caps text-label-caps text-secondary uppercase text-[10px]">Normal</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">chevron_right</span>
+</div>
+</div>
+<!-- Item 3: PZ-04 -->
+<div class="flex items-center justify-between p-space-xs rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-space-xs">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<div class="flex flex-col">
+<span class="font-code-telemetry text-code-telemetry font-bold text-on-surface text-[12px]">PZ-04 (Corda Vibrante)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-[11px]">12:40 • NA: 14.60 m</span>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<span class="font-label-caps text-label-caps text-secondary uppercase text-[10px]">Normal</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">chevron_right</span>
+</div>
+</div>
+</div>
+</div>
+<!-- GUIA GEOTÉCNICO DE BOLSO RÁPIDO (OFFLINE DOCS) -->
+<div class="bg-surface-container-low rounded-xl p-space-md flex flex-col gap-space-sm shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-[20px]">menu_book</span>
+<h3 class="font-title-sm text-title-sm text-on-surface">Guia Geotécnico de Bolso</h3>
+</div>
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant text-[10px]">Norma ABNT NBR 13028</span>
+</div>
+<div class="flex flex-col gap-space-2xs text-[12px]">
+<!-- Tópico 1 -->
+<details class="group bg-surface-container p-space-xs rounded-lg cursor-pointer">
+<summary class="font-title-sm text-[12px] text-on-surface flex items-center justify-between list-none">
+<span>1. Identificação de Piping Ativo</span>
+<span class="material-symbols-outlined text-[16px] group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<p class="font-body-sm text-body-sm text-on-surface-variant pt-2 leading-relaxed">
+                Verifique carreamento de finos com copo sedimentador nos drenos horizontais profundos (DHPs). Qualquer turbidez superior a 5 NTU deve ser notificada imediatamente via rádio de faixa operacional.
+              </p>
+</details>
+<!-- Tópico 2 -->
+<details class="group bg-surface-container p-space-xs rounded-lg cursor-pointer">
+<summary class="font-title-sm text-[12px] text-on-surface flex items-center justify-between list-none">
+<span>2. Classificação de Trincas de Tração</span>
+<span class="material-symbols-outlined text-[16px] group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<p class="font-body-sm text-body-sm text-on-surface-variant pt-2 leading-relaxed">
+                Trincas longitudinais na crista com abertura &gt; 15 mm ou degraus de abatimento exigem isolamento do raio de 20 m e acionamento de TARP Nível 2.
+              </p>
+</details>
+<!-- Tópico 3 -->
+<details class="group bg-surface-container p-space-xs rounded-lg cursor-pointer">
+<summary class="font-title-sm text-[12px] text-on-surface flex items-center justify-between list-none">
+<span>3. Leitura do PZ Corda Vibrante</span>
+<span class="material-symbols-outlined text-[16px] group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<p class="font-body-sm text-body-sm text-on-surface-variant pt-2 leading-relaxed">
+                Aguarde 15 segundos para estabilização térmica do transdutor. Aplique a calibração polinomial A·f² + B·f + C informada no selo fixado na caixa de junção.
+              </p>
+</details>
+</div>
+</div>
+<!-- COMPONENTE INLINE SVG DE SÉRIE HISTÓRICA DO INSTRUMENTO (MINI-TELEMETRIA) -->
+<div class="bg-surface-container rounded-full p-space-md shadow-lg flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-on-surface">Tendência PZ-02 (Últimos 14 Dias)</span>
+<span class="font-code-telemetry text-code-telemetry text-secondary text-[11px]">Δ -0.12m (Rebaixando)</span>
+</div>
+<!-- Inline SVG Sparkline com Cotas de Alerta TARP -->
+<div class="w-full h-24 pt-2">
+<svg class="w-full h-full" fill="none" viewbox="0 0 280 80">
+<!-- Linha de Alerta TARP (Tracejada em Vermelho Claro) -->
+<line opacity="0.6" stroke="#ffb4ab" stroke-dasharray="4 3" stroke-width="1.2" x1="0" x2="280" y1="18" y2="18"></line>
+<text fill="#ffb4ab" font-family="JetBrains Mono" font-size="8" x="220" y="14">TARP N1 (442m)</text>
+<!-- Área do Gráfico -->
+<path class="text-primary/10" d="M 0,65 L 20,62 L 40,64 L 70,58 L 100,60 L 130,55 L 160,52 L 190,48 L 220,50 L 250,46 L 280,45 L 280,80 L 0,80 Z" fill="currentColor"></path>
+<!-- Curva do Nível d'Água -->
+<path d="M 0,65 L 20,62 L 40,64 L 70,58 L 100,60 L 130,55 L 160,52 L 190,48 L 220,50 L 250,46 L 280,45" stroke="#89ceff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path>
+<!-- Ponto Atual Ativo -->
+<circle cx="280" cy="45" fill="#4edea3" r="4.5"></circle>
+<circle cx="280" cy="45" fill="#4edea3" opacity="0.3" r="8"></circle>
+</svg>
+</div>
+<div class="flex items-center justify-between font-code-telemetry text-[10px] text-on-surface-variant pt-1">
+<span>01/Mai</span>
+<span>07/Mai</span>
+<span class="text-secondary font-bold">Hoje: 438.75m</span>
+</div>
+</div>
+</aside>
+</div>
+</div>
+<!-- TOAST NOTIFICATION TEMPLATE (Controlado via JS) -->
+<div class="fixed bottom-6 right-6 max-w-md bg-surface-container-highest/95 backdrop-blur-xl rounded-xl p-space-md shadow-2xl flex items-center gap-space-sm border-l-4 border-secondary translate-y-32 opacity-0 pointer-events-none transition-all duration-300 z-50" id="offline-toast">
+<div class="w-8 h-8 rounded-full bg-secondary/20 text-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold" id="toast-title">Registro Armazenado!</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant" id="toast-desc">Leitura do PZ-02 gravada na memória local do tablet.</span>
+</div>
+</div>
+<!-- Micro-interações em JavaScript Nativo (Cálculos instantâneos & feedback de salvamento offline) -->
+<script>
+    (function() {
+      const depthInput = document.getElementById('water-depth-input');
+      const cotaNaEl = document.getElementById('calculated-cota-na');
+      const pressureEl = document.getElementById('calculated-pressure');
+      const saveNextBtn = document.getElementById('save-next-btn');
+      const saveLocalBtn = document.getElementById('save-local-btn');
+      const syncNowBtn = document.getElementById('sync-now-btn');
+      const toast = document.getElementById('offline-toast');
+      const toastTitle = document.getElementById('toast-title');
+      const toastDesc = document.getElementById('toast-desc');
+
+      const COTA_BOCA = 450.20;
+      const COTA_PONTA = 425.20;
+      const GAMMA_WATER = 9.81; // kN/m³
+
+      function showToast(title, message) {
+        if (!toast) return;
+        toastTitle.textContent = title;
+        toastDesc.textContent = message;
+        toast.classList.remove('translate-y-32', 'opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+          toast.classList.add('translate-y-32', 'opacity-0', 'pointer-events-none');
+        }, 3800);
+      }
+
+      function recalculateGeotech() {
+        if (!depthInput || !cotaNaEl || !pressureEl) return;
+        const depth = parseFloat(depthInput.value) || 0;
+        
+        // Cota NA = Cota Boca - Profundidade Medida
+        const cotaNA = COTA_BOCA - depth;
+        cotaNaEl.textContent = cotaNA.toFixed(2);
+
+        // Altura de coluna d'água acima da ponta do filtro
+        const hw = Math.max(0, cotaNA - COTA_PONTA);
+        // u = gamma_w * hw (kPa)
+        const porePressure = hw * GAMMA_WATER;
+        pressureEl.textContent = porePressure.toFixed(1);
+      }
+
+      if (depthInput) {
+        depthInput.addEventListener('input', recalculateGeotech);
+      }
+
+      if (saveNextBtn) {
+        saveNextBtn.addEventListener('click', () => {
+          showToast('Leitura Salva Localmente!', 'PZ-02 armazenado com hash SHA-256. Carregando dados do PZ-03...');
+        });
+      }
+
+      if (saveLocalBtn) {
+        saveLocalBtn.addEventListener('click', () => {
+          showToast('Cache Atualizado', 'Instrumento retido na memória do dispositivo. Sem conexão de rede ativa.');
+        });
+      }
+
+      if (syncNowBtn) {
+        syncNowBtn.addEventListener('click', () => {
+          showToast('Checando Conectividade', 'Dispositivo em modo rádio restrito. 0 alterações pendentes para upload.');
+        });
+      }
+
+      // Executa primeiro cálculo na montagem
+      recalculateGeotech();
+    })();
+  </script>
+</div></main></div>
+<script src="../../vendor/jszip.min.js"></script>
+<script src="../stitch-runtime.js"></script>
+</body></html>
