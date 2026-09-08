@@ -1685,6 +1685,12 @@
                                 <button class="btn btn-primary btn-sm" onclick="exportAuditReport('pptx')" title="Baixar PowerPoint PPTX">
                                     <i class="fa-solid fa-file-powerpoint"></i> PPTX
                                 </button>
+                                <button class="btn btn-warning btn-sm" onclick="openSigbmModal()" title="Transmitir Homologação ANM / SIGBM via API">
+                                    <i class="fa-solid fa-tower-broadcast"></i> Transmissão SIGBM
+                                </button>
+                                <button class="btn btn-info btn-sm" onclick="openAnmZipModal()" title="Exportar Pacote Oficial ANM em ZIP">
+                                    <i class="fa-solid fa-file-zipper"></i> Pacote ANM ZIP
+                                </button>
                             </div>
                         </div>
                         <div class="card-body">
@@ -3487,7 +3493,147 @@
         </div>
     </div>
 
+    <!-- MODAL 11: TRANSMISSÃO HOMOLOGADA API SIGBM / ANM -->
+    <div class="modal" id="modal-sigbm-transmission" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="sigbm-modal-title">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h3 id="sigbm-modal-title">
+                    <i class="fa-solid fa-tower-broadcast text-warning"></i>
+                    Transmissão Homologada SIGBM / ANM (Resolução ANM nº 95/2022)
+                </h3>
+                <span class="close" onclick="closeSigbmModal()" title="Fechar janela">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info d-flex align-items-center gap-2 mb-3" style="padding: 10px 14px; border-radius: 8px; font-size: 12.5px;">
+                    <i class="fa-solid fa-shield-halved text-primary" style="font-size: 18px;"></i>
+                    <div>
+                        <strong>Canal mTLS Autenticado:</strong> Transmissão direta com assinatura ICP-Brasil e certificação digital da ITAMINAS SPLO Geotecnia ao gateway oficial da ANM.
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-xs font-bold text-secondary">Estrutura Alvo:</label>
+                        <select id="sigbm-select-structure" class="form-control form-control-sm">
+                            <option value="Barragem B1" selected>Barragem B1 (CRI: Médio / DPA: Alto)</option>
+                            <option value="Dique B2">Dique B2 (CRI: Baixo / DPA: Médio)</option>
+                            <option value="Pilhas PDE">Pilhas de Estéril / Rejeito (PDE Geral)</option>
+                            <option value="Todas as Estruturas">Todas as Estruturas (Consolidado Mina)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-xs font-bold text-secondary">Responsável Técnico (ART/CREA):</label>
+                        <input type="text" id="sigbm-engineer" class="form-control form-control-sm" value="Eng. Maycon Nascimento - CREA-MG 2026/D" readonly>
+                    </div>
+                </div>
+
+                <div class="sigbm-steps-card p-3 mb-3" style="background: rgba(15, 23, 42, 0.4); border: 1px solid var(--border-color); border-radius: 8px;">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-xs font-bold text-secondary text-uppercase">Status do Handshake mTLS:</span>
+                        <span id="sigbm-badge-status" class="badge badge-secondary">Aguardando Início</span>
+                    </div>
+                    <div class="progress mb-2" style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
+                        <div id="sigbm-progress-bar" style="width: 0%; height: 100%; background: var(--primary); transition: width 0.4s ease;"></div>
+                    </div>
+                    <div id="sigbm-step-labels" class="d-flex justify-content-between text-muted" style="font-size: 10.5px;">
+                        <span id="sigbm-step-1">1. Assinatura A3</span>
+                        <span id="sigbm-step-2">2. Empacotamento</span>
+                        <span id="sigbm-step-3">3. Gateway ANM</span>
+                        <span id="sigbm-step-4">4. Recibo SHA-256</span>
+                    </div>
+                </div>
+
+                <div class="terminal-log-box mb-3" style="background: #090d16; border: 1px solid #1e293b; border-radius: 6px; padding: 10px 12px; font-family: monospace; font-size: 11px; color: #a5f3fc; max-height: 140px; overflow-y: auto;">
+                    <div id="sigbm-log-output">// Console mTLS SIGBM v2.4 pronto para conexão com endpoint ANM...</div>
+                </div>
+
+                <div id="sigbm-receipt-box" style="display:none; background: rgba(54, 213, 123, 0.08); border: 1px solid rgba(54, 213, 123, 0.3); border-radius: 8px; padding: 12px;">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="text-xs font-bold text-success"><i class="fa-solid fa-circle-check"></i> Homologação Concluída com Sucesso</span>
+                        <span id="sigbm-protocol-badge" class="badge badge-success" style="font-size: 11px;">SIGBM-2026-ITM-0000</span>
+                    </div>
+                    <p class="text-xs text-secondary mb-2">Recibo registrado e assinado com carimbo do tempo oficial no servidor do Ministério de Minas e Energia.</p>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-sm btn-outline-success" onclick="downloadSigbmReceiptJson()">
+                            <i class="fa-solid fa-file-arrow-down"></i> Baixar Comprovante JSON
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-between">
+                <span class="text-secondary small"><i class="fa-solid fa-server"></i> API Gateway SIGBM Homologada</span>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-secondary" onclick="closeSigbmModal()">Fechar</button>
+                    <button type="button" id="btn-start-sigbm" class="btn btn-warning" onclick="executeSigbmTransmission()">
+                        <i class="fa-solid fa-tower-broadcast"></i> Transmitir Homologação ANM
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 12: EXPORTAÇÃO PACOTE OFICIAL ANM ZIP -->
+    <div class="modal" id="modal-anm-zip" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="anm-zip-modal-title">
+        <div class="modal-content modal-md">
+            <div class="modal-header">
+                <h3 id="anm-zip-modal-title">
+                    <i class="fa-solid fa-file-zipper text-info"></i>
+                    Exportar Pacote Oficial ANM (ZIP Estruturado)
+                </h3>
+                <span class="close" onclick="closeAnmZipModal()" title="Fechar janela">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p class="text-secondary text-sm mb-3">
+                    Compilação padronizada de toda a documentação comprobatória, catálogo de instrumentação, leituras e FIRs conforme o checklist da <strong>Resolução ANM nº 95/2022</strong>.
+                </p>
+
+                <div class="card p-3 mb-3" style="background: rgba(15, 23, 42, 0.4); border: 1px solid var(--border-color); border-radius: 8px;">
+                    <div class="text-xs font-bold text-secondary text-uppercase mb-2">Documentos Inclusos no Pacote:</div>
+                    <div class="d-flex flex-column gap-2" style="font-size: 12px;">
+                        <label class="d-flex align-items-center gap-2 cursor-pointer m-0">
+                            <input type="checkbox" id="chk-anm-audit" checked disabled>
+                            <span><i class="fa-solid fa-file-lines text-primary"></i> Relatório Consolidado de Segurança de Barragens (.json)</span>
+                        </label>
+                        <label class="d-flex align-items-center gap-2 cursor-pointer m-0">
+                            <input type="checkbox" id="chk-anm-catalog" checked disabled>
+                            <span><i class="fa-solid fa-table text-success"></i> Catálogo Completo de Instrumentos e Limites TARP (.csv)</span>
+                        </label>
+                        <label class="d-flex align-items-center gap-2 cursor-pointer m-0">
+                            <input type="checkbox" id="chk-anm-readings" checked disabled>
+                            <span><i class="fa-solid fa-chart-line text-warning"></i> Histórico Recente de Leituras e Poro-pressões (.csv)</span>
+                        </label>
+                        <label class="d-flex align-items-center gap-2 cursor-pointer m-0">
+                            <input type="checkbox" id="chk-anm-manifest" checked disabled>
+                            <span><i class="fa-solid fa-fingerprint text-info"></i> Manifesto de Autenticidade e Hashes SHA-256 (.json)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="anm-zip-progress-container" style="display:none;" class="mb-3">
+                    <div class="d-flex justify-content-between text-xs text-secondary mb-1">
+                        <span id="anm-zip-status-text">Compactando arquivos com JSZip...</span>
+                        <span id="anm-zip-percent">0%</span>
+                    </div>
+                    <div class="progress" style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
+                        <div id="anm-zip-progress-bar" style="width: 0%; height: 100%; background: var(--primary); transition: width 0.3s ease;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-between">
+                <span class="text-secondary small"><i class="fa-solid fa-box-archive"></i> Arquivo ZIP Assinado Digitalmente</span>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-secondary" onclick="closeAnmZipModal()">Fechar</button>
+                    <button type="button" id="btn-generate-anm-zip" class="btn btn-info" onclick="generateAnmZipPackage()">
+                        <i class="fa-solid fa-download"></i> Gerar e Baixar ZIP
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Script Injection -->
+    <script src="vendor/jszip.min.js"></script>
+    <script src="src/core/sync-bridge.js?v=robust-20260908"></script>
     <script src="src/core/utils.js?v=robust-20260908"></script>
     <script src="src/core/geotech.js?v=robust-20260908"></script>
     <script src="vendor/leaflet/leaflet.js"></script>

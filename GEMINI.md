@@ -112,3 +112,10 @@ O MDSync é o sistema de campo para monitoramento de estruturas geotécnicas (Ba
 - Evite arquivos monolíticos gigantescos na thread de renderização.
 - Utilize o catálogo leve `data/catalog.json` para carregamento instantâneo e carregue dados de estruturas (`data/structures/*.json`) sob demanda.
 - Destrua instâncias do Chart.js antes de recriar novos gráficos para evitar vazamento de memória.
+
+## 5. Simetria Obrigatória entre Projetos Gêmeos (MDSync e HUB Stitch)
+- O repositório abriga dois projetos com finalidades complementares: o MDSync (PWA tático de campo na raiz) e o HUB Stitch (plataforma executiva em `stitch/`).
+- Toda automação, cálculo geotécnico, rota, tela de formulário, modal ou integração desenvolvida no MDSync deve ser obrigatoriamente replicada no HUB Stitch, e vice-versa.
+- A comunicação e sincronização em tempo real entre ambas as interfaces deve ocorrer pelo barramento `src/core/sync-bridge.js` (BroadcastChannel e fallback em localStorage).
+- O banco de dados e arquivos de estruturas são de fonte única da verdade, garantindo que leituras e formulários salvos em qualquer interface sejam acessíveis pela outra.
+

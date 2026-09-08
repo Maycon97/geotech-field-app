@@ -8,6 +8,8 @@ for html_file in screens_dir.glob("*.html"):
     additions = []
     if "jszip.min.js" not in content:
         additions.append('<script src="../../vendor/jszip.min.js"></script>')
+    if "sync-bridge.js" not in content:
+        additions.append('<script src="../../src/core/sync-bridge.js"></script>')
     if "stitch-runtime.js" not in content:
         additions.append('<script src="../stitch-runtime.js"></script>')
 

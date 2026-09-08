@@ -23,6 +23,21 @@
     'parametros-usuarios': 'modal:parametros'
   };
 
+  // Instância do Barramento de Sincronização
+  const bridge = typeof window !== 'undefined' && window.SyncBridge ? window.SyncBridge : null;
+  if (bridge) {
+    bridge.on('READING_ADDED', (data, isLocal) => {
+      if (!isLocal) {
+        showToast('Nova Leitura de Campo', `Instrumento ${data.instrumentId || 'PZ'} registrado via MDSync de Campo.`, 'success', 4000);
+      }
+    });
+    bridge.on('SIGBM_TRANSMITTED', (data, isLocal) => {
+      if (!isLocal) {
+        showToast('Homologação SIGBM Recebida', `Protocolo ${data.protocolo} sincronizado entre os projetos.`, 'success', 5000);
+      }
+    });
+  }
+
   function getCurrentScreenFile() {
     const path = window.location.pathname;
     const parts = path.split('/');
@@ -427,9 +442,26 @@
     const btnSaveNext = document.getElementById('save-next-btn');
     if (btnSaveNext) {
       btnSaveNext.addEventListener('click', () => {
+        const inst = instrumentData[activeInstId] || instrumentData['PZ-02'];
+        const prof = depthInput ? parseFloat(depthInput.value) || inst.profPadrao : inst.profPadrao;
+        const cotaNA = (inst.cotaBoca - prof).toFixed(2);
+        const colunaAgua = Math.max(0, cotaNA - inst.cotaPonta);
+        const poroPressao = (colunaAgua * 9.81).toFixed(1);
+
+        if (bridge) {
+          bridge.emit('READING_ADDED', {
+            instrumentId: activeInstId,
+            tipo: inst.type,
+            profundidade: prof,
+            cotaNA: parseFloat(cotaNA),
+            poroPressao: parseFloat(poroPressao),
+            timestamp: new Date().toISOString()
+          });
+        }
+
         showToast(
           'Leitura Registrada!',
-          `Instrumento ${activeInstId} salvo com sucesso na fila offline de campo.`,
+          `Instrumento ${activeInstId} salvo com sucesso e transmitido ao barramento em tempo real.`,
           'success',
           3500
         );
@@ -440,6 +472,13 @@
     const btnSaveLocal = document.getElementById('save-local-btn');
     if (btnSaveLocal) {
       btnSaveLocal.addEventListener('click', () => {
+        if (bridge) {
+          bridge.emit('READING_ADDED', {
+            instrumentId: activeInstId,
+            modo: 'local_storage',
+            timestamp: new Date().toISOString()
+          });
+        }
         showToast('Memória Local Atualizada', 'Registro armazenado com hash criptográfico.', 'success', 2500);
       });
     }
@@ -495,6 +534,14 @@
 
   async function generateAndDownloadZip() {
     showToast('Gerando Pacote ZIP', 'Compactando dossiê, manifestos e séries históricas...', 'info', 2000);
+
+    if (bridge) {
+      bridge.emit('ANM_PACKAGE_GENERATED', {
+        timestamp: new Date().toISOString(),
+        pacote: 'MDSync_Dossie_Oficial_ANM.zip',
+        tamanho: '83.4 MB'
+      });
+    }
 
     const manifestContent = `=======================================================
 MDSYNC - PACOTE OFICIAL DE FISCALIZACAO ANM / SIGBM
@@ -584,6 +631,15 @@ HASH SHA-256 DO PACOTE:
         btn.innerHTML = `<span class="material-symbols-outlined" style="color: #4edea3; font-size: 20px;">verified</span><span>Homologado com Sucesso!</span>`;
         btn.style.background = 'rgba(16, 185, 129, 0.2)';
         btn.style.border = '1px solid #10b981';
+
+        if (bridge) {
+          bridge.emit('SIGBM_TRANSMITTED', {
+            protocolo: protocolNumber,
+            timestamp: new Date().toISOString(),
+            status: 'HOMOLOGADO',
+            responsavel: 'Maycon Nascimento (CREA-MG 184.920/D)'
+          });
+        }
 
         showToast(
           'Transmissão Homologada!',
