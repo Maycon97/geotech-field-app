@@ -1049,22 +1049,123 @@
         }
     };
 
+    // =============================================================
+    // CONTROLE DO VISUALIZADOR DE ORTOFOTO E RADAR HEXAGON (CAVA JANGADA)
+    // =============================================================
+    window.radarOrthoState = {
+        currentView: 'zenital',
+        zoom: 1.0
+    };
+
+    window.switchRadarOrthoView = function(view) {
+        window.radarOrthoState.currentView = view;
+        const btnZenital = document.getElementById('btn-view-ortho-zenital');
+        const btnPersp = document.getElementById('btn-view-ortho-perspective');
+        const btnSeries = document.getElementById('btn-view-ortho-series');
+        const mainImg = document.getElementById('radarOrthoMainImg');
+        const hudTimestamp = document.getElementById('radar-hud-timestamp');
+        const hudVector = document.getElementById('radar-hud-vector');
+        const chromaScale = document.getElementById('radarOrthoChromaScale');
+
+        if (btnZenital) btnZenital.classList.toggle('active', view === 'zenital');
+        if (btnPersp) btnPersp.classList.toggle('active', view === 'perspective');
+        if (btnSeries) btnSeries.classList.toggle('active', view === 'series');
+
+        if (!mainImg) return;
+
+        // Reseta zoom ao trocar de visualizacao
+        window.radarOrthoState.zoom = 1.0;
+        mainImg.style.transform = 'scale(1.0)';
+
+        if (view === 'zenital') {
+            mainImg.src = 'assets/radar/hexagon-radar-ortho-zenital.jpg';
+            if (hudTimestamp) hudTimestamp.textContent = '19:19 05/Sep a 07:20 06/Sep/26 (Noturno)';
+            if (hudVector) hudVector.textContent = '+20.00 mm (Crítico)';
+            if (chromaScale) chromaScale.style.display = 'flex';
+        } else if (view === 'perspective') {
+            mainImg.src = 'assets/radar/hexagon-radar-heatmap-perspective.jpg';
+            if (hudTimestamp) hudTimestamp.textContent = '07:23 a 19:23 06/Sep/26 (Diurno)';
+            if (hudVector) hudVector.textContent = '20.00 mm (Vetor Máx)';
+            if (chromaScale) chromaScale.style.display = 'flex';
+        } else if (view === 'series') {
+            mainImg.src = 'assets/radar/hexagon-displacement-timeseries.jpg';
+            if (hudTimestamp) hudTimestamp.textContent = '07:23 a 19:23 06/Sep/26 (Área Oeste: -0.25mm)';
+            if (hudVector) hudVector.textContent = 'Estável (-0.25 mm)';
+            if (chromaScale) chromaScale.style.display = 'none';
+        }
+    };
+
+    window.zoomRadarOrtho = function(factor) {
+        window.radarOrthoState.zoom = Math.max(0.7, Math.min(3.8, window.radarOrthoState.zoom * factor));
+        const mainImg = document.getElementById('radarOrthoMainImg');
+        if (mainImg) {
+            mainImg.style.transform = `scale(${window.radarOrthoState.zoom})`;
+        }
+    };
+
+    window.resetRadarOrthoZoom = function() {
+        window.radarOrthoState.zoom = 1.0;
+        const mainImg = document.getElementById('radarOrthoMainImg');
+        if (mainImg) {
+            mainImg.style.transform = 'scale(1.0)';
+        }
+    };
+
+    window.triggerCgoNotification = function() {
+        const msg = "[ALERTA GEOTECNICO CAVA JANGADA] TARP Nivel 3 confirmado pelo Radar Hexagon IBIS-FM EVO 01. Deslocamento maximo acumulado atingiu 20.00 mm na crista/talude superior. Area de controle Oeste estavel (-0.25 mm) e chuva zero. Interdicao da crista e berma inferior mantida conforme Laudo FR012.";
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(msg).then(() => {
+                alert("Protocolo CGO Notificado!\n\nMensagem técnica copiada para a área de transferência:\n\n" + msg);
+            }).catch(() => {
+                alert("Protocolo CGO Notificado:\n\n" + msg);
+            });
+        } else {
+            alert("Protocolo CGO Notificado:\n\n" + msg);
+        }
+    };
+
     window.setSatelliteModalLayer = function(layer) {
         window.radarState.satelliteActiveLayer = layer;
+        const bRadarOrtho = document.getElementById('btn-sat-radar-ortho');
+        const bRadar3D = document.getElementById('btn-sat-radar-3d');
+        const bRadarSeries = document.getElementById('btn-sat-radar-series');
         const bAnn = document.getElementById('btn-sat-annotated');
-        const bRaw = document.getElementById('btn-sat-raw');
+
+        if (bRadarOrtho) bRadarOrtho.classList.toggle('active', layer === 'radar-ortho');
+        if (bRadar3D) bRadar3D.classList.toggle('active', layer === 'radar-3d');
+        if (bRadarSeries) bRadarSeries.classList.toggle('active', layer === 'radar-series');
         if (bAnn) bAnn.classList.toggle('active', layer === 'annotated');
-        if (bRaw) bRaw.classList.toggle('active', layer === 'raw');
+
         updateSatelliteModalView();
     };
 
     function updateSatelliteModalView() {
         const img = document.getElementById('satellite-modal-img');
+        const downloadLink = document.getElementById('btn-download-modal-ortho');
         if (!img) return;
-        if (window.radarState.satelliteActiveLayer === 'annotated') {
-            img.src = 'assets/cava-jangada-satellite-annotated.jpg';
-        } else {
-            img.src = 'assets/cava-jangada-satellite-orthophoto.jpg';
+
+        const layer = window.radarState.satelliteActiveLayer;
+        let targetSrc = 'assets/radar/hexagon-radar-ortho-zenital.jpg';
+        let downloadName = 'Ortofoto-Radar-Hexagon-Cava-Jangada.jpg';
+
+        if (layer === 'radar-ortho') {
+            targetSrc = 'assets/radar/hexagon-radar-ortho-zenital.jpg';
+            downloadName = 'Ortofoto-Radar-Hexagon-Cava-Jangada.jpg';
+        } else if (layer === 'radar-3d') {
+            targetSrc = 'assets/radar/hexagon-radar-heatmap-perspective.jpg';
+            downloadName = 'Modelo-3D-Radar-Hexagon-Cava-Jangada.jpg';
+        } else if (layer === 'radar-series') {
+            targetSrc = 'assets/radar/hexagon-displacement-timeseries.jpg';
+            downloadName = 'Serie-Temporal-Radar-Hexagon-Area-Oeste.jpg';
+        } else if (layer === 'annotated') {
+            targetSrc = 'assets/cava-jangada-satellite-annotated.jpg';
+            downloadName = 'Ortofoto-Regional-Cava-Jangada-Satelite.jpg';
+        }
+
+        img.src = targetSrc;
+        if (downloadLink) {
+            downloadLink.href = targetSrc;
+            downloadLink.download = downloadName;
         }
     }
 

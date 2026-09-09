@@ -3677,6 +3677,10 @@ function switchTab(tabId) {
         closeMobileSidebar();
     }
 
+    if (tabId !== 'geoview' && typeof pauseGeoView3DCockpit === 'function') {
+        pauseGeoView3DCockpit();
+    }
+
     // Hide all panels
     const panes = document.querySelectorAll(".tab-pane");
     panes.forEach(pane => pane.classList.remove("active"));
@@ -3739,9 +3743,12 @@ function switchTab(tabId) {
         subEl.textContent = "Dashboards dinâmicos por estrutura, tipo de dado, status e período.";
         renderIndicatorsDashboard();
     } else if (tabId === 'geoview') {
-        titleEl.textContent = "GeoView";
-        subEl.textContent = "Dashboards corporativos, arquivos locais e mapas por estrutura em uma visao operacional.";
+        titleEl.textContent = "GeoView & GIS 3D";
+        subEl.textContent = "Cockpit 3D interativo, varredura radar IBIS-FM, seções Bishop, cinemática Fukuzono e telemetria.";
         renderGeoViewPanel();
+        if (typeof initGeoView3DCockpit === "function") {
+            setTimeout(initGeoView3DCockpit, 60);
+        }
         if (geoviewPilhasMap) {
             setTimeout(() => {
                 if (geoviewPilhasMap) {
@@ -6881,7 +6888,7 @@ const MINING_STANDARDS_CATALOG = [
     {
         id: "abnt-nbr-13028-2017",
         code: "ABNT NBR 13028:2017",
-        title: "Mineração — Elaboração e Apresentação de Projeto de Disposição de Rejeitos",
+        title: "Mineração: Elaboração e Apresentação de Projeto de Disposição de Rejeitos",
         issuer: "Associação Brasileira de Normas Técnicas (ABNT)",
         category: "abnt",
         categoryLabel: "Norma Técnica ABNT",
@@ -12661,6 +12668,12 @@ function setupSyncBridgeListeners() {
             updateActiveOperatorUI();
         }
     });
+
+    SyncBridge.on("GEOVIEW_LAYER_CHANGED", (data) => {
+        if (data && data.layer && typeof setGeoViewDisplayLayer === "function") {
+            setGeoViewDisplayLayer(data.layer, false);
+        }
+    });
 }
 
 // ==========================================================================
@@ -13222,8 +13235,915 @@ function closeOrganogramaModal() {
     closeModalElement("modal-organograma-viewer");
 }
 
+// ==========================================================================
+// TEMA CLARO / ESCURO (MDSync & SyncBridge Bilateral)
+// ==========================================================================
+let currentAppTheme = 'dark';
+
+function applyTheme(theme, broadcast = true) {
+    currentAppTheme = (theme === 'light') ? 'light' : 'dark';
+    
+    if (currentAppTheme === 'light') {
+        document.documentElement.classList.add('light-theme');
+        document.documentElement.classList.remove('dark-theme');
+        if (document.body) {
+            document.body.classList.add('light-theme');
+            document.body.classList.remove('dark-theme');
+        }
+    } else {
+        document.documentElement.classList.add('dark-theme');
+        document.documentElement.classList.remove('light-theme');
+        if (document.body) {
+            document.body.classList.add('dark-theme');
+            document.body.classList.remove('light-theme');
+        }
+    }
+    
+    const toggleBtn = document.getElementById('theme-toggle-btn');
+    const toggleIcon = document.getElementById('theme-toggle-icon');
+    const toggleText = document.getElementById('theme-toggle-text');
+    
+    if (toggleBtn && toggleIcon && toggleText) {
+        if (currentAppTheme === 'light') {
+            toggleIcon.className = 'fa-solid fa-moon';
+            toggleText.textContent = 'Escuro';
+            toggleBtn.title = 'Mudar para Tema Escuro';
+        } else {
+            toggleIcon.className = 'fa-solid fa-sun';
+            toggleText.textContent = 'Claro';
+            toggleBtn.title = 'Mudar para Tema Claro';
+        }
+    }
+    
+    try {
+        localStorage.setItem('mdsync_theme', currentAppTheme);
+    } catch (e) {
+        console.warn('[MDSync] Erro ao salvar tema no localStorage:', e);
+    }
+    
+    if (broadcast && typeof SyncBridge !== 'undefined' && SyncBridge.emit) {
+        SyncBridge.emit('THEME_CHANGED', { theme: currentAppTheme });
+    }
+}
+
+function toggleTheme() {
+    const nextTheme = currentAppTheme === 'light' ? 'dark' : 'light';
+    applyTheme(nextTheme, true);
+    if (typeof showToast === 'function') {
+        showToast(`Tema ${nextTheme === 'light' ? 'Claro' : 'Escuro'} ativado.`, 'info');
+    }
+}
+
+// Ouvinte bilateral para sincronização com HUB Stitch
+if (typeof SyncBridge !== 'undefined' && SyncBridge.on) {
+    SyncBridge.on('THEME_CHANGED', (payload, isLocal) => {
+        if (!isLocal && payload && payload.theme && payload.theme !== currentAppTheme) {
+            applyTheme(payload.theme, false);
+        }
+    });
+}
+
+// ============================================================================
+// GEOVIEW & GIS 3D COCKPIT ENGINE (THREE.JS / RADAR IBIS-FM / CAVA JANGADA)
+// ============================================================================
+
+const geoView3DState = {
+    initialized: false,
+    running: false,
+    scene: null,
+    camera: null,
+    renderer: null,
+    pitGroup: null,
+    pinGroup: null,
+    aoiMesh: null,
+    warnLight: null,
+    beamMat: null,
+    clock: null,
+    animFrameId: null,
+    cameraMode: '3D',
+    isDragging: false,
+    prevMousePos: { x: 0, y: 0 },
+    spherical: { radius: 380, theta: Math.PI / 4, phi: Math.PI / 3 },
+    target: { x: 0, y: -20, z: 0 }
+};
+
+function initGeoView3DCockpit() {
+    const mount = document.getElementById('geoview-threejs-mount');
+    if (!mount) return;
+
+    if (typeof THREE === 'undefined') {
+        console.warn('[MDSync GeoView 3D] Three.js r125 nao encontrado no escopo global.');
+        return;
+    }
+
+    const container = document.getElementById('geoview-viewport-container') || mount;
+    const width = container.clientWidth || mount.clientWidth || 800;
+    const height = container.clientHeight || mount.clientHeight || 560;
+
+    if (geoView3DState.initialized && geoView3DState.renderer) {
+        onGeoView3DResize();
+        resumeGeoView3DCockpit();
+        return;
+    }
+
+    // 1. Criar Cena e Câmera
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, width / height, 1, 3000);
+    camera.position.set(220, 240, 280);
+    camera.lookAt(0, -20, 0);
+
+    // 2. Criar Renderer WebGL
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'high-performance' });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    mount.innerHTML = '';
+    mount.appendChild(renderer.domElement);
+
+    // 3. Luzes da Cena
+    const ambientLight = new THREE.AmbientLight(0x38bdf8, 0.45);
+    scene.add(ambientLight);
+
+    const dirLight = new THREE.DirectionalLight(0x0ea5e9, 1.25);
+    dirLight.position.set(150, 250, 100);
+    scene.add(dirLight);
+
+    const warnLight = new THREE.PointLight(0xef4444, 2.5, 320);
+    warnLight.position.set(-35, 25, -20);
+    scene.add(warnLight);
+
+    // 4. Cava de Mineração: Bancadas Concêntricas (Cava Jangada)
+    const pitGroup = new THREE.Group();
+    const levels = 7;
+    const benchColors = [0x0c1e3d, 0x0f274e, 0x133261, 0x183d75, 0x1d4787, 0x22539c, 0x2b65bd];
+
+    for (let i = 0; i < levels; i++) {
+        const outerR = 170 - i * 18;
+        const innerR = outerR - 14;
+        const ringGeo = new THREE.CylinderGeometry(outerR, innerR, 14, 48, 1, true);
+        const ringMat = new THREE.MeshLambertMaterial({
+            color: benchColors[i % benchColors.length],
+            side: THREE.DoubleSide
+        });
+        const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+        ringMesh.position.y = -i * 12;
+        pitGroup.add(ringMesh);
+
+        // Arestas estruturais das bermas
+        const wireGeo = new THREE.EdgesGeometry(ringGeo);
+        const wireMat = new THREE.LineBasicMaterial({
+            color: 0x0ea5e9,
+            transparent: true,
+            opacity: 0.35 + (i * 0.05)
+        });
+        const wireLines = new THREE.LineSegments(wireGeo, wireMat);
+        wireLines.position.y = -i * 12;
+        pitGroup.add(wireLines);
+    }
+
+    // Fundo da cava
+    const floorGeo = new THREE.CircleGeometry(42, 32);
+    const floorMat = new THREE.MeshLambertMaterial({ color: 0x061126, side: THREE.DoubleSide });
+    const floorMesh = new THREE.Mesh(floorGeo, floorMat);
+    floorMesh.rotation.x = Math.PI / 2;
+    floorMesh.position.y = -levels * 12;
+    pitGroup.add(floorMesh);
+
+    scene.add(pitGroup);
+
+    // 5. Alvo Crítico AOI_01 (Cunha de Ruptura no Talude Norte)
+    const aoiGeo = new THREE.BoxGeometry(26, 12, 18);
+    const aoiMat = new THREE.MeshBasicMaterial({
+        color: 0xef4444,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.85
+    });
+    const aoiMesh = new THREE.Mesh(aoiGeo, aoiMat);
+    aoiMesh.position.set(-42, 14, -30);
+    scene.add(aoiMesh);
+
+    // 6. Estação de Radar IBIS-FM EVO 01 (Base Sul)
+    const radarBaseGeo = new THREE.CylinderGeometry(6, 9, 8, 16);
+    const radarBaseMat = new THREE.MeshLambertMaterial({ color: 0x38bdf8 });
+    const radarBase = new THREE.Mesh(radarBaseGeo, radarBaseMat);
+    radarBase.position.set(75, 20, 110);
+    scene.add(radarBase);
+
+    // 7. Feixe Laser Pontilhado do Radar para o Alvo AOI_01
+    const beamPoints = [
+        new THREE.Vector3(75, 24, 110),
+        new THREE.Vector3(-42, 14, -30)
+    ];
+    const beamGeo = new THREE.BufferGeometry().setFromPoints(beamPoints);
+    const beamMat = new THREE.LineDashedMaterial({
+        color: 0x38bdf8,
+        dashSize: 6,
+        gapSize: 4,
+        linewidth: 2,
+        transparent: true,
+        opacity: 0.85
+    });
+    const beamLine = new THREE.Line(beamGeo, beamMat);
+    beamLine.computeLineDistances();
+    scene.add(beamLine);
+
+    // 8. Pinos de Sensores no Espaço 3D
+    const sensorPositions = [
+        { name: 'PZ-01', pos: [-70, 8, 40], color: 0x10b981 },
+        { name: 'PZ-02', pos: [-40, 16, -20], color: 0x38bdf8 },
+        { name: 'PZ-04', pos: [30, -30, -50], color: 0x10b981 },
+        { name: 'INA-01', pos: [-10, 12, -70], color: 0x10b981 },
+        { name: 'AOI-01', pos: [-42, 22, -30], color: 0xef4444 }
+    ];
+
+    const pinGroup = new THREE.Group();
+    sensorPositions.forEach(s => {
+        const pinGeo = new THREE.SphereGeometry(3.5, 16, 16);
+        const pinMat = new THREE.MeshBasicMaterial({ color: s.color });
+        const pin = new THREE.Mesh(pinGeo, pinMat);
+        pin.position.set(s.pos[0], s.pos[1], s.pos[2]);
+
+        const stemGeo = new THREE.BufferGeometry().setFromPoints([
+            new THREE.Vector3(s.pos[0], s.pos[1], s.pos[2]),
+            new THREE.Vector3(s.pos[0], s.pos[1] - 14, s.pos[2])
+        ]);
+        const stemMat = new THREE.LineBasicMaterial({ color: s.color, transparent: true, opacity: 0.7 });
+        const stem = new THREE.Line(stemGeo, stemMat);
+
+        pinGroup.add(pin);
+        pinGroup.add(stem);
+    });
+    scene.add(pinGroup);
+
+    // 9. Grade Topográfica Inferior
+    const gridHelper = new THREE.GridHelper(400, 30, 0x0ea5e9, 0x1e293b);
+    gridHelper.position.y = -levels * 12 - 2;
+    gridHelper.material.opacity = 0.22;
+    gridHelper.material.transparent = true;
+    scene.add(gridHelper);
+
+    // Salvar referências no estado
+    geoView3DState.scene = scene;
+    geoView3DState.camera = camera;
+    geoView3DState.renderer = renderer;
+    geoView3DState.pitGroup = pitGroup;
+    geoView3DState.pinGroup = pinGroup;
+    geoView3DState.aoiMesh = aoiMesh;
+    geoView3DState.warnLight = warnLight;
+    geoView3DState.beamMat = beamMat;
+    geoView3DState.clock = new THREE.Clock();
+    geoView3DState.initialized = true;
+    geoView3DState.running = true;
+
+    // 10. Listeners de Interação de Órbita e Zoom
+    setupGeoView3DControls(container);
+
+    window.addEventListener('resize', onGeoView3DResize);
+    if (typeof ResizeObserver !== 'undefined') {
+        const ro = new ResizeObserver(() => {
+            onGeoView3DResize();
+        });
+        ro.observe(container);
+    }
+
+    // Iniciar loop de animação
+    animateGeoView3D();
+}
+
+function setupGeoView3DControls(container) {
+    const el = container || document.getElementById('geoview-viewport-container');
+    if (!el) return;
+
+    el.addEventListener('mousedown', (e) => {
+        if (e.target.closest('.geoview-hud-coords, .geoview-hud-bottom-controls, .geoview-target-aoi, .geoview-sensor-pin')) {
+            return;
+        }
+        geoView3DState.isDragging = true;
+        geoView3DState.prevMousePos = { x: e.clientX, y: e.clientY };
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!geoView3DState.isDragging) return;
+        const deltaX = e.clientX - geoView3DState.prevMousePos.x;
+        const deltaY = e.clientY - geoView3DState.prevMousePos.y;
+        geoView3DState.prevMousePos = { x: e.clientX, y: e.clientY };
+
+        geoView3DState.spherical.theta -= deltaX * 0.007;
+        geoView3DState.spherical.phi = Math.max(0.12, Math.min(Math.PI / 2 - 0.05, geoView3DState.spherical.phi - deltaY * 0.007));
+    });
+
+    window.addEventListener('mouseup', () => {
+        geoView3DState.isDragging = false;
+    });
+
+    // Suporte a toque em smartphones e tablets
+    el.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+            geoView3DState.isDragging = true;
+            geoView3DState.prevMousePos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }
+    }, { passive: true });
+
+    el.addEventListener('touchmove', (e) => {
+        if (!geoView3DState.isDragging || e.touches.length !== 1) return;
+        const deltaX = e.touches[0].clientX - geoView3DState.prevMousePos.x;
+        const deltaY = e.touches[0].clientY - geoView3DState.prevMousePos.y;
+        geoView3DState.prevMousePos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+
+        geoView3DState.spherical.theta -= deltaX * 0.009;
+        geoView3DState.spherical.phi = Math.max(0.12, Math.min(Math.PI / 2 - 0.05, geoView3DState.spherical.phi - deltaY * 0.009));
+    }, { passive: true });
+
+    el.addEventListener('touchend', () => {
+        geoView3DState.isDragging = false;
+    });
+
+    // Zoom pela roda do mouse
+    el.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const factor = e.deltaY > 0 ? 1.08 : 0.92;
+        geoView3DState.spherical.radius = Math.max(130, Math.min(650, geoView3DState.spherical.radius * factor));
+    }, { passive: false });
+}
+
+function onGeoView3DResize() {
+    if (!geoView3DState.renderer || !geoView3DState.camera) return;
+    const container = document.getElementById('geoview-viewport-container') || document.getElementById('geoview-threejs-mount');
+    if (!container) return;
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    if (width <= 0 || height <= 0) return;
+
+    geoView3DState.camera.aspect = width / height;
+    geoView3DState.camera.updateProjectionMatrix();
+    geoView3DState.renderer.setSize(width, height);
+}
+
+function pauseGeoView3DCockpit() {
+    geoView3DState.running = false;
+    if (geoView3DState.animFrameId) {
+        cancelAnimationFrame(geoView3DState.animFrameId);
+        geoView3DState.animFrameId = null;
+    }
+}
+
+function resumeGeoView3DCockpit() {
+    if (geoView3DState.running) return;
+    geoView3DState.running = true;
+    animateGeoView3D();
+}
+
+function animateGeoView3D() {
+    if (!geoView3DState.running || !geoView3DState.renderer || !geoView3DState.scene || !geoView3DState.camera) return;
+
+    geoView3DState.animFrameId = requestAnimationFrame(animateGeoView3D);
+    const elapsedTime = geoView3DState.clock.getElapsedTime();
+
+    // Rotação suave contínua quando não estiver arrastando e em modo 3D
+    if (!geoView3DState.isDragging && geoView3DState.cameraMode === '3D') {
+        geoView3DState.spherical.theta += 0.0012;
+    }
+
+    // Posicionamento da câmera a partir das coordenadas esféricas com interpolação suave (lerp)
+    if (geoView3DState.cameraMode !== 'CABIN') {
+        const r = geoView3DState.spherical.radius;
+        const phi = geoView3DState.spherical.phi;
+        const theta = geoView3DState.spherical.theta;
+
+        const targetX = geoView3DState.target.x + r * Math.sin(phi) * Math.sin(theta);
+        const targetY = geoView3DState.target.y + r * Math.cos(phi);
+        const targetZ = geoView3DState.target.z + r * Math.sin(phi) * Math.cos(theta);
+
+        geoView3DState.camera.position.x += (targetX - geoView3DState.camera.position.x) * 0.08;
+        geoView3DState.camera.position.y += (targetY - geoView3DState.camera.position.y) * 0.08;
+        geoView3DState.camera.position.z += (targetZ - geoView3DState.camera.position.z) * 0.08;
+        geoView3DState.camera.lookAt(geoView3DState.target.x, geoView3DState.target.y, geoView3DState.target.z);
+    }
+
+    // Pulso do Alvo Crítico AOI_01
+    if (geoView3DState.aoiMesh) {
+        const s = 1.0 + Math.sin(elapsedTime * 4.0) * 0.14;
+        geoView3DState.aoiMesh.scale.set(s, s, s);
+    }
+
+    // Luz de alerta vermelha na área instável
+    if (geoView3DState.warnLight) {
+        geoView3DState.warnLight.intensity = 2.0 + Math.sin(elapsedTime * 5.0) * 1.4;
+    }
+
+    // Linha tracejada do feixe do radar e pulso de laser
+    if (geoView3DState.beamMat) {
+        geoView3DState.beamMat.dashSize = 4.5 + Math.sin(elapsedTime * 6.0) * 2;
+        geoView3DState.beamMat.gapSize = 3;
+        geoView3DState.beamMat.opacity = 0.65 + Math.sin(elapsedTime * 8.0) * 0.3;
+        geoView3DState.beamMat.needsUpdate = true;
+    }
+
+    // Sincronizar agulha da bússola com o azimute em relação ao Norte
+    const needle = document.getElementById('geoview-compass-needle');
+    if (needle) {
+        const azDeg = (((geoView3DState.spherical.theta * 180 / Math.PI) % 360) + 360) % 360;
+        needle.style.transform = `translate(-50%, -50%) rotate(${-azDeg}deg)`;
+    }
+
+    // Atualização dinâmica do HUD de Coordenadas e Ângulos
+    const hudX = document.getElementById('geoview-hud-x');
+    const hudY = document.getElementById('geoview-hud-y');
+    const hudZ = document.getElementById('geoview-hud-z');
+    const hudAz = document.getElementById('geoview-param-azimuth');
+    const hudPitch = document.getElementById('geoview-param-pitch');
+
+    if (hudX || hudAz) {
+        const theta = geoView3DState.spherical.theta;
+        const phi = geoView3DState.spherical.phi;
+        const azimuteDeg = ((((theta * 180 / Math.PI) % 360) + 360) % 360).toFixed(1);
+        const pitchDeg = Math.max(0, Math.min(90, (90 - (phi * 180 / Math.PI)))).toFixed(1);
+
+        if (hudAz) hudAz.textContent = `Azimute: ${azimuteDeg}°`;
+        if (hudPitch) hudPitch.textContent = `Inclinação (Pitch): ${pitchDeg}°`;
+
+        if (hudX) {
+            const offsetX = (Math.sin(theta) * 14.5).toFixed(2);
+            hudX.textContent = `${(595245.32 + parseFloat(offsetX)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} m E`;
+        }
+        if (hudY) {
+            const offsetY = (Math.cos(theta) * 14.5).toFixed(2);
+            hudY.textContent = `${(7777813.10 + parseFloat(offsetY)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} m N`;
+        }
+        if (hudZ) {
+            const r = geoView3DState.spherical.radius;
+            const camH = (1140 + (r * Math.cos(phi) * 0.25)).toFixed(2);
+            hudZ.textContent = `${parseFloat(camH).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} m`;
+        }
+    }
+
+    geoView3DState.renderer.render(geoView3DState.scene, geoView3DState.camera);
+}
+
+// Funções de Controle de Camadas e Modos do GeoView 3D (Radar Hexagon Guardian)
+function setGeoViewDisplayLayer(layer, broadcast = true) {
+    const overlay = document.getElementById('geoview-ortho-overlay-screen');
+    const overlayImg = document.getElementById('geoview-ortho-overlay-img');
+    const chromaScale = document.getElementById('geoviewOrthoChromaScale');
+    const mount = document.getElementById('geoview-threejs-mount');
+    const planoSubnav = document.getElementById('geoview-plano-subnav');
+
+    const btn3d = document.getElementById('btn-geoview-layer-3d');
+    const btnOrtho = document.getElementById('btn-geoview-layer-ortho');
+    const btnPersp = document.getElementById('btn-geoview-layer-persp');
+    const btnSeries = document.getElementById('btn-geoview-layer-series');
+    const btnLavra = document.getElementById('btn-geoview-layer-lavra');
+    const btn2d = document.getElementById('btn-mode-2d');
+
+    const allBtns = [btn3d, btnOrtho, btnPersp, btnSeries, btnLavra, btn2d];
+    allBtns.forEach(btn => {
+        if (btn) btn.classList.remove('active');
+    });
+
+    // Controlar visibilidade do subnav de pranchas do plano de lavra
+    if (planoSubnav) {
+        planoSubnav.style.display = (layer === 'plano-lavra') ? 'flex' : 'none';
+    }
+
+    if (layer === '3d-mesh') {
+        if (btn3d) btn3d.classList.add('active');
+        if (overlay) {
+            overlay.classList.remove('active');
+            overlay.style.display = 'none';
+        }
+        if (mount) mount.style.display = 'block';
+        resumeGeoView3DCockpit();
+        if (typeof showToast === 'function') {
+            showToast('Modelo 3D Three.js Interativo ativado.', 'info');
+        }
+    } else if (layer === 'radar-ortho') {
+        if (btnOrtho) btnOrtho.classList.add('active');
+        pauseGeoView3DCockpit();
+        if (overlay) {
+            overlay.classList.add('active');
+            overlay.style.display = 'flex';
+        }
+        if (overlayImg) {
+            overlayImg.src = 'assets/radar/hexagon-radar-ortho-zenital.jpg';
+            overlayImg.alt = 'Ortofoto DTM Zenital com Mapa de Deformação Hexagon Guardian';
+        }
+        if (chromaScale) chromaScale.style.display = 'flex';
+        if (typeof showToast === 'function') {
+            showToast('Ortofoto DTM Zenital Hexagon Guardian carregada (-20 a +20 mm).', 'info');
+        }
+    } else if (layer === 'radar-persp') {
+        if (btnPersp) btnPersp.classList.add('active');
+        pauseGeoView3DCockpit();
+        if (overlay) {
+            overlay.classList.add('active');
+            overlay.style.display = 'flex';
+        }
+        if (overlayImg) {
+            overlayImg.src = 'assets/radar/hexagon-radar-heatmap-perspective.jpg';
+            overlayImg.alt = 'Modelo 3D Perspectiva Hexagon Guardian (+20mm Deslocamento Máximo)';
+        }
+        if (chromaScale) chromaScale.style.display = 'flex';
+        if (typeof showToast === 'function') {
+            showToast('Modelo 3D Perspectiva Hexagon Guardian carregado (Vetor Máximo: 20.00 mm).', 'warning');
+        }
+    } else if (layer === 'radar-series') {
+        if (btnSeries) btnSeries.classList.add('active');
+        pauseGeoView3DCockpit();
+        if (overlay) {
+            overlay.classList.add('active');
+            overlay.style.display = 'flex';
+        }
+        if (overlayImg) {
+            overlayImg.src = 'assets/radar/hexagon-displacement-timeseries.jpg';
+            overlayImg.alt = 'Série Temporal de Deslocamento e Chuva Hexagon Guardian';
+        }
+        if (chromaScale) chromaScale.style.display = 'none';
+        if (typeof showToast === 'function') {
+            showToast('Série Temporal Guardian: Área Oeste estável (-0.25 mm) e Chuva 0.0 mm.', 'info');
+        }
+    } else if (layer === 'plano-lavra') {
+        if (btnLavra) btnLavra.classList.add('active');
+        pauseGeoView3DCockpit();
+        if (overlay) {
+            overlay.classList.add('active');
+            overlay.style.display = 'flex';
+        }
+        if (overlayImg) {
+            overlayImg.src = 'assets/plano_lavra/cava-jangada-oeste-interditada.jpg';
+            overlayImg.alt = 'Plano de Lavra Setembro 2026: Cava Jangada e Frentes de Mina';
+        }
+        if (chromaScale) chromaScale.style.display = 'none';
+        if (typeof showToast === 'function') {
+            showToast('Plano de Lavra Setembro 2026: Frente JGD Oeste Interditada pela Geotecnia.', 'warning');
+        }
+    }
+
+    if (broadcast && typeof SyncBridge !== 'undefined' && SyncBridge.emit) {
+        SyncBridge.emit('GEOVIEW_LAYER_CHANGED', { layer: layer });
+    }
+}
+window.setGeoViewDisplayLayer = setGeoViewDisplayLayer;
+
+// Funções de Controle do Plano de Lavra Setembro 2026
+function trocarPranchaPlanoLavra(imgName, btn) {
+    const overlayImg = document.getElementById('geoview-ortho-overlay-img');
+    if (overlayImg) {
+        overlayImg.src = 'assets/plano_lavra/' + imgName;
+    }
+    const subnav = document.getElementById('geoview-plano-subnav');
+    if (subnav) {
+        subnav.querySelectorAll('.btn-subnav-prancha').forEach(b => b.classList.remove('active'));
+    }
+    if (btn) btn.classList.add('active');
+    if (typeof showToast === 'function') {
+        showToast('Prancha de lavra atualizada: ' + imgName, 'info');
+    }
+}
+window.trocarPranchaPlanoLavra = trocarPranchaPlanoLavra;
+
+function abrirModalPlanoLavra() {
+    const modal = document.getElementById('modal-plano-lavra-viewer');
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+    }
+    renderizarModalPlanoLavraConteudo();
+}
+window.abrirModalPlanoLavra = abrirModalPlanoLavra;
+
+function closeModalPlanoLavra() {
+    const modal = document.getElementById('modal-plano-lavra-viewer');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+    }
+}
+window.closeModalPlanoLavra = closeModalPlanoLavra;
+
+function switchPlanoModalTab(tabId, btn) {
+    const modal = document.getElementById('modal-plano-lavra-viewer');
+    if (!modal) return;
+    modal.querySelectorAll('.plano-modal-tab-content').forEach(el => {
+        el.classList.add('hidden');
+        el.style.display = 'none';
+    });
+    modal.querySelectorAll('.plano-lavra-tab-btn').forEach(b => b.classList.remove('active'));
+
+    const target = document.getElementById(tabId);
+    if (target) {
+        target.classList.remove('hidden');
+        target.style.display = 'block';
+    }
+    if (btn) btn.classList.add('active');
+}
+window.switchPlanoModalTab = switchPlanoModalTab;
+
+function abrirDetalheFrenteLavra(frenteId) {
+    abrirModalPlanoLavra();
+    switchPlanoModalTab('tab-plano-frentes', document.querySelector('.plano-lavra-tab-btn[data-tab="tab-plano-frentes"]'));
+    const targetCard = document.getElementById('card-' + frenteId);
+    if (targetCard) {
+        targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        targetCard.style.outline = '2px solid #38bdf8';
+        setTimeout(() => { targetCard.style.outline = 'none'; }, 3000);
+    }
+}
+window.abrirDetalheFrenteLavra = abrirDetalheFrenteLavra;
+
+function renderizarModalPlanoLavraConteudo() {
+    const p = window.PLANO_LAVRA_JANGADA_SETEMBRO;
+    if (!p) return;
+
+    // Renderizar Frentes
+    const frentesContainer = document.getElementById('plano-frentes-list-container');
+    if (frentesContainer && (!frentesContainer.children || frentesContainer.children.length === 0)) {
+        let html = '';
+        p.frentes.forEach(f => {
+            const statusClass = f.status === 'Interditada pela Geotecnia' ? 'border-red-500 bg-red-950/20' :
+                               f.status === 'Perfuração e Desmonte' ? 'border-sky-500 bg-sky-950/20' :
+                               f.status === 'Alerta Talude' ? 'border-amber-500 bg-amber-950/20' : 'border-emerald-500 bg-emerald-950/20';
+            const statusBadge = f.status === 'Interditada pela Geotecnia' ? 'badge-danger' :
+                                f.status === 'Perfuração e Desmonte' ? 'badge-info' :
+                                f.status === 'Alerta Talude' ? 'badge-warning' : 'badge-success';
+
+            html += `
+            <div class="card p-3 mb-3 border ${statusClass}" id="card-${f.id}">
+                <div class="d-flex justify-between align-center mb-2">
+                    <div class="d-flex align-center gap-2">
+                        <span class="badge ${statusBadge} font-mono">${f.status}</span>
+                        <h4 class="m-0 text-white font-bold">${f.nome}</h4>
+                    </div>
+                    <span class="font-mono text-xs text-muted">Prioridade: <strong>${f.prioridade}</strong></span>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-2 font-mono text-xs text-slate-300">
+                    <div class="bg-black/30 p-2 rounded"><span>Equipamento:</span> <strong class="text-white">${f.equipamento}</strong></div>
+                    <div class="bg-black/30 p-2 rounded"><span>Cota Operacional:</span> <strong class="text-sky-400">${f.cota}</strong></div>
+                    <div class="bg-black/30 p-2 rounded"><span>Destino de Lavra:</span> <strong class="text-white">${f.destino}</strong></div>
+                    <div class="bg-black/30 p-2 rounded"><span>Teor Fe:</span> <strong class="text-emerald-400">${f.qualidadePlanejada.teorFe}</strong> (SiO2: ${f.qualidadePlanejada.sio2})</div>
+                </div>
+                <div class="text-xs text-slate-300 bg-slate-900/60 p-2 rounded border border-slate-800">
+                    <i class="fa-solid fa-circle-info text-sky-400 mr-1"></i> ${f.observacaoOperacional}
+                </div>
+            </div>`;
+        });
+        frentesContainer.innerHTML = html;
+    }
+
+    // Renderizar Galeria de Mapas
+    const mapasContainer = document.getElementById('plano-mapas-gallery-container');
+    if (mapasContainer && (!mapasContainer.children || mapasContainer.children.length === 0)) {
+        let html = '';
+        p.mapasPranchas.forEach(m => {
+            html += `
+            <div class="card p-2 bg-slate-900/80 border border-slate-700">
+                <img src="${m.arquivo}" alt="${m.titulo}" class="w-100 rounded mb-2" style="max-height: 200px; object-fit: cover; cursor: pointer;" onclick="window.open('${m.arquivo}', '_blank')">
+                <h5 class="text-white font-bold text-sm m-0">${m.titulo}</h5>
+                <p class="text-xs text-slate-400 m-0">${m.descricao}</p>
+                <div class="mt-2 d-flex gap-2">
+                    <button type="button" class="btn btn-outline-primary btn-xs" onclick="setGeoViewDisplayLayer('plano-lavra'); trocarPranchaPlanoLavra('${m.arquivo.replace('assets/plano_lavra/', '')}'); closeModalPlanoLavra();">
+                        <i class="fa-solid fa-eye"></i> Carregar no GeoView
+                    </button>
+                    <a href="${m.arquivo}" target="_blank" class="btn btn-outline-secondary btn-xs"><i class="fa-solid fa-magnifying-glass-plus"></i> Alta Resolução</a>
+                </div>
+            </div>`;
+        });
+        mapasContainer.innerHTML = html;
+    }
+}
+window.renderizarModalPlanoLavraConteudo = renderizarModalPlanoLavraConteudo;
+
+// Funções de Controle da Câmera e Imagem
+function zoomIn3D() {
+    const overlay = document.getElementById('geoview-ortho-overlay-screen');
+    const overlayImg = document.getElementById('geoview-ortho-overlay-img');
+    if (overlay && (overlay.classList.contains('active') || overlay.style.display === 'flex') && overlayImg) {
+        let currentScale = parseFloat(overlayImg.getAttribute('data-scale') || '1');
+        currentScale = Math.min(3.5, currentScale + 0.25);
+        overlayImg.setAttribute('data-scale', currentScale);
+        overlayImg.style.transform = `scale(${currentScale})`;
+        return;
+    }
+    geoView3DState.spherical.radius = Math.max(130, geoView3DState.spherical.radius * 0.85);
+}
+
+function zoomOut3D() {
+    const overlay = document.getElementById('geoview-ortho-overlay-screen');
+    const overlayImg = document.getElementById('geoview-ortho-overlay-img');
+    if (overlay && (overlay.classList.contains('active') || overlay.style.display === 'flex') && overlayImg) {
+        let currentScale = parseFloat(overlayImg.getAttribute('data-scale') || '1');
+        currentScale = Math.max(0.5, currentScale - 0.25);
+        overlayImg.setAttribute('data-scale', currentScale);
+        overlayImg.style.transform = `scale(${currentScale})`;
+        return;
+    }
+    geoView3DState.spherical.radius = Math.min(650, geoView3DState.spherical.radius * 1.18);
+}
+
+function setVisaoModo3D(modo) {
+    const overlay = document.getElementById('geoview-ortho-overlay-screen');
+    if (overlay) {
+        overlay.classList.remove('active');
+        overlay.style.display = 'none';
+    }
+    const mount = document.getElementById('geoview-threejs-mount');
+    if (mount) mount.style.display = 'block';
+    resumeGeoView3DCockpit();
+
+    const btn2d = document.getElementById('btn-mode-2d');
+    const btn3d = document.getElementById('btn-geoview-layer-3d') || document.getElementById('btn-mode-3d');
+    const btnOrtho = document.getElementById('btn-geoview-layer-ortho');
+    const btnPersp = document.getElementById('btn-geoview-layer-persp');
+    const btnSeries = document.getElementById('btn-geoview-layer-series');
+    [btnOrtho, btnPersp, btnSeries].forEach(b => { if (b) b.classList.remove('active'); });
+
+    if (modo === '2D') {
+        if (btn2d) btn2d.classList.add('active');
+        if (btn3d) btn3d.classList.remove('active');
+        geoView3DState.cameraMode = '2D';
+        geoView3DState.spherical.phi = 0.08;
+        geoView3DState.spherical.radius = 460;
+        if (typeof showToast === 'function') {
+            showToast('Visão 2D Nadir (Topo) ativada.', 'info');
+        }
+    } else {
+        if (btn3d) btn3d.classList.add('active');
+        if (btn2d) btn2d.classList.remove('active');
+        geoView3DState.cameraMode = '3D';
+        geoView3DState.spherical.phi = Math.PI / 3;
+        geoView3DState.spherical.radius = 380;
+        if (typeof showToast === 'function') {
+            showToast('Visão 3D Perspectiva ativada.', 'info');
+        }
+    }
+}
+
+function alternarVisaoCabine() {
+    if (!geoView3DState.camera) return;
+    const overlay = document.getElementById('geoview-ortho-overlay-screen');
+    if (overlay) {
+        overlay.classList.remove('active');
+        overlay.style.display = 'none';
+    }
+    const mount = document.getElementById('geoview-threejs-mount');
+    if (mount) mount.style.display = 'block';
+    resumeGeoView3DCockpit();
+
+    geoView3DState.cameraMode = 'CABIN';
+    geoView3DState.camera.position.set(75, 26, 110);
+    geoView3DState.camera.lookAt(-42, 14, -30);
+
+    const btn2d = document.getElementById('btn-mode-2d');
+    const btn3d = document.getElementById('btn-geoview-layer-3d') || document.getElementById('btn-mode-3d');
+    if (btn2d) btn2d.classList.remove('active');
+    if (btn3d) btn3d.classList.remove('active');
+
+    if (typeof showToast === 'function') {
+        showToast('Visão Cabine Radar IBIS-FM (Cota 1.140 m) com mira direta no Talude Norte.', 'info');
+    }
+}
+
+function resetarCamera3D() {
+    const overlayImg = document.getElementById('geoview-ortho-overlay-img');
+    if (overlayImg) {
+        overlayImg.setAttribute('data-scale', '1');
+        overlayImg.style.transform = 'scale(1)';
+    }
+    geoView3DState.cameraMode = '3D';
+    geoView3DState.spherical = { radius: 380, theta: Math.PI / 4, phi: Math.PI / 3 };
+    geoView3DState.target = { x: 0, y: -20, z: 0 };
+    setVisaoModo3D('3D');
+}
+
+function toggleTargetCardVisibility() {
+    const card = document.getElementById('geoview-target-aoi-card');
+    if (card) {
+        card.classList.toggle('minimized');
+    }
+}
+
+function abrirDetalheInstrumento(instrumentId) {
+    if (geoView3DState.camera && (instrumentId === 'PZ-02' || instrumentId === 'AOI-01')) {
+        geoView3DState.spherical.radius = 210;
+        geoView3DState.spherical.phi = Math.PI / 3.6;
+        geoView3DState.spherical.theta = -Math.PI / 3;
+    }
+    if (typeof showToast === 'function') {
+        showToast(`Instrumento ${instrumentId} localizado na Cava Jangada.`, 'info');
+    }
+}
+
+function abrirCockpitRadarModal() {
+    const info = `Radar Hexagon IBIS-FM EVO 01
+• Localização: Cota 1.140 m (Base Sul Cava Jangada)
+• Banda Ku (17 GHz) de alta resolução
+• Alcance de Varredura: 4.000 m
+• Precisão Submilimétrica: ±0.1 mm
+• Tempo de Varredura: 120 segundos
+• Status: 100% Operacional (24/7 Conectado)`;
+    alert(info);
+}
+
+function executarRotaGpsCampo() {
+    if (typeof showToast === 'function') {
+        showToast('Traçando rota geodésica até a Berma 1231...', 'info');
+    }
+    setTimeout(() => {
+        alert(`[Rota GPS MDSync Campo]
+• Destino: Cava Jangada - Berma N_Sup_1231.44
+• Coordenadas: E: 595.245 m / N: 7.777.813 m (SIRGAS 2000 UTM 23S)
+• Cota: 1.231 m
+• Distância estimada do Ponto de Apoio: 680 m
+• Alerta de Segurança: Acesso condicionado a EPI de talude e rádio VHF canal 03.`);
+    }, 200);
+}
+
+function vincularFirFoto() {
+    if (typeof showToast === 'function') {
+        showToast('Vinculando evidência fotográfica FIR para PZ-02 / AOI_01...', 'info');
+    }
+    switchTab('inspections');
+}
+
+function gerarMissaoDroneRtk() {
+    if (typeof showToast === 'function') {
+        showToast('Gerando plano de voo autônomo RTK...', 'info');
+    }
+    setTimeout(() => {
+        alert(`[Missão Drone RTK - Levantamento Fotogramétrico]
+• Estrutura: Cava Jangada (Talude Norte Crítico)
+• Waypoints: 5 pontos georreferenciados (Bermas 1250 a 1190 m)
+• Altitude de Voo: 60 m AGL
+• Sobreposição (Overlap): 80% frontal / 75% lateral
+• GSD Alvo: 1.2 cm/pixel
+• Arquivo KML/WPT gerado e salvo no cache do MDSync.`);
+    }, 250);
+}
+
+function gerarLaudoEspacial() {
+    if (typeof showToast === 'function') {
+        showToast('Compilando Laudo Espacial de Estabilidade e Cinemática...', 'info');
+    }
+    setTimeout(() => {
+        alert(`[Laudo Espacial Geotécnico - MDSync Engine]
+• Estrutura: Cava Jangada - Parede Norte
+• Seção Transversal: A-A'
+• Fator de Segurança (Bishop Simplificado): FS = 1.12 (Alerta Crítico)
+• Superfície de Ruptura: Circular profunda interceptando o setor N_Sup_1231
+• Cinemática (Matsuo & Kawamura): Razão δ/s = 0.84
+• Velocidade Inversa 1/v (Fukuzono): Tendência assintótica estável pós-parada
+• Responsável Técnico: Maycon Nascimento - CREA-MG 184.920/D
+• Conformidade: Resolução ANM nº 95/2022.`);
+    }, 300);
+}
+
+function openFiltroEstruturasModal() {
+    const legacyDetails = document.querySelector('.geoview-legacy-details');
+    if (legacyDetails) {
+        legacyDetails.open = !legacyDetails.open;
+        if (legacyDetails.open) {
+            legacyDetails.scrollIntoView({ behavior: 'smooth' });
+            if (typeof showToast === 'function') {
+                showToast('Filtros e indicadores por estrutura expandidos.', 'info');
+            }
+        } else {
+            if (typeof showToast === 'function') {
+                showToast('Painel de filtros recolhido.', 'info');
+            }
+        }
+    } else if (typeof openStructureDatasheetModal === 'function') {
+        openStructureDatasheetModal();
+    }
+}
+
+function notificarCGOEmergencia() {
+    const confirmar = confirm(`[ATENÇÃO: NOTIFICAÇÃO DE EMERGÊNCIA CGO]
+Deseja transmitir imediatamente o alerta crítico do setor AOI_01 (Deslocamento Máximo de Vetor: +20.00 mm / Velocidade: 2.78 mm/h) ao Centro de Gerenciamento de Operações (CGO) e Defesa Civil conforme ANM 95/2022?`);
+
+    if (confirmar) {
+        if (typeof SyncBridge !== 'undefined' && SyncBridge.emit) {
+            SyncBridge.emit('RADAR_CRITICAL_ALERT', {
+                timestamp: new Date().toISOString(),
+                sector: 'AOI_01 (N_Sup_1231.44)',
+                structure: 'Cava Jangada',
+                tarp: 'N3',
+                displacementMm: 20.00,
+                velocityMmh: 2.78,
+                operator: 'Maycon Nascimento (CREA-MG 184.920/D)'
+            });
+        }
+        if (typeof showToast === 'function') {
+            showToast('Alerta crítico transmitido com sucesso ao CGO e registrado no barramento.', 'error');
+        }
+    }
+}
+
 // Window Loader Initializer
 window.onload = function() {
+    try {
+        const savedTheme = localStorage.getItem('mdsync_theme') || 'dark';
+        applyTheme(savedTheme, false);
+    } catch (e) {}
+
     if (!SECURITY_GATE_ENABLED) {
         unlockSecurityGate();
         bootApplication();

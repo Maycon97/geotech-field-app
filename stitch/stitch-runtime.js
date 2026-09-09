@@ -47,7 +47,40 @@
         showToast('Operador Ativo Atualizado', `${data.operator.name} (${data.operator.role}) assumiu o turno.`, 'info', 3500);
       }
     });
+    bridge.on('THEME_CHANGED', (data) => {
+      if (data && data.theme) {
+        applyScreenTheme(data.theme);
+      }
+    });
   }
+
+  function applyScreenTheme(theme) {
+    if (theme === 'light') {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+      if (document.body) {
+        document.body.classList.remove('dark');
+        document.body.classList.remove('dark-theme');
+        document.body.classList.add('light');
+        document.body.classList.add('light-theme');
+      }
+    } else {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+      if (document.body) {
+        document.body.classList.add('dark');
+        document.body.classList.add('dark-theme');
+        document.body.classList.remove('light');
+        document.body.classList.remove('light-theme');
+      }
+    }
+  }
+
+  // Aplicar tema salvo no carregamento inicial da tela
+  try {
+    const savedTheme = localStorage.getItem('mdsync_theme') || 'dark';
+    applyScreenTheme(savedTheme);
+  } catch (e) {}
 
   function getCurrentScreenFile() {
     const path = window.location.pathname;

@@ -32,6 +32,83 @@
             --font-mono: 'JetBrains Mono', monospace;
         }
 
+        html.light, body.light {
+            --surface-lowest: #f1f5f9;
+            --surface: #ffffff;
+            --surface-container-low: #f8fafc;
+            --surface-container: #e2e8f0;
+            --surface-container-high: #cbd5e1;
+            --surface-container-highest: #94a3b8;
+            --on-surface: #0f172a;
+            --on-surface-variant: #475569;
+            --outline: #64748b;
+            --outline-variant: #cbd5e1;
+            --primary: #0284c7;
+            --primary-container: #0284c7;
+            --secondary: #059669;
+            --tertiary: #d97706;
+            --error: #dc2626;
+        }
+
+        html.light header.app-header, body.light header.app-header {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        html.light .brand-title, body.light .brand-title {
+            color: #0f172a;
+        }
+
+        html.light .btn-header-secondary, body.light .btn-header-secondary {
+            background: rgba(0, 0, 0, 0.04);
+            color: #1e293b;
+            border-color: rgba(0, 0, 0, 0.12);
+        }
+
+        html.light .btn-header-secondary:hover, body.light .btn-header-secondary:hover {
+            background: rgba(0, 0, 0, 0.08);
+            color: #0f172a;
+        }
+
+        html.light aside.screens-sidebar, body.light aside.screens-sidebar {
+            border-right: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        html.light .search-input, body.light .search-input {
+            color: #0f172a;
+            border-color: rgba(0, 0, 0, 0.12);
+        }
+
+        html.light .viewport-toolbar, body.light .viewport-toolbar {
+            background: #ffffff;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        html.light .current-title, body.light .current-title {
+            color: #0f172a;
+        }
+
+        html.light .btn-tool, body.light .btn-tool,
+        html.light .btn-device, body.light .btn-device {
+            background: rgba(0, 0, 0, 0.04);
+            color: #334155;
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        html.light .btn-device.active, body.light .btn-device.active {
+            background: #0284c7;
+            color: #ffffff;
+            border-color: #0284c7;
+        }
+
+        html.light .screen-item:hover, body.light .screen-item:hover {
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+        html.light .screen-item.active, body.light .screen-item.active {
+            background: rgba(2, 132, 199, 0.1);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -578,6 +655,9 @@
         </div>
 
         <div class="header-actions">
+            <button class="btn-header btn-header-secondary" id="stitch-theme-toggle" onclick="toggleStitchTheme()" title="Alternar tema Claro/Escuro">
+                <i class="fa-solid fa-sun" id="stitch-theme-icon"></i> <span id="stitch-theme-text">Claro</span>
+            </button>
             <button class="btn-header btn-header-secondary" onclick="openDesignSystemModal()">
                 <i class="fa-solid fa-swatchbook"></i> Design System & Tokens
             </button>
@@ -928,9 +1008,104 @@
             }
         }
 
+        let currentStitchTheme = "dark";
+
+        function applyThemeToIframe(theme) {
+            const iframe = document.getElementById("screenIframe");
+            if (!iframe) return;
+            try {
+                const doc = iframe.contentDocument || iframe.contentWindow.document;
+                if (doc && doc.documentElement) {
+                    if (theme === "light") {
+                        doc.documentElement.classList.remove("dark");
+                        doc.documentElement.classList.add("light");
+                        if (doc.body) {
+                            doc.body.classList.remove("dark-theme");
+                            doc.body.classList.add("light-theme");
+                        }
+                    } else {
+                        doc.documentElement.classList.add("dark");
+                        doc.documentElement.classList.remove("light");
+                        if (doc.body) {
+                            doc.body.classList.add("dark-theme");
+                            doc.body.classList.remove("light-theme");
+                        }
+                    }
+                }
+            } catch (e) {}
+        }
+
+        function applyStitchTheme(theme, broadcast = true) {
+            currentStitchTheme = (theme === "light") ? "light" : "dark";
+
+            if (currentStitchTheme === "light") {
+                document.documentElement.classList.remove("dark");
+                document.documentElement.classList.add("light");
+                document.body.classList.remove("dark");
+                document.body.classList.add("light");
+            } else {
+                document.documentElement.classList.add("dark");
+                document.documentElement.classList.remove("light");
+                document.body.classList.add("dark");
+                document.body.classList.remove("light");
+            }
+
+            const iconEl = document.getElementById("stitch-theme-icon");
+            const textEl = document.getElementById("stitch-theme-text");
+            const btnEl = document.getElementById("stitch-theme-toggle");
+
+            if (iconEl && textEl && btnEl) {
+                if (currentStitchTheme === "light") {
+                    iconEl.className = "fa-solid fa-moon";
+                    textEl.textContent = "Escuro";
+                    btnEl.title = "Mudar para Tema Escuro";
+                } else {
+                    iconEl.className = "fa-solid fa-sun";
+                    textEl.textContent = "Claro";
+                    btnEl.title = "Mudar para Tema Claro";
+                }
+            }
+
+            applyThemeToIframe(currentStitchTheme);
+
+            try {
+                localStorage.setItem("mdsync_theme", currentStitchTheme);
+            } catch (e) {}
+
+            if (broadcast && typeof SyncBridge !== "undefined" && SyncBridge.emit) {
+                SyncBridge.emit("THEME_CHANGED", { theme: currentStitchTheme });
+            }
+        }
+
+        function toggleStitchTheme() {
+            const next = currentStitchTheme === "light" ? "dark" : "light";
+            applyStitchTheme(next, true);
+        }
+
+        // Ouvinte do barramento SyncBridge
+        if (typeof SyncBridge !== "undefined" && SyncBridge.on) {
+            SyncBridge.on("THEME_CHANGED", (payload, isLocal) => {
+                if (!isLocal && payload && payload.theme && payload.theme !== currentStitchTheme) {
+                    applyStitchTheme(payload.theme, false);
+                }
+            });
+        }
+
         // Inicialização
         document.addEventListener("DOMContentLoaded", () => {
+            try {
+                const savedTheme = localStorage.getItem("mdsync_theme") || "dark";
+                applyStitchTheme(savedTheme, false);
+            } catch (e) {}
+
             selectScreen(0);
+
+            const iframe = document.getElementById("screenIframe");
+            if (iframe) {
+                iframe.addEventListener("load", () => {
+                    applyThemeToIframe(currentStitchTheme);
+                });
+            }
         });
     </script>
 </body>

@@ -446,7 +446,7 @@
 <div class="p-space-xs rounded-lg bg-surface-container">
 <span class="font-label-caps text-[10px] text-on-surface-variant uppercase">Deslocamento Acumulado</span>
 <div class="flex items-baseline gap-1 mt-0.5">
-<span class="font-title-sm text-title-sm text-tertiary font-bold">9.48</span>
+<span class="font-title-sm text-title-sm text-error font-bold">20.00</span>
 <span class="text-body-sm text-on-surface-variant">mm</span>
 </div>
 </div>
@@ -812,17 +812,24 @@
       title.innerText = 'Flash Report FR012 - Hexagon Mining IBIS-FM EVO';
       body.innerHTML = `
         <div class="p-space-sm rounded-xl bg-tertiary/10 text-tertiary font-code-telemetry text-code-telemetry">
-          NÍVEL 3 (CRÍTICO) &bull; Emissão: 04/09/2026 09:24 &bull; Setor: Parede Norte Superior (N_Sup_1231.44)
+          NÍVEL 3 (CRÍTICO) &bull; Janela: 05 a 06/09/2026 &bull; Setor: Parede Norte Superior (N_Sup_1231.44)
         </div>
-        <p><strong>Deslocamento Acumulado:</strong> 9.48 mm | <strong>Velocidade Máxima:</strong> 2.78 mm/h</p>
-        <p><strong>Parecer Geotécnico:</strong> Movimentação provocada por perfuratriz atuando diretamente na crista da bancada (confirmado por Werlen Henrique via rádio/WhatsApp). Talude retornou para desaceleração controlada pós-parada do equipamento.</p>
+        <p><strong>Deslocamento Máximo de Vetor:</strong> 20.00 mm | <strong>Velocidade Máxima:</strong> 2.78 mm/h | <strong>Área Oeste:</strong> -0.25 mm (Estável)</p>
+        <p><strong>Parecer Geotécnico:</strong> Anomalia deformacional confirmada pelo radar Hexagon IBIS-FM EVO 01 com vetor acumulado de 20.00 mm. Ausência de precipitação pluviométrica (0.0 mm). Interdição e isolamento preventivo da crista mantidos conforme TARP N3.</p>
       `;
     } else if (type === 'ortofoto') {
       icon.innerText = 'satellite_alt';
-      title.innerText = 'Ortofoto Satélite HD - Cava Jangada';
+      title.innerText = 'Ortofoto e Mapa de Calor do Radar Hexagon - Cava Jangada';
       body.innerHTML = `
-        <p>Sensoriamento com ortofoto submétrica (0.50m/pixel) cobrindo as bancadas da Cava Jangada em projeção UTM SIRGAS 2000 Zona 23S.</p>
+        <p>Sensoriamento interferométrico e DTM do radar Hexagon Guardian cobrindo as bancadas da Cava Jangada em projeção UTM SIRGAS 2000 Zona 23S.</p>
         <div class="p-space-md rounded-xl bg-surface-container flex flex-col gap-1 font-code-telemetry text-code-telemetry">
+          <span>&bull; Vetor Máximo: +20.00 mm (Crítico)</span>
+          <span>&bull; Setor de Controle (Área Oeste): -0.25 mm (Estável)</span>
+          <span>&bull; Chuva: 0.0 mm (Estiagem)</span>
+        </div>
+        <div class="mt-2 text-center">
+          <img src="assets/radar/hexagon-radar-ortho-zenital.jpg" alt="Ortofoto Radar Hexagon" class="w-full rounded-lg max-h-72 object-contain mx-auto border border-surface-container-highest/60">
+        </div>
           <span>Centróide Cava: Lat -20.094396° / Lon -44.088964°</span>
           <span>Linha de Visada (LoS) Radar: ~240m sem obstruções</span>
         </div>

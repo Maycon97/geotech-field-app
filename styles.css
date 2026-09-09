@@ -3,82 +3,127 @@
    ========================================================================== */
 
 :root {
-    /* Color Palette - Itaminas / Gestão à Vista */
-    --bg-dark-base: #031f33;
-    --bg-dark-sidebar: rgba(3, 30, 49, 0.94);
-    --bg-dark-card: rgba(5, 56, 89, 0.58);
-    --panel-raised: rgba(7, 78, 103, 0.48);
-    --border-color: rgba(92, 189, 186, 0.22);
-    --border-glow: rgba(65, 174, 189, 0.22);
-    
-    --text-primary: #f6fbff;
-    --text-secondary: #b8d0d7;
-    --text-muted: #7fa4af;
-
-    /* Brand Accents */
-    --primary: #41aebd;
-    --primary-hover: #5cbdbf;
-    --primary-glow: rgba(65, 174, 189, 0.34);
-
-    --success: #a2cf49;
-    --success-glow: rgba(162, 207, 73, 0.28);
-    
+    /* Brand Colors (Common) */
+    --primary: #0284c7;
+    --primary-hover: #0369a1;
+    --primary-glow: rgba(2, 132, 199, 0.25);
+    --success: #10b981;
+    --success-glow: rgba(162, 207, 73, 0.24);
     --warning: #fcb11c;
     --warning-glow: rgba(252, 177, 28, 0.30);
-    
-    --orange: #f07f2f;
-    
-    --danger: #d64550;
-    --danger-glow: rgba(214, 69, 80, 0.28);
-    
-    --purple: #97e9d5;
-    --purple-glow: rgba(151, 233, 213, 0.24);
+    --orange: #ea580c;
+    --danger: #ef4444;
+    --danger-glow: rgba(239, 68, 68, 0.25);
+    --purple: #8b5cf6;
+    --purple-glow: rgba(139, 92, 246, 0.22);
 
     /* UI Dimensions */
-    --sidebar-width: 280px;
-    --header-height: 80px;
-    --border-radius-lg: 8px;
+    --sidebar-width: 252px;
+    --header-height: 76px;
+    --border-radius-lg: 12px;
     --border-radius-md: 8px;
     --border-radius-sm: 6px;
 
     /* Transitions */
     --transition-fast: 0.2s ease;
     --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Default Theme: Dark Theme (Mining Command Center) */
+    --bg-base: #0a1322;
+    --bg-base-gradient: radial-gradient(circle at 50% 0%, #11223b 0%, #08101c 100%);
+    --bg-dark-base: #0a1322;
+    --bg-surface: #101c30;
+    --bg-dark-card: #101c30;
+    --bg-surface-elevated: #16263f;
+    --bg-surface-header: rgba(12, 22, 38, 0.92);
+    --bg-input: #0b1524;
+    --panel-raised: #142238;
+    --border-color: rgba(56, 189, 248, 0.16);
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-glow: rgba(56, 189, 248, 0.25);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    --modal-backdrop: rgba(3, 8, 18, 0.85);
+    --table-header-bg: #14233c;
+    --table-row-hover: rgba(56, 189, 248, 0.06);
+    --table-stripe: rgba(255, 255, 255, 0.02);
 }
 
-/* InspectApp-inspired operating shell */
-:root {
-    --bg-dark-base: #f4f8fb;
-    --bg-dark-sidebar: #162535;
+/* Explicit Dark Theme */
+body.dark-theme,
+[data-theme="dark"] {
+    --primary: #38bdf8;
+    --primary-hover: #7dd3fc;
+    --primary-glow: rgba(56, 189, 248, 0.30);
+    --bg-base: #0a1322;
+    --bg-base-gradient: radial-gradient(circle at 50% 0%, #11223b 0%, #08101c 100%);
+    --bg-dark-base: #0a1322;
+    --bg-surface: #101c30;
+    --bg-dark-card: #101c30;
+    --bg-surface-elevated: #16263f;
+    --bg-surface-header: rgba(12, 22, 38, 0.92);
+    --bg-input: #0b1524;
+    --panel-raised: #142238;
+    --border-color: rgba(56, 189, 248, 0.16);
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-glow: rgba(56, 189, 248, 0.25);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    --modal-backdrop: rgba(3, 8, 18, 0.85);
+    --table-header-bg: #14233c;
+    --table-row-hover: rgba(56, 189, 248, 0.06);
+    --table-stripe: rgba(255, 255, 255, 0.02);
+}
+
+/* Explicit Light Theme */
+body.light-theme,
+[data-theme="light"] {
+    --primary: #0284c7;
+    --primary-hover: #0369a1;
+    --primary-glow: rgba(2, 132, 199, 0.20);
+    --bg-base: #f4f7fb;
+    --bg-base-gradient: linear-gradient(180deg, #f8fafc 0%, #edf2f7 100%);
+    --bg-dark-base: #f4f7fb;
+    --bg-surface: #ffffff;
     --bg-dark-card: #ffffff;
-    --panel-raised: #f8fbfd;
-    --border-color: #e1ebf3;
-    --border-glow: rgba(34, 115, 170, 0.16);
-    --text-primary: #162535;
-    --text-secondary: #526579;
-    --text-muted: #7b8b9c;
-    --primary: #2273aa;
-    --primary-hover: #18599f;
-    --primary-glow: rgba(34, 115, 170, 0.18);
-    --success: #36d57b;
-    --success-glow: rgba(54, 213, 123, 0.24);
-    --warning: #ffbc7d;
-    --warning-glow: rgba(255, 188, 125, 0.28);
-    --orange: #f59e0b;
-    --danger: #ff6666;
-    --danger-glow: rgba(255, 102, 102, 0.22);
-    --purple: #4ea9f6;
-    --purple-glow: rgba(78, 169, 246, 0.20);
-    --sidebar-width: 252px;
-    --header-height: 76px;
+    --bg-surface-elevated: #f1f5f9;
+    --bg-surface-header: rgba(255, 255, 255, 0.94);
+    --bg-input: #ffffff;
+    --panel-raised: #f8fafc;
+    --border-color: #d8e2ec;
+    --border-subtle: #e2e8f0;
+    --border-glow: rgba(2, 132, 199, 0.16);
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --card-shadow: 0 4px 18px rgba(22, 37, 53, 0.08);
+    --modal-backdrop: rgba(15, 23, 42, 0.55);
+    --table-header-bg: #f1f5f9;
+    --table-row-hover: rgba(2, 132, 199, 0.05);
+    --table-stripe: rgba(0, 0, 0, 0.015);
+}
+
+body {
+    background: var(--bg-base);
+    color: var(--text-primary);
+    font-family: "Saira", "Inter", "Segoe UI", Arial, sans-serif;
+    transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 body.dark-theme {
     background:
-        linear-gradient(180deg, rgba(34, 115, 170, 0.06), transparent 320px),
-        var(--bg-dark-base);
+        linear-gradient(180deg, rgba(14, 28, 48, 0.90), rgba(7, 16, 28, 0.96)),
+        url("assets/itaminas-layout-bg.jpg") center / cover fixed;
     color: var(--text-primary);
-    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body.light-theme {
+    background: var(--bg-base-gradient);
+    color: var(--text-primary);
 }
 
 body.security-locked {
@@ -99,7 +144,8 @@ body.security-locked .app-container {
     align-items: center;
     justify-content: center;
     padding: 24px;
-    background: rgba(244, 248, 251, 0.92);
+    background: var(--modal-backdrop);
+    backdrop-filter: blur(8px);
 }
 
 .security-gate[hidden] {
@@ -108,10 +154,10 @@ body.security-locked .app-container {
 
 .security-card {
     width: min(100%, 460px);
-    background: #ffffff;
+    background: var(--bg-surface);
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    box-shadow: 0 28px 80px rgba(22, 37, 53, 0.22);
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
     padding: 26px;
 }
 
@@ -247,21 +293,23 @@ body.security-locked .app-container {
 }
 
 .main-content {
-    background: transparent;
+    background: transparent !important;
+}
+
+.content-body {
+    background: transparent !important;
 }
 
 .app-header {
-    background: rgba(255, 255, 255, 0.86);
+    background: var(--bg-surface-header);
     backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+    transition: background 0.25s ease, border-color 0.25s ease;
 }
 
 .header-left h1 {
     color: var(--text-primary);
-}
-
-.content-body {
-    background: transparent;
 }
 
 .btn {
@@ -272,13 +320,19 @@ body.security-locked .app-container {
 .btn-primary {
     background: linear-gradient(135deg, var(--primary), #2394e1);
     color: #ffffff;
-    box-shadow: 0 12px 24px rgba(34, 115, 170, 0.20);
+    box-shadow: 0 8px 20px var(--primary-glow);
 }
 
 .btn-secondary {
-    background: #ffffff;
-    border-color: var(--border-color);
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-color);
     color: var(--text-primary);
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+    border-color: var(--primary);
+    color: var(--primary);
 }
 
 .card,
@@ -287,15 +341,18 @@ body.security-locked .app-container {
 .sync-status-box,
 .accordion-item,
 .anomaly-item {
-    background: var(--bg-dark-card);
+    background: var(--bg-surface);
     border: 1px solid var(--border-color);
-    box-shadow: 0 18px 42px rgba(22, 37, 53, 0.08);
+    box-shadow: var(--card-shadow);
+    color: var(--text-primary);
+    transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .card-header,
 .modal-header {
-    background: #ffffff;
+    background: var(--bg-surface-elevated);
     border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
 }
 
 .card-header h3,
@@ -307,7 +364,7 @@ label,
 
 .kpi-card::after,
 .card::after {
-    background: linear-gradient(135deg, rgba(34, 115, 170, 0.06), transparent 38%, rgba(54, 213, 123, 0.05));
+    background: linear-gradient(135deg, var(--primary-glow), transparent 45%);
 }
 
 .kpi-value {
@@ -315,31 +372,15 @@ label,
 }
 
 .form-control {
-    background: #ffffff;
-    border-color: #d8e5ee;
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
     color: var(--text-primary);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
 .form-control:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(34, 115, 170, 0.12);
-}
-
-/* Final GeoView/Gestao Diaria cascade lock */
-body.dark-theme {
-    background:
-        linear-gradient(90deg, rgba(2, 34, 48, 0.88), rgba(4, 76, 98, 0.70) 42%, rgba(4, 28, 42, 0.92)),
-        url("assets/itaminas-layout-bg.jpg") center / cover fixed;
-}
-
-.main-content {
-    background: rgba(244, 248, 251, 0.92);
-}
-
-@media (pointer: coarse) {
-    body.dark-theme {
-        background-attachment: scroll;
-    }
+    box-shadow: 0 0 0 3px var(--primary-glow);
 }
 
 /* Checklist veicular baseado no formulário público do Survey123 */
@@ -507,7 +548,7 @@ body .vehicle-check-item {
     padding: 12px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: #ffffff;
+    background: var(--bg-surface);
 }
 
 body .vehicle-check-item.answered {
@@ -934,7 +975,7 @@ body #georef-reference-coordinate {
     padding: 10px;
     border: 1px solid var(--border-color);
     border-radius: 7px;
-    background: #ffffff;
+    background: var(--bg-surface-elevated);
 }
 
 .corporate-sync-stats strong {
@@ -2270,12 +2311,6 @@ body.android-shell .apk-hidden {
     pointer-events: none;
 }
 
-body.dark-theme {
-    background:
-        linear-gradient(90deg, rgba(2, 34, 48, 0.88), rgba(4, 76, 98, 0.70) 42%, rgba(4, 28, 42, 0.92)),
-        url("assets/itaminas-layout-bg.jpg") center / cover fixed;
-}
-
 body.dark-theme::after {
     content: "GESTAO DIARIA";
     position: fixed;
@@ -2283,12 +2318,16 @@ body.dark-theme::after {
     left: var(--sidebar-width);
     right: 0;
     z-index: 0;
-    color: rgba(255, 255, 255, 0.09);
+    color: rgba(255, 255, 255, 0.035);
     font-size: clamp(34px, 5vw, 72px);
     font-weight: 900;
     line-height: 1;
     text-align: center;
     pointer-events: none;
+}
+
+body.light-theme::after {
+    display: none;
 }
 
 .app-container {
@@ -2297,7 +2336,7 @@ body.dark-theme::after {
 }
 
 .main-content {
-    background: rgba(244, 248, 251, 0.92);
+    background: transparent !important;
 }
 
 .geoview-hero-card .card-body {
@@ -2310,9 +2349,9 @@ body.dark-theme::after {
     gap: 12px;
     align-items: center;
     padding: 12px 14px;
-    border: 1px solid #d8e8f0;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: #f8fbfd;
+    background: var(--bg-surface-elevated);
     color: var(--text-secondary);
 }
 
@@ -2335,9 +2374,9 @@ body.dark-theme::after {
     gap: 12px;
     align-items: end;
     padding: 14px;
-    border: 1px solid #d8e8f0;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: #f8fbfd;
+    background: var(--bg-surface-elevated);
 }
 
 .geoview-control-grid .form-group {
@@ -2369,9 +2408,9 @@ body.dark-theme::after {
 
 .geoview-kpi {
     padding: 16px;
-    border: 1px solid #d8e8f0;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: #ffffff;
+    background: var(--bg-surface);
 }
 
 .geoview-kpi span,
@@ -2401,9 +2440,9 @@ body.dark-theme::after {
 .geoview-chart-panel {
     min-height: 210px;
     padding: 14px;
-    border: 1px solid #d8e8f0;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: #ffffff;
+    background: var(--bg-surface);
 }
 
 .geoview-chart-title {
@@ -2665,8 +2704,8 @@ body.dark-theme::after {
     padding: 18px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: #ffffff;
-    box-shadow: 0 14px 34px rgba(22, 37, 53, 0.08);
+    background: var(--bg-surface);
+    box-shadow: var(--card-shadow);
 }
 
 .geoview-card-head strong {
@@ -2694,7 +2733,7 @@ body.dark-theme::after {
 .geoview-card-metrics span {
     padding: 9px 10px;
     border-radius: 8px;
-    background: #f5f9fc;
+    background: var(--bg-surface-elevated);
     color: var(--text-secondary);
     font-size: 12px;
     font-weight: 700;
@@ -2709,7 +2748,7 @@ body.dark-theme::after {
     padding: 10px;
     border-left: 3px solid var(--primary);
     border-radius: 6px;
-    background: #f8fbfd;
+    background: var(--bg-surface-elevated);
     color: var(--text-secondary);
     font-size: 13px;
     line-height: 1.4;
@@ -2726,7 +2765,7 @@ body.dark-theme::after {
     gap: 8px;
     align-items: center;
     padding: 8px 0;
-    border-bottom: 1px dashed #d8e8f0;
+    border-bottom: 1px dashed var(--border-color);
     color: var(--text-primary);
     font-size: 13px;
 }
@@ -2766,7 +2805,7 @@ body.dark-theme::after {
     padding: 12px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: #ffffff;
+    background: var(--bg-surface);
 }
 
 .geoview-map-card img,
@@ -2962,7 +3001,7 @@ button,
     padding: 12px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: #ffffff;
+    background: var(--bg-surface-elevated);
 }
 
 .release-detail-list span {
@@ -3085,7 +3124,7 @@ button,
     padding: 14px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: #ffffff;
+    background: var(--bg-surface);
 }
 
 .georef-kpi strong,
@@ -3191,7 +3230,8 @@ body.dark-theme {
     padding: 8px 10px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: #ffffff;
+    background: var(--bg-surface-elevated);
+    color: var(--text-primary);
     cursor: pointer;
     white-space: nowrap;
 }
@@ -3261,8 +3301,8 @@ body.dark-theme {
     padding: 13px 14px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: #ffffff;
-    box-shadow: 0 10px 22px rgba(22, 37, 53, 0.05);
+    background: var(--bg-surface);
+    box-shadow: var(--card-shadow);
 }
 
 .survey-anomaly-item.answered {
@@ -3318,7 +3358,7 @@ body.dark-theme {
     padding: 8px 12px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: #f8fbfd;
+    background: var(--bg-surface-elevated);
     color: var(--text-secondary);
     font-weight: 800;
 }
@@ -3340,7 +3380,7 @@ body.dark-theme {
     grid-template-columns: minmax(0, 1fr) minmax(180px, 240px);
     gap: 10px;
     padding-top: 10px;
-    border-top: 1px dashed #d8e5ee;
+    border-top: 1px dashed var(--border-color);
 }
 
 .anomaly-photo-action,
@@ -3356,7 +3396,7 @@ body.dark-theme {
 .anomaly-photo-action {
     grid-column: 1 / -1;
     border: 1px dashed rgba(34, 115, 170, 0.30);
-    background: #ffffff;
+    background: var(--bg-surface-elevated);
     color: var(--text-primary);
     text-align: left;
     cursor: pointer;
@@ -3483,11 +3523,11 @@ body.dark-theme {
 .phone-preview {
     min-height: 250px;
     padding: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.20);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: #ffffff;
+    background: var(--bg-surface);
     color: var(--text-primary);
-    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.18);
+    box-shadow: var(--card-shadow);
 }
 
 .phone-topbar {
@@ -3510,7 +3550,7 @@ body.dark-theme {
     margin-top: 10px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: #f8fbfd;
+    background: var(--bg-surface-elevated);
     font-weight: 700;
 }
 
@@ -3549,11 +3589,11 @@ body.dark-theme {
     padding: 14px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: #ffffff;
+    background: var(--bg-surface);
     color: var(--text-primary);
     text-align: left;
     cursor: pointer;
-    box-shadow: 0 12px 26px rgba(22, 37, 53, 0.07);
+    box-shadow: var(--card-shadow);
     transition: transform var(--transition-fast), border-color var(--transition-fast);
 }
 
@@ -3682,15 +3722,15 @@ body.dark-theme {
     padding: 8px 12px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: #ffffff;
+    background: var(--bg-surface-elevated);
     color: var(--text-primary);
     font-weight: 700;
     cursor: pointer;
 }
 
 .template-pill.active {
-    border-color: rgba(34, 115, 170, 0.34);
-    background: rgba(34, 115, 170, 0.10);
+    border-color: var(--primary);
+    background: var(--primary-glow);
     color: var(--primary);
 }
 
@@ -3705,7 +3745,7 @@ body.dark-theme {
     padding: 14px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: #f8fbfd;
+    background: var(--bg-surface-elevated);
 }
 
 .checklist-progress > div:first-child,
@@ -3718,7 +3758,7 @@ body.dark-theme {
     width: min(220px, 38%);
     height: 10px;
     border-radius: 999px;
-    background: #e6eff6;
+    background: var(--border-color);
     overflow: hidden;
 }
 
@@ -3736,7 +3776,7 @@ body.dark-theme {
     gap: 8px;
     padding: 8px 10px;
     border-radius: 8px;
-    background: #ffffff;
+    background: var(--bg-surface-elevated);
     border: 1px solid var(--border-color);
     color: var(--text-primary);
     font-weight: 700;
@@ -3764,7 +3804,7 @@ body.dark-theme {
     padding: 14px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: #f8fbfd;
+    background: var(--bg-surface);
     display: grid;
     align-content: center;
     gap: 6px;
@@ -3815,7 +3855,7 @@ body.dark-theme {
     padding: 14px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: #f8fbfd;
+    background: var(--bg-surface-elevated);
 }
 
 .report-structure-filter strong,
@@ -3841,7 +3881,7 @@ body.dark-theme {
     padding: 8px 12px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: #ffffff;
+    background: var(--bg-surface-elevated);
     color: var(--text-primary);
     font-size: 12px;
     font-weight: 800;
@@ -3858,7 +3898,7 @@ body.dark-theme {
     background: var(--primary);
     border-color: var(--primary);
     color: #ffffff;
-    box-shadow: 0 8px 18px rgba(34, 115, 170, 0.18);
+    box-shadow: 0 8px 18px var(--primary-glow);
 }
 
 .report-chip {
@@ -3869,7 +3909,7 @@ body.dark-theme {
     padding: 6px 10px;
     border-radius: 8px;
     border: 1px solid var(--border-color);
-    background: #ffffff;
+    background: var(--bg-surface-elevated);
     color: var(--text-primary);
     font-size: 12px;
     font-weight: 800;
@@ -5809,23 +5849,15 @@ label,
     }
 }
 
-/* Final InspectApp shell overrides */
-body.dark-theme {
-    background:
-        linear-gradient(180deg, rgba(34, 115, 170, 0.06), transparent 320px),
-        var(--bg-dark-base);
-    color: var(--text-primary);
-    font-family: "Saira", "Inter", sans-serif;
-}
-
+/* Sidebar Navigation Shell */
 .sidebar {
-    background: linear-gradient(180deg, #162535 0%, #112033 100%);
-    border-right: 0;
-    box-shadow: 14px 0 32px rgba(22, 37, 53, 0.10);
+    background: linear-gradient(180deg, #101c30 0%, #0a1322 100%);
+    border-right: 1px solid var(--border-color);
+    box-shadow: 14px 0 32px rgba(0, 0, 0, 0.25);
 }
 
 .logo-container {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .logo-title,
@@ -5861,95 +5893,6 @@ body.dark-theme {
     background: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.14);
     color: #ffffff;
-}
-
-.main-content,
-.content-body {
-    background: transparent;
-}
-
-.app-header {
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border-color);
-}
-
-.header-left h1,
-.card-header h3,
-.kpi-header,
-label,
-.section-title {
-    color: var(--text-primary);
-}
-
-.btn {
-    border-radius: 8px;
-    font-weight: 700;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, var(--primary), #2394e1);
-    color: #ffffff;
-    box-shadow: 0 12px 24px rgba(34, 115, 170, 0.20);
-}
-
-.btn-secondary {
-    background: #ffffff;
-    border-color: var(--border-color);
-    color: var(--text-primary);
-}
-
-.card,
-.kpi-card,
-.modal-content,
-.sync-status-box,
-.accordion-item,
-.anomaly-item {
-    background: var(--bg-dark-card);
-    border: 1px solid var(--border-color);
-    box-shadow: 0 18px 42px rgba(22, 37, 53, 0.08);
-}
-
-.card-header,
-.modal-header {
-    background: #ffffff;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.kpi-card::after,
-.card::after {
-    background: linear-gradient(135deg, rgba(34, 115, 170, 0.06), transparent 38%, rgba(54, 213, 123, 0.05));
-}
-
-.kpi-value {
-    color: var(--primary);
-}
-
-.form-control {
-    background: #ffffff;
-    border-color: #d8e5ee;
-    color: var(--text-primary);
-}
-
-.form-control:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(34, 115, 170, 0.12);
-}
-/* Final GeoView/Gestao Diaria cascade lock */
-body.dark-theme {
-    background:
-        linear-gradient(90deg, rgba(2, 34, 48, 0.88), rgba(4, 76, 98, 0.70) 42%, rgba(4, 28, 42, 0.92)),
-        url("assets/itaminas-layout-bg.jpg") center / cover fixed;
-}
-
-.main-content {
-    background: rgba(244, 248, 251, 0.92);
-}
-
-@media (pointer: coarse) {
-    body.dark-theme {
-        background-attachment: scroll;
-    }
 }
 
 /* ==========================================================================
@@ -9055,7 +8998,7 @@ body.dark-theme .hash-badge {
     min-height: 42px;
     padding: 8px 12px;
     border-radius: 8px;
-    background: #ffffff;
+    background: var(--bg-surface-elevated);
     border: 1px solid var(--border-color);
     color: var(--text-primary);
     font-size: 1.15rem;
@@ -9065,7 +9008,7 @@ body.dark-theme .hash-badge {
 }
 
 .mobile-menu-toggle:hover {
-    background: #f1f5f9;
+    background: var(--border-color);
     transform: translateY(-1px);
 }
 
@@ -9098,9 +9041,9 @@ body.dark-theme .hash-badge {
     gap: 10px;
     padding: 6px 14px;
     border-radius: 30px;
-    background: #ffffff;
-    border: 1px solid #d8e5ee;
-    box-shadow: 0 4px 14px rgba(22, 37, 53, 0.06);
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
     cursor: pointer;
     transition: all 0.2s ease;
     user-select: none;
@@ -9108,7 +9051,7 @@ body.dark-theme .hash-badge {
 
 .cloud-live-pill:hover {
     border-color: var(--primary);
-    box-shadow: 0 6px 18px rgba(34, 115, 170, 0.14);
+    box-shadow: 0 6px 18px var(--primary-glow);
     transform: translateY(-1px);
 }
 
@@ -9183,16 +9126,16 @@ body.dark-theme .hash-badge {
     gap: 8px;
     padding: 4px 10px 4px 4px;
     border-radius: 24px;
-    background: #ffffff;
-    border: 1px solid #d8e5ee;
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-color);
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(22, 37, 53, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
     transition: all 0.2s ease;
 }
 
 .user-quick-badge:hover {
     border-color: var(--primary);
-    box-shadow: 0 6px 16px rgba(34, 115, 170, 0.12);
+    box-shadow: 0 6px 16px var(--primary-glow);
 }
 
 .user-badge-avatar {
@@ -9225,9 +9168,9 @@ body.dark-theme .hash-badge {
 }
 
 .auth-hero-card {
-    background: linear-gradient(135deg, #ffffff 0%, #f0f7fc 100%);
-    border: 1px solid #c9e0f0;
-    box-shadow: 0 10px 30px rgba(34, 115, 170, 0.07);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--card-shadow);
 }
 
 .auth-hero-body {
@@ -9348,8 +9291,8 @@ body.dark-theme .hash-badge {
     align-items: center;
     padding: 8px 12px;
     border-radius: 6px;
-    background: #ffffff;
-    border: 1px solid #eef3f7;
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-color);
     font-size: 0.82rem;
 }
 
@@ -9366,7 +9309,7 @@ body.dark-theme .hash-badge {
 
 /* Quick Operator Switcher */
 .auth-quick-section {
-    border-top: 1px solid #eef3f7;
+    border-top: 1px solid var(--border-color);
     padding-top: 14px;
 }
 
@@ -9392,8 +9335,8 @@ body.dark-theme .hash-badge {
     gap: 12px;
     padding: 8px 12px;
     border-radius: 6px;
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-color);
     cursor: pointer;
     text-align: left;
     transition: all 0.2s ease;
@@ -9402,13 +9345,13 @@ body.dark-theme .hash-badge {
 
 .auth-quick-btn:hover {
     border-color: var(--primary);
-    background: #f8fbfd;
+    background: var(--border-color);
     transform: translateX(2px);
 }
 
 .auth-quick-btn.is-active {
     border-color: #10b981;
-    background: #f0fdf4;
+    background: rgba(16, 185, 129, 0.15);
 }
 
 .auth-quick-avatar {
@@ -9447,7 +9390,7 @@ body.dark-theme .hash-badge {
 /* Auth Nav Tabs */
 .auth-tabs-header {
     padding: 0;
-    background: #f8fbfd;
+    background: var(--bg-surface-elevated);
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -9475,12 +9418,12 @@ body.dark-theme .hash-badge {
 
 .auth-tab-btn:hover {
     color: var(--primary);
-    background: rgba(34, 115, 170, 0.04);
+    background: var(--primary-glow);
 }
 
 .auth-tab-btn.active {
     color: var(--primary);
-    background: #ffffff;
+    background: var(--bg-surface);
     border-bottom-color: var(--primary);
 }
 
@@ -10490,5 +10433,2056 @@ textarea.form-control:focus {
     line-height: 1.3;
 }
 
+/* ==========================================================================
+   TEMA CLARO & ESCURO - REFINAMENTOS DE CONTRASTE & COBERTURA INTEGRAL
+   ========================================================================== */
 
+/* Tabelas e dados tabulares */
+table,
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--text-primary);
+}
+
+table thead th,
+.data-table thead th {
+    background: var(--table-header-bg);
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--border-color);
+    font-weight: 700;
+}
+
+table tbody tr,
+.data-table tbody tr {
+    border-bottom: 1px solid var(--border-subtle);
+    background: transparent;
+    transition: background 0.15s ease;
+}
+
+table tbody tr:hover,
+.data-table tbody tr:hover {
+    background: var(--table-row-hover);
+}
+
+table tbody td,
+.data-table tbody td {
+    color: var(--text-primary);
+}
+
+/* Formulários e campos de entrada */
+select,
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="search"],
+textarea {
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+}
+
+select:focus,
+input:focus,
+textarea:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+/* Cartões de atividades e mini KPIs da Rotina Diária */
+body.light-theme .activity-card {
+    background: var(--bg-surface);
+    border-color: var(--border-color);
+    box-shadow: var(--card-shadow);
+}
+body.light-theme .activity-card-title {
+    color: var(--text-primary);
+}
+body.light-theme .activity-card-subtitle {
+    color: var(--text-secondary);
+}
+body.light-theme .activity-card-stats {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+body.light-theme .activity-card-stats span {
+    color: #64748b;
+}
+body.light-theme .activity-card-stats strong {
+    color: #0f172a;
+}
+body.light-theme .activity-card-desc {
+    color: #334155;
+}
+body.light-theme .mini-kpi-box {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+}
+body.light-theme .mini-kpi-box span {
+    color: #64748b;
+}
+body.light-theme .mini-kpi-box strong {
+    color: #0f172a;
+}
+body.light-theme .team-member-name {
+    color: #0f172a;
+}
+body.light-theme .team-member-role {
+    color: #475569;
+}
+body.light-theme .team-member-tag {
+    background: rgba(0, 0, 0, 0.05);
+    color: #334155;
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Checklist Veicular */
+body.dark-theme .vehicle-file-action {
+    background: var(--bg-surface-elevated);
+    border: 1px dashed var(--border-color);
+    color: var(--text-primary);
+}
+body.dark-theme .vehicle-file-action:hover {
+    background: var(--bg-surface);
+    border-color: var(--primary);
+}
+body.dark-theme .vehicle-condition span {
+    background: var(--bg-surface-elevated);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+body.dark-theme .vehicle-checklist-summary {
+    background: var(--bg-surface-elevated);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+/* ==========================================================================
+   GEOVIEW & GIS 3D INTERATIVO (COCKPIT CAVA JANGADA & RADAR IBIS-FM)
+   ========================================================================== */
+
+.geoview-3d-cockpit-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: calc(100vh - 120px);
+    border-radius: 14px;
+    overflow: hidden;
+    background: #050d23;
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+    position: relative;
+    margin-bottom: 24px;
+}
+
+/* Header de Operação do Cockpit */
+.geoview-cockpit-header {
+    height: 56px;
+    background: rgba(10, 18, 40, 0.95);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 30;
+    backdrop-filter: blur(14px);
+}
+
+.geoview-brand-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.geoview-structure-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(14, 165, 233, 0.12);
+    border: 1px solid rgba(14, 165, 233, 0.35);
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #89ceff;
+}
+
+.geoview-structure-pill .radar-pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 10px #10b981;
+}
+
+.geoview-header-right-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.geoview-offline-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #cbd5e1;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: var(--font-mono, monospace);
+}
+
+/* Palco Central e Painel Lateral */
+.geoview-stage-wrapper {
+    display: flex;
+    flex: 1;
+    min-height: 640px;
+    position: relative;
+    overflow: hidden;
+}
+
+.geoview-viewport-3d {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 50%, #0c1834 0%, #050d23 100%);
+    user-select: none;
+}
+
+#geoview-threejs-mount {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+/* Radar Sweep Overlay */
+.geoview-radar-sweep {
+    position: absolute;
+    bottom: 30px;
+    left: 46%;
+    transform: translateX(-50%);
+    width: 620px;
+    height: 620px;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.35;
+}
+
+.radar-sweep-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 1px solid rgba(14, 165, 233, 0.25);
+    background: conic-gradient(from 0deg at 50% 50%, rgba(14, 165, 233, 0.35) 0deg, rgba(14, 165, 233, 0.08) 45deg, transparent 75deg, transparent 360deg);
+    animation: radar-sweep 4.5s linear infinite;
+    transform-origin: center center;
+}
+
+/* Grade Cartográfica e Telemetria SVG */
+.geoview-svg-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 3;
+}
+
+/* HUD Topo Esquerdo */
+.geoview-hud-coords {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    pointer-events: none;
+}
+
+.geoview-hud-bar {
+    background: rgba(5, 13, 35, 0.88);
+    backdrop-filter: blur(10px);
+    padding: 7px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    pointer-events: auto;
+    font-family: var(--font-mono, monospace);
+    font-size: 11px;
+}
+
+.geoview-hud-bar .coord-label {
+    color: #38bdf8;
+    font-weight: 800;
+}
+
+.geoview-hud-bar .coord-value {
+    color: #f8fafc;
+    font-weight: 700;
+}
+
+.geoview-hud-params {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    pointer-events: auto;
+}
+
+.geoview-param-tag {
+    font-size: 10px;
+    color: #94a3b8;
+    background: rgba(5, 13, 35, 0.85);
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-family: var(--font-mono, monospace);
+}
+
+.geoview-param-tag.highlight {
+    color: #38bdf8;
+    border-color: rgba(56, 189, 248, 0.35);
+    box-shadow: 0 0 8px rgba(14, 165, 233, 0.2);
+}
+
+/* Alvo Crítico TARP N3 */
+.geoview-target-aoi {
+    position: absolute;
+    top: 24%;
+    left: 33%;
+    transform: translate(-50%, -50%);
+    z-index: 15;
+}
+
+.geoview-target-rings {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.geoview-target-rings .ring-outer {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(239, 68, 68, 0.25);
+    animation: ping-slow 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.geoview-target-rings .ring-center {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #ef4444;
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 16px #ef4444;
+}
+
+.geoview-target-card {
+    position: absolute;
+    left: 42px;
+    top: -30px;
+    width: 300px;
+    background: rgba(19, 27, 49, 0.96);
+    backdrop-filter: blur(12px);
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 18px rgba(239, 68, 68, 0.25);
+    pointer-events: auto;
+    transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1), opacity 0.25s ease;
+}
+
+.geoview-target-aoi.minimized .geoview-target-card {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-10px, 0) scale(0.9);
+}
+
+.geoview-target-card:hover {
+    transform: scale(1.02);
+}
+
+.geoview-target-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.geoview-target-title {
+    font-size: 11px;
+    font-weight: 800;
+    color: #ef4444;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.geoview-tarp-tag {
+    background: #ef4444;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+}
+
+.geoview-target-sector {
+    font-size: 13px;
+    font-weight: 700;
+    color: #f8fafc;
+    margin-bottom: 8px;
+}
+
+.geoview-target-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    background: rgba(5, 13, 35, 0.7);
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 8px;
+}
+
+.geoview-target-stats span {
+    display: block;
+    font-size: 10px;
+    color: #94a3b8;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.geoview-target-stats strong {
+    font-size: 13px;
+    font-family: var(--font-mono, monospace);
+    font-weight: 800;
+}
+
+.geoview-target-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 10px;
+    color: #94a3b8;
+}
+
+.geoview-target-footer a {
+    color: #38bdf8;
+    text-decoration: none;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.geoview-target-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Pinos Flutuantes de Sensores */
+.geoview-sensor-pin {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 12;
+    background: rgba(19, 27, 49, 0.92);
+    backdrop-filter: blur(6px);
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-family: var(--font-mono, monospace);
+    font-weight: 700;
+    color: #38bdf8;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.geoview-sensor-pin:hover {
+    transform: translate(-50%, -50%) scale(1.08);
+    border-color: #38bdf8;
+    box-shadow: 0 0 14px rgba(56, 189, 248, 0.5);
+}
+
+.geoview-sensor-pin.active-focus {
+    background: linear-gradient(135deg, #0ea5e9, #0284c7);
+    color: #ffffff;
+    border-color: #89ceff;
+    box-shadow: 0 0 20px rgba(14, 165, 233, 0.6);
+}
+
+.geoview-sensor-pin.status-alert {
+    color: #fbbf24;
+    border-color: rgba(251, 191, 36, 0.4);
+}
+
+.geoview-sensor-pin .pin-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 6px #10b981;
+}
+
+.geoview-sensor-pin.status-alert .pin-dot {
+    background: #fbbf24;
+    box-shadow: 0 0 6px #fbbf24;
+}
+
+/* Bússola e Controles de Câmera */
+.geoview-hud-bottom-controls {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    z-index: 10;
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    pointer-events: none;
+}
+
+.geoview-compass {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(5, 13, 35, 0.92);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: border-color 0.2s;
+}
+
+.geoview-compass:hover {
+    border-color: #38bdf8;
+}
+
+.compass-rose {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.compass-rose .point-n {
+    position: absolute;
+    top: 3px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #ef4444;
+}
+
+.compass-rose .point-s {
+    position: absolute;
+    bottom: 3px;
+    font-size: 9px;
+    color: #94a3b8;
+}
+
+.compass-rose .point-l {
+    position: absolute;
+    right: 4px;
+    font-size: 9px;
+    color: #94a3b8;
+}
+
+.compass-rose .point-o {
+    position: absolute;
+    left: 4px;
+    font-size: 9px;
+    color: #94a3b8;
+}
+
+.compass-needle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 3px;
+    height: 28px;
+    background: linear-gradient(to bottom, #ef4444 50%, #38bdf8 50%);
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+    border-radius: 2px;
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+    transition: transform 0.12s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.geoview-toolbar-pills {
+    background: rgba(5, 13, 35, 0.92);
+    backdrop-filter: blur(10px);
+    padding: 4px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+    pointer-events: auto;
+}
+
+.geoview-btn-ctrl {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.15s ease;
+}
+
+.geoview-btn-ctrl:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+}
+
+.geoview-btn-ctrl.active {
+    background: rgba(14, 165, 233, 0.25);
+    color: #38bdf8;
+    border: 1px solid rgba(14, 165, 233, 0.4);
+}
+
+.geoview-scale-bar {
+    background: rgba(5, 13, 35, 0.92);
+    backdrop-filter: blur(10px);
+    padding: 6px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    pointer-events: auto;
+}
+
+.scale-ticks {
+    display: flex;
+    justify-content: space-between;
+    width: 100px;
+    font-size: 9px;
+    font-family: var(--font-mono, monospace);
+    color: #94a3b8;
+}
+
+.scale-line {
+    width: 100px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+.scale-line::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: #38bdf8;
+}
+
+/* Painel Lateral Direito (Analytics de Estabilidade) */
+.geoview-side-analytics {
+    width: 380px;
+    background: rgba(8, 16, 36, 0.96);
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: auto;
+    z-index: 20;
+    box-shadow: -8px 0 28px rgba(0, 0, 0, 0.5);
+}
+
+.geoview-analytics-content {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.geoview-side-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.geoview-side-header .title-wrap {
+    display: flex;
+    flex-direction: column;
+}
+
+.geoview-side-header .title-wrap span {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #94a3b8;
+    font-weight: 700;
+}
+
+.geoview-side-header .title-wrap h3 {
+    font-size: 14px;
+    color: #f8fafc;
+    margin: 0;
+    font-weight: 700;
+}
+
+.geoview-tarp-banner {
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 0 16px rgba(239, 68, 68, 0.2);
+}
+
+.geoview-tarp-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.geoview-tarp-info .tarp-pulse {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ef4444;
+    box-shadow: 0 0 10px #ef4444;
+    animation: ping-slow 2s infinite;
+}
+
+.geoview-tarp-info h4 {
+    margin: 0;
+    font-size: 12px;
+    color: #ef4444;
+    font-weight: 800;
+}
+
+.geoview-tarp-info p {
+    margin: 2px 0 0;
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+.geoview-tarp-value {
+    background: #ef4444;
+    color: #ffffff;
+    font-family: var(--font-mono, monospace);
+    font-size: 12px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 6px;
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+}
+
+.geoview-analytics-card {
+    background: rgba(19, 27, 49, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.geoview-card-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.geoview-card-title-row strong {
+    font-size: 12px;
+    color: #f8fafc;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.geoview-card-badge {
+    font-size: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #94a3b8;
+    font-family: var(--font-mono, monospace);
+}
+
+.geoview-section-svg-wrap {
+    width: 100%;
+    height: 120px;
+    background: rgba(5, 13, 35, 0.8);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    overflow: hidden;
+}
+
+.geoview-elevation-levels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: #94a3b8;
+    font-family: var(--font-mono, monospace);
+}
+
+.geoview-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.geoview-action-btn {
+    background: rgba(19, 27, 49, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 10px;
+    color: #f8fafc;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.geoview-action-btn:hover {
+    background: rgba(14, 165, 233, 0.18);
+    border-color: rgba(14, 165, 233, 0.45);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(14, 165, 233, 0.25);
+}
+
+.geoview-action-btn i {
+    font-size: 14px;
+}
+
+.geoview-side-footer {
+    padding: 12px 16px;
+    background: rgba(5, 13, 35, 0.95);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.geoview-inspector-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.geoview-inspector-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(14, 165, 233, 0.2);
+    border: 1px solid rgba(14, 165, 233, 0.4);
+    color: #38bdf8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.geoview-inspector-meta span {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #f8fafc;
+}
+
+.geoview-inspector-meta small {
+    display: block;
+    font-size: 9px;
+    color: #94a3b8;
+}
+
+.btn-notificar-cgo {
+    background: linear-gradient(135deg, #0ea5e9, #0284c7);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(14, 165, 233, 0.4);
+    transition: all 0.2s ease;
+}
+
+.btn-notificar-cgo:hover {
+    filter: brightness(1.15);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(14, 165, 233, 0.6);
+}
+
+/* Rodapé de Telemetria Inferior */
+.geoview-telemetry-footer {
+    height: 44px;
+    background: #050d23;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    font-size: 11px;
+    color: #94a3b8;
+    font-family: var(--font-mono, monospace);
+    z-index: 25;
+}
+
+.geoview-telemetry-footer-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.geoview-quick-switch-pills {
+    display: flex;
+    gap: 6px;
+}
+
+.geoview-quick-pill {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
+    background: rgba(255, 255, 255, 0.04);
+    transition: all 0.2s ease;
+}
+
+.geoview-quick-pill:hover,
+.geoview-quick-pill.active {
+    background: rgba(14, 165, 233, 0.2);
+    border-color: rgba(14, 165, 233, 0.4);
+    color: #38bdf8;
+}
+
+.geoview-legacy-details {
+    margin-top: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--bg-surface);
+    overflow: hidden;
+}
+
+.geoview-legacy-details summary {
+    padding: 12px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    cursor: pointer;
+    background: var(--bg-surface-elevated);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.geoview-legacy-content {
+    padding: 16px;
+}
+
+@media (max-width: 1024px) {
+    .geoview-stage-wrapper {
+        flex-direction: column;
+    }
+    .geoview-side-analytics {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+}
+
+/* ==========================================================================
+   ANIMACOES E KEYFRAMES DO COCKPIT GEOVIEW 3D & RADAR IBIS-FM
+   ========================================================================== */
+
+@keyframes radar-sweep {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes ping-slow {
+    0% { transform: scale(1); opacity: 0.95; }
+    75%, 100% { transform: scale(2.3); opacity: 0; }
+}
+
+@keyframes pulse-dot {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.4); opacity: 0.65; }
+}
+
+@keyframes telemetry-flow {
+    0% { stroke-dashoffset: 120; }
+    100% { stroke-dashoffset: 0; }
+}
+
+.radar-pulse-dot {
+    animation: pulse-dot 1.8s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   VISUALIZADOR OFICIAL DE ORTOFOTO E TELEMETRIA DO RADAR HEXAGON (CAVA JANGADA)
+   ========================================================================== */
+
+.radar-ortho-monitoring-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 20px;
+    overflow: hidden;
+    transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.radar-ortho-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    background: var(--bg-surface-elevated);
+    border-bottom: 1px solid var(--border-color);
+    flex-wrap: wrap;
+}
+
+.radar-ortho-title-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.radar-ortho-icon-chip {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(14, 165, 233, 0.15);
+    border: 1px solid rgba(14, 165, 233, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #38bdf8;
+    font-size: 18px;
+}
+
+.radar-ortho-title-text h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.radar-ortho-title-text p {
+    margin: 2px 0 0 0;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.radar-ortho-view-switcher {
+    display: inline-flex;
+    background: var(--bg-base);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 3px;
+    gap: 4px;
+}
+
+.btn-ortho-view {
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn-ortho-view:hover {
+    color: var(--text-primary);
+    background: var(--bg-surface-elevated);
+}
+
+.btn-ortho-view.active {
+    background: #0284c7;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35);
+}
+
+.radar-ortho-stage {
+    position: relative;
+    background: #040914;
+    min-height: 480px;
+    max-height: 620px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: grab;
+}
+
+.radar-ortho-stage:active {
+    cursor: grabbing;
+}
+
+.radar-ortho-viewport {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.radar-ortho-img {
+    max-width: 100%;
+    max-height: 580px;
+    object-fit: contain;
+    border-radius: 4px;
+    transition: transform 0.15s ease-out;
+    transform-origin: center center;
+    user-select: none;
+    pointer-events: auto;
+}
+
+/* Escala Cromatica Lateral do Radar Hexagon Guardian */
+.radar-ortho-chroma-scale {
+    position: absolute;
+    right: 18px;
+    top: 20px;
+    bottom: 24px;
+    width: 64px;
+    background: rgba(10, 18, 36, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 10px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(8px);
+    z-index: 10;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+.chroma-scale-unit {
+    font-size: 11px;
+    font-weight: 700;
+    color: #38bdf8;
+    font-family: var(--font-mono, monospace);
+    text-align: center;
+}
+
+.chroma-scale-bar {
+    width: 14px;
+    flex: 1;
+    margin: 8px 0;
+    border-radius: 3px;
+    background: linear-gradient(to bottom,
+        #7f0000 0%,
+        #d32f2f 15%,
+        #f57c00 35%,
+        #fbc02d 50%,
+        #38bdf8 70%,
+        #1976d2 85%,
+        #0d47a1 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.4);
+}
+
+.chroma-scale-ticks {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: var(--font-mono, monospace);
+    font-size: 10px;
+    font-weight: 600;
+    color: #e2e8f0;
+    text-align: right;
+    height: 100%;
+}
+
+.chroma-scale-ticks span {
+    line-height: 1;
+}
+
+/* Badge de Informacoes da Estacao Base e Alvo na Ortofoto */
+.radar-ortho-meta-hud {
+    position: absolute;
+    left: 18px;
+    top: 18px;
+    background: rgba(10, 18, 36, 0.88);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 8px;
+    padding: 10px 14px;
+    backdrop-filter: blur(8px);
+    z-index: 10;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+    max-width: 320px;
+}
+
+.radar-ortho-meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 11px;
+    margin-bottom: 4px;
+}
+
+.radar-ortho-meta-row:last-child {
+    margin-bottom: 0;
+}
+
+.radar-ortho-meta-label {
+    color: #94a3b8;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.radar-ortho-meta-val {
+    color: #f8fafc;
+    font-weight: 700;
+    font-family: var(--font-mono, monospace);
+}
+
+.radar-ortho-meta-val.val-danger {
+    color: #ef4444;
+}
+
+.radar-ortho-meta-val.val-success {
+    color: #4edea3;
+}
+
+/* Controles Flutuantes de Zoom da Ortofoto */
+.radar-ortho-zoom-bar {
+    position: absolute;
+    left: 18px;
+    bottom: 18px;
+    display: flex;
+    gap: 6px;
+    background: rgba(10, 18, 36, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 6px;
+    backdrop-filter: blur(8px);
+    z-index: 10;
+}
+
+.btn-ortho-zoom {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.15s ease;
+}
+
+.btn-ortho-zoom:hover {
+    background: rgba(14, 165, 233, 0.25);
+    color: #38bdf8;
+    border-color: rgba(56, 189, 248, 0.4);
+}
+
+/* Grade de Diagnostico e Parecer do Analista Geotecnico */
+.radar-ortho-analyst-panel {
+    padding: 18px 20px;
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-color);
+}
+
+.radar-analyst-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 20px;
+}
+
+.radar-analyst-card {
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.radar-analyst-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.radar-analyst-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.radar-analyst-body {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.radar-analyst-body strong {
+    color: var(--text-primary);
+}
+
+.radar-analyst-actions-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+}
+
+.radar-kpi-stack {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.radar-kpi-item {
+    background: var(--bg-base);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.radar-kpi-item.kpi-critical {
+    border-color: rgba(239, 68, 68, 0.4);
+    background: rgba(239, 68, 68, 0.08);
+}
+
+.radar-kpi-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.radar-kpi-val {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-family: var(--font-mono, monospace);
+}
+
+.radar-kpi-sub {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 900px) {
+    .radar-analyst-grid {
+        grid-template-columns: 1fr;
+    }
+    .radar-ortho-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+.chroma-scale-ticks span {
+    line-height: 1;
+}
+
+/* Badge de Informacoes da Estacao Base e Alvo na Ortofoto */
+.radar-ortho-meta-hud {
+    position: absolute;
+    left: 18px;
+    top: 18px;
+    background: rgba(10, 18, 36, 0.88);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 8px;
+    padding: 10px 14px;
+    backdrop-filter: blur(8px);
+    z-index: 10;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+    max-width: 320px;
+}
+
+.radar-ortho-meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 11px;
+    margin-bottom: 4px;
+}
+
+.radar-ortho-meta-row:last-child {
+    margin-bottom: 0;
+}
+
+.radar-ortho-meta-label {
+    color: #94a3b8;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.radar-ortho-meta-val {
+    color: #f8fafc;
+    font-weight: 700;
+    font-family: var(--font-mono, monospace);
+}
+
+.radar-ortho-meta-val.val-danger {
+    color: #ef4444;
+}
+
+.radar-ortho-meta-val.val-success {
+    color: #4edea3;
+}
+
+/* Controles Flutuantes de Zoom da Ortofoto */
+.radar-ortho-zoom-bar {
+    position: absolute;
+    left: 18px;
+    bottom: 18px;
+    display: flex;
+    gap: 6px;
+    background: rgba(10, 18, 36, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 6px;
+    backdrop-filter: blur(8px);
+    z-index: 10;
+}
+
+.btn-ortho-zoom {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.15s ease;
+}
+
+.btn-ortho-zoom:hover {
+    background: rgba(14, 165, 233, 0.25);
+    color: #38bdf8;
+    border-color: rgba(56, 189, 248, 0.4);
+}
+
+/* Grade de Diagnostico e Parecer do Analista Geotecnico */
+.radar-ortho-analyst-panel {
+    padding: 18px 20px;
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-color);
+}
+
+.radar-analyst-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 20px;
+}
+
+.radar-analyst-card {
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.radar-analyst-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.radar-analyst-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.radar-analyst-body {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.radar-analyst-body strong {
+    color: var(--text-primary);
+}
+
+.radar-analyst-actions-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+}
+
+.radar-kpi-stack {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.radar-kpi-item {
+    background: var(--bg-base);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.radar-kpi-item.kpi-critical {
+    border-color: rgba(239, 68, 68, 0.4);
+    background: rgba(239, 68, 68, 0.08);
+}
+
+.radar-kpi-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.radar-kpi-val {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-family: var(--font-mono, monospace);
+}
+
+.radar-kpi-sub {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 900px) {
+    .radar-analyst-grid {
+        grid-template-columns: 1fr;
+    }
+    .radar-ortho-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .radar-ortho-view-switcher {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .btn-ortho-view {
+        flex: 1;
+        justify-content: center;
+        padding: 8px 6px;
+        font-size: 11px;
+    }
+}
+
+/* ==========================================================================
+   CAMADA DE ORTOFOTO E RADAR HEXAGON NO PALCO GEOVIEW & GIS 3D
+   ========================================================================== */
+
+.geoview-ortho-overlay-screen {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    background: #050d23;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.geoview-ortho-overlay-screen.active {
+    display: flex;
+}
+
+.geoview-ortho-overlay-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 4px;
+    transition: transform 0.15s ease-out;
+    user-select: none;
+    pointer-events: auto;
+}
+
+.geoview-toolbar-pills {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(5, 13, 35, 0.88);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    border-radius: 10px;
+    padding: 4px 6px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    flex-wrap: wrap;
+}
+
+.geoview-btn-ctrl.btn-highlight-radar {
+    border-color: rgba(239, 68, 68, 0.45);
+    color: #fca5a5;
+}
+
+.geoview-btn-ctrl.btn-highlight-radar.active {
+    background: #ef4444;
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.6);
+}
+
+.geoview-analyst-opinion-card {
+    background: linear-gradient(135deg, rgba(14, 165, 233, 0.08) 0%, rgba(15, 23, 42, 0.95) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.geoview-analyst-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 6px;
+}
+
+.geoview-analyst-header strong {
+    font-size: 12px;
+    color: #38bdf8;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.geoview-analyst-text {
+    font-size: 11px;
+    line-height: 1.55;
+    color: #cbd5e1;
+    margin: 0;
+}
+
+.geoview-analyst-text strong {
+    color: #f8fafc;
+}
+
+/* ==========================================================================
+   INTEGRAÇÃO DO PLANO DE LAVRA (SETEMBRO 2026) NO GEOVIEW 3D
+   ========================================================================== */
+
+.geoview-btn-ctrl.btn-highlight-lavra {
+    border-color: rgba(245, 158, 11, 0.45);
+    color: #fcd34d;
+}
+
+.geoview-btn-ctrl.btn-highlight-lavra.active {
+    background: #d97706;
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(217, 119, 6, 0.6);
+}
+
+.geoview-plano-lavra-card {
+    background: linear-gradient(135deg, rgba(217, 119, 6, 0.08) 0%, rgba(15, 23, 42, 0.95) 100%);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.geoview-plano-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 6px;
+}
+
+.geoview-plano-header strong {
+    font-size: 12px;
+    color: #fbbf24;
+}
+
+.geoview-plano-alert-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 11px;
+    line-height: 1.45;
+    color: #fca5a5;
+}
+
+.geoview-plano-alert-box strong {
+    display: block;
+    color: #ef4444;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.geoview-frentes-mini-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.frente-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.frente-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(56, 189, 248, 0.4);
+    transform: translateX(2px);
+}
+
+.frente-item.interditada {
+    border-color: rgba(239, 68, 68, 0.35);
+    background: rgba(239, 68, 68, 0.08);
+}
+
+.frente-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    margin-right: 6px;
+    flex-shrink: 0;
+}
+
+.frente-dot.danger {
+    background: #ef4444;
+    box-shadow: 0 0 6px #ef4444;
+}
+
+.frente-dot.warning {
+    background: #f59e0b;
+    box-shadow: 0 0 6px #f59e0b;
+}
+
+.frente-dot.success {
+    background: #10b981;
+    box-shadow: 0 0 6px #10b981;
+}
+
+.frente-name {
+    flex: 1;
+    color: #e2e8f0;
+    font-weight: 600;
+}
+
+.frente-status {
+    font-family: var(--font-mono, monospace);
+    font-size: 10px;
+    color: #94a3b8;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1px 5px;
+    border-radius: 4px;
+}
+
+.frente-item.interditada .frente-status {
+    color: #ef4444;
+    font-weight: 700;
+}
+
+/* Modal do Plano de Lavra */
+.plano-lavra-modal-tabs {
+    display: flex;
+    gap: 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    overflow-x: auto;
+}
+
+.plano-lavra-tab-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.plano-lavra-tab-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #f8fafc;
+}
+
+.plano-lavra-tab-btn.active {
+    background: #0284c7;
+    border-color: #38bdf8;
+    color: #ffffff;
+    box-shadow: 0 0 8px rgba(14, 165, 233, 0.4);
+}
+
+/* Sub-barra de Pranchas de Lavra Flutuante no GeoView */
+.geoview-plano-subnav {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 25;
+    background: rgba(3, 10, 24, 0.88);
+    border: 1px solid rgba(251, 146, 60, 0.4);
+    border-radius: 8px;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    max-width: 95%;
+    overflow-x: auto;
+}
+
+.geoview-plano-subnav .subnav-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #fb923c;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-subnav-prancha {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #cbd5e1;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.btn-subnav-prancha:hover {
+    background: rgba(251, 146, 60, 0.2);
+    color: #fff;
+    border-color: rgba(251, 146, 60, 0.5);
+}
+
+.btn-subnav-prancha.active {
+    background: #ea580c;
+    border-color: #fb923c;
+    color: #ffffff;
+    box-shadow: 0 0 10px rgba(234, 88, 12, 0.5);
+}
+
+/* Pinos Interativos das Frentes de Mina no Palco 3D */
+.geoview-frente-pin {
+    position: absolute;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.geoview-frente-pin:hover {
+    transform: translate(-50%, -50%) scale(1.08);
+    filter: brightness(1.2);
+}
+
+.geoview-frente-pin .pin-icon-wrap {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
+}
+
+.geoview-frente-pin .pin-label-box {
+    background: rgba(5, 13, 35, 0.92);
+    border-radius: 6px;
+    padding: 4px 8px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    white-space: nowrap;
+}
+
+.geoview-frente-pin .pin-label-box strong {
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.geoview-frente-pin .pin-label-box span {
+    font-size: 9px;
+    color: #94a3b8;
+    font-family: var(--font-mono, monospace);
+}
+
+/* Variações de Pinos */
+.geoview-frente-pin.pin-interditada .pin-icon-wrap {
+    background: #dc2626;
+    border: 2px solid #fecaca;
+    box-shadow: 0 0 14px rgba(220, 38, 38, 0.8);
+    animation: pin-pulse-danger 2s infinite ease-in-out;
+}
+.geoview-frente-pin.pin-interditada .pin-label-box {
+    border-left: 3px solid #dc2626;
+}
+.geoview-frente-pin.pin-interditada .pin-label-box strong {
+    color: #f87171;
+}
+
+.geoview-frente-pin.pin-perfuracao .pin-icon-wrap {
+    background: #0284c7;
+    border: 2px solid #bae6fd;
+    box-shadow: 0 0 12px rgba(2, 132, 199, 0.8);
+}
+.geoview-frente-pin.pin-perfuracao .pin-label-box {
+    border-left: 3px solid #0284c7;
+}
+.geoview-frente-pin.pin-perfuracao .pin-label-box strong {
+    color: #38bdf8;
+}
+
+.geoview-frente-pin.pin-ativa .pin-icon-wrap {
+    background: #059669;
+    border: 2px solid #a7f3d0;
+    box-shadow: 0 0 12px rgba(5, 150, 105, 0.8);
+}
+.geoview-frente-pin.pin-ativa .pin-label-box {
+    border-left: 3px solid #059669;
+}
+.geoview-frente-pin.pin-ativa .pin-label-box strong {
+    color: #34d399;
+}
+
+.geoview-frente-pin.pin-atencao .pin-icon-wrap {
+    background: #d97706;
+    border: 2px solid #fde68a;
+    box-shadow: 0 0 12px rgba(217, 119, 6, 0.8);
+}
+.geoview-frente-pin.pin-atencao .pin-label-box {
+    border-left: 3px solid #d97706;
+}
+.geoview-frente-pin.pin-atencao .pin-label-box strong {
+    color: #fbbf24;
+}
+
+@keyframes pin-pulse-danger {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 12px rgba(220, 38, 38, 0.8);
+    }
+    50% {
+        transform: scale(1.15);
+        box-shadow: 0 0 22px rgba(239, 68, 68, 1);
+    }
+}
 
