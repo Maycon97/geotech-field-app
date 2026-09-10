@@ -2164,6 +2164,103 @@ function renderGeorefMarkers() {
 
         georefMarkersGroup.addLayer(marker);
     });
+
+    // 3. Plot SUMPs e Bacias de Decantacao (MDSyncDB)
+    if (typeof MDSyncDB !== "undefined" && typeof MDSyncDB.listarSumps === "function") {
+        MDSyncDB.listarSumps().then(sumps => {
+            if (!Array.isArray(sumps) || !georefMarkersGroup) return;
+            sumps.forEach(sump => {
+                let lat = sump.latitude;
+                let lon = sump.longitude;
+                if ((!lat || !lon) && sump.coordenada_utm_este && sump.coordenada_utm_norte) {
+                    if (typeof MDSyncUtils !== "undefined" && MDSyncUtils.utm23sToLatLng) {
+                        const pt = MDSyncUtils.utm23sToLatLng(sump.coordenada_utm_este, sump.coordenada_utm_norte);
+                        if (pt) { lat = pt.lat; lon = pt.lng; }
+                    }
+                }
+                if (!lat || !lon || !Number.isFinite(lat) || !Number.isFinite(lon)) return;
+
+                const assoreamento = parseFloat(sump.assoreamento_atual_percentual || 0);
+                let badgeColor = "#0284c7";
+                if (assoreamento >= 75) badgeColor = "#ef4444";
+                else if (assoreamento >= 50) badgeColor = "#f59e0b";
+
+                const icon = L.divIcon({
+                    className: "georef-custom-sump-pin",
+                    html: `<div style="background: ${badgeColor}; border: 2px solid #ffffff; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; box-shadow: 0 0 10px rgba(0,0,0,0.5); font-size: 11px;"><i class="fa-solid fa-water"></i></div>`,
+                    iconSize: [26, 26],
+                    iconAnchor: [13, 13]
+                });
+
+                const marker = L.marker([lat, lon], { icon })
+                    .bindPopup(`
+                        <div style="font-family: inherit; font-size: 13px; line-height: 1.5; color: #fff;">
+                            <div style="font-weight: 800; font-size: 14px; color: #38bdf8; margin-bottom: 6px;">
+                                <i class="fa-solid fa-water"></i> ${escapeHtml(sump.codigo)}: ${escapeHtml(sump.nome)}
+                            </div>
+                            <div><b>Estrutura:</b> ${escapeHtml(sump.estrutura_codigo || '-')}</div>
+                            <div><b>Volume Util:</b> ${formatNumber(sump.volume_util_m3, 0)} m³</div>
+                            <div><b>Assoreamento:</b> <span style="font-weight: 700; color: ${badgeColor}">${assoreamento}%</span></div>
+                            <div><b>Bomba:</b> ${sump.bomba_operando ? '<span style="color:#22c55e">Operando</span>' : '<span style="color:#ef4444">Parada</span>'}</div>
+                            <div style="margin-top: 10px;">
+                                <button style="background: #0284c7; color: #fff; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 11px;" onclick="if(window.MDSyncDossie) window.MDSyncDossie.abrirVistoriaSumpModal('${escapeHtml(sump.id)}')">
+                                    <i class="fa-solid fa-clipboard-check"></i> Registrar Vistoria
+                                </button>
+                            </div>
+                        </div>
+                    `);
+                georefMarkersGroup.addLayer(marker);
+            });
+        }).catch(e => console.warn('[Georef] Erro ao carregar sumps no mapa:', e));
+    }
+
+    // 4. Plot Anomalias Geotecnicas Ativas (MDSyncDB)
+    if (typeof MDSyncDB !== "undefined" && typeof MDSyncDB.listarAnomalias === "function") {
+        MDSyncDB.listarAnomalias().then(anomalias => {
+            if (!Array.isArray(anomalias) || !georefMarkersGroup) return;
+            anomalias.filter(a => a.status_ciclo !== "ENCERRADA").forEach(anom => {
+                let lat = anom.latitude;
+                let lon = anom.longitude;
+                if ((!lat || !lon) && anom.coordenada_utm_este && anom.coordenada_utm_norte) {
+                    if (typeof MDSyncUtils !== "undefined" && MDSyncUtils.utm23sToLatLng) {
+                        const pt = MDSyncUtils.utm23sToLatLng(anom.coordenada_utm_este, anom.coordenada_utm_norte);
+                        if (pt) { lat = pt.lat; lon = pt.lng; }
+                    }
+                }
+                if (!lat || !lon || !Number.isFinite(lat) || !Number.isFinite(lon)) return;
+
+                let cor = "#eab308";
+                if (anom.criticidade === "MUITO_ALTA" || anom.criticidade === "ALTA") cor = "#dc2626";
+                else if (anom.criticidade === "MEDIA") cor = "#ea580c";
+
+                const icon = L.divIcon({
+                    className: "georef-custom-anomalia-pin",
+                    html: `<div style="background: ${cor}; border: 2px solid #ffffff; width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #ffffff; box-shadow: 0 0 12px ${cor}; font-size: 12px;"><i class="fa-solid fa-triangle-exclamation"></i></div>`,
+                    iconSize: [28, 28],
+                    iconAnchor: [14, 14]
+                });
+
+                const marker = L.marker([lat, lon], { icon })
+                    .bindPopup(`
+                        <div style="font-family: inherit; font-size: 13px; line-height: 1.5; color: #fff;">
+                            <div style="font-weight: 800; font-size: 14px; color: ${cor}; margin-bottom: 6px;">
+                                <i class="fa-solid fa-triangle-exclamation"></i> ${escapeHtml(anom.codigo_sequencial || anom.id)}
+                            </div>
+                            <div><b>Classificacao:</b> ${escapeHtml(anom.classificacao_tipo || anom.tipo_anomalia || 'Anomalia')}</div>
+                            <div><b>Criticidade:</b> <span style="font-weight: 700; color: ${cor}">${escapeHtml(anom.criticidade || 'Normal')}</span></div>
+                            <div><b>Estado Ciclo:</b> <span style="color: #38bdf8">${escapeHtml(anom.status_ciclo || 'REGISTRADA')}</span></div>
+                            <div style="font-size: 11px; color: #cbd5e1; margin-top: 4px;">${escapeHtml(anom.descricao_detalhada || '')}</div>
+                            <div style="margin-top: 10px;">
+                                <button style="background: #ea580c; color: #fff; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 11px;" onclick="if(window.MDSyncDossie) window.MDSyncDossie.abrirDossie('${escapeHtml(anom.estrutura_id)}')">
+                                    <i class="fa-solid fa-folder-open"></i> Ver no Dossie
+                                </button>
+                            </div>
+                        </div>
+                    `);
+                georefMarkersGroup.addLayer(marker);
+            });
+        }).catch(e => console.warn('[Georef] Erro ao carregar anomalias no mapa:', e));
+    }
 }
 
 function triggerGeorefGpsCapture() {

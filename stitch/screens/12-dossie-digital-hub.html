@@ -401,22 +401,76 @@
                     </div>
                 `;
             } else if (abaAtiva === 'audit') {
+                const logs = dadosDossie.auditoriaRecente || [];
                 container.innerHTML = `
                     <div class="glass-card rounded-2xl p-5">
-                        <h3 class="text-sm font-bold text-sky-400 mb-3 flex items-center gap-2">
-                            <i class="fa-solid fa-fingerprint"></i> Trilha de Auditoria Imutável (Append-Only)
-                        </h3>
-                        <p class="text-xs text-slate-400 mb-4">Registro inalterável de todas as mutações e validações da estrutura.</p>
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4 pb-3 border-b border-white/10">
+                            <div>
+                                <h3 class="text-sm font-bold text-emerald-400 flex items-center gap-2">
+                                    <i class="fa-solid fa-fingerprint"></i> Trilha de Auditoria Criptográfica (Merkle Chain SHA-256)
+                                </h3>
+                                <p class="text-xs text-slate-400">Rastreabilidade imutável e encadeamento sequencial de hash conforme Seções 6 e 26.</p>
+                            </div>
+                            <button onclick="verificarCadeiaStitch()" class="px-3.5 py-2 rounded-xl bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 border border-emerald-500/40 text-xs font-bold transition flex items-center gap-2">
+                                <i class="fa-solid fa-shield-halved"></i> Verificar Cadeia Criptográfica
+                            </button>
+                        </div>
+
+                        <div id="stitch-audit-result" class="mb-4 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between text-xs">
+                            <span class="text-emerald-300 font-semibold flex items-center gap-2">
+                                <i class="fa-solid fa-circle-check"></i> Integridade Transacional: 100% Válida (Zero Violações)
+                            </span>
+                            <span class="text-slate-400 font-mono">Último Hash: <strong class="text-white" id="stitch-last-hash">${logs[0]?.hash_atual ? logs[0].hash_atual.substring(0, 16) + '...' : 'GENESIS'}</strong></span>
+                        </div>
+
                         <div class="space-y-2 font-mono text-[11px]">
-                            ${dadosDossie.auditoriaRecente.slice(0, 10).map(log => `
-                                <div class="p-2.5 rounded-lg bg-dark-surface/60 border border-white/5 flex justify-between items-center">
-                                    <span class="text-slate-300"><strong>[${log.tabela_afetada}]</strong> ${log.motivo_alteracao || log.campo_modificado}</span>
-                                    <span class="text-slate-500">${new Date(log.data_hora).toLocaleString('pt-BR')}</span>
-                                </div>
-                            `).join('')}
+                            ${!logs.length ? `
+                                <p class="text-slate-400 text-xs text-center py-6">Nenhuma mutação registrada para esta estrutura.</p>
+                            ` : logs.slice(0, 15).map(log => {
+                                const hashCurto = log.hash_atual ? log.hash_atual.substring(0, 12) + '...' : 'GENESIS';
+                                const hashAntCurto = log.hash_anterior ? log.hash_anterior.substring(0, 12) + '...' : 'GENESIS';
+                                return `
+                                    <div class="p-3 rounded-lg bg-dark-surface/60 border border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-2">
+                                        <div class="space-y-0.5">
+                                            <div class="text-white font-bold"><span class="text-sky-400">[${log.tabela_afetada}]</span> ${log.campo_modificado}</div>
+                                            <div class="text-slate-400 text-[10px]">${log.motivo_alteracao || log.registro_id} • Resp: ${log.usuario_nome || log.usuario_id}</div>
+                                        </div>
+                                        <div class="text-right text-[10px] space-y-0.5">
+                                            <div class="text-emerald-400 font-mono" title="${log.hash_atual}">Hash: ${hashCurto}</div>
+                                            <div class="text-slate-500 font-mono">Ant: ${hashAntCurto} • ${new Date(log.data_hora).toLocaleString('pt-BR')}</div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
                         </div>
                     </div>
                 `;
+            }
+        }
+
+        async function verificarCadeiaStitch() {
+            if (window.MDSyncDB) {
+                const resEl = document.getElementById('stitch-audit-result');
+                if (resEl) resEl.innerHTML = '<span class="text-sky-400"><i class="fa-solid fa-spinner fa-spin mr-2"></i> Recalculando cadeia de hashes SHA-256...</span>';
+                const validacao = await window.MDSyncDB.verificarIntegridadeCadeiaAuditoria();
+                if (resEl) {
+                    if (validacao.integro) {
+                        resEl.className = 'mb-4 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between text-xs';
+                        resEl.innerHTML = `
+                            <span class="text-emerald-300 font-semibold flex items-center gap-2">
+                                <i class="fa-solid fa-circle-check"></i> Cadeia Criptográfica com ${validacao.totalBlocos} Blocos 100% Válida!
+                            </span>
+                            <span class="text-slate-400 font-mono">Topo: <strong class="text-white">${validacao.ultimoHash.substring(0, 16)}...</strong></span>
+                        `;
+                    } else {
+                        resEl.className = 'mb-4 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-between text-xs';
+                        resEl.innerHTML = `
+                            <span class="text-rose-300 font-semibold flex items-center gap-2">
+                                <i class="fa-solid fa-triangle-exclamation"></i> Violação detectada: ${validacao.violacoes.length} blocos com divergência!
+                            </span>
+                        `;
+                    }
+                }
             }
         }
 

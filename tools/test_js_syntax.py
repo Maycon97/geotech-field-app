@@ -51,6 +51,29 @@ def check_js(path):
             in_multi_comm = True
             i += 2
             continue
+        # Check regex literal
+        if c == '/' and not in_comm and not in_multi_comm and not in_str:
+            # Check previous non-whitespace char to distinguish division from regex literal
+            prev_chars = [ch for ch in content[:i] if not ch.isspace()]
+            prev_c = prev_chars[-1] if prev_chars else ''
+            if prev_c in ('(', ',', '=', ':', '[', '!', '&', '|', '?', ';', '{', '}'):
+                # it is a regex literal
+                j = i + 1
+                reg_escaped = False
+                while j < len(content):
+                    if reg_escaped:
+                        reg_escaped = False
+                    elif content[j] == '\\':
+                        reg_escaped = True
+                    elif content[j] == '/':
+                        j += 1
+                        while j < len(content) and content[j] in 'gimsuy':
+                            j += 1
+                        break
+                    j += 1
+                i = j
+                continue
+
         if c in ('"', "'", '`'):
             in_str = c
             i += 1

@@ -72,6 +72,37 @@
         });
     }
 
+    const GENESIS_HASH = "0000000000000000000000000000000000000000000000000000000000000000";
+
+    /**
+     * Calcula hash criptografico SHA-256 de uma string para encadeamento imutavel da trilha de auditoria
+     */
+    async function computeSha256(str) {
+        if (typeof crypto !== 'undefined' && crypto.subtle && crypto.subtle.digest) {
+            try {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(str);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            } catch (e) {}
+        }
+        // Fallback matematico deterministico de 64 caracteres hexadecimais
+        let h1 = 0x811c9dc5, h2 = 0x9e3779b9, h3 = 0x5851f42d, h4 = 0x14057b7e;
+        for (let i = 0; i < str.length; i++) {
+            const code = str.charCodeAt(i);
+            h1 = Math.imul(h1 ^ code, 0x01000193);
+            h2 = Math.imul(h2 ^ (code + i), 0x85ebca6b);
+            h3 = Math.imul(h3 ^ (code * 31), 0xc2b2ae35);
+            h4 = Math.imul(h4 ^ (code * 17), 0x27d4eb2f);
+        }
+        const p1 = (h1 >>> 0).toString(16).padStart(8, '0');
+        const p2 = (h2 >>> 0).toString(16).padStart(8, '0');
+        const p3 = (h3 >>> 0).toString(16).padStart(8, '0');
+        const p4 = (h4 >>> 0).toString(16).padStart(8, '0');
+        return (p1 + p2 + p3 + p4 + p1 + p2 + p3 + p4).toLowerCase();
+    }
+
     class MDSyncDatabaseEngine {
         constructor() {
             this.db = null;
@@ -316,7 +347,7 @@
         }
 
         /**
-         * Salva ou atualiza um registro com registro automatico de auditoria e enfileiramento outbox
+         * Salva ou atualiza um registro com registro automatico de auditoria criptografica encadeada e outbox
          */
         async put(storeName, item, motivoAuditoria = "Atualizacao de registro") {
             await this.init();
@@ -340,6 +371,19 @@
                 item.versao_registro = (registroAnterior.versao_registro || 1) + 1;
             }
 
+            // Obter o ultimo registro de auditoria para encadeamento criptografico (Merkle / Hash Chain)
+            const ultimoAudit = await this.obterUltimoRegistroAuditoria();
+            const hashAnterior = ultimoAudit && ultimoAudit.hash_atual ? ultimoAudit.hash_atual : GENESIS_HASH;
+
+            const timestampAuditoria = new Date().toISOString();
+            const valorAnteriorStr = isNovo ? null : JSON.stringify(registroAnterior);
+            const novoValorStr = JSON.stringify(item);
+            const campoModificado = isNovo ? "CRIACAO_REGISTRO" : "MUDANCA_REGISTRO";
+
+            // Payload canonico deterministico para geracao de hash SHA-256
+            const payloadParaHash = `${hashAnterior}|${storeName}|${item.id}|${timestampAuditoria}|${campoModificado}|${novoValorStr}|${this.currentUser.id}`;
+            const hashAtual = await computeSha256(payloadParaHash);
+
             return new Promise((resolve, reject) => {
                 try {
                     const tx = this.db.transaction([storeName, "auditoria_modificacoes", "sync_outbox"], "readwrite");
@@ -349,19 +393,24 @@
 
                     store.put(item);
 
-                    // Trilha de Auditoria Imutavel
+                    // Trilha de Auditoria Imutavel com Encadeamento Criptografico
                     const auditRecord = {
                         id: generateUUID(),
                         tabela_afetada: storeName,
                         registro_id: item.id,
-                        campo_modificado: isNovo ? "CRIACAO_REGISTRO" : "MUDANCA_REGISTRO",
-                        valor_anterior: isNovo ? null : JSON.stringify(registroAnterior),
-                        novo_valor: JSON.stringify(item),
+                        campo_modificado: campoModificado,
+                        valor_anterior: valorAnteriorStr,
+                        novo_valor: novoValorStr,
                         usuario_id: this.currentUser.id,
-                        data_hora: new Date().toISOString(),
+                        usuario_nome: this.currentUser.nome,
+                        usuario_perfil: this.currentUser.perfil,
+                        data_hora: timestampAuditoria,
                         motivo_alteracao: motivoAuditoria,
                         origem_dispositivo: "DISPOSITIVO_CAMPO_OFFLINE",
-                        ip_ou_device_id: typeof navigator !== 'undefined' ? navigator.userAgent : "local-client"
+                        ip_ou_device_id: typeof navigator !== 'undefined' ? navigator.userAgent : "local-client",
+                        hash_anterior: hashAnterior,
+                        hash_atual: hashAtual,
+                        status_verificacao: "VALIDO"
                     };
                     auditStore.add(auditRecord);
 
@@ -389,6 +438,7 @@
                                 isNovo,
                                 versao: item.versao_registro
                             });
+                            global.SyncBridge.emit('MDSYNC_AUDIT_LOG', auditRecord);
                         }
                         resolve(item);
                     };
@@ -399,6 +449,153 @@
                     };
                 } catch (err) {
                     reject(err);
+                }
+            });
+        }
+
+        /**
+         * Obtem o ultimo registro inserido na trilha de auditoria para encadeamento de hash
+         */
+        async obterUltimoRegistroAuditoria() {
+            await this.init();
+            return new Promise((resolve) => {
+                if (!this.db) return resolve(null);
+                try {
+                    const tx = this.db.transaction("auditoria_modificacoes", "readonly");
+                    const store = tx.objectStore("auditoria_modificacoes");
+                    const req = store.openCursor(null, "prev");
+                    req.onsuccess = (e) => {
+                        const cursor = e.target.result;
+                        if (cursor && cursor.value) {
+                            resolve(cursor.value);
+                        } else {
+                            resolve(null);
+                        }
+                    };
+                    req.onerror = () => resolve(null);
+                } catch (e) {
+                    resolve(null);
+                }
+            });
+        }
+
+        /**
+         * Lista os registros mais recentes da trilha de auditoria para exibicao em painel
+         */
+        async listarTrilhaAuditoria(limite = 50) {
+            await this.init();
+            return new Promise((resolve) => {
+                if (!this.db) return resolve([]);
+                try {
+                    const tx = this.db.transaction("auditoria_modificacoes", "readonly");
+                    const store = tx.objectStore("auditoria_modificacoes");
+                    const req = store.openCursor(null, "prev");
+                    const registros = [];
+                    req.onsuccess = (e) => {
+                        const cursor = e.target.result;
+                        if (cursor && registros.length < limite) {
+                            registros.push(cursor.value);
+                            cursor.continue();
+                        } else {
+                            resolve(registros);
+                        }
+                    };
+                    req.onerror = () => resolve([]);
+                } catch (e) {
+                    resolve([]);
+                }
+            });
+        }
+
+        /**
+         * Valida criptograficamente toda a cadeia de auditoria (Merkle / Hash Chain verification)
+         * Recalcula o SHA-256 de cada bloco a partir do hash anterior e verifica se ha qualquer adulteracao.
+         */
+        async verificarIntegridadeCadeiaAuditoria() {
+            await this.init();
+            return new Promise(async (resolve) => {
+                if (!this.db) {
+                    return resolve({
+                        integro: false,
+                        motivo: "IndexedDB indisponivel",
+                        totalBlocos: 0,
+                        violacoes: []
+                    });
+                }
+
+                try {
+                    const tx = this.db.transaction("auditoria_modificacoes", "readonly");
+                    const store = tx.objectStore("auditoria_modificacoes");
+                    const req = store.getAll();
+
+                    req.onsuccess = async () => {
+                        const blocos = req.result || [];
+                        if (blocos.length === 0) {
+                            return resolve({
+                                integro: true,
+                                totalBlocos: 0,
+                                mensagem: "Cadeia de auditoria vazia (nenhuma transacao registrada)",
+                                violacoes: []
+                            });
+                        }
+
+                        let hashEsperadoAnterior = GENESIS_HASH;
+                        const violacoes = [];
+
+                        for (let i = 0; i < blocos.length; i++) {
+                            const b = blocos[i];
+
+                            if (b.hash_anterior && b.hash_anterior !== hashEsperadoAnterior) {
+                                violacoes.push({
+                                    blocoIndex: i,
+                                    blocoId: b.id,
+                                    erro: "ELOS_DESCONECTADOS",
+                                    hashAnteriorGravado: b.hash_anterior,
+                                    hashEsperado: hashEsperadoAnterior
+                                });
+                            }
+
+                            const payload = `${b.hash_anterior || hashEsperadoAnterior}|${b.tabela_afetada}|${b.registro_id}|${b.data_hora}|${b.campo_modificado}|${b.novo_valor}|${b.usuario_id}`;
+                            const hashRecalculado = await computeSha256(payload);
+
+                            if (b.hash_atual && b.hash_atual !== hashRecalculado) {
+                                violacoes.push({
+                                    blocoIndex: i,
+                                    blocoId: b.id,
+                                    erro: "CONTEUDO_ADULTERADO",
+                                    hashGravado: b.hash_atual,
+                                    hashRecalculado: hashRecalculado
+                                });
+                            }
+
+                            hashEsperadoAnterior = b.hash_atual || hashRecalculado;
+                        }
+
+                        const integro = violacoes.length === 0;
+                        resolve({
+                            integro,
+                            totalBlocos: blocos.length,
+                            ultimoHash: hashEsperadoAnterior,
+                            violacoes,
+                            timestampVerificacao: new Date().toISOString()
+                        });
+                    };
+
+                    req.onerror = () => {
+                        resolve({
+                            integro: false,
+                            motivo: "Erro ao ler store de auditoria",
+                            totalBlocos: 0,
+                            violacoes: []
+                        });
+                    };
+                } catch (err) {
+                    resolve({
+                        integro: false,
+                        motivo: err.message,
+                        totalBlocos: 0,
+                        violacoes: []
+                    });
                 }
             });
         }

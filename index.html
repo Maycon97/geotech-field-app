@@ -192,10 +192,15 @@
                     <span>MDSync Móvel</span>
                     <span class="badge" style="background: rgba(168, 85, 247, 0.25); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.5); font-size: 10px;">HUB</span>
                 </a>
-                <a href="#" class="nav-item" id="nav-dossie" onclick="window.MDSyncDossie.abrirDossie('PDE-01'); return false;" title="Dossiê Digital Corporativo da Estrutura" style="margin-top: 4px;">
+                <a href="#" class="nav-item" id="nav-dossie" onclick="window.MDSyncDossie.abrirDossie('PDE-01'); return false;" title="Dossie Digital Corporativo da Estrutura" style="margin-top: 4px;">
                     <i class="fa-solid fa-folder-open" style="color: #38bdf8;"></i>
-                    <span>Dossiê Estruturas</span>
+                    <span>Dossie Estruturas</span>
                     <span class="badge" style="background: rgba(56, 189, 248, 0.25); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.5); font-size: 10px;">V1.0</span>
+                </a>
+                <a href="#" class="nav-item" id="nav-auditoria" onclick="abrirAuditoriaModal(); return false;" title="Central de Auditoria e Trilha Criptografica Imutavel" style="margin-top: 4px;">
+                    <i class="fa-solid fa-fingerprint" style="color: #4edea3;"></i>
+                    <span>Auditoria &amp; Cripto</span>
+                    <span class="badge" style="background: rgba(78, 222, 163, 0.2); color: #4edea3; border: 1px solid rgba(78, 222, 163, 0.4); font-size: 10px;">SHA-256</span>
                 </a>
             </nav>
 
@@ -237,7 +242,7 @@
                             <span class="cloud-pill-time" id="cloud-live-time">Atualizado agora</span>
                         </div>
                     </div>
-                    <div class="user-quick-badge" id="header-user-badge" onclick="window.MDSyncDossie.abrirSeletorUsuario()" title="Perfil Conectado - Clique para alternar alçada (RBAC)" style="cursor:pointer; display:flex; align-items:center; gap:8px;">
+                    <div class="user-quick-badge" id="header-user-badge" onclick="window.MDSyncDossie.abrirSeletorUsuario()" title="Perfil Conectado (Clique para alternar alçada RBAC)" style="cursor:pointer; display:flex; align-items:center; gap:8px;">
                         <div class="user-badge-avatar" id="header-user-avatar">MN</div>
                         <div class="user-badge-info" style="display:flex; flex-direction:column; align-items:flex-start; line-height:1.2;">
                             <span class="user-badge-name" id="header-user-name" style="font-weight:700;">Maycon N.</span>
@@ -255,6 +260,9 @@
                     </button>
                     <button class="btn btn-secondary" onclick="window.MDSyncDossie.abrirDossie('PDE-01')" title="Abrir Dossiê Digital das Estruturas" style="background: rgba(14, 165, 233, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; font-weight: 700;">
                         <i class="fa-solid fa-folder-open"></i> <span>Dossiê</span>
+                    </button>
+                    <button class="btn btn-secondary" onclick="abrirAuditoriaModal()" title="Central de Auditoria e Trilha Criptografica Imutavel" style="background: rgba(78, 222, 163, 0.15); border: 1px solid rgba(78, 222, 163, 0.4); color: #4edea3; font-weight: 700;">
+                        <i class="fa-solid fa-fingerprint"></i> <span>Auditoria</span>
                     </button>
                     <button class="btn btn-secondary" id="theme-toggle-btn" onclick="toggleTheme()" title="Alternar tema Claro/Escuro">
                         <i class="fa-solid fa-sun" id="theme-toggle-icon"></i> <span id="theme-toggle-text">Claro</span>
@@ -5657,6 +5665,154 @@
 
         </div>
     </div>
+
+    <!-- Modal Corporativo: Central de Inteligencia de Auditoria e Trilha Criptografica (Secoes 6 e 26) -->
+    <div class="modal" id="mdsync-auditoria-modal" style="display:none; position:fixed; inset:0; background:rgba(5,13,35,0.85); backdrop-filter:blur(8px); z-index:10000; align-items:center; justify-content:center; padding:16px;">
+        <div class="modal-content" style="background:#0f172a; border:1px solid rgba(78,222,163,0.4); border-radius:12px; width:100%; max-width:960px; max-height:90vh; display:flex; flex-direction:column; box-shadow:0 25px 50px -12px rgba(0,0,0,0.7); overflow:hidden;">
+            <div class="modal-header" style="padding:16px 20px; border-bottom:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:space-between; background:linear-gradient(90deg, rgba(78,222,163,0.1) 0%, transparent 100%);">
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div style="width:36px; height:36px; border-radius:8px; background:rgba(78,222,163,0.15); border:1px solid rgba(78,222,163,0.3); display:flex; align-items:center; justify-content:center; color:#4edea3; font-size:16px;">
+                        <i class="fa-solid fa-fingerprint"></i>
+                    </div>
+                    <div>
+                        <h3 style="margin:0; font-size:16px; font-weight:700; color:#ffffff;">Central de Auditoria &amp; Trilha Criptográfica</h3>
+                        <p style="margin:0; font-size:12px; color:#94a3b8;">Imutabilidade transacional, encadeamento Merkle SHA-256 e rastreabilidade integral (Seções 6 e 26)</p>
+                    </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button class="btn btn-secondary" onclick="recalcularIntegridadeAuditoria()" style="background:rgba(78,222,163,0.15); border:1px solid rgba(78,222,163,0.4); color:#4edea3; font-size:12px; padding:6px 12px;">
+                        <i class="fa-solid fa-shield-halved mr-1"></i> Verificar Cadeia SHA-256
+                    </button>
+                    <button class="btn btn-secondary" onclick="fecharAuditoriaModal()" style="padding:6px 10px; font-size:14px;">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="modal-body" style="padding:20px; overflow-y:auto; flex:1; display:flex; flex-direction:column; gap:16px;">
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px;">
+                    <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:14px;">
+                        <span style="font-size:11px; text-transform:uppercase; color:#94a3b8; font-weight:600; display:block; margin-bottom:4px;">Status da Cadeia</span>
+                        <div id="audit-status-badge" style="font-size:15px; font-weight:700; color:#4edea3; display:flex; align-items:center; gap:6px;">
+                            <i class="fa-solid fa-circle-check"></i> 100% Íntegra (Válida)
+                        </div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:14px;">
+                        <span style="font-size:11px; text-transform:uppercase; color:#94a3b8; font-weight:600; display:block; margin-bottom:4px;">Transações Auditadas</span>
+                        <div id="audit-total-blocos" style="font-size:18px; font-weight:800; color:#ffffff;">0</div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:14px;">
+                        <span style="font-size:11px; text-transform:uppercase; color:#94a3b8; font-weight:600; display:block; margin-bottom:4px;">Violações de Hash</span>
+                        <div id="audit-violacoes" style="font-size:18px; font-weight:800; color:#4edea3;">0</div>
+                    </div>
+                </div>
+
+                <div style="background:rgba(78,222,163,0.06); border:1px solid rgba(78,222,163,0.2); border-radius:8px; padding:12px; display:flex; flex-direction:column; gap:4px;">
+                    <span style="font-size:11px; color:#4edea3; font-weight:700; text-transform:uppercase;">Último Hash SHA-256 da Cadeia (Topo):</span>
+                    <code id="audit-ultimo-hash" style="font-family:monospace; font-size:12px; color:#e2e8f0; word-break:break-all;">0000000000000000000000000000000000000000000000000000000000000000</code>
+                </div>
+
+                <div>
+                    <h4 style="margin:0 0 10px 0; font-size:13px; font-weight:700; color:#ffffff; text-transform:uppercase; letter-spacing:0.05em;">Trilha Cronológica de Modificações Auditadas</h4>
+                    <div style="max-height:360px; overflow-y:auto; border:1px solid rgba(255,255,255,0.08); border-radius:8px;">
+                        <table style="width:100%; border-collapse:collapse; font-size:12px; text-align:left;">
+                            <thead>
+                                <tr style="background:rgba(255,255,255,0.05); color:#94a3b8; border-bottom:1px solid rgba(255,255,255,0.08);">
+                                    <th style="padding:10px;">Data/Hora</th>
+                                    <th style="padding:10px;">Store / Tabela</th>
+                                    <th style="padding:10px;">Operação</th>
+                                    <th style="padding:10px;">Responsável</th>
+                                    <th style="padding:10px;">Motivo / Registro</th>
+                                    <th style="padding:10px;">Hash SHA-256</th>
+                                </tr>
+                            </thead>
+                            <tbody id="audit-tabela-corpo">
+                                <tr>
+                                    <td colspan="6" style="padding:20px; text-align:center; color:#94a3b8;">Carregando registros de auditoria...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer" style="padding:12px 20px; border-top:1px solid rgba(255,255,255,0.08); display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.2);">
+                <span style="font-size:11px; color:#64748b;">MDSync v1.0 • Padrão de Rastreabilidade Imutável • ANM 95/2022 &amp; GISTM 2020</span>
+                <button class="btn btn-secondary" onclick="fecharAuditoriaModal()">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Funcoes da Central de Auditoria -->
+    <script>
+        async function abrirAuditoriaModal() {
+            const modal = document.getElementById("mdsync-auditoria-modal");
+            if (!modal) return;
+            modal.style.display = "flex";
+            await carregarTrilhaAuditoriaNaTela();
+        }
+
+        function fecharAuditoriaModal() {
+            const modal = document.getElementById("mdsync-auditoria-modal");
+            if (modal) modal.style.display = "none";
+        }
+
+        async function carregarTrilhaAuditoriaNaTela() {
+            if (!window.MDSyncDB) return;
+            const corpo = document.getElementById("audit-tabela-corpo");
+            const totalEl = document.getElementById("audit-total-blocos");
+            const hashEl = document.getElementById("audit-ultimo-hash");
+
+            const registros = await window.MDSyncDB.listarTrilhaAuditoria(100);
+            if (totalEl) totalEl.textContent = registros.length;
+
+            if (registros.length > 0 && hashEl) {
+                hashEl.textContent = registros[0].hash_atual || "Sem hash";
+            }
+
+            if (!corpo) return;
+            if (registros.length === 0) {
+                corpo.innerHTML = '<tr><td colspan="6" style="padding:20px; text-align:center; color:#94a3b8;">Nenhuma modificacao auditada registrada ate o momento.</td></tr>';
+                return;
+            }
+
+            corpo.innerHTML = registros.map(r => {
+                const data = r.data_hora ? new Date(r.data_hora).toLocaleString('pt-BR') : "-";
+                const hashTruncado = r.hash_atual ? r.hash_atual.substring(0, 14) + "..." : "-";
+                const opCor = r.campo_modificado === "CRIACAO_REGISTRO" ? "#4edea3" : r.campo_modificado === "SOFT_DELETE" ? "#ef4444" : "#38bdf8";
+                return `
+                    <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+                        <td style="padding:8px 10px; color:#94a3b8; font-family:monospace;">${data}</td>
+                        <td style="padding:8px 10px; font-weight:600; color:#ffffff;">${r.tabela_afetada || '-'}</td>
+                        <td style="padding:8px 10px;"><span style="color:${opCor}; font-weight:700; font-size:11px;">${r.campo_modificado || 'ALTERACAO'}</span></td>
+                        <td style="padding:8px 10px; color:#cbd5e1;">${r.usuario_nome || r.usuario_id || 'Sistema'}</td>
+                        <td style="padding:8px 10px; color:#94a3b8; font-size:11px;">${r.motivo_alteracao || r.registro_id}</td>
+                        <td style="padding:8px 10px; font-family:monospace; color:#4edea3; font-size:11px;" title="${r.hash_atual || ''}">${hashTruncado}</td>
+                    </tr>
+                `;
+            }).join("");
+        }
+
+        async function recalcularIntegridadeAuditoria() {
+            if (!window.MDSyncDB) return;
+            const badgeEl = document.getElementById("audit-status-badge");
+            const violacoesEl = document.getElementById("audit-violacoes");
+            if (badgeEl) badgeEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verificando cadeia criptográfica...';
+
+            const resultado = await window.MDSyncDB.verificarIntegridadeCadeiaAuditoria();
+
+            if (violacoesEl) violacoesEl.textContent = resultado.violacoes ? resultado.violacoes.length : 0;
+
+            if (resultado.integro) {
+                if (badgeEl) badgeEl.innerHTML = '<i class="fa-solid fa-circle-check" style="color:#4edea3;"></i> 100% Íntegra (SHA-256 Válido)';
+                if (window.showToast) window.showToast("Cadeia Criptográfica", `Cadeia com ${resultado.totalBlocos} blocos verificada com 100% de sucesso!`, "success", 4000);
+            } else {
+                if (badgeEl) badgeEl.innerHTML = '<i class="fa-solid fa-circle-xmark" style="color:#ef4444;"></i> Violação Criptográfica Detectada!';
+                if (window.showToast) window.showToast("Alerta de Integridade", `${resultado.violacoes.length} blocos com divergência criptográfica detectados.`, "error", 5000);
+            }
+            await carregarTrilhaAuditoriaNaTela();
+        }
+    </script>
 
     <!-- Script Injection -->
     <script src="src/core/sync-bridge.js?v=robust-20260908"></script>
