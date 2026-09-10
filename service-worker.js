@@ -1,4 +1,4 @@
-const GEOSYNC_CACHE = "geosync-field-pwa-pcmi-v20260910-sysdam-full";
+const GEOSYNC_CACHE = "geosync-field-pwa-pcmi-v20260910-v1-master";
 const APP_SHELL = [
     "./",
     "./index.html",
@@ -8,6 +8,12 @@ const APP_SHELL = [
     "./src/core/sync-bridge.js",
     "./src/core/utils.js",
     "./src/core/geotech.js",
+    "./src/core/mdsync-db.js",
+    "./src/core/anomalias-engine.js",
+    "./src/core/fluig-gateway.js",
+    "./src/core/exportador-geotecnico.js",
+    "./src/core/sync-outbox.js",
+    "./src/core/dossie-controller.js",
     "./src/core/sysdam-controller.js",
     "./vendor/three.min.js",
     "./data/catalog.json",

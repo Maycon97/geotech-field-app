@@ -1,10 +1,10 @@
-﻿/**
+/**
  * MDSync Database Engine (IndexedDB + Lazy-Loading + Local Persistence)
  * Fornece acesso assincrono, indexado e offline para os dados do MDSync.
  */
 
 const DB_NAME = "MDSyncDB";
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 export class DatabaseEngine {
     constructor() {

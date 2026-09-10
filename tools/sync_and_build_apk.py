@@ -54,11 +54,10 @@ def step1_sync_assets():
             shutil.copy2(src, dst)
             print(f"  [COPIADO] {item} ({src.stat().st_size} bytes)")
         elif src.is_dir():
-            if dst.exists():
-                shutil.rmtree(dst)
             shutil.copytree(
                 src,
                 dst,
+                dirs_exist_ok=True,
                 ignore=shutil.ignore_patterns("*.pyc", "__pycache__", ".git*")
             )
             count = sum(1 for _ in dst.rglob("*") if _.is_file())

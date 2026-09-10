@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDSync - Dossiê Digital Corporativo & Governança Geotécnica</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../vendor/fontawesome/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <script src="../../src/core/sync-bridge.js"></script>
+    <script src="../../src/core/mdsync-db.js"></script>
+    <script src="../../src/core/anomalias-engine.js"></script>
+    <script src="../../src/core/fluig-gateway.js"></script>
+    <script src="../../src/core/exportador-geotecnico.js"></script>
+    <script src="../../src/core/sync-outbox.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            900: '#0c4a6e'
+                        },
+                        dark: {
+                            base: '#050d23',
+                            surface: '#0a1228',
+                            card: '#131b31',
+                            cardHigh: '#1e293b'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        head: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050d23;
+            color: #dbe1ff;
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-card {
+            background: rgba(19, 27, 49, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="min-h-screen p-6">
+
+    <!-- Top Header -->
+    <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/10 mb-6">
+        <div>
+            <div class="flex items-center gap-3">
+                <span class="px-2.5 py-1 text-xs font-bold font-mono tracking-wider rounded bg-sky-500/20 text-sky-400 border border-sky-500/40">
+                    VERSÃO 1.0
+                </span>
+                <h1 class="text-2xl font-bold font-head text-white">Dossiê Digital Corporativo & Governança</h1>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Gestão centralizada, rastreabilidade imutável e conformidade com a Resolução ANM 95/2022.</p>
+        </div>
+
+        <!-- Seletor de Estrutura & Alçadas -->
+        <div class="flex items-center gap-3 flex-wrap">
+            <select id="stitch-estrutura-select" onchange="carregarDossieStitch()" class="bg-dark-card border border-white/20 rounded-xl px-4 py-2 text-sm font-semibold text-white focus:outline-none focus:border-sky-400">
+                <option value="PDE-01">PDE-01: Pilha de Estéril 01</option>
+                <option value="PDE-02">PDE-02: Pilha de Estéril 02</option>
+                <option value="BAR-01">BAR-01: Barragem de Contenção 01</option>
+                <option value="CAVA-JANGADA">CAVA-JANGADA: Taludes Cava Jangada</option>
+            </select>
+
+            <button onclick="exportarCSVStitch()" class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 border border-white/10 transition">
+                <i class="fa-solid fa-file-csv text-sky-400"></i> Exportar GeoStudio (CSV)
+            </button>
+            <button onclick="exportarGeoJSONStitch()" class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 border border-white/10 transition">
+                <i class="fa-solid fa-map-location-dot text-emerald-400"></i> Exportar GeoJSON (UTM 23S)
+            </button>
+        </div>
+    </header>
+
+    <!-- KPIs Rápidos do Dossiê -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div class="glass-card rounded-2xl p-4">
+            <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
+                <span>ESTADO DE CONSERVAÇÃO</span>
+                <i class="fa-solid fa-shield-heart text-sky-400"></i>
+            </div>
+            <div class="text-xl font-bold font-mono text-emerald-400" id="kpi-ec">NORMAL</div>
+            <p class="text-[11px] text-slate-500 mt-1">Conforme Resolução ANM nº 95/2022</p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-4">
+            <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
+                <span>INSTRUMENTOS ATIVOS</span>
+                <i class="fa-solid fa-gauge-high text-amber-400"></i>
+            </div>
+            <div class="text-xl font-bold font-mono text-white" id="kpi-inst">--</div>
+            <p class="text-[11px] text-slate-500 mt-1">Piezômetros, INA e Medidores de Vazão</p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-4">
+            <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
+                <span>ANOMALIAS EM ABERTO</span>
+                <i class="fa-solid fa-triangle-exclamation text-rose-400"></i>
+            </div>
+            <div class="text-xl font-bold font-mono text-rose-400" id="kpi-anom">--</div>
+            <p class="text-[11px] text-slate-500 mt-1">Ciclo de vida monitorado</p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-4">
+            <div class="flex items-center justify-between text-slate-400 text-xs font-medium mb-1">
+                <span>SUMPS DE CONTROLE</span>
+                <i class="fa-solid fa-water text-cyan-400"></i>
+            </div>
+            <div class="text-xl font-bold font-mono text-cyan-400" id="kpi-sump">--</div>
+            <p class="text-[11px] text-slate-500 mt-1">Bacias de decantação e bombeamento</p>
+        </div>
+    </div>
+
+    <!-- Navegação em Abas do Dossiê -->
+    <div class="flex gap-2 border-b border-white/10 pb-3 mb-6 overflow-x-auto">
+        <button onclick="setAbaStitch('ident')" id="tab-btn-ident" class="px-4 py-2 rounded-xl text-xs font-bold bg-sky-500/20 text-sky-400 border border-sky-500/30">
+            <i class="fa-solid fa-circle-info mr-1.5"></i> Identificação & Geometria
+        </button>
+        <button onclick="setAbaStitch('inst')" id="tab-btn-inst" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white">
+            <i class="fa-solid fa-gauge-high mr-1.5"></i> Instrumentação & TARP
+        </button>
+        <button onclick="setAbaStitch('anom')" id="tab-btn-anom" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white">
+            <i class="fa-solid fa-triangle-exclamation mr-1.5"></i> Ciclo de Anomalias (9 Estados)
+        </button>
+        <button onclick="setAbaStitch('sump')" id="tab-btn-sump" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white">
+            <i class="fa-solid fa-water mr-1.5"></i> SUMPs & Drenagem
+        </button>
+        <button onclick="setAbaStitch('audit')" id="tab-btn-audit" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white">
+            <i class="fa-solid fa-fingerprint mr-1.5"></i> Trilha de Auditoria Imutável
+        </button>
+    </div>
+
+    <!-- Conteúdo das Abas -->
+    <div id="stitch-tab-container">
+        <!-- Renderizado dinamicamente -->
+    </div>
+
+    <script>
+        let abaAtiva = 'ident';
+        let estruturaSelecionada = 'PDE-01';
+        let dadosDossie = null;
+
+        async function carregarDossieStitch() {
+            estruturaSelecionada = document.getElementById('stitch-estrutura-select').value;
+            if (window.MDSyncDB) {
+                await window.MDSyncDB.init();
+                dadosDossie = await window.MDSyncDB.obterDossieDigitalEstrutura(estruturaSelecionada);
+                atualizarKPIs();
+                renderizarAba();
+            }
+        }
+
+        function atualizarKPIs() {
+            if (!dadosDossie) return;
+            document.getElementById('kpi-ec').textContent = dadosDossie.condicaoAtual || 'NORMAL';
+            document.getElementById('kpi-inst').textContent = dadosDossie.totalInstrumentos;
+            document.getElementById('kpi-anom').textContent = dadosDossie.totalAnomaliasAbertas;
+            document.getElementById('kpi-sump').textContent = dadosDossie.sumps.length;
+        }
+
+        function setAbaStitch(aba) {
+            abaAtiva = aba;
+            ['ident', 'inst', 'anom', 'sump', 'audit'].forEach(t => {
+                const btn = document.getElementById('tab-btn-' + t);
+                if (btn) {
+                    if (t === aba) {
+                        btn.className = 'px-4 py-2 rounded-xl text-xs font-bold bg-sky-500/20 text-sky-400 border border-sky-500/30';
+                    } else {
+                        btn.className = 'px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white';
+                    }
+                }
+            });
+            renderizarAba();
+        }
+
+        function renderizarAba() {
+            const container = document.getElementById('stitch-tab-container');
+            if (!container || !dadosDossie) return;
+
+            const est = dadosDossie.estrutura;
+
+            if (abaAtiva === 'ident') {
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="glass-card rounded-2xl p-5">
+                            <h3 class="text-sm font-bold text-sky-400 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-mountain"></i> Parâmetros Geométricos & Físicos
+                            </h3>
+                            <div class="grid grid-cols-2 gap-y-3 gap-x-4 text-xs">
+                                <div><span class="text-slate-400 block">Cota Coroamento:</span><strong class="text-white">${est.cota_coroamento} m</strong></div>
+                                <div><span class="text-slate-400 block">Cota de Pé:</span><strong class="text-white">${est.cota_pe} m</strong></div>
+                                <div><span class="text-slate-400 block">Altura Máxima:</span><strong class="text-white">${est.altura_maxima} m</strong></div>
+                                <div><span class="text-slate-400 block">Ângulo do Talude:</span><strong class="text-white">${est.angulo_talude_projeto}°</strong></div>
+                                <div><span class="text-slate-400 block">Volume Disposto:</span><strong class="text-white">${(est.volume_atual||0).toLocaleString('pt-BR')} m³</strong></div>
+                                <div><span class="text-slate-400 block">Capacidade Total:</span><strong class="text-white">${(est.capacidade_total||0).toLocaleString('pt-BR')} m³</strong></div>
+                                <div><span class="text-slate-400 block">Número de Bermas:</span><strong class="text-white">${est.numero_bermas} bermas</strong></div>
+                                <div><span class="text-slate-400 block">Largura Média:</span><strong class="text-white">${est.largura_bermas_media} m</strong></div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card rounded-2xl p-5">
+                            <h3 class="text-sm font-bold text-sky-400 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-layer-group"></i> Geologia & Drenagem
+                            </h3>
+                            <p class="text-xs text-slate-300 mb-4 leading-relaxed">${est.descricao_geologica || 'Estrutura assente em xisto itabirítico e fundação em solo residual gnáissico.'}</p>
+                            <h4 class="text-xs font-bold text-slate-200 mb-1">Sistema de Drenagem</h4>
+                            <p class="text-xs text-slate-400 leading-relaxed">${est.sistema_drenagem_desc || 'Canaletas em concreto com degraus dissipadores e bacias de sedimentação.'}</p>
+                        </div>
+                    </div>
+                `;
+            } else if (abaAtiva === 'inst') {
+                container.innerHTML = `
+                    <div class="glass-card rounded-2xl p-5 overflow-x-auto">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-sm font-bold text-sky-400 flex items-center gap-2">
+                                <i class="fa-solid fa-gauge-high"></i> Séries Temporais de Instrumentação
+                            </h3>
+                            <span class="text-xs text-slate-400">Total: ${dadosDossie.instrumentos.length} instrumentos</span>
+                        </div>
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="text-slate-400 border-b border-white/10 uppercase tracking-wider">
+                                    <th class="py-2.5 px-3">Código</th>
+                                    <th class="py-2.5 px-3">Tipo</th>
+                                    <th class="py-2.5 px-3">Cota Boca</th>
+                                    <th class="py-2.5 px-3">Cota Ponta</th>
+                                    <th class="py-2.5 px-3">Atenção</th>
+                                    <th class="py-2.5 px-3">Alerta</th>
+                                    <th class="py-2.5 px-3">Última Leitura</th>
+                                    <th class="py-2.5 px-3">TARP</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/5">
+                                ${dadosDossie.instrumentos.map(i => {
+                                    const ult = dadosDossie.ultimasLeituras.find(l => l.instrumento_id === i.id);
+                                    const tarp = ult ? ult.status_tarp : 'NORMAL';
+                                    const badgeColor = tarp === 'NORMAL' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400';
+                                    return `
+                                        <tr class="hover:bg-white/[0.02]">
+                                            <td class="py-3 px-3 font-bold text-white">${i.codigo}</td>
+                                            <td class="py-3 px-3 text-slate-300">${i.tipo}</td>
+                                            <td class="py-3 px-3 font-mono">${i.cota_boca} m</td>
+                                            <td class="py-3 px-3 font-mono">${i.cota_ponta} m</td>
+                                            <td class="py-3 px-3 font-mono text-amber-400">${i.limite_atencao} ${i.unidade_medida}</td>
+                                            <td class="py-3 px-3 font-mono text-rose-400">${i.limite_alerta} ${i.unidade_medida}</td>
+                                            <td class="py-3 px-3 font-mono text-white">${ult ? ult.valor_medido + ' ' + ult.unidade : '--'}</td>
+                                            <td class="py-3 px-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${badgeColor}">${tarp}</span></td>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            } else if (abaAtiva === 'anom') {
+                container.innerHTML = `
+                    <div class="glass-card rounded-2xl p-5">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-sm font-bold text-sky-400 flex items-center gap-2">
+                                <i class="fa-solid fa-triangle-exclamation"></i> Ciclo de Vida da Anomalia (9 Estados)
+                            </h3>
+                            <button onclick="window.MDSyncDB.criarAnomalia({ estrutura_id: dadosDossie.estrutura.id, descricao: 'Trinca superficial observada na berma', tipo_anomalia: 'TRINCA' }).then(() => carregarDossieStitch());" class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-xs font-bold text-white transition">
+                                <i class="fa-solid fa-plus mr-1"></i> Nova Anomalia
+                            </button>
+                        </div>
+                        <div class="space-y-3">
+                            ${dadosDossie.anomaliasAbertas.map(a => `
+                                <div class="bg-dark-surface/80 border border-white/10 rounded-xl p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+                                    <div>
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <strong class="text-sm text-white">${a.codigo_sequencial || a.id}</strong>
+                                            <span class="px-2 py-0.5 text-[10px] rounded font-bold bg-amber-500/20 text-amber-400">${a.criticidade}</span>
+                                            <span class="px-2 py-0.5 text-[10px] rounded font-bold bg-sky-500/20 text-sky-400">Estado: ${a.status_ciclo}</span>
+                                        </div>
+                                        <p class="text-xs text-slate-300">${a.descricao}</p>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <button onclick="window.MDSyncFluig.criarChamadoOS({ id: '${a.id}', codigo_sequencial: '${a.codigo_sequencial}' }).then(() => carregarDossieStitch());" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 border border-white/10">
+                                            <i class="fa-solid fa-ticket text-sky-400 mr-1"></i> Gerar Ordem Fluig
+                                        </button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (abaAtiva === 'sump') {
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${dadosDossie.sumps.map(s => `
+                            <div class="glass-card rounded-2xl p-5">
+                                <h4 class="text-sm font-bold text-sky-400 mb-2 flex items-center gap-2">
+                                    <i class="fa-solid fa-water"></i> ${s.codigo} (${s.nome})
+                                </h4>
+                                <div class="grid grid-cols-2 gap-2 text-xs">
+                                    <div><span class="text-slate-400 block">Capacidade:</span><strong class="text-white">${(s.capacidade_maxima_m3||0).toLocaleString('pt-BR')} m³</strong></div>
+                                    <div><span class="text-slate-400 block">Volume Atual:</span><strong class="text-white">${(s.volume_atual_estimado_m3||0).toLocaleString('pt-BR')} m³</strong></div>
+                                    <div><span class="text-slate-400 block">Nível d'Água:</span><strong class="text-cyan-400">${s.nivel_agua_atual_percentual}%</strong></div>
+                                    <div><span class="text-slate-400 block">Bombeamento:</span><strong class="text-emerald-400">${s.sistema_bombeamento_status}</strong></div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (abaAtiva === 'audit') {
+                container.innerHTML = `
+                    <div class="glass-card rounded-2xl p-5">
+                        <h3 class="text-sm font-bold text-sky-400 mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-fingerprint"></i> Trilha de Auditoria Imutável (Append-Only)
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-4">Registro inalterável de todas as mutações e validações da estrutura.</p>
+                        <div class="space-y-2 font-mono text-[11px]">
+                            ${dadosDossie.auditoriaRecente.slice(0, 10).map(log => `
+                                <div class="p-2.5 rounded-lg bg-dark-surface/60 border border-white/5 flex justify-between items-center">
+                                    <span class="text-slate-300"><strong>[${log.tabela_afetada}]</strong> ${log.motivo_alteracao || log.campo_modificado}</span>
+                                    <span class="text-slate-500">${new Date(log.data_hora).toLocaleString('pt-BR')}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        async function exportarCSVStitch() {
+            if (window.MDSyncExportador && dadosDossie) {
+                const res = await window.MDSyncExportador.exportarCSVGeoStudio(dadosDossie.estrutura.id);
+                window.MDSyncExportador.dispararDownload(res);
+            }
+        }
+
+        async function exportarGeoJSONStitch() {
+            if (window.MDSyncExportador && dadosDossie) {
+                const res = await window.MDSyncExportador.exportarGeoJSON(dadosDossie.estrutura.id);
+                window.MDSyncExportador.dispararDownload(res);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarDossieStitch();
+        });
+    </script>
+</body>
+</html>

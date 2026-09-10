@@ -192,6 +192,11 @@
                     <span>MDSync Móvel</span>
                     <span class="badge" style="background: rgba(168, 85, 247, 0.25); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.5); font-size: 10px;">HUB</span>
                 </a>
+                <a href="#" class="nav-item" id="nav-dossie" onclick="window.MDSyncDossie.abrirDossie('PDE-01'); return false;" title="Dossiê Digital Corporativo da Estrutura" style="margin-top: 4px;">
+                    <i class="fa-solid fa-folder-open" style="color: #38bdf8;"></i>
+                    <span>Dossiê Estruturas</span>
+                    <span class="badge" style="background: rgba(56, 189, 248, 0.25); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.5); font-size: 10px;">V1.0</span>
+                </a>
             </nav>
 
             <div class="sidebar-footer">
@@ -241,6 +246,9 @@
                     </button>
                     <button class="btn btn-secondary btn-sysdam-toggle" onclick="openSysdamCockpit('modules')" title="Abrir MDSync Cockpit Operacional Móvel" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(2, 132, 199, 0.25)); border: 1px solid rgba(168, 85, 247, 0.5); color: #c084fc; font-weight: 700;">
                         <i class="fa-solid fa-mobile-screen-button"></i> <span>MDSync Móvel</span>
+                    </button>
+                    <button class="btn btn-secondary" onclick="window.MDSyncDossie.abrirDossie('PDE-01')" title="Abrir Dossiê Digital das Estruturas" style="background: rgba(14, 165, 233, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; font-weight: 700;">
+                        <i class="fa-solid fa-folder-open"></i> <span>Dossiê</span>
                     </button>
                     <button class="btn btn-secondary" id="theme-toggle-btn" onclick="toggleTheme()" title="Alternar tema Claro/Escuro">
                         <i class="fa-solid fa-sun" id="theme-toggle-icon"></i> <span id="theme-toggle-text">Claro</span>
@@ -5235,6 +5243,51 @@
                 </div>
             </div>
 
+            <!-- Modal do Dossiê Digital Corporativo da Estrutura (Versão 1.0) -->
+            <div id="mdsync-dossie-modal" class="mdsync-dossie-modal-overlay">
+                <div class="mdsync-dossie-dialog">
+                    <div class="mdsync-dossie-header">
+                        <div>
+                            <h3 id="dossie-modal-title">Dossiê Digital da Estrutura</h3>
+                            <p class="text-secondary small mb-0" id="dossie-modal-subtitle">Carregando metadados consolidados...</p>
+                        </div>
+                        <div class="d-flex align-center gap-3">
+                            <span id="dossie-modal-condicao-badge" class="dossie-badge-condicao badge-success">Condição: NORMAL</span>
+                            <button type="button" class="btn-close" onclick="window.MDSyncDossie.fecharDossie()" style="background:none; border:none; color:#94a3b8; font-size:20px; cursor:pointer;" title="Fechar Dossiê">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Abas de Navegação do Dossiê -->
+                    <div class="dossie-tabs-bar">
+                        <button type="button" class="dossie-tab-btn active" data-tab="identificacao" onclick="window.MDSyncDossie.trocarAba('identificacao')">
+                            <i class="fa-solid fa-circle-info"></i> Identificação
+                        </button>
+                        <button type="button" class="dossie-tab-btn" data-tab="instrumentacao" onclick="window.MDSyncDossie.trocarAba('instrumentacao')">
+                            <i class="fa-solid fa-gauge-high"></i> Instrumentação
+                        </button>
+                        <button type="button" class="dossie-tab-btn" data-tab="checklist" onclick="window.MDSyncDossie.trocarAba('checklist')">
+                            <i class="fa-solid fa-list-check"></i> Checklist Vistoria
+                        </button>
+                        <button type="button" class="dossie-tab-btn" data-tab="anomalias" onclick="window.MDSyncDossie.trocarAba('anomalias')">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Anomalias &amp; Tratativas
+                        </button>
+                        <button type="button" class="dossie-tab-btn" data-tab="sumps" onclick="window.MDSyncDossie.trocarAba('sumps')">
+                            <i class="fa-solid fa-water"></i> SUMPs &amp; Drenagem
+                        </button>
+                        <button type="button" class="dossie-tab-btn" data-tab="exportacao" onclick="window.MDSyncDossie.trocarAba('exportacao')">
+                            <i class="fa-solid fa-file-export"></i> Interoperabilidade
+                        </button>
+                    </div>
+
+                    <!-- Conteúdo Dinâmico da Aba -->
+                    <div class="dossie-tab-body" id="dossie-tab-content">
+                        <p class="text-secondary small">Carregando dados da estrutura...</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -5242,6 +5295,12 @@
     <script src="src/core/sync-bridge.js?v=robust-20260908"></script>
     <script src="src/core/utils.js?v=robust-20260908"></script>
     <script src="src/core/geotech.js?v=robust-20260908"></script>
+    <script src="src/core/mdsync-db.js?v=v1-20260910"></script>
+    <script src="src/core/anomalias-engine.js?v=v1-20260910"></script>
+    <script src="src/core/fluig-gateway.js?v=v1-20260910"></script>
+    <script src="src/core/exportador-geotecnico.js?v=v1-20260910"></script>
+    <script src="src/core/sync-outbox.js?v=v1-20260910"></script>
+    <script src="src/core/dossie-controller.js?v=v1-20260910"></script>
     <script src="src/core/sysdam-controller.js?v=20260910"></script>
     <script src="vendor/three.min.js"></script>
     <script src="vendor/leaflet/leaflet.js"></script>

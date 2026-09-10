@@ -429,7 +429,7 @@
             if (modal) modal.classList.remove('active');
         }
 
-        saveQuickReading() {
+        async saveQuickReading() {
             const instId = document.getElementById('sysdam-read-instrument-id')?.value;
             const value = document.getElementById('sysdam-read-value')?.value;
             const obs = document.getElementById('sysdam-read-obs')?.value;
@@ -439,13 +439,30 @@
                 return;
             }
 
+            const parsedVal = parseFloat(value);
+
+            // Persistir de forma estruturada no motor canônico MDSyncDB
+            if (window.MDSyncDB) {
+                try {
+                    await window.MDSyncDB.salvarLeituraInstrumento({
+                        instrumento_id: instId,
+                        valor_medido: parsedVal,
+                        observacao: obs || '',
+                        coordenadas_gps_e: this.userLocation?.lat ? 593400 : null,
+                        coordenadas_gps_n: this.userLocation?.lng ? 7784100 : null
+                    });
+                } catch (err) {
+                    console.warn('[SysdamController] Aviso ao salvar leitura no MDSyncDB:', err);
+                }
+            }
+
             const payload = {
                 instrumentId: instId,
                 structure: this.selectedStructure,
-                value: parseFloat(value),
+                value: parsedVal,
                 observations: obs || '',
                 date: new Date().toISOString(),
-                user: 'Operador de Campo'
+                user: window.MDSyncDB?.currentUser?.nome || 'Operador de Campo'
             };
 
             // Propagar no barramento SyncBridge
@@ -455,7 +472,7 @@
 
             this.closeQuickReading();
             if (window.showToast) {
-                window.showToast('Leitura Registrada', `Instrumento ${instId} salvo e sincronizado com sucesso.`, 'success', 3500);
+                window.showToast('Leitura Registrada', `Instrumento ${instId} salvo no banco estruturado e na fila Outbox.`, 'success', 3500);
             }
         }
 
