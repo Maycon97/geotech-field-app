@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Outfit:wght@500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "inverse-on-surface": "#283047",
+        "tertiary-fixed": "#ffddb8",
+        "secondary-fixed-dim": "#4edea3",
+        "surface-container-highest": "#2c344c",
+        "on-primary-fixed": "#001e2f",
+        "inverse-primary": "#006591",
+        "tertiary": "#ffb95f",
+        "on-background": "#dbe1ff",
+        "background": "#0a1228",
+        "on-primary-container": "#003751",
+        "on-surface-variant": "#bec8d2",
+        "primary": "#89ceff",
+        "on-secondary": "#003824",
+        "tertiary-container": "#d88a00",
+        "on-secondary-fixed": "#002113",
+        "primary-fixed": "#c9e6ff",
+        "secondary-fixed": "#6ffbbe",
+        "surface-container-lowest": "#050d23",
+        "error-container": "#93000a",
+        "on-tertiary-container": "#4a2c00",
+        "on-surface": "#dbe1ff",
+        "on-primary-fixed-variant": "#004c6e",
+        "on-tertiary-fixed-variant": "#653e00",
+        "on-tertiary": "#472a00",
+        "on-secondary-fixed-variant": "#005236",
+        "outline": "#88929b",
+        "secondary-container": "#00a572",
+        "surface": "#0a1228",
+        "surface-bright": "#313850",
+        "inverse-surface": "#dbe1ff",
+        "on-error": "#690005",
+        "surface-tint": "#89ceff",
+        "on-primary": "#00344d",
+        "on-error-container": "#ffdad6",
+        "outline-variant": "#3e4850",
+        "surface-variant": "#2c344c",
+        "error": "#ffb4ab",
+        "secondary": "#4edea3",
+        "primary-container": "#0ea5e9",
+        "primary-fixed-dim": "#89ceff",
+        "on-secondary-container": "#00311f",
+        "surface-dim": "#0a1228",
+        "surface-container": "#171f35",
+        "surface-container-high": "#222940",
+        "tertiary-fixed-dim": "#ffb95f",
+        "on-tertiary-fixed": "#2a1700",
+        "surface-container-low": "#131b31"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.125rem",
+        "lg": "0.25rem",
+        "xl": "0.5rem",
+        "full": "0.75rem"
+      },
+      "spacing": {
+        "space-2xl": "3rem",
+        "gutter": "1rem",
+        "space-md": "1rem",
+        "space-sm": "0.75rem",
+        "space-2xs": "0.25rem",
+        "space-lg": "1.5rem",
+        "sidebar-width": "260px",
+        "space-xl": "2rem",
+        "space-xs": "0.5rem"
+      },
+      "fontFamily": {
+        "data-metric": ["Outfit"],
+        "title-sm": ["Outfit"],
+        "label-caps": ["Inter"],
+        "body-md": ["Inter"],
+        "body-sm": ["Inter"],
+        "headline-md": ["Outfit"],
+        "headline-xl": ["Outfit"],
+        "code-telemetry": ["JetBrains Mono"],
+        "body-lg": ["Inter"],
+        "headline-lg": ["Outfit"]
+      },
+      "fontSize": {
+        "data-metric": ["32px", {"lineHeight": "36px", "letterSpacing": "-0.03em", "fontWeight": "700"}],
+        "title-sm": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+        "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "600"}],
+        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+        "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+        "code-telemetry": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+        "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600"}]
+      }
+    }
+  }
+}</script></head><body class="bg-background font-body-md text-on-surface min-h-screen antialiased selection:bg-primary-container selection:text-on-primary-container"><aside class="fixed left-0 top-0 h-full w-sidebar-width bg-surface-container-low shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between overflow-hidden"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center justify-between bg-surface-container-lowest/60"><div class="flex items-center gap-space-xs"><img alt="MDSync Geotecnia Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Xs48zES0egZ3wmFdPBpvnV7a21Ly5WZFCmNgHEyZYhfNViwsKr4YO7TSdNgMYBY-z5zwHQ6_Kfqc2diRwV87n74AGFYp23v9UNiXJH0xUsp8janvXfy9xtdRtFQ8cGexi2HRLIKL_IT1XD4PyqhxOc_xj13t2THO6g4g6hnu9Pb1m6YFE7JVxbCb6OsERLTq42_ZFl3hCANPpztB2o-jYd5ZRzkK6yhYwjpxuHg1OkPcO0jb4i6w1tvE38"/><div class="flex flex-col"><span class="font-title-sm text-title-sm text-primary leading-tight tracking-tight">MDSync</span><span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Itaminas Geotecnia</span></div></div><button class="text-on-surface-variant hover:text-on-surface p-space-2xs rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">dock_to_left</span></button></div><div class="px-space-md py-space-xs"><div class="flex items-center gap-space-xs px-space-xs py-space-2xs rounded-full bg-surface-container"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span></span><span class="font-label-caps text-label-caps uppercase text-secondary font-medium tracking-wide truncate">Conectado / Nuvem Ativa</span></div></div><nav class="flex flex-col gap-space-2xs px-space-xs mt-space-2xs" data-active-classes="bg-primary-container text-on-primary-container font-medium shadow-sm"><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="visao-geral" href="#"><span class="material-symbols-outlined text-primary text-[20px]">grid_view</span><span class="truncate">Visão Geral</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="monitoramento-instrumental" href="#"><span class="material-symbols-outlined text-primary text-[20px]">sensors</span><span class="truncate">Monitoramento (TARP/PZ)</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="checklists-fir" href="#"><span class="material-symbols-outlined text-primary text-[20px]">fact_check</span><span class="truncate">Checklists &amp; FIR</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="historico-series" href="#"><span class="material-symbols-outlined text-primary text-[20px]">show_chart</span><span class="truncate">Histórico &amp; Séries</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="relatorios-auditoria" href="#"><span class="material-symbols-outlined text-primary text-[20px]">assignment_turned_in</span><span class="truncate">Relatórios &amp; Auditoria</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="indicadores-bi-fmea" href="#"><span class="material-symbols-outlined text-primary text-[20px]">analytics</span><span class="truncate">Indicadores BI &amp; FMEA</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="geoview-gis-3d" href="#"><span class="material-symbols-outlined text-primary text-[20px]">layers</span><span class="truncate">GeoView &amp; GIS 3D</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="parametros-usuarios" href="#"><span class="material-symbols-outlined text-primary text-[20px]">settings</span><span class="truncate">Parâmetros &amp; Usuários</span></a></nav></div><div class="p-space-sm bg-surface-container-lowest/80 flex flex-col gap-space-xs"><div class="flex items-center justify-between px-space-2xs"><span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Sincronização</span><button class="flex items-center gap-space-2xs text-secondary hover:text-secondary-fixed transition-colors font-label-caps text-label-caps" type="button"><span class="material-symbols-outlined text-[14px]">sync</span><span>Sincronizar</span></button></div><div class="flex items-center gap-space-sm p-space-2xs rounded-xl bg-surface-container-high/40"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="font-title-sm text-title-sm text-on-primary font-bold">MN</span></div><div class="flex flex-col min-w-0 flex-1"><div class="flex items-center gap-space-2xs"><span class="font-body-sm text-body-sm font-semibold text-on-surface truncate">Maycon Nascimento</span><span class="bg-surface-container-highest text-primary font-code-telemetry text-[10px] px-1 py-0.5 rounded-lg shrink-0">@admin</span></div><span class="font-label-caps text-label-caps text-on-surface-variant truncate">Eng. Geotécnico Sênior</span></div></div></div></aside><div class="pl-sidebar-width"><header class="fixed top-0 left-sidebar-width right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-gutter"><div class="flex items-center gap-space-md"><img alt="MDSync Geotecnia Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Xs48zES0egZ3wmFdPBpvnV7a21Ly5WZFCmNgHEyZYhfNViwsKr4YO7TSdNgMYBY-z5zwHQ6_Kfqc2diRwV87n74AGFYp23v9UNiXJH0xUsp8janvXfy9xtdRtFQ8cGexi2HRLIKL_IT1XD4PyqhxOc_xj13t2THO6g4g6hnu9Pb1m6YFE7JVxbCb6OsERLTq42_ZFl3hCANPpztB2o-jYd5ZRzkK6yhYwjpxuHg1OkPcO0jb4i6w1tvE38"/><div class="hidden md:flex items-center gap-space-2xs font-code-telemetry text-code-telemetry bg-surface-container-low px-space-sm py-space-2xs rounded-xl"><span class="material-symbols-outlined text-secondary text-[16px]">radar</span><span class="text-on-surface-variant truncate">Mina Cava Jangada • <strong class="text-on-surface font-semibold">IBIS-FM EVO 01 Ativo</strong></span></div></div><div class="flex items-center gap-space-sm"><div class="hidden lg:flex items-center gap-space-2xs bg-surface-container px-space-sm py-space-2xs rounded-full"><span class="material-symbols-outlined text-primary text-[16px]">cloud_done</span><span class="font-code-telemetry text-code-telemetry text-on-surface-variant">Offline Ready <strong class="text-primary font-medium">(Cache 100%)</strong></span></div><button class="flex items-center gap-space-2xs px-space-md py-space-xs rounded-xl bg-gradient-to-r from-primary-container to-inverse-primary text-on-primary font-title-sm text-title-sm shadow-md hover:brightness-110 active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-[18px]">add_circle</span><span>Nova Coleta</span></button><button class="w-9 h-9 rounded-xl bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">filter_alt</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full px-gutter py-space-md space-y-space-md text-on-surface">
+<!-- TOP CONTEXT & ACTIONS -->
+<section class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-space-sm bg-surface-container-low/70 backdrop-blur-md p-space-md rounded-xl shadow-sm">
+<div class="flex flex-col gap-space-2xs">
+<div class="flex flex-wrap items-center gap-space-xs font-code-telemetry text-label-caps">
+<span class="px-2 py-0.5 rounded-lg bg-surface-container-high text-primary font-semibold tracking-wider">MDSYNC • SEÇÕES 21, 22 &amp; 23</span>
+<span class="text-on-surface-variant">•</span>
+<span class="text-secondary font-medium tracking-wide">SARZEDO / MG • MINA JANGADA &amp; PILHAS</span>
+<span class="text-on-surface-variant">•</span>
+<span class="text-on-surface-variant">v4.9.2 PRECISION</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+        Matriz de Riscos FMEA, Perfis RBAC &amp; Governança C-Level
+      </h1>
+<div class="flex flex-wrap items-center gap-space-xs pt-1">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-primary font-label-caps text-label-caps">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+          RESOLUÇÃO ANM Nº 95/2022
+        </span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-secondary font-label-caps text-label-caps">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+          ABNT NBR 13028
+        </span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-tertiary font-label-caps text-label-caps">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+          GISTM NÍVEL A CONFORME
+        </span>
+</div>
+</div>
+<!-- Quick action buttons -->
+<div class="flex flex-wrap items-center gap-space-xs">
+<button class="flex items-center gap-space-2xs px-space-sm py-2 rounded-xl bg-surface-container-high text-on-surface font-title-sm text-title-sm hover:bg-surface-bright transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px] text-primary">download</span>
+<span>Relatório Executivo C-Level</span>
+</button>
+<button class="flex items-center gap-space-2xs px-space-sm py-2 rounded-xl bg-surface-container-high text-on-surface font-title-sm text-title-sm hover:bg-surface-bright transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px] text-tertiary">tune</span>
+<span>Simulação RPN</span>
+</button>
+<button class="flex items-center gap-space-2xs px-space-sm py-2 rounded-xl bg-primary-container text-on-primary-container font-title-sm text-title-sm hover:brightness-110 active:scale-95 transition-all shadow-md" type="button">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span>Auditar Permissões CREA</span>
+</button>
+</div>
+</section>
+<!-- HIGHER EXECUTIVE KPIS (Seção 23 - C-Level Deck) -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-space-sm">
+<!-- KPI 1 -->
+<div class="flex flex-col justify-between p-space-sm bg-surface-container-low/90 backdrop-blur rounded-xl shadow-sm hover:bg-surface-container-low transition-colors">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-caps text-label-caps uppercase tracking-wider">RPN Médio Global</span>
+<span class="material-symbols-outlined text-primary text-[18px]">equalizer</span>
+</div>
+<div class="my-space-xs flex items-baseline gap-space-xs">
+<span class="font-data-metric text-data-metric text-secondary font-bold">38.4</span>
+<span class="font-code-telemetry text-body-sm text-on-surface-variant">/ 125</span>
+</div>
+<div class="flex items-center justify-between text-body-sm pt-space-2xs border-t border-transparent">
+<span class="text-secondary font-code-telemetry text-body-sm flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">arrow_downward</span> -4.2
+        </span>
+<span class="text-on-surface-variant text-[11px]">Meta: ≤ 60</span>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="flex flex-col justify-between p-space-sm bg-surface-container-low/90 backdrop-blur rounded-xl shadow-sm hover:bg-surface-container-low transition-colors">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-caps text-label-caps uppercase tracking-wider">Modos de Falha</span>
+<span class="material-symbols-outlined text-tertiary text-[18px]">crisis_alert</span>
+</div>
+<div class="my-space-xs flex items-baseline gap-space-xs">
+<span class="font-data-metric text-data-metric text-on-surface font-bold">48</span>
+<span class="font-code-telemetry text-body-sm text-secondary">38 Tol.</span>
+</div>
+<div class="flex items-center justify-between text-body-sm pt-space-2xs">
+<span class="text-tertiary font-code-telemetry text-body-sm">9 Atenção</span>
+<span class="text-error font-code-telemetry text-body-sm">1 Mitigado</span>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="flex flex-col justify-between p-space-sm bg-surface-container-low/90 backdrop-blur rounded-xl shadow-sm hover:bg-surface-container-low transition-colors">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-caps text-label-caps uppercase tracking-wider">Conformidade ANM/PNSB</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">verified</span>
+</div>
+<div class="my-space-xs flex items-baseline gap-space-xs">
+<span class="font-data-metric text-data-metric text-secondary font-bold">100%</span>
+<span class="font-label-caps text-label-caps text-secondary-fixed">8/8 Válidas</span>
+</div>
+<div class="flex items-center justify-between text-body-sm pt-space-2xs">
+<span class="text-on-surface font-code-telemetry text-[11px]">DCE + ARTs OK</span>
+<span class="text-secondary font-label-caps text-label-caps">AUDITADO</span>
+</div>
+</div>
+<!-- KPI 4 -->
+<div class="flex flex-col justify-between p-space-sm bg-surface-container-low/90 backdrop-blur rounded-xl shadow-sm hover:bg-surface-container-low transition-colors">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-caps text-label-caps uppercase tracking-wider">Auditoria RBAC (24h)</span>
+<span class="material-symbols-outlined text-primary text-[18px]">admin_panel_settings</span>
+</div>
+<div class="my-space-xs flex items-baseline gap-space-xs">
+<span class="font-data-metric text-data-metric text-primary font-bold">142</span>
+<span class="font-code-telemetry text-body-sm text-on-surface-variant">sessões</span>
+</div>
+<div class="flex items-center justify-between text-body-sm pt-space-2xs">
+<span class="text-secondary font-code-telemetry text-[11px]">0 violações</span>
+<span class="text-on-surface-variant text-[11px]">100% MFA Azure</span>
+</div>
+</div>
+<!-- KPI 5 -->
+<div class="flex flex-col justify-between p-space-sm bg-surface-container-low/90 backdrop-blur rounded-xl shadow-sm hover:bg-surface-container-low transition-colors">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-caps text-label-caps uppercase tracking-wider">MTTR FMEA (Tratativa)</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">timelapse</span>
+</div>
+<div class="my-space-xs flex items-baseline gap-space-xs">
+<span class="font-data-metric text-data-metric text-on-surface font-bold">3.8</span>
+<span class="font-code-telemetry text-body-sm text-on-surface-variant">dias</span>
+</div>
+<div class="flex items-center justify-between text-body-sm pt-space-2xs">
+<span class="text-secondary font-code-telemetry text-body-sm">+24% agilidade</span>
+<span class="text-on-surface-variant text-[11px]">SLA ≤ 5.0d</span>
+</div>
+</div>
+</section>
+<!-- 2-COLUMN MAIN TECHNICAL SPLIT -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-md">
+<!-- LEFT COLUMN: SEÇÃO 21 - MATRIZ FMEA E MODOS DE FALHA (7 COLS) -->
+<div class="xl:col-span-7 flex flex-col gap-space-md">
+<!-- CARD 1: MATRIZ DE RISCO 5x5 INTERATIVA -->
+<section class="bg-surface-container-low/90 backdrop-blur rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-2xs">
+<div>
+<div class="flex items-center gap-space-2xs">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Matriz de Risco FMEA 5×5 (Geotécnica)</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Distribuição dos 48 Modos de Falha mapeados • Severidade (S) vs Ocorrência (O) com Detecção integrada
+            </p>
+</div>
+<div class="flex items-center gap-2 bg-surface-container px-space-xs py-1 rounded-lg text-label-caps">
+<span class="text-secondary font-semibold">RPN: S × O × D</span>
+</div>
+</div>
+<!-- 5x5 Heatmap & Quadrant Metrics -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md pt-space-xs items-center">
+<!-- Heatmap Visual -->
+<div class="lg:col-span-8 flex flex-col gap-1.5 bg-surface-container-lowest/60 p-space-sm rounded-xl">
+<div class="flex items-center justify-between text-label-caps text-on-surface-variant px-1">
+<span class="uppercase">Severidade (Eixo Vertical) ↑</span>
+<span class="uppercase">Ocorrência (Eixo Horizontal) →</span>
+</div>
+<!-- Heatmap Rows: Row 5 to 1 -->
+<div class="grid grid-cols-6 gap-1 text-center font-code-telemetry text-body-sm">
+<div class="flex items-center justify-center font-bold text-on-surface-variant text-[11px]">S5 Catas.</div>
+<div class="p-2 rounded bg-tertiary/20 text-tertiary hover:ring-1 hover:ring-tertiary cursor-pointer transition">2</div>
+<div class="p-2 rounded bg-tertiary/40 text-tertiary-fixed hover:ring-1 hover:ring-tertiary cursor-pointer transition">3</div>
+<div class="p-2 rounded bg-error/40 text-error hover:ring-1 hover:ring-error cursor-pointer transition">2</div>
+<div class="p-2 rounded bg-error/70 text-on-surface hover:ring-1 hover:ring-error font-bold cursor-pointer transition">1</div>
+<div class="p-2 rounded bg-error-container text-on-error-container font-extrabold ring-1 ring-error cursor-pointer transition animate-pulse">1*</div>
+<div class="flex items-center justify-center font-bold text-on-surface-variant text-[11px]">S4 Crítico</div>
+<div class="p-2 rounded bg-secondary/20 text-secondary hover:ring-1 hover:ring-secondary cursor-pointer transition">4</div>
+<div class="p-2 rounded bg-tertiary/20 text-tertiary hover:ring-1 hover:ring-tertiary cursor-pointer transition">3</div>
+<div class="p-2 rounded bg-tertiary/40 text-tertiary-fixed hover:ring-1 hover:ring-tertiary cursor-pointer transition">2</div>
+<div class="p-2 rounded bg-error/40 text-error hover:ring-1 hover:ring-error cursor-pointer transition">0</div>
+<div class="p-2 rounded bg-error/60 text-error hover:ring-1 hover:ring-error cursor-pointer transition">0</div>
+<div class="flex items-center justify-center font-bold text-on-surface-variant text-[11px]">S3 Mod.</div>
+<div class="p-2 rounded bg-secondary/20 text-secondary hover:ring-1 hover:ring-secondary cursor-pointer transition">8</div>
+<div class="p-2 rounded bg-secondary/20 text-secondary hover:ring-1 hover:ring-secondary cursor-pointer transition">5</div>
+<div class="p-2 rounded bg-tertiary/20 text-tertiary hover:ring-1 hover:ring-tertiary cursor-pointer transition">2</div>
+<div class="p-2 rounded bg-tertiary/40 text-tertiary-fixed hover:ring-1 hover:ring-tertiary cursor-pointer transition">1</div>
+<div class="p-2 rounded bg-error/30 text-error hover:ring-1 hover:ring-error cursor-pointer transition">0</div>
+<div class="flex items-center justify-center font-bold text-on-surface-variant text-[11px]">S2 Menor</div>
+<div class="p-2 rounded bg-secondary/30 text-secondary hover:ring-1 hover:ring-secondary cursor-pointer transition">5</div>
+<div class="p-2 rounded bg-secondary/30 text-secondary hover:ring-1 hover:ring-secondary cursor-pointer transition">4</div>
+<div class="p-2 rounded bg-secondary/20 text-secondary hover:ring-1 hover:ring-secondary cursor-pointer transition">2</div>
+<div class="p-2 rounded bg-tertiary/20 text-tertiary hover:ring-1 hover:ring-tertiary cursor-pointer transition">0</div>
+<div class="p-2 rounded bg-tertiary/30 text-tertiary-fixed hover:ring-1 hover:ring-tertiary cursor-pointer transition">0</div>
+<div class="flex items-center justify-center font-bold text-on-surface-variant text-[11px]">S1 Insig.</div>
+<div class="p-2 rounded bg-secondary/40 text-secondary font-bold hover:ring-1 hover:ring-secondary cursor-pointer transition">7</div>
+<div class="p-2 rounded bg-secondary/30 text-secondary hover:ring-1 hover:ring-secondary cursor-pointer transition">0</div>
+<div class="p-2 rounded bg-secondary/20 text-secondary hover:ring-1 hover:ring-secondary cursor-pointer transition">0</div>
+<div class="p-2 rounded bg-secondary/20 text-secondary hover:ring-1 hover:ring-secondary cursor-pointer transition">0</div>
+<div class="p-2 rounded bg-secondary/10 text-secondary hover:ring-1 hover:ring-secondary cursor-pointer transition">0</div>
+<!-- Col labels O1-O5 -->
+<div></div>
+<div class="text-on-surface-variant text-[11px]">O1 Raro</div>
+<div class="text-on-surface-variant text-[11px]">O2 Pouco</div>
+<div class="text-on-surface-variant text-[11px]">O3 Médio</div>
+<div class="text-on-surface-variant text-[11px]">O4 Alto</div>
+<div class="text-on-surface-variant text-[11px]">O5 Freq.</div>
+</div>
+</div>
+<!-- Quadrant Summaries & Critical Spotlights -->
+<div class="lg:col-span-4 flex flex-col gap-space-xs">
+<div class="p-space-xs rounded-xl bg-surface-container flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Baixo (&lt;40 RPN)</span>
+<span class="font-code-telemetry text-body-md text-secondary font-bold">28 Modos</span>
+</div>
+<div class="p-space-xs rounded-xl bg-surface-container flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Tolerável (40-80)</span>
+<span class="font-code-telemetry text-body-md text-tertiary-fixed font-bold">11 Modos</span>
+</div>
+<div class="p-space-xs rounded-xl bg-surface-container flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Moderado (80-120)</span>
+<span class="font-code-telemetry text-body-md text-tertiary font-bold">8 Modos</span>
+</div>
+<div class="p-space-xs rounded-xl bg-error-container/40 flex items-center justify-between text-on-surface">
+<span class="font-body-sm text-body-sm text-error">Crítico (&gt;120 RPN)</span>
+<span class="font-code-telemetry text-body-md text-error font-extrabold">1 Mitigado</span>
+</div>
+<!-- Spotlighted Node -->
+<div class="mt-space-2xs p-space-xs rounded-xl bg-surface-container-high/70 flex flex-col gap-1">
+<div class="flex items-center gap-1.5 text-error font-label-caps text-label-caps font-semibold">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+<span>FOCO TÉCNICO VIGENTE</span>
+</div>
+<div class="font-body-sm text-body-sm font-medium text-on-surface truncate">
+                MF-04: Piping no Dreno de Fundo (B4)
+              </div>
+<div class="flex items-center justify-between text-[11px] font-code-telemetry text-on-surface-variant">
+<span>RPN Inicial: 160</span>
+<span class="text-secondary font-bold">RPN Pós-Contenção: 48</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CARD 2: TABELA DINÂMICA DE MODOS DE FALHA & RPN -->
+<section class="bg-surface-container-low/90 backdrop-blur rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-2xs">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Registro Analítico de Modos de Falha (FMEA)</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Monitoramento de causalidade, cálculo matricial e ações mitigadoras Fluig vinculadas</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-1 rounded bg-surface-container font-code-telemetry text-[11px] text-on-surface-variant">4 registros críticos em foco</span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-sm">
+<thead>
+<tr class="bg-surface-container text-on-surface-variant font-label-caps text-label-caps uppercase">
+<th class="p-space-xs rounded-l-lg">ID / Estrutura</th>
+<th class="p-space-xs">Modo de Falha</th>
+<th class="p-space-xs text-center">S × O × D</th>
+<th class="p-space-xs text-center">RPN</th>
+<th class="p-space-xs">Mitigação &amp; Responsável</th>
+<th class="p-space-xs text-right rounded-r-lg">Ação</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-transparent font-code-telemetry text-body-sm">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container/50 transition-colors">
+<td class="p-space-xs">
+<span class="text-primary font-bold">FMEA-PDE1-01</span>
+<div class="font-body-sm text-[11px] text-on-surface-variant">PDE-01 Talude Sul</div>
+</td>
+<td class="p-space-xs font-body-sm text-on-surface">
+                  Escorregamento planar em cunha superficial
+                </td>
+<td class="p-space-xs text-center text-on-surface-variant">
+                  3 × 2 × 3
+                </td>
+<td class="p-space-xs text-center">
+<span class="px-2 py-0.5 rounded-full bg-secondary/20 text-secondary font-bold text-[12px]">18</span>
+</td>
+<td class="p-space-xs font-body-sm">
+<div class="text-on-surface truncate">Retaludamento berma 1240</div>
+<div class="text-[11px] text-on-surface-variant">Fluig #41029 • Eng. L. Tavares (CREA 98.411)</div>
+</td>
+<td class="p-space-xs text-right">
+<button class="p-1 rounded bg-surface-container hover:bg-surface-container-high text-primary transition-colors" title="Ver Ficha Técnica" type="button">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container/50 transition-colors">
+<td class="p-space-xs">
+<span class="text-primary font-bold">FMEA-B4-03</span>
+<div class="font-body-sm text-[11px] text-on-surface-variant">Barragem B4 Crista</div>
+</td>
+<td class="p-space-xs font-body-sm text-on-surface">
+                  Obstrução parcial de dreno californiano
+                </td>
+<td class="p-space-xs text-center text-on-surface-variant">
+                  3 × 3 × 4
+                </td>
+<td class="p-space-xs text-center">
+<span class="px-2 py-0.5 rounded-full bg-secondary/20 text-secondary font-bold text-[12px]">36</span>
+</td>
+<td class="p-space-xs font-body-sm">
+<div class="text-on-surface truncate">Desobstrução e flushing hidráulico</div>
+<div class="text-[11px] text-on-surface-variant">Fluig #41201 • Eng. M. Nascimento (CREA 142.890)</div>
+</td>
+<td class="p-space-xs text-right">
+<button class="p-1 rounded bg-surface-container hover:bg-surface-container-high text-primary transition-colors" title="Ver Ficha Técnica" type="button">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container/50 transition-colors">
+<td class="p-space-xs">
+<span class="text-primary font-bold">FMEA-CAVA-02</span>
+<div class="font-body-sm text-[11px] text-on-surface-variant">Cava Jangada B.1230</div>
+</td>
+<td class="p-space-xs font-body-sm text-on-surface">
+                  Queda de bloco com desagregação de bancada
+                </td>
+<td class="p-space-xs text-center text-on-surface-variant">
+                  4 × 4 × 4
+                </td>
+<td class="p-space-xs text-center">
+<span class="px-2 py-0.5 rounded-full bg-tertiary/20 text-tertiary-fixed font-bold text-[12px]">64</span>
+</td>
+<td class="p-space-xs font-body-sm">
+<div class="text-on-surface truncate">Instalação de malha metálica e chumbadores</div>
+<div class="text-[11px] text-on-surface-variant">Fluig #40988 • Consultoria EOR GeoSafe</div>
+</td>
+<td class="p-space-xs text-right">
+<button class="p-1 rounded bg-surface-container hover:bg-surface-container-high text-primary transition-colors" title="Ver Ficha Técnica" type="button">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container/50 transition-colors">
+<td class="p-space-xs">
+<span class="text-primary font-bold">FMEA-PDE2-05</span>
+<div class="font-body-sm text-[11px] text-on-surface-variant">PDE-02 Drenagem Sul</div>
+</td>
+<td class="p-space-xs font-body-sm text-on-surface">
+                  Piping incipiente por percolação em fundação
+                </td>
+<td class="p-space-xs text-center text-on-surface-variant">
+                  4 × 4 × 6
+                </td>
+<td class="p-space-xs text-center">
+<span class="px-2 py-0.5 rounded-full bg-tertiary/30 text-tertiary font-bold text-[12px]">96</span>
+</td>
+<td class="p-space-xs font-body-sm">
+<div class="text-on-surface truncate">Injeção de calda de cimento + Piezometria contínua</div>
+<div class="text-[11px] text-on-surface-variant">Fluig #41334 • Geotecnia Itaminas • ART 2026/01</div>
+</td>
+<td class="p-space-xs text-right">
+<button class="p-1 rounded bg-surface-container hover:bg-surface-container-high text-primary transition-colors" title="Ver Ficha Técnica" type="button">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- FIELD ASSET PHOTO CONTEXT CARD -->
+<section class="bg-surface-container-low/90 backdrop-blur rounded-xl p-space-md shadow-sm grid grid-cols-1 md:grid-cols-2 gap-space-sm items-center">
+<div class="flex flex-col gap-space-2xs">
+<span class="font-label-caps text-label-caps uppercase text-primary">Evidência Fotográfica Georreferenciada</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Bancada 1230 &amp; Sensor Radar IBIS</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Inspeção visual semanal integrada à fotogrametria aérea por drone e refletometria de radar para controle de micro-deformações na Cava Jangada.
+          </p>
+<div class="flex items-center gap-space-xs pt-1 font-code-telemetry text-body-sm text-secondary">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span>Estabilidade Global Atestada (FOS 1.54)</span>
+</div>
+</div>
+<div class="w-full h-44 rounded-xl overflow-hidden shadow-inner relative group">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="High-resolution aerial panoramic view of an open-pit iron ore mine in Minas Gerais Brazil, with terraced benches, geotechnical surveying radar equipment on the crest, clear blue sky, industrial mining machinery and precise geotechnical monitoring points glowing digitally, dark slate and cyan ambiance" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZz7eU5jxyexZygGaWBHbNIW9wQjEBjgeyS9bc61Wg1DwAUguL_6Q5IKZolbRu4mWMOeh2jCso_3mzD2345jKvTb7ynD7p_p7TrLWGvQKZOKGp49C7dPw8UDnQ4Q0GlpVBpFecG9aYdhA0rLVQVZOZ74orglfdALUhRPh83SQnkM7fu0pclExpP9Sw5A8S0GDdZkyqjRoPdgCQDKcFQiAE2BnvvNvmC3TpsQ9EKG_LgnyyFe9LFIi5lg"/>
+<div class="absolute bottom-2 left-2 px-2 py-1 rounded bg-surface-container-lowest/80 backdrop-blur text-[10px] font-code-telemetry text-on-surface">
+            COORD: 20°02'14"S 44°08'41"W • Cava Jangada
+          </div>
+</div>
+</section>
+</div>
+<!-- RIGHT COLUMN: SEÇÕES 22 & 23 - RBAC & C-LEVEL GOVERNANCE (5 COLS) -->
+<div class="xl:col-span-5 flex flex-col gap-space-md">
+<!-- CARD 3: MATRIZ DE ACESSOS RBAC & HABILITAÇÕES LEGAIS (Seção 22) -->
+<section class="bg-surface-container-low/90 backdrop-blur rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-2xs">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Matriz de Acessos &amp; Perfis RBAC</h2>
+</div>
+<span class="font-code-telemetry text-label-caps text-secondary bg-surface-container px-2 py-0.5 rounded-lg">Seção 22</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Controle de segregação de funções conforme exigência ANM e governança corporativa de TI/OT.
+        </p>
+<!-- Role List Accordion-styled items -->
+<div class="flex flex-col gap-space-xs">
+<!-- Level 1 -->
+<div class="p-space-xs rounded-xl bg-surface-container-high/40 flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 font-title-sm text-title-sm text-primary">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span>Nível 1: Eng. Geotécnico Sênior</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-primary/10 text-primary font-code-telemetry text-[11px] font-bold">Total / ART</span>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant">
+              Emissão de Pareceres Técnicos, assinatura de ART, aprovação de FIR e calibração de modelos FOS.
+            </p>
+<div class="text-[11px] font-code-telemetry text-on-surface pt-0.5 flex items-center justify-between">
+<span class="text-on-surface-variant">Titular ativo: <strong class="text-on-surface">M. Nascimento</strong> (CREA 142.890/D)</span>
+<span class="text-secondary font-medium">Assinatura Digital ICP-Brasil</span>
+</div>
+</div>
+<!-- Level 2 -->
+<div class="p-space-xs rounded-xl bg-surface-container/60 flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 font-title-sm text-title-sm text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-tertiary">engineering</span>
+<span>Nível 2: Engenheiro de Registro (EoR)</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-tertiary/10 text-tertiary-fixed font-code-telemetry text-[11px]">Revisão ANM</span>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant">
+              Consultoria independente externa, validação de DCE e auditoria de modelos de estabilidade.
+            </p>
+</div>
+<!-- Level 3 -->
+<div class="p-space-xs rounded-xl bg-surface-container/60 flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 font-title-sm text-title-sm text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">cell_tower</span>
+<span>Nível 3: Técnico de Campo &amp; Instrumentação</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-code-telemetry text-[11px]">Coleta Offline</span>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant">
+              Entrada de leituras manuais de piezômetros, fotos de trincas e checklists móveis via PWA.
+            </p>
+</div>
+<!-- Level 4 & 5 Compact -->
+<div class="grid grid-cols-2 gap-space-xs text-[11px] font-body-sm">
+<div class="p-space-2xs rounded-lg bg-surface-container/40">
+<span class="font-semibold text-on-surface">Nível 4: Operação Mina</span>
+<p class="text-on-surface-variant mt-0.5">Execução e fechamento de OS Fluig.</p>
+</div>
+<div class="p-space-2xs rounded-lg bg-surface-container/40">
+<span class="font-semibold text-on-surface">Nível 5: C-Level / Diretoria</span>
+<p class="text-on-surface-variant mt-0.5">Visualização de BI e relatórios consolidados.</p>
+</div>
+</div>
+</div>
+<!-- RBAC Granular Matrix Table -->
+<div class="bg-surface-container-lowest/70 p-space-xs rounded-xl overflow-x-auto">
+<table class="w-full text-left font-code-telemetry text-[11px]">
+<thead>
+<tr class="text-on-surface-variant uppercase font-label-caps">
+<th class="pb-1">Privilégio</th>
+<th class="pb-1 text-center">N1</th>
+<th class="pb-1 text-center">N2</th>
+<th class="pb-1 text-center">N3</th>
+<th class="pb-1 text-center">N4</th>
+<th class="pb-1 text-center">N5</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high/40 text-on-surface">
+<tr>
+<td class="py-1">Leitura Telemetria</td>
+<td class="text-center text-secondary">✓</td>
+<td class="text-center text-secondary">✓</td>
+<td class="text-center text-secondary">✓</td>
+<td class="text-center text-secondary">✓</td>
+<td class="text-center text-secondary">✓</td>
+</tr>
+<tr>
+<td class="py-1">Calibração de Fórmulas</td>
+<td class="text-center text-secondary">✓</td>
+<td class="text-center text-on-surface-variant">-</td>
+<td class="text-center text-on-surface-variant">-</td>
+<td class="text-center text-on-surface-variant">-</td>
+<td class="text-center text-on-surface-variant">-</td>
+</tr>
+<tr>
+<td class="py-1">Disparo Alarme TARP</td>
+<td class="text-center text-secondary">✓</td>
+<td class="text-center text-secondary">✓</td>
+<td class="text-center text-on-surface-variant">-</td>
+<td class="text-center text-on-surface-variant">-</td>
+<td class="text-center text-on-surface-variant">-</td>
+</tr>
+<tr>
+<td class="py-1">Exportação ANM Oficial</td>
+<td class="text-center text-secondary">✓</td>
+<td class="text-center text-secondary">✓</td>
+<td class="text-center text-on-surface-variant">-</td>
+<td class="text-center text-on-surface-variant">-</td>
+<td class="text-center text-secondary">✓</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- CARD 4: PAINEL EXECUTIVO C-LEVEL & COMPLIANCE ANM / GISTM (Seção 23) -->
+<section class="bg-surface-container-low/90 backdrop-blur rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-2xs">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Governança Executiva &amp; GISTM</h2>
+</div>
+<span class="font-code-telemetry text-label-caps text-tertiary bg-surface-container px-2 py-0.5 rounded-lg">Seção 23</span>
+</div>
+<!-- Compliance Gauge & Global Score -->
+<div class="flex items-center justify-between bg-surface-container p-space-sm rounded-xl">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Score de Conformidade Global</span>
+<span class="font-data-metric text-data-metric text-primary font-bold">96.4<span class="text-body-sm font-normal text-on-surface-variant">/100</span></span>
+<span class="font-body-sm text-secondary font-medium">Nível Excelente • Risco Controlado</span>
+</div>
+<!-- Compact SVG Circular Gauge -->
+<div class="relative w-20 h-20 shrink-0">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-container-high stroke-current" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-width="3.5"></path>
+<path class="text-primary stroke-current" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-dasharray="96.4, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center font-code-telemetry text-[12px] font-bold text-on-surface">
+              96.4%
+            </div>
+</div>
+</div>
+<!-- 6 GISTM Essential Principles Checklist -->
+<div class="flex flex-col gap-1.5 pt-space-2xs">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant tracking-wider">
+            6 Princípios Essenciais GISTM (Global Standard)
+          </span>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 font-body-sm text-[12px]">
+<div class="p-2 rounded bg-surface-container flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[16px]">check_circle</span>
+<span class="truncate">1. Respeito às Comunidades</span>
+</div>
+<div class="p-2 rounded bg-surface-container flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[16px]">check_circle</span>
+<span class="truncate">2. Conhecimento Integrado</span>
+</div>
+<div class="p-2 rounded bg-surface-container flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[16px]">check_circle</span>
+<span class="truncate">3. Projeto Robusto (FOS)</span>
+</div>
+<div class="p-2 rounded bg-surface-container flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[16px]">check_circle</span>
+<span class="truncate">4. Governança EoR Ativa</span>
+</div>
+<div class="p-2 rounded bg-surface-container flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[16px]">check_circle</span>
+<span class="truncate">5. Resposta PAEBM Pronta</span>
+</div>
+<div class="p-2 rounded bg-surface-container flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[16px]">check_circle</span>
+<span class="truncate">6. Transparência SIGBM</span>
+</div>
+</div>
+</div>
+<!-- Legal Compliance Timeline / Deadlines -->
+<div class="flex flex-col gap-2 pt-space-2xs">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant tracking-wider">
+            Cronograma de Obrigações Legais Obrigatórias
+          </span>
+<div class="space-y-1.5 font-code-telemetry text-[12px]">
+<div class="flex items-center justify-between p-2 rounded bg-surface-container-high/40">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="text-on-surface font-body-sm">Campanha Semestral DCE</span>
+</div>
+<span class="text-secondary font-medium">Setembro/2026</span>
+</div>
+<div class="flex items-center justify-between p-2 rounded bg-surface-container-high/40">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="text-on-surface font-body-sm">Relatório Anual RASB</span>
+</div>
+<span class="text-secondary font-medium">Homologado</span>
+</div>
+<div class="flex items-center justify-between p-2 rounded bg-surface-container-high/40">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span class="text-on-surface font-body-sm">Simulado de Emergência ZAS</span>
+</div>
+<span class="text-tertiary font-medium">15/Out/2026</span>
+</div>
+</div>
+</div>
+</section>
+<!-- EXECUTIVE FACILITY OVERVIEW CARD -->
+<section class="bg-surface-container-low/90 backdrop-blur rounded-xl p-space-md shadow-sm flex items-center gap-space-sm">
+<div class="w-24 h-24 rounded-xl overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="Close up architectural capture of geotechnical laboratory and dam safety control room with monitors displaying telemetry, high-tech engineering office in dark slate tones with subtle blue status indicators" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7bBI22KAnwgES3COvifhtwcfXrxm9gaONLXV6i7SgbPNF9oTDhgZBQfI1zhB5aGxk2bHwNA02a9i3b89yfy1vXdSzmmm4l_IsjP-SsphzN0XCZ8meSBzUvmogCJENZ51_MvOkrUx915WkJt5q9sA-u0Ht-bb9om-u3BSOJ8C9EZ2JUFzlyc23H8gw4dhTQgbQTWcnzRmIbmHMwRomzvL5ut25s3UCh1S0gyuQjJg5gqS50gjS0voa0A"/>
+</div>
+<div class="flex flex-col gap-1 min-w-0">
+<div class="flex items-center gap-1.5 text-label-caps text-secondary font-semibold uppercase">
+<span class="material-symbols-outlined text-[14px]">assured_workload</span>
+<span>Centro de Controle Geotécnico</span>
+</div>
+<h4 class="font-title-sm text-title-sm text-on-surface truncate">Sala Técnica Sarzedo 24/7</h4>
+<p class="font-body-sm text-[12px] text-on-surface-variant line-clamp-2">
+            Supervisão contínua com link redundante via satélite Starlink e fibra subterrânea integrada ao CCO Itaminas.
+          </p>
+</div>
+</section>
+</div>
+</div>
+<!-- RODAPÉ DE AUDITORIA & SEGURANÇA CRIPTOGRÁFICA (Seção 25) -->
+<footer class="mt-space-md p-space-sm rounded-xl bg-surface-container-lowest/80 backdrop-blur border-t border-surface-container-high/30 flex flex-col md:flex-row items-center justify-between gap-space-sm text-on-surface-variant font-code-telemetry text-body-sm">
+<div class="flex flex-wrap items-center gap-space-sm">
+<div class="flex items-center gap-1.5 text-secondary">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+<span class="text-[11px] font-bold tracking-wider uppercase">Hash SHA-256 Validado:</span>
+</div>
+<span class="text-[11px] bg-surface-container px-2 py-0.5 rounded text-on-surface select-all">
+        e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+      </span>
+</div>
+<div class="flex flex-wrap items-center gap-space-md text-[11px]">
+<span class="text-on-surface-variant">
+        Resp. Técnico: <strong class="text-on-surface">Maycon Nascimento</strong> (CREA-MG 142.890/D)
+      </span>
+<span class="text-on-surface-variant">•</span>
+<span class="text-primary">MDSync Enterprise v4.9.2</span>
+<span class="text-on-surface-variant">•</span>
+<span class="text-secondary font-medium">Sessão SSL/TLS v1.3</span>
+</div>
+</footer>
+</div>
+<script>
+  // Micro-interactions for FMEA Heatmap cells
+  document.querySelectorAll('.cursor-pointer').forEach(cell => {
+    cell.addEventListener('click', () => {
+      const val = cell.innerText.trim();
+      if (val && val !== '0') {
+        cell.classList.add('scale-110');
+        setTimeout(() => cell.classList.remove('scale-110'), 300);
+      }
+    });
+  });
+</script></main></div>
+    <!-- MDSync Core Bilateral Sync & Runtime Integration -->
+    <script src="../../src/core/sync-bridge.js"></script>
+    <script src="../stitch-runtime.js"></script>
+</body></html>

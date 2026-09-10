@@ -785,123 +785,195 @@
     <script>
         const SCREENS_DATA = [
             {
-                category: "Dashboard & Executivo",
-                id: "01",
-                title: "Visão Geral Geotécnica",
-                file: "screens/01-visao-geral-geotecnica.html",
-                screenshot: "assets/screenshots/01-visao-geral-geotecnica.png",
-                icon: "fa-solid fa-chart-line",
-                badge: "Dashboard"
+                        "category": "Dashboard & Executivo",
+                        "id": "01",
+                        "title": "Visão Geral Geotécnica",
+                        "file": "screens/01-visao-geral-geotecnica.html",
+                        "screenshot": "assets/screenshots/01-visao-geral-geotecnica.png",
+                        "icon": "fa-solid fa-chart-line",
+                        "badge": "Dashboard"
             },
             {
-                category: "Dashboard & Executivo",
-                id: "08",
-                title: "Rotina Diária & Equipe",
-                file: "screens/08-rotina-diaria-equipe-geotecnica.html",
-                screenshot: "assets/screenshots/08-rotina-diaria-equipe-geotecnica.png",
-                icon: "fa-solid fa-users-gear",
-                badge: "Operações"
+                        "category": "Campo & Inspeção",
+                        "id": "02",
+                        "title": "Fluxo de Coleta & Checklist de Campo (Offline)",
+                        "file": "screens/02-fluxo-coleta-checklist-offline.html",
+                        "screenshot": "assets/screenshots/02-fluxo-coleta-checklist-offline.png",
+                        "icon": "fa-solid fa-clipboard-check",
+                        "badge": "Offline Form"
             },
             {
-                category: "Dashboard & Executivo",
-                id: "09",
-                title: "Painel Executivo Cronograma PCMI",
-                file: "screens/09-painel-executivo-cronograma-pcmi.html",
-                screenshot: "assets/screenshots/12-captura-referencia-pcmi.png",
-                icon: "fa-solid fa-timeline",
-                badge: "Cronograma"
+                        "category": "3D & Cartografia",
+                        "id": "03",
+                        "title": "GeoView & GIS 3D de Campo",
+                        "file": "screens/03-geoview-gis-3d-campo.html",
+                        "screenshot": "assets/screenshots/03-geoview-gis-3d-campo.png",
+                        "icon": "fa-solid fa-map-location-dot",
+                        "badge": "Cartografia"
             },
             {
-                category: "Campo & Inspeção",
-                id: "02",
-                title: "Fluxo de Coleta & Checklist Offline",
-                file: "screens/02-fluxo-coleta-checklist-offline.html",
-                screenshot: "assets/screenshots/02-fluxo-coleta-checklist-offline.png",
-                icon: "fa-solid fa-clipboard-check",
-                badge: "Offline Form"
+                        "category": "3D & Cartografia",
+                        "id": "04",
+                        "title": "GeoView & GIS 3D Interativo (Three.js & Telemetria Dinâmica)",
+                        "file": "screens/04-geoview-gis-3d-interativo-threejs.html",
+                        "screenshot": "assets/screenshots/04-geoview-gis-3d-interativo-threejs.png",
+                        "icon": "fa-solid fa-cube",
+                        "badge": "Three.js"
             },
             {
-                category: "3D & Cartografia",
-                id: "03",
-                title: "GeoView & GIS 3D de Campo",
-                file: "screens/03-geoview-gis-3d-campo.html",
-                screenshot: "assets/screenshots/03-geoview-gis-3d-campo.png",
-                icon: "fa-solid fa-map-location-dot",
-                badge: "Cartografia"
+                        "category": "Governança & Conformidade",
+                        "id": "05",
+                        "title": "Relatórios & Auditoria (GISTM e ANM 95)",
+                        "file": "screens/05-relatorios-auditoria-gistm-anm95.html",
+                        "screenshot": "assets/screenshots/05-relatorios-auditoria-gistm-anm95.png",
+                        "icon": "fa-solid fa-file-shield",
+                        "badge": "Auditoria"
             },
             {
-                category: "3D & Cartografia",
-                id: "04",
-                title: "GeoView & GIS 3D Interativo (Three.js)",
-                file: "screens/04-geoview-gis-3d-interativo-threejs.html",
-                screenshot: "assets/screenshots/04-geoview-gis-3d-interativo-threejs.png",
-                icon: "fa-solid fa-cube",
-                badge: "Three.js"
+                        "category": "Governança & Conformidade",
+                        "id": "06",
+                        "title": "Exportação do Pacote Oficial ANM (ZIP)",
+                        "file": "screens/06-exportacao-pacote-oficial-anm-zip.html",
+                        "screenshot": "assets/screenshots/06-exportacao-pacote-oficial-anm-zip.png",
+                        "icon": "fa-solid fa-file-zipper",
+                        "badge": "Exportador"
             },
             {
-                category: "3D & Cartografia",
-                id: "10",
-                title: "Widget Standalone Three.js",
-                file: "screens/10-threejs-widget.html",
-                screenshot: null,
-                icon: "fa-solid fa-shapes",
-                badge: "WebGL"
+                        "category": "Governança & Conformidade",
+                        "id": "07",
+                        "title": "Transmissão Homologada API SIGBM (Protocolo Oficial)",
+                        "file": "screens/07-transmissao-homologada-api-sigbm.html",
+                        "screenshot": "assets/screenshots/07-transmissao-homologada-api-sigbm.png",
+                        "icon": "fa-solid fa-tower-broadcast",
+                        "badge": "SIGBM API"
             },
             {
-                category: "Governança & Conformidade",
-                id: "05",
-                title: "Relatórios & Auditoria (GISTM e ANM 95)",
-                file: "screens/05-relatorios-auditoria-gistm-anm95.html",
-                screenshot: "assets/screenshots/05-relatorios-auditoria-gistm-anm95.png",
-                icon: "fa-solid fa-file-shield",
-                badge: "Auditoria"
+                        "category": "Dashboard & Executivo",
+                        "id": "08",
+                        "title": "Rotina Diária & Equipe Geotécnica",
+                        "file": "screens/08-rotina-diaria-equipe-geotecnica.html",
+                        "screenshot": "assets/screenshots/08-rotina-diaria-equipe-geotecnica.png",
+                        "icon": "fa-solid fa-users-gear",
+                        "badge": "Operações"
             },
             {
-                category: "Governança & Conformidade",
-                id: "06",
-                title: "Exportação Pacote Oficial ANM (ZIP)",
-                file: "screens/06-exportacao-pacote-oficial-anm-zip.html",
-                screenshot: "assets/screenshots/06-exportacao-pacote-oficial-anm-zip.png",
-                icon: "fa-solid fa-file-zipper",
-                badge: "Exportador"
+                        "category": "Dashboard & Executivo",
+                        "id": "09",
+                        "title": "Painel_Executivo_CronogramaPCMI.html",
+                        "file": "screens/09-painel-executivo-cronograma-pcmi.html",
+                        "screenshot": null,
+                        "icon": "fa-solid fa-timeline",
+                        "badge": "Cronograma"
             },
             {
-                category: "Governança & Conformidade",
-                id: "07",
-                title: "Transmissão Homologada API SIGBM",
-                file: "screens/07-transmissao-homologada-api-sigbm.html",
-                screenshot: "assets/screenshots/07-transmissao-homologada-api-sigbm.png",
-                icon: "fa-solid fa-tower-broadcast",
-                badge: "SIGBM API"
+                        "category": "3D & Cartografia",
+                        "id": "10",
+                        "title": "Three.js",
+                        "file": "screens/10-threejs-widget.html",
+                        "screenshot": null,
+                        "icon": "fa-solid fa-shapes",
+                        "badge": "WebGL"
             },
             {
-                category: "Campo & Inspeção",
-                id: "11",
-                title: "MDSync Mobile Hub & Cockpit",
-                file: "screens/11-sysdam-mobile-hub.html",
-                screenshot: null,
-                icon: "fa-solid fa-mobile-screen-button",
-                badge: "MDSync 3x4"
+                        "category": "Campo & Inspeção",
+                        "id": "11",
+                        "title": "MDSync Mobile Hub & Cockpit",
+                        "file": "screens/11-sysdam-mobile-hub.html",
+                        "screenshot": null,
+                        "icon": "fa-solid fa-mobile-screen-button",
+                        "badge": "MDSync 3x4"
             },
             {
-                category: "Governança & Dossiê",
-                id: "12",
-                title: "MDSync Dossiê Digital & Governança",
-                file: "screens/12-dossie-digital-hub.html",
-                screenshot: null,
-                icon: "fa-solid fa-folder-open",
-                badge: "Versão 1.0"
+                        "category": "Governança & Dossiê",
+                        "id": "12",
+                        "title": "MDSync Dossiê Digital & Governança",
+                        "file": "screens/12-dossie-digital-hub.html",
+                        "screenshot": null,
+                        "icon": "fa-solid fa-folder-open",
+                        "badge": "Versão 1.0"
             },
             {
-                category: "Governança & Dossiê",
-                id: "13",
-                title: "MDSync Alertas para Avaliação Técnica",
-                file: "screens/13-alertas-governanca.html",
-                screenshot: null,
-                icon: "fa-solid fa-triangle-exclamation",
-                badge: "Seção 20"
+                        "category": "Governança & Dossiê",
+                        "id": "13",
+                        "title": "MDSync Alertas para Avaliação Técnica",
+                        "file": "screens/13-alertas-governanca.html",
+                        "screenshot": null,
+                        "icon": "fa-solid fa-triangle-exclamation",
+                        "badge": "Seção 20"
+            },
+            {
+                        "category": "Governança & Dossiê",
+                        "id": "14",
+                        "title": "Módulo de Estruturas & Dossiê Digital 360°",
+                        "file": "screens/14-modulo-estruturas-dossie-360.html",
+                        "screenshot": "assets/screenshots/14-modulo-estruturas-dossie-360.png",
+                        "icon": "fa-solid fa-landmark",
+                        "badge": "Dossiê 360°"
+            },
+            {
+                        "category": "Campo & Inspeção",
+                        "id": "15",
+                        "title": "Fluxo de Inspeção Guiada & Checklist Visual de Campo (26 Itens)",
+                        "file": "screens/15-fluxo-inspecao-guiada-26-itens.html",
+                        "screenshot": "assets/screenshots/15-fluxo-inspecao-guiada-26-itens.png",
+                        "icon": "fa-solid fa-list-check",
+                        "badge": "26 Itens ANM"
+            },
+            {
+                        "category": "Campo & Inspeção",
+                        "id": "16",
+                        "title": "Gestão de Anomalias, Ciclo de 9 Estados & Fluig",
+                        "file": "screens/16-gestao-anomalias-ciclo-9-estados.html",
+                        "screenshot": "assets/screenshots/16-gestao-anomalias-ciclo-9-estados.png",
+                        "icon": "fa-solid fa-bug",
+                        "badge": "9 Estados"
+            },
+            {
+                        "category": "Engenharia & SUMPs",
+                        "id": "17",
+                        "title": "Gestão de SUMPs, Bacias & Rede de Drenagem",
+                        "file": "screens/17-gestao-sumps-bacias-drenagem.html",
+                        "screenshot": "assets/screenshots/17-gestao-sumps-bacias-drenagem.png",
+                        "icon": "fa-solid fa-water",
+                        "badge": "SUMPs & Bacias"
+            },
+            {
+                        "category": "Governança & Integrações",
+                        "id": "18",
+                        "title": "Conectores Microsoft M365, Data Lake & Governança GIS (Seções 16 & 17)",
+                        "file": "screens/18-conectores-m365-data-lake-gis.html",
+                        "screenshot": "assets/screenshots/18-conectores-m365-data-lake-gis.png",
+                        "icon": "fa-solid fa-cloud-arrow-up",
+                        "badge": "M365 & Data Lake"
+            },
+            {
+                        "category": "Engenharia & Modelagem",
+                        "id": "19",
+                        "title": "Modelagem Geotécnica GeoStudio & Prontidão PAEBM (Seções 19 & 20)",
+                        "file": "screens/19-modelagem-geostudio-paebm.html",
+                        "screenshot": "assets/screenshots/19-modelagem-geostudio-paebm.png",
+                        "icon": "fa-solid fa-mountain",
+                        "badge": "GeoStudio & PAEBM"
+            },
+            {
+                        "category": "Riscos & Governança",
+                        "id": "20",
+                        "title": "Gestão de Riscos FMEA, Matriz RBAC & Governança C-Level (Seções 21, 22 & 23)",
+                        "file": "screens/20-fmea-rbac-governanca-clevel.html",
+                        "screenshot": "assets/screenshots/20-fmea-rbac-governanca-clevel.png",
+                        "icon": "fa-solid fa-shield-halved",
+                        "badge": "FMEA & RBAC"
+            },
+            {
+                        "category": "Riscos & Auditoria",
+                        "id": "21",
+                        "title": "Central de Inteligência de Auditoria, Trilha Criptográfica & Integridade Transacional (Seções 6, 25 & 26)",
+                        "file": "screens/21-inteligencia-auditoria-cripto.html",
+                        "screenshot": "assets/screenshots/21-inteligencia-auditoria-cripto.png",
+                        "icon": "fa-solid fa-fingerprint",
+                        "badge": "Cripto & Trilha"
             }
-        ];
+];
 
         let currentScreenIndex = 0;
 

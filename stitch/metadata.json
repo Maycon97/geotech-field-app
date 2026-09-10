@@ -1,112 +1,16 @@
 {
   "projectId": "17431042698047576274",
   "title": "Geotech Platform Redesign",
-  "importedAt": "2026-09-08T12:35:00Z",
-  "totalScreens": 13,
+  "importedAt": "2026-09-10T17:40:00Z",
+  "totalScreens": 21,
   "screens": [
-    {
-      "id": "312bb647d529491da1a1b84a9e5ee007",
-      "title": "Extracted text from https://maycon97.github.io/geotech-field-app/#",
-      "slug": "11-texto-base-geotech-field-app",
-      "mimeType": "text/markdown",
-      "htmlFile": "screens/11-texto-base-geotech-field-app.md",
-      "screenshotFile": null,
-      "width": "0",
-      "height": "0",
-      "deviceType": "DESKTOP"
-    },
-    {
-      "id": "5c9f6b7b20d046f384a75d4d5559ea59",
-      "title": "MDSync Geotecnia Logo",
-      "slug": "logo-mdsync",
-      "mimeType": "image/svg+xml",
-      "htmlFile": "assets/logo.svg",
-      "screenshotFile": "assets/screenshots/logo-mdsync.png",
-      "width": "200",
-      "height": "48",
-      "deviceType": "DESKTOP"
-    },
-    {
-      "id": "5bc3d2b902fd4fef8b82d65f7fb467c7",
-      "title": "MDSync - Relatórios & Auditoria (GISTM e ANM 95)",
-      "slug": "05-relatorios-auditoria-gistm-anm95",
-      "mimeType": "text/html",
-      "htmlFile": "screens/05-relatorios-auditoria-gistm-anm95.html",
-      "screenshotFile": "assets/screenshots/05-relatorios-auditoria-gistm-anm95.png",
-      "width": "2560",
-      "height": "5622",
-      "deviceType": "DESKTOP"
-    },
-    {
-      "id": "0d149436b6294074a93cc3d9dae57ac7",
-      "title": "MDSync - Transmissão Homologada API SIGBM (Protocolo Oficial)",
-      "slug": "07-transmissao-homologada-api-sigbm",
-      "mimeType": "text/html",
-      "htmlFile": "screens/07-transmissao-homologada-api-sigbm.html",
-      "screenshotFile": "assets/screenshots/07-transmissao-homologada-api-sigbm.png",
-      "width": "2560",
-      "height": "5622",
-      "deviceType": "DESKTOP"
-    },
-    {
-      "id": "6958761145405582248",
-      "title": "Captura de tela 2026-03-10 082548.png",
-      "slug": "12-captura-referencia-pcmi",
-      "mimeType": "",
-      "htmlFile": null,
-      "screenshotFile": "assets/screenshots/12-captura-referencia-pcmi.png",
-      "width": "1214",
-      "height": "685",
-      "deviceType": "DESKTOP"
-    },
-    {
-      "id": "256d6d0496814f93b0e76bc60e808554",
-      "title": "MDSync - GeoView & GIS 3D de Campo",
-      "slug": "03-geoview-gis-3d-campo",
-      "mimeType": "text/html",
-      "htmlFile": "screens/03-geoview-gis-3d-campo.html",
-      "screenshotFile": "assets/screenshots/03-geoview-gis-3d-campo.png",
-      "width": "2560",
-      "height": "2260",
-      "deviceType": "DESKTOP"
-    },
-    {
-      "id": "cef08a9f91d14945b27ce0ef501ce357",
-      "title": "MDSync - Exportação do Pacote Oficial ANM (ZIP)",
-      "slug": "06-exportacao-pacote-oficial-anm-zip",
-      "mimeType": "text/html",
-      "htmlFile": "screens/06-exportacao-pacote-oficial-anm-zip.html",
-      "screenshotFile": "assets/screenshots/06-exportacao-pacote-oficial-anm-zip.png",
-      "width": "2560",
-      "height": "5622",
-      "deviceType": "DESKTOP"
-    },
-    {
-      "id": "cfaa8505f6b5468793b1949617661409",
-      "title": "MDSync - Fluxo de Coleta & Checklist de Campo (Offline)",
-      "slug": "02-fluxo-coleta-checklist-offline",
-      "mimeType": "text/html",
-      "htmlFile": "screens/02-fluxo-coleta-checklist-offline.html",
-      "screenshotFile": "assets/screenshots/02-fluxo-coleta-checklist-offline.png",
-      "width": "2560",
-      "height": "3596",
-      "deviceType": "DESKTOP"
-    },
-    {
-      "id": "026ae1e4c0e2442dba90d64dc8c6664c",
-      "title": "MDSync - Rotina Diária & Equipe Geotécnica",
-      "slug": "08-rotina-diaria-equipe-geotecnica",
-      "mimeType": "text/html",
-      "htmlFile": "screens/08-rotina-diaria-equipe-geotecnica.html",
-      "screenshotFile": "assets/screenshots/08-rotina-diaria-equipe-geotecnica.png",
-      "width": "2560",
-      "height": "3662",
-      "deviceType": "DESKTOP"
-    },
     {
       "id": "2bc511394c1c4e55a2635c0ffcac1bdc",
       "title": "MDSync - Visão Geral Geotécnica",
       "slug": "01-visao-geral-geotecnica",
+      "category": "Dashboard & Executivo",
+      "badge": "Dashboard",
+      "icon": "fa-solid fa-chart-line",
       "mimeType": "text/html",
       "htmlFile": "screens/01-visao-geral-geotecnica.html",
       "screenshotFile": "assets/screenshots/01-visao-geral-geotecnica.png",
@@ -115,20 +19,96 @@
       "deviceType": "DESKTOP"
     },
     {
-      "id": "5479262262948498850",
-      "title": "Painel_Executivo_CronogramaPCMI.html",
-      "slug": "09-painel-executivo-cronograma-pcmi",
+      "id": "5c9f6b7b20d046f384a75d4d5559ea59",
+      "title": "MDSync Geotecnia Logo",
+      "slug": "logo-mdsync",
+      "category": "Identidade Visual",
+      "badge": "Logo",
+      "icon": "fa-solid fa-layer-group",
+      "mimeType": "image/svg+xml",
+      "htmlFile": "assets/logo.svg",
+      "screenshotFile": "assets/screenshots/logo-mdsync.png",
+      "width": "200",
+      "height": "48",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "id": "e1dc0d8e947e4ab98079823f300a1bac",
+      "title": "MDSync — Gestão de Riscos FMEA, Matriz RBAC & Governança C-Level (Seções 21, 22 & 23)",
+      "slug": "20-fmea-rbac-governanca-clevel",
+      "category": "Riscos & Governança",
+      "badge": "FMEA & RBAC",
+      "icon": "fa-solid fa-shield-halved",
       "mimeType": "text/html",
-      "htmlFile": "screens/09-painel-executivo-cronograma-pcmi.html",
+      "htmlFile": "screens/20-fmea-rbac-governanca-clevel.html",
+      "screenshotFile": "assets/screenshots/20-fmea-rbac-governanca-clevel.png",
+      "width": "2560",
+      "height": "3944",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "id": "79d836d7f17f452288c16897b8d652f0",
+      "title": "MDSync — Gestão de SUMPs, Bacias & Rede de Drenagem",
+      "slug": "17-gestao-sumps-bacias-drenagem",
+      "category": "Engenharia & SUMPs",
+      "badge": "SUMPs & Bacias",
+      "icon": "fa-solid fa-water",
+      "mimeType": "text/html",
+      "htmlFile": "screens/17-gestao-sumps-bacias-drenagem.html",
+      "screenshotFile": "assets/screenshots/17-gestao-sumps-bacias-drenagem.png",
+      "width": "2560",
+      "height": "4572",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "id": "312bb647d529491da1a1b84a9e5ee007",
+      "title": "Extracted text from https://maycon97.github.io/geotech-field-app/#",
+      "slug": "11-texto-base-geotech-field-app",
+      "category": "Documentação",
+      "badge": "Markdown",
+      "icon": "fa-solid fa-file-lines",
+      "mimeType": "text/markdown",
+      "htmlFile": "screens/11-texto-base-geotech-field-app.md",
       "screenshotFile": null,
-      "width": null,
-      "height": null,
+      "width": "0",
+      "height": "0",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "id": "1adb7aedede74704ab9be6469fff16e0",
+      "title": "MDSync — Conectores Microsoft M365, Data Lake & Governança GIS (Seções 16 & 17)",
+      "slug": "18-conectores-m365-data-lake-gis",
+      "category": "Governança & Integrações",
+      "badge": "M365 & Data Lake",
+      "icon": "fa-solid fa-cloud-arrow-up",
+      "mimeType": "text/html",
+      "htmlFile": "screens/18-conectores-m365-data-lake-gis.html",
+      "screenshotFile": "assets/screenshots/18-conectores-m365-data-lake-gis.png",
+      "width": "2560",
+      "height": "4148",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "id": "5bc3d2b902fd4fef8b82d65f7fb467c7",
+      "title": "MDSync - Relatórios & Auditoria (GISTM e ANM 95)",
+      "slug": "05-relatorios-auditoria-gistm-anm95",
+      "category": "Governança & Conformidade",
+      "badge": "Auditoria",
+      "icon": "fa-solid fa-file-shield",
+      "mimeType": "text/html",
+      "htmlFile": "screens/05-relatorios-auditoria-gistm-anm95.html",
+      "screenshotFile": "assets/screenshots/05-relatorios-auditoria-gistm-anm95.png",
+      "width": "2560",
+      "height": "5622",
       "deviceType": "DESKTOP"
     },
     {
       "id": "8236ad0c8ac54248951af9853ea7e9fc",
       "title": "MDSync - GeoView & GIS 3D Interativo (Three.js & Telemetria Dinâmica)",
       "slug": "04-geoview-gis-3d-interativo-threejs",
+      "category": "3D & Cartografia",
+      "badge": "Three.js",
+      "icon": "fa-solid fa-cube",
       "mimeType": "text/html",
       "htmlFile": "screens/04-geoview-gis-3d-interativo-threejs.html",
       "screenshotFile": "assets/screenshots/04-geoview-gis-3d-interativo-threejs.png",
@@ -137,14 +117,185 @@
       "deviceType": "DESKTOP"
     },
     {
+      "id": "a64509102e8b4dbaa128291979b8075b",
+      "title": "MDSync - Gestão de Anomalias, Ciclo de 9 Estados & Fluig",
+      "slug": "16-gestao-anomalias-ciclo-9-estados",
+      "category": "Campo & Inspeção",
+      "badge": "9 Estados",
+      "icon": "fa-solid fa-bug",
+      "mimeType": "text/html",
+      "htmlFile": "screens/16-gestao-anomalias-ciclo-9-estados.html",
+      "screenshotFile": "assets/screenshots/16-gestao-anomalias-ciclo-9-estados.png",
+      "width": "2560",
+      "height": "4962",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "id": "5479262262948498850",
+      "title": "Painel_Executivo_CronogramaPCMI.html",
+      "slug": "09-painel-executivo-cronograma-pcmi",
+      "category": "Dashboard & Executivo",
+      "badge": "Cronograma",
+      "icon": "fa-solid fa-timeline",
+      "mimeType": "text/html",
+      "htmlFile": "screens/09-painel-executivo-cronograma-pcmi.html",
+      "screenshotFile": null,
+      "width": null,
+      "height": null,
+      "deviceType": "DESKTOP"
+    },
+    {
+      "id": "0c75a26861bb45b28d570abd09237690",
+      "title": "MDSync — Modelagem Geotécnica GeoStudio & Prontidão PAEBM (Seções 19 & 20)",
+      "slug": "19-modelagem-geostudio-paebm",
+      "category": "Engenharia & Modelagem",
+      "badge": "GeoStudio & PAEBM",
+      "icon": "fa-solid fa-mountain",
+      "mimeType": "text/html",
+      "htmlFile": "screens/19-modelagem-geostudio-paebm.html",
+      "screenshotFile": "assets/screenshots/19-modelagem-geostudio-paebm.png",
+      "width": "2560",
+      "height": "4432",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "id": "08761852c8834da19b530ae2bed8b361",
+      "title": "MD Sync — Módulo de Estruturas & Dossiê Digital 360°",
+      "slug": "14-modulo-estruturas-dossie-360",
+      "category": "Governança & Dossiê",
+      "badge": "Dossiê 360°",
+      "icon": "fa-solid fa-landmark",
+      "mimeType": "text/html",
+      "htmlFile": "screens/14-modulo-estruturas-dossie-360.html",
+      "screenshotFile": "assets/screenshots/14-modulo-estruturas-dossie-360.png",
+      "width": "2560",
+      "height": "5056",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "id": "6958761145405582248",
+      "title": "Captura de tela 2026-03-10 082548.png",
+      "slug": "12-captura-referencia-pcmi",
+      "category": "Referência",
+      "badge": "Screenshot",
+      "icon": "fa-solid fa-image",
+      "mimeType": "",
+      "htmlFile": null,
+      "screenshotFile": "assets/screenshots/12-captura-referencia-pcmi.png",
+      "width": "1214",
+      "height": "685",
+      "deviceType": "DESKTOP"
+    },
+    {
       "id": "aa28aa50565f402dac5e5b4e301bae7c",
       "title": "Three.js",
       "slug": "10-threejs-widget",
+      "category": "3D & Cartografia",
+      "badge": "WebGL",
+      "icon": "fa-solid fa-shapes",
       "mimeType": "text/html",
       "htmlFile": "screens/10-threejs-widget.html",
       "screenshotFile": null,
       "width": "512",
       "height": "512",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "id": "0d149436b6294074a93cc3d9dae57ac7",
+      "title": "MDSync - Transmissão Homologada API SIGBM (Protocolo Oficial)",
+      "slug": "07-transmissao-homologada-api-sigbm",
+      "category": "Governança & Conformidade",
+      "badge": "SIGBM API",
+      "icon": "fa-solid fa-tower-broadcast",
+      "mimeType": "text/html",
+      "htmlFile": "screens/07-transmissao-homologada-api-sigbm.html",
+      "screenshotFile": "assets/screenshots/07-transmissao-homologada-api-sigbm.png",
+      "width": "2560",
+      "height": "5622",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "id": "026ae1e4c0e2442dba90d64dc8c6664c",
+      "title": "MDSync - Rotina Diária & Equipe Geotécnica",
+      "slug": "08-rotina-diaria-equipe-geotecnica",
+      "category": "Dashboard & Executivo",
+      "badge": "Operações",
+      "icon": "fa-solid fa-users-gear",
+      "mimeType": "text/html",
+      "htmlFile": "screens/08-rotina-diaria-equipe-geotecnica.html",
+      "screenshotFile": "assets/screenshots/08-rotina-diaria-equipe-geotecnica.png",
+      "width": "2560",
+      "height": "3662",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "id": "256d6d0496814f93b0e76bc60e808554",
+      "title": "MDSync - GeoView & GIS 3D de Campo",
+      "slug": "03-geoview-gis-3d-campo",
+      "category": "3D & Cartografia",
+      "badge": "Cartografia",
+      "icon": "fa-solid fa-map-location-dot",
+      "mimeType": "text/html",
+      "htmlFile": "screens/03-geoview-gis-3d-campo.html",
+      "screenshotFile": "assets/screenshots/03-geoview-gis-3d-campo.png",
+      "width": "2560",
+      "height": "2260",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "id": "cfaa8505f6b5468793b1949617661409",
+      "title": "MDSync - Fluxo de Coleta & Checklist de Campo (Offline)",
+      "slug": "02-fluxo-coleta-checklist-offline",
+      "category": "Campo & Inspeção",
+      "badge": "Offline Form",
+      "icon": "fa-solid fa-clipboard-check",
+      "mimeType": "text/html",
+      "htmlFile": "screens/02-fluxo-coleta-checklist-offline.html",
+      "screenshotFile": "assets/screenshots/02-fluxo-coleta-checklist-offline.png",
+      "width": "2560",
+      "height": "3596",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "id": "7d38bbe5cd4442f4b19f2a3de669e26b",
+      "title": "MDSync — Fluxo de Inspeção Guiada & Checklist Visual de Campo (26 Itens)",
+      "slug": "15-fluxo-inspecao-guiada-26-itens",
+      "category": "Campo & Inspeção",
+      "badge": "26 Itens ANM",
+      "icon": "fa-solid fa-list-check",
+      "mimeType": "text/html",
+      "htmlFile": "screens/15-fluxo-inspecao-guiada-26-itens.html",
+      "screenshotFile": "assets/screenshots/15-fluxo-inspecao-guiada-26-itens.png",
+      "width": "2560",
+      "height": "6528",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "id": "e35d20b6c62a41fe97c9deb9a81bf99f",
+      "title": "MDSync — Central de Inteligência de Auditoria, Trilha Criptográfica & Integridade Transacional (Seções 6, 25 & 26)",
+      "slug": "21-inteligencia-auditoria-cripto",
+      "category": "Riscos & Auditoria",
+      "badge": "Cripto & Trilha",
+      "icon": "fa-solid fa-fingerprint",
+      "mimeType": "text/html",
+      "htmlFile": "screens/21-inteligencia-auditoria-cripto.html",
+      "screenshotFile": "assets/screenshots/21-inteligencia-auditoria-cripto.png",
+      "width": "2560",
+      "height": "4322",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "id": "cef08a9f91d14945b27ce0ef501ce357",
+      "title": "MDSync - Exportação do Pacote Oficial ANM (ZIP)",
+      "slug": "06-exportacao-pacote-oficial-anm-zip",
+      "category": "Governança & Conformidade",
+      "badge": "Exportador",
+      "icon": "fa-solid fa-file-zipper",
+      "mimeType": "text/html",
+      "htmlFile": "screens/06-exportacao-pacote-oficial-anm-zip.html",
+      "screenshotFile": "assets/screenshots/06-exportacao-pacote-oficial-anm-zip.png",
+      "width": "2560",
+      "height": "5622",
       "deviceType": "DESKTOP"
     }
   ],
@@ -153,11 +304,11 @@
     "title": "Geotech Platform Redesign",
     "visibility": "PRIVATE",
     "createTime": "2026-09-08T12:00:40.751373Z",
-    "updateTime": "2026-09-08T15:27:10.906279Z",
+    "updateTime": "2026-09-10T17:35:27.511027Z",
     "projectType": "TEXT_TO_UI_PRO",
     "thumbnailScreenshot": {
       "name": "projects/17431042698047576274/screens/515ba30d35a2e6392884a7054daf0421f9cb84fadb191dbcfd0520744e63c850/fileEntries/screenshot",
-      "downloadUrl": "https://lh3.googleusercontent.com/aida/AEtjO1WEcGS1TUt0GNNWabznxeBvzqXUoloZeY8DZpZs1Av6u51ZFbJBF3x4q3Rjevwf2VrS7NObKJGcHu-i6qzuYjWdcnRBQlV8PLCYKxjlMcT094u-niEdbv3VagJggeLtPqaVRX118qd2tp10eApEssOw4-nqrqY3JgoQwsn_NEpvTWeNaDpaTjE23CtmybPQ2BrWW-wGmP1kHegt7w05tZsSxEqMcdLjBUSf1pHanuNI0xWsb8FAMc0HJSMU"
+      "downloadUrl": "https://lh3.googleusercontent.com/aida/AEtjO1UkAgdz4wlKD4vbEqbR23zR24IPRLu14mqVTSeJCnr_VyCehEg51qI3jWEqllm3IT2iAbKLrF3IqEbLdcvXs85D5MN_EA00HgD7RjotlT2Zhj1LjnSzOYaR7LRo34no2QFwcis5_n0KjNOHcaLugVEDHaG9tY1zbfVBRxfbFsv_oNbihbgYQQtoYuF8LWb4wtLBGmq4FrSklHFANQ6C4lHEyOUd9pIz5MP6GVP1_qJNhBA34-TQsHy8EAFJ"
     },
     "origin": "STITCH",
     "deviceType": "DESKTOP",
@@ -170,53 +321,53 @@
       "bodyFont": "INTER",
       "labelFont": "JETBRAINS_MONO",
       "namedColors": {
-        "surface_dim": "#0a1228",
-        "tertiary_fixed_dim": "#ffb95f",
-        "secondary_fixed": "#6ffbbe",
-        "surface_variant": "#2c344c",
-        "secondary_container": "#00a572",
-        "inverse_on_surface": "#283047",
-        "on_surface": "#dbe1ff",
-        "outline_variant": "#3e4850",
-        "primary_container": "#0ea5e9",
-        "outline": "#88929b",
-        "surface_tint": "#89ceff",
-        "surface_container_lowest": "#050d23",
-        "primary_fixed": "#c9e6ff",
-        "tertiary_container": "#d88a00",
-        "tertiary": "#ffb95f",
-        "tertiary_fixed": "#ffddb8",
-        "surface_container_high": "#222940",
-        "on_error": "#690005",
         "inverse_primary": "#006591",
-        "primary_fixed_dim": "#89ceff",
-        "surface_bright": "#313850",
-        "on_surface_variant": "#bec8d2",
-        "on_tertiary_fixed": "#2a1700",
-        "on_primary_container": "#003751",
-        "on_secondary_container": "#00311f",
         "secondary": "#4edea3",
-        "on_secondary_fixed": "#002113",
-        "on_tertiary_container": "#4a2c00",
-        "error": "#ffb4ab",
-        "surface_container": "#171f35",
-        "inverse_surface": "#dbe1ff",
+        "tertiary": "#ffb95f",
+        "secondary_fixed": "#6ffbbe",
         "background": "#0a1228",
-        "on_secondary_fixed_variant": "#005236",
-        "primary": "#89ceff",
-        "on_error_container": "#ffdad6",
-        "surface": "#0a1228",
-        "on_secondary": "#003824",
-        "on_primary": "#00344d",
-        "on_primary_fixed_variant": "#004c6e",
-        "error_container": "#93000a",
-        "on_tertiary": "#472a00",
-        "secondary_fixed_dim": "#4edea3",
-        "surface_container_low": "#131b31",
         "on_primary_fixed": "#001e2f",
+        "on_secondary_container": "#00311f",
+        "inverse_surface": "#dbe1ff",
+        "on_primary_fixed_variant": "#004c6e",
+        "error": "#ffb4ab",
+        "tertiary_container": "#d88a00",
+        "surface_tint": "#89ceff",
+        "outline": "#88929b",
+        "surface_container_high": "#222940",
+        "outline_variant": "#3e4850",
+        "tertiary_fixed": "#ffddb8",
+        "surface_container_lowest": "#050d23",
+        "surface_variant": "#2c344c",
+        "on_tertiary_container": "#4a2c00",
+        "secondary_container": "#00a572",
+        "on_secondary": "#003824",
+        "surface": "#0a1228",
+        "surface_dim": "#0a1228",
+        "primary_fixed_dim": "#89ceff",
+        "on_error": "#690005",
+        "surface_container": "#171f35",
+        "primary_fixed": "#c9e6ff",
         "on_background": "#dbe1ff",
+        "secondary_fixed_dim": "#4edea3",
+        "on_surface_variant": "#bec8d2",
+        "on_surface": "#dbe1ff",
+        "on_primary_container": "#003751",
+        "on_tertiary_fixed": "#2a1700",
+        "tertiary_fixed_dim": "#ffb95f",
+        "on_error_container": "#ffdad6",
+        "on_tertiary": "#472a00",
+        "inverse_on_surface": "#283047",
         "on_tertiary_fixed_variant": "#653e00",
-        "surface_container_highest": "#2c344c"
+        "error_container": "#93000a",
+        "on_primary": "#00344d",
+        "surface_bright": "#313850",
+        "surface_container_low": "#131b31",
+        "on_secondary_fixed": "#002113",
+        "primary": "#89ceff",
+        "on_secondary_fixed_variant": "#005236",
+        "surface_container_highest": "#2c344c",
+        "primary_container": "#0ea5e9"
       },
       "designMd": "---\nname: Antigravity Geotechnical Precision\ncolors:\n  surface: '#0a1228'\n  surface-dim: '#0a1228'\n  surface-bright: '#313850'\n  surface-container-lowest: '#050d23'\n  surface-container-low: '#131b31'\n  surface-container: '#171f35'\n  surface-container-high: '#222940'\n  surface-container-highest: '#2c344c'\n  on-surface: '#dbe1ff'\n  on-surface-variant: '#bec8d2'\n  inverse-surface: '#dbe1ff'\n  inverse-on-surface: '#283047'\n  outline: '#88929b'\n  outline-variant: '#3e4850'\n  surface-tint: '#89ceff'\n  primary: '#89ceff'\n  on-primary: '#00344d'\n  primary-container: '#0ea5e9'\n  on-primary-container: '#003751'\n  inverse-primary: '#006591'\n  secondary: '#4edea3'\n  on-secondary: '#003824'\n  secondary-container: '#00a572'\n  on-secondary-container: '#00311f'\n  tertiary: '#ffb95f'\n  on-tertiary: '#472a00'\n  tertiary-container: '#d88a00'\n  on-tertiary-container: '#4a2c00'\n  error: '#ffb4ab'\n  on-error: '#690005'\n  error-container: '#93000a'\n  on-error-container: '#ffdad6'\n  primary-fixed: '#c9e6ff'\n  primary-fixed-dim: '#89ceff'\n  on-primary-fixed: '#001e2f'\n  on-primary-fixed-variant: '#004c6e'\n  secondary-fixed: '#6ffbbe'\n  secondary-fixed-dim: '#4edea3'\n  on-secondary-fixed: '#002113'\n  on-secondary-fixed-variant: '#005236'\n  tertiary-fixed: '#ffddb8'\n  tertiary-fixed-dim: '#ffb95f'\n  on-tertiary-fixed: '#2a1700'\n  on-tertiary-fixed-variant: '#653e00'\n  background: '#0a1228'\n  on-background: '#dbe1ff'\n  surface-variant: '#2c344c'\ntypography:\n  headline-xl:\n    fontFamily: Outfit\n    fontSize: 36px\n    fontWeight: '600'\n    lineHeight: 44px\n    letterSpacing: -0.02em\n  headline-lg:\n    fontFamily: Outfit\n    fontSize: 24px\n    fontWeight: '600'\n    lineHeight: 32px\n    letterSpacing: -0.015em\n  headline-md:\n    fontFamily: Outfit\n    fontSize: 20px\n    fontWeight: '500'\n    lineHeight: 28px\n  title-sm:\n    fontFamily: Outfit\n    fontSize: 16px\n    fontWeight: '600'\n    lineHeight: 24px\n    letterSpacing: 0.01em\n  body-lg:\n    fontFamily: Inter\n    fontSize: 16px\n    fontWeight: '400'\n    lineHeight: 24px\n  body-md:\n    fontFamily: Inter\n    fontSize: 14px\n    fontWeight: '400'\n    lineHeight: 20px\n  body-sm:\n    fontFamily: Inter\n    fontSize: 12px\n    fontWeight: '400'\n    lineHeight: 18px\n  data-metric:\n    fontFamily: Outfit\n    fontSize: 32px\n    fontWeight: '700'\n    lineHeight: 36px\n    letterSpacing: -0.03em\n  code-telemetry:\n    fontFamily: JetBrains Mono\n    fontSize: 13px\n    fontWeight: '500'\n    lineHeight: 18px\n  label-caps:\n    fontFamily: Inter\n    fontSize: 11px\n    fontWeight: '600'\n    lineHeight: 14px\n    letterSpacing: 0.06em\nrounded:\n  sm: 0.125rem\n  DEFAULT: 0.25rem\n  md: 0.375rem\n  lg: 0.5rem\n  xl: 0.75rem\n  full: 9999px\nspacing:\n  space-2xs: 0.25rem\n  space-xs: 0.5rem\n  space-sm: 0.75rem\n  space-md: 1rem\n  space-lg: 1.5rem\n  space-xl: 2rem\n  space-2xl: 3rem\n  gutter: 1rem\n  sidebar-width: 260px\n---\n\n## Brand & Style\nThis design system is tailored for critical infrastructure engineering, deep telemetry monitoring, and geotechnical instrumentation management. It balances industrial rigor with an ultra-modern aesthetic. The primary audience encompasses geotechnical field inspectors, instrumentation specialists, dam safety managers, and executive technical committees. \n\nThe emotional tone evokes mission-critical dependability, precision engineering, calm focus during operational anomalies, and effortless clarity under high data densities. \n\nThe visual style blends **Technical Minimalism** with **Controlled Glassmorphism**. Dark slate and deep-navy canvas layers isolate information into legible compartments, while fine translucent panels, delicate inner glows, and micro-bordered card containers direct immediate attention to telemetry anomalies, TARP triggers, and sensor health states without sensory fatigue.\n\n## Colors\nThe palette is engineered around dark slate-navy depths and vibrant, high-luminance diagnostic indicators.\n\n- **Primary Core (`#0ea5e9` / `#38bdf8`)**: Represents dynamic instrumentation and active data streams. Used for key call-to-actions, active telemetry nodes, selected states, and real-time syncing indicators.\n- **Normal / Health Status (`#10b981`)**: Designates stable piezometric pressures, verified water levels, synced local queues, and compliant structural health.\n- **TARP Level 1 / Warning (`#f59e0b`)**: Highlights non-critical threshold deviations, pending offline reviews, and cautionary telemetry delta shifts.\n- **TARP Level 2 & 3 / Critical Alert (`#ef4444`)**: Dictates critical safety breaches, pore-pressure trigger limits, or offline hardware faults requiring immediate dispatch.\n- **Neutral Foundation (`#0b1329`, `#101c38`, `#18264e`)**:\n  - `Surface 0 (#0b1329)`: Deep void backdrop minimizing optical strain.\n  - `Surface 1 (#101c38)`: Primary module containers and persistent side rails.\n  - `Surface 2 (#18264e)`: Elevated diagnostic cards, dropdown surfaces, and modal sheets.\n  - `Surface Glass`: `rgba(16, 28, 56, 0.75)` with subtle backdrop blur (`12px`) and an interior top-border highlight (`rgba(56, 189, 248, 0.15)`).\n- **Text & Contrast**: High-contrast ice white (`#f8fafc`) for structural headlines, muted slate (`#94a3b8`) for secondary metrics and labels, and dim slate (`#64748b`) for technical metadata.\n\n## Typography\nThe typographic hierarchy blends the geometry of **Outfit** for headlines and high-level structural labels with the legibility of **Inter** for data tables and running operational copy. Technical hardware tags, instrument IDs (e.g., `PZ-04A`, `INA-12`), coordinates, and numerical telemetry values leverage **JetBrains Mono** to guarantee alignment across tabular displays.\n\nAll metric displays (KPI numbers) prioritize instant scan-ability, utilizing negative letter spacing to lock values firmly within their context cards.\n\n## Layout & Spacing\nThe layout uses an adaptive dashboard grid rooted in an 8px architectural unit (base modular unit: `0.5rem` / `8px`).\n\n- **Application Shell**: Collapsible fixed-width primary navigation rail (260px) along the left flank, anchoring field operator identity, real-time connectivity status (Online/Offline cache), and module routing.\n- **Top Utility Deck**: Fixed height (64px) horizontal ribbon for environment context, TARP status roll-ups, global sync action triggers, and active geotechnical asset scope selectors.\n- **Primary Viewport (Content Grid)**: A 12-column responsive layout utilizing a 16px (`1rem`) gutter. Cards span 3 columns for micro-telemetry cards, 6 columns for bivariate chart displays, and 12 columns for critical spatial maps or tabular instrument logs.\n- **Density Adaptation**: Spacing compacts to a 4px rhythm on dense tabular data views to maximize visible information per screen, while overview dashboard cards utilize 24px (`space-lg`) internal padding for optimal breathing room.\n\n## Elevation & Depth\nElevation in this system eschews muddy drop shadows in favor of **Layered Translucency with Edge Luminance**:\n\n- **Ground Level (Base Canvas)**: Solid `#0b1329` with an ultra-subtle directional gradient to `#080d1c`.\n- **Card Surface Level**: Semi-translucent `#101c38` with 80% opacity, backdropped by a `16px` blur filter. Outlines feature a 1px border colored with `rgba(255, 255, 255, 0.08)`.\n- **Elevated Interactive/Highlight Level**: Border shifts to `rgba(14, 165, 233, 0.35)` with an ambient cyan glow (`0 0 20px -4px rgba(14, 165, 233, 0.15)`).\n- **Overlays and Modals**: Elevated `#18264e` solid surface framed with `box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(56, 189, 248, 0.2)`.\n\n## Shapes\nA clean, precise visual discipline governs all interfaces. Corners utilize a restrained radius (`0.375rem` to `0.5rem`) to ensure technical rigor and structural density without sharp industrial harshness. \n\nStatus pills and badge indicators use fully rounded caps (`pill-shaped`), contrasting against rectangular telemetry cards and structured grid containers.\n\n## Components\n\n### Buttons\n- **Primary Action**: Gradient fill from `#0ea5e9` to `#0284c7`, subtle 1px top border `rgba(255, 255, 255, 0.25)`, crisp ice-white typography, hover state activates a subtle outer cyan aura.\n- **Secondary Action**: Translucent dark fill (`rgba(24, 38, 78, 0.6)`), 1px border in `rgba(56, 189, 248, 0.3)`, text in `#38bdf8`.\n- **Destructive/TARP 3 Action**: Surface tint `#ef4444` with high-contrast white text, used strictly for triggering emergency protocols or marking critical dam integrity alerts.\n\n### Telemetry & Instrument Cards\n- Feature a 1px top highlight gradient that mimics ambient light reflection.\n- Upper right holds the instrument type badge (e.g., `INA`, `PZ`, `MED`) rendered in mono typography.\n- Metric display pairs the primary value with dynamic variance indicators (e.g., `+0.04 m`, `↓ 12 kPa`) using green/amber/coral status tags.\n\n### Status Chips & TARP Indicators\n- Compact, pill-shaped tags with a micro status beacon (a 6px glowing dot with an optional CSS pulse animation for TARP Level 2/3).\n- Low-saturation background (`rgba(16, 185, 129, 0.12)`) paired with high-saturation text (`#10b981`) ensures WCAG AAA contrast against dark slate surfaces.\n\n### Tables & Data Grids\n- Alternating subtle row fills (`transparent` vs `rgba(255, 255, 255, 0.02)`).\n- Sticky headers with `rgba(16, 28, 56, 0.95)` blur overlay.\n- All numerical values right-aligned using tabular mono figures.\n\n### Form Inputs & Checklists\n- Slate-bordered inset fields (`#101c38`) with crisp focus borders in `#0ea5e9`.\n- Field checklist toggles are built with generous touch targets (min 48px height) for tablet and ruggedized mobile field usability.",
       "colorVariant": "FIDELITY",
@@ -226,51 +377,6 @@
       "overrideNeutralColor": "#0b1329",
       "spacingScale": 2,
       "typography": {
-        "body-sm": {
-          "fontFamily": "Inter",
-          "fontSize": "12px",
-          "fontWeight": "400",
-          "lineHeight": "18px"
-        },
-        "data-metric": {
-          "fontFamily": "Outfit",
-          "fontSize": "32px",
-          "fontWeight": "700",
-          "lineHeight": "36px",
-          "letterSpacing": "-0.03em"
-        },
-        "body-lg": {
-          "fontFamily": "Inter",
-          "fontSize": "16px",
-          "fontWeight": "400",
-          "lineHeight": "24px"
-        },
-        "headline-md": {
-          "fontFamily": "Outfit",
-          "fontSize": "20px",
-          "fontWeight": "500",
-          "lineHeight": "28px"
-        },
-        "body-md": {
-          "fontFamily": "Inter",
-          "fontSize": "14px",
-          "fontWeight": "400",
-          "lineHeight": "20px"
-        },
-        "title-sm": {
-          "fontFamily": "Outfit",
-          "fontSize": "16px",
-          "fontWeight": "600",
-          "lineHeight": "24px",
-          "letterSpacing": "0.01em"
-        },
-        "label-caps": {
-          "fontFamily": "Inter",
-          "fontSize": "11px",
-          "fontWeight": "600",
-          "lineHeight": "14px",
-          "letterSpacing": "0.06em"
-        },
         "headline-lg": {
           "fontFamily": "Outfit",
           "fontSize": "24px",
@@ -284,24 +390,69 @@
           "fontWeight": "500",
           "lineHeight": "18px"
         },
+        "label-caps": {
+          "fontFamily": "Inter",
+          "fontSize": "11px",
+          "fontWeight": "600",
+          "lineHeight": "14px",
+          "letterSpacing": "0.06em"
+        },
+        "title-sm": {
+          "fontFamily": "Outfit",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "letterSpacing": "0.01em"
+        },
+        "data-metric": {
+          "fontFamily": "Outfit",
+          "fontSize": "32px",
+          "fontWeight": "700",
+          "lineHeight": "36px",
+          "letterSpacing": "-0.03em"
+        },
         "headline-xl": {
           "fontFamily": "Outfit",
           "fontSize": "36px",
           "fontWeight": "600",
           "lineHeight": "44px",
           "letterSpacing": "-0.02em"
+        },
+        "headline-md": {
+          "fontFamily": "Outfit",
+          "fontSize": "20px",
+          "fontWeight": "500",
+          "lineHeight": "28px"
+        },
+        "body-md": {
+          "fontFamily": "Inter",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "lineHeight": "20px"
+        },
+        "body-sm": {
+          "fontFamily": "Inter",
+          "fontSize": "12px",
+          "fontWeight": "400",
+          "lineHeight": "18px"
+        },
+        "body-lg": {
+          "fontFamily": "Inter",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "24px"
         }
       },
       "spacing": {
-        "space-xl": "2rem",
-        "gutter": "1rem",
-        "space-md": "1rem",
-        "space-lg": "1.5rem",
         "space-sm": "0.75rem",
         "sidebar-width": "260px",
-        "space-2xs": "0.25rem",
         "space-2xl": "3rem",
-        "space-xs": "0.5rem"
+        "space-xl": "2rem",
+        "space-md": "1rem",
+        "space-lg": "1.5rem",
+        "space-xs": "0.5rem",
+        "space-2xs": "0.25rem",
+        "gutter": "1rem"
       },
       "headlineFontFamily": "Outfit",
       "bodyFontFamily": "Inter",
@@ -311,10 +462,25 @@
       {
         "id": "026ae1e4c0e2442dba90d64dc8c6664c",
         "sourceScreen": "projects/17431042698047576274/screens/026ae1e4c0e2442dba90d64dc8c6664c",
-        "x": 1240,
-        "y": 11326,
+        "x": 2268,
+        "y": 10654,
+        "width": 2074,
+        "height": 1291,
+        "isResized": true
+      },
+      {
+        "id": "08761852c8834da19b530ae2bed8b361",
+        "sourceScreen": "projects/17431042698047576274/screens/08761852c8834da19b530ae2bed8b361",
+        "y": 12934,
         "width": 1280,
-        "height": 1831
+        "height": 2527
+      },
+      {
+        "id": "0c75a26861bb45b28d570abd09237690",
+        "sourceScreen": "projects/17431042698047576274/screens/0c75a26861bb45b28d570abd09237690",
+        "y": 26761,
+        "width": 1280,
+        "height": 2184
       },
       {
         "id": "0d149436b6294074a93cc3d9dae57ac7",
@@ -323,6 +489,13 @@
         "y": 6825,
         "width": 1280,
         "height": 2852
+      },
+      {
+        "id": "1adb7aedede74704ab9be6469fff16e0",
+        "sourceScreen": "projects/17431042698047576274/screens/1adb7aedede74704ab9be6469fff16e0",
+        "y": 24480,
+        "width": 1280,
+        "height": 2024
       },
       {
         "id": "256d6d0496814f93b0e76bc60e808554",
@@ -349,8 +522,8 @@
       {
         "id": "37590c9a-ae4a-4f2a-8e5a-87bbf788ecd8",
         "sourceScreen": "projects/17431042698047576274/screens/5479262262948498850",
-        "x": 576,
-        "y": 11326,
+        "x": 638,
+        "y": 11778,
         "width": 600,
         "height": 900,
         "type": "SCREEN_INSTANCE"
@@ -370,6 +543,21 @@
         "height": 52
       },
       {
+        "id": "79d836d7f17f452288c16897b8d652f0",
+        "sourceScreen": "projects/17431042698047576274/screens/79d836d7f17f452288c16897b8d652f0",
+        "x": 126,
+        "y": 21956,
+        "width": 1280,
+        "height": 2268
+      },
+      {
+        "id": "7d38bbe5cd4442f4b19f2a3de669e26b",
+        "sourceScreen": "projects/17431042698047576274/screens/7d38bbe5cd4442f4b19f2a3de669e26b",
+        "y": 15717,
+        "width": 1280,
+        "height": 3264
+      },
+      {
         "id": "80c6995c-473a-4265-8933-22532fb206e6",
         "sourceScreen": "projects/17431042698047576274/screens/6958761145405582248",
         "y": 11326,
@@ -386,11 +574,27 @@
         "height": 1136
       },
       {
+        "id": "a64509102e8b4dbaa128291979b8075b",
+        "sourceScreen": "projects/17431042698047576274/screens/a64509102e8b4dbaa128291979b8075b",
+        "y": 19237,
+        "width": 1280,
+        "height": 2463
+      },
+      {
         "id": "aa28aa50565f402dac5e5b4e301bae7c",
         "sourceScreen": "projects/17431042698047576274/screens/aa28aa50565f402dac5e5b4e301bae7c",
         "y": 9934,
         "width": 390,
         "height": 390
+      },
+      {
+        "id": "assets-15368150424738362140-1788948702818",
+        "x": 5099,
+        "y": -77,
+        "width": 960,
+        "height": 540,
+        "sourceAsset": "assets/15368150424738362140",
+        "type": "DESIGN_SYSTEM_INSTANCE"
       },
       {
         "id": "assets_5cb969079102439297a65d08db49b002",
@@ -414,6 +618,20 @@
         "y": -77,
         "width": 1280,
         "height": 1797
+      },
+      {
+        "id": "e1dc0d8e947e4ab98079823f300a1bac",
+        "sourceScreen": "projects/17431042698047576274/screens/e1dc0d8e947e4ab98079823f300a1bac",
+        "y": 29201,
+        "width": 1280,
+        "height": 1963
+      },
+      {
+        "id": "e35d20b6c62a41fe97c9deb9a81bf99f",
+        "sourceScreen": "projects/17431042698047576274/screens/e35d20b6c62a41fe97c9deb9a81bf99f",
+        "y": 31420,
+        "width": 1280,
+        "height": 2150
       }
     ],
     "metadata": {
