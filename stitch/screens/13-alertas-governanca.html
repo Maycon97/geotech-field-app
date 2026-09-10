@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDSync - Central de Alertas para Avaliação Técnica</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../vendor/fontawesome/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <script src="../../src/core/sync-bridge.js"></script>
+    <script src="../../src/core/mdsync-db.js"></script>
+    <script src="../../src/core/anomalias-engine.js"></script>
+    <script src="../../src/core/alertas-engine.js"></script>
+    <script src="../../src/core/sync-outbox.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 500: '#0ea5e9', 600: '#0284c7' },
+                        dark: { base: '#050d23', surface: '#0a1228', card: '#131b31' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        head: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #050d23; color: #dbe1ff; font-family: 'Inter', sans-serif; }
+        .glass-card { background: rgba(19, 27, 49, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    </style>
+</head>
+<body class="min-h-screen p-6">
+
+    <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/10 mb-6">
+        <div>
+            <div class="flex items-center gap-3">
+                <span class="px-2.5 py-1 text-xs font-bold font-mono tracking-wider rounded bg-amber-500/20 text-amber-400 border border-amber-500/40">
+                    GOVERNANÇA TÉCNICA
+                </span>
+                <h1 class="text-2xl font-bold font-head text-white">Central de Alertas para Avaliação Técnica</h1>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Varredura contínua de limites operacionais, TARP, anomalias e prazos normativos sem conclusões precipitadas.</p>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <button onclick="varrerAlertasTela()" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-xs font-bold text-white transition">
+                <i class="fa-solid fa-arrows-rotate"></i> Atualizar Varredura
+            </button>
+        </div>
+    </header>
+
+    <!-- Resumo dos Indicadores -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div class="glass-card rounded-2xl p-4">
+            <span class="text-xs text-slate-400 block mb-1">TOTAL DE ALERTAS</span>
+            <span class="text-2xl font-bold font-mono text-white" id="stat-total">0</span>
+        </div>
+        <div class="glass-card rounded-2xl p-4">
+            <span class="text-xs text-slate-400 block mb-1">ALTA CRITICIDADE</span>
+            <span class="text-2xl font-bold font-mono text-rose-400" id="stat-alta">0</span>
+        </div>
+        <div class="glass-card rounded-2xl p-4">
+            <span class="text-xs text-slate-400 block mb-1">ATENÇÃO OPERACIONAL</span>
+            <span class="text-2xl font-bold font-mono text-amber-400" id="stat-media">0</span>
+        </div>
+        <div class="glass-card rounded-2xl p-4">
+            <span class="text-xs text-slate-400 block mb-1">PENDÊNCIAS ENGENHARIA</span>
+            <span class="text-2xl font-bold font-mono text-sky-400" id="stat-eng">0</span>
+        </div>
+    </div>
+
+    <!-- Lista de Alertas Estruturados -->
+    <div class="space-y-4" id="alertas-container">
+        <div class="glass-card rounded-2xl p-8 text-center text-slate-400 text-sm">
+            <i class="fa-solid fa-circle-notch fa-spin fa-2x mb-2 text-sky-400"></i>
+            <p>Executando varredura no banco canônico MDSyncDB...</p>
+        </div>
+    </div>
+
+    <script>
+        async function varrerAlertasTela() {
+            if (!window.MDSyncAlertas) return;
+            const container = document.getElementById('alertas-container');
+            const lista = await window.MDSyncAlertas.varrerAlertas();
+
+            document.getElementById('stat-total').textContent = lista.length;
+            document.getElementById('stat-alta').textContent = lista.filter(a => a.criticidade === 'MUITO_ALTA' || a.criticidade === 'ALTA').length;
+            document.getElementById('stat-media').textContent = lista.filter(a => a.criticidade === 'MEDIA').length;
+            document.getElementById('stat-eng').textContent = lista.filter(a => a.alçada === 'ENGENHEIRO').length;
+
+            if (!lista.length) {
+                container.innerHTML = `
+                    <div class="glass-card rounded-2xl p-8 text-center text-emerald-400 text-sm">
+                        <i class="fa-solid fa-shield-check fa-3x mb-3"></i>
+                        <p class="font-bold">Nenhum desvio ou anomalia crítica pendente.</p>
+                        <p class="text-xs text-slate-400 mt-1">Todas as estruturas operando dentro dos parâmetros de estabilidade e prazos normativos.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = lista.map(item => {
+                const isCritico = item.criticidade === 'MUITO_ALTA' || item.criticidade === 'ALTA';
+                const borderColor = isCritico ? 'border-rose-500/40 bg-rose-500/5' : 'border-amber-500/30 bg-amber-500/5';
+                const badgeColor = isCritico ? 'bg-rose-500/20 text-rose-400' : 'bg-amber-500/20 text-amber-400';
+
+                return `
+                    <div class="glass-card rounded-2xl p-5 border ${borderColor} transition">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-2">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="px-2 py-0.5 rounded text-[11px] font-bold ${badgeColor}">${item.criticidade}</span>
+                                <strong class="text-sm font-bold text-white">${item.titulo}</strong>
+                            </div>
+                            <span class="text-xs text-slate-400 font-mono">Alçada: <strong>${item.alçada}</strong></span>
+                        </div>
+                        <p class="text-xs text-slate-300 mb-3 leading-relaxed">${item.descricao}</p>
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 pt-3 border-t border-white/5 text-xs text-slate-400">
+                            <div><i class="fa-solid fa-lightbulb text-amber-400 mr-1"></i> Ação Sugerida: <strong>${item.acaoSugerida}</strong></div>
+                            <div class="text-[11px] text-slate-500">${new Date(item.dataGeracao).toLocaleString('pt-BR')}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            varrerAlertasTela();
+        });
+    </script>
+</body>
+</html>

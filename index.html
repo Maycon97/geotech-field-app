@@ -5200,11 +5200,17 @@
                     </div>
 
                     <div class="d-flex flex-column gap-2">
-                        <button type="button" class="btn btn-primary w-100" onclick="switchTab('inspections'); closeSysdamCockpit();" style="padding: 12px; border-radius: 12px;">
-                            <i class="fa-solid fa-camera"></i> Nova Ficha de Inspeção FIR
+                        <button type="button" class="btn btn-primary w-100" onclick="window.MDSyncDossie.abrirDossie('PDE-01'); window.MDSyncDossie.trocarAba('checklist'); closeSysdamCockpit();" style="padding: 12px; border-radius: 12px; font-weight:700;">
+                            <i class="fa-solid fa-list-check"></i> Checklist Normativo (26 Itens ANM 95)
                         </button>
-                        <button type="button" class="btn btn-secondary w-100" onclick="switchTab('inspections'); closeSysdamCockpit();" style="padding: 12px; border-radius: 12px;">
-                            <i class="fa-solid fa-triangle-exclamation"></i> Registrar Anomalia com Foto
+                        <button type="button" class="btn btn-secondary w-100" onclick="window.MDSyncDossie.abrirDossie('PDE-01'); closeSysdamCockpit();" style="padding: 12px; border-radius: 12px; font-weight:600;">
+                            <i class="fa-solid fa-folder-open"></i> Acessar Dossiê Digital Completo
+                        </button>
+                        <button type="button" class="btn btn-secondary w-100" onclick="window.MDSyncDossie.abrirDossie('PDE-01'); window.MDSyncDossie.trocarAba('anomalias'); closeSysdamCockpit();" style="padding: 12px; border-radius: 12px;">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Registrar Anomalia em Campo
+                        </button>
+                        <button type="button" class="btn btn-outline w-100" onclick="window.MDSyncCamera.solicitarCaptura('ESTRUTURA', 'PDE-01', 'PDE-01');" style="padding: 10px; border-radius: 12px; border:1px solid #cbd5e1; font-size:12px;">
+                            <i class="fa-solid fa-camera"></i> Foto com Marca d'Água (UTM 23S)
                         </button>
                     </div>
                 </div>
@@ -5301,6 +5307,8 @@
     <script src="src/core/exportador-geotecnico.js?v=v1-20260910"></script>
     <script src="src/core/sync-outbox.js?v=v1-20260910"></script>
     <script src="src/core/dossie-controller.js?v=v1-20260910"></script>
+    <script src="src/core/alertas-engine.js?v=v1-20260910"></script>
+    <script src="src/core/camera-evidencias.js?v=v1-20260910"></script>
     <script src="src/core/sysdam-controller.js?v=20260910"></script>
     <script src="vendor/three.min.js"></script>
     <script src="vendor/leaflet/leaflet.js"></script>

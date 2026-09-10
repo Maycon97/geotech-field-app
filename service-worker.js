@@ -14,6 +14,8 @@ const APP_SHELL = [
     "./src/core/exportador-geotecnico.js",
     "./src/core/sync-outbox.js",
     "./src/core/dossie-controller.js",
+    "./src/core/alertas-engine.js",
+    "./src/core/camera-evidencias.js",
     "./src/core/sysdam-controller.js",
     "./vendor/three.min.js",
     "./data/catalog.json",
