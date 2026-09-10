@@ -5,3 +5,5 @@ Thumbs.db
 scratch/
 implementation_plan.md
 .agents/mcp_config.json
+outputs/
+*.apk
