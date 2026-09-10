@@ -77,12 +77,20 @@
             this.db = null;
             this.isReady = false;
             this.readyPromise = null;
-            this.currentUser = {
+            let savedUser = null;
+            try {
+                if (typeof localStorage !== 'undefined') {
+                    const raw = localStorage.getItem('mdsync_current_user');
+                    if (raw) savedUser = JSON.parse(raw);
+                }
+            } catch (e) {}
+
+            this.currentUser = savedUser || {
                 id: "usr-tecnico-01",
                 matricula: "MAT-2026-081",
-                nome: "Tecnico Geotecnia Campo",
+                nome: "Maycon Nascimento",
                 perfil: PERFIS_USUARIO.TECNICO_CAMPO,
-                email: "campo.geotecnia@itaminas.com.br"
+                email: "maycon.nascimento@itaminas.com.br"
             };
         }
 
@@ -595,12 +603,13 @@
 
             if (!estrutura) return null;
 
-            const [instrumentos, todasLeituras, todasInspecoes, todasAnomalias, sumps] = await Promise.all([
+            const [instrumentos, todasLeituras, todasInspecoes, todasAnomalias, sumps, analisesGeotecnicas] = await Promise.all([
                 this.getAll("instrumentos", "by_estrutura", estrutura.id),
                 this.getAll("leituras_instrumentos", "by_estrutura", estrutura.id),
                 this.getAll("inspecoes", "by_estrutura", estrutura.id),
                 this.getAll("anomalias", "by_estrutura", estrutura.id),
-                this.getAll("sumps", "by_estrutura", estrutura.id)
+                this.getAll("sumps", "by_estrutura", estrutura.id),
+                this.getAll("analises_geotecnicas", "by_estrutura", estrutura.id)
             ]);
 
             // Separar anomalias abertas e encerradas
@@ -619,6 +628,9 @@
                 }
             });
 
+            // Ordenar analises geotecnicas da mais recente para a mais antiga
+            analisesGeotecnicas.sort((a, b) => new Date(b.data_solicitacao || 0) - new Date(a.data_solicitacao || 0));
+
             return {
                 estrutura,
                 ultimaInspecao,
@@ -629,10 +641,166 @@
                 anomaliasEncerradas,
                 totalAnomaliasAbertas: anomaliasAbertas.length,
                 sumps,
+                analisesGeotecnicas,
+                totalAnalisesGeotecnicas: analisesGeotecnicas.length,
                 totalInstrumentos: instrumentos.length,
                 totalInspecoes: todasInspecoes.length,
                 auditoriaRecente: await this.getAll("auditoria_modificacoes", "by_registro", estrutura.id)
             };
+        }
+
+        /**
+         * Registra nova solicitacao de analise de estabilidade geotecnica (Secao 19)
+         */
+        async criarSolicitacaoAnalise(dados) {
+            await this.init();
+            if (!dados.estrutura_id) throw new Error("Estrutura e obrigatoria para solicitacao de analise.");
+
+            const estrutura = await this.get("estruturas", dados.estrutura_id);
+            const prefixo = estrutura ? estrutura.codigo.replace(/[^a-zA-Z0-9]/g, '') : 'ESTR';
+            const ano = new Date().getFullYear();
+            const todas = await this.getAll("analises_geotecnicas");
+            const seq = String(todas.length + 1).padStart(3, '0');
+            const codigo = `SOL-EST-${ano}-${prefixo}-${seq}`;
+
+            const solicitacao = {
+                id: dados.id || generateUUID(),
+                codigo: codigo,
+                estrutura_id: dados.estrutura_id,
+                estrutura_codigo: estrutura ? estrutura.codigo : dados.estrutura_id,
+                solicitante_id: this.currentUser.id,
+                solicitante_nome: this.currentUser.nome,
+                solicitante_perfil: this.currentUser.perfil,
+                data_solicitacao: dados.data_solicitacao || new Date().toISOString(),
+                motivo: dados.motivo || "Avaliacao periodica de seguranca e estabilidade de talude",
+                anomalia_id: dados.anomalia_id || null,
+                inspecao_id: dados.inspecao_id || null,
+                software_alvo: dados.software_alvo || "GEOSTUDIO_SLOPEW",
+                secao_geotecnica: dados.secao_geotecnica || "Secao Critica Principal (Eixo Central)",
+                condicao_carregamento: dados.condicao_carregamento || "DRENADA_LONGO_PRAZO",
+                parametros_geotecnicos: dados.parametros_geotecnicos || {
+                    coeso_kpa: 15,
+                    atrito_graus: 32,
+                    peso_especifico_kn_m3: 20.5,
+                    ru_poropressao: 0.22
+                },
+                status: dados.status || "SOLICITADA",
+                fator_seguranca_calculado: dados.fator_seguranca_calculado || null,
+                parecer_conclusivo: dados.parecer_conclusivo || "",
+                observacoes: dados.observacoes || ""
+            };
+
+            await this.put("analises_geotecnicas", solicitacao, "Abertura de solicitacao de analise de estabilidade");
+            return solicitacao;
+        }
+
+        /**
+         * Atualiza uma solicitacao de analise geotecnica existente
+         */
+        async atualizarSolicitacaoAnalise(id, dadosAtualizados) {
+            await this.init();
+            const atual = await this.get("analises_geotecnicas", id);
+            if (!atual) throw new Error("Solicitacao de analise nao localizada.");
+
+            const atualizado = { ...atual, ...dadosAtualizados, atualizado_em: new Date().toISOString() };
+            await this.put("analises_geotecnicas", atualizado, "Atualizacao de analise geotecnica");
+            return atualizado;
+        }
+
+        /**
+         * Retorna todas as solicitacoes de analise geotecnica de uma estrutura
+         */
+        async listarAnalisesEstrutura(estruturaId) {
+            await this.init();
+            return await this.getAll("analises_geotecnicas", "by_estrutura", estruturaId);
+        }
+
+        /**
+         * Cadastra novo SUMP associado a uma estrutura (Secao 18)
+         */
+        async criarSump(dados) {
+            await this.init();
+            if (!dados.estrutura_associada_id) throw new Error("Estrutura associada e obrigatoria para cadastro de SUMP.");
+
+            const sump = {
+                id: dados.id || generateUUID(),
+                codigo: dados.codigo || `SUMP-${Date.now().toString().slice(-4)}`,
+                nome: dados.nome || "Novo SUMP de Bacia",
+                estrutura_associada_id: dados.estrutura_associada_id,
+                coordenadas_utm_e: parseFloat(dados.coordenadas_utm_e || 0),
+                coordenadas_utm_n: parseFloat(dados.coordenadas_utm_n || 0),
+                cota_fundo: parseFloat(dados.cota_fundo || 0),
+                cota_bordo_livre: parseFloat(dados.cota_bordo_livre || 0),
+                capacidade_maxima_m3: parseFloat(dados.capacidade_maxima_m3 || 5000),
+                volume_atual_estimado_m3: parseFloat(dados.volume_atual_estimado_m3 || 0),
+                nivel_agua_atual_percentual: parseFloat(dados.nivel_agua_atual_percentual || 0),
+                sistema_bombeamento_status: dados.sistema_bombeamento_status || "OPERACIONAL",
+                vazao_bombeamento_m3h: parseFloat(dados.vazao_bombeamento_m3h || 100),
+                condicao_manutencao: dados.condicao_manutencao || "REGULAR",
+                data_ultima_inspecao: new Date().toISOString()
+            };
+
+            await this.put("sumps", sump, "Cadastro de novo SUMP de bacia");
+            return sump;
+        }
+
+        /**
+         * Atualiza dados de vistoria e operacao de um SUMP
+         */
+        async registrarInspecaoSump(sumpId, dadosInspecao) {
+            await this.init();
+            const sump = await this.get("sumps", sumpId);
+            if (!sump) throw new Error("SUMP nao localizado.");
+
+            if (dadosInspecao.nivel_agua_atual_percentual !== undefined) {
+                sump.nivel_agua_atual_percentual = parseFloat(dadosInspecao.nivel_agua_atual_percentual);
+                sump.volume_atual_estimado_m3 = (sump.capacidade_maxima_m3 * (sump.nivel_agua_atual_percentual / 100));
+            }
+            if (dadosInspecao.sistema_bombeamento_status) {
+                sump.sistema_bombeamento_status = dadosInspecao.sistema_bombeamento_status;
+            }
+            if (dadosInspecao.condicao_manutencao) {
+                sump.condicao_manutencao = dadosInspecao.condicao_manutencao;
+            }
+            if (dadosInspecao.vazao_bombeamento_m3h !== undefined) {
+                sump.vazao_bombeamento_m3h = parseFloat(dadosInspecao.vazao_bombeamento_m3h);
+            }
+            sump.data_ultima_inspecao = new Date().toISOString();
+
+            await this.put("sumps", sump, "Atualizacao de vistoria e nivel do SUMP");
+            return sump;
+        }
+
+        /**
+         * Alterna o usuario/alçada ativo para simulacao e governanca RBAC (Secao 5)
+         */
+        async trocarUsuarioAtivo(perfilOuId) {
+            await this.init();
+            const usuarios = await this.getAll("usuarios");
+            const usuarioEncontrado = usuarios.find(u => u.id === perfilOuId || u.perfil === perfilOuId || u.nome.toLowerCase().includes(String(perfilOuId).toLowerCase()));
+            if (usuarioEncontrado) {
+                this.currentUser = {
+                    id: usuarioEncontrado.id,
+                    matricula: usuarioEncontrado.matricula,
+                    nome: usuarioEncontrado.nome,
+                    perfil: usuarioEncontrado.perfil,
+                    email: usuarioEncontrado.email,
+                    registro_profissional: usuarioEncontrado.registro_profissional
+                };
+                try {
+                    if (typeof localStorage !== 'undefined') {
+                        localStorage.setItem('mdsync_current_user', JSON.stringify(this.currentUser));
+                    }
+                } catch (e) {}
+
+                if (global.SyncBridge && typeof global.SyncBridge.broadcast === 'function') {
+                    global.SyncBridge.broadcast('MDSYNC_USER_CHANGED', { user: this.currentUser });
+                }
+
+                console.info('[MDSyncDB] Usuario ativo alternado para:', this.currentUser.nome, `(${this.currentUser.perfil})`);
+                return this.currentUser;
+            }
+            return this.currentUser;
         }
 
         // =========================================================================
@@ -896,6 +1064,52 @@
 
             for (const s of sumpsIniciais) {
                 await this.put("sumps", s, "Seed inicial de sumps");
+            }
+
+            // 6. Solicitacoes Iniciais de Analise Geotecnica de Estabilidade (Secao 19)
+            const analisesIniciais = [
+                {
+                    id: "analise-01",
+                    codigo: "SOL-EST-2026-PDE01-001",
+                    estrutura_id: "est-pde-01",
+                    estrutura_codigo: "PDE-01",
+                    solicitante_id: "usr-engenheiro-01",
+                    solicitante_nome: "Engenheiro Geotecnico Senior",
+                    solicitante_perfil: "ENGENHEIRO",
+                    data_solicitacao: "2026-08-15T09:30:00.000Z",
+                    motivo: "Revisao semestral de estabilidade global do talude leste (Morgenstern-Price e Spencer)",
+                    software_alvo: "GEOSTUDIO_SLOPEW",
+                    secao_geotecnica: "Secao Critica A-A' (Estaca 14+00)",
+                    condicao_carregamento: "DRENADA_LONGO_PRAZO",
+                    parametros_geotecnicos: { coeso_kpa: 18, atrito_graus: 34, peso_especifico_kn_m3: 21.0, ru_poropressao: 0.18 },
+                    status: "CONCLUIDA",
+                    fator_seguranca_calculado: 1.62,
+                    parecer_conclusivo: "Fator de seguranca de 1.62 atende ao minimo normativo de 1.50 da NBR 13028 e Resolucao ANM 95/2022.",
+                    observacoes: "Piezometria estavel na secao transversal."
+                },
+                {
+                    id: "analise-02",
+                    codigo: "SOL-EST-2026-PDE02-001",
+                    estrutura_id: "est-pde-02",
+                    estrutura_codigo: "PDE-02",
+                    solicitante_id: "usr-especialista-01",
+                    solicitante_nome: "Especialista Geotecnico",
+                    solicitante_perfil: "TECNICO_ESPECIALISTA",
+                    data_solicitacao: "2026-09-05T14:15:00.000Z",
+                    motivo: "Modelagem de fluxo transiente e poro-pressao pos-sazonalidade chuvosa",
+                    software_alvo: "GEOSTUDIO_SEEPW",
+                    secao_geotecnica: "Secao B-B' (Eixo Central de Drenagem)",
+                    condicao_carregamento: "NAO_DRENADA_TRANSITORIA",
+                    parametros_geotecnicos: { coeso_kpa: 12, atrito_graus: 31, peso_especifico_kn_m3: 19.8, ru_poropressao: 0.28 },
+                    status: "EM_MODELAGEM",
+                    fator_seguranca_calculado: null,
+                    parecer_conclusivo: "",
+                    observacoes: "Aguardando consolidacao dos dados do piezometro PZ-002."
+                }
+            ];
+
+            for (const a of analisesIniciais) {
+                await this.put("analises_geotecnicas", a, "Seed inicial de analises geotecnicas");
             }
 
             console.info('[MDSyncDB] Seed inicial concluido com sucesso.');

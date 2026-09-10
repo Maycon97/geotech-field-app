@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <script src="../../vendor/jszip.min.js"></script>
     <script src="../../src/core/sync-bridge.js"></script>
     <script src="../../src/core/mdsync-db.js"></script>
     <script src="../../src/core/anomalias-engine.js"></script>
@@ -73,6 +74,14 @@
 
         <!-- Seletor de Estrutura & Alçadas -->
         <div class="flex items-center gap-3 flex-wrap">
+            <div class="flex items-center gap-2 bg-dark-card border border-white/20 rounded-xl px-3 py-1.5 cursor-pointer hover:border-sky-400 transition" onclick="alternarUsuarioStitch()" title="Clique para alternar perfil/alçada RBAC">
+                <div class="w-7 h-7 rounded-full bg-sky-500/20 text-sky-400 font-bold flex items-center justify-center text-xs" id="stitch-user-avatar">MN</div>
+                <div class="text-left leading-tight">
+                    <div class="text-xs font-bold text-white" id="stitch-user-name">Maycon Nascimento</div>
+                    <div class="text-[9px] text-sky-400 font-mono" id="stitch-user-role">TECNICO_CAMPO</div>
+                </div>
+            </div>
+
             <select id="stitch-estrutura-select" onchange="carregarDossieStitch()" class="bg-dark-card border border-white/20 rounded-xl px-4 py-2 text-sm font-semibold text-white focus:outline-none focus:border-sky-400">
                 <option value="PDE-01">PDE-01: Pilha de Estéril 01</option>
                 <option value="PDE-02">PDE-02: Pilha de Estéril 02</option>
@@ -80,11 +89,14 @@
                 <option value="CAVA-JANGADA">CAVA-JANGADA: Taludes Cava Jangada</option>
             </select>
 
+            <button onclick="exportarPacoteEstabilidadeStitch()" class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-xs font-bold text-white border border-sky-400 transition" title="Exporta pacote consolidado de estabilidade em ZIP">
+                <i class="fa-solid fa-file-zipper"></i> Pacote Estabilidade (ZIP)
+            </button>
             <button onclick="exportarCSVStitch()" class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 border border-white/10 transition">
-                <i class="fa-solid fa-file-csv text-sky-400"></i> Exportar GeoStudio (CSV)
+                <i class="fa-solid fa-file-csv text-sky-400"></i> GeoStudio (CSV)
             </button>
             <button onclick="exportarGeoJSONStitch()" class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 border border-white/10 transition">
-                <i class="fa-solid fa-map-location-dot text-emerald-400"></i> Exportar GeoJSON (UTM 23S)
+                <i class="fa-solid fa-map-location-dot text-emerald-400"></i> GeoJSON (UTM 23S)
             </button>
         </div>
     </header>
@@ -142,6 +154,9 @@
         <button onclick="setAbaStitch('sump')" id="tab-btn-sump" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white">
             <i class="fa-solid fa-water mr-1.5"></i> SUMPs & Drenagem
         </button>
+        <button onclick="setAbaStitch('estab')" id="tab-btn-estab" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white">
+            <i class="fa-solid fa-chart-line mr-1.5"></i> Análises de Estabilidade (Seção 19)
+        </button>
         <button onclick="setAbaStitch('audit')" id="tab-btn-audit" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white">
             <i class="fa-solid fa-fingerprint mr-1.5"></i> Trilha de Auditoria Imutável
         </button>
@@ -177,7 +192,7 @@
 
         function setAbaStitch(aba) {
             abaAtiva = aba;
-            ['ident', 'inst', 'anom', 'sump', 'audit'].forEach(t => {
+            ['ident', 'inst', 'anom', 'sump', 'estab', 'audit'].forEach(t => {
                 const btn = document.getElementById('tab-btn-' + t);
                 if (btn) {
                     if (t === aba) {
@@ -319,6 +334,72 @@
                         `).join('')}
                     </div>
                 `;
+            } else if (abaAtiva === 'estab') {
+                const analises = dadosDossie.analisesGeotecnicas || [];
+                container.innerHTML = `
+                    <div class="glass-card rounded-2xl p-5">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                            <div>
+                                <h3 class="text-sm font-bold text-sky-400 flex items-center gap-2">
+                                    <i class="fa-solid fa-chart-line"></i> Solicitações de Análise de Estabilidade & Modelagem Geotécnica
+                                </h3>
+                                <p class="text-xs text-slate-400">Interoperabilidade com GeoStudio (SLOPE/W e SEEP/W), Leapfrog e Datamine conforme Seção 19.</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="criarNovaAnaliseStitch()" class="px-3 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-xs font-bold text-white transition flex items-center gap-1.5">
+                                    <i class="fa-solid fa-plus"></i> Nova Solicitação
+                                </button>
+                                <button onclick="exportarPacoteEstabilidadeStitch()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 border border-white/10 transition flex items-center gap-1.5">
+                                    <i class="fa-solid fa-file-zipper text-sky-400"></i> Baixar ZIP Geral
+                                </button>
+                            </div>
+                        </div>
+
+                        ${!analises.length ? `
+                            <p class="text-slate-400 text-xs text-center py-6">Nenhuma análise registrada para esta estrutura.</p>
+                        ` : `
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                ${analises.map(a => {
+                                    const params = a.parametros_geotecnicos || {};
+                                    const statusClass = a.status === 'CONCLUIDA' ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30' : 'text-amber-400 bg-amber-500/10 border-amber-500/30';
+                                    const fs = a.fator_seguranca_calculado;
+                                    return `
+                                        <div class="p-4 rounded-xl bg-dark-surface/60 border border-white/5 flex flex-col justify-between">
+                                            <div>
+                                                <div class="flex justify-between items-center mb-2">
+                                                    <span class="font-mono text-xs font-bold text-white">${a.codigo}</span>
+                                                    <span class="text-[10px] font-bold px-2 py-0.5 rounded border ${statusClass}">${a.status}</span>
+                                                </div>
+                                                <p class="text-xs text-slate-300 font-medium mb-2">${a.motivo}</p>
+                                                <div class="space-y-1 text-[11px] text-slate-400 mb-3">
+                                                    <div>Software: <strong class="text-sky-400">${a.software_alvo}</strong> | Seção: <strong>${a.secao_geotecnica}</strong></div>
+                                                    <div>Parâmetros: <span class="font-mono">c'=${params.coeso_kpa || 15}kPa, phi'=${params.atrito_graus || 32}°, gamma=${params.peso_especifico_kn_m3 || 20.5}kN/m³</span></div>
+                                                    <div>Fator de Segurança (FS): <strong class="font-mono ${fs && fs >= 1.50 ? 'text-emerald-400' : 'text-amber-400'}">${fs ? fs.toFixed(2) : 'Em modelagem'}</strong> (Mín. Normativo: 1.50)</div>
+                                                    <div>Solicitante: <span class="text-slate-300">${a.solicitante_nome} (${a.solicitante_perfil})</span></div>
+                                                </div>
+                                                ${a.parecer_conclusivo ? `
+                                                    <div class="p-2 rounded bg-white/5 border-l-2 border-emerald-400 text-[11px] text-slate-300 mb-3">
+                                                        <strong>Parecer:</strong> ${a.parecer_conclusivo}
+                                                    </div>
+                                                ` : ''}
+                                            </div>
+                                            <div class="flex gap-2 pt-2 border-t border-white/5">
+                                                <button onclick="exportarPacoteEstabilidadeStitch('${a.id}')" class="flex-1 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 border border-white/10 transition flex items-center justify-center gap-1">
+                                                    <i class="fa-solid fa-download text-sky-400"></i> Pacote ZIP
+                                                </button>
+                                                ${a.status !== 'CONCLUIDA' ? `
+                                                    <button onclick="lancarFSStitch('${a.id}')" class="flex-1 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-xs font-bold text-white transition flex items-center justify-center gap-1">
+                                                        <i class="fa-solid fa-clipboard-check"></i> Lançar FS
+                                                    </button>
+                                                ` : ''}
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        `}
+                    </div>
+                `;
             } else if (abaAtiva === 'audit') {
                 container.innerHTML = `
                     <div class="glass-card rounded-2xl p-5">
@@ -350,6 +431,76 @@
             if (window.MDSyncExportador && dadosDossie) {
                 const res = await window.MDSyncExportador.exportarGeoJSON(dadosDossie.estrutura.id);
                 window.MDSyncExportador.dispararDownload(res);
+            }
+        }
+
+        async function exportarPacoteEstabilidadeStitch(solicitacaoId = null) {
+            if (window.MDSyncExportador && dadosDossie) {
+                await window.MDSyncExportador.exportarPacoteCompletoEstabilidade(dadosDossie.estrutura.id, solicitacaoId);
+            }
+        }
+
+        async function alternarUsuarioStitch() {
+            const perfis = ["TECNICO_CAMPO", "TECNICO_ESPECIALISTA", "ENGENHEIRO", "SUPERVISOR", "GERENTE"];
+            const atual = window.MDSyncDB ? window.MDSyncDB.currentUser.perfil : "TECNICO_CAMPO";
+            const proximoIndex = (perfis.indexOf(atual) + 1) % perfis.length;
+            const proximoPerfil = perfis[proximoIndex];
+
+            if (window.MDSyncDB) {
+                await window.MDSyncDB.trocarUsuarioAtivo(proximoPerfil);
+                atualizarBadgeUsuarioStitch();
+                await carregarDossieStitch();
+            }
+        }
+
+        function atualizarBadgeUsuarioStitch() {
+            if (!window.MDSyncDB) return;
+            const u = window.MDSyncDB.currentUser;
+            const nameEl = document.getElementById('stitch-user-name');
+            const roleEl = document.getElementById('stitch-user-role');
+            const avatarEl = document.getElementById('stitch-user-avatar');
+
+            if (nameEl) nameEl.textContent = u.nome;
+            if (roleEl) roleEl.textContent = u.perfil;
+            if (avatarEl) {
+                avatarEl.textContent = u.nome.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase() || 'US';
+            }
+        }
+
+        async function criarNovaAnaliseStitch() {
+            const motivo = prompt("Motivo da Solicitação de Análise de Estabilidade:", "Revisão Periódica de Fator de Segurança");
+            if (!motivo) return;
+            const software = prompt("Software Alvo (GEOSTUDIO_SLOPEW, LEAPFROG, DATAMINE):", "GEOSTUDIO_SLOPEW") || "GEOSTUDIO_SLOPEW";
+
+            if (window.MDSyncDB && dadosDossie) {
+                await window.MDSyncDB.criarSolicitacaoAnalise({
+                    estrutura_id: dadosDossie.estrutura.id,
+                    motivo: motivo,
+                    software_alvo: software
+                });
+                await carregarDossieStitch();
+                setAbaStitch('estab');
+            }
+        }
+
+        async function lancarFSStitch(analiseId) {
+            const fsStr = prompt("Informe o Fator de Segurança (FS) calculado:", "1.60");
+            if (!fsStr) return;
+            const fs = parseFloat(fsStr.replace(',', '.'));
+            if (isNaN(fs)) return;
+
+            const parecer = prompt("Parecer técnico conclusivo do Engenheiro:", `FS=${fs.toFixed(2)} atende às normas vigentes.`);
+            if (!parecer) return;
+
+            if (window.MDSyncDB) {
+                await window.MDSyncDB.atualizarSolicitacaoAnalise(analiseId, {
+                    status: "CONCLUIDA",
+                    fator_seguranca_calculado: fs,
+                    parecer_conclusivo: parecer,
+                    data_conclusao: new Date().toISOString()
+                });
+                await carregarDossieStitch();
+                setAbaStitch('estab');
             }
         }
 

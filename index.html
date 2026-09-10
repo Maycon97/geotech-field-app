@@ -237,9 +237,12 @@
                             <span class="cloud-pill-time" id="cloud-live-time">Atualizado agora</span>
                         </div>
                     </div>
-                    <div class="user-quick-badge" id="header-user-badge" onclick="switchTab('auth')" title="Operador Conectado - Clique para gerenciar conta">
+                    <div class="user-quick-badge" id="header-user-badge" onclick="window.MDSyncDossie.abrirSeletorUsuario()" title="Perfil Conectado - Clique para alternar alçada (RBAC)" style="cursor:pointer; display:flex; align-items:center; gap:8px;">
                         <div class="user-badge-avatar" id="header-user-avatar">MN</div>
-                        <span class="user-badge-name" id="header-user-name">Maycon N.</span>
+                        <div class="user-badge-info" style="display:flex; flex-direction:column; align-items:flex-start; line-height:1.2;">
+                            <span class="user-badge-name" id="header-user-name" style="font-weight:700;">Maycon N.</span>
+                            <span class="user-badge-role" id="header-user-role" style="font-size:10px; padding:1px 6px; border-radius:10px; background:rgba(56,189,248,0.15); color:#38bdf8; border:1px solid rgba(56,189,248,0.3); font-weight:600;">Técnico Campo</span>
+                        </div>
                     </div>
                     <button class="btn btn-secondary" id="pwa-install-btn" onclick="installPWA()" style="display:none;" title="Instalar MDSync no dispositivo">
                         <i class="fa-solid fa-download"></i> Instalar
@@ -5285,6 +5288,9 @@
                         <button type="button" class="dossie-tab-btn" data-tab="sumps" onclick="window.MDSyncDossie.trocarAba('sumps')">
                             <i class="fa-solid fa-water"></i> SUMPs &amp; Drenagem
                         </button>
+                        <button type="button" class="dossie-tab-btn" data-tab="estabilidade" onclick="window.MDSyncDossie.trocarAba('estabilidade')">
+                            <i class="fa-solid fa-chart-line"></i> Estabilidade &amp; Modelagem
+                        </button>
                         <button type="button" class="dossie-tab-btn" data-tab="exportacao" onclick="window.MDSyncDossie.trocarAba('exportacao')">
                             <i class="fa-solid fa-file-export"></i> Interoperabilidade
                         </button>
@@ -5293,6 +5299,358 @@
                     <!-- Conteúdo Dinâmico da Aba -->
                     <div class="dossie-tab-body" id="dossie-tab-content">
                         <p class="text-secondary small">Carregando dados da estrutura...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: Seletor de Perfil RBAC (Secao 5) -->
+            <div id="mdsync-user-role-modal" class="mdsync-dossie-modal-overlay">
+                <div class="mdsync-dossie-dialog" style="max-width:540px;">
+                    <div class="mdsync-dossie-header">
+                        <div>
+                            <h3>Controle de Acesso Baseado em Função (RBAC)</h3>
+                            <p class="text-secondary small mb-0">Selecione o perfil operacional ativo para validação de alçadas.</p>
+                        </div>
+                        <button type="button" onclick="window.MDSyncDossie.fecharModalGenerico('mdsync-user-role-modal')" style="background:none; border:none; color:#94a3b8; font-size:20px; cursor:pointer;">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    <div class="p-4" style="display:flex; flex-direction:column; gap:10px;">
+                        <button class="btn btn-secondary w-100 text-left p-3 d-flex justify-between align-center" onclick="window.MDSyncDossie.selecionarPerfilUsuario('TECNICO_CAMPO')">
+                            <div>
+                                <strong class="text-primary"><i class="fa-solid fa-person-digging mr-2"></i> Maycon Nascimento</strong>
+                                <p class="small text-secondary mb-0">Técnico de Campo (CFT-MG 14920) - Coleta, leituras e fotos</p>
+                            </div>
+                            <span class="badge badge-outline">Selecionar</span>
+                        </button>
+                        <button class="btn btn-secondary w-100 text-left p-3 d-flex justify-between align-center" onclick="window.MDSyncDossie.selecionarPerfilUsuario('TECNICO_ESPECIALISTA')">
+                            <div>
+                                <strong class="text-primary"><i class="fa-solid fa-user-gear mr-2"></i> Especialista Geotécnico</strong>
+                                <p class="small text-secondary mb-0">Técnico Especialista (CREA-MG 184501) - Revisão e triagem de anomalias</p>
+                            </div>
+                            <span class="badge badge-outline">Selecionar</span>
+                        </button>
+                        <button class="btn btn-secondary w-100 text-left p-3 d-flex justify-between align-center" onclick="window.MDSyncDossie.selecionarPerfilUsuario('ENGENHEIRO')">
+                            <div>
+                                <strong class="text-primary"><i class="fa-solid fa-user-graduate mr-2"></i> Engenheiro Geotécnico Sênior</strong>
+                                <p class="small text-secondary mb-0">Engenheiro Responsável (CREA-MG 102450/D) - Validação e encerramento</p>
+                            </div>
+                            <span class="badge badge-outline">Selecionar</span>
+                        </button>
+                        <button class="btn btn-secondary w-100 text-left p-3 d-flex justify-between align-center" onclick="window.MDSyncDossie.selecionarPerfilUsuario('SUPERVISOR')">
+                            <div>
+                                <strong class="text-primary"><i class="fa-solid fa-user-check mr-2"></i> Supervisor de Segurança</strong>
+                                <p class="small text-secondary mb-0">Supervisão Operacional (CREA-MG 88410/D) - Gestão de equipes e prazos</p>
+                            </div>
+                            <span class="badge badge-outline">Selecionar</span>
+                        </button>
+                        <button class="btn btn-secondary w-100 text-left p-3 d-flex justify-between align-center" onclick="window.MDSyncDossie.selecionarPerfilUsuario('GERENTE')">
+                            <div>
+                                <strong class="text-primary"><i class="fa-solid fa-briefcase mr-2"></i> Gerente Geral de Geotecnia</strong>
+                                <p class="small text-secondary mb-0">Gerência de Operações (CREA-MG 45120/D) - Aprovação executiva global</p>
+                            </div>
+                            <span class="badge badge-outline">Selecionar</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: Registro de Nova Anomalia em Campo (Secoes 12 e 13) -->
+            <div id="mdsync-nova-anomalia-modal" class="mdsync-dossie-modal-overlay">
+                <div class="mdsync-dossie-dialog" style="max-width:620px;">
+                    <div class="mdsync-dossie-header">
+                        <div>
+                            <h3>Registrar Anomalia Geotécnica em Campo</h3>
+                            <p class="text-secondary small mb-0">Captura estruturada com georreferenciamento e evidências normativas.</p>
+                        </div>
+                        <button type="button" onclick="window.MDSyncDossie.fecharModalGenerico('mdsync-nova-anomalia-modal')" style="background:none; border:none; color:#94a3b8; font-size:20px; cursor:pointer;">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    <div class="p-4" style="display:flex; flex-direction:column; gap:14px;">
+                        <div class="d-flex gap-3">
+                            <div class="flex-1">
+                                <label class="small font-bold text-secondary">Estrutura</label>
+                                <input type="text" id="anom-form-estrutura" class="form-control" readonly style="background:rgba(255,255,255,0.05);">
+                            </div>
+                            <div class="flex-1">
+                                <label class="small font-bold text-secondary">Tipo de Anomalia</label>
+                                <select id="anom-form-tipo" class="form-control">
+                                    <option value="TRINCA">Trinca / Fissura</option>
+                                    <option value="EROSAO">Erosão Superficial</option>
+                                    <option value="RAVINAMENTO">Ravinamento</option>
+                                    <option value="DEPRESSAO">Depressão / Abatimento</option>
+                                    <option value="RECALQUE">Recalque Diferencial</option>
+                                    <option value="ESCORREGAMENTO">Escorregamento de Talude</option>
+                                    <option value="SURGENCIA">Surgência de Água</option>
+                                    <option value="AREA_SATURADA">Área Saturada / Mancha</option>
+                                    <option value="OBSTRUCAO_DRENAGEM">Obstrução de Drenagem</option>
+                                    <option value="OUTRA">Outra</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="small font-bold text-secondary">Descrição Detalhada da Ocorrência *</label>
+                            <textarea id="anom-form-desc" class="form-control" rows="3" placeholder="Descreva feição observada, direção, propagação e contexto visual..."></textarea>
+                        </div>
+
+                        <div class="d-flex gap-3">
+                            <div class="flex-1">
+                                <label class="small font-bold text-secondary">Criticidade</label>
+                                <select id="anom-form-criticidade" class="form-control">
+                                    <option value="BAIXA">Baixa</option>
+                                    <option value="MEDIA" selected>Média</option>
+                                    <option value="ALTA">Alta</option>
+                                    <option value="MUITO_ALTA">Muito Alta</option>
+                                </select>
+                            </div>
+                            <div class="flex-2">
+                                <label class="small font-bold text-secondary">Localização Detalhada</label>
+                                <input type="text" id="anom-form-local" class="form-control" placeholder="Ex: Berma 2, trecho leste entre estacas 12 e 14">
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-3">
+                            <div class="flex-1">
+                                <label class="small font-bold text-secondary">Comprimento (m)</label>
+                                <input type="number" id="anom-form-comp" class="form-control" step="0.1" value="2.5">
+                            </div>
+                            <div class="flex-1">
+                                <label class="small font-bold text-secondary">Largura / Abertura (m)</label>
+                                <input type="number" id="anom-form-larg" class="form-control" step="0.01" value="0.05">
+                            </div>
+                            <div class="flex-1">
+                                <label class="small font-bold text-secondary">Profundidade (m)</label>
+                                <input type="number" id="anom-form-prof" class="form-control" step="0.01" value="0.30">
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-3">
+                            <div class="flex-1">
+                                <label class="small font-bold text-secondary">Coordenada UTM Leste (E)</label>
+                                <input type="number" id="anom-form-utme" class="form-control" step="0.1">
+                            </div>
+                            <div class="flex-1">
+                                <label class="small font-bold text-secondary">Coordenada UTM Norte (N)</label>
+                                <input type="number" id="anom-form-utmn" class="form-control" step="0.1">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="small font-bold text-secondary">Recomendação Preliminar de Campo</label>
+                            <input type="text" id="anom-form-rec" class="form-control" placeholder="Ex: Selamento com solo argiloso e monitoramento diário">
+                        </div>
+
+                        <div class="d-flex justify-end gap-2 pt-3" style="border-top:1px solid rgba(255,255,255,0.08);">
+                            <button class="btn btn-secondary" onclick="window.MDSyncDossie.fecharModalGenerico('mdsync-nova-anomalia-modal')">Cancelar</button>
+                            <button class="btn btn-primary" onclick="window.MDSyncDossie.salvarNovaAnomaliaModal()">
+                                <i class="fa-solid fa-floppy-disk mr-1"></i> Salvar e Iniciar Ciclo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: Cadastro de Novo SUMP (Secao 18) -->
+            <div id="mdsync-novo-sump-modal" class="mdsync-dossie-modal-overlay">
+                <div class="mdsync-dossie-dialog" style="max-width:560px;">
+                    <div class="mdsync-dossie-header">
+                        <div>
+                            <h3>Cadastrar Nova Bacia / SUMP</h3>
+                            <p class="text-secondary small mb-0">Controle individual de cotas, capacidade e bombeamento.</p>
+                        </div>
+                        <button type="button" onclick="window.MDSyncDossie.fecharModalGenerico('mdsync-novo-sump-modal')" style="background:none; border:none; color:#94a3b8; font-size:20px; cursor:pointer;">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    <div class="p-4" style="display:flex; flex-direction:column; gap:12px;">
+                        <div>
+                            <label class="small font-bold text-secondary">Estrutura Associada</label>
+                            <input type="text" id="sump-form-estrutura" class="form-control" readonly style="background:rgba(255,255,255,0.05);">
+                        </div>
+                        <div class="d-flex gap-3">
+                            <div class="flex-1">
+                                <label class="small font-bold text-secondary">Código (Ex: SUMP-03)</label>
+                                <input type="text" id="sump-form-codigo" class="form-control" placeholder="SUMP-03">
+                            </div>
+                            <div class="flex-2">
+                                <label class="small font-bold text-secondary">Nome Descritivo</label>
+                                <input type="text" id="sump-form-nome" class="form-control" placeholder="SUMP de Pé do Talude Leste">
+                            </div>
+                        </div>
+                        <div class="d-flex gap-3">
+                            <div class="flex-1">
+                                <label class="small font-bold text-secondary">Capacidade Máxima (m³)</label>
+                                <input type="number" id="sump-form-cap" class="form-control" value="10000">
+                            </div>
+                            <div class="flex-1">
+                                <label class="small font-bold text-secondary">Cota de Fundo (m)</label>
+                                <input type="number" id="sump-form-fundo" class="form-control" step="0.1" value="815.0">
+                            </div>
+                            <div class="flex-1">
+                                <label class="small font-bold text-secondary">Cota Bordo Livre (m)</label>
+                                <input type="number" id="sump-form-bordo" class="form-control" step="0.1" value="822.0">
+                            </div>
+                        </div>
+                        <div class="d-flex gap-3">
+                            <div class="flex-1">
+                                <label class="small font-bold text-secondary">Status do Bombeamento</label>
+                                <select id="sump-form-bomba" class="form-control">
+                                    <option value="OPERACIONAL">Operacional</option>
+                                    <option value="PARADO">Parado</option>
+                                    <option value="MANUTENCAO">Em Manutenção</option>
+                                    <option value="INEXISTENTE">Inexistente</option>
+                                </select>
+                            </div>
+                            <div class="flex-1">
+                                <label class="small font-bold text-secondary">Vazão de Bombeamento (m³/h)</label>
+                                <input type="number" id="sump-form-vazao" class="form-control" value="150">
+                            </div>
+                        </div>
+                        <div class="d-flex justify-end gap-2 pt-3" style="border-top:1px solid rgba(255,255,255,0.08);">
+                            <button class="btn btn-secondary" onclick="window.MDSyncDossie.fecharModalGenerico('mdsync-novo-sump-modal')">Cancelar</button>
+                            <button class="btn btn-primary" onclick="window.MDSyncDossie.salvarNovoSumpModal()">
+                                <i class="fa-solid fa-floppy-disk mr-1"></i> Cadastrar SUMP
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: Vistoria / Nível de SUMP (Secao 18) -->
+            <div id="mdsync-vistoria-sump-modal" class="mdsync-dossie-modal-overlay">
+                <div class="mdsync-dossie-dialog" style="max-width:480px;">
+                    <div class="mdsync-dossie-header">
+                        <div>
+                            <h3>Vistoria e Atualização de SUMP</h3>
+                            <p class="text-secondary small mb-0" id="vsump-label">Atualizando parâmetros operacionais...</p>
+                        </div>
+                        <button type="button" onclick="window.MDSyncDossie.fecharModalGenerico('mdsync-vistoria-sump-modal')" style="background:none; border:none; color:#94a3b8; font-size:20px; cursor:pointer;">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    <input type="hidden" id="vsump-id">
+                    <div class="p-4" style="display:flex; flex-direction:column; gap:12px;">
+                        <div>
+                            <label class="small font-bold text-secondary">Nível d'Água Atual (%)</label>
+                            <input type="number" id="vsump-nivel" class="form-control" min="0" max="100" step="1" value="35">
+                        </div>
+                        <div class="d-flex gap-3">
+                            <div class="flex-1">
+                                <label class="small font-bold text-secondary">Status Bombeamento</label>
+                                <select id="vsump-bomba" class="form-control">
+                                    <option value="OPERACIONAL">Operacional</option>
+                                    <option value="PARADO">Parado</option>
+                                    <option value="MANUTENCAO">Manutenção</option>
+                                </select>
+                            </div>
+                            <div class="flex-1">
+                                <label class="small font-bold text-secondary">Vazão Atual (m³/h)</label>
+                                <input type="number" id="vsump-vazao" class="form-control" value="120">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="small font-bold text-secondary">Condição de Manutenção / Assoreamento</label>
+                            <select id="vsump-cond" class="form-control">
+                                <option value="EXCELENTE">Excelente (Sem assoreamento)</option>
+                                <option value="REGULAR">Regular (Assoreamento parcial aceitável)</option>
+                                <option value="CRITICA_SEDIMENTADO">Crítica / Sedimentado (Requer desassoreamento)</option>
+                            </select>
+                        </div>
+                        <div class="d-flex justify-end gap-2 pt-3" style="border-top:1px solid rgba(255,255,255,0.08);">
+                            <button class="btn btn-secondary" onclick="window.MDSyncDossie.fecharModalGenerico('mdsync-vistoria-sump-modal')">Cancelar</button>
+                            <button class="btn btn-primary" onclick="window.MDSyncDossie.salvarVistoriaSumpModal()">
+                                <i class="fa-solid fa-check mr-1"></i> Salvar Vistoria
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: Nova Solicitacao de Analise de Estabilidade (Secao 19) -->
+            <div id="mdsync-nova-analise-modal" class="mdsync-dossie-modal-overlay">
+                <div class="mdsync-dossie-dialog" style="max-width:620px;">
+                    <div class="mdsync-dossie-header">
+                        <div>
+                            <h3>Nova Solicitação de Análise de Estabilidade</h3>
+                            <p class="text-secondary small mb-0">Especificação técnica para modelagem numérica em softwares especializados.</p>
+                        </div>
+                        <button type="button" onclick="window.MDSyncDossie.fecharModalGenerico('mdsync-nova-analise-modal')" style="background:none; border:none; color:#94a3b8; font-size:20px; cursor:pointer;">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    <div class="p-4" style="display:flex; flex-direction:column; gap:12px;">
+                        <div class="d-flex gap-3">
+                            <div class="flex-1">
+                                <label class="small font-bold text-secondary">Estrutura</label>
+                                <input type="text" id="analise-form-estrutura" class="form-control" readonly style="background:rgba(255,255,255,0.05);">
+                            </div>
+                            <div class="flex-1">
+                                <label class="small font-bold text-secondary">Software Alvo</label>
+                                <select id="analise-form-software" class="form-control">
+                                    <option value="GEOSTUDIO_SLOPEW">GeoStudio (SLOPE/W e SEEP/W)</option>
+                                    <option value="LEAPFROG">Leapfrog Geo (Seequent)</option>
+                                    <option value="DATAMINE">Datamine Studio RM</option>
+                                    <option value="ROCSCIENCE_SLIDE">Rocscience Slide2 / Slide3</option>
+                                    <option value="FLAC3D">Itasca FLAC3D</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="small font-bold text-secondary">Motivo da Solicitação *</label>
+                            <input type="text" id="analise-form-motivo" class="form-control" placeholder="Ex: Avaliação de estabilidade pós-chuva extraordinária na Berma 3">
+                        </div>
+
+                        <div class="d-flex gap-3">
+                            <div class="flex-1">
+                                <label class="small font-bold text-secondary">Seção Geotécnica de Estudo</label>
+                                <input type="text" id="analise-form-secao" class="form-control" value="Seção Crítica Principal (Estaca 14+00)">
+                            </div>
+                            <div class="flex-1">
+                                <label class="small font-bold text-secondary">Condição de Carregamento</label>
+                                <select id="analise-form-carregamento" class="form-control">
+                                    <option value="DRENADA_LONGO_PRAZO">Drenada a Longo Prazo</option>
+                                    <option value="NAO_DRENADA_TRANSITORIA">Não Drenada / Transiente (Ru elevado)</option>
+                                    <option value="PSEUDO_ESTATICA">Pseudo-estática (Sismo Operacional)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="p-3 rounded" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08);">
+                            <span class="small font-bold text-primary block mb-2">Parâmetros Geotécnicos de Entrada:</span>
+                            <div class="d-flex gap-2">
+                                <div class="flex-1">
+                                    <label class="small text-secondary">Coesão c' (kPa)</label>
+                                    <input type="number" id="analise-form-coeso" class="form-control" value="18">
+                                </div>
+                                <div class="flex-1">
+                                    <label class="small text-secondary">Atrito phi' (°)</label>
+                                    <input type="number" id="analise-form-atrito" class="form-control" value="33">
+                                </div>
+                                <div class="flex-1">
+                                    <label class="small text-secondary">Peso gamma (kN/m³)</label>
+                                    <input type="number" id="analise-form-gamma" class="form-control" step="0.1" value="20.8">
+                                </div>
+                                <div class="flex-1">
+                                    <label class="small text-secondary">Razão Ru</label>
+                                    <input type="number" id="analise-form-ru" class="form-control" step="0.01" value="0.18">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="small font-bold text-secondary">Observações Complementares</label>
+                            <input type="text" id="analise-form-obs" class="form-control" placeholder="Incluir dados piezométricos recentes de INA e corda vibrante...">
+                        </div>
+
+                        <div class="d-flex justify-end gap-2 pt-3" style="border-top:1px solid rgba(255,255,255,0.08);">
+                            <button class="btn btn-secondary" onclick="window.MDSyncDossie.fecharModalGenerico('mdsync-nova-analise-modal')">Cancelar</button>
+                            <button class="btn btn-primary" onclick="window.MDSyncDossie.salvarNovaAnaliseModal()">
+                                <i class="fa-solid fa-paper-plane mr-1"></i> Criar Solicitação
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -195,6 +195,133 @@
         }
 
         /**
+         * Gera pacote consolidado de estabilidade geotecnica em ZIP (Secao 19)
+         * Contendo series temporais GeoStudio CSV, geometria GeoJSON SIRGAS 2000 UTM 23S e memorial de parametros
+         */
+        async exportarPacoteCompletoEstabilidade(estruturaIdOuSlug, solicitacaoId = null) {
+            const dossie = await this.db.obterDossieDigitalEstrutura(estruturaIdOuSlug);
+            if (!dossie) throw new Error("Estrutura nao localizada para pacote de estabilidade.");
+
+            let solicitacao = null;
+            if (solicitacaoId) {
+                solicitacao = await this.db.get("analises_geotecnicas", solicitacaoId);
+            }
+            if (!solicitacao && dossie.analisesGeotecnicas && dossie.analisesGeotecnicas.length > 0) {
+                solicitacao = dossie.analisesGeotecnicas[0];
+            }
+
+            const [csvRes, geoJsonRes] = await Promise.all([
+                this.exportarCSVGeoStudio(estruturaIdOuSlug),
+                this.exportarGeoJSON(estruturaIdOuSlug)
+            ]);
+
+            const metadadosJson = {
+                sistema: "MDSync Versão 1.0 (Sistema Corporativo de Gestao de Dados Geotecnicos)",
+                dataExportacao: new Date().toISOString(),
+                estrutura: {
+                    codigo: dossie.estrutura.codigo,
+                    nome: dossie.estrutura.nome,
+                    tipo: dossie.estrutura.tipo,
+                    cota_coroamento_m: dossie.estrutura.cota_coroamento,
+                    cota_pe_m: dossie.estrutura.cota_pe,
+                    altura_maxima_m: dossie.estrutura.altura_maxima,
+                    angulo_talude_projeto_graus: dossie.estrutura.angulo_talude_projeto,
+                    coordenadas_utm: {
+                        e: dossie.estrutura.coordenadas_utm_e,
+                        n: dossie.estrutura.coordenadas_utm_n,
+                        datum: "SIRGAS 2000",
+                        fuso: "UTM 23S"
+                    }
+                },
+                solicitacao: solicitacao ? {
+                    id: solicitacao.id,
+                    codigo: solicitacao.codigo,
+                    solicitante_nome: solicitacao.solicitante_nome,
+                    solicitante_perfil: solicitacao.solicitante_perfil,
+                    data_solicitacao: solicitacao.data_solicitacao,
+                    motivo: solicitacao.motivo,
+                    software_alvo: solicitacao.software_alvo,
+                    secao_geotecnica: solicitacao.secao_geotecnica,
+                    condicao_carregamento: solicitacao.condicao_carregamento,
+                    parametros_geotecnicos: solicitacao.parametros_geotecnicos,
+                    status: solicitacao.status,
+                    fator_seguranca_calculado: solicitacao.fator_seguranca_calculado
+                } : null,
+                diretrizesNormativas: [
+                    "ABNT NBR 13028 (Disposicao de Esteril e Rejeito em Mineracao)",
+                    "Resolucao ANM nº 95/2022 (Seguranca de Barragens e Taludes de Mineracao)",
+                    "Bo & Barrett (2023) - Geotechnical Instrumentation Guidelines"
+                ]
+            };
+
+            const params = solicitacao && solicitacao.parametros_geotecnicos ? solicitacao.parametros_geotecnicos : { coeso_kpa: 15, atrito_graus: 32, peso_especifico_kn_m3: 20.5, ru_poropressao: 0.20 };
+
+            const memorialTexto = [
+                "================================================================================",
+                "MD SYNC - MEMORIAL DESCRITIVO DE INTEROPERABILIDADE GEOTÉCNICA",
+                "================================================================================",
+                `Estrutura Analisada: ${dossie.estrutura.codigo} (${dossie.estrutura.nome})`,
+                `Tipo: ${dossie.estrutura.tipo}`,
+                `Código da Solicitação: ${solicitacao ? solicitacao.codigo : 'SOL-AVULSA-2026'}`,
+                `Software Alvo: ${solicitacao ? solicitacao.software_alvo : 'GeoStudio SLOPE/W'}`,
+                `Seção de Estudo: ${solicitacao ? solicitacao.secao_geotecnica : 'Seção Principal'}`,
+                `Condição de Carregamento: ${solicitacao ? solicitacao.condicao_carregamento : 'DRENADA_LONGO_PRAZO'}`,
+                `Data de Geração do Pacote: ${new Date().toLocaleString('pt-BR')}`,
+                "",
+                "PARÂMETROS GEOTÉCNICOS DE PROJETO:",
+                `- Coesão Efetiva (c'): ${params.coeso_kpa || 15} kPa`,
+                `- Ângulo de Atrito Efetivo (phi'): ${params.atrito_graus || 32} graus`,
+                `- Peso Específico Natural (gamma): ${params.peso_especifico_kn_m3 || 20.5} kN/m³`,
+                `- Razão de Poro-pressão (Ru): ${params.ru_poropressao || 0.20}`,
+                "",
+                "ARQUIVOS COMPONENTES:",
+                "1. 01_series_instrumentacao_geostudio.csv - Dados tabulares para SLOPE/W e SEEP/W",
+                "2. 02_geometria_espacial_utm23s.geojson - Malhas e pontos em SIRGAS 2000 UTM 23S",
+                "3. 03_especificacao_analise_geotecnica.json - Metadados estruturados para automação",
+                "================================================================================"
+            ].join("\r\n");
+
+            // Se JSZip estiver disponivel no ambiente global
+            const JSZipLib = global.JSZip || (typeof window !== 'undefined' ? window.JSZip : null);
+            if (JSZipLib) {
+                const zip = new JSZipLib();
+                zip.file("01_series_instrumentacao_geostudio.csv", csvRes.conteudo);
+                zip.file("02_geometria_espacial_utm23s.geojson", geoJsonRes.conteudo);
+                zip.file("03_especificacao_analise_geotecnica.json", JSON.stringify(metadadosJson, null, 2));
+                zip.file("04_memorial_descritivo.txt", memorialTexto);
+
+                const blob = await zip.generateAsync({ type: "blob" });
+                const nomeZip = `MDSYNC_PACOTE_ESTABILIDADE_${dossie.estrutura.codigo}_${new Date().toISOString().substring(0, 10)}.zip`;
+
+                if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = nomeZip;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }
+
+                return {
+                    nomeArquivo: nomeZip,
+                    status: "DOWNLOAD_CONCLUIDO",
+                    solicitacaoCodigo: solicitacao ? solicitacao.codigo : "N/A"
+                };
+            } else {
+                // Fallback: download individual dos arquivos
+                this.dispararDownload(csvRes);
+                this.dispararDownload(geoJsonRes);
+                return {
+                    nomeArquivo: csvRes.nomeArquivo,
+                    status: "DOWNLOAD_INDIVIDUAL",
+                    solicitacaoCodigo: solicitacao ? solicitacao.codigo : "N/A"
+                };
+            }
+        }
+
+        /**
          * Dispara download no navegador
          */
         dispararDownload(resultadoExportacao) {

@@ -1,15 +1,15 @@
 {
   "version": "2026-09-02-pcmi-live",
   "sourcePath": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI",
-  "generatedAt": "2026-09-10T14:12:30.766333",
+  "generatedAt": "2026-09-10T15:34:05.380640",
   "summary": {
     "totalDashboards": 49,
     "totalPowerBi": 54,
     "totalExcel": 3557,
-    "totalImages": 30630,
+    "totalImages": 30842,
     "totalPdfs": 6740,
     "totalDocs": 701,
-    "totalFiles": 44344
+    "totalFiles": 44559
   },
   "dashboards": [
     {
@@ -166,11 +166,11 @@
       "path": "C:/Users/maycon.nascimento/ITAMINAS/SPLO - General/03) Geotecnia/01) PCMI/01) Implantação/01) Enviados",
       "powerbi": 4,
       "excel": 121,
-      "images": 2970,
+      "images": 3182,
       "pdfs": 578,
       "docs": 84,
-      "totalFiles": 4783,
-      "lastUpdated": "2026-09-02T07:12:06.056143"
+      "totalFiles": 4998,
+      "lastUpdated": "2026-09-10T14:25:27"
     },
     {
       "id": "01-implanta-o-02-recebidos",
@@ -202,7 +202,7 @@
       "pdfs": 1,
       "docs": 1,
       "totalFiles": 9,
-      "lastUpdated": "2026-09-10T08:57:59"
+      "lastUpdated": "2026-09-10T14:25:27"
     },
     {
       "id": "02-monitoramentos-01-barragens",

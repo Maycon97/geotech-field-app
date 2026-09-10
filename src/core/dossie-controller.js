@@ -53,6 +53,38 @@
             if (this.db) {
                 await this.db.init();
             }
+            this._atualizarBadgeUsuarioHeader();
+            if (global.SyncBridge && typeof global.SyncBridge.on === 'function') {
+                global.SyncBridge.on('MDSYNC_USER_CHANGED', (payload) => {
+                    if (payload && payload.user) {
+                        this._atualizarBadgeUsuarioHeader(payload.user);
+                    }
+                });
+            }
+        }
+
+        _atualizarBadgeUsuarioHeader(usuario = null) {
+            const user = usuario || (this.db ? this.db.currentUser : null);
+            if (!user) return;
+            const nameEl = document.getElementById('header-user-name');
+            const roleEl = document.getElementById('header-user-role');
+            const avatarEl = document.getElementById('header-user-avatar');
+
+            if (nameEl) nameEl.textContent = user.nome;
+            if (roleEl) {
+                const perfisLegiveis = {
+                    TECNICO_CAMPO: "Técnico Campo",
+                    TECNICO_ESPECIALISTA: "Especialista",
+                    ENGENHEIRO: "Engenheiro",
+                    SUPERVISOR: "Supervisor",
+                    GERENTE: "Gerente"
+                };
+                roleEl.textContent = perfisLegiveis[user.perfil] || user.perfil;
+            }
+            if (avatarEl) {
+                const iniciais = user.nome.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+                avatarEl.textContent = iniciais || 'US';
+            }
         }
 
         /**
@@ -144,6 +176,9 @@
                     break;
                 case "sumps":
                     contentContainer.innerHTML = this._gerarHtmlSumps();
+                    break;
+                case "estabilidade":
+                    contentContainer.innerHTML = this._gerarHtmlEstabilidade();
                     break;
                 case "exportacao":
                     contentContainer.innerHTML = this._gerarHtmlExportacao();
@@ -430,24 +465,122 @@
             const sumps = this.dossieAtual.sumps;
             return `
                 <div class="dossie-sumps-wrapper">
-                    <h4 class="mb-3">Bacias de Acúmulo e SUMPs Associados (${sumps.length})</h4>
-                    <div class="dossie-grid-cards">
-                        ${sumps.map(s => `
-                            <div class="dossie-info-card">
-                                <h4><i class="fa-solid fa-water"></i> ${s.codigo} (${s.nome})</h4>
-                                <div class="dossie-meta-list">
-                                    <div><span>Capacidade Máxima:</span> <strong>${(s.capacidade_maxima_m3 || 0).toLocaleString('pt-BR')} m³</strong></div>
-                                    <div><span>Volume Atual Estimado:</span> <strong>${(s.volume_atual_estimado_m3 || 0).toLocaleString('pt-BR')} m³</strong></div>
-                                    <div><span>Nível d'Água:</span> <strong>${s.nivel_agua_atual_percentual}%</strong></div>
-                                    <div><span>Cota Fundo:</span> <strong>${s.cota_fundo} m</strong></div>
-                                    <div><span>Cota Bordo Livre:</span> <strong>${s.cota_bordo_livre} m</strong></div>
-                                    <div><span>Sistema Bombeamento:</span> <strong>${s.sistema_bombeamento_status}</strong></div>
-                                    <div><span>Vazão de Bombeamento:</span> <strong>${s.vazao_bombeamento_m3h} m³/h</strong></div>
-                                    <div><span>Condição de Manutenção:</span> <strong>${s.condicao_manutencao}</strong></div>
-                                </div>
-                            </div>
-                        `).join('')}
+                    <div class="d-flex justify-between align-center mb-3">
+                        <div>
+                            <h4 style="margin:0;"><i class="fa-solid fa-water text-primary"></i> Bacias de Acúmulo e SUMPs Associados (${sumps.length})</h4>
+                            <p class="small text-secondary mb-0">Controle individual de cotas, nível d'água, volume estimado e integridade do bombeamento.</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="window.MDSyncDossie.abrirModalNovoSump()">
+                            <i class="fa-solid fa-plus"></i> Cadastrar Novo SUMP
+                        </button>
                     </div>
+
+                    ${!sumps.length ? `
+                        <div class="p-4 text-center text-secondary">
+                            <i class="fa-solid fa-water fa-2x mb-2 text-muted"></i>
+                            <p>Nenhum SUMP cadastrado para esta estrutura.</p>
+                        </div>
+                    ` : `
+                        <div class="dossie-grid-cards">
+                            ${sumps.map(s => {
+                                const nivelClass = s.nivel_agua_atual_percentual > 80 ? 'badge-danger' : (s.nivel_agua_atual_percentual > 60 ? 'badge-warning' : 'badge-success');
+                                const bombaClass = s.sistema_bombeamento_status === 'OPERACIONAL' ? 'badge-success' : 'badge-danger';
+                                return `
+                                    <div class="dossie-info-card">
+                                        <div class="d-flex justify-between align-center mb-2">
+                                            <strong>${s.codigo} (${s.nome})</strong>
+                                            <span class="badge ${nivelClass}">Nível: ${s.nivel_agua_atual_percentual}%</span>
+                                        </div>
+                                        <div class="dossie-meta-list mb-3">
+                                            <div><span>Capacidade Máxima:</span> <strong>${(s.capacidade_maxima_m3 || 0).toLocaleString('pt-BR')} m³</strong></div>
+                                            <div><span>Volume Atual Estimado:</span> <strong>${(s.volume_atual_estimado_m3 || 0).toLocaleString('pt-BR')} m³</strong></div>
+                                            <div><span>Cota Fundo:</span> <strong>${s.cota_fundo} m</strong></div>
+                                            <div><span>Cota Bordo Livre:</span> <strong>${s.cota_bordo_livre} m</strong></div>
+                                            <div><span>Sistema Bombeamento:</span> <span class="badge ${bombaClass}">${s.sistema_bombeamento_status}</span></div>
+                                            <div><span>Vazão de Bombeamento:</span> <strong>${s.vazao_bombeamento_m3h} m³/h</strong></div>
+                                            <div><span>Condição de Manutenção:</span> <strong>${s.condicao_manutencao}</strong></div>
+                                            <div><span>Última Inspeção:</span> <small class="text-secondary">${s.data_ultima_inspecao ? new Date(s.data_ultima_inspecao).toLocaleDateString('pt-BR') : 'Sem registro'}</small></div>
+                                        </div>
+                                        <div class="pt-2" style="border-top:1px solid rgba(255,255,255,0.06);">
+                                            <button class="btn btn-secondary btn-sm w-100" onclick="window.MDSyncDossie.abrirModalVistoriaSump('${s.id}')">
+                                                <i class="fa-solid fa-pen-to-square"></i> Registrar Vistoria / Atualizar Nível
+                                            </button>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
+        _gerarHtmlEstabilidade() {
+            const analises = this.dossieAtual.analisesGeotecnicas || [];
+            return `
+                <div class="dossie-estabilidade-wrapper">
+                    <div class="d-flex justify-between align-center mb-3">
+                        <div>
+                            <h4 style="margin:0;"><i class="fa-solid fa-chart-line text-primary"></i> Análises de Estabilidade & Interoperabilidade (Seção 19)</h4>
+                            <p class="small text-secondary mb-0">Solicitações formais de modelagem geotécnica, condições de contorno e Fatores de Segurança (FS).</p>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-secondary btn-sm" onclick="window.MDSyncExportador.exportarPacoteCompletoEstabilidade('${this.estruturaAtiva.id}')">
+                                <i class="fa-solid fa-file-zipper"></i> Pacote Geral (ZIP)
+                            </button>
+                            <button class="btn btn-primary btn-sm" onclick="window.MDSyncDossie.abrirModalNovaAnalise()">
+                                <i class="fa-solid fa-plus"></i> Nova Solicitação
+                            </button>
+                        </div>
+                    </div>
+
+                    ${!analises.length ? `
+                        <div class="p-4 text-center text-secondary">
+                            <i class="fa-solid fa-chart-area fa-2x mb-2 text-muted"></i>
+                            <p>Nenhuma solicitação de análise de estabilidade registrada para esta estrutura.</p>
+                        </div>
+                    ` : `
+                        <div class="dossie-grid-cards">
+                            ${analises.map(a => {
+                                const statusClass = a.status === 'CONCLUIDA' ? 'badge-success' : (a.status === 'EM_MODELAGEM' ? 'badge-warning' : 'badge-primary');
+                                const fs = a.fator_seguranca_calculado;
+                                const fsBadge = fs ? (fs >= 1.50 ? 'badge-success' : 'badge-danger') : 'badge-secondary';
+                                const params = a.parametros_geotecnicos || {};
+                                return `
+                                    <div class="dossie-info-card">
+                                        <div class="d-flex justify-between align-center mb-2">
+                                            <strong>${a.codigo}</strong>
+                                            <span class="badge ${statusClass}">${a.status}</span>
+                                        </div>
+                                        <p class="small text-secondary mb-2">${a.motivo}</p>
+                                        <div class="dossie-meta-list mb-3">
+                                            <div><span>Software Alvo:</span> <strong class="text-primary">${a.software_alvo}</strong></div>
+                                            <div><span>Seção Analisada:</span> <strong>${a.secao_geotecnica}</strong></div>
+                                            <div><span>Carregamento:</span> <strong>${a.condicao_carregamento}</strong></div>
+                                            <div><span>Parâmetros:</span> <small>c'=${params.coeso_kpa || 15}kPa, phi'=${params.atrito_graus || 32}°, gamma=${params.peso_especifico_kn_m3 || 20.5}kN/m³</small></div>
+                                            <div><span>Fator de Segurança (FS):</span> <strong class="badge ${fsBadge}">${fs ? fs.toFixed(2) : 'Em cálculo'}</strong></div>
+                                            <div><span>Solicitante:</span> <small>${a.solicitante_nome} (${a.solicitante_perfil})</small></div>
+                                        </div>
+                                        ${a.parecer_conclusivo ? `
+                                            <div class="p-2 mb-3 rounded" style="background:rgba(255,255,255,0.04); border-left:3px solid #10b981;">
+                                                <p class="small mb-0 text-muted"><strong>Parecer:</strong> ${a.parecer_conclusivo}</p>
+                                            </div>
+                                        ` : ''}
+                                        <div class="d-flex gap-2 pt-2" style="border-top:1px solid rgba(255,255,255,0.06);">
+                                            <button class="btn btn-secondary btn-sm flex-1" onclick="window.MDSyncExportador.exportarPacoteCompletoEstabilidade('${this.estruturaAtiva.id}', '${a.id}')">
+                                                <i class="fa-solid fa-download"></i> Baixar ZIP
+                                            </button>
+                                            ${a.status !== 'CONCLUIDA' ? `
+                                                <button class="btn btn-primary btn-sm" onclick="window.MDSyncDossie.atualizarResultadoAnalise('${a.id}')">
+                                                    <i class="fa-solid fa-clipboard-check"></i> Lançar FS
+                                                </button>
+                                            ` : ''}
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    `}
                 </div>
             `;
         }
@@ -572,6 +705,20 @@
         }
 
         abrirModalNovaAnomalia() {
+            const modal = document.getElementById('mdsync-nova-anomalia-modal');
+            if (modal) {
+                // Preencher campos padrao
+                const estEl = document.getElementById('anom-form-estrutura');
+                if (estEl && this.estruturaAtiva) estEl.value = `${this.estruturaAtiva.codigo} - ${this.estruturaAtiva.nome}`;
+                const utmE = document.getElementById('anom-form-utme');
+                if (utmE && this.estruturaAtiva) utmE.value = this.estruturaAtiva.coordenadas_utm_e || 594000;
+                const utmN = document.getElementById('anom-form-utmn');
+                if (utmN && this.estruturaAtiva) utmN.value = this.estruturaAtiva.coordenadas_utm_n || 7784000;
+                modal.classList.add('active');
+                modal.style.display = 'flex';
+                return;
+            }
+
             const desc = prompt("Descrição da Anomalia:", "Trinca superficial longitudinal observada na berma");
             if (!desc) return;
             const tipo = prompt("Tipo da Anomalia (TRINCA, EROSAO, SURGENCIA, RECALQUE):", "TRINCA") || "TRINCA";
@@ -588,6 +735,212 @@
                 this.abrirDossie(this.estruturaAtiva.id);
                 this.trocarAba("anomalias");
             });
+        }
+
+        fecharModalGenerico(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                modal.style.display = 'none';
+            }
+        }
+
+        async salvarNovaAnomaliaModal() {
+            const desc = document.getElementById('anom-form-desc')?.value;
+            const tipo = document.getElementById('anom-form-tipo')?.value || "TRINCA";
+            const crit = document.getElementById('anom-form-criticidade')?.value || "MEDIA";
+            const local = document.getElementById('anom-form-local')?.value || "";
+            const comp = parseFloat(document.getElementById('anom-form-comp')?.value || 0);
+            const larg = parseFloat(document.getElementById('anom-form-larg')?.value || 0);
+            const prof = parseFloat(document.getElementById('anom-form-prof')?.value || 0);
+            const utmE = parseFloat(document.getElementById('anom-form-utme')?.value || 0);
+            const utmN = parseFloat(document.getElementById('anom-form-utmn')?.value || 0);
+            const rec = document.getElementById('anom-form-rec')?.value || "";
+
+            if (!desc) {
+                alert("Por favor informe a descrição detalhada da anomalia.");
+                return;
+            }
+
+            const anom = await this.db.criarAnomalia({
+                estrutura_id: this.estruturaAtiva.id,
+                tipo_anomalia: tipo,
+                descricao: desc,
+                criticidade: crit,
+                localizacao_detalhada: local,
+                dimensao_comprimento_m: comp,
+                dimensao_largura_m: larg,
+                dimensao_profundidade_m: prof,
+                coordenadas_utm_e: utmE || this.estruturaAtiva.coordenadas_utm_e,
+                coordenadas_utm_n: utmN || this.estruturaAtiva.coordenadas_utm_n,
+                recomendacao_tecnica: rec
+            });
+
+            this.fecharModalGenerico('mdsync-nova-anomalia-modal');
+            if (window.showToast) window.showToast("Anomalia Registrada", `Anomalia ${anom.codigo_sequencial} inserida no fluxo com sucesso.`, "success");
+            await this.abrirDossie(this.estruturaAtiva.id);
+            this.trocarAba("anomalias");
+        }
+
+        abrirModalNovoSump() {
+            const modal = document.getElementById('mdsync-novo-sump-modal');
+            if (modal) {
+                const estEl = document.getElementById('sump-form-estrutura');
+                if (estEl && this.estruturaAtiva) estEl.value = `${this.estruturaAtiva.codigo} - ${this.estruturaAtiva.nome}`;
+                modal.classList.add('active');
+                modal.style.display = 'flex';
+            }
+        }
+
+        async salvarNovoSumpModal() {
+            const cod = document.getElementById('sump-form-codigo')?.value || `SUMP-${Date.now().toString().slice(-3)}`;
+            const nome = document.getElementById('sump-form-nome')?.value || "Bacia de Contenção de Drenagem";
+            const cap = parseFloat(document.getElementById('sump-form-cap')?.value || 5000);
+            const fundo = parseFloat(document.getElementById('sump-form-fundo')?.value || 820);
+            const bordo = parseFloat(document.getElementById('sump-form-bordo')?.value || 826);
+            const bomba = document.getElementById('sump-form-bomba')?.value || "OPERACIONAL";
+            const vazao = parseFloat(document.getElementById('sump-form-vazao')?.value || 100);
+
+            await this.db.criarSump({
+                estrutura_associada_id: this.estruturaAtiva.id,
+                codigo: cod,
+                nome: nome,
+                capacidade_maxima_m3: cap,
+                cota_fundo: fundo,
+                cota_bordo_livre: bordo,
+                sistema_bombeamento_status: bomba,
+                vazao_bombeamento_m3h: vazao,
+                coordenadas_utm_e: this.estruturaAtiva.coordenadas_utm_e,
+                coordenadas_utm_n: this.estruturaAtiva.coordenadas_utm_n
+            });
+
+            this.fecharModalGenerico('mdsync-novo-sump-modal');
+            if (window.showToast) window.showToast("SUMP Cadastrado", `SUMP ${cod} associado à estrutura com sucesso.`, "success");
+            await this.abrirDossie(this.estruturaAtiva.id);
+            this.trocarAba("sumps");
+        }
+
+        abrirModalVistoriaSump(sumpId) {
+            const sump = (this.dossieAtual.sumps || []).find(s => s.id === sumpId);
+            if (!sump) return;
+            const modal = document.getElementById('mdsync-vistoria-sump-modal');
+            if (modal) {
+                document.getElementById('vsump-id').value = sump.id;
+                document.getElementById('vsump-label').textContent = `${sump.codigo} (${sump.nome})`;
+                document.getElementById('vsump-nivel').value = sump.nivel_agua_atual_percentual || 0;
+                document.getElementById('vsump-bomba').value = sump.sistema_bombeamento_status || "OPERACIONAL";
+                document.getElementById('vsump-cond').value = sump.condicao_manutencao || "REGULAR";
+                document.getElementById('vsump-vazao').value = sump.vazao_bombeamento_m3h || 100;
+                modal.classList.add('active');
+                modal.style.display = 'flex';
+            }
+        }
+
+        async salvarVistoriaSumpModal() {
+            const id = document.getElementById('vsump-id')?.value;
+            const nivel = parseFloat(document.getElementById('vsump-nivel')?.value || 0);
+            const bomba = document.getElementById('vsump-bomba')?.value;
+            const cond = document.getElementById('vsump-cond')?.value;
+            const vazao = parseFloat(document.getElementById('vsump-vazao')?.value || 0);
+
+            if (!id) return;
+            await this.db.registrarInspecaoSump(id, {
+                nivel_agua_atual_percentual: nivel,
+                sistema_bombeamento_status: bomba,
+                condicao_manutencao: cond,
+                vazao_bombeamento_m3h: vazao
+            });
+
+            this.fecharModalGenerico('mdsync-vistoria-sump-modal');
+            if (window.showToast) window.showToast("Vistoria de SUMP", "Nível d'água e parâmetros operacionais atualizados.", "success");
+            await this.abrirDossie(this.estruturaAtiva.id);
+            this.trocarAba("sumps");
+        }
+
+        abrirModalNovaAnalise() {
+            const modal = document.getElementById('mdsync-nova-analise-modal');
+            if (modal) {
+                const estEl = document.getElementById('analise-form-estrutura');
+                if (estEl && this.estruturaAtiva) estEl.value = `${this.estruturaAtiva.codigo} - ${this.estruturaAtiva.nome}`;
+                modal.classList.add('active');
+                modal.style.display = 'flex';
+            }
+        }
+
+        async salvarNovaAnaliseModal() {
+            const software = document.getElementById('analise-form-software')?.value || "GEOSTUDIO_SLOPEW";
+            const motivo = document.getElementById('analise-form-motivo')?.value || "Revisão Periódica de Estabilidade";
+            const secao = document.getElementById('analise-form-secao')?.value || "Seção Crítica Principal";
+            const carregamento = document.getElementById('analise-form-carregamento')?.value || "DRENADA_LONGO_PRAZO";
+            const coeso = parseFloat(document.getElementById('analise-form-coeso')?.value || 15);
+            const atrito = parseFloat(document.getElementById('analise-form-atrito')?.value || 32);
+            const gamma = parseFloat(document.getElementById('analise-form-gamma')?.value || 20.5);
+            const ru = parseFloat(document.getElementById('analise-form-ru')?.value || 0.20);
+            const obs = document.getElementById('analise-form-obs')?.value || "";
+
+            const sol = await this.db.criarSolicitacaoAnalise({
+                estrutura_id: this.estruturaAtiva.id,
+                software_alvo: software,
+                motivo: motivo,
+                secao_geotecnica: secao,
+                condicao_carregamento: carregamento,
+                parametros_geotecnicos: {
+                    coeso_kpa: coeso,
+                    atrito_graus: atrito,
+                    peso_especifico_kn_m3: gamma,
+                    ru_poropressao: ru
+                },
+                observacoes: obs
+            });
+
+            this.fecharModalGenerico('mdsync-nova-analise-modal');
+            if (window.showToast) window.showToast("Análise Solicitada", `Solicitação ${sol.codigo} gerada para ${software}.`, "success");
+            await this.abrirDossie(this.estruturaAtiva.id);
+            this.trocarAba("estabilidade");
+        }
+
+        async atualizarResultadoAnalise(analiseId) {
+            const fsStr = prompt("Informe o Fator de Segurança (FS) calculado na modelagem:", "1.58");
+            if (!fsStr) return;
+            const fs = parseFloat(fsStr.replace(',', '.'));
+            if (isNaN(fs)) {
+                alert("Valor de FS inválido.");
+                return;
+            }
+
+            const parecer = prompt("Parecer técnico conclusivo do Engenheiro:", `Fator de Segurança calculado (${fs.toFixed(2)}) em conformidade com o critério mínimo de 1.50.`);
+            if (!parecer) return;
+
+            await this.db.atualizarSolicitacaoAnalise(analiseId, {
+                status: "CONCLUIDA",
+                fator_seguranca_calculado: fs,
+                parecer_conclusivo: parecer,
+                data_conclusao: new Date().toISOString()
+            });
+
+            if (window.showToast) window.showToast("Resultado Lançado", `Análise concluída com FS = ${fs.toFixed(2)}.`, "success");
+            await this.abrirDossie(this.estruturaAtiva.id);
+            this.trocarAba("estabilidade");
+        }
+
+        abrirSeletorUsuario() {
+            const modal = document.getElementById('mdsync-user-role-modal');
+            if (modal) {
+                modal.classList.add('active');
+                modal.style.display = 'flex';
+            }
+        }
+
+        async selecionarPerfilUsuario(perfil) {
+            await this.db.trocarUsuarioAtivo(perfil);
+            this._atualizarBadgeUsuarioHeader();
+            this.fecharModalGenerico('mdsync-user-role-modal');
+            if (window.showToast) {
+                window.showToast("Perfil Alternado", `Alçada ativa: ${this.db.currentUser.nome} (${this.db.currentUser.perfil})`, "info", 4000);
+            }
+            if (this.estruturaAtiva) {
+                await this.abrirDossie(this.estruturaAtiva.id);
+            }
         }
     }
 
