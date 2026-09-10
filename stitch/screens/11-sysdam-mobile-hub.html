@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html class="dark" lang="pt-BR">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>HUB Stitch - MDSync Mobile Hub &amp; Cockpit Operacional</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Outfit:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="../../vendor/fontawesome/css/all.min.css"/>
+    <link rel="stylesheet" href="../../vendor/leaflet/leaflet.css"/>
+    <link rel="stylesheet" href="../../styles.css"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-lowest": "#050d23",
+                        "surface-container-low": "#131b31",
+                        "surface-container": "#171f35",
+                        "surface-container-high": "#222940",
+                        "surface-container-highest": "#2c344c",
+                        "on-surface": "#dbe1ff",
+                        "on-surface-variant": "#bec8d2",
+                        "primary": "#89ceff",
+                        "primary-container": "#0ea5e9",
+                        "secondary": "#4edea3",
+                        "tertiary": "#ffb95f",
+                        "outline": "#88929b"
+                    },
+                    fontFamily: {
+                        head: ["Outfit", "sans-serif"],
+                        body: ["Inter", "sans-serif"],
+                        mono: ["JetBrains Mono", "monospace"]
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        body {
+            background-color: #050d23;
+            color: #dbe1ff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .sysdam-stitch-container {
+            display: grid;
+            grid-template-columns: 1fr 440px 1fr;
+            gap: 24px;
+            min-height: 100vh;
+            padding: 24px;
+            align-items: start;
+        }
+        @media (max-width: 1200px) {
+            .sysdam-stitch-container {
+                grid-template-columns: 1fr;
+                justify-items: center;
+            }
+        }
+        .mockup-phone-frame {
+            width: 100%;
+            max-width: 420px;
+            height: 860px;
+            background: #ffffff;
+            border-radius: 46px;
+            border: 12px solid #1e293b;
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .mockup-notch {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 24px;
+            background: #1e293b;
+            border-radius: 12px;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body class="bg-surface-container-lowest text-on-surface">
+
+    <!-- Barra de Navegação Superior do HUB Stitch -->
+    <header class="bg-surface-container border-b border-outline/20 px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <a href="../index.html" class="flex items-center gap-2 text-primary hover:text-white transition-colors">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span class="text-sm font-semibold">Painel Executivo Stitch</span>
+            </a>
+            <span class="text-outline">/</span>
+            <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-purple-500/20 text-purple-300 border border-purple-500/40">
+                    TELA 11 • MDSYNC COCKPIT
+                </span>
+                <h1 class="text-base font-head font-bold text-white">MDSync Mobile Hub &amp; Cockpit Operacional</h1>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <span class="text-xs font-mono text-secondary flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                SyncBridge Ativo
+            </span>
+            <a href="../../index.html" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-primary/20 text-primary border border-primary/30 hover:bg-primary/30 transition-all flex items-center gap-1.5">
+                <i class="fa-solid fa-mobile-screen"></i> Abrir no MDSync
+            </a>
+        </div>
+    </header>
+
+    <div class="sysdam-stitch-container">
+
+        <!-- Coluna Esquerda: Arquitetura e Diretrizes dos Três Módulos -->
+        <div class="flex flex-col gap-5">
+            <div class="bg-surface-container-low border border-outline/20 rounded-2xl p-5 shadow-lg">
+                <div class="flex items-center gap-2.5 mb-3">
+                    <div class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold">
+                        MI
+                    </div>
+                    <h2 class="font-head text-base font-bold text-white">Cockpit Operacional MDSync</h2>
+                </div>
+                <p class="text-xs text-on-surface-variant leading-relaxed mb-4">
+                    Cockpit Operacional Móvel do MDSync de alta fidelidade para campo. Integração dos 3 módulos essenciais de segurança de barragens e pilhas:
+                </p>
+                <div class="flex flex-col gap-2.5 text-xs font-mono">
+                    <div class="p-2.5 rounded-xl bg-surface-container border border-amber-500/30 flex items-center gap-3">
+                        <span class="w-7 h-7 rounded-lg bg-amber-500 text-slate-900 font-black flex items-center justify-center flex-shrink-0">AL</span>
+                        <div>
+                            <strong class="text-amber-400 block">Alert Cadastrador</strong>
+                            <span class="text-on-surface-variant text-[11px]">Gestão de ZAS, População a jusante e Sirenes STI.</span>
+                        </div>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-surface-container border border-emerald-500/30 flex items-center gap-3">
+                        <span class="w-7 h-7 rounded-lg bg-emerald-500 text-slate-900 font-black flex items-center justify-center flex-shrink-0">IN</span>
+                        <div>
+                            <strong class="text-emerald-400 block">Inspeção Regular FIR</strong>
+                            <span class="text-on-surface-variant text-[11px]">Vistorias técnicas e cálculo do EC pela ANM 95/2022.</span>
+                        </div>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-surface-container border border-purple-500/30 flex items-center gap-3">
+                        <span class="w-7 h-7 rounded-lg bg-purple-500 text-white font-black flex items-center justify-center flex-shrink-0">MI</span>
+                        <div>
+                            <strong class="text-purple-300 block">Monitoramento</strong>
+                            <span class="text-on-surface-variant text-[11px]">Cockpit em grade 3x4, mapa satélite e carrossel de cards.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controles Interativos Rápidos para o Mockup -->
+            <div class="bg-surface-container-low border border-outline/20 rounded-2xl p-5 shadow-lg">
+                <h3 class="font-head text-sm font-bold text-white mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-primary"></i> Alternar Visualização do Dispositivo
+                </h3>
+                <div class="grid grid-cols-2 gap-2">
+                    <button class="px-3 py-2 rounded-xl text-xs font-semibold bg-surface-container border border-outline/20 hover:border-primary text-on-surface hover:text-white transition-all text-left flex items-center gap-2" onclick="window.Sysdam.switchView('splash')">
+                        <i class="fa-solid fa-right-to-bracket text-sky-400"></i> 1. Login / Splash
+                    </button>
+                    <button class="px-3 py-2 rounded-xl text-xs font-semibold bg-surface-container border border-outline/20 hover:border-primary text-on-surface hover:text-white transition-all text-left flex items-center gap-2" onclick="window.Sysdam.switchView('modules')">
+                        <i class="fa-solid fa-cubes text-emerald-400"></i> 2. Três Módulos
+                    </button>
+                    <button class="px-3 py-2 rounded-xl text-xs font-semibold bg-surface-container border border-outline/20 hover:border-primary text-on-surface hover:text-white transition-all text-left flex items-center gap-2" onclick="window.Sysdam.switchView('mi-grid')">
+                        <i class="fa-solid fa-table-cells text-purple-400"></i> 3. Grid 3x4 (Cockpit)
+                    </button>
+                    <button class="px-3 py-2 rounded-xl text-xs font-semibold bg-surface-container border border-outline/20 hover:border-primary text-on-surface hover:text-white transition-all text-left flex items-center gap-2" onclick="window.Sysdam.switchView('mi-map')">
+                        <i class="fa-solid fa-map-location-dot text-amber-400"></i> 4. Mapa &amp; Drawer
+                    </button>
+                    <button class="px-3 py-2 rounded-xl text-xs font-semibold bg-surface-container border border-outline/20 hover:border-primary text-on-surface hover:text-white transition-all text-left flex items-center gap-2" onclick="window.Sysdam.switchView('al-hub')">
+                        <i class="fa-solid fa-bullhorn text-orange-400"></i> 5. ZAS &amp; Sirenes
+                    </button>
+                    <button class="px-3 py-2 rounded-xl text-xs font-semibold bg-surface-container border border-outline/20 hover:border-primary text-on-surface hover:text-white transition-all text-left flex items-center gap-2" onclick="window.Sysdam.switchView('in-hub')">
+                        <i class="fa-solid fa-clipboard-check text-green-400"></i> 6. Vistoria FIR
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-surface-container-low border border-outline/20 rounded-2xl p-5 shadow-lg">
+                <h3 class="font-head text-sm font-bold text-white mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-satellite text-cyan-400"></i> Telemetria de Satélite &amp; GPS
+                </h3>
+                <p class="text-xs text-on-surface-variant leading-relaxed mb-3">
+                    Os marcadores no mapa utilizam círculos concêntricos codificados por cores conforme o protocolo TARP, com base de satélite mundial de alta resolução da ESRI.
+                </p>
+                <div class="flex items-center justify-between text-xs font-mono bg-surface-container p-2.5 rounded-xl border border-outline/20">
+                    <span class="text-on-surface-variant">Datum Oficial:</span>
+                    <span class="text-primary font-bold">SIRGAS 2000 / UTM 23S</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coluna Central: Mockup do Smartphone com o Aplicativo Rodando -->
+        <div class="flex flex-col items-center">
+            <div class="mockup-phone-frame" id="mockup-frame">
+                <div class="mockup-notch"></div>
+
+                <!-- Barra de Status do Sistema -->
+                <div class="sysdam-status-bar dark-text" id="sysdam-status-bar" style="margin-top: 6px;">
+                    <span class="font-mono text-xs">09:41</span>
+                    <div class="sysdam-status-icons">
+                        <i class="fa-solid fa-signal text-xs"></i>
+                        <i class="fa-solid fa-wifi text-xs"></i>
+                        <i class="fa-solid fa-battery-full text-xs text-emerald-600"></i>
+                    </div>
+                </div>
+
+                <!-- Área de Conteúdo das Views do SYSDAM -->
+                <div class="sysdam-content-area" style="flex: 1; overflow-y: auto;">
+
+                    <!-- VIEW 0: SPLASH / LOGIN (Imagem 2) -->
+                    <div id="sysdam-view-splash" class="sysdam-view sysdam-splash-view">
+                        <div class="sysdam-brand-logo">
+                            <i class="fa-solid fa-cubes"></i>
+                            <span>MDSync<span class="prism">.</span></span>
+                        </div>
+
+                        <div class="sysdam-login-box">
+                            <div class="sysdam-login-title">Faça o login em sua conta</div>
+                            <button type="button" class="sysdam-login-btn" onclick="window.Sysdam.switchView('modules')">
+                                <i class="fa-regular fa-envelope"></i> Continuar com o e-mail
+                            </button>
+                            <button type="button" class="sysdam-login-btn" onclick="window.Sysdam.switchView('modules')">
+                                <i class="fa-brands fa-microsoft text-sky-600"></i> Continuar com a Microsoft
+                            </button>
+                        </div>
+
+                        <div class="sysdam-splash-footer">
+                            <p>MDSync Mobile Hub • Centralizador Geotécnico</p>
+                            <p class="text-[10px] text-white/60">Operação de Campo 100% Desconectada e Sincronizada</p>
+                        </div>
+                    </div>
+
+                    <!-- VIEW 1: SELETOR DE MÓDULOS (Imagem 3) -->
+                    <div id="sysdam-view-modules" class="sysdam-view sysdam-modules-view active">
+                        <div class="sysdam-modules-header">
+                            <span>Módulos de Segurança</span>
+                        </div>
+
+                        <!-- Barra de Informações do Usuário e Sincronização -->
+                        <div class="sysdam-user-access-bar">
+                            <div class="sysdam-user-access-info">
+                                <div class="sysdam-user-icon">
+                                    <i class="fa-solid fa-user-shield"></i>
+                                </div>
+                                <div class="sysdam-user-texts">
+                                    <strong>Maycon Nascimento</strong>
+                                    <span>Eng. Geotécnico Sênior • Sincronizado</span>
+                                </div>
+                            </div>
+                            <button type="button" class="sysdam-sync-circle-btn" onclick="if(window.SyncBridge) window.SyncBridge.emit('FORCE_SYNC', {}); alert('Base de dados sincronizada com sucesso!');" title="Sincronizar dados">
+                                <i class="fa-solid fa-rotate"></i>
+                            </button>
+                        </div>
+
+                        <!-- Módulo [AL] Alert Cadastrador -->
+                        <div class="sysdam-module-card" onclick="window.Sysdam.selectModule('AL')">
+                            <div class="sysdam-badge-square badge-al">
+                                AL
+                            </div>
+                            <div>
+                                <strong>Alert Cadastrador</strong>
+                                <p class="text-secondary small" style="margin: 2px 0 0 0; color: #64748b;">Gestão da ZAS, População e Sirenes STI</p>
+                            </div>
+                        </div>
+
+                        <!-- Módulo [IN] Inspeção -->
+                        <div class="sysdam-module-card" onclick="window.Sysdam.selectModule('IN')">
+                            <div class="sysdam-badge-square badge-in">
+                                IN
+                            </div>
+                            <div>
+                                <strong>Inspeção</strong>
+                                <p class="text-secondary small" style="margin: 2px 0 0 0; color: #64748b;">Ficha de Inspeção Regular e Res. ANM 95/2022</p>
+                            </div>
+                        </div>
+
+                        <!-- Módulo [MI] Monitoramento -->
+                        <div class="sysdam-module-card" onclick="window.Sysdam.selectModule('MI')">
+                            <div class="sysdam-badge-square badge-mi">
+                                MI
+                            </div>
+                            <div>
+                                <strong>Monitoramento</strong>
+                                <p class="text-secondary small" style="margin: 2px 0 0 0; color: #64748b;">Leituras de Instrumentos e Mapa em Campo</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- VIEW 2: COCKPIT DE MONITORAMENTO GRID 3x4 (Imagem 4) -->
+                    <div id="sysdam-view-mi-grid" class="sysdam-view sysdam-grid-view">
+                        <!-- Linha do Topo: Badge Roxo, Estrutura e Operador -->
+                        <div class="sysdam-grid-top-row">
+                            <div class="sysdam-top-banner-card purple-badge" onclick="window.Sysdam.switchView('modules')" title="Voltar aos módulos">
+                                <span>MI</span>
+                            </div>
+                            <div class="sysdam-top-banner-card" onclick="window.Sysdam.switchView('mi-map')" title="Estrutura Monitorada">
+                                <i class="fa-solid fa-mountain text-sky-700"></i>
+                                <span id="sysdam-active-structure-name">Barragem da Mina</span>
+                            </div>
+                            <div class="sysdam-top-banner-card" onclick="alert('Perfil do Operador: Maycon Nascimento (CREA-MG).');" title="Perfil do Operador">
+                                <i class="fa-solid fa-user-circle text-sky-700"></i>
+                                <span>Maycon N.</span>
+                            </div>
+                        </div>
+
+                        <!-- Grade de Ações 3x4 (12 Ações Operacionais) -->
+                        <div class="sysdam-cockpit-grid">
+                            <!-- 1. Mapa de Campo -->
+                            <div class="sysdam-grid-action-card" onclick="window.Sysdam.switchView('mi-map')">
+                                <i class="fa-solid fa-map-location-dot" style="color: #0284c7;"></i>
+                                <span>Mapa Satélite</span>
+                            </div>
+                            <!-- 2. Nova Leitura -->
+                            <div class="sysdam-grid-action-card" onclick="window.Sysdam.openQuickReading('PZ-03')">
+                                <i class="fa-solid fa-pen-to-square" style="color: #10b981;"></i>
+                                <span>Nova Leitura</span>
+                            </div>
+                            <!-- 3. Piezômetros -->
+                            <div class="sysdam-grid-action-card" onclick="window.Sysdam.switchView('mi-map')">
+                                <i class="fa-solid fa-gauge-high" style="color: #6366f1;"></i>
+                                <span>Piezômetros</span>
+                            </div>
+                            <!-- 4. Indicador NA -->
+                            <div class="sysdam-grid-action-card" onclick="window.Sysdam.switchView('mi-map')">
+                                <i class="fa-solid fa-water" style="color: #06b6d4;"></i>
+                                <span>Nível D'Água</span>
+                            </div>
+                            <!-- 5. Medidores Vazão -->
+                            <div class="sysdam-grid-action-card" onclick="window.Sysdam.switchView('mi-map')">
+                                <i class="fa-solid fa-faucet-drip" style="color: #f59e0b;"></i>
+                                <span>Vazão VZ</span>
+                            </div>
+                            <!-- 6. Marcos Superficiais -->
+                            <div class="sysdam-grid-action-card" onclick="window.Sysdam.switchView('mi-map')">
+                                <i class="fa-solid fa-crosshairs" style="color: #ec4899;"></i>
+                                <span>Marcos Topo</span>
+                            </div>
+                            <!-- 7. Câmeras & Radar -->
+                            <div class="sysdam-grid-action-card" onclick="alert('Módulo Radar Cava Jangada e Câmeras operacionais em 24/7.');">
+                                <i class="fa-solid fa-tower-observation" style="color: #8b5cf6;"></i>
+                                <span>Radar &amp; Câmeras</span>
+                            </div>
+                            <!-- 8. Mini-Mapa com Pin Central (Representação da Imagem 4) -->
+                            <div class="sysdam-mini-map-card" onclick="window.Sysdam.switchView('mi-map')">
+                                <img src="../../assets/geoview-site-overview.webp" alt="Localização do Instrumento">
+                                <div class="sysdam-mini-map-pin">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </div>
+                            </div>
+                            <!-- 9. Histórico Local -->
+                            <div class="sysdam-grid-action-card" onclick="alert('Histórico de Leituras carregado: 100% sincronizado com MDSyncDB.');">
+                                <i class="fa-solid fa-clock-rotate-left" style="color: #3b82f6;"></i>
+                                <span>Histórico</span>
+                            </div>
+                            <!-- 10. Sincronização SyncBridge -->
+                            <div class="sysdam-grid-action-card" onclick="if(window.SyncBridge) window.SyncBridge.emit('FORCE_SYNC', {}); alert('SyncBridge: Transmissão bilateral de dados concluída!');">
+                                <i class="fa-solid fa-arrows-rotate" style="color: #10b981;"></i>
+                                <span>SyncBridge</span>
+                            </div>
+                            <!-- 11. Normas & TARP -->
+                            <div class="sysdam-grid-action-card" onclick="window.Sysdam.switchView('in-hub')">
+                                <i class="fa-solid fa-shield-halved" style="color: #ef4444;"></i>
+                                <span>TARP &amp; ANM</span>
+                            </div>
+                            <!-- 12. Voltar aos Módulos -->
+                            <div class="sysdam-grid-action-card card-muted" onclick="window.Sysdam.switchView('modules')">
+                                <i class="fa-solid fa-table-cells-large" style="color: #475569;"></i>
+                                <span>Módulos</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- VIEW 3: MAPA INTERATIVO & BOTTOM SHEET (Imagem 5) -->
+                    <div id="sysdam-view-mi-map" class="sysdam-view sysdam-map-view" style="height: 100%; min-height: 700px;">
+                        <!-- Container Leaflet com Base Satélite ESRI -->
+                        <div id="sysdam-leaflet-map" class="sysdam-map-canvas"></div>
+
+                        <!-- Barra Superior Flutuante -->
+                        <div class="sysdam-map-floating-top">
+                            <button type="button" class="sysdam-map-icon-btn" onclick="window.Sysdam.switchView('mi-grid')" title="Voltar ao Cockpit">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </button>
+                            <button type="button" class="sysdam-map-struct-pill" onclick="window.Sysdam.switchView('mi-grid')" title="Alternar Estrutura">
+                                <i class="fa-solid fa-mountain"></i>
+                                <span id="sysdam-map-struct-title">Barragem da Mina</span>
+                            </button>
+                            <button type="button" class="sysdam-map-icon-btn" onclick="window.Sysdam.openQuickReading('PZ-03')" title="Nova Leitura">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+
+                        <!-- Botões Flutuantes na Lateral Direita -->
+                        <div class="sysdam-map-side-actions">
+                            <button type="button" class="sysdam-side-action-btn" onclick="window.Sysdam.recenterGPS()" title="Recentralizar na minha localização GPS">
+                                <i class="fa-solid fa-crosshairs text-sky-600"></i>
+                            </button>
+                            <button type="button" class="sysdam-side-action-btn btn-blue" onclick="window.Sysdam.toggleBottomSheet()" title="Alternar gaveta inferior">
+                                <i class="fa-solid fa-list-check"></i>
+                            </button>
+                        </div>
+
+                        <!-- Bottom Sheet Inferior Deslizante com Busca e Carrossel -->
+                        <div id="sysdam-bottom-sheet" class="sysdam-bottom-sheet">
+                            <div class="sysdam-sheet-drag-handle" onclick="window.Sysdam.toggleBottomSheet()"></div>
+                            
+                            <!-- Barra de Busca, Contador e Ordenação -->
+                            <div class="sysdam-sheet-search-row">
+                                <i class="fa-solid fa-magnifying-glass text-slate-400"></i>
+                                <input type="text" class="sysdam-sheet-search-input" id="sysdam-sheet-search" placeholder="Pesquisar instrumento..." oninput="window.Sysdam.handleSearch(this.value)">
+                                <span class="sysdam-counter-badge" id="sysdam-instruments-count-badge">6</span>
+                                <button type="button" class="sysdam-sort-btn" onclick="window.Sysdam.toggleSort()" title="Alternar ordenação por distância">
+                                    <i class="fa-solid fa-arrow-down-short-wide"></i>
+                                </button>
+                            </div>
+
+                            <!-- Carrossel Horizontal de Cards de Instrumentos -->
+                            <div id="sysdam-carousel-cards" class="sysdam-carousel-container">
+                                <!-- Injetado dinamicamente por SysdamController -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- VIEW 4: MÓDULO ALERT CADASTRADOR [AL] -->
+                    <div id="sysdam-view-al-hub" class="sysdam-view sysdam-modules-view">
+                        <div class="flex items-center justify-between mb-3">
+                            <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-200 text-slate-700 hover:bg-slate-300" onclick="window.Sysdam.switchView('modules')">
+                                <i class="fa-solid fa-arrow-left"></i> Módulos
+                            </button>
+                            <span class="font-bold text-amber-600 text-xs"><i class="fa-solid fa-bullhorn"></i> ZAS e Sirenes STI</span>
+                        </div>
+
+                        <!-- Alertas e Rotas da ZAS -->
+                        <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm mb-3">
+                            <h4 class="font-bold text-xs text-slate-800 mb-1 flex items-center gap-1.5">
+                                <i class="fa-solid fa-person-walking-arrow-right text-amber-500"></i> Plano de Evacuação ZAS
+                            </h4>
+                            <p class="text-[11px] text-slate-500 mb-2">Tempo estimado de evacuação até ponto seguro: <strong>14 minutos</strong>.</p>
+                            <div class="flex gap-2">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-700">3 Sirenes Ativas</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-sky-100 text-sky-700">62 Residentes</span>
+                            </div>
+                        </div>
+
+                        <h5 class="text-[11px] font-bold text-slate-500 uppercase mb-1.5">Sirenes STI Instaladas</h5>
+                        <div id="sysdam-al-sirenes-list"></div>
+
+                        <h5 class="text-[11px] font-bold text-slate-500 uppercase mt-3 mb-1.5">Residentes Mapeados na Mancha</h5>
+                        <div id="sysdam-al-residents-list"></div>
+                    </div>
+
+                    <!-- VIEW 5: MÓDULO DE INSPEÇÃO TÉCNICA [IN] -->
+                    <div id="sysdam-view-in-hub" class="sysdam-view sysdam-modules-view">
+                        <div class="flex items-center justify-between mb-3">
+                            <button type="button" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-200 text-slate-700 hover:bg-slate-300" onclick="window.Sysdam.switchView('modules')">
+                                <i class="fa-solid fa-arrow-left"></i> Módulos
+                            </button>
+                            <span class="font-bold text-emerald-600 text-xs"><i class="fa-solid fa-clipboard-check"></i> Vistoria FIR</span>
+                        </div>
+
+                        <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-sm mb-3">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-xs text-slate-800" id="sysdam-in-ec-label">Estado de Conservação: Normal</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-700" id="sysdam-in-score-badge">Score: 0 pts</span>
+                            </div>
+                            <p class="text-[11px] text-slate-500">Cálculo normativo automático segundo a Resolução ANM nº 95/2022.</p>
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <button type="button" class="w-full py-3 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow-sm hover:bg-emerald-700 transition-colors" onclick="alert('Iniciando Ficha de Inspeção Regular (FIR)...');">
+                                <i class="fa-solid fa-camera"></i> Nova Ficha de Inspeção FIR
+                            </button>
+                            <button type="button" class="w-full py-3 rounded-xl text-xs font-bold bg-slate-200 text-slate-700 hover:bg-slate-300 transition-colors" onclick="alert('Módulo de captura de anomalias com foto acionado.');">
+                                <i class="fa-solid fa-triangle-exclamation"></i> Registrar Anomalia com Foto
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Modal de Leitura Rápida Geotécnica -->
+                <div id="sysdam-reading-modal" class="sysdam-reading-modal">
+                    <div class="sysdam-reading-box">
+                        <div class="flex justify-between items-center">
+                            <h3 id="sysdam-read-modal-title" class="font-bold text-sm text-slate-800 m-0">Nova Leitura</h3>
+                            <button type="button" onclick="window.Sysdam.closeQuickReading()" class="text-slate-400 hover:text-slate-600">
+                                <i class="fa-solid fa-xmark text-lg"></i>
+                            </button>
+                        </div>
+                        <input type="hidden" id="sysdam-read-instrument-id" value="">
+                        
+                        <div>
+                            <label class="text-xs font-bold text-slate-600 block mb-1">Valor Medido (m ou Cota NA)</label>
+                            <input type="number" step="0.01" id="sysdam-read-value" class="w-full h-10 px-3 rounded-lg border border-slate-300 text-sm font-mono focus:outline-none focus:border-sky-500" placeholder="Ex: 824.50">
+                        </div>
+
+                        <div>
+                            <label class="text-xs font-bold text-slate-600 block mb-1">Observações de Campo</label>
+                            <textarea id="sysdam-read-obs" rows="2" class="w-full p-2.5 rounded-lg border border-slate-300 text-xs focus:outline-none focus:border-sky-500" placeholder="Ex: Operação normal em campo..."></textarea>
+                        </div>
+
+                        <div class="flex gap-2 mt-1">
+                            <button type="button" class="w-1/2 py-2 rounded-lg text-xs font-bold bg-slate-200 text-slate-700" onclick="window.Sysdam.closeQuickReading()">
+                                Cancelar
+                            </button>
+                            <button type="button" class="w-1/2 py-2 rounded-lg text-xs font-bold bg-sky-600 text-white" onclick="window.Sysdam.saveQuickReading()">
+                                Salvar Leitura
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Coluna Direita: Normas Técnicas, TARP e Sincronização -->
+        <div class="flex flex-col gap-5">
+            <div class="bg-surface-container-low border border-outline/20 rounded-2xl p-5 shadow-lg">
+                <h3 class="font-head text-sm font-bold text-white mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-scale-balanced text-primary"></i> Conformidade ANM 95/2022
+                </h3>
+                <p class="text-xs text-on-surface-variant leading-relaxed mb-3">
+                    As rotinas de inspeção e monitoramento atendem rigorosamente à Portaria DNPM nº 70.389/2017 e à Resolução ANM nº 95/2022:
+                </p>
+                <div class="flex flex-col gap-2 font-mono text-[11px]">
+                    <div class="flex justify-between p-2 rounded-lg bg-surface-container border border-outline/10">
+                        <span class="text-on-surface-variant">Estado de Conservação:</span>
+                        <span class="text-emerald-400 font-bold">Normal (Score &lt; 3)</span>
+                    </div>
+                    <div class="flex justify-between p-2 rounded-lg bg-surface-container border border-outline/10">
+                        <span class="text-on-surface-variant">Fator de Segurança (FS):</span>
+                        <span class="text-primary font-bold">FS &ge; 1.50</span>
+                    </div>
+                    <div class="flex justify-between p-2 rounded-lg bg-surface-container border border-outline/10">
+                        <span class="text-on-surface-variant">NPG (Nível Perigo Global):</span>
+                        <span class="text-secondary font-bold">Nível 0 (Sem Risco)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-surface-container-low border border-outline/20 rounded-2xl p-5 shadow-lg">
+                <h3 class="font-head text-sm font-bold text-white mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-calculator text-tertiary"></i> Diretrizes Bo &amp; Barrett (2023)
+                </h3>
+                <p class="text-xs text-on-surface-variant leading-relaxed mb-3">
+                    Cálculos geotécnicos incorporados na engine <code>src/core/geotech.js</code>:
+                </p>
+                <ul class="text-xs text-on-surface-variant list-disc pl-4 space-y-1.5">
+                    <li>Diferenciação precisa entre piezômetros Casagrande (com time lag) e corda vibrante (leitura direta instantânea).</li>
+                    <li>Compensação barométrica e de temperatura em sensores de poro-pressão.</li>
+                    <li>Cálculo de cotas piezométricas corrigidas: Cota NA = Cota Boca - Profundidade Medida.</li>
+                </ul>
+            </div>
+
+            <div class="bg-surface-container-low border border-outline/20 rounded-2xl p-5 shadow-lg">
+                <h3 class="font-head text-sm font-bold text-white mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-code-branch text-purple-400"></i> Barramento SyncBridge Bilateral
+                </h3>
+                <p class="text-xs text-on-surface-variant leading-relaxed mb-3">
+                    Toda leitura ou alteração realizada no SYSDAM dispara eventos pelo barramento <code>SyncBridge</code>, refletindo imediatamente na raiz do MDSync e no banco IndexedDB <code>MDSyncDB</code>.
+                </p>
+                <button class="w-full py-2.5 rounded-xl text-xs font-bold bg-purple-500/20 text-purple-300 border border-purple-500/40 hover:bg-purple-500/30 transition-all flex items-center justify-center gap-2" onclick="if(window.SyncBridge) window.SyncBridge.emit('FORCE_SYNC', {}); alert('Sinal de teste transmitido no barramento SyncBridge.');">
+                    <i class="fa-solid fa-arrows-spin"></i> Testar Barramento SyncBridge
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts do Ecossistema Geotécnico -->
+    <script src="../../vendor/leaflet/leaflet.js"></script>
+    <script src="../../src/core/sync-bridge.js"></script>
+    <script src="../../src/core/utils.js"></script>
+    <script src="../../src/core/geotech.js"></script>
+    <script src="../../src/core/sysdam-controller.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar o controlador no modo Grid inicialmente para demonstração
+            if (window.Sysdam) {
+                window.Sysdam.switchView('mi-grid');
+            }
+        });
+    </script>
+</body>
+</html>

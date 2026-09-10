@@ -14151,3 +14151,25 @@ window.onload = function() {
     }
     initializeSecurityGate();
 };
+
+
+// --- SYSDAM COCKPIT OPERATIONAL MOBILE CONTROLLER ---
+function openSysdamCockpit(viewName) {
+    const overlay = document.getElementById('sysdam-overlay');
+    if (overlay) {
+        overlay.classList.add('active');
+        if (window.Sysdam) {
+            window.Sysdam.switchView(viewName || 'modules');
+        }
+    }
+}
+
+function closeSysdamCockpit() {
+    const overlay = document.getElementById('sysdam-overlay');
+    if (overlay) {
+        overlay.classList.remove('active');
+    }
+}
+
+window.openSysdamCockpit = openSysdamCockpit;
+window.closeSysdamCockpit = closeSysdamCockpit;

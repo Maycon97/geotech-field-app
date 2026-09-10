@@ -51,11 +51,20 @@
      * @param {any} payload - Dados do evento
      */
     emit(type, payload = {}) {
+      const timestampUTC = new Date().toISOString();
+      const auditTrail = {
+        origin: typeof window !== 'undefined' ? (window.location.pathname.includes('stitch') ? 'HUB_STITCH' : 'MDSYNC_FIELD') : 'CORE',
+        timestampUTC,
+        timestampBRT: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
+        traceId: 'TRC-' + Date.now().toString(36) + '-' + Math.random().toString(36).substring(2, 7).toUpperCase()
+      };
+
       const message = {
         type,
         payload,
+        audit: auditTrail,
         sender: typeof window !== 'undefined' ? window.location.pathname : 'core',
-        timestamp: new Date().toISOString()
+        timestamp: timestampUTC
       };
 
       // Disparo via canal direto
@@ -75,6 +84,17 @@
         } catch (e) {
           console.warn('[SyncBridge] Erro ao gravar no localStorage:', e);
         }
+      }
+
+      // Registrar na trilha de auditoria imutável local (Benchmark SYSDAM / LGPD)
+      if (typeof localStorage !== 'undefined') {
+        try {
+          const logKey = STORAGE_PREFIX + 'audit_trail';
+          const logs = JSON.parse(localStorage.getItem(logKey) || '[]');
+          logs.unshift({ type, traceId: auditTrail.traceId, origin: auditTrail.origin, timestampBRT: auditTrail.timestampBRT });
+          if (logs.length > 50) logs.pop();
+          localStorage.setItem(logKey, JSON.stringify(logs));
+        } catch (e) {}
       }
 
       // Despachar localmente na mesma janela

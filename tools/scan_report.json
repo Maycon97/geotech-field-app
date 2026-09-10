@@ -1,0 +1,170 @@
+[
+  {
+    "severity": "CRITICAL",
+    "file": "app.js",
+    "type": "MISMATCHED_DELIMITER",
+    "detail": "Esperava fechar '(' (aberto em 3261:61), mas encontrou '}' na linha 3267:10"
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "app.js",
+    "type": "MISMATCHED_DELIMITER",
+    "detail": "Esperava fechar '{' (aberto em 3251:45), mas encontrou ')' na linha 7260:33"
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "app.js",
+    "type": "UNMATCHED_CLOSING_DELIMITER",
+    "detail": "Fechamento '}' inesperado na linha 12364:6"
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "app.js",
+    "type": "UNMATCHED_CLOSING_DELIMITER",
+    "detail": "Fechamento '}' inesperado na linha 12372:2"
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "vendor\\three.min.js",
+    "type": "MISMATCHED_DELIMITER",
+    "detail": "Esperava fechar '(' (aberto em 27:627), mas encontrou ']' na linha 27:630"
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "vendor\\three.min.js",
+    "type": "MISMATCHED_DELIMITER",
+    "detail": "Esperava fechar '[' (aberto em 27:624), mas encontrou ')' na linha 27:632"
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "vendor\\three.min.js",
+    "type": "MISMATCHED_DELIMITER",
+    "detail": "Esperava fechar '(' (aberto em 27:606), mas encontrou '}' na linha 27:638"
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "vendor\\three.min.js",
+    "type": "MISMATCHED_DELIMITER",
+    "detail": "Esperava fechar '{' (aberto em 27:562), mas encontrou ')' na linha 27:640"
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "vendor\\three.min.js",
+    "type": "MISMATCHED_DELIMITER",
+    "detail": "Esperava fechar '[' (aberto em 27:90302), mas encontrou ')' na linha 27:90305"
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "vendor\\three.min.js",
+    "type": "MISMATCHED_DELIMITER",
+    "detail": "Esperava fechar '(' (aberto em 27:90301), mas encontrou ']' na linha 27:90306"
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "vendor\\three.min.js",
+    "type": "MISMATCHED_DELIMITER",
+    "detail": "Esperava fechar '{' (aberto em 27:90156), mas encontrou ')' na linha 27:90320"
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "vendor\\three.min.js",
+    "type": "MISMATCHED_DELIMITER",
+    "detail": "Esperava fechar '(' (aberto em 27:535), mas encontrou '}' na linha 27:94579"
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "vendor\\three.min.js",
+    "type": "MISMATCHED_DELIMITER",
+    "detail": "Esperava fechar '(' (aberto em 27:278511), mas encontrou ']' na linha 27:278513"
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "vendor\\three.min.js",
+    "type": "MISMATCHED_DELIMITER",
+    "detail": "Esperava fechar '{' (aberto em 27:225), mas encontrou ')' na linha 27:278514"
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "vendor\\three.min.js",
+    "type": "MISMATCHED_DELIMITER",
+    "detail": "Esperava fechar '[' (aberto em 27:278518), mas encontrou ')' na linha 27:278522"
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "vendor\\three.min.js",
+    "type": "MISMATCHED_DELIMITER",
+    "detail": "Esperava fechar '(' (aberto em 27:281553), mas encontrou '}' na linha 27:281557"
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "vendor\\three.min.js",
+    "type": "MISMATCHED_DELIMITER",
+    "detail": "Esperava fechar '{' (aberto em 27:281542), mas encontrou ')' na linha 27:281558"
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "vendor\\three.min.js",
+    "type": "MISMATCHED_DELIMITER",
+    "detail": "Esperava fechar '(' (aberto em 27:278516), mas encontrou '}' na linha 27:281560"
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "vendor\\three.min.js",
+    "type": "MISMATCHED_DELIMITER",
+    "detail": "Esperava fechar '(' (aberto em 27:213), mas encontrou '}' na linha 27:637410"
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "vendor\\three.min.js",
+    "type": "UNMATCHED_CLOSING_DELIMITER",
+    "detail": "Fechamento ')' inesperado na linha 27:637412"
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "src\\core\\utils.js",
+    "type": "UNCLOSED_DELIMITER",
+    "detail": "Delimitador '{' aberto na linha 6:23 não foi fechado."
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "src\\core\\utils.js",
+    "type": "UNCLOSED_DELIMITER",
+    "detail": "Delimitador '{' aberto na linha 112:22 não foi fechado."
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "src\\core\\utils.js",
+    "type": "UNCLOSED_DELIMITER",
+    "detail": "Delimitador '(' aberto na linha 118:22 não foi fechado."
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "vendor\\leaflet\\leaflet.js",
+    "type": "UNCLOSED_DELIMITER",
+    "detail": "Delimitador '(' aberto na linha 5:209 não foi fechado."
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "vendor\\leaflet\\leaflet.js",
+    "type": "UNCLOSED_DELIMITER",
+    "detail": "Delimitador '{' aberto na linha 5:226 não foi fechado."
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "vendor\\leaflet\\leaflet.js",
+    "type": "UNCLOSED_DELIMITER",
+    "detail": "Delimitador '(' aberto na linha 5:72138 não foi fechado."
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "vendor\\leaflet\\leaflet.js",
+    "type": "UNCLOSED_DELIMITER",
+    "detail": "Delimitador '{' aberto na linha 5:72139 não foi fechado."
+  },
+  {
+    "severity": "CRITICAL",
+    "file": "vendor\\leaflet\\leaflet.js",
+    "type": "UNCLOSED_DELIMITER",
+    "detail": "Delimitador '{' aberto na linha 5:72537 não foi fechado."
+  }
+]
