@@ -16,6 +16,8 @@ const APP_SHELL = [
     "./src/core/dossie-controller.js",
     "./src/core/alertas-engine.js",
     "./src/core/camera-evidencias.js",
+    "./src/core/microsoft-gateway.js",
+    "./src/core/pesquisa-global.js",
     "./src/core/sysdam-controller.js",
     "./vendor/three.min.js",
     "./data/catalog.json",

@@ -244,6 +244,9 @@
                     <button class="btn btn-secondary" id="pwa-install-btn" onclick="installPWA()" style="display:none;" title="Instalar MDSync no dispositivo">
                         <i class="fa-solid fa-download"></i> Instalar
                     </button>
+                    <button class="btn btn-secondary" onclick="window.MDSyncPesquisa.abrirModal()" title="Pesquisa Global Transversal (Ctrl+K ou /)" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: #94a3b8;">
+                        <i class="fa-solid fa-magnifying-glass"></i> <span class="d-none d-md-inline">Buscar</span> <kbd style="font-size:10px; background:rgba(0,0,0,0.3); padding:2px 4px; border-radius:4px; margin-left:4px;">Ctrl+K</kbd>
+                    </button>
                     <button class="btn btn-secondary btn-sysdam-toggle" onclick="openSysdamCockpit('modules')" title="Abrir MDSync Cockpit Operacional Móvel" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(2, 132, 199, 0.25)); border: 1px solid rgba(168, 85, 247, 0.5); color: #c084fc; font-weight: 700;">
                         <i class="fa-solid fa-mobile-screen-button"></i> <span>MDSync Móvel</span>
                     </button>
@@ -5309,6 +5312,8 @@
     <script src="src/core/dossie-controller.js?v=v1-20260910"></script>
     <script src="src/core/alertas-engine.js?v=v1-20260910"></script>
     <script src="src/core/camera-evidencias.js?v=v1-20260910"></script>
+    <script src="src/core/microsoft-gateway.js?v=v1-20260910"></script>
+    <script src="src/core/pesquisa-global.js?v=v1-20260910"></script>
     <script src="src/core/sysdam-controller.js?v=20260910"></script>
     <script src="vendor/three.min.js"></script>
     <script src="vendor/leaflet/leaflet.js"></script>
