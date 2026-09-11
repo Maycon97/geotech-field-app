@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Outfit:wght@500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "inverse-on-surface": "#283047",
+        "tertiary-fixed": "#ffddb8",
+        "secondary-fixed-dim": "#4edea3",
+        "surface-container-highest": "#2c344c",
+        "on-primary-fixed": "#001e2f",
+        "inverse-primary": "#006591",
+        "tertiary": "#ffb95f",
+        "on-background": "#dbe1ff",
+        "background": "#0a1228",
+        "on-primary-container": "#003751",
+        "on-surface-variant": "#bec8d2",
+        "primary": "#89ceff",
+        "on-secondary": "#003824",
+        "tertiary-container": "#d88a00",
+        "on-secondary-fixed": "#002113",
+        "primary-fixed": "#c9e6ff",
+        "secondary-fixed": "#6ffbbe",
+        "surface-container-lowest": "#050d23",
+        "error-container": "#93000a",
+        "on-tertiary-container": "#4a2c00",
+        "on-surface": "#dbe1ff",
+        "on-primary-fixed-variant": "#004c6e",
+        "on-tertiary-fixed-variant": "#653e00",
+        "on-tertiary": "#472a00",
+        "on-secondary-fixed-variant": "#005236",
+        "outline": "#88929b",
+        "secondary-container": "#00a572",
+        "surface": "#0a1228",
+        "surface-bright": "#313850",
+        "inverse-surface": "#dbe1ff",
+        "on-error": "#690005",
+        "surface-tint": "#89ceff",
+        "on-primary": "#00344d",
+        "on-error-container": "#ffdad6",
+        "outline-variant": "#3e4850",
+        "surface-variant": "#2c344c",
+        "error": "#ffb4ab",
+        "secondary": "#4edea3",
+        "primary-container": "#0ea5e9",
+        "primary-fixed-dim": "#89ceff",
+        "on-secondary-container": "#00311f",
+        "surface-dim": "#0a1228",
+        "surface-container": "#171f35",
+        "surface-container-high": "#222940",
+        "tertiary-fixed-dim": "#ffb95f",
+        "on-tertiary-fixed": "#2a1700",
+        "surface-container-low": "#131b31"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.125rem",
+        "lg": "0.25rem",
+        "xl": "0.5rem",
+        "full": "0.75rem"
+      },
+      "spacing": {
+        "space-2xl": "3rem",
+        "gutter": "1rem",
+        "space-md": "1rem",
+        "space-sm": "0.75rem",
+        "space-2xs": "0.25rem",
+        "space-lg": "1.5rem",
+        "sidebar-width": "260px",
+        "space-xl": "2rem",
+        "space-xs": "0.5rem"
+      },
+      "fontFamily": {
+        "data-metric": ["Outfit"],
+        "title-sm": ["Outfit"],
+        "label-caps": ["Inter"],
+        "body-md": ["Inter"],
+        "body-sm": ["Inter"],
+        "headline-md": ["Outfit"],
+        "headline-xl": ["Outfit"],
+        "code-telemetry": ["JetBrains Mono"],
+        "body-lg": ["Inter"],
+        "headline-lg": ["Outfit"]
+      },
+      "fontSize": {
+        "data-metric": ["32px", {"lineHeight": "36px", "letterSpacing": "-0.03em", "fontWeight": "700"}],
+        "title-sm": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+        "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "600"}],
+        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+        "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+        "code-telemetry": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+        "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600"}]
+      }
+    }
+  }
+}</script></head><body class="bg-background font-body-md text-on-surface min-h-screen antialiased selection:bg-primary-container selection:text-on-primary-container"><aside class="fixed left-0 top-0 h-full w-sidebar-width bg-surface-container-low shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between overflow-hidden"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center justify-between bg-surface-container-lowest/60"><div class="flex items-center gap-space-xs"><img alt="MDSync Geotecnia Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Xs48zES0egZ3wmFdPBpvnV7a21Ly5WZFCmNgHEyZYhfNViwsKr4YO7TSdNgMYBY-z5zwHQ6_Kfqc2diRwV87n74AGFYp23v9UNiXJH0xUsp8janvXfy9xtdRtFQ8cGexi2HRLIKL_IT1XD4PyqhxOc_xj13t2THO6g4g6hnu9Pb1m6YFE7JVxbCb6OsERLTq42_ZFl3hCANPpztB2o-jYd5ZRzkK6yhYwjpxuHg1OkPcO0jb4i6w1tvE38"/><div class="flex flex-col"><span class="font-title-sm text-title-sm text-primary leading-tight tracking-tight">MDSync</span><span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Itaminas Geotecnia</span></div></div><button class="text-on-surface-variant hover:text-on-surface p-space-2xs rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">dock_to_left</span></button></div><div class="px-space-md py-space-xs"><div class="flex items-center gap-space-xs px-space-xs py-space-2xs rounded-full bg-surface-container"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span></span><span class="font-label-caps text-label-caps uppercase text-secondary font-medium tracking-wide truncate">Conectado / Nuvem Ativa</span></div></div><nav class="flex flex-col gap-space-2xs px-space-xs mt-space-2xs" data-active-classes="bg-primary-container text-on-primary-container font-medium shadow-sm"><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="visao-geral" href="#"><span class="material-symbols-outlined text-primary text-[20px]">grid_view</span><span class="truncate">Visão Geral</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="monitoramento-instrumental" href="#"><span class="material-symbols-outlined text-primary text-[20px]">sensors</span><span class="truncate">Monitoramento (TARP/PZ)</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="checklists-fir" href="#"><span class="material-symbols-outlined text-primary text-[20px]">fact_check</span><span class="truncate">Checklists &amp; FIR</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="historico-series" href="#"><span class="material-symbols-outlined text-primary text-[20px]">show_chart</span><span class="truncate">Histórico &amp; Séries</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="relatorios-auditoria" href="#"><span class="material-symbols-outlined text-primary text-[20px]">assignment_turned_in</span><span class="truncate">Relatórios &amp; Auditoria</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="indicadores-bi-fmea" href="#"><span class="material-symbols-outlined text-primary text-[20px]">analytics</span><span class="truncate">Indicadores BI &amp; FMEA</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="geoview-gis-3d" href="#"><span class="material-symbols-outlined text-primary text-[20px]">layers</span><span class="truncate">GeoView &amp; GIS 3D</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="parametros-usuarios" href="#"><span class="material-symbols-outlined text-primary text-[20px]">settings</span><span class="truncate">Parâmetros &amp; Usuários</span></a></nav></div><div class="p-space-sm bg-surface-container-lowest/80 flex flex-col gap-space-xs"><div class="flex items-center justify-between px-space-2xs"><span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Sincronização</span><button class="flex items-center gap-space-2xs text-secondary hover:text-secondary-fixed transition-colors font-label-caps text-label-caps" type="button"><span class="material-symbols-outlined text-[14px]">sync</span><span>Sincronizar</span></button></div><div class="flex items-center gap-space-sm p-space-2xs rounded-xl bg-surface-container-high/40"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="font-title-sm text-title-sm text-on-primary font-bold">MN</span></div><div class="flex flex-col min-w-0 flex-1"><div class="flex items-center gap-space-2xs"><span class="font-body-sm text-body-sm font-semibold text-on-surface truncate">Maycon Nascimento</span><span class="bg-surface-container-highest text-primary font-code-telemetry text-[10px] px-1 py-0.5 rounded-lg shrink-0">@admin</span></div><span class="font-label-caps text-label-caps text-on-surface-variant truncate">Eng. Geotécnico Sênior</span></div></div></div></aside><div class="pl-sidebar-width"><header class="fixed top-0 left-sidebar-width right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-gutter"><div class="flex items-center gap-space-md"><img alt="MDSync Geotecnia Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Xs48zES0egZ3wmFdPBpvnV7a21Ly5WZFCmNgHEyZYhfNViwsKr4YO7TSdNgMYBY-z5zwHQ6_Kfqc2diRwV87n74AGFYp23v9UNiXJH0xUsp8janvXfy9xtdRtFQ8cGexi2HRLIKL_IT1XD4PyqhxOc_xj13t2THO6g4g6hnu9Pb1m6YFE7JVxbCb6OsERLTq42_ZFl3hCANPpztB2o-jYd5ZRzkK6yhYwjpxuHg1OkPcO0jb4i6w1tvE38"/><div class="hidden md:flex items-center gap-space-2xs font-code-telemetry text-code-telemetry bg-surface-container-low px-space-sm py-space-2xs rounded-xl"><span class="material-symbols-outlined text-secondary text-[16px]">radar</span><span class="text-on-surface-variant truncate">Mina Cava Jangada • <strong class="text-on-surface font-semibold">IBIS-FM EVO 01 Ativo</strong></span></div></div><div class="flex items-center gap-space-sm"><div class="hidden lg:flex items-center gap-space-2xs bg-surface-container px-space-sm py-space-2xs rounded-full"><span class="material-symbols-outlined text-primary text-[16px]">cloud_done</span><span class="font-code-telemetry text-code-telemetry text-on-surface-variant">Offline Ready <strong class="text-primary font-medium">(Cache 100%)</strong></span></div><button class="flex items-center gap-space-2xs px-space-md py-space-xs rounded-xl bg-gradient-to-r from-primary-container to-inverse-primary text-on-primary font-title-sm text-title-sm shadow-md hover:brightness-110 active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-[18px]">add_circle</span><span>Nova Coleta</span></button><button class="w-9 h-9 rounded-xl bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">filter_alt</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full text-on-surface">
+<!-- Top Technical Breadcrumbs & Operational Status Strip -->
+<div class="px-gutter py-space-sm bg-surface-container-low/70 flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs text-body-sm min-w-0">
+<span class="material-symbols-outlined text-primary text-[18px]">terrain</span>
+<span class="text-on-surface-variant">Mina Cava Jangada</span>
+<span class="text-outline-variant">/</span>
+<span class="text-on-surface-variant font-medium">Mapeamento Geológico Oficial</span>
+<span class="text-outline-variant">/</span>
+<span class="text-primary font-code-telemetry text-[12px] bg-surface-container px-space-xs py-0.5 rounded-lg truncate">Prancha Layout_MapaGeológico_0826</span>
+<span class="bg-secondary/10 text-secondary text-[11px] font-code-telemetry px-space-xs py-0.5 rounded-md">UTM SAD69 • Zone 23S → SIRGAS 2000 (EPSG:31983)</span>
+</div>
+<!-- Right Quick Actions / Export Suite -->
+<div class="flex items-center gap-space-xs">
+<div class="hidden xl:flex items-center gap-space-2xs bg-surface-container-high/60 px-space-xs py-1 rounded-xl">
+<span class="material-symbols-outlined text-tertiary text-[16px]">verified_user</span>
+<span class="font-code-telemetry text-body-sm text-on-surface-variant">ART Creas-MG: <strong class="text-on-surface">2026/08-GEO-ITM</strong></span>
+</div>
+<button class="flex items-center gap-space-2xs px-space-sm py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors font-body-sm text-primary" id="btn-sync-datamine">
+<span class="material-symbols-outlined text-[16px]">sync_alt</span>
+<span>GeoStudio / Datamine</span>
+</button>
+<button class="flex items-center gap-space-2xs px-space-sm py-1.5 rounded-xl bg-gradient-to-r from-primary-container to-inverse-primary text-on-primary font-body-sm font-medium shadow-sm hover:brightness-110 active:scale-95 transition-all" id="btn-export-dxf">
+<span class="material-symbols-outlined text-[16px]">file_download</span>
+<span>Exportar DXF/SHP</span>
+</button>
+</div>
+</div>
+<!-- Cartographic Controller Deck -->
+<div class="px-gutter py-space-xs bg-surface-container-lowest/80 flex flex-wrap items-center justify-between gap-space-sm">
+<!-- View Mode Switches -->
+<div class="flex items-center gap-space-2xs bg-surface-container-low p-1 rounded-xl">
+<button class="view-tab px-space-sm py-1 rounded-lg text-body-sm font-medium bg-primary-container text-on-primary-container transition-all flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-[16px]">map</span>
+<span>Planta 2D Georreferenciada</span>
+</button>
+<button class="view-tab px-space-sm py-1 rounded-lg text-body-sm font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-[16px]">view_in_ar</span>
+<span>Modelo 3D de Contatos</span>
+</button>
+<button class="view-tab px-space-sm py-1 rounded-lg text-body-sm font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-[16px]">stacked_line_chart</span>
+<span>Seções Transversais (A-A')</span>
+</button>
+</div>
+<!-- Active Map Layer Toggles -->
+<div class="flex items-center gap-space-sm flex-wrap">
+<label class="flex items-center gap-space-2xs cursor-pointer text-body-sm text-on-surface-variant select-none">
+<input checked="" class="rounded accent-primary w-4 h-4 bg-surface-container-high" id="toggle-ortofoto" type="checkbox"/>
+<span>Ortofoto Satélite</span>
+</label>
+<label class="flex items-center gap-space-2xs cursor-pointer text-body-sm text-on-surface-variant select-none">
+<input checked="" class="rounded accent-secondary w-4 h-4 bg-surface-container-high" id="toggle-curvas" type="checkbox"/>
+<span>Curvas de Nível (1080-1290m)</span>
+</label>
+<label class="flex items-center gap-space-2xs cursor-pointer text-body-sm text-on-surface-variant select-none">
+<input checked="" class="rounded accent-secondary w-4 h-4 bg-surface-container-high" id="toggle-limite" type="checkbox"/>
+<span class="text-secondary font-medium">Limite Físico Trimestral</span>
+</label>
+<label class="flex items-center gap-space-2xs cursor-pointer text-body-sm text-on-surface-variant select-none">
+<input checked="" class="rounded accent-tertiary w-4 h-4 bg-surface-container-high" id="toggle-furos" type="checkbox"/>
+<span>Furos 10m (mai/26)</span>
+</label>
+<!-- Transparency Slider -->
+<div class="flex items-center gap-space-xs bg-surface-container px-space-xs py-1 rounded-xl">
+<span class="material-symbols-outlined text-outline text-[16px]">opacity</span>
+<span class="text-body-sm text-on-surface-variant text-[11px] uppercase">Opacidade Satélite</span>
+<input class="w-20 accent-primary cursor-pointer" id="slider-opacity" max="100" min="0" type="range" value="65"/>
+<span class="font-code-telemetry text-[11px] text-primary" id="label-opacity">65%</span>
+</div>
+</div>
+</div>
+<!-- Primary Workspace: Left Layer Manager, Center High-Precision Map Viewport, Right Geomech Dossier -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-0 w-full min-h-[calc(100vh-140px)]">
+<!-- LEFT PANEL: Litoestratigrafia & Filtros Operacionais (Col 1-3) -->
+<div class="lg:col-span-3 bg-surface-container-low/95 p-space-sm flex flex-col gap-space-sm shadow-xl z-20 overflow-y-auto max-h-[calc(100vh-140px)]">
+<!-- Panel Header & Domain Distribution -->
+<div class="flex flex-col gap-space-xs bg-surface-container p-space-sm rounded-xl">
+<div class="flex items-center justify-between">
+<span class="font-headline-md text-headline-md text-on-surface">Domínios da Cava</span>
+<span class="font-code-telemetry text-[11px] text-primary bg-primary/10 px-2 py-0.5 rounded-full">25 Litotipos</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Distribuição percentual volumétrica das litologias mapeadas no avanço do pit.</p>
+<!-- Multi-segment Progress Bar -->
+<div class="w-full h-2.5 rounded-full bg-surface-container-high flex overflow-hidden mt-space-2xs">
+<div class="h-full bg-[#0ea5e9]" style="width: 42%;" title="Itabiritos (IF, IC, IDO, IGO, etc.) - 42%"></div>
+<div class="h-full bg-[#d62828]" style="width: 24%;" title="Hematitas (HC, HF, HGO) - 24%"></div>
+<div class="h-full bg-[#c29b38]" style="width: 14%;" title="Canga / Cobertura (CG, LT) - 14%"></div>
+<div class="h-full bg-[#488a32]" style="width: 20%;" title="Filitos e Encaixantes (FL, GAD, GN, RO) - 20%"></div>
+</div>
+<div class="grid grid-cols-2 gap-space-2xs text-[11px] font-code-telemetry pt-1">
+<div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-sm bg-[#0ea5e9]"></span><span class="text-on-surface-variant">Itabiritos: <strong class="text-on-surface">42%</strong></span></div>
+<div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-sm bg-[#d62828]"></span><span class="text-on-surface-variant">Hematitas: <strong class="text-on-surface">24%</strong></span></div>
+<div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-sm bg-[#c29b38]"></span><span class="text-on-surface-variant">Cangas/Solos: <strong class="text-on-surface">14%</strong></span></div>
+<div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-sm bg-[#488a32]"></span><span class="text-on-surface-variant">Filitos/Outros: <strong class="text-on-surface">20%</strong></span></div>
+</div>
+</div>
+<!-- Quick Search / Filter Litologia -->
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-2.5 top-2.5 text-outline text-[18px]">search</span>
+<input class="w-full pl-8 pr-3 py-1.5 bg-surface-container text-body-sm text-on-surface placeholder:text-outline rounded-xl focus:outline-none focus:bg-surface-container-high transition-colors" id="filter-lito" placeholder="Filtrar por sigla (ex: HC, IF, FL)..." type="text"/>
+</div>
+<!-- Scrollable Lithology Feature List -->
+<div class="flex flex-col gap-1.5 pr-0.5" id="lito-feature-list">
+<!-- HC - Active Default Selection -->
+<div class="lito-row group cursor-pointer p-space-xs rounded-xl bg-surface-container-high/90 shadow-md flex items-center justify-between transition-all" data-feature="HC">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="w-3.5 h-3.5 rounded-sm shrink-0 shadow-sm" style="background-color: #d62828;"></span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-2xs">
+<span class="font-code-telemetry font-bold text-on-surface text-[12px]">HC</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium truncate">Hematita Compacta</span>
+</div>
+<span class="text-[11px] text-on-surface-variant font-code-telemetry">Minério Nobre • Alta Densidade</span>
+</div>
+</div>
+<span class="font-code-telemetry text-[11px] text-primary px-1.5 py-0.5 rounded bg-primary/10 shrink-0">14.8%</span>
+</div>
+<!-- IF -->
+<div class="lito-row group cursor-pointer p-space-xs rounded-xl hover:bg-surface-container transition-all flex items-center justify-between" data-feature="IF">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="w-3.5 h-3.5 rounded-sm shrink-0" style="background-color: #90e0ef;"></span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-2xs">
+<span class="font-code-telemetry font-bold text-on-surface text-[12px]">IF</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface truncate">Itabirito Friável</span>
+</div>
+<span class="text-[11px] text-on-surface-variant font-code-telemetry">Domínio Friável • Cota 1150-1240</span>
+</div>
+</div>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant px-1.5 py-0.5 rounded bg-surface-container-highest shrink-0">18.2%</span>
+</div>
+<!-- CG -->
+<div class="lito-row group cursor-pointer p-space-xs rounded-xl hover:bg-surface-container transition-all flex items-center justify-between" data-feature="CG">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="w-3.5 h-3.5 rounded-sm shrink-0" style="background-color: #c29b38;"></span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-2xs">
+<span class="font-code-telemetry font-bold text-on-surface text-[12px]">CG</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface truncate">Canga / Cobertura</span>
+</div>
+<span class="text-[11px] text-on-surface-variant font-code-telemetry">Manto Superficial • Bancadas Sup.</span>
+</div>
+</div>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant px-1.5 py-0.5 rounded bg-surface-container-highest shrink-0">9.4%</span>
+</div>
+<!-- FL -->
+<div class="lito-row group cursor-pointer p-space-xs rounded-xl hover:bg-surface-container transition-all flex items-center justify-between" data-feature="FL">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="w-3.5 h-3.5 rounded-sm shrink-0" style="background-color: #488a32;"></span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-2xs">
+<span class="font-code-telemetry font-bold text-on-surface text-[12px]">FL</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface truncate">Filito / Form. Xistosa</span>
+</div>
+<span class="text-[11px] text-on-surface-variant font-code-telemetry">Plano de Fraqueza • Foliação Sn</span>
+</div>
+</div>
+<span class="font-code-telemetry text-[11px] text-tertiary px-1.5 py-0.5 rounded bg-tertiary/10 shrink-0">11.6%</span>
+</div>
+<!-- IC -->
+<div class="lito-row group cursor-pointer p-space-xs rounded-xl hover:bg-surface-container transition-all flex items-center justify-between" data-feature="IC">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="w-3.5 h-3.5 rounded-sm shrink-0" style="background-color: #2a6f97;"></span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-2xs">
+<span class="font-code-telemetry font-bold text-on-surface text-[12px]">IC</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface truncate">Itabirito Carbonático</span>
+</div>
+<span class="text-[11px] text-on-surface-variant font-code-telemetry">Transição Geoquímica Calcária</span>
+</div>
+</div>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant px-1.5 py-0.5 rounded bg-surface-container-highest shrink-0">6.1%</span>
+</div>
+<!-- IDO -->
+<div class="lito-row group cursor-pointer p-space-xs rounded-xl hover:bg-surface-container transition-all flex items-center justify-between" data-feature="IDO">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="w-3.5 h-3.5 rounded-sm shrink-0" style="background-color: #61a5c2;"></span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-2xs">
+<span class="font-code-telemetry font-bold text-on-surface text-[12px]">IDO</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface truncate">Itabirito Dolomítico</span>
+</div>
+<span class="text-[11px] text-on-surface-variant font-code-telemetry">Horizonte Central Encaixante</span>
+</div>
+</div>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant px-1.5 py-0.5 rounded bg-surface-container-highest shrink-0">5.3%</span>
+</div>
+<!-- HF -->
+<div class="lito-row group cursor-pointer p-space-xs rounded-xl hover:bg-surface-container transition-all flex items-center justify-between" data-feature="HF">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="w-3.5 h-3.5 rounded-sm shrink-0" style="background-color: #f77f00;"></span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-2xs">
+<span class="font-code-telemetry font-bold text-on-surface text-[12px]">HF</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface truncate">Hematita Friável</span>
+</div>
+<span class="text-[11px] text-on-surface-variant font-code-telemetry">Minério Poroso de Alto Teor</span>
+</div>
+</div>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant px-1.5 py-0.5 rounded bg-surface-container-highest shrink-0">6.7%</span>
+</div>
+<!-- HGO -->
+<div class="lito-row group cursor-pointer p-space-xs rounded-xl hover:bg-surface-container transition-all flex items-center justify-between" data-feature="HGO">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="w-3.5 h-3.5 rounded-sm shrink-0" style="background-color: #dda15e;"></span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-2xs">
+<span class="font-code-telemetry font-bold text-on-surface text-[12px]">HGO</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface truncate">Hematita Goethítica</span>
+</div>
+<span class="text-[11px] text-on-surface-variant font-code-telemetry">Presença de Hidróxidos</span>
+</div>
+</div>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant px-1.5 py-0.5 rounded bg-surface-container-highest shrink-0">2.5%</span>
+</div>
+<!-- DO -->
+<div class="lito-row group cursor-pointer p-space-xs rounded-xl hover:bg-surface-container transition-all flex items-center justify-between" data-feature="DO">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="w-3.5 h-3.5 rounded-sm shrink-0" style="background-color: #a4de4b;"></span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-2xs">
+<span class="font-code-telemetry font-bold text-on-surface text-[12px]">DO</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface truncate">Dolomito / Carbonato</span>
+</div>
+<span class="text-[11px] text-on-surface-variant font-code-telemetry">Lente de Fechamento Sinclinal</span>
+</div>
+</div>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant px-1.5 py-0.5 rounded bg-surface-container-highest shrink-0">3.2%</span>
+</div>
+<!-- GAD -->
+<div class="lito-row group cursor-pointer p-space-xs rounded-xl hover:bg-surface-container transition-all flex items-center justify-between" data-feature="GAD">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="w-3.5 h-3.5 rounded-sm shrink-0" style="background-color: #556b5a;"></span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-2xs">
+<span class="font-code-telemetry font-bold text-on-surface text-[12px]">GAD</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface truncate">Gabro / Anfibolito / Diabásio</span>
+</div>
+<span class="text-[11px] text-on-surface-variant font-code-telemetry">Diques e Soleiras Básicas</span>
+</div>
+</div>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant px-1.5 py-0.5 rounded bg-surface-container-highest shrink-0">4.1%</span>
+</div>
+<!-- GN -->
+<div class="lito-row group cursor-pointer p-space-xs rounded-xl hover:bg-surface-container transition-all flex items-center justify-between" data-feature="GN">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="w-3.5 h-3.5 rounded-sm shrink-0" style="background-color: #e89b9b;"></span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-2xs">
+<span class="font-code-telemetry font-bold text-on-surface text-[12px]">GN</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface truncate">Gnaisse</span>
+</div>
+<span class="text-[11px] text-on-surface-variant font-code-telemetry">Embasamento Cristalino Sul</span>
+</div>
+</div>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant px-1.5 py-0.5 rounded bg-surface-container-highest shrink-0">3.8%</span>
+</div>
+<!-- IGO -->
+<div class="lito-row group cursor-pointer p-space-xs rounded-xl hover:bg-surface-container transition-all flex items-center justify-between" data-feature="IGO">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="w-3.5 h-3.5 rounded-sm shrink-0" style="background-color: #9d4edd;"></span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-2xs">
+<span class="font-code-telemetry font-bold text-on-surface text-[12px]">IGO</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface truncate">Itabirito Goethítico</span>
+</div>
+<span class="text-[11px] text-on-surface-variant font-code-telemetry">Zona de Oxidação Intensa</span>
+</div>
+</div>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant px-1.5 py-0.5 rounded bg-surface-container-highest shrink-0">4.5%</span>
+</div>
+<!-- IMN -->
+<div class="lito-row group cursor-pointer p-space-xs rounded-xl hover:bg-surface-container transition-all flex items-center justify-between" data-feature="IMN">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="w-3.5 h-3.5 rounded-sm shrink-0" style="background-color: #4a0e4e;"></span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-2xs">
+<span class="font-code-telemetry font-bold text-on-surface text-[12px]">IMN</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface truncate">Itabirito Manganesífero</span>
+</div>
+<span class="text-[11px] text-on-surface-variant font-code-telemetry">Lentes de Alto Mn</span>
+</div>
+</div>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant px-1.5 py-0.5 rounded bg-surface-container-highest shrink-0">1.8%</span>
+</div>
+<!-- QT -->
+<div class="lito-row group cursor-pointer p-space-xs rounded-xl hover:bg-surface-container transition-all flex items-center justify-between" data-feature="QT">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="w-3.5 h-3.5 rounded-sm shrink-0" style="background-color: #ffe066;"></span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-2xs">
+<span class="font-code-telemetry font-bold text-on-surface text-[12px]">QT</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface truncate">Quartzito</span>
+</div>
+<span class="text-[11px] text-on-surface-variant font-code-telemetry">Serra Encaixante Norte</span>
+</div>
+</div>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant px-1.5 py-0.5 rounded bg-surface-container-highest shrink-0">3.9%</span>
+</div>
+<!-- BARRAGEM -->
+<div class="lito-row group cursor-pointer p-space-xs rounded-xl hover:bg-surface-container transition-all flex items-center justify-between" data-feature="BARRAGEM">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="w-3.5 h-3.5 rounded-sm shrink-0" style="background-color: #1d3557;"></span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-2xs">
+<span class="font-code-telemetry font-bold text-on-surface text-[12px]">BARRAGEM</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface truncate">Estrutura B1 / B4</span>
+</div>
+<span class="text-[11px] text-on-surface-variant font-code-telemetry">Contenção de Rejeito e Sedimentos</span>
+</div>
+</div>
+<span class="font-code-telemetry text-[11px] text-secondary px-1.5 py-0.5 rounded bg-secondary/10 shrink-0">Estrutural</span>
+</div>
+</div>
+<!-- Quick Geological Structural Notes Card -->
+<div class="mt-auto bg-surface-container p-space-sm rounded-xl flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-tertiary text-[18px]">alt_route</span>
+<span class="font-title-sm text-title-sm text-on-surface">Lineamentos Estruturais</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Foliação principal Sn orientada a N45E com mergulho médio de 48° para SE. Falha Jangada F1 interceptando as bancadas 1140 a 1220.</p>
+<div class="flex items-center justify-between text-[11px] font-code-telemetry text-outline pt-1">
+<span>Amostragem: 10x10m</span>
+<span class="text-secondary font-semibold">Atualizado: Mai/2026</span>
+</div>
+</div>
+</div>
+<!-- CENTER PANEL: Interactive High-Precision Geological Map Viewer (Col 4-8) -->
+<div class="lg:col-span-6 bg-surface-container-lowest relative flex flex-col overflow-hidden min-h-[520px]">
+<!-- Floating Map Utilities & Navigation Compass -->
+<div class="absolute top-3 left-3 z-30 flex flex-col gap-1.5">
+<button class="w-8 h-8 rounded-lg bg-surface-container-low/90 hover:bg-surface-container text-on-surface flex items-center justify-center shadow-lg transition-colors" id="btn-zoom-in" title="Aumentar Zoom">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-surface-container-low/90 hover:bg-surface-container text-on-surface flex items-center justify-center shadow-lg transition-colors" id="btn-zoom-out" title="Diminuir Zoom">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-surface-container-low/90 hover:bg-surface-container text-on-surface flex items-center justify-center shadow-lg transition-colors" id="btn-reset-view" title="Centralizar Cava">
+<span class="material-symbols-outlined text-[18px]">crop_free</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-surface-container-low/90 hover:bg-surface-container text-primary flex items-center justify-center shadow-lg transition-colors" id="btn-measure-tool" title="Régua de Contatos &amp; Atitude">
+<span class="material-symbols-outlined text-[18px]">straighten</span>
+</button>
+</div>
+<!-- Technical Compass / Rosa dos Ventos (Top Right Corner) -->
+<div class="absolute top-3 right-3 z-30 bg-surface-container-low/85 p-2 rounded-xl backdrop-blur-md shadow-lg flex flex-col items-center gap-1">
+<div class="w-10 h-10 relative flex items-center justify-center">
+<svg class="w-full h-full transform transition-transform duration-500" viewbox="0 0 100 100">
+<!-- Compass Rose SVG -->
+<polygon fill="#d62828" points="50,5 57,43 50,50"></polygon>
+<polygon fill="#f87171" points="50,5 43,43 50,50"></polygon>
+<polygon fill="#3e4850" points="50,95 57,57 50,50"></polygon>
+<polygon fill="#88929b" points="50,95 43,57 50,50"></polygon>
+<polygon fill="#88929b" points="5,50 43,43 50,50"></polygon>
+<polygon fill="#3e4850" points="5,50 43,57 50,50"></polygon>
+<polygon fill="#88929b" points="95,50 57,43 50,50"></polygon>
+<polygon fill="#3e4850" points="95,50 57,57 50,50"></polygon>
+<circle cx="50" cy="50" fill="#0a1228" r="4"></circle>
+</svg>
+<span class="absolute -top-1 font-title-sm text-[10px] font-bold text-[#d62828]">N</span>
+</div>
+<span class="font-code-telemetry text-[9px] text-on-surface-variant font-medium">Norte Verdadeiro</span>
+</div>
+<!-- Center Map Display Area -->
+<div class="w-full h-full relative cursor-crosshair overflow-hidden flex items-center justify-center select-none" id="map-viewport">
+<!-- Cartographic Grid Lines (UTM SAD 69) -->
+<div class="absolute inset-0 pointer-events-none z-10 grid grid-cols-4 grid-rows-4 opacity-25">
+<div class="border-r border-b border-outline-variant flex items-start justify-start p-1"><span class="font-code-telemetry text-[9px] text-primary">594.500 mE / 7.778.500 mN</span></div>
+<div class="border-r border-b border-outline-variant flex items-start justify-start p-1"><span class="font-code-telemetry text-[9px] text-primary">595.000 mE</span></div>
+<div class="border-r border-b border-outline-variant flex items-start justify-start p-1"><span class="font-code-telemetry text-[9px] text-primary">595.500 mE</span></div>
+<div class="border-b border-outline-variant flex items-start justify-start p-1"><span class="font-code-telemetry text-[9px] text-primary">596.000 mE</span></div>
+<div class="border-r border-b border-outline-variant flex items-start justify-start p-1"><span class="font-code-telemetry text-[9px] text-primary">7.778.000 mN</span></div>
+<div class="border-r border-b border-outline-variant"></div>
+<div class="border-r border-b border-outline-variant"></div>
+<div class="border-b border-outline-variant"></div>
+<div class="border-r border-b border-outline-variant flex items-start justify-start p-1"><span class="font-code-telemetry text-[9px] text-primary">7.777.500 mN</span></div>
+<div class="border-r border-b border-outline-variant"></div>
+<div class="border-r border-b border-outline-variant"></div>
+<div class="border-b border-outline-variant"></div>
+<div class="border-r border-outline-variant flex items-start justify-start p-1"><span class="font-code-telemetry text-[9px] text-primary">7.777.000 mN</span></div>
+<div class="border-r border-outline-variant"></div>
+<div class="border-r border-outline-variant"></div>
+<div></div>
+</div>
+<!-- Official High-Resolution Geological Map Sheet from Dataset -->
+<div class="relative w-full h-full flex items-center justify-center transform transition-transform duration-300" id="geological-sheet-wrapper">
+<img alt="Prancha Geológica Oficial Layout_MapaGeológico_0826 Cava Jangada" class="w-full h-full object-contain filter contrast-105 select-none pointer-events-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARcsiSCDWSlYbKf5EA4q_pI6pkpj6H4uwc55Ojs6gY-kt0wAtNuwsrY1zKqibBg5CgfiFNNGQBtnXXvGZhICA5k9HufIR4rk7CwBciAcu0Q6sg-02HI8QD6f1UFkJ1uFMwyo0d5Zmx39mihlGbLSbjv0_VkNbHRA6tSiQZzCsWpAs9Nx05h2CD10r35uT-FmOmy1IAJGuNHIX2OHzROCNZIvQu8upjEbohMo55S7VwX79RFMSEAK1l2B8HIQ-_ICX8SHQ"/>
+<!-- Dynamic SVG Vector Overlay on Map (Highlighting Limite Trimestral and Active Feature Contours) -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none z-20" id="svg-overlay" preserveaspectratio="none" viewbox="0 0 1000 600">
+<!-- Limite Trimestral Vector Trace -->
+<path d="M 60,260 C 180,240 280,310 400,280 S 680,210 820,330 S 940,320 960,340" fill="none" id="path-limite" opacity="0.9" stroke="#4edea3" stroke-dasharray="6 3" stroke-width="2.5"></path>
+<!-- Structural Fault Line jangada F1 -->
+<line opacity="0.7" stroke="#ffb4ab" stroke-dasharray="8 4" stroke-width="2" x1="280" x2="620" y1="120" y2="480"></line>
+<!-- Active Selected Lithology Boundary Beacon (HC Highlight) -->
+<polygon class="animate-pulse" fill="#d62828" fill-opacity="0.25" points="720,290 840,280 870,360 760,390" stroke="#d62828" stroke-width="2"></polygon>
+<!-- Piezometer & Instrumentation Markers in Contact -->
+<g class="cursor-pointer" transform="translate(740, 310)">
+<circle class="animate-ping" cx="0" cy="0" fill="#0ea5e9" fill-opacity="0.4" r="7"></circle>
+<circle cx="0" cy="0" fill="#0ea5e9" r="4.5"></circle>
+<circle cx="0" cy="0" fill="#ffffff" r="2"></circle>
+<text fill="#ffffff" font-family="JetBrains Mono" font-size="10" font-weight="600" x="8" y="3">PZ-01_CR (1180m)</text>
+</g>
+<g class="cursor-pointer" transform="translate(480, 240)">
+<circle cx="0" cy="0" fill="#4edea3" r="4.5"></circle>
+<circle cx="0" cy="0" fill="#ffffff" r="2"></circle>
+<text fill="#ffffff" font-family="JetBrains Mono" font-size="10" font-weight="600" x="8" y="3">PZ-04_FL (1220m)</text>
+</g>
+</svg>
+</div>
+<!-- Floating Coordinates Tooltip on Cursor Hover -->
+<div class="absolute bottom-12 left-4 z-30 bg-surface-container-low/90 backdrop-blur-md px-space-sm py-1 rounded-xl shadow-lg flex items-center gap-space-sm text-body-sm font-code-telemetry" id="coord-tooltip">
+<div class="flex items-center gap-1.5">
+<span class="text-on-surface-variant text-[11px]">E:</span>
+<span class="text-primary font-semibold" id="coord-x">595.342 mE</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="text-on-surface-variant text-[11px]">N:</span>
+<span class="text-primary font-semibold" id="coord-y">7.777.628 mN</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="text-on-surface-variant text-[11px]">Z:</span>
+<span class="text-secondary font-semibold" id="coord-z">1.180,4 m</span>
+</div>
+<span class="text-outline-variant">|</span>
+<span class="text-tertiary font-semibold text-[11px]" id="coord-lito">Domínio: HC • Hematita</span>
+</div>
+<!-- In-map Scale Bar (Metric) -->
+<div class="absolute bottom-3 right-4 z-30 bg-surface-container-low/90 backdrop-blur-md px-space-sm py-1 rounded-xl shadow-lg flex flex-col items-center">
+<div class="flex items-center justify-between w-36 text-[10px] font-code-telemetry text-on-surface-variant">
+<span>0</span>
+<span>200</span>
+<span>400</span>
+<span>800m</span>
+</div>
+<div class="w-36 h-1.5 bg-surface-container-highest rounded-sm flex overflow-hidden">
+<div class="w-1/4 h-full bg-on-surface"></div>
+<div class="w-1/4 h-full bg-surface-container-highest"></div>
+<div class="w-1/4 h-full bg-on-surface"></div>
+<div class="w-1/4 h-full bg-surface-container-highest"></div>
+</div>
+<span class="text-[9px] font-code-telemetry text-outline mt-0.5">Escala Gráfica Oficial (1:10.000)</span>
+</div>
+</div>
+</div>
+<!-- RIGHT PANEL: Dossiê Geomecânico do Litotipo Selecionado (Col 9-12) -->
+<div class="lg:col-span-3 bg-surface-container-low/95 p-space-sm flex flex-col gap-space-sm shadow-xl z-20 overflow-y-auto max-h-[calc(100vh-140px)]">
+<!-- Selected Feature Header Card -->
+<div class="bg-surface-container p-space-sm rounded-xl flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-primary tracking-wider">Dossiê Lito-Geomecânico</span>
+<span class="flex items-center gap-1 font-code-telemetry text-[11px] px-2 py-0.5 rounded-full bg-secondary/15 text-secondary" id="badge-conformidade">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>Em Conformidade</span>
+</span>
+</div>
+<div class="flex items-center gap-space-sm mt-1">
+<div class="w-12 h-12 rounded-xl bg-[#d62828] flex items-center justify-center shadow-lg text-white font-title-sm text-headline-md font-bold" id="detail-code">
+            HC
+          </div>
+<div class="flex flex-col min-w-0">
+<h2 class="font-headline-md text-headline-md text-on-surface truncate" id="detail-title">Hematita Compacta</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate" id="detail-subtitle">Domínio Estrutural Alto Teor • Bancadas 1140 a 1260</span>
+</div>
+</div>
+</div>
+<!-- Rock Mass Classification Scores (RMR & GSI) -->
+<div class="grid grid-cols-2 gap-space-xs">
+<div class="bg-surface-container p-space-sm rounded-xl flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">RMR Bieniawski (89)</span>
+<div class="flex items-baseline gap-space-xs mt-1">
+<span class="font-data-metric text-data-metric text-primary" id="val-rmr">76</span>
+<span class="text-body-sm font-medium text-secondary">Classe II</span>
+</div>
+<span class="text-[11px] text-on-surface-variant">Maciço Muito Bom a Bom</span>
+</div>
+<div class="bg-surface-container p-space-sm rounded-xl flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">GSI Hoek-Brown</span>
+<div class="flex items-baseline gap-space-xs mt-1">
+<span class="font-data-metric text-data-metric text-primary" id="val-gsi">68</span>
+<span class="text-body-sm font-medium text-primary-fixed">Blocoso</span>
+</div>
+<span class="text-[11px] text-on-surface-variant">Juntas Rugosas Pouco Alteradas</span>
+</div>
+</div>
+<!-- GeoStudio & Slide3 Numerical Parameters -->
+<div class="bg-surface-container p-space-sm rounded-xl flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-on-surface">Parâmetros de Estabilidade</span>
+<span class="font-code-telemetry text-[11px] text-outline">GeoStudio / Slide3</span>
+</div>
+<div class="grid grid-cols-2 gap-space-2xs mt-1 font-code-telemetry">
+<div class="bg-surface-container-high/60 p-2 rounded-lg flex flex-col">
+<span class="text-[10px] text-on-surface-variant uppercase">Coesão Efetiva (c')</span>
+<span class="text-body-md text-on-surface font-semibold" id="val-coesa">145 kPa</span>
+</div>
+<div class="bg-surface-container-high/60 p-2 rounded-lg flex flex-col">
+<span class="text-[10px] text-on-surface-variant uppercase">Atrito Interno (φ')</span>
+<span class="text-body-md text-on-surface font-semibold" id="val-atrito">39.5°</span>
+</div>
+<div class="bg-surface-container-high/60 p-2 rounded-lg flex flex-col">
+<span class="text-[10px] text-on-surface-variant uppercase">Peso Específico (γ)</span>
+<span class="text-body-md text-on-surface font-semibold" id="val-gamma">34.8 kN/m³</span>
+</div>
+<div class="bg-surface-container-high/60 p-2 rounded-lg flex flex-col">
+<span class="text-[10px] text-on-surface-variant uppercase">Permeabilidade (k)</span>
+<span class="text-body-md text-on-surface font-semibold" id="val-perm">1.2 × 10⁻⁷ m/s</span>
+</div>
+</div>
+</div>
+<!-- Kinematic Failure Risk Analysis -->
+<div class="bg-surface-container p-space-sm rounded-xl flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-on-surface">Risco de Ruptura Cinemática</span>
+<span class="material-symbols-outlined text-tertiary text-[18px]">warning</span>
+</div>
+<div class="flex flex-col gap-1.5 text-body-sm">
+<div class="flex items-center justify-between">
+<span class="text-on-surface-variant">Ruptura Planar (Sn):</span>
+<span class="font-code-telemetry font-semibold text-secondary" id="val-prob-planar">Baixa (P &lt; 4%)</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-on-surface-variant">Ruptura em Cunha (J1 x J2):</span>
+<span class="font-code-telemetry font-semibold text-tertiary" id="val-prob-cunha">Média (P = 18%)</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-on-surface-variant">Tombamento (Toppling):</span>
+<span class="font-code-telemetry font-semibold text-secondary" id="val-prob-tomb">Improvável (&lt; 1%)</span>
+</div>
+</div>
+<div class="mt-2 p-2 rounded-lg bg-surface-container-high/80 text-[11px] text-on-surface-variant flex items-start gap-1.5">
+<span class="material-symbols-outlined text-primary text-[14px] shrink-0 mt-0.5">info</span>
+<span>Interseção com a falha normal secundária Jangada-Norte recomenda bermas de retenção mínimas de 7,5m na cota 1180m.</span>
+</div>
+</div>
+<!-- Nearby Geotechnical Instrumentation Status -->
+<div class="bg-surface-container p-space-sm rounded-xl flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-on-surface">Sensores no Contato Litológico</span>
+<span class="font-code-telemetry text-[11px] text-secondary">TARP Nível 0</span>
+</div>
+<div class="flex flex-col gap-2">
+<!-- Sensor Item 1 -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-high/60 text-body-sm">
+<div class="flex items-center gap-space-2xs min-w-0">
+<span class="material-symbols-outlined text-primary text-[18px]">sensors</span>
+<div class="flex flex-col min-w-0">
+<span class="font-code-telemetry font-semibold text-on-surface text-[12px]">PZ-01_CR</span>
+<span class="text-[11px] text-on-surface-variant">Piezômetro Corda Vibrante</span>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-code-telemetry font-bold text-on-surface text-[12px]">34.2 kPa</span>
+<span class="text-[10px] text-secondary font-medium">Normal (±0.3)</span>
+</div>
+</div>
+<!-- Sensor Item 2 -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-high/60 text-body-sm">
+<div class="flex items-center gap-space-2xs min-w-0">
+<span class="material-symbols-outlined text-primary text-[18px]">radar</span>
+<div class="flex flex-col min-w-0">
+<span class="font-code-telemetry font-semibold text-on-surface text-[12px]">IBIS-PX_1180</span>
+<span class="text-[11px] text-on-surface-variant">Pixel Radar Estabilidade</span>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-code-telemetry font-bold text-on-surface text-[12px]">+0.04 mm/h</span>
+<span class="text-[10px] text-secondary font-medium">Estável</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Action: Trigger Local Cross Section or Leapfrog Re-sync -->
+<div class="mt-auto flex items-center gap-space-xs pt-1">
+<button class="flex-1 py-2 rounded-xl bg-surface-container-high hover:bg-surface-bright text-on-surface font-title-sm text-body-sm flex items-center justify-center gap-1.5 transition-colors" id="btn-open-section">
+<span class="material-symbols-outlined text-[16px]">insert_chart</span>
+<span>Perfil Geológico</span>
+</button>
+<button class="flex-1 py-2 rounded-xl bg-primary-container hover:brightness-110 text-on-primary-container font-title-sm text-body-sm flex items-center justify-center gap-1.5 transition-all" id="btn-update-sample">
+<span class="material-symbols-outlined text-[16px]">add_location_alt</span>
+<span>Novo Ponto</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Bottom Global Technical Telemetry & Cartographic Metadata Bar -->
+<div class="px-gutter py-space-xs bg-surface-container-lowest flex flex-wrap items-center justify-between gap-space-sm text-body-sm font-code-telemetry">
+<div class="flex items-center gap-space-md text-on-surface-variant text-[12px] flex-wrap">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>Mapeamento: <strong>Geotecnia Itaminas</strong></span>
+</div>
+<span>•</span>
+<span>Malha de Amostragem: <strong>samples_distance_10m_mai26</strong></span>
+<span>•</span>
+<span>Fator de Segurança Médio da Encosta: <strong class="text-secondary">FS = 1.48 (Global)</strong></span>
+<span>•</span>
+<span>Bancadas Mapeadas: <strong>1.080m até 1.290m</strong></span>
+</div>
+<div class="flex items-center gap-space-sm text-outline text-[11px]">
+<span>Sistema: MDSync GeoEngine v4.8</span>
+<span>•</span>
+<span class="text-primary">EPSG:31983 (SIRGAS 2000 UTM 23S)</span>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    // Geological lithology database matching Layout_MapaGeológico_0826 prancha
+    const litoDatabase = {
+      HC: {
+        code: 'HC',
+        name: 'Hematita Compacta',
+        subtitle: 'Minério Nobre &bull; Alta Densidade &bull; Cotas 1140-1260m',
+        color: '#d62828',
+        rmr: 76,
+        rmrClass: 'Classe II (Bom)',
+        gsi: 68,
+        gsiDesc: 'Blocoso / Maciço',
+        coesa: '145 kPa',
+        atrito: '39.5°',
+        gamma: '34.8 kN/m³',
+        perm: '1.2 × 10⁻⁷ m/s',
+        planar: 'Baixa (P < 4%)',
+        cunha: 'Média (P = 18%)',
+        toppling: 'Improvável (< 1%)',
+        status: 'Em Conformidade'
+      },
+      IF: {
+        code: 'IF',
+        name: 'Itabirito Friável',
+        subtitle: 'Domínio Bandado Friável &bull; Cota 1150-1240m',
+        color: '#90e0ef',
+        rmr: 54,
+        rmrClass: 'Classe III (Regular)',
+        gsi: 48,
+        gsiDesc: 'Muito Fraturado',
+        coesa: '42 kPa',
+        atrito: '32.0°',
+        gamma: '28.4 kN/m³',
+        perm: '4.8 × 10⁻⁵ m/s',
+        planar: 'Moderada (P = 22%)',
+        cunha: 'Baixa (P = 8%)',
+        toppling: 'Baixa (P = 6%)',
+        status: 'Monitoramento Recomendado'
+      },
+      CG: {
+        code: 'CG',
+        name: 'Canga / Cobertura',
+        subtitle: 'Manto Superficial Laterítico &bull; Bancadas de Crista',
+        color: '#c29b38',
+        rmr: 45,
+        rmrClass: 'Classe III (Regular)',
+        gsi: 42,
+        gsiDesc: 'Poroso Desagregável',
+        coesa: '28 kPa',
+        atrito: '30.5°',
+        gamma: '24.2 kN/m³',
+        perm: '1.5 × 10⁻⁴ m/s',
+        planar: 'Desprezível (< 2%)',
+        cunha: 'Desprezível (< 2%)',
+        toppling: 'Ruptura Circular/Solo',
+        status: 'Em Conformidade'
+      },
+      FL: {
+        code: 'FL',
+        name: 'Filito / Formação Xistosa',
+        subtitle: 'Plano de Fraqueza Estrutural &bull; Foliação Sn Risco Alto',
+        color: '#488a32',
+        rmr: 38,
+        rmrClass: 'Classe IV (Pobre)',
+        gsi: 35,
+        gsiDesc: 'Lamelar / Deformável',
+        coesa: '22 kPa',
+        atrito: '24.0°',
+        gamma: '25.6 kN/m³',
+        perm: '3.1 × 10⁻⁸ m/s',
+        planar: 'Alta (P = 42%)',
+        cunha: 'Média (P = 25%)',
+        toppling: 'Moderada (P = 15%)',
+        status: 'Atenção Operacional'
+      },
+      IC: {
+        code: 'IC',
+        name: 'Itabirito Carbonático',
+        subtitle: 'Horizonte de Transição Litoquímica &bull; Porção Central',
+        color: '#2a6f97',
+        rmr: 62,
+        rmrClass: 'Classe II (Bom)',
+        gsi: 58,
+        gsiDesc: 'Blocoso Intermediário',
+        coesa: '75 kPa',
+        atrito: '35.0°',
+        gamma: '30.1 kN/m³',
+        perm: '8.4 × 10⁻⁶ m/s',
+        planar: 'Baixa (P = 7%)',
+        cunha: 'Baixa (P = 11%)',
+        toppling: 'Desprezível (< 2%)',
+        status: 'Em Conformidade'
+      },
+      BARRAGEM: {
+        code: 'BARRAGEM',
+        name: 'Estrutura B1 / B4',
+        subtitle: 'Enrocamento & Barramento de Segurança &bull; Cota 1080m',
+        color: '#1d3557',
+        rmr: 82,
+        rmrClass: 'Compactado',
+        gsi: 75,
+        gsiDesc: 'Macico Compactado',
+        coesa: '95 kPa',
+        atrito: '42.0°',
+        gamma: '22.0 kN/m³',
+        perm: '1.0 × 10⁻⁸ m/s',
+        planar: 'N/A',
+        cunha: 'N/A',
+        toppling: 'N/A',
+        status: 'Monitoramento Piezométrico 24/7'
+      }
+    };
+
+    // Feature Selection Handler
+    const rows = document.querySelectorAll('.lito-row');
+    const detailCode = document.getElementById('detail-code');
+    const detailTitle = document.getElementById('detail-title');
+    const detailSubtitle = document.getElementById('detail-subtitle');
+    const valRmr = document.getElementById('val-rmr');
+    const valGsi = document.getElementById('val-gsi');
+    const valCoesa = document.getElementById('val-coesa');
+    const valAtrito = document.getElementById('val-atrito');
+    const valGamma = document.getElementById('val-gamma');
+    const valPerm = document.getElementById('val-perm');
+    const valPlanar = document.getElementById('val-prob-planar');
+    const valCunha = document.getElementById('val-prob-cunha');
+    const valTomb = document.getElementById('val-prob-tomb');
+    const coordLito = document.getElementById('coord-lito');
+
+    rows.forEach(row => {
+      row.addEventListener('click', function() {
+        rows.forEach(r => {
+          r.classList.remove('bg-surface-container-high/90', 'shadow-md');
+          r.classList.add('hover:bg-surface-container');
+        });
+        this.classList.add('bg-surface-container-high/90', 'shadow-md');
+        this.classList.remove('hover:bg-surface-container');
+
+        const featKey = this.getAttribute('data-feature');
+        const data = litoDatabase[featKey] || {
+          code: featKey,
+          name: this.querySelector('.truncate').textContent,
+          subtitle: 'Domínio Litoestratigráfico Mapeado &bull; Prancha Oficial',
+          color: this.querySelector('span').style.backgroundColor,
+          rmr: 58,
+          rmrClass: 'Classe III',
+          gsi: 52,
+          gsiDesc: 'Fraturado',
+          coesa: '55 kPa',
+          atrito: '33.0°',
+          gamma: '29.0 kN/m³',
+          perm: '2.0 × 10⁻⁶ m/s',
+          planar: 'Baixa (< 10%)',
+          cunha: 'Baixa (< 12%)',
+          toppling: 'Desprezível',
+          status: 'Em Conformidade'
+        };
+
+        // Update Dossier View
+        detailCode.textContent = data.code;
+        detailCode.style.backgroundColor = data.color;
+        detailTitle.textContent = data.name;
+        detailSubtitle.innerHTML = data.subtitle;
+        valRmr.textContent = data.rmr;
+        valGsi.textContent = data.gsi;
+        valCoesa.textContent = data.coesa;
+        valAtrito.textContent = data.atrito;
+        valGamma.textContent = data.gamma;
+        valPerm.innerHTML = data.perm;
+        valPlanar.textContent = data.planar;
+        valCunha.textContent = data.cunha;
+        valTomb.textContent = data.toppling;
+        coordLito.innerHTML = `Domínio: ${data.code} &bull; ${data.name.split('/')[0]}`;
+      });
+    });
+
+    // Real-Time Coordinate tracking over geological viewport
+    const mapViewport = document.getElementById('map-viewport');
+    const coordX = document.getElementById('coord-x');
+    const coordY = document.getElementById('coord-y');
+    const coordZ = document.getElementById('coord-z');
+
+    mapViewport.addEventListener('mousemove', function(e) {
+      const rect = mapViewport.getBoundingClientRect();
+      const xPercent = (e.clientX - rect.left) / rect.width;
+      const yPercent = (e.clientY - rect.top) / rect.height;
+
+      // Calculate simulated realistic UTM coordinates based on Jangada bounds (594.500 to 596.000 mE, 7.777.000 to 7.778.500 mN)
+      const utmE = Math.round(594500 + xPercent * 1500);
+      const utmN = Math.round(7778500 - yPercent * 1500);
+      const elevation = (1080 + (1 - yPercent) * 210).toFixed(1);
+
+      coordX.textContent = `${utmE.toLocaleString('pt-BR')} mE`;
+      coordY.textContent = `${utmN.toLocaleString('pt-BR')} mN`;
+      coordZ.textContent = `${elevation.replace('.', ',')} m`;
+    });
+
+    // Map Zoom Interaction
+    let currentZoom = 1;
+    const sheetWrapper = document.getElementById('geological-sheet-wrapper');
+    document.getElementById('btn-zoom-in').addEventListener('click', () => {
+      if (currentZoom < 2.5) {
+        currentZoom += 0.25;
+        sheetWrapper.style.transform = `scale(${currentZoom})`;
+      }
+    });
+    document.getElementById('btn-zoom-out').addEventListener('click', () => {
+      if (currentZoom > 0.8) {
+        currentZoom -= 0.25;
+        sheetWrapper.style.transform = `scale(${currentZoom})`;
+      }
+    });
+    document.getElementById('btn-reset-view').addEventListener('click', () => {
+      currentZoom = 1;
+      sheetWrapper.style.transform = `scale(1)`;
+    });
+
+    // Opacity Slider for Overlay Comparison
+    const opacitySlider = document.getElementById('slider-opacity');
+    const opacityLabel = document.getElementById('label-opacity');
+    const sheetImg = sheetWrapper.querySelector('img');
+
+    opacitySlider.addEventListener('input', function() {
+      const val = this.value;
+      opacityLabel.textContent = `${val}%`;
+      sheetImg.style.opacity = (val / 100).toFixed(2);
+    });
+
+    // Layer Checkboxes
+    document.getElementById('toggle-limite').addEventListener('change', function() {
+      const pathLimite = document.getElementById('path-limite');
+      if (pathLimite) {
+        pathLimite.style.display = this.checked ? 'block' : 'none';
+      }
+    });
+
+    // Filter by name or acronym in list
+    const filterInput = document.getElementById('filter-lito');
+    filterInput.addEventListener('input', function() {
+      const query = this.value.toLowerCase().trim();
+      rows.forEach(r => {
+        const text = r.textContent.toLowerCase();
+        if (text.includes(query)) {
+          r.style.display = 'flex';
+        } else {
+          r.style.display = 'none';
+        }
+      });
+    });
+
+  })();
+</script></main></div>
+    <!-- MDSync Core Bilateral Sync & Runtime Integration -->
+    <script src="../../src/core/sync-bridge.js"></script>
+    <script src="../stitch-runtime.js"></script>
+</body></html>

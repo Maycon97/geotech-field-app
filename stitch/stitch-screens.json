@@ -1,0 +1,272 @@
+[
+  {
+    "id": "5bc3d2b902fd4fef8b82d65f7fb467c7",
+    "slug": "05-relatorios-auditoria-gistm-anm95",
+    "title": "MDSync - Relatórios & Auditoria (GISTM e ANM 95)",
+    "filename": "05-relatorios-auditoria-gistm-anm95.html",
+    "screenshot": "05-relatorios-auditoria-gistm-anm95.png",
+    "category": "Governança & Conformidade",
+    "badge": "Auditoria",
+    "icon": "fa-solid fa-file-shield"
+  },
+  {
+    "id": "4e48b8cda2324d4989686ef826ac594b",
+    "slug": "27-maquete-3d-telemetria-dinamica",
+    "title": "MDSync — Maquete 3D Interativa da Cava Jangada (Micro-interações & Telemetria Dinâmica)",
+    "filename": "27-maquete-3d-telemetria-dinamica.html",
+    "screenshot": "27-maquete-3d-telemetria-dinamica.png",
+    "category": "3D & Cartografia",
+    "badge": "Telemetria 3D",
+    "icon": "fa-solid fa-satellite"
+  },
+  {
+    "id": "08761852c8834da19b530ae2bed8b361",
+    "slug": "14-modulo-estruturas-dossie-360",
+    "title": "MD Sync — Módulo de Estruturas & Dossiê Digital 360°",
+    "filename": "14-modulo-estruturas-dossie-360.html",
+    "screenshot": "14-modulo-estruturas-dossie-360.png",
+    "category": "Governança & Dossiê",
+    "badge": "Dossiê 360°",
+    "icon": "fa-solid fa-landmark"
+  },
+  {
+    "id": "2bc511394c1c4e55a2635c0ffcac1bdc",
+    "slug": "01-visao-geral-geotecnica",
+    "title": "MDSync - Visão Geral Geotécnica",
+    "filename": "01-visao-geral-geotecnica.html",
+    "screenshot": "01-visao-geral-geotecnica.png",
+    "category": "Dashboard & Executivo",
+    "badge": "Dashboard",
+    "icon": "fa-solid fa-chart-line"
+  },
+  {
+    "id": "37a71ef54dd64da1abb23d402f7bb803",
+    "slug": "22-developer-api-gateway-mcp",
+    "title": "MDSync — Developer API & Gateway MCP (Documentação Interativa & Swagger)",
+    "filename": "22-developer-api-gateway-mcp.html",
+    "screenshot": "22-developer-api-gateway-mcp.png",
+    "category": "Engenharia & API",
+    "badge": "API & MCP",
+    "icon": "fa-solid fa-code"
+  },
+  {
+    "id": "566a27be263245c6a659b46992372986",
+    "slug": "26-maquete-3d-fiel-prancha-geologica",
+    "title": "MDSync — Maquete 3D Fiel da Cava Jangada (Prancha Geológica)",
+    "filename": "26-maquete-3d-fiel-prancha-geologica.html",
+    "screenshot": "26-maquete-3d-fiel-prancha-geologica.png",
+    "category": "3D & Cartografia",
+    "badge": "Prancha 3D",
+    "icon": "fa-solid fa-map"
+  },
+  {
+    "id": "889d602d42354388bdad46fb3782e92f",
+    "slug": "25-maquete-3d-cava-modelo-geologico",
+    "title": "MDSync — Maquete Tridimensional da Cava & Modelo Geológico 3D",
+    "filename": "25-maquete-3d-cava-modelo-geologico.html",
+    "screenshot": "25-maquete-3d-cava-modelo-geologico.png",
+    "category": "3D & Cartografia",
+    "badge": "Modelo Geológico",
+    "icon": "fa-solid fa-layer-group"
+  },
+  {
+    "id": "1adb7aedede74704ab9be6469fff16e0",
+    "slug": "18-conectores-m365-data-lake-gis",
+    "title": "MDSync — Conectores Microsoft M365, Data Lake & Governança GIS (Seções 16 & 17)",
+    "filename": "18-conectores-m365-data-lake-gis.html",
+    "screenshot": "18-conectores-m365-data-lake-gis.png",
+    "category": "Governança & Integrações",
+    "badge": "M365 & Data Lake",
+    "icon": "fa-solid fa-cloud-arrow-up"
+  },
+  {
+    "id": "e35d20b6c62a41fe97c9deb9a81bf99f",
+    "slug": "21-inteligencia-auditoria-cripto",
+    "title": "MDSync — Central de Inteligência de Auditoria, Trilha Criptográfica & Integridade Transacional (Seções 6, 25 & 26)",
+    "filename": "21-inteligencia-auditoria-cripto.html",
+    "screenshot": "21-inteligencia-auditoria-cripto.png",
+    "category": "Riscos & Auditoria",
+    "badge": "Cripto & Trilha",
+    "icon": "fa-solid fa-fingerprint"
+  },
+  {
+    "id": "0c75a26861bb45b28d570abd09237690",
+    "slug": "19-modelagem-geostudio-paebm",
+    "title": "MDSync — Modelagem Geotécnica GeoStudio & Prontidão PAEBM (Seções 19 & 20)",
+    "filename": "19-modelagem-geostudio-paebm.html",
+    "screenshot": "19-modelagem-geostudio-paebm.png",
+    "category": "Engenharia & Modelagem",
+    "badge": "GeoStudio & PAEBM",
+    "icon": "fa-solid fa-mountain"
+  },
+  {
+    "id": "e1dc0d8e947e4ab98079823f300a1bac",
+    "slug": "20-fmea-rbac-governanca-clevel",
+    "title": "MDSync — Gestão de Riscos FMEA, Matriz RBAC & Governança C-Level (Seções 21, 22 & 23)",
+    "filename": "20-fmea-rbac-governanca-clevel.html",
+    "screenshot": "20-fmea-rbac-governanca-clevel.png",
+    "category": "Riscos & Governança",
+    "badge": "FMEA & RBAC",
+    "icon": "fa-solid fa-shield-halved"
+  },
+  {
+    "id": "cfaa8505f6b5468793b1949617661409",
+    "slug": "02-fluxo-coleta-checklist-offline",
+    "title": "MDSync - Fluxo de Coleta & Checklist de Campo (Offline)",
+    "filename": "02-fluxo-coleta-checklist-offline.html",
+    "screenshot": "02-fluxo-coleta-checklist-offline.png",
+    "category": "Campo & Inspeção",
+    "badge": "Offline Form",
+    "icon": "fa-solid fa-clipboard-check"
+  },
+  {
+    "id": "8236ad0c8ac54248951af9853ea7e9fc",
+    "slug": "04-geoview-gis-3d-interativo-threejs",
+    "title": "MDSync - GeoView & GIS 3D Interativo (Three.js & Telemetria Dinâmica)",
+    "filename": "04-geoview-gis-3d-interativo-threejs.html",
+    "screenshot": "04-geoview-gis-3d-interativo-threejs.png",
+    "category": "3D & Cartografia",
+    "badge": "Three.js",
+    "icon": "fa-solid fa-cube"
+  },
+  {
+    "id": "6629200e835743ddb10f92bb1a2550f0",
+    "slug": "tela-19-mdsync-maquete-3d-tridimensional-completa-da-mina-itaminas-m",
+    "title": "MDSync — Maquete 3D Tridimensional Completa da Mina Itaminas (Mapeamento Geológico Integral)",
+    "filename": "tela-19-mdsync-maquete-3d-tridimensional-completa-da-mina-itaminas-m.html",
+    "screenshot": "tela-19-mdsync-maquete-3d-tridimensional-completa-da-mina-itaminas-m.png",
+    "category": "Geral",
+    "badge": "Tela",
+    "icon": "fa-solid fa-display"
+  },
+  {
+    "id": "54f89cc9abbf46e187d6e36e0d77747b",
+    "slug": "29-maquete-3d-visada-radar-ibis",
+    "title": "MDSync — Maquete 3D Interativa da Cava Jangada (Refinamentos Geológicos & Linha de Visada Radar)",
+    "filename": "29-maquete-3d-visada-radar-ibis.html",
+    "screenshot": "29-maquete-3d-visada-radar-ibis.png",
+    "category": "3D & Cartografia",
+    "badge": "Radar IBIS-FM",
+    "icon": "fa-solid fa-tower-broadcast"
+  },
+  {
+    "id": "256d6d0496814f93b0e76bc60e808554",
+    "slug": "03-geoview-gis-3d-campo",
+    "title": "MDSync - GeoView & GIS 3D de Campo",
+    "filename": "03-geoview-gis-3d-campo.html",
+    "screenshot": "03-geoview-gis-3d-campo.png",
+    "category": "3D & Cartografia",
+    "badge": "Cartografia",
+    "icon": "fa-solid fa-map-location-dot"
+  },
+  {
+    "id": "0d149436b6294074a93cc3d9dae57ac7",
+    "slug": "07-transmissao-homologada-api-sigbm",
+    "title": "MDSync - Transmissão Homologada API SIGBM (Protocolo Oficial)",
+    "filename": "07-transmissao-homologada-api-sigbm.html",
+    "screenshot": "07-transmissao-homologada-api-sigbm.png",
+    "category": "Governança & Conformidade",
+    "badge": "SIGBM API",
+    "icon": "fa-solid fa-tower-broadcast"
+  },
+  {
+    "id": "5479262262948498850",
+    "slug": "09-painel-executivo-cronograma-pcmi",
+    "title": "Painel_Executivo_CronogramaPCMI.html",
+    "filename": "09-painel-executivo-cronograma-pcmi.html",
+    "screenshot": null,
+    "category": "Dashboard & Executivo",
+    "badge": "Cronograma",
+    "icon": "fa-solid fa-timeline"
+  },
+  {
+    "id": "a64509102e8b4dbaa128291979b8075b",
+    "slug": "16-gestao-anomalias-ciclo-9-estados",
+    "title": "MDSync - Gestão de Anomalias, Ciclo de 9 Estados & Fluig",
+    "filename": "16-gestao-anomalias-ciclo-9-estados.html",
+    "screenshot": "16-gestao-anomalias-ciclo-9-estados.png",
+    "category": "Campo & Inspeção",
+    "badge": "9 Estados",
+    "icon": "fa-solid fa-bug"
+  },
+  {
+    "id": "7d38bbe5cd4442f4b19f2a3de669e26b",
+    "slug": "15-fluxo-inspecao-guiada-26-itens",
+    "title": "MDSync — Fluxo de Inspeção Guiada & Checklist Visual de Campo (26 Itens)",
+    "filename": "15-fluxo-inspecao-guiada-26-itens.html",
+    "screenshot": "15-fluxo-inspecao-guiada-26-itens.png",
+    "category": "Campo & Inspeção",
+    "badge": "26 Itens ANM",
+    "icon": "fa-solid fa-list-check"
+  },
+  {
+    "id": "605ac1cab4bd493fa47c3b61b5309b12",
+    "slug": "23-geologia-estrutural-mapeamento-litologico",
+    "title": "MDSync — Geologia Estrutural & Mapeamento Litológico da Cava",
+    "filename": "23-geologia-estrutural-mapeamento-litologico.html",
+    "screenshot": "23-geologia-estrutural-mapeamento-litologico.png",
+    "category": "3D & Cartografia",
+    "badge": "Geologia 3D",
+    "icon": "fa-solid fa-gem"
+  },
+  {
+    "id": "79d836d7f17f452288c16897b8d652f0",
+    "slug": "17-gestao-sumps-bacias-drenagem",
+    "title": "MDSync — Gestão de SUMPs, Bacias & Rede de Drenagem",
+    "filename": "17-gestao-sumps-bacias-drenagem.html",
+    "screenshot": "17-gestao-sumps-bacias-drenagem.png",
+    "category": "Engenharia & SUMPs",
+    "badge": "SUMPs & Bacias",
+    "icon": "fa-solid fa-water"
+  },
+  {
+    "id": "a93fc367440e4ed89ca5a2dbcb11836c",
+    "slug": "24-modelo-3d-cava-gemeo-digital",
+    "title": "MDSync — Modelo 3D da Cava & Gêmeo Digital Espacial (Seções 1 a 34)",
+    "filename": "24-modelo-3d-cava-gemeo-digital.html",
+    "screenshot": "24-modelo-3d-cava-gemeo-digital.png",
+    "category": "3D & Cartografia",
+    "badge": "Gêmeo Digital",
+    "icon": "fa-solid fa-cubes"
+  },
+  {
+    "id": "cef08a9f91d14945b27ce0ef501ce357",
+    "slug": "06-exportacao-pacote-oficial-anm-zip",
+    "title": "MDSync - Exportação do Pacote Oficial ANM (ZIP)",
+    "filename": "06-exportacao-pacote-oficial-anm-zip.html",
+    "screenshot": "06-exportacao-pacote-oficial-anm-zip.png",
+    "category": "Governança & Conformidade",
+    "badge": "Exportador",
+    "icon": "fa-solid fa-file-zipper"
+  },
+  {
+    "id": "026ae1e4c0e2442dba90d64dc8c6664c",
+    "slug": "08-rotina-diaria-equipe-geotecnica",
+    "title": "MDSync - Rotina Diária & Equipe Geotécnica",
+    "filename": "08-rotina-diaria-equipe-geotecnica.html",
+    "screenshot": "08-rotina-diaria-equipe-geotecnica.png",
+    "category": "Dashboard & Executivo",
+    "badge": "Operações",
+    "icon": "fa-solid fa-users-gear"
+  },
+  {
+    "id": "df5411a654f342039b5cebd761627372",
+    "slug": "28-maquete-3d-cartografica-modelo-geotecnico",
+    "title": "MDSync — Maquete 3D Cartográfica & Modelo Geotécnico da Cava Jangada",
+    "filename": "28-maquete-3d-cartografica-modelo-geotecnico.html",
+    "screenshot": "28-maquete-3d-cartografica-modelo-geotecnico.png",
+    "category": "3D & Cartografia",
+    "badge": "Cartografia 3D",
+    "icon": "fa-solid fa-compass-drafting"
+  },
+  {
+    "id": "aa28aa50565f402dac5e5b4e301bae7c",
+    "slug": "10-threejs-widget",
+    "title": "Three.js",
+    "filename": "10-threejs-widget.html",
+    "screenshot": null,
+    "category": "3D & Cartografia",
+    "badge": "WebGL",
+    "icon": "fa-solid fa-shapes"
+  }
+]

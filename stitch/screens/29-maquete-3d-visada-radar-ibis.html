@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-[#0a1228] text-slate-100 antialiased" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MDSync — Maquete 3D Interativa &amp; Telemetria Dinâmica da Cava Jangada</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface": "#0a1228",
+            "surface-container": "#171f35",
+            "surface-container-high": "#222940",
+            "surface-container-low": "#131b31",
+            "surface-container-lowest": "#050d23",
+            "primary": "#89ceff",
+            "primary-container": "#0ea5e9",
+            "secondary": "#4edea3",
+            "tertiary": "#ffb95f",
+            "error": "#ffb4ab"
+          },
+          fontFamily: {
+            sans: ['"Inter"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+            display: ['"Outfit"', 'sans-serif']
+          }
+        }
+      }
+    }
+</script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Outfit:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: #0a1228; }
+    ::-webkit-scrollbar-thumb { background: #222940; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #0ea5e9; }
+    .hud-glass {
+      background: rgba(10, 18, 40, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(34, 41, 64, 0.85);
+    }
+    .hud-card {
+      background: linear-gradient(135deg, rgba(19, 27, 49, 0.8) 0%, rgba(10, 18, 40, 0.95) 100%);
+      border: 1px solid rgba(34, 41, 64, 0.9);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .hud-card:hover {
+      border-color: rgba(56, 189, 248, 0.5);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px -4px rgba(14, 165, 233, 0.2);
+    }
+    .tech-border-corner {
+      position: relative;
+    }
+    .tech-border-corner::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: -1px; width: 6px; height: 6px;
+      border-top: 2px solid #38bdf8; border-left: 2px solid #38bdf8;
+      pointer-events: none;
+    }
+    .tech-border-corner::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; right: -1px; width: 6px; height: 6px;
+      border-bottom: 2px solid #38bdf8; border-right: 2px solid #38bdf8;
+      pointer-events: none;
+    }
+    .radar-sweep-anim {
+      position: relative;
+      overflow: hidden;
+    }
+    .radar-sweep-anim::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: conic-gradient(from 0deg, rgba(56, 189, 248, 0.4) 0deg, transparent 70deg);
+      border-radius: 50%;
+      animation: radarSpin 3.5s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes radarSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .grid-lines {
+      background-size: 36px 36px;
+      background-image: 
+        linear-gradient(to right, rgba(34, 41, 64, 0.2) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(34, 41, 64, 0.2) 1px, transparent 1px);
+    }
+    .pulse-glow {
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.35);
+      animation: glowCycle 2.5s infinite alternate ease-in-out;
+    }
+    @keyframes glowCycle {
+      0% { box-shadow: 0 0 8px rgba(56, 189, 248, 0.2); }
+      100% { box-shadow: 0 0 20px rgba(56, 189, 248, 0.6); }
+    }
+    @keyframes scanlineDown {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(1200%); }
+    }
+    .scanline-bar {
+      animation: scanlineDown 7s linear infinite;
+    }
+    #toast-notification {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+      transform: translateY(100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    #toast-notification.active {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+</style>
+</head>
+<body class="h-screen w-screen overflow-hidden flex flex-col font-sans select-none bg-[#050d23] text-slate-100 relative">
+<!-- Atmospheric Scanline Effect -->
+<div class="pointer-events-none absolute inset-0 z-40 overflow-hidden opacity-20">
+<div class="w-full h-20 bg-gradient-to-b from-sky-400/0 via-sky-400/15 to-sky-400/0 scanline-bar"></div>
+</div>
+<!-- HEADER -->
+<header class="h-14 bg-[#0a1228]/95 backdrop-blur-md border-b border-[#222940] px-4 flex items-center justify-between z-50 shrink-0 shadow-lg shadow-black/50">
+<div class="flex items-center space-x-3">
+<div class="h-9 w-9 rounded-lg bg-gradient-to-tr from-sky-600 via-sky-400 to-emerald-400 p-[1.5px] shadow-lg shadow-sky-500/25 transition-transform hover:scale-105 duration-300">
+<div class="h-full w-full bg-[#0a1228] rounded-[7px] flex items-center justify-center relative overflow-hidden group">
+<i class="w-5 h-5 text-sky-400 transition-transform group-hover:scale-110 duration-200" data-lucide="mountain"></i>
+</div>
+</div>
+<div>
+<div class="flex items-center space-x-2">
+<span class="font-display font-bold tracking-wider text-base text-white">MDSync</span>
+<span class="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded bg-sky-500/10 text-sky-300 border border-sky-500/30 flex items-center gap-1 shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
+          Cava 3D • WebGL Engine
+        </span>
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shadow-[0_0_12px_rgba(78,222,163,0.2)]">
+<span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+          RTK Conectado
+        </span>
+</div>
+<p class="text-[11px] text-slate-400 font-sans tracking-tight flex items-center gap-1.5">
+<span>Cava Jangada</span>
+<span class="text-slate-600">•</span>
+<span>Mina Central</span>
+<span class="text-slate-600">•</span>
+<span class="text-sky-400/80 font-mono text-[10px]">Complexo Paraopeba</span>
+</p>
+</div>
+</div>
+<!-- Telemetry Strip -->
+<div class="hidden md:flex items-center space-x-4 text-xs">
+<div class="flex items-center space-x-2.5 px-3 py-1 rounded-lg bg-[#131b31]/90 border border-[#222940] hover:border-sky-500/40 transition">
+<div class="w-4 h-4 rounded-full border border-sky-500/50 radar-sweep-anim flex items-center justify-center">
+<span class="w-1 h-1 bg-sky-400 rounded-full"></span>
+</div>
+<span class="text-slate-400 text-[11px]">Radar Geotécnico:</span>
+<span class="font-mono text-slate-200 font-semibold text-[11px]">IBIS-FM EVO 01</span>
+<span class="text-[10px] font-bold text-amber-300 bg-amber-950/80 border border-amber-500/50 px-1.5 py-0.5 rounded animate-pulse" id="header-radar-badge">TARP 3 • 2.78 mm/h</span>
+</div>
+<div class="flex items-center space-x-2.5 px-3 py-1 rounded-lg bg-[#131b31]/90 border border-[#222940] font-mono text-[11px]">
+<i class="w-3.5 h-3.5 text-amber-400 animate-pulse" data-lucide="layers"></i>
+<span class="text-slate-400">Malha 3D Cava:</span>
+<span class="text-slate-200 font-semibold" id="stat-triangles">134.820 polígonos</span>
+<span class="text-slate-500">|</span>
+<span class="text-emerald-400 font-bold">Cot. 1.080 - 1.290m</span>
+</div>
+</div>
+<!-- Header Actions -->
+<div class="flex items-center space-x-2">
+<button class="h-8 px-3 rounded-lg text-xs font-medium bg-[#131b31] hover:bg-[#222940] text-slate-200 hover:text-amber-300 border border-[#222940] hover:border-amber-400/40 transition-all flex items-center space-x-1.5 active:scale-95" id="btn-sun-toggle" title="Alternar Luz Solar">
+<i class="w-3.5 h-3.5 text-amber-400" data-lucide="sun"></i>
+<span id="label-sun">Luz Solar</span>
+</button>
+<button class="h-8 px-3 rounded-lg text-xs font-medium bg-[#131b31] hover:bg-[#222940] text-slate-200 hover:text-teal-300 border border-[#222940] hover:border-teal-400/40 transition-all flex items-center space-x-1.5 active:scale-95" id="btn-cutplane-toggle" title="Seção de Corte Geológico A-A'">
+<i class="w-3.5 h-3.5 text-teal-400" data-lucide="scissors"></i>
+<span id="label-cutplane">Seção A-A' [OFF]</span>
+</button>
+<button class="h-8 px-3 rounded-lg text-xs font-medium bg-gradient-to-r from-sky-600 to-sky-500 hover:from-sky-500 hover:to-sky-400 text-white shadow-md shadow-sky-600/30 transition-all flex items-center space-x-1.5 active:scale-95" id="btn-export-dxf" title="Exportar Malha de Lavra Jangada em 3D DXF">
+<i class="w-3.5 h-3.5" data-lucide="download"></i>
+<span id="label-export">Exportar 3D DXF</span>
+</button>
+<div class="h-6 w-px bg-[#222940] mx-1"></div>
+<div class="w-8 h-8 rounded-full bg-gradient-to-br from-sky-600/20 to-emerald-600/20 border border-sky-400/30 flex items-center justify-center text-xs font-mono font-semibold text-sky-300 shadow-[0_0_10px_rgba(56,189,248,0.2)] hover:border-sky-400 transition cursor-pointer" title="Operador Geotécnico: GeoLead">
+      GL
+    </div>
+</div>
+</header>
+<!-- SUB-HEADER BREADCRUMB & ALERT TELEMETRY -->
+<div class="h-9 bg-[#0d1424] border-b border-[#222940] px-4 flex items-center justify-between text-xs shrink-0 z-40">
+<div class="flex items-center space-x-2 font-mono text-[11px] text-slate-400 overflow-x-auto whitespace-nowrap py-1">
+<span class="text-sky-400 flex items-center gap-1.5 hover:text-sky-300 transition cursor-pointer">
+<i class="w-3.5 h-3.5 text-sky-400 animate-spin" data-lucide="compass" style="animation-duration: 20s;"></i>
+      MINERAÇÃO BRASIL
+    </span>
+<i class="w-3 h-3 text-slate-600" data-lucide="chevron-right"></i>
+<span class="text-slate-300">Complexo Paraopeba</span>
+<i class="w-3 h-3 text-slate-600" data-lucide="chevron-right"></i>
+<span class="text-slate-200 font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span>
+      Cava Jangada
+    </span>
+<i class="w-3 h-3 text-slate-600" data-lucide="chevron-right"></i>
+<span class="bg-[#171f35] px-2 py-0.5 rounded text-sky-300 border border-[#222940]">Prancha: Layout_MapaGeológico_0826</span>
+<span class="text-slate-500">•</span>
+<span class="text-slate-400">SIRGAS 2000 / UTM 23S</span>
+<span class="text-slate-500">•</span>
+<span class="text-amber-400 font-semibold flex items-center gap-1">
+<i class="w-3 h-3 text-amber-400" data-lucide="activity"></i>
+      Setor Crítico Parede Norte N_Sup_1231.44 (204.5 m²)
+    </span>
+</div>
+<div class="flex items-center space-x-2 shrink-0">
+<span class="px-2.5 py-0.5 bg-rose-500/15 text-rose-400 border border-rose-500/30 rounded text-[11px] font-mono flex items-center gap-1.5 shadow-[0_0_10px_rgba(244,63,94,0.2)]">
+<i class="w-3.5 h-3.5 text-rose-400 animate-pulse" data-lucide="alert-triangle"></i> 
+      FOS Local Alvo: <strong class="font-bold text-white">1.09</strong> (Atenção)
+    </span>
+<span class="px-2.5 py-0.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded text-[11px] font-mono flex items-center gap-1.5 shadow-[0_0_10px_rgba(78,222,163,0.15)]">
+<i class="w-3.5 h-3.5" data-lucide="shield-check"></i> 
+      FOS Global: <strong class="font-bold text-white">1.48</strong>
+</span>
+</div>
+</div>
+<!-- MAIN WORKSPACE -->
+<div class="flex-1 flex overflow-hidden relative">
+<!-- LEFT CONTROL PANEL -->
+<aside class="w-72 bg-[#0a1228]/95 backdrop-blur border-r border-[#222940] flex flex-col z-20 shrink-0 overflow-y-auto">
+<div class="p-3 border-b border-[#222940] flex items-center justify-between sticky top-0 bg-[#0a1228]/95 backdrop-blur z-10">
+<div class="flex items-center space-x-2">
+<i class="w-4 h-4 text-sky-400" data-lucide="layers-3"></i>
+<h2 class="text-xs font-display font-semibold uppercase tracking-wider text-slate-200">Camadas da Cava 3D</h2>
+</div>
+<span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-300 border border-sky-500/30 font-semibold" id="active-layers-count">8 Ativas</span>
+</div>
+<!-- Georeferenced Plate Reference -->
+<div class="p-3 border-b border-[#222940] bg-[#0d1424]/70">
+<div class="flex items-center justify-between mb-2">
+<span class="text-[11px] font-medium text-slate-300 flex items-center gap-1.5">
+<i class="w-3.5 h-3.5 text-sky-400" data-lucide="map"></i>
+          Prancha de Referência Oficial
+        </span>
+<span class="text-[9px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded">CALIBRADO</span>
+</div>
+<div class="relative group rounded-lg overflow-hidden border border-[#222940] hover:border-sky-500/50 bg-black/60 shadow-inner transition-all duration-300 cursor-pointer" onclick="openModalPlate()">
+<img alt="Prancha Geológica Cava Jangada" class="w-full h-24 object-cover object-center group-hover:scale-105 transition duration-300 opacity-90 group-hover:opacity-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpNcuUZgQXx0cT8jaHhERrm-Y7eyGUl6m3EszD5O1ewEmVnsEcb_A2gAsqIecjQGTBlhCMd7zHo7RB0xCg5itoeenokny6TX_sv52ExrbZeBm05IT5jLZReqtK7r6_npzGJ85WJ8WOz29EvZGwRNncmwSJIkV4qO1z7OeiUUmcA93Csm1mMblf1rpjSdBKYF53d5V4zrwN-audYVKCbt5-_w_k_gMh549xoo_fvnl0TUaVMR-8pa_a4W_oPDVkAHHnLkE"/>
+<div class="absolute inset-0 bg-sky-500/10 opacity-0 group-hover:opacity-100 transition duration-300 pointer-events-none"></div>
+<div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/95 via-black/70 to-transparent p-1.5 flex items-center justify-between text-[10px] font-mono">
+<span class="text-slate-300">Escala 1:5.000</span>
+<span class="text-sky-300 font-semibold">1292x831 px</span>
+</div>
+</div>
+</div>
+<!-- RADAR LoS SPECIAL CONTROL CARD -->
+<div class="p-3 border-b border-sky-500/30 bg-gradient-to-br from-sky-950/40 via-[#131b31]/70 to-[#0a1228] relative">
+<div class="flex items-center justify-between mb-2">
+<span class="text-[11px] font-bold text-sky-300 flex items-center gap-1.5">
+<i class="w-3.5 h-3.5 text-amber-400 animate-pulse" data-lucide="radio"></i>
+          Radar IBIS-FM EVO 01 (LoS)
+        </span>
+<span class="text-[9px] font-mono text-amber-300 bg-amber-500/15 border border-amber-500/30 px-1.5 py-0.5 rounded font-bold">TARP 3</span>
+</div>
+<label class="hud-card flex items-center justify-between p-2.5 rounded-lg cursor-pointer group border-sky-500/40">
+<div class="flex items-center space-x-2.5">
+<input checked="" class="w-4 h-4 rounded text-sky-500 bg-[#0a1228] border-slate-700 focus:ring-0 cursor-pointer" id="layer-radar" onchange="toggleLayer('radar', this.checked)" type="checkbox"/>
+<div>
+<div class="text-slate-100 font-semibold group-hover:text-sky-300 transition text-[11px]">Cone de Visada 3D (LoS)</div>
+<div class="text-[10px] text-amber-300 font-mono">Base Sul (1140m) ➔ N_Sup (1231m)</div>
+</div>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_10px_#f59e0b] animate-ping"></span>
+</label>
+<!-- Live Radar Telemetry Panel -->
+<div class="mt-2.5 p-2 rounded bg-[#0a1228]/85 border border-[#222940] font-mono text-[10px] space-y-1">
+<div class="flex items-center justify-between text-slate-300">
+<span class="text-slate-400">Distância Linear LoS:</span>
+<span class="text-sky-300 font-bold">240.0 m</span>
+</div>
+<div class="flex items-center justify-between text-slate-300">
+<span class="text-slate-400">Alvo Crítico:</span>
+<span class="text-amber-400 font-bold">N_Sup_1231.44</span>
+</div>
+<div class="flex items-center justify-between text-slate-300">
+<span class="text-slate-400">Velocidade de Deformação:</span>
+<span class="text-rose-400 font-bold">2.78 mm/h</span>
+</div>
+<div class="flex items-center justify-between text-slate-300">
+<span class="text-slate-400">Área Afetada (FR012):</span>
+<span class="text-emerald-400 font-bold">204.5 m²</span>
+</div>
+</div>
+</div>
+<!-- Toggles with micro-interactions -->
+<div class="p-3 space-y-2.5 text-xs">
+<p class="text-[10px] font-mono uppercase tracking-wider text-slate-500 font-semibold flex items-center justify-between">
+<span>Modelagem Geológica &amp; Minas</span>
+<span class="text-[9px] text-sky-400/80">REFINADO</span>
+</p>
+<label class="hud-card flex items-center justify-between p-2.5 rounded-lg cursor-pointer group">
+<div class="flex items-center space-x-2.5">
+<input checked="" class="w-4 h-4 rounded text-sky-500 bg-[#0a1228] border-slate-700 focus:ring-0 cursor-pointer" id="layer-litho" onchange="toggleLayer('litho', this.checked)" type="checkbox"/>
+<div>
+<div class="text-slate-200 font-medium group-hover:text-white transition">Litologia 3D Estratigráfica</div>
+<div class="text-[10px] text-slate-400 font-mono">Faixa Norte FL • 3 Lentes HC • IF • IC</div>
+</div>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_8px_#f43f5e] group-hover:scale-125 transition"></span>
+</label>
+<label class="hud-card flex items-center justify-between p-2.5 rounded-lg cursor-pointer group">
+<div class="flex items-center space-x-2.5">
+<input checked="" class="w-4 h-4 rounded text-amber-500 bg-[#0a1228] border-slate-700 focus:ring-0 cursor-pointer" id="layer-waste" onchange="toggleLayer('waste', this.checked)" type="checkbox"/>
+<div>
+<div class="text-slate-200 font-medium group-hover:text-white transition">Platôs Bota-Fora (PE / CG)</div>
+<div class="text-[10px] text-amber-400 font-mono">Banquetas regulares SW e NE</div>
+</div>
+</div>
+<span class="w-3 h-1 bg-amber-400 rounded shadow-[0_0_6px_#fbbf24] group-hover:scale-110 transition"></span>
+</label>
+<label class="hud-card flex items-center justify-between p-2.5 rounded-lg cursor-pointer group">
+<div class="flex items-center space-x-2.5">
+<input checked="" class="w-4 h-4 rounded text-emerald-500 bg-[#0a1228] border-slate-700 focus:ring-0 cursor-pointer" id="layer-wire" onchange="toggleLayer('wire', this.checked)" type="checkbox"/>
+<div>
+<div class="text-slate-200 font-medium group-hover:text-white transition">Degraus de Bancada (Escultura)</div>
+<div class="text-[10px] text-emerald-400 font-mono">Faces 65° • Bermas 8-15m</div>
+</div>
+</div>
+<i class="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition" data-lucide="grid"></i>
+</label>
+<label class="hud-card flex items-center justify-between p-2.5 rounded-lg cursor-pointer group">
+<div class="flex items-center space-x-2.5">
+<input checked="" class="w-4 h-4 rounded text-amber-500 bg-[#0a1228] border-slate-700 focus:ring-0 cursor-pointer" id="layer-ramp" onchange="toggleLayer('ramp', this.checked)" type="checkbox"/>
+<div>
+<div class="text-slate-200 font-medium group-hover:text-white transition">Rampa de Transporte Espiral</div>
+<div class="text-[10px] text-amber-400 font-mono">Largura 22m • Gradiente 8%</div>
+</div>
+</div>
+<span class="w-3 h-1 bg-amber-400 rounded shadow-[0_0_6px_#fbbf24] group-hover:scale-110 transition"></span>
+</label>
+<label class="hud-card flex items-center justify-between p-2.5 rounded-lg cursor-pointer group">
+<div class="flex items-center space-x-2.5">
+<input checked="" class="w-4 h-4 rounded text-lime-400 bg-[#0a1228] border-slate-700 focus:ring-0 cursor-pointer" id="layer-boundary" onchange="toggleLayer('boundary', this.checked)" type="checkbox"/>
+<div>
+<div class="text-slate-200 font-medium group-hover:text-white transition">Limite Trimestral (Maio/26)</div>
+<div class="text-[10px] text-slate-400 font-mono">Polígono físico de avanço</div>
+</div>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-lime-400 shadow-[0_0_10px_#a3e635] animate-pulse"></span>
+</label>
+<label class="hud-card flex items-center justify-between p-2.5 rounded-lg cursor-pointer group">
+<div class="flex items-center space-x-2.5">
+<input checked="" class="w-4 h-4 rounded text-sky-400 bg-[#0a1228] border-slate-700 focus:ring-0 cursor-pointer" id="layer-boreholes" onchange="toggleLayer('boreholes', this.checked)" type="checkbox"/>
+<div>
+<div class="text-slate-200 font-medium group-hover:text-white transition">Furos de Sondagem 3D (45m)</div>
+<div class="text-[10px] text-sky-400 font-mono">Malha 10m • MAC-01 a MAC-12</div>
+</div>
+</div>
+<i class="w-3.5 h-3.5 text-sky-400 group-hover:scale-110 transition" data-lucide="cylinder"></i>
+</label>
+<label class="hud-card flex items-center justify-between p-2.5 rounded-lg cursor-pointer group">
+<div class="flex items-center space-x-2.5">
+<input checked="" class="w-4 h-4 rounded text-teal-400 bg-[#0a1228] border-slate-700 focus:ring-0 cursor-pointer" id="layer-contours" onchange="toggleLayer('contours', this.checked)" type="checkbox"/>
+<div>
+<div class="text-slate-200 font-medium group-hover:text-white transition">Curvas Batimétricas 5m</div>
+<div class="text-[10px] text-slate-400 font-mono">Isolinhas topográficas</div>
+</div>
+</div>
+<i class="w-3.5 h-3.5 text-teal-400 group-hover:scale-110 transition" data-lucide="git-commit"></i>
+</label>
+<!-- Sliders with instant responsive feedback -->
+<div class="pt-3 border-t border-[#222940] space-y-3">
+<div class="p-2.5 rounded-lg bg-[#131b31]/40 border border-[#222940]">
+<div class="flex justify-between text-[11px] text-slate-400 mb-1.5">
+<span class="flex items-center gap-1">
+<i class="w-3 h-3 text-sky-400" data-lucide="arrow-up-down"></i>
+              Exagero Vertical (Z):
+            </span>
+<span class="font-mono font-bold text-sky-400 bg-sky-500/10 px-1.5 rounded border border-sky-500/30 transition-all duration-150" id="z-scale-val">1.6x</span>
+</div>
+<input class="w-full h-1.5 bg-[#0a1228] rounded-lg appearance-none cursor-pointer accent-sky-400 transition" id="z-scale-slider" max="3" min="0.8" step="0.1" type="range" value="1.6"/>
+</div>
+<div class="p-2.5 rounded-lg bg-[#131b31]/40 border border-[#222940]">
+<div class="flex justify-between text-[11px] text-slate-400 mb-1.5">
+<span class="flex items-center gap-1">
+<i class="w-3 h-3 text-amber-400" data-lucide="compass"></i>
+              Azimute Solar (Hillshade):
+            </span>
+<span class="font-mono font-bold text-amber-400 bg-amber-500/10 px-1.5 rounded border border-amber-500/30 transition-all duration-150" id="sun-az-val">315° (NW)</span>
+</div>
+<input class="w-full h-1.5 bg-[#0a1228] rounded-lg appearance-none cursor-pointer accent-amber-400 transition" id="sun-slider" max="360" min="0" step="5" type="range" value="315"/>
+</div>
+</div>
+</div>
+<!-- Quick Geological Legend -->
+<div class="p-3 mt-auto border-t border-[#222940] bg-[#070b16]">
+<div class="text-[11px] font-semibold text-slate-300 mb-2 flex items-center justify-between">
+<span class="flex items-center gap-1">
+<span class="w-2 h-2 rounded bg-sky-400"></span>
+          Litotipos Jangada
+        </span>
+<span class="text-[9px] font-mono text-slate-500">LEGENDA 3D</span>
+</div>
+<div class="grid grid-cols-2 gap-1.5 text-[10px] font-mono">
+<div class="flex items-center space-x-1.5 p-1 rounded hover:bg-[#131b31] transition cursor-pointer" onclick="inspectPoint('HC', 585020, 7777080, 1170)">
+<span class="w-2.5 h-2.5 rounded-sm bg-[#ef4444] shadow-[0_0_5px_#ef4444]"></span>
+<span class="text-slate-200 font-semibold">HC (Hem. 3 Lentes)</span>
+</div>
+<div class="flex items-center space-x-1.5 p-1 rounded hover:bg-[#131b31] transition cursor-pointer" onclick="inspectPoint('FL', 584850, 7777320, 1230)">
+<span class="w-2.5 h-2.5 rounded-sm bg-[#15803d] shadow-[0_0_5px_#15803d]"></span>
+<span class="text-emerald-300 font-semibold">FL (Faixa Norte)</span>
+</div>
+<div class="flex items-center space-x-1.5 p-1 rounded hover:bg-[#131b31] transition cursor-pointer" onclick="inspectPoint('HF', 585100, 7777120, 1205)">
+<span class="w-2.5 h-2.5 rounded-sm bg-[#fb7185] shadow-[0_0_5px_#fb7185]"></span>
+<span class="text-slate-300">HF (Hem. Friável)</span>
+</div>
+<div class="flex items-center space-x-1.5 p-1 rounded hover:bg-[#131b31] transition cursor-pointer" onclick="inspectPoint('IF', 584980, 7777150, 1215)">
+<span class="w-2.5 h-2.5 rounded-sm bg-[#0ea5e9] shadow-[0_0_5px_#0ea5e9]"></span>
+<span class="text-slate-300">IF (Itab. Friável)</span>
+</div>
+<div class="flex items-center space-x-1.5 p-1 rounded hover:bg-[#131b31] transition cursor-pointer" onclick="inspectPoint('IC', 584984, 7776794, 1148)">
+<span class="w-2.5 h-2.5 rounded-sm bg-[#2563eb] shadow-[0_0_5px_#2563eb]"></span>
+<span class="text-slate-300">IC / IDO (Carbonato)</span>
+</div>
+<div class="flex items-center space-x-1.5 p-1 rounded hover:bg-[#131b31] transition cursor-pointer" onclick="inspectPoint('CG', 585250, 7777260, 1265)">
+<span class="w-2.5 h-2.5 rounded-sm bg-[#d97706] shadow-[0_0_5px_#d97706]"></span>
+<span class="text-slate-300">CG (Platô Canga NE)</span>
+</div>
+<div class="flex items-center space-x-1.5 p-1 rounded hover:bg-[#131b31] transition cursor-pointer" onclick="inspectPoint('PE', 584620, 7776520, 1220)">
+<span class="w-2.5 h-2.5 rounded-sm bg-[#64748b]"></span>
+<span class="text-slate-300">PE (Bota-Fora SW)</span>
+</div>
+<div class="flex items-center space-x-1.5 p-1 rounded hover:bg-[#131b31] transition cursor-pointer">
+<span class="w-2.5 h-2.5 rounded-sm bg-[#166534]"></span>
+<span class="text-slate-300">Vegetação / Bordo</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- CENTER 3D VIEWPORT -->
+<main class="flex-1 flex flex-col relative overflow-hidden bg-[#050d23] grid-lines">
+<!-- Camera Viewport Control Ribbon -->
+<div class="absolute top-3 left-4 z-30 flex items-center space-x-2 hud-glass rounded-lg p-1.5 shadow-2xl transition-all">
+<button class="px-2.5 py-1 text-xs rounded font-medium bg-sky-500/25 text-sky-200 border border-sky-400/50 hover:bg-sky-500 hover:text-white transition-all flex items-center space-x-1 active:scale-95 shadow-sm" id="btn-view-iso">
+<i class="w-3.5 h-3.5" data-lucide="box"></i>
+<span>Isométrica</span>
+</button>
+<button class="px-2.5 py-1 text-xs rounded font-medium text-slate-400 hover:bg-[#171f35] hover:text-slate-200 transition-all flex items-center space-x-1 active:scale-95" id="btn-view-top">
+<i class="w-3.5 h-3.5" data-lucide="arrow-down-to-dot"></i>
+<span>Nadir (Planta)</span>
+</button>
+<button class="px-2.5 py-1 text-xs rounded font-medium text-slate-400 hover:bg-[#171f35] hover:text-slate-200 transition-all flex items-center space-x-1 active:scale-95" id="btn-view-north">
+<i class="w-3.5 h-3.5" data-lucide="mountain"></i>
+<span>Parede Norte</span>
+</button>
+<button class="px-2.5 py-1 text-xs rounded font-medium text-amber-300/80 hover:bg-amber-950/40 hover:text-amber-300 transition-all flex items-center space-x-1 active:scale-95" id="btn-view-radar">
+<i class="w-3.5 h-3.5 text-amber-400" data-lucide="radio"></i>
+<span>LoS Radar</span>
+</button>
+<button class="px-2.5 py-1 text-xs rounded font-medium text-slate-400 hover:bg-[#171f35] hover:text-slate-200 transition-all flex items-center space-x-1 active:scale-95" id="btn-view-ramp">
+<i class="w-3.5 h-3.5" data-lucide="truck"></i>
+<span>Rampa Acesso</span>
+</button>
+<div class="h-4 w-px bg-[#222940]"></div>
+<button class="p-1.5 rounded text-slate-400 hover:text-white hover:bg-[#171f35] transition active:scale-90" id="btn-zoom-in" title="Aproximar Zoom">
+<i class="w-4 h-4" data-lucide="zoom-in"></i>
+</button>
+<button class="p-1.5 rounded text-slate-400 hover:text-white hover:bg-[#171f35] transition active:scale-90" id="btn-zoom-out" title="Afastar Zoom">
+<i class="w-4 h-4" data-lucide="zoom-out"></i>
+</button>
+<button class="px-2 py-1 text-xs rounded font-mono text-slate-400 hover:bg-[#171f35] hover:text-sky-300 transition-all flex items-center gap-1.5 active:scale-95" id="btn-auto-rotate" title="Giro Orbital Contínuo">
+<i class="w-3.5 h-3.5" data-lucide="orbit"></i>
+<span id="label-autorot">Girar: OFF</span>
+</button>
+<button class="p-1.5 rounded text-slate-400 hover:text-white hover:bg-[#171f35] transition active:scale-90" id="btn-reset-cam" title="Resetar Posição da Câmera">
+<i class="w-4 h-4" data-lucide="rotate-ccw"></i>
+</button>
+</div>
+<!-- Top Right Telemetry & North Needle -->
+<div class="absolute top-3 right-4 z-30 flex items-center space-x-3">
+<div class="px-3.5 py-1.5 hud-glass rounded-lg text-xs flex items-center space-x-2.5 shadow-xl hover:border-sky-500/40 transition">
+<span class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-sky-500"></span>
+</span>
+<span class="text-slate-400 text-[11px]">Fundo da Cava (Sump):</span>
+<span class="font-mono font-bold text-sky-300">Cota 1.080 m</span>
+<span class="text-slate-500">|</span>
+<span class="font-mono text-emerald-400 font-bold">ΔH = 210m</span>
+</div>
+<!-- 3D North Compass Indicator -->
+<div class="w-12 h-12 hud-glass hover:border-sky-400/50 rounded-full flex items-center justify-center relative shadow-xl cursor-pointer transition" id="btn-align-north" title="Norte Geográfico (Azimute 0°) • Clique para alinhar ao Norte">
+<div class="absolute inset-0 flex items-center justify-center transition-transform duration-150" id="compass-needle" style="transform: rotate(0deg);">
+<div class="flex flex-col items-center">
+<span class="text-[9px] font-mono font-bold text-rose-500 -mb-1">N</span>
+<div class="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-b-[14px] border-b-rose-500 shadow-[0_0_8px_#f43f5e]"></div>
+<div class="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[14px] border-t-slate-500"></div>
+<span class="text-[8px] font-mono font-bold text-slate-400 -mt-1">S</span>
+</div>
+</div>
+<div class="w-2 h-2 rounded-full bg-sky-400 z-10 shadow-[0_0_6px_#38bdf8]"></div>
+</div>
+</div>
+<!-- HUD Overlay for Sector Alert -->
+<div class="absolute top-16 right-4 z-20 hud-glass border-amber-500/50 rounded-lg p-2.5 max-w-xs shadow-2xl space-y-1">
+<div class="flex items-center justify-between text-[11px] font-semibold text-amber-300">
+<span class="flex items-center gap-1.5">
+<span class="h-2 w-2 rounded-full bg-rose-500 animate-ping"></span>
+          Setor Crítico: N_Sup_1231.44
+        </span>
+<span class="font-mono text-[9px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-200 border border-amber-500/40">FR012</span>
+</div>
+<p class="text-[10px] text-slate-300 leading-tight">
+        Parede Norte Superior (1.231m). Foliação FL mergulhante para NW combinada com interferência de drenagem pluvial.
+      </p>
+<div class="flex items-center justify-between text-[10px] font-mono pt-1 text-slate-400 border-t border-[#222940]">
+<span>LoS: <strong class="text-sky-300">240m @ Az 018°</strong></span>
+<span>Taxa: <strong class="text-rose-400">2.78 mm/h</strong></span>
+</div>
+</div>
+<!-- Dynamic Hover Pin / Tooltip in 3D scene -->
+<div class="absolute z-30 pointer-events-none hidden bg-[#0a1228]/95 border border-sky-500/60 rounded-lg p-2.5 shadow-2xl backdrop-blur text-xs transform -translate-x-1/2 -translate-y-full mb-3 transition-all duration-75" id="pit-tooltip">
+<div class="flex items-center space-x-1.5 mb-1">
+<span class="w-2 h-2 rounded-full bg-sky-400 animate-ping"></span>
+<span class="font-mono font-bold text-sky-300" id="tooltip-title">Ponto Cava</span>
+<span class="text-[9px] font-mono px-1 rounded bg-sky-500/20 text-sky-200" id="tooltip-code">HC</span>
+</div>
+<div class="font-mono text-[10px] text-slate-300 space-y-0.5">
+<div>Cota: <strong class="text-emerald-400" id="tooltip-z">1.140 m</strong></div>
+<div>Coordenadas: <span id="tooltip-coords">585.000E, 7.777.000N</span></div>
+</div>
+<div class="w-2 h-2 bg-[#0a1228] border-r border-b border-sky-500/60 transform rotate-45 absolute -bottom-1 left-1/2 -translate-x-1/2"></div>
+</div>
+<!-- Three.js Canvas Container -->
+<div class="w-full h-full relative cursor-grab active:cursor-grabbing" id="webgl-container"></div>
+<!-- Interactive Navigation Banner -->
+<div class="absolute bottom-3 left-4 z-20 flex items-center space-x-2 text-[11px] text-slate-300 hud-glass px-3.5 py-1.5 rounded-lg shadow-xl">
+<i class="w-3.5 h-3.5 text-sky-400 animate-bounce" data-lucide="mouse-pointer-click"></i>
+<span class="tracking-tight">Clique e arraste para orbitar 360° • Shift+Clique para Pan • Scroll para Zoom • <strong>Clique na cava para inspecionar</strong></span>
+</div>
+<!-- Live Realtime Coordinate Readout -->
+<div class="absolute bottom-3 right-4 z-20 font-mono text-[11px] text-slate-300 hud-glass px-3.5 py-1.5 rounded-lg flex items-center space-x-3.5 shadow-xl">
+<span class="flex items-center gap-1"><span class="text-slate-500">E:</span> <strong class="text-slate-100" id="cur-x">583.882 m</strong></span>
+<span class="flex items-center gap-1"><span class="text-slate-500">N:</span> <strong class="text-slate-100" id="cur-y">7.776.234 m</strong></span>
+<span class="flex items-center gap-1"><span class="text-slate-500">Cota Z:</span> <strong class="text-emerald-400 font-bold" id="cur-z">1.271 m</strong></span>
+</div>
+</main>
+<!-- RIGHT GEOTECHNICAL INSPECTOR -->
+<aside class="w-80 bg-[#0a1228]/95 backdrop-blur border-l border-[#222940] flex flex-col z-20 shrink-0 overflow-y-auto">
+<div class="p-3 border-b border-[#222940] flex items-center justify-between sticky top-0 bg-[#0a1228]/95 backdrop-blur z-10">
+<div class="flex items-center space-x-2">
+<i class="w-4 h-4 text-emerald-400" data-lucide="microscope"></i>
+<h2 class="text-xs font-display font-semibold uppercase tracking-wider text-slate-200">Inspetor Lito-Geotécnico</h2>
+</div>
+<span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-1 font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        INTERATIVO
+      </span>
+</div>
+<!-- Selected Lithology Domain Card -->
+<div class="p-3.5 border-b border-[#222940] bg-[#131b31]/50 tech-border-corner transition-colors duration-300" id="domain-header-card">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center space-x-2">
+<span class="text-lg font-mono font-bold text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/30 shadow-[0_0_12px_rgba(244,63,94,0.3)] transition-all duration-300" id="domain-code">HC</span>
+<h3 class="font-display font-bold text-sm text-slate-100 transition-colors" id="domain-name">Hematita Compacta (Lente Central)</h3>
+</div>
+<p class="text-[11px] text-slate-400 mt-1 transition-colors" id="domain-desc">Corpo estratiforme de minério nobre de alto teor (&gt;66% Fe)</p>
+</div>
+<span class="text-[10px] font-mono font-semibold text-sky-300 bg-[#171f35] px-2 py-0.5 rounded border border-[#222940]" id="domain-bench">BANCADA 1170</span>
+</div>
+<div class="mt-3 p-2 rounded bg-[#0a1228]/80 border border-[#222940] font-mono text-[10px] grid grid-cols-2 gap-1 text-slate-300">
+<div class="flex items-center justify-between pr-1">E: <span class="text-sky-400 font-semibold" id="insp-e">585.020 m</span></div>
+<div class="flex items-center justify-between">N: <span class="text-sky-400 font-semibold" id="insp-n">7.777.080 m</span></div>
+<div class="flex items-center justify-between pr-1">Cota Z: <span class="text-emerald-400 font-semibold" id="insp-z">1.170 m</span></div>
+<div class="flex items-center justify-between">Furo Prox: <span class="text-amber-400 font-semibold cursor-pointer hover:underline" id="insp-bh">MAC-04</span></div>
+</div>
+</div>
+<!-- Geotechnical Parameters & Micro-Interactions -->
+<div class="p-3.5 space-y-3.5 text-xs">
+<p class="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-semibold flex items-center justify-between">
+<span>Parâmetros Maciço Rochoso</span>
+<i class="w-3.5 h-3.5 text-sky-400" data-lucide="shield-alert"></i>
+</p>
+<div class="p-2.5 rounded-lg bg-[#131b31]/60 border border-[#222940] hover:border-sky-500/30 transition">
+<div class="flex justify-between items-center mb-1.5">
+<span class="text-slate-400 text-[11px]">Densidade Aparente (γ):</span>
+<span class="font-mono font-bold text-slate-200" id="insp-density">4.42 g/cm³ (43.3 kN/m³)</span>
+</div>
+<div class="w-full bg-[#0a1228] h-1.5 rounded-full overflow-hidden">
+<div class="bg-gradient-to-r from-sky-500 via-amber-400 to-rose-500 h-full w-[92%] transition-all duration-500 ease-out" id="bar-density"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div class="p-2.5 rounded-lg bg-[#131b31]/60 border border-[#222940] hover:border-sky-500/30 transition">
+<span class="text-[10px] text-slate-400 block">Coesão Efetiva (c')</span>
+<span class="font-mono font-bold text-sky-300 text-sm" id="insp-cohesion">65.8 kPa</span>
+<span class="text-[9px] text-slate-500 block mt-0.5">Mohr-Coulomb</span>
+</div>
+<div class="p-2.5 rounded-lg bg-[#131b31]/60 border border-[#222940] hover:border-teal-500/30 transition">
+<span class="text-[10px] text-slate-400 block">Atrito Interno (ϕ')</span>
+<span class="font-mono font-bold text-teal-300 text-sm" id="insp-friction">41.5°</span>
+<span class="text-[9px] text-slate-500 block mt-0.5">Face Bancada 68°</span>
+</div>
+</div>
+<div class="p-2.5 rounded-lg bg-[#131b31]/60 border border-[#222940] space-y-2 hover:border-sky-500/30 transition">
+<div class="flex justify-between items-center">
+<span class="text-slate-400 text-[11px]">RMR (Bieniawski):</span>
+<span class="font-mono font-bold text-emerald-400" id="insp-rmr">82 (Classe I - Muito Boa)</span>
+</div>
+<div class="w-full bg-[#0a1228] h-1 rounded-full overflow-hidden">
+<div class="bg-emerald-400 h-full w-[82%] transition-all duration-500" id="bar-rmr"></div>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-slate-400 text-[11px]">Índice GSI (Hoek-Brown):</span>
+<span class="font-mono font-bold text-sky-400" id="insp-gsi">78 / 100</span>
+</div>
+</div>
+<div class="p-3 rounded-lg bg-emerald-950/40 border border-emerald-500/40 transition-all duration-300 shadow-sm" id="insp-stability-box">
+<div class="flex items-center space-x-2 text-emerald-400 font-medium text-xs mb-1">
+<i class="w-4 h-4 shrink-0" data-lucide="check-circle-2" id="insp-stability-icon"></i>
+<span class="font-semibold" id="insp-stability-title">Estabilidade de Berma Conforme</span>
+</div>
+<p class="text-[11px] text-slate-300 leading-relaxed" id="insp-stability-text">Maciço extremamente competente. Sem descontinuidades desfavoráveis na face da bancada.</p>
+</div>
+<div class="border-t border-[#222940] pt-3">
+<div class="flex items-center justify-between text-[11px] font-semibold text-slate-300 mb-2">
+<span class="flex items-center gap-1.5">
+<i class="w-3 h-3 text-sky-400" data-lucide="layers"></i>
+            Perfil Testemunho de Sondagem
+          </span>
+<span class="font-mono text-sky-400 font-semibold" id="profile-bh-title">MAC-04 (0 - 45m)</span>
+</div>
+<div class="w-full h-8 rounded-lg border border-[#222940] flex overflow-hidden text-[9px] font-mono text-center leading-8 font-bold shadow-inner" id="profile-bar">
+<div class="w-[15%] bg-[#d97706] text-slate-900 hover:brightness-110 transition" title="Canga 0-7m">CG</div>
+<div class="w-[25%] bg-[#0ea5e9] text-slate-900 hover:brightness-110 transition" title="Itabirito Friável 7-18m">IF</div>
+<div class="w-[60%] bg-[#ef4444] text-white hover:brightness-110 transition" title="Hematita Compacta 18-45m">HC (Nobre 67% Fe)</div>
+</div>
+</div>
+<div class="p-2.5 rounded-lg bg-[#0d1424] border border-[#222940] text-[11px] space-y-1">
+<div class="text-slate-400 flex items-center justify-between">
+<span>Atitude Estrutural Local:</span>
+<span class="font-mono text-sky-300 font-semibold" id="insp-attitude">N35°E / 42°NW</span>
+</div>
+<div class="text-slate-400 flex items-center justify-between">
+<span>Largura da Berma Operacional:</span>
+<span class="font-mono text-emerald-400 font-semibold" id="insp-berm-width">14.0 m</span>
+</div>
+</div>
+</div>
+<!-- Action Button -->
+<div class="p-3 mt-auto border-t border-[#222940] bg-[#070b16]">
+<button class="w-full py-2.5 bg-gradient-to-r from-[#171f35] to-[#222940] hover:from-sky-900/60 hover:to-sky-800/60 text-slate-200 hover:text-white rounded-lg text-xs font-semibold border border-[#222940] hover:border-sky-400/50 transition-all duration-200 flex items-center justify-center space-x-2 shadow-md active:scale-95 group" id="btn-issue-report">
+<i class="w-4 h-4 text-sky-400 group-hover:scale-110 transition" data-lucide="file-spreadsheet"></i>
+<span>Emitir Laudo Geotécnico da Cava</span>
+</button>
+</div>
+</aside>
+</div>
+<!-- Floating Action Feedback Toast -->
+<div class="fixed bottom-12 right-1/2 translate-x-1/2 z-50 hud-glass border border-sky-400/60 px-4 py-2.5 rounded-xl shadow-2xl flex items-center space-x-3 text-xs" id="toast-notification">
+<div class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></div>
+<span class="text-white font-medium" id="toast-msg">Exportação gerada com sucesso!</span>
+</div>
+<!-- Plate Zoom Modal -->
+<div class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-6" id="modal-plate">
+<div class="relative max-w-4xl w-full bg-[#0a1228] border border-sky-500/40 rounded-xl overflow-hidden shadow-2xl">
+<div class="p-3 border-b border-[#222940] flex items-center justify-between bg-[#131b31]">
+<span class="font-display font-bold text-sm text-white flex items-center gap-2">
+<i class="w-4 h-4 text-sky-400" data-lucide="map"></i>
+        Prancha Geológica Original 1:5.000 — Cava Jangada
+      </span>
+<button class="p-1 hover:bg-[#222940] rounded text-slate-400 hover:text-white" onclick="closeModalPlate()">
+<i class="w-4 h-4" data-lucide="x"></i>
+</button>
+</div>
+<div class="p-2 bg-black flex items-center justify-center max-h-[75vh] overflow-auto">
+<img class="w-full object-contain rounded" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpNcuUZgQXx0cT8jaHhERrm-Y7eyGUl6m3EszD5O1ewEmVnsEcb_A2gAsqIecjQGTBlhCMd7zHo7RB0xCg5itoeenokny6TX_sv52ExrbZeBm05IT5jLZReqtK7r6_npzGJ85WJ8WOz29EvZGwRNncmwSJIkV4qO1z7OeiUUmcA93Csm1mMblf1rpjSdBKYF53d5V4zrwN-audYVKCbt5-_w_k_gMh549xoo_fvnl0TUaVMR-8pa_a4W_oPDVkAHHnLkE"/>
+</div>
+</div>
+</div>
+<!-- THREE.JS & REALTIME INTERACTIVITY LOGIC -->
+<script>
+    lucide.createIcons();
+
+    const container = document.getElementById('webgl-container');
+    let width = container.clientWidth || window.innerWidth - 608;
+    let height = container.clientHeight || window.innerHeight - 92;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x050d23);
+    scene.fog = new THREE.FogExp2(0x050d23, 0.0015);
+
+    const camera = new THREE.PerspectiveCamera(45, width / height, 1, 3800);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: 'high-performance' });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    container.appendChild(renderer.domElement);
+
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xdbe1ff, 0.70);
+    scene.add(ambientLight);
+
+    const sunLight = new THREE.DirectionalLight(0xfff7ed, 1.45);
+    sunLight.position.set(-350, 550, 350);
+    sunLight.castShadow = true;
+    sunLight.shadow.mapSize.width = 2048;
+    sunLight.shadow.mapSize.height = 2048;
+    scene.add(sunLight);
+
+    const fillLight = new THREE.DirectionalLight(0x0ea5e9, 0.45);
+    fillLight.position.set(320, 180, -320);
+    scene.add(fillLight);
+
+    const pitWorld = new THREE.Group();
+    scene.add(pitWorld);
+
+    // Refined Lithology Palette conforming to geological map:
+    // HC: Vivid Red #ef4444
+    // FL: Deep olive green #15803d
+    // HF: Soft red/coral #fb7185
+    // IF: Sky blue #0ea5e9
+    // IC: Royal/carbonate blue #2563eb
+    // CG: Canga Laterítica #d97706
+    // PE: Waste dump gray #64748b
+    // NATURAL: Surrounding terrain #166534
+    const LITH_COLORS = {
+      HC: new THREE.Color(0xef4444),
+      HF: new THREE.Color(0xfb7185),
+      IF: new THREE.Color(0x0ea5e9),
+      IC: new THREE.Color(0x2563eb),
+      FL: new THREE.Color(0x15803d),
+      CG: new THREE.Color(0xd97706),
+      PE: new THREE.Color(0x64748b),
+      NATURAL: new THREE.Color(0x166534)
+    };
+
+    const GRID_X = 180;
+    const GRID_Z = 130;
+    const SIZE_X = 860;
+    const SIZE_Z = 580;
+
+    let zScaleFactor = 1.6;
+    let terrainGeometry, terrainMesh, wireframeMesh, contourGroup;
+    let cutPlaneEnabled = false;
+
+    // Pit Topography & Stratigraphy evaluator with:
+    // 1. Expanded Northern Phyllite belt (FL) on upper wall
+    // 2. 3 Segmented High-Grade Hematite lenses (HC) along central trough
+    // 3. Regular stepped terraced waste dumps (PE SW) and canga plateau (CG NE)
+    function evaluateElevationAndLithology(wx, wz) {
+      const cx = 25;
+      const cz = 10;
+      const dx = (wx - cx) / 290;
+      const dz = (wz - cz) / 165;
+      const skew = 1.0 + (wz / 460);
+      const r = Math.sqrt((dx * dx * 1.12) + (dz * dz * skew));
+
+      // Surrounding ridge noise & baseline
+      const ridgeNoise = Math.sin(wx * 0.014) * 15 + Math.cos(wz * 0.019) * 18 + Math.sin((wx + wz) * 0.026) * 7;
+      let naturalZ = 1260 + ridgeNoise;
+
+      let elev = naturalZ;
+      let inPit = false;
+      let isDumpPE = false;
+      let isPlateauCG = false;
+
+      // 3. Refinement: SW Engineered Waste Dump (Pilhas de Estéril PE)
+      if (wx < -140 && wz > 40) {
+        isDumpPE = true;
+        const distFromCenter = Math.sqrt(Math.pow((wx + 260) / 130, 2) + Math.pow((wz - 150) / 100, 2));
+        if (distFromCenter < 1.3) {
+          const benchH = 20;
+          const terraced = 1200 + Math.floor((1280 - distFromCenter * 50 - 1200) / benchH) * benchH;
+          elev = terraced + 8;
+        }
+      }
+
+      // 3. Refinement: NE Canga Laterítica Engineered Terraced Plateau (CG)
+      if (wx > 170 && wz > 70) {
+        isPlateauCG = true;
+        const distCg = Math.sqrt(Math.pow((wx - 260) / 120, 2) + Math.pow((wz - 160) / 90, 2));
+        if (distCg < 1.3) {
+          const stepH = 15;
+          const plateauElev = 1250 + Math.floor((1290 - distCg * 35 - 1250) / stepH) * stepH;
+          elev = plateauElev;
+        }
+      }
+
+      // Pit Main Excavation
+      if (r < 1.16) {
+        inPit = true;
+        const rawExcavation = 1080 + (naturalZ - 1080) * Math.pow(Math.min(1.0, r / 1.08), 1.35);
+        const benchHeight = 15;
+        const benchIndex = Math.floor((rawExcavation - 1080) / benchHeight);
+        const benchFrac = (rawExcavation - 1080) / benchHeight - benchIndex;
+
+        let stepOffset = (benchFrac < 0.65) ? (benchFrac * 0.18) : (0.18 * 0.65 + (benchFrac - 0.65) / 0.35 * (1.0 - 0.18 * 0.65));
+        elev = 1080 + (benchIndex + stepOffset) * benchHeight;
+
+        // Spiral haulage ramp
+        const angle = Math.atan2(dz, dx) + Math.PI;
+        const rampTargetZ = 1080 + (angle / (Math.PI * 2)) * (1240 - 1080);
+        const rampRadius = 0.58 + (rampTargetZ - 1080) / (1240 - 1080) * 0.36;
+        const distToRamp = Math.abs(r - rampRadius);
+        if (distToRamp < 0.07) {
+          const blend = (1.0 - (distToRamp / 0.07));
+          elev = elev * (1 - blend * 0.75) + rampTargetZ * (blend * 0.75);
+        }
+      }
+
+      let litColor = LITH_COLORS.NATURAL;
+      let litCode = 'NAT';
+
+      // Regional dip plane with geological attitude N35°E / 42°NW
+      const dipPlane = (wx * 0.54) - (wz * 0.88) + (elev - 1160) * 1.55;
+
+      if (!inPit) {
+        if (isDumpPE) {
+          litColor = LITH_COLORS.PE;
+          litCode = 'PE';
+        } else if (isPlateauCG || elev > 1255) {
+          litColor = LITH_COLORS.CG;
+          litCode = 'CG';
+        } else if (wz < -90) {
+          // 1. Refinement: Continuous Northern Phyllite belt extending into northern rim
+          litColor = LITH_COLORS.FL;
+          litCode = 'FL';
+        } else {
+          litColor = LITH_COLORS.NATURAL;
+          litCode = 'NAT';
+        }
+      } else {
+        // 1. Refinement: Setentrional continuous belt of Phyllite / Schist (FL) on North crest & wall
+        // Positioned along the northern flank (wz < -35 or dipPlane > 210)
+        if (wz < -38 || dipPlane >= 220 || (wz < 0 && elev > 1205 && wx < 180)) {
+          // Foliated texture simulation
+          const foliationBands = Math.sin((wx * 0.35 + wz * 0.65) * 0.4);
+          if (foliationBands > 0.6) {
+            litColor = new THREE.Color(0x166534); // Slightly darker foliation band
+          } else {
+            litColor = LITH_COLORS.FL;
+          }
+          litCode = 'FL';
+        }
+        // 2. Refinement: 3 Segmented High-Grade Compact Hematite (HC) Bodies
+        // Lens 1 (Central deep core): wx in [-30, 45], wz in [-25, 30], elev 1120-1185
+        // Lens 2 (North-East intermediate bench): wx in [55, 125], wz in [-30, 20], elev 1140-1195
+        // Lens 3 (South-West ramp foot): wx in [-85, -25], wz in [-15, 45], elev 1110-1165
+        else {
+          const inLens1 = (wx >= -30 && wx <= 50 && wz >= -25 && wz <= 32 && elev >= 1115 && elev <= 1188);
+          const inLens2 = (wx >= 62 && wx <= 135 && wz >= -32 && wz <= 22 && elev >= 1140 && elev <= 1198);
+          const inLens3 = (wx >= -95 && wx <= -36 && wz >= -15 && wz <= 45 && elev >= 1110 && elev <= 1168);
+
+          if (inLens1 || inLens2 || inLens3) {
+            litColor = LITH_COLORS.HC; // Vivid Red
+            litCode = 'HC';
+          } else if (dipPlane > -60 && dipPlane < 140 && elev < 1225) {
+            litColor = LITH_COLORS.HF; // Friable Hematite surrounding the lenses
+            litCode = 'HF';
+          } else if (dipPlane <= -60 && dipPlane > -240) {
+            litColor = LITH_COLORS.IC; // Dolomitic/Carbonate Itabirite on Southern sector
+            litCode = 'IC';
+          } else {
+            litColor = LITH_COLORS.IF; // Siliceous Friable Itabirite
+            litCode = 'IF';
+          }
+        }
+      }
+
+      return { elevation: elev, inPit: inPit, color: litColor, code: litCode };
+    }
+
+    function buildPitTerrain() {
+      if (terrainMesh) pitWorld.remove(terrainMesh);
+      if (wireframeMesh) pitWorld.remove(wireframeMesh);
+      if (contourGroup) pitWorld.remove(contourGroup);
+
+      terrainGeometry = new THREE.PlaneGeometry(SIZE_X, SIZE_Z, GRID_X, GRID_Z);
+      terrainGeometry.rotateX(-Math.PI / 2);
+
+      const pos = terrainGeometry.attributes.position;
+      const count = pos.count;
+      const colors = new Float32Array(count * 3);
+
+      for (let i = 0; i < count; i++) {
+        const x = pos.getX(i);
+        const z = pos.getZ(i);
+        const data = evaluateElevationAndLithology(x, z);
+        const scaledY = (data.elevation - 1180) * 0.85 * zScaleFactor;
+        pos.setY(i, scaledY);
+
+        colors[i * 3] = data.color.r;
+        colors[i * 3 + 1] = data.color.g;
+        colors[i * 3 + 2] = data.color.b;
+      }
+
+      terrainGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      terrainGeometry.computeVertexNormals();
+
+      const terrainMaterial = new THREE.MeshStandardMaterial({
+        vertexColors: true,
+        roughness: 0.86,
+        metalness: 0.14,
+        flatShading: true,
+        side: THREE.DoubleSide
+      });
+
+      terrainMesh = new THREE.Mesh(terrainGeometry, terrainMaterial);
+      terrainMesh.receiveShadow = true;
+      terrainMesh.castShadow = true;
+      pitWorld.add(terrainMesh);
+
+      // Bench Wireframe
+      const wireMat = new THREE.MeshBasicMaterial({ color: 0x22d3ee, wireframe: true, transparent: true, opacity: 0.14 });
+      wireframeMesh = new THREE.Mesh(terrainGeometry, wireMat);
+      wireframeMesh.position.y += 0.25;
+      pitWorld.add(wireframeMesh);
+
+      // 5m Contours
+      contourGroup = new THREE.Group();
+      const benchElevations = [1095, 1110, 1125, 1140, 1155, 1170, 1185, 1200, 1215, 1230, 1245];
+      benchElevations.forEach(cota => {
+        const pts = [];
+        const ringRadius = 50 + (cota - 1080) * 1.42;
+        const totalP = 75;
+        for (let j = 0; j <= totalP; j++) {
+          const th = (j / totalP) * Math.PI * 2;
+          const px = 25 + ringRadius * Math.cos(th) * 1.15;
+          const pz = 10 + ringRadius * Math.sin(th) * 0.86;
+          const sample = evaluateElevationAndLithology(px, pz);
+          const py = (sample.elevation - 1180) * 0.85 * zScaleFactor + 0.6;
+          pts.push(new THREE.Vector3(px, py, pz));
+        }
+        const cGeo = new THREE.BufferGeometry().setFromPoints(pts);
+        const cMat = new THREE.LineBasicMaterial({ color: 0x2dd4bf, transparent: true, opacity: 0.40 });
+        const line = new THREE.Line(cGeo, cMat);
+        contourGroup.add(line);
+      });
+      pitWorld.add(contourGroup);
+    }
+    buildPitTerrain();
+
+    // Boundary Line Tube (Limite Trimestral Maio/26)
+    const boundaryGroup = new THREE.Group();
+    pitWorld.add(boundaryGroup);
+    function buildQuarterlyBoundary() {
+      boundaryGroup.clear();
+      const points = [];
+      const totalPts = 100;
+      for (let i = 0; i <= totalPts; i++) {
+        const theta = (i / totalPts) * Math.PI * 2;
+        const rx = 245 * Math.cos(theta) + 20;
+        const rz = 135 * Math.sin(theta) * (1.0 + 0.25 * Math.sin(theta));
+        const sample = evaluateElevationAndLithology(rx, rz);
+        const y = (sample.elevation - 1180) * 0.85 * zScaleFactor + 2.5;
+        points.push(new THREE.Vector3(rx, y, rz));
+      }
+      const curve = new THREE.CatmullRomCurve3(points);
+      const tubeGeo = new THREE.TubeGeometry(curve, 110, 1.8, 8, true);
+      const tubeMat = new THREE.MeshBasicMaterial({ color: 0xa3e635, transparent: true, opacity: 0.95 });
+      const boundaryTube = new THREE.Mesh(tubeGeo, tubeMat);
+      boundaryGroup.add(boundaryTube);
+    }
+    buildQuarterlyBoundary();
+
+    // 4. Refinement: RADAR IBIS-FM EVO 01 - Base Sul (1140m) & 3D Holographic LoS Cone to N_Sup_1231.44
+    const radarGroup = new THREE.Group();
+    pitWorld.add(radarGroup);
+
+    let radarBeamMesh, targetBeaconMesh, radarStationMesh;
+    const radarBaseCoords = { x: 30, z: 125, elev: 1140 }; // Base Sul
+    const radarTargetCoords = { x: 45, z: -115, elev: 1231 }; // N_Sup_1231.44 Parede Norte
+
+    function buildRadarLoS() {
+      radarGroup.clear();
+
+      const basePos = new THREE.Vector3(
+        radarBaseCoords.x,
+        (radarBaseCoords.elev - 1180) * 0.85 * zScaleFactor + 3.0,
+        radarBaseCoords.z
+      );
+
+      const targetPos = new THREE.Vector3(
+        radarTargetCoords.x,
+        (radarTargetCoords.elev - 1180) * 0.85 * zScaleFactor + 2.5,
+        radarTargetCoords.z
+      );
+
+      // Radar Physical Station Trailer
+      const stGroup = new THREE.Group();
+      const stBase = new THREE.Mesh(
+        new THREE.BoxGeometry(9, 3.5, 7),
+        new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.8, roughness: 0.2 })
+      );
+      stGroup.add(stBase);
+
+      const stMast = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.8, 1.0, 7, 8),
+        new THREE.MeshStandardMaterial({ color: 0x64748b, metalness: 0.6 })
+      );
+      stMast.position.y = 4.5;
+      stGroup.add(stMast);
+
+      // Parabolic radar dish
+      const dishGeo = new THREE.CylinderGeometry(4.2, 1.2, 2.0, 16, 1, true);
+      dishGeo.rotateX(Math.PI / 2);
+      const dishMat = new THREE.MeshStandardMaterial({ color: 0x38bdf8, metalness: 0.8, roughness: 0.2 });
+      const dish = new THREE.Mesh(dishGeo, dishMat);
+      dish.position.y = 8.5;
+      dish.lookAt(targetPos.x, targetPos.y, targetPos.z);
+      stGroup.add(dish);
+
+      stGroup.position.copy(basePos);
+      radarGroup.add(stGroup);
+      radarStationMesh = stGroup;
+
+      // Holographic Radar Cone / Line of Sight (LoS)
+      const dist = basePos.distanceTo(targetPos);
+      const dir = new THREE.Vector3().subVectors(targetPos, basePos).normalize();
+
+      // Cone with apex at radar dish and open base at North Wall
+      const coneHeight = dist;
+      const coneRadius = 26; // Covers the 204.5 m² critical sector
+      const coneGeo = new THREE.ConeGeometry(coneRadius, coneHeight, 32, 1, true);
+      coneGeo.translate(0, -coneHeight / 2, 0);
+      coneGeo.rotateX(-Math.PI / 2);
+
+      const coneMat = new THREE.MeshBasicMaterial({
+        color: 0x0ea5e9,
+        transparent: true,
+        opacity: 0.22,
+        side: THREE.DoubleSide,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending
+      });
+      radarBeamMesh = new THREE.Mesh(coneGeo, coneMat);
+      radarBeamMesh.position.set(basePos.x, basePos.y + 8.5, basePos.z);
+      radarBeamMesh.lookAt(targetPos);
+      radarGroup.add(radarBeamMesh);
+
+      // Central vector laser ray (amber/critical)
+      const laserPts = [new THREE.Vector3(basePos.x, basePos.y + 8.5, basePos.z), targetPos];
+      const laserGeo = new THREE.BufferGeometry().setFromPoints(laserPts);
+      const laserMat = new THREE.LineBasicMaterial({ color: 0xf59e0b, linewidth: 2.5, transparent: true, opacity: 0.85 });
+      const laserLine = new THREE.Line(laserGeo, laserMat);
+      radarGroup.add(laserLine);
+
+      // Target Critical Polygon / Hazard Halo (N_Sup_1231.44)
+      const beaconGroup = new THREE.Group();
+      const ringGeo = new THREE.RingGeometry(12, 18, 24);
+      ringGeo.rotateX(-Math.PI / 2);
+      const ringMat = new THREE.MeshBasicMaterial({
+        color: 0xef4444,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 0.75
+      });
+      const ring = new THREE.Mesh(ringGeo, ringMat);
+      beaconGroup.add(ring);
+
+      const pinGeo = new THREE.ConeGeometry(4, 14, 8);
+      pinGeo.rotateX(Math.PI);
+      const pinMat = new THREE.MeshStandardMaterial({ color: 0xef4444, emissive: 0xb91c1c });
+      const pin = new THREE.Mesh(pinGeo, pinMat);
+      pin.position.y = 8;
+      beaconGroup.add(pin);
+
+      beaconGroup.position.copy(targetPos);
+      radarGroup.add(beaconGroup);
+      targetBeaconMesh = beaconGroup;
+    }
+    buildRadarLoS();
+
+    // Boreholes (MAC-01 to MAC-08)
+    const drillholeGroup = new THREE.Group();
+    pitWorld.add(drillholeGroup);
+    const drillholeData = [
+      { id: 'MAC-01', code: 'FL', name: 'Faixa Norte FL', x: -140, z: -45, elev: 1215, depth: 45 },
+      { id: 'MAC-02', code: 'IF', name: 'Itabirito Friável', x: -80, z: 20, elev: 1185, depth: 45 },
+      { id: 'MAC-03', code: 'HC', name: 'Lente 3 SW HC', x: -60, z: 10, elev: 1150, depth: 40 },
+      { id: 'MAC-04', code: 'HC', name: 'Lente 1 Central HC', x: 15, z: 5, elev: 1165, depth: 45, isMain: true },
+      { id: 'MAC-05', code: 'IC', name: 'Carbonato IC', x: 130, z: 15, elev: 1170, depth: 40 },
+      { id: 'MAC-06', code: 'HC', name: 'Lente 2 NE HC', x: 95, z: -10, elev: 1175, depth: 45 },
+      { id: 'MAC-07', code: 'FL', name: 'Parede Norte Alvo', x: 45, z: -110, elev: 1230, depth: 50 },
+      { id: 'MAC-08', code: 'CG', name: 'Platô Canga NE', x: 220, z: 90, elev: 1260, depth: 45 }
+    ];
+
+    function buildDrillholes() {
+      drillholeGroup.clear();
+      drillholeData.forEach(dh => {
+        const sample = evaluateElevationAndLithology(dh.x, dh.z);
+        const topY = (sample.elevation - 1180) * 0.85 * zScaleFactor;
+        const depthScaled = dh.depth * 0.85 * zScaleFactor;
+
+        const cylGeo = new THREE.CylinderGeometry(2.0, 2.0, depthScaled, 12);
+        const cylMat = new THREE.MeshStandardMaterial({
+          color: (dh.code === 'HC') ? 0xef4444 : (dh.code === 'FL' ? 0x15803d : (dh.code === 'CG' ? 0xd97706 : 0x0ea5e9)),
+          metalness: 0.3,
+          roughness: 0.5
+        });
+        const cyl = new THREE.Mesh(cylGeo, cylMat);
+        cyl.position.set(dh.x, topY - depthScaled / 2, dh.z);
+        drillholeGroup.add(cyl);
+
+        const collarGeo = new THREE.SphereGeometry(3.6, 16, 16);
+        const collarMat = new THREE.MeshBasicMaterial({ color: (dh.code === 'HC') ? 0xf87171 : 0x38bdf8 });
+        const collar = new THREE.Mesh(collarGeo, collarMat);
+        collar.position.set(dh.x, topY + 2.0, dh.z);
+        collar.userData = dh;
+        drillholeGroup.add(collar);
+      });
+    }
+    buildDrillholes();
+
+    // Haulage Truck
+    const truckGroup = new THREE.Group();
+    const truck = new THREE.Mesh(new THREE.BoxGeometry(11, 7, 7), new THREE.MeshStandardMaterial({ color: 0xf59e0b, roughness: 0.35 }));
+    truck.castShadow = true;
+    truckGroup.add(truck);
+    truckGroup.position.set(65, (1140 - 1180) * 0.85 * zScaleFactor + 3.5, 50);
+    truckGroup.rotation.y = -Math.PI / 4;
+    pitWorld.add(truckGroup);
+
+    // Cross section A-A'
+    const clippingPlane = new THREE.Plane(new THREE.Vector3(0, 0, -1), 10);
+    function toggleCutPlane() {
+      cutPlaneEnabled = !cutPlaneEnabled;
+      const btn = document.getElementById('label-cutplane');
+      if (cutPlaneEnabled) {
+        renderer.clippingPlanes = [clippingPlane];
+        btn.textContent = "Seção A-A' [ATIVO]";
+        btn.parentElement.classList.add('bg-teal-600', 'text-white', 'border-teal-400');
+        showToast("Plano de Corte Geológico A-A' Ativado!");
+      } else {
+        renderer.clippingPlanes = [];
+        btn.textContent = "Seção A-A' [OFF]";
+        btn.parentElement.classList.remove('bg-teal-600', 'text-white', 'border-teal-400');
+        showToast("Plano de Corte Desativado");
+      }
+    }
+    document.getElementById('btn-cutplane-toggle').addEventListener('click', toggleCutPlane);
+
+    // Camera Navigation State
+    let isMouseDown = false, isShiftDown = false;
+    let mouseX = 0, mouseY = 0;
+    let spherical = { radius: 820, theta: THREE.MathUtils.degToRad(42), phi: THREE.MathUtils.degToRad(58) };
+    let currentSpherical = { ...spherical };
+    let target = new THREE.Vector3(20, 0, 10);
+    let currentTarget = new THREE.Vector3(20, 0, 10);
+    let autoRotate = false;
+
+    function updateCamera() {
+      currentSpherical.phi = Math.max(0.04, Math.min(Math.PI / 2 - 0.04, currentSpherical.phi));
+      camera.position.x = currentTarget.x + currentSpherical.radius * Math.sin(currentSpherical.phi) * Math.sin(currentSpherical.theta);
+      camera.position.y = currentTarget.y + currentSpherical.radius * Math.cos(currentSpherical.phi);
+      camera.position.z = currentTarget.z + currentSpherical.radius * Math.sin(currentSpherical.phi) * Math.cos(currentSpherical.theta);
+      camera.lookAt(currentTarget);
+
+      const compassNeedle = document.getElementById('compass-needle');
+      if (compassNeedle) {
+        const deg = THREE.MathUtils.radToDeg(currentSpherical.theta);
+        compassNeedle.style.transform = `rotate(${-deg}deg)`;
+      }
+    }
+    updateCamera();
+
+    window.addEventListener('keydown', (e) => { if (e.key === 'Shift') isShiftDown = true; });
+    window.addEventListener('keyup', (e) => { if (e.key === 'Shift') isShiftDown = false; });
+
+    container.addEventListener('mousedown', (e) => {
+      isMouseDown = true;
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+    window.addEventListener('mouseup', () => { isMouseDown = false; });
+
+    const tooltipEl = document.getElementById('pit-tooltip');
+
+    window.addEventListener('mousemove', (e) => {
+      if (isMouseDown) {
+        const dx = e.clientX - mouseX;
+        const dy = e.clientY - mouseY;
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+
+        if (isShiftDown) {
+          const panSpeed = 0.65;
+          const right = new THREE.Vector3().crossVectors(camera.up, camera.getWorldDirection(new THREE.Vector3())).normalize();
+          target.addScaledVector(right, dx * panSpeed);
+          target.y += dy * panSpeed;
+        } else {
+          spherical.theta -= dx * 0.007;
+          spherical.phi -= dy * 0.007;
+        }
+      }
+
+      // Cursor Raycast readout
+      const rect = container.getBoundingClientRect();
+      const normX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      const normY = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+      if (normX >= -1 && normX <= 1 && normY >= -1 && normY <= 1) {
+        const raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(new THREE.Vector2(normX, normY), camera);
+        const intersects = raycaster.intersectObject(terrainMesh);
+        if (intersects.length > 0) {
+          const pt = intersects[0].point;
+          const data = evaluateElevationAndLithology(pt.x, pt.z);
+          const worldE = Math.round(585000 + pt.x * 3.5);
+          const worldN = Math.round(7777100 - pt.z * 3.5);
+          const worldZ = Math.round(1180 + pt.y / (0.85 * zScaleFactor));
+
+          document.getElementById('cur-x').textContent = worldE.toLocaleString('pt-BR') + ' m';
+          document.getElementById('cur-y').textContent = worldN.toLocaleString('pt-BR') + ' m';
+          document.getElementById('cur-z').textContent = worldZ.toLocaleString('pt-BR') + ' m';
+
+          tooltipEl.classList.remove('hidden');
+          tooltipEl.style.left = `${e.clientX}px`;
+          tooltipEl.style.top = `${e.clientY - 12}px`;
+          document.getElementById('tooltip-title').textContent = getLitNameShort(data.code);
+          document.getElementById('tooltip-code').textContent = data.code;
+          document.getElementById('tooltip-z').textContent = `${worldZ.toLocaleString('pt-BR')} m`;
+          document.getElementById('tooltip-coords').textContent = `${worldE.toLocaleString('pt-BR')}E, ${worldN.toLocaleString('pt-BR')}N`;
+        } else {
+          tooltipEl.classList.add('hidden');
+        }
+      } else {
+        tooltipEl.classList.add('hidden');
+      }
+    });
+
+    function getLitNameShort(code) {
+      if (code === 'HC') return 'Hematita Compacta (Lente)';
+      if (code === 'HF') return 'Hematita Friável';
+      if (code === 'IF') return 'Itabirito Friável';
+      if (code === 'IC') return 'Itabirito Dolomítico';
+      if (code === 'FL') return 'Faixa Norte Filito/Xisto';
+      if (code === 'CG') return 'Platô Canga NE';
+      if (code === 'PE') return 'Bota-Fora SW (Estéril)';
+      return 'Bordo Natural';
+    }
+
+    container.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      spherical.radius = Math.max(180, Math.min(1800, spherical.radius + e.deltaY * 0.9));
+    }, { passive: false });
+
+    // Terrain click inspect
+    container.addEventListener('click', (e) => {
+      const rect = container.getBoundingClientRect();
+      const normX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      const normY = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+      const raycaster = new THREE.Raycaster();
+      raycaster.setFromCamera(new THREE.Vector2(normX, normY), camera);
+
+      const dhIntersects = raycaster.intersectObjects(drillholeGroup.children);
+      if (dhIntersects.length > 0 && dhIntersects[0].object.userData.id) {
+        const dh = dhIntersects[0].object.userData;
+        inspectPoint(dh.code, Math.round(585000 + dh.x * 3.5), Math.round(7777100 - dh.z * 3.5), dh.elev);
+        showToast(`Furo de Testemunho ${dh.id} Selecionado!`);
+        return;
+      }
+
+      const intersects = raycaster.intersectObject(terrainMesh);
+      if (intersects.length > 0) {
+        const pt = intersects[0].point;
+        const data = evaluateElevationAndLithology(pt.x, pt.z);
+        const worldE = Math.round(585000 + pt.x * 3.5);
+        const worldN = Math.round(7777100 - pt.z * 3.5);
+        const worldZ = Math.round(1180 + pt.y / (0.85 * zScaleFactor));
+        inspectPoint(data.code, worldE, worldN, worldZ);
+      }
+    });
+
+    function inspectPoint(code, e, n, z) {
+      document.getElementById('insp-e').textContent = e.toLocaleString('pt-BR') + ' m';
+      document.getElementById('insp-n').textContent = n.toLocaleString('pt-BR') + ' m';
+      document.getElementById('insp-z').textContent = z.toLocaleString('pt-BR') + ' m';
+      document.getElementById('domain-bench').textContent = `BANCADA ${Math.floor(z / 15) * 15}`;
+
+      const badge = document.getElementById('domain-code');
+      const name = document.getElementById('domain-name');
+      const desc = document.getElementById('domain-desc');
+      const dens = document.getElementById('insp-density');
+      const barDens = document.getElementById('bar-density');
+      const coh = document.getElementById('insp-cohesion');
+      const fric = document.getElementById('insp-friction');
+      const rmr = document.getElementById('insp-rmr');
+      const barRmr = document.getElementById('bar-rmr');
+      const gsi = document.getElementById('insp-gsi');
+      const stabBox = document.getElementById('insp-stability-box');
+      const stabTitle = document.getElementById('insp-stability-title');
+      const stabText = document.getElementById('insp-stability-text');
+      const bh = document.getElementById('insp-bh');
+      const profTitle = document.getElementById('profile-bh-title');
+      const profBar = document.getElementById('profile-bar');
+
+      const card = document.getElementById('domain-header-card');
+      card.classList.add('bg-sky-500/20');
+      setTimeout(() => card.classList.remove('bg-sky-500/20'), 350);
+
+      if (code === 'HC') {
+        badge.textContent = 'HC';
+        badge.className = 'text-lg font-mono font-bold text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/30 shadow-[0_0_12px_rgba(244,63,94,0.3)]';
+        name.textContent = 'Hematita Compacta (Lente Segmentada)';
+        desc.textContent = 'Minério Nobre de Alto Teor (>66% Fe) • Lentes 1, 2 e 3 Jangada';
+        dens.textContent = '4.42 g/cm³ (43.3 kN/m³)';
+        barDens.style.width = '94%';
+        coh.textContent = '65.8 kPa';
+        fric.textContent = '41.5°';
+        rmr.textContent = '82 (Classe I - Muito Boa)';
+        barRmr.style.width = '82%';
+        gsi.textContent = '78 / 100';
+        bh.textContent = 'MAC-04';
+        profTitle.textContent = 'MAC-04 (0 - 45m)';
+        stabBox.className = 'p-3 rounded-lg bg-emerald-950/40 border border-emerald-500/40 transition-all';
+        stabTitle.textContent = 'Estabilidade de Berma Conforme';
+        stabText.textContent = 'Maciço extremamente competente. Sem descontinuidades desfavoráveis na face da bancada.';
+        profBar.innerHTML = `
+          <div class="w-[15%] bg-[#d97706] text-slate-900">CG</div>
+          <div class="w-[25%] bg-[#0ea5e9] text-slate-900">IF</div>
+          <div class="w-[60%] bg-[#ef4444] text-white font-bold">HC (Nobre 67% Fe)</div>
+        `;
+      } else if (code === 'FL') {
+        badge.textContent = 'FL';
+        badge.className = 'text-lg font-mono font-bold text-emerald-300 bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/40 shadow-[0_0_12px_rgba(78,222,163,0.3)]';
+        name.textContent = 'Filitos / Xistos Foliados (Faixa Norte)';
+        desc.textContent = 'Encaixante Setentrional Contínua • Foliação N35°E / 42°NW';
+        dens.textContent = '2.72 g/cm³ (26.7 kN/m³)';
+        barDens.style.width = '55%';
+        coh.textContent = '22.4 kPa';
+        fric.textContent = '24.5°';
+        rmr.textContent = '42 (Classe III - Regular/Pobre)';
+        barRmr.style.width = '42%';
+        gsi.textContent = '38 / 100';
+        bh.textContent = 'MAC-07';
+        profTitle.textContent = 'MAC-07 (0 - 50m)';
+        stabBox.className = 'p-3 rounded-lg bg-amber-950/50 border border-amber-500/50 transition-all';
+        stabTitle.textContent = 'Monitoramento Crítico Radar IBIS-FM';
+        stabText.textContent = 'Setor N_Sup_1231.44 em deformação contínua (2.78 mm/h). Risco de escorregamento planar nas foliações 42°NW.';
+        profBar.innerHTML = `
+          <div class="w-[15%] bg-[#d97706] text-slate-900">CG</div>
+          <div class="w-[75%] bg-[#15803d] text-white font-bold">FL (Filitos Foliados)</div>
+          <div class="w-[10%] bg-[#0ea5e9] text-slate-900">IF</div>
+        `;
+      } else if (code === 'PE') {
+        badge.textContent = 'PE';
+        badge.className = 'text-lg font-mono font-bold text-slate-300 bg-slate-500/20 px-2 py-0.5 rounded border border-slate-500/40';
+        name.textContent = 'Pilhas de Bota-Fora (Estéril SW)';
+        desc.textContent = 'Platôs terraceados e banquetas de aterro compactado a sudoeste';
+        dens.textContent = '2.15 g/cm³ (21.1 kN/m³)';
+        barDens.style.width = '45%';
+        coh.textContent = '12.0 kPa';
+        fric.textContent = '32.0°';
+        rmr.textContent = 'Solo Compactado';
+        barRmr.style.width = '35%';
+        gsi.textContent = 'N/A';
+        bh.textContent = 'Piezômetro PZ-03';
+        profTitle.textContent = 'Aterro Banquetado SW (0 - 30m)';
+        stabBox.className = 'p-3 rounded-lg bg-sky-950/40 border border-sky-500/40 transition-all';
+        stabTitle.textContent = 'Banqueta de Proteção Regular';
+        stabText.textContent = 'Geometria de degraus de 20m com bermas de 15m. Nível freático monitorado por piezometria.';
+        profBar.innerHTML = `
+          <div class="w-[100%] bg-[#64748b] text-white">PE (Estéril Compactado)</div>
+        `;
+      } else if (code === 'CG') {
+        badge.textContent = 'CG';
+        badge.className = 'text-lg font-mono font-bold text-amber-300 bg-amber-500/15 px-2 py-0.5 rounded border border-amber-500/40';
+        name.textContent = 'Canga Laterítica / Platô NE';
+        desc.textContent = 'Crosta ferruginosa superficial e platô aplainado a nordeste';
+        dens.textContent = '3.05 g/cm³ (29.9 kN/m³)';
+        barDens.style.width = '68%';
+        coh.textContent = '45.0 kPa';
+        fric.textContent = '36.0°';
+        rmr.textContent = '68 (Classe II)';
+        barRmr.style.width = '68%';
+        gsi.textContent = '64 / 100';
+        bh.textContent = 'MAC-08';
+        profTitle.textContent = 'MAC-08 (0 - 45m)';
+        stabBox.className = 'p-3 rounded-lg bg-emerald-950/40 border border-emerald-500/40 transition-all';
+        stabTitle.textContent = 'Topo Competente e Cimentado';
+        stabText.textContent = 'Crosta dura resistente ao intemperismo superficial.';
+        profBar.innerHTML = `
+          <div class="w-[45%] bg-[#d97706] text-slate-900 font-bold">CG (Canga)</div>
+          <div class="w-[55%] bg-[#0ea5e9] text-slate-900">IF</div>
+        `;
+      } else if (code === 'IF') {
+        badge.textContent = 'IF';
+        badge.className = 'text-lg font-mono font-bold text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/30';
+        name.textContent = 'Itabirito Friável Silicoso';
+        desc.textContent = 'Minério Silicoso Médio Teor • Faixas Centrais';
+        dens.textContent = '3.15 g/cm³ (30.9 kN/m³)';
+        barDens.style.width = '70%';
+        coh.textContent = '38.2 kPa';
+        fric.textContent = '34.0°';
+        rmr.textContent = '62 (Classe II - Boa)';
+        barRmr.style.width = '62%';
+        gsi.textContent = '58 / 100';
+        bh.textContent = 'MAC-02';
+        profTitle.textContent = 'MAC-02 (0 - 45m)';
+        stabBox.className = 'p-3 rounded-lg bg-sky-950/40 border border-sky-500/40 transition-all';
+        stabTitle.textContent = 'Berma com Drenagem Ativa';
+        stabText.textContent = 'Requer canaletas de crista desobstruídas para mitigar erosão superficial.';
+        profBar.innerHTML = `
+          <div class="w-[20%] bg-[#d97706] text-slate-900">CG</div>
+          <div class="w-[65%] bg-[#0ea5e9] text-slate-900">IF</div>
+          <div class="w-[15%] bg-[#ef4444] text-white">HC</div>
+        `;
+      } else {
+        badge.textContent = 'IC';
+        badge.className = 'text-lg font-mono font-bold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/30';
+        name.textContent = 'Itabirito Dolomítico / Carbonatado';
+        desc.textContent = 'Formação ferrífera bandada carbonatada no bordo sul';
+        dens.textContent = '3.38 g/cm³ (33.1 kN/m³)';
+        barDens.style.width = '76%';
+        coh.textContent = '52.0 kPa';
+        fric.textContent = '38.0°';
+        rmr.textContent = '74 (Classe II - Boa)';
+        barRmr.style.width = '74%';
+        gsi.textContent = '70 / 100';
+        bh.textContent = 'MAC-05';
+        profTitle.textContent = 'MAC-05 (0 - 40m)';
+        stabBox.className = 'p-3 rounded-lg bg-emerald-950/40 border border-emerald-500/40 transition-all';
+        stabTitle.textContent = 'Berma com Drenagem Ativa';
+        stabText.textContent = 'Requer canaletas de crista desobstruídas para mitigar erosão superficial.';
+        profBar.innerHTML = `
+          <div class="w-[20%] bg-[#d97706] text-slate-900">CG</div>
+          <div class="w-[35%] bg-[#0ea5e9] text-slate-900">IF</div>
+          <div class="w-[45%] bg-[#ef4444] text-white">HC</div>
+        `;
+      }
+    }
+
+    // Camera Presets
+    function resetViewButtons() {
+      ['btn-view-iso', 'btn-view-top', 'btn-view-north', 'btn-view-radar', 'btn-view-ramp'].forEach(id => {
+        const b = document.getElementById(id);
+        if (b) b.className = "px-2.5 py-1 text-xs rounded font-medium text-slate-400 hover:bg-[#171f35] hover:text-slate-200 transition-all flex items-center space-x-1 active:scale-95";
+      });
+    }
+
+    document.getElementById('btn-view-iso').addEventListener('click', (e) => {
+      resetViewButtons();
+      e.currentTarget.className = "px-2.5 py-1 text-xs rounded font-medium bg-sky-500/25 text-sky-200 border border-sky-400/50 hover:bg-sky-500 hover:text-white transition-all flex items-center space-x-1 active:scale-95 shadow-sm";
+      spherical.radius = 820; spherical.theta = THREE.MathUtils.degToRad(42); spherical.phi = THREE.MathUtils.degToRad(58);
+      target.set(20, 0, 10);
+      showToast("Câmera reposicionada: Vista Isométrica");
+    });
+
+    document.getElementById('btn-view-top').addEventListener('click', (e) => {
+      resetViewButtons();
+      e.currentTarget.className = "px-2.5 py-1 text-xs rounded font-medium bg-sky-500/25 text-sky-200 border border-sky-400/50 hover:bg-sky-500 hover:text-white transition-all flex items-center space-x-1 active:scale-95 shadow-sm";
+      spherical.radius = 920; spherical.theta = THREE.MathUtils.degToRad(0); spherical.phi = THREE.MathUtils.degToRad(8);
+      target.set(25, 0, 10);
+      showToast("Câmera reposicionada: Nadir (Topografia / Planta)");
+    });
+
+    document.getElementById('btn-view-north').addEventListener('click', (e) => {
+      resetViewButtons();
+      e.currentTarget.className = "px-2.5 py-1 text-xs rounded font-medium bg-sky-500/25 text-sky-200 border border-sky-400/50 hover:bg-sky-500 hover:text-white transition-all flex items-center space-x-1 active:scale-95 shadow-sm";
+      spherical.radius = 560; spherical.theta = THREE.MathUtils.degToRad(180); spherical.phi = THREE.MathUtils.degToRad(72);
+      target.set(45, 20, -110);
+      showToast("Câmera reposicionada: Parede Norte & Faixa de Filitos FL");
+    });
+
+    document.getElementById('btn-view-radar').addEventListener('click', (e) => {
+      resetViewButtons();
+      e.currentTarget.className = "px-2.5 py-1 text-xs rounded font-medium bg-amber-500/25 text-amber-200 border border-amber-400/50 hover:bg-amber-500 hover:text-white transition-all flex items-center space-x-1 active:scale-95 shadow-sm";
+      spherical.radius = 480; spherical.theta = THREE.MathUtils.degToRad(12); spherical.phi = THREE.MathUtils.degToRad(76);
+      target.set(38, 15, -10);
+      showToast("Câmera alinhada: LoS do Radar IBIS-FM EVO ➔ N_Sup_1231.44");
+    });
+
+    document.getElementById('btn-view-ramp').addEventListener('click', (e) => {
+      resetViewButtons();
+      e.currentTarget.className = "px-2.5 py-1 text-xs rounded font-medium bg-sky-500/25 text-sky-200 border border-sky-400/50 hover:bg-sky-500 hover:text-white transition-all flex items-center space-x-1 active:scale-95 shadow-sm";
+      spherical.radius = 480; spherical.theta = THREE.MathUtils.degToRad(-85); spherical.phi = THREE.MathUtils.degToRad(65);
+      target.set(65, -15, 45);
+      showToast("Câmera focada: Rampa de Transporte Espiral");
+    });
+
+    document.getElementById('btn-zoom-in').addEventListener('click', () => {
+      spherical.radius = Math.max(180, spherical.radius - 120);
+    });
+
+    document.getElementById('btn-zoom-out').addEventListener('click', () => {
+      spherical.radius = Math.min(1800, spherical.radius + 120);
+    });
+
+    document.getElementById('btn-align-north').addEventListener('click', () => {
+      spherical.theta = 0;
+      showToast("Alinhamento Cartográfico: Norte Geográfico (Azimute 0°)");
+    });
+
+    document.getElementById('btn-reset-cam').addEventListener('click', () => {
+      document.getElementById('btn-view-iso').click();
+    });
+
+    // Auto-Rotate Toggle
+    document.getElementById('btn-auto-rotate').addEventListener('click', (e) => {
+      autoRotate = !autoRotate;
+      const label = document.getElementById('label-autorot');
+      if (autoRotate) {
+        label.textContent = "Girar: ON";
+        e.currentTarget.classList.add('bg-sky-500/25', 'text-sky-300', 'border', 'border-sky-400/50');
+        showToast("Rotação Orbital Automática Ativada");
+      } else {
+        label.textContent = "Girar: OFF";
+        e.currentTarget.classList.remove('bg-sky-500/25', 'text-sky-300', 'border', 'border-sky-400/50');
+        showToast("Rotação Automática Pausada");
+      }
+    });
+
+    // Sliders Handlers
+    document.getElementById('z-scale-slider').addEventListener('input', (e) => {
+      zScaleFactor = parseFloat(e.target.value);
+      document.getElementById('z-scale-val').textContent = zScaleFactor.toFixed(1) + 'x';
+      buildPitTerrain();
+      buildQuarterlyBoundary();
+      buildDrillholes();
+      buildRadarLoS();
+    });
+
+    document.getElementById('sun-slider').addEventListener('input', (e) => {
+      const val = parseInt(e.target.value);
+      const rad = THREE.MathUtils.degToRad(val);
+      sunLight.position.x = Math.sin(rad) * 600;
+      sunLight.position.z = Math.cos(rad) * 600;
+      let dir = "N";
+      if (val > 22 && val <= 67) dir = "NE";
+      else if (val > 67 && val <= 112) dir = "E";
+      else if (val > 112 && val <= 157) dir = "SE";
+      else if (val > 157 && val <= 202) dir = "S";
+      else if (val > 202 && val <= 247) dir = "SW";
+      else if (val > 247 && val <= 292) dir = "W";
+      else if (val > 292 && val <= 337) dir = "NW";
+      document.getElementById('sun-az-val').textContent = `${val}° (${dir})`;
+    });
+
+    let sunActive = true;
+    document.getElementById('btn-sun-toggle').addEventListener('click', () => {
+      sunActive = !sunActive;
+      sunLight.intensity = sunActive ? 1.45 : 0.25;
+      showToast(sunActive ? "Iluminação Solar Direta Ativada" : "Iluminação Difusa Noturna Ativada");
+    });
+
+    // Layer toggles
+    function toggleLayer(type, state) {
+      if (type === 'wire') wireframeMesh.visible = state;
+      if (type === 'contours') contourGroup.visible = state;
+      if (type === 'boundary') boundaryGroup.visible = state;
+      if (type === 'boreholes') drillholeGroup.visible = state;
+      if (type === 'ramp') truckGroup.visible = state;
+      if (type === 'radar') radarGroup.visible = state;
+      if (type === 'waste') {
+        buildPitTerrain();
+      }
+      if (type === 'litho') {
+        terrainMesh.material.vertexColors = state;
+        terrainMesh.material.needsUpdate = true;
+      }
+      countActiveLayers();
+    }
+
+    function countActiveLayers() {
+      let count = 0;
+      ['layer-radar', 'layer-litho', 'layer-waste', 'layer-wire', 'layer-ramp', 'layer-boundary', 'layer-boreholes', 'layer-contours'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.checked) count++;
+      });
+      document.getElementById('active-layers-count').textContent = `${count} Ativas`;
+    }
+
+    // Modal Plate Zoom
+    function openModalPlate() {
+      document.getElementById('modal-plate').classList.remove('hidden');
+      document.getElementById('modal-plate').classList.add('flex');
+    }
+    function closeModalPlate() {
+      document.getElementById('modal-plate').classList.add('hidden');
+      document.getElementById('modal-plate').classList.remove('flex');
+    }
+
+    // Toast Feedback Notification
+    let toastTimeout;
+    function showToast(msg) {
+      const toast = document.getElementById('toast-notification');
+      document.getElementById('toast-msg').textContent = msg;
+      toast.classList.add('active');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('active');
+      }, 2600);
+    }
+
+    document.getElementById('btn-export-dxf').addEventListener('click', () => {
+      showToast("Exportação DXF 3D gerada! SIRGAS 2000 UTM 23S.");
+    });
+    document.getElementById('btn-issue-report').addEventListener('click', () => {
+      showToast("Laudo Geotécnico de Estabilidade da Cava emitido!");
+    });
+
+    // Window Resize
+    window.addEventListener('resize', () => {
+      width = container.clientWidth;
+      height = container.clientHeight;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+    });
+
+    // Main Smooth Render Loop with Truck Motion and Radar Hologram Pulse
+    let truckAngle = 0;
+    let radarPulseTime = 0;
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      if (autoRotate) {
+        spherical.theta += 0.003;
+      }
+
+      // Smooth camera tween
+      currentSpherical.radius += (spherical.radius - currentSpherical.radius) * 0.08;
+      currentSpherical.theta += (spherical.theta - currentSpherical.theta) * 0.08;
+      currentSpherical.phi += (spherical.phi - currentSpherical.phi) * 0.08;
+      currentTarget.lerp(target, 0.08);
+
+      updateCamera();
+
+      // Haul truck on ramp
+      truckAngle += 0.006;
+      const truckR = 95 + Math.sin(truckAngle * 0.5) * 15;
+      const tx = 25 + Math.cos(truckAngle) * truckR;
+      const tz = 10 + Math.sin(truckAngle) * (truckR * 0.75);
+      const s = evaluateElevationAndLithology(tx, tz);
+      truckGroup.position.set(tx, (s.elevation - 1180) * 0.85 * zScaleFactor + 3.0, tz);
+      truckGroup.rotation.y = -truckAngle + Math.PI / 2;
+
+      // Subtle Radar LoS Pulse
+      radarPulseTime += 0.04;
+      if (radarBeamMesh && radarBeamMesh.material) {
+        radarBeamMesh.material.opacity = 0.18 + Math.sin(radarPulseTime) * 0.08;
+      }
+      if (targetBeaconMesh) {
+        targetBeaconMesh.rotation.y += 0.02;
+      }
+
+      renderer.render(scene, camera);
+    }
+    animate();
+</script>
+
+    <!-- MDSync Core Bilateral Sync & Runtime Integration -->
+    <script src="../../src/core/sync-bridge.js"></script>
+    <script src="../stitch-runtime.js"></script>
+</body></html>

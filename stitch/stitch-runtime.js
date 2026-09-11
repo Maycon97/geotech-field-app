@@ -9,10 +9,19 @@
 
   // --- 1. ROTEAMENTO UNIVERSAL ENTRE TELAS ---
   const ROUTE_MAP = {
+    'developer-api': 'screens/22-developer-api-gateway-mcp.html',
+    'radar-ibis': 'screens/29-maquete-3d-visada-radar-ibis.html',
+    'prancha-geologica': 'screens/26-maquete-3d-fiel-prancha-geologica.html',
+    'gemeo-digital': 'screens/24-modelo-3d-cava-gemeo-digital.html',
+    'geologia-3d': 'screens/23-geologia-estrutural-mapeamento-litologico.html',
     'visao-geral': '01-visao-geral-geotecnica.html',
-    'monitoramento-instrumental': '01-visao-geral-geotecnica.html#tarp-section',
+    'monitoramento-instrumental': '04-geoview-gis-3d-interativo-threejs.html',
+    'monitoramento-geoview': '04-geoview-gis-3d-interativo-threejs.html',
     'checklists-fir': '02-fluxo-coleta-checklist-offline.html',
     'geoview-gis-3d': '04-geoview-gis-3d-interativo-threejs.html',
+    'cava-3d': '04-geoview-gis-3d-interativo-threejs.html',
+    'modelo-3d-cava': '04-geoview-gis-3d-interativo-threejs.html',
+    'cava3d': '04-geoview-gis-3d-interativo-threejs.html',
     'relatorios-auditoria': '05-relatorios-auditoria-gistm-anm95.html',
     'exportacao-anm': '06-exportacao-pacote-oficial-anm-zip.html',
     'transmissao-sigbm': '07-transmissao-homologada-api-sigbm.html',

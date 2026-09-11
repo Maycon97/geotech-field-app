@@ -141,8 +141,14 @@
                     <span class="badge badge-warning" id="rotina-today-badge">PCM</span>
                 </a>
                 <a href="#" class="nav-item" id="nav-readings" onclick="switchTab('readings')">
-                    <i class="fa-solid fa-satellite-dish"></i>
-                    <span>Monitoramento</span>
+                    <i class="fa-solid fa-earth-americas" style="color: #38bdf8;"></i>
+                    <span>Monitoramento &amp; GeoView 3D</span>
+                    <span class="badge badge-danger" style="font-size: 10px; background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.4);">AOI_01</span>
+                </a>
+                <a href="#" class="nav-item" id="nav-cava3d" onclick="switchTab('cava3d')">
+                    <i class="fa-solid fa-cube" style="color: #4edea3;"></i>
+                    <span>Modelo 3D da Cava</span>
+                    <span class="badge" style="font-size: 10px; background: rgba(78, 222, 163, 0.2); color: #4edea3; border: 1px solid rgba(78, 222, 163, 0.4);">ArcGIS 3D</span>
                 </a>
                 <a href="#" class="nav-item" id="nav-inspections" onclick="switchTab('inspections')">
                     <i class="fa-solid fa-clipboard-check"></i>
@@ -160,14 +166,9 @@
                     <i class="fa-solid fa-chart-pie"></i>
                     <span>Indicadores</span>
                 </a>
-                <a href="#" class="nav-item" id="nav-geoview" onclick="switchTab('geoview')">
-                    <i class="fa-solid fa-earth-americas"></i>
-                    <span>GeoView &amp; GIS 3D</span>
-                </a>
-                <a href="#" class="nav-item" id="nav-georef" onclick="switchTab('georef')">
-                    <i class="fa-solid fa-location-crosshairs"></i>
-                    <span>Georreferenciamento</span>
-                </a>
+                <!-- Aliases ocultos de navegacao para retrocompatibilidade -->
+                <a href="#" class="nav-item" id="nav-geoview" onclick="switchTab('geoview')" style="display: none;"></a>
+                <a href="#" class="nav-item" id="nav-georef" onclick="switchTab('georef')" style="display: none;"></a>
                 <a href="#" class="nav-item" id="nav-users" onclick="switchTab('users')">
                     <i class="fa-solid fa-users-gear" style="color: #c084fc;"></i>
                     <span>Usuários &amp; Equipe</span>
@@ -324,6 +325,11 @@
                         <i class="fa-solid fa-earth-americas"></i>
                         <span>8. SYSGEO GIS</span>
                         <span class="chip-tag tag-espacial">Espacial</span>
+                    </button>
+                    <button type="button" class="md-hub-chip" data-hub-id="cava3d" onclick="switchTab('cava3d')" title="Módulo 8B: Modelo 3D Interativo da Cava Jangada, 336 cotas oficiais, litologias ArcGIS Pro, radar e instrumentação">
+                        <i class="fa-solid fa-cube" style="color: #4edea3;"></i>
+                        <span>8B. Modelo 3D Cava</span>
+                        <span class="chip-tag" style="background: rgba(78, 222, 163, 0.2); color: #4edea3;">ArcGIS 3D</span>
                     </button>
                     <button type="button" class="md-hub-chip" data-hub-id="history" onclick="switchTab('history')" title="Módulo 9: Central de Histórico de Leituras de todos os instrumentos de todas as estruturas">
                         <i class="fa-solid fa-clock-rotate-left"></i>
@@ -1032,28 +1038,675 @@
 
                 <!-- TAB 2: INSTRUMENT READINGS -->
                 <section id="tab-readings" class="tab-pane">
-                    <!-- SUB-NAV TOGGLE BAR FOR MONITORING TAB -->
+                    <!-- SUB-NAV TOGGLE BAR DO HUB UNIFICADO MONITORAMENTO & GEOVIEW 3D -->
                     <div class="monitoring-subnav-bar mb-3">
                         <div class="monitoring-subnav-pills">
-                            <button type="button" class="subnav-pill active" id="pill-radar-247" onclick="switchMonitoringSubTab('radar')">
+                            <button type="button" class="subnav-pill active" id="pill-sub-geoview3d" onclick="switchMonitoringSubTab('geoview3d')">
+                                <i class="fa-solid fa-cube text-primary"></i>
+                                <span>GeoView &amp; GIS 3D</span>
+                                <span class="badge badge-primary" style="font-size: 10px;">Three.js</span>
+                            </button>
+                            <button type="button" class="subnav-pill" id="pill-sub-radar" onclick="switchMonitoringSubTab('radar')">
                                 <i class="fa-brands fa-whatsapp text-success pulse-icon"></i>
-                                <span>Radar Hexagon 24/7 &amp; Grupo WhatsApp</span>
+                                <span>Radar Hexagon 24/7</span>
                                 <span class="badge badge-danger">FR012 Nível 3</span>
                             </button>
-                            <button type="button" class="subnav-pill" id="pill-conventional" onclick="switchMonitoringSubTab('conventional')">
+                            <button type="button" class="subnav-pill" id="pill-sub-conventional" onclick="switchMonitoringSubTab('conventional')">
                                 <i class="fa-solid fa-ruler-vertical text-secondary"></i>
-                                <span>Instrumentação Convencional (Piezômetros PZ/INA)</span>
+                                <span>Instrumentação Convencional (PZ/INA)</span>
                                 <span class="badge badge-outline">24 Instrumentos</span>
+                            </button>
+                            <button type="button" class="subnav-pill" id="pill-sub-gis2d" onclick="switchMonitoringSubTab('gis2d')">
+                                <i class="fa-solid fa-map-location-dot text-info"></i>
+                                <span>Cartografia GIS 2D</span>
+                                <span class="badge badge-outline">SIRGAS 2000</span>
                             </button>
                         </div>
                         <div class="monitoring-subnav-status">
                             <span class="status-indicator online"></span>
-                            <span class="small font-mono text-secondary">IBIS-FM 01 • Conexão WhatsApp 24/7 Ativa</span>
+                            <span class="small font-mono text-secondary">IBIS-FM 01 • Cava Jangada • Online</span>
                         </div>
                     </div>
 
+                    <!-- 1. PAINEL GEOVIEW & GIS 3D (THREE.JS / ORTOFOTOS / PLANO DE LAVRA) -->
+                    <div id="panel-geoview3d-cockpit" class="monitoring-sub-panel">
+<!-- COCKPIT GEOVIEW & GIS 3D INTERATIVO (RADAR IBIS-FM / CAVA JANGADA) -->
+                    <div class="geoview-3d-cockpit-wrapper" id="geoview-3d-cockpit">
+                        <!-- Header de Operação do Cockpit -->
+                        <div class="geoview-cockpit-header">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="geoview-brand-chip">
+                                    <i class="fa-solid fa-cube text-primary"></i>
+                                    <span>MDSync GeoView 3D</span>
+                                </div>
+                                <div class="geoview-structure-pill" id="geoview-cockpit-structure-pill">
+                                    <span class="radar-pulse-dot"></span>
+                                    <span>Mina Cava Jangada • IBIS-FM EVO 01 Ativo</span>
+                                </div>
+                            </div>
+                            <div class="geoview-header-right-actions">
+                                <div class="geoview-offline-badge">
+                                    <i class="fa-solid fa-cloud-arrow-down text-primary"></i>
+                                    <span>Offline Ready (Cache 100%)</span>
+                                </div>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="triggerQuickReading()">
+                                    <i class="fa-solid fa-plus"></i> Nova Coleta
+                                </button>
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="openFiltroEstruturasModal()" title="Filtros e camadas espaciais">
+                                    <i class="fa-solid fa-filter"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Palco Cartográfico 3D e Painel Lateral Geotécnico -->
+                        <div class="geoview-stage-wrapper">
+                            <!-- Viewport 3D Three.js com Overlays Cartográficos -->
+                            <div class="geoview-viewport-3d" id="geoview-viewport-container">
+                                <!-- Canvas Mount do Three.js -->
+                                <div id="geoview-threejs-mount"></div>
+
+                                <!-- Camada de Exibição Direta da Ortofoto e Mapa de Calor do Radar Hexagon / Plano de Lavra -->
+                                <div class="geoview-ortho-overlay-screen" id="geoview-ortho-overlay-screen">
+                                    <!-- Sub-barra Seletora de Pranchas do Plano de Lavra Setembro 2026 -->
+                                    <div class="geoview-plano-subnav" id="geoview-plano-subnav" style="display: none;">
+                                        <span class="subnav-label"><i class="fa-solid fa-layer-group"></i> Pranchas de Lavra:</span>
+                                        <button type="button" class="btn-subnav-prancha active" onclick="trocarPranchaPlanoLavra('cava-jangada-oeste-interditada.jpg', this)">JGD Oeste (Interdição)</button>
+                                        <button type="button" class="btn-subnav-prancha" onclick="trocarPranchaPlanoLavra('cava-jangada-fundo-cava.jpg', this)">Fundo Cava (MAQ 908)</button>
+                                        <button type="button" class="btn-subnav-prancha" onclick="trocarPranchaPlanoLavra('cava-jangada-leste-perfuracao.jpg', this)">JGD Leste (D&amp;B)</button>
+                                        <button type="button" class="btn-subnav-prancha" onclick="trocarPranchaPlanoLavra('cava-jangada-pilhao-norte.jpg', this)">Pilhão Norte (18m)</button>
+                                        <button type="button" class="btn-subnav-prancha" onclick="trocarPranchaPlanoLavra('plano-lavra-geral-setembro.jpg', this)">Mina Geral</button>
+                                        <button type="button" class="btn-subnav-prancha" onclick="trocarPranchaPlanoLavra('plano-estoques-intermediarios.jpg', this)">Estoques Intermediários</button>
+                                    </div>
+
+                                    <img src="assets/radar/hexagon-radar-ortho-zenital.jpg" 
+                                         alt="Ortofoto do Radar Hexagon Cava Jangada" 
+                                         id="geoview-ortho-overlay-img" 
+                                         class="geoview-ortho-overlay-img">
+                                    <!-- Escala Cromática Flutuante Hexagon Guardian -->
+                                    <div class="radar-ortho-chroma-scale" id="geoviewOrthoChromaScale" style="right: 18px; top: 18px; bottom: 80px;">
+                                        <div class="chroma-scale-unit">mm</div>
+                                        <div class="d-flex align-center h-100 gap-1">
+                                            <div class="chroma-scale-bar"></div>
+                                            <div class="chroma-scale-ticks">
+                                                <span style="color: #ff4d4d;">+20.00</span>
+                                                <span style="color: #ff9933;">+12.00</span>
+                                                <span style="color: #ffee55;">+4.00</span>
+                                                <span style="color: #e2e8f0;">0.00</span>
+                                                <span style="color: #4dc3ff;">-4.00</span>
+                                                <span style="color: #3385ff;">-12.00</span>
+                                                <span style="color: #1a53ff;">-20.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Varredura de Radar Animada (Antena IBIS-FM) -->
+                                <div class="geoview-radar-sweep" id="geoview-radar-sweep-effect">
+                                    <div class="radar-sweep-circle"></div>
+                                </div>
+
+                                <!-- Grade Cartográfica UTM e Linha de Corte A-A' (SVG) -->
+                                <svg class="geoview-svg-overlay" fill="none" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+                                    <g opacity="0.12" stroke="#89ceff" stroke-dasharray="4 6" stroke-width="0.75">
+                                        <line x1="150" x2="150" y1="0" y2="800"></line>
+                                        <line x1="350" x2="350" y1="0" y2="800"></line>
+                                        <line x1="550" x2="550" y1="0" y2="800"></line>
+                                        <line x1="750" x2="750" y1="0" y2="800"></line>
+                                        <line x1="950" x2="950" y1="0" y2="800"></line>
+                                        <line x1="0" x2="1200" y1="150" y2="150"></line>
+                                        <line x1="0" x2="1200" y1="350" y2="350"></line>
+                                        <line x1="0" x2="1200" y1="550" y2="550"></line>
+                                        <line x1="0" x2="1200" y1="750" y2="750"></line>
+                                    </g>
+                                    <!-- Linha de Corte Transversal Geotécnico SEÇÃO A - SEÇÃO A' -->
+                                    <line opacity="0.75" stroke="#ffb95f" stroke-dasharray="6 4" stroke-width="1.8" x1="280" x2="880" y1="120" y2="690"></line>
+                                    <circle cx="280" cy="120" fill="#ffb95f" r="4.5" filter="drop-shadow(0 0 8px #ffb95f)"></circle>
+                                    <text fill="#ffb95f" font-family="JetBrains Mono, monospace" font-size="11" font-weight="bold" x="240" y="115">SEÇÃO A</text>
+                                    <circle cx="880" cy="690" fill="#ffb95f" r="4.5"></circle>
+                                    <text fill="#ffb95f" font-family="JetBrains Mono, monospace" font-size="11" font-weight="bold" x="895" y="700">SEÇÃO A'</text>
+                                    <!-- Pulso Laser de Telemetria do Radar para a Berma 1231 -->
+                                    <line opacity="0.9" stroke="#38bdf8" stroke-dasharray="8 6" stroke-width="1.6" style="animation: telemetry-flow 2s linear infinite;" x1="552" x2="420" y1="670" y2="165"></line>
+                                </svg>
+
+                                <!-- HUD Superior Esquerdo: Coordenadas em Tempo Real (SIRGAS 2000 / UTM 23S) -->
+                                <div class="geoview-hud-coords">
+                                    <div class="geoview-hud-bar">
+                                        <div>
+                                            <span class="coord-label">▲ X:</span>
+                                            <span class="coord-value" id="geoview-hud-x">595.245,32 m E</span>
+                                        </div>
+                                        <span class="text-secondary">•</span>
+                                        <div>
+                                            <span class="coord-label">Y:</span>
+                                            <span class="coord-value" id="geoview-hud-y">7.777.813,10 m N</span>
+                                        </div>
+                                        <span class="text-secondary">•</span>
+                                        <div>
+                                            <span class="coord-label" style="color: #4edea3;">Z:</span>
+                                            <span class="coord-value" id="geoview-hud-z">1.185,40 m</span>
+                                        </div>
+                                    </div>
+                                    <div class="geoview-hud-params">
+                                        <span class="geoview-param-tag" id="geoview-param-azimuth">Azimute: 14.8°</span>
+                                        <span class="geoview-param-tag" id="geoview-param-pitch">Inclinação (Pitch): 42.5°</span>
+                                        <span class="geoview-param-tag highlight">Exagero Vertical: 1.5x</span>
+                                    </div>
+                                </div>
+
+                                <!-- Alvo Crítico TARP N3 (Parede Norte) com Popover Geotécnico -->
+                                <div class="geoview-target-aoi" id="geoview-target-aoi-card">
+                                    <div class="geoview-target-rings" onclick="toggleTargetCardVisibility()">
+                                        <span class="ring-outer"></span>
+                                        <span class="ring-center"></span>
+                                    </div>
+                                    <div class="geoview-target-card">
+                                        <div class="geoview-target-header">
+                                            <div class="geoview-target-title">
+                                                <i class="fa-solid fa-triangle-exclamation"></i>
+                                                <span>ALVO CRÍTICO • AOI_01</span>
+                                            </div>
+                                            <span class="geoview-tarp-tag">TARP N3</span>
+                                        </div>
+                                        <div class="geoview-target-sector">Crista / Setor N_Sup_1231.44 (Cota 1.231m)</div>
+                                        <div class="geoview-target-stats">
+                                            <div>
+                                                <span>Deslocamento Acum.</span>
+                                                <strong style="color: #ef4444;">+20.00 mm</strong>
+                                            </div>
+                                            <div>
+                                                <span>Velocidade Atual</span>
+                                                <strong style="color: #ffb95f;">2.78 mm/h</strong>
+                                            </div>
+                                        </div>
+                                        <div class="geoview-target-footer">
+                                            <span><i class="fa-solid fa-satellite text-primary"></i> Sensor: IBIS-FM EVO 01</span>
+                                            <a href="#" onclick="abrirDetalheInstrumento('PZ-02'); return false;">Detalhar <i class="fa-solid fa-chevron-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Marcadores Georreferenciados na Cava -->
+                                <div class="geoview-sensor-pin active-focus" style="top: 32%; left: 47%;" onclick="abrirDetalheInstrumento('PZ-02')">
+                                    <span class="pin-dot" style="background:#ffffff; box-shadow: 0 0 8px #ffffff;"></span>
+                                    <span>PZ-02 (Talude Norte)</span>
+                                    <span style="background: rgba(5,13,35,0.8); padding: 1px 5px; border-radius: 4px; font-size: 10px;">438.75m</span>
+                                </div>
+
+                                <div class="geoview-sensor-pin" style="top: 43%; left: 24%;" onclick="abrirDetalheInstrumento('PZ-01')">
+                                    <span class="pin-dot"></span>
+                                    <span>PZ-01</span>
+                                    <span style="color: #94a3b8; font-size: 10px;">438.75m</span>
+                                </div>
+
+                                <div class="geoview-sensor-pin" style="top: 65%; left: 32%;" onclick="abrirDetalheInstrumento('PZ-04')">
+                                    <span class="pin-dot"></span>
+                                    <span>PZ-04</span>
+                                    <span style="color: #94a3b8; font-size: 10px;">412.10m</span>
+                                </div>
+
+                                <div class="geoview-sensor-pin" style="top: 38%; right: 28%;" onclick="abrirDetalheInstrumento('INA-01')">
+                                    <span class="pin-dot" style="background: #4edea3;"></span>
+                                    <span style="color: #4edea3;">INA-01</span>
+                                    <span style="color: #94a3b8; font-size: 10px;">1.131,80m</span>
+                                </div>
+
+                                <div class="geoview-sensor-pin" style="bottom: 34%; right: 34%;" onclick="abrirDetalheInstrumento('MED-02')">
+                                    <span class="pin-dot" style="background: #38bdf8;"></span>
+                                    <span>MED-02</span>
+                                    <span style="color: #94a3b8; font-size: 10px;">0.42 L/s</span>
+                                </div>
+
+                                <div class="geoview-sensor-pin status-alert" style="top: 54%; left: 54%;" onclick="abrirDetalheInstrumento('MS-08')">
+                                    <span class="pin-dot"></span>
+                                    <span>MS-08</span>
+                                    <span style="background: rgba(251,191,36,0.15); color: #fbbf24; padding: 1px 5px; border-radius: 4px; font-size: 10px;">Atenção N1</span>
+                                </div>
+
+                                <div class="geoview-sensor-pin" style="bottom: 20%; left: 46%; border-color: rgba(14,165,233,0.5);" onclick="abrirCockpitRadarModal()">
+                                    <i class="fa-solid fa-satellite text-primary"></i>
+                                    <span>IBIS-FM EVO 01 (Cota 1.140m)</span>
+                                </div>
+
+                                <!-- Pinos Georreferenciados das Frentes de Mina (Plano de Lavra Setembro 2026) -->
+                                <div class="geoview-frente-pin pin-interditada" id="pin-frente-oeste" style="top: 26%; left: 34%;" onclick="abrirDetalheFrenteLavra('frente-jangada-oeste')" title="Frente Jangada Oeste: Interditada pela Geotecnia (MAQ 876)">
+                                    <div class="pin-icon-wrap"><i class="fa-solid fa-ban"></i></div>
+                                    <div class="pin-label-box">
+                                        <strong>JGD Oeste (INTERDITADA)</strong>
+                                        <span>MAQ 876 • Cota 1231m • AOI_01</span>
+                                    </div>
+                                </div>
+
+                                <div class="geoview-frente-pin pin-perfuracao" id="pin-frente-leste" style="top: 36%; right: 20%;" onclick="abrirDetalheFrenteLavra('frente-jangada-leste')" title="Frente Jangada Leste: D&B Perfuração e Desmonte">
+                                    <div class="pin-icon-wrap"><i class="fa-solid fa-bore-hole"></i></div>
+                                    <div class="pin-label-box">
+                                        <strong>JGD Leste (D&amp;B)</strong>
+                                        <span>Perfuração &amp; Desmonte</span>
+                                    </div>
+                                </div>
+
+                                <div class="geoview-frente-pin pin-ativa" id="pin-frente-fundo" style="bottom: 40%; left: 48%;" onclick="abrirDetalheFrenteLavra('frente-fundo-cava')" title="Fundo de Cava Jangada: MAQ 908 (Minério Nobre Fe 63,61%)">
+                                    <div class="pin-icon-wrap"><i class="fa-solid fa-gem"></i></div>
+                                    <div class="pin-label-box">
+                                        <strong>Fundo Cava (MAQ 908)</strong>
+                                        <span>Fe 63.61% • Alto Teor</span>
+                                    </div>
+                                </div>
+
+                                <div class="geoview-frente-pin pin-atencao" id="pin-frente-pilhao" style="top: 17%; left: 56%;" onclick="abrirDetalheFrenteLavra('frente-pilhao-norte')" title="Pilhão / Jangada Norte: Bancada de 18m com alerta de material solto no talude">
+                                    <div class="pin-icon-wrap"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                                    <div class="pin-label-box">
+                                        <strong>Pilhão Norte (18m)</strong>
+                                        <span>Alerta: Material Solto</span>
+                                    </div>
+                                </div>
+
+                                <!-- HUD Controles de Câmera 3D e Navegação (Inferior Esquerdo) -->
+                                <div class="geoview-hud-bottom-controls">
+                                    <!-- Bússola 3D Orientada ao Norte -->
+                                    <div class="geoview-compass" id="geoview-compass-btn" onclick="resetarCamera3D()" title="Bússola Norte (clique para redefinir visão)">
+                                        <div class="compass-rose">
+                                            <span class="point-n">N</span>
+                                            <span class="point-s">S</span>
+                                            <span class="point-l">L</span>
+                                            <span class="point-o">O</span>
+                                            <div class="compass-needle" id="geoview-compass-needle"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Controles de Zoom e Modos de Visão com Ortofoto de Radar Hexagon e Plano de Lavra -->
+                                    <div class="geoview-toolbar-pills">
+                                        <button type="button" class="geoview-btn-ctrl" onclick="zoomIn3D()" title="Aproximar (+)">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </button>
+                                        <button type="button" class="geoview-btn-ctrl" onclick="zoomOut3D()" title="Afastar (-)">
+                                            <i class="fa-solid fa-minus"></i>
+                                        </button>
+                                        <div style="width: 1px; height: 16px; background: rgba(255,255,255,0.15);"></div>
+                                        <button type="button" class="geoview-btn-ctrl active" id="btn-geoview-layer-3d" onclick="setGeoViewDisplayLayer('3d-mesh')" title="Modelo 3D Three.js Interativo">
+                                            <i class="fa-solid fa-cubes"></i> 3D Mesh
+                                        </button>
+                                        <button type="button" class="geoview-btn-ctrl btn-highlight-radar" id="btn-geoview-layer-ortho" onclick="setGeoViewDisplayLayer('radar-ortho')" title="Ortofoto DTM Zenital com Mapa de Deformação">
+                                            <i class="fa-solid fa-map"></i> Ortofoto DTM
+                                        </button>
+                                        <button type="button" class="geoview-btn-ctrl btn-highlight-radar" id="btn-geoview-layer-persp" onclick="setGeoViewDisplayLayer('radar-persp')" title="Modelo 3D Perspectiva Hexagon (+20mm)">
+                                            <i class="fa-solid fa-cube"></i> Modelo 3D
+                                        </button>
+                                        <button type="button" class="geoview-btn-ctrl btn-highlight-radar" id="btn-geoview-layer-series" onclick="setGeoViewDisplayLayer('radar-series')" title="Série Temporal de Deslocamento e Chuva">
+                                            <i class="fa-solid fa-chart-line"></i> Série Temporal
+                                        </button>
+                                        <div style="width: 1px; height: 16px; background: rgba(255,255,255,0.15);"></div>
+                                        <button type="button" class="geoview-btn-ctrl btn-highlight-lavra" id="btn-geoview-layer-lavra" onclick="setGeoViewDisplayLayer('plano-lavra')" title="Plano de Lavra e Frentes da Cava Jangada (Setembro 2026)">
+                                            <i class="fa-solid fa-truck-monster"></i> Plano Lavra
+                                        </button>
+                                        <button type="button" class="geoview-btn-ctrl" onclick="abrirModalPlanoLavra()" title="Relatório e Metas de Qualidade da Lavra">
+                                            <i class="fa-solid fa-file-lines"></i> Relatório Lavra
+                                        </button>
+                                        <div style="width: 1px; height: 16px; background: rgba(255,255,255,0.15);"></div>
+                                        <button type="button" class="geoview-btn-ctrl" id="btn-mode-2d" onclick="setVisaoModo3D('2D')" title="Visão Nadir Superior">
+                                            <i class="fa-regular fa-square"></i> 2D Topo
+                                        </button>
+                                        <button type="button" class="geoview-btn-ctrl" onclick="alternarVisaoCabine()" title="Visão Operacional da Cabine Radar">
+                                            <i class="fa-solid fa-video"></i> Cabine
+                                        </button>
+                                        <button type="button" class="geoview-btn-ctrl" onclick="resetarCamera3D()" title="Redefinir Câmera">
+                                            <i class="fa-solid fa-rotate-left"></i>
+                                        </button>
+                                    </div>
+
+                                    <!-- Escala Gráfica Dinâmica -->
+                                    <div class="geoview-scale-bar">
+                                        <div class="scale-ticks">
+                                            <span>0</span>
+                                            <span>250m</span>
+                                            <span>500m</span>
+                                        </div>
+                                        <div class="scale-line"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Painel Lateral Direito de Estabilidade e Geotecnia -->
+                            <aside class="geoview-side-analytics">
+                                <div class="geoview-analytics-content">
+                                    <!-- Cabeçalho do Diagnóstico -->
+                                    <div class="geoview-side-header">
+                                        <div class="title-wrap">
+                                            <span>Diagnóstico Espacial Ativo</span>
+                                            <h3>Parede Norte N_Sup_1231 &amp; PZ-02</h3>
+                                        </div>
+                                        <i class="fa-solid fa-chart-line text-primary" style="font-size: 18px;"></i>
+                                    </div>
+
+                                    <!-- Banner TARP Nível 3 Crítico com 20.00 mm Real -->
+                                    <div class="geoview-tarp-banner">
+                                        <div class="geoview-tarp-info">
+                                            <span class="tarp-pulse"></span>
+                                            <div>
+                                                <h4>TARP NÍVEL 3 (CRÍTICO)</h4>
+                                                <p>Risco de Ruptura de Bancada Local</p>
+                                            </div>
+                                        </div>
+                                        <span class="geoview-tarp-value">20.00 mm</span>
+                                    </div>
+
+                                    <!-- Parecer Técnico do Analista Geotécnico -->
+                                    <div class="geoview-analyst-opinion-card">
+                                        <div class="geoview-analyst-header">
+                                            <strong><i class="fa-solid fa-user-tie"></i> Parecer do Analista Geotécnico</strong>
+                                            <span class="badge badge-danger">TARP N3</span>
+                                        </div>
+                                        <p class="geoview-analyst-text">
+                                            <strong>Cinemática Confirmada:</strong> O radar Hexagon IBIS-FM EVO 01 registrou vetor máximo acumulado de <strong>20.00 mm</strong> no talude superior da Cava Jangada. O setor de controle <em>Área Oeste</em> atesta estabilidade de -0.25 mm e a chuva acumulada foi de 0.0 mm, descartando gatilho hidrológico e confirmando instabilidade estrutural de bancada.
+                                        </p>
+                                        <div class="d-flex align-center justify-between font-mono" style="font-size: 10px; color: #94a3b8; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 4px;">
+                                            <span>Vetor: <strong class="text-danger">+20.00 mm</strong></span>
+                                            <span>Controle: <strong class="text-success">-0.25 mm</strong></span>
+                                            <span>Chuva: <strong class="text-info">0.0 mm</strong></span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Card Integrado do Plano de Lavra Cava Jangada (Setembro 2026) -->
+                                    <div class="geoview-plano-lavra-card">
+                                        <div class="geoview-plano-lavra-header">
+                                            <div>
+                                                <span class="badge-plano-lavra"><i class="fa-solid fa-truck-monster"></i> PROGRAMAÇÃO DE LAVRA</span>
+                                                <h4>Cava Jangada (Line Up 10/Set/2026)</h4>
+                                            </div>
+                                            <button type="button" class="btn-plano-modal-open" onclick="abrirModalPlanoLavra()" title="Ver Relatório Detalhado do Plano">
+                                                <i class="fa-solid fa-up-right-from-square"></i>
+                                            </button>
+                                        </div>
+
+                                        <!-- Alerta de Interdição Geotécnica com Correlação Direta do Alvo AOI_01 (+20.00 mm) -->
+                                        <div class="geoview-plano-alert-box">
+                                            <div class="alert-title-row">
+                                                <i class="fa-solid fa-circle-radiation text-danger"></i>
+                                                <strong>FRENTE JGD OESTE INTERDITADA</strong>
+                                            </div>
+                                            <p>
+                                                MAQ 876 paralisada pela Geotecnia devido ao vetor crítico de 20.00 mm no Alvo AOI_01 (Cota 1231m). Desvio emergencial alocado para lavra em Engenho Seco (Índia).
+                                            </p>
+                                        </div>
+
+                                        <!-- Lista das Frentes de Lavra Mapeadas na Cava Jangada -->
+                                        <div class="geoview-frentes-mini-list">
+                                            <div class="frente-item interditada" onclick="abrirDetalheFrenteLavra('frente-jangada-oeste')">
+                                                <div class="frente-info">
+                                                    <span class="frente-dot danger"></span>
+                                                    <span class="frente-name">JGD Oeste (MAQ 876)</span>
+                                                    <span class="frente-status">INTERDITADA</span>
+                                                </div>
+                                                <div class="frente-meta">Cota 1.231m • Fe 44.80% • Alvo AOI_01</div>
+                                            </div>
+
+                                            <div class="frente-item perfuracao" onclick="abrirDetalheFrenteLavra('frente-jangada-leste')">
+                                                <div class="frente-info">
+                                                    <span class="frente-dot warning"></span>
+                                                    <span class="frente-name">JGD Leste (Perfuratriz)</span>
+                                                    <span class="frente-status">D&amp;B</span>
+                                                </div>
+                                                <div class="frente-meta">Perfuração &amp; Desmonte • Liberação de Praça</div>
+                                            </div>
+
+                                            <div class="frente-item ativa" onclick="abrirDetalheFrenteLavra('frente-fundo-cava')">
+                                                <div class="frente-info">
+                                                    <span class="frente-dot success"></span>
+                                                    <span class="frente-name">Fundo Cava (MAQ 908)</span>
+                                                    <span class="frente-status">ATIVA</span>
+                                                </div>
+                                                <div class="frente-meta">Fe 63.61% • SiO2 6.57% • Minério Nobre</div>
+                                            </div>
+
+                                            <div class="frente-item atencao" onclick="abrirDetalheFrenteLavra('frente-pilhao-norte')">
+                                                <div class="frente-info">
+                                                    <span class="frente-dot warning"></span>
+                                                    <span class="frente-name">Pilhão Norte (18m)</span>
+                                                    <span class="frente-status">ALERTA</span>
+                                                </div>
+                                                <div class="frente-meta">Banco 18m • Abatimento de Material Solto</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="geoview-plano-footer">
+                                            <button type="button" class="btn-troca-mapa-lavra" onclick="setGeoViewDisplayLayer('plano-lavra')">
+                                                <i class="fa-solid fa-map-location-dot"></i> Exibir Ortofoto
+                                            </button>
+                                            <button type="button" class="btn-troca-mapa-lavra" onclick="abrirModalPlanoLavra()">
+                                                <i class="fa-solid fa-chart-pie"></i> Teores &amp; Metas
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Seção Transversal A-A' com Cálculo de Bishop -->
+                                    <div class="geoview-analytics-card">
+                                        <div class="geoview-card-title-row">
+                                            <strong><i class="fa-solid fa-chart-area text-tertiary"></i> Seção Transversal A-A'</strong>
+                                            <span class="geoview-card-badge">Bishop • FS: 1.12</span>
+                                        </div>
+                                        <div class="geoview-section-svg-wrap">
+                                            <svg class="w-100 h-100" fill="none" viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg">
+                                                <line stroke="#2c344c" stroke-dasharray="2 2" stroke-width="0.5" x1="10" x2="290" y1="30" y2="30"></line>
+                                                <line stroke="#2c344c" stroke-dasharray="2 2" stroke-width="0.5" x1="10" x2="290" y1="70" y2="70"></line>
+                                                <line stroke="#2c344c" stroke-dasharray="2 2" stroke-width="0.5" x1="10" x2="290" y1="110" y2="110"></line>
+                                                <!-- Geometria das Bermas e Talude -->
+                                                <path d="M 20 20 L 70 20 L 110 60 L 150 60 L 200 110 L 280 110" stroke="#89ceff" stroke-linejoin="round" stroke-width="2"></path>
+                                                <polygon fill="#0ea5e9" fill-opacity="0.12" points="20,20 70,20 110,60 150,60 200,110 280,110 280,125 20,125"></polygon>
+                                                <!-- Superfície Potencial de Ruptura Circular -->
+                                                <path d="M 60 20 Q 110 95 185 110" stroke="#ffb4ab" stroke-dasharray="4 3" stroke-width="1.8" style="animation: telemetry-flow 3s linear infinite;"></path>
+                                                <circle cx="125" cy="80" fill="#ffb4ab" r="3"></circle>
+                                                <!-- Linha Freática / NA Piezométrico -->
+                                                <path d="M 30 50 Q 130 65 240 100" opacity="0.85" stroke="#38bdf8" stroke-dasharray="3 3" stroke-width="1.5"></path>
+                                                <text fill="#38bdf8" font-family="JetBrains Mono, monospace" font-size="8" x="35" y="45">NA Piezométrico (438.75m)</text>
+                                                <!-- Instrumento PZ-02 fincado no Talude -->
+                                                <line stroke="#4edea3" stroke-width="2" x1="130" x2="130" y1="60" y2="105"></line>
+                                                <circle cx="130" cy="60" fill="#4edea3" r="3.5" filter="drop-shadow(0 0 6px #4edea3)"></circle>
+                                                <text fill="#4edea3" font-family="JetBrains Mono, monospace" font-size="9" font-weight="bold" x="140" y="65">PZ-02</text>
+                                            </svg>
+                                        </div>
+                                        <div class="geoview-elevation-levels">
+                                            <span>Crista: 1.250 m</span>
+                                            <span>Berma: 1.190 m</span>
+                                            <span>Pé: 1.100 m</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Cinemática de Velocidade Inversa 1/v (Método de Fukuzono) -->
+                                    <div class="geoview-analytics-card">
+                                        <div class="geoview-card-title-row">
+                                            <strong><i class="fa-solid fa-chart-line text-secondary"></i> Velocidade Inversa (1/v)</strong>
+                                            <span class="geoview-card-badge" style="color: #4edea3; border-color: rgba(78,222,163,0.3);">🟢 Desacelerando ↓</span>
+                                        </div>
+                                        <div class="geoview-section-svg-wrap" style="height: 86px;">
+                                            <svg class="w-100 h-100" fill="none" viewBox="0 0 280 80">
+                                                <line stroke="#3e4850" stroke-width="1" x1="15" x2="15" y1="10" y2="70"></line>
+                                                <line stroke="#3e4850" stroke-width="1" x1="15" x2="270" y1="70" y2="70"></line>
+                                                <path d="M 25 25 Q 70 30 110 50 T 200 64 T 260 66" stroke="#4edea3" stroke-width="2.2" filter="drop-shadow(0 0 6px rgba(78,222,163,0.5))"></path>
+                                                <circle cx="260" cy="66" fill="#4edea3" r="3.5"></circle>
+                                                <text fill="#bec8d2" font-family="JetBrains Mono, monospace" font-size="8" x="18" y="20">1/v (h/mm)</text>
+                                                <text fill="#bec8d2" font-family="JetBrains Mono, monospace" font-size="8" x="205" y="78">Tempo Real</text>
+                                            </svg>
+                                        </div>
+                                        <p style="font-size: 11px; color: #94a3b8; margin: 0; line-height: 1.45;">
+                                            Padrão assintótico estável verificado após parada de detonação na bancada inferior 1210.
+                                        </p>
+                                    </div>
+
+                                    <!-- Ações Rápidas Georreferenciadas -->
+                                    <div>
+                                        <span style="font-size: 10px; text-transform: uppercase; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 6px;">Ações Georreferenciadas</span>
+                                        <div class="geoview-actions-grid">
+                                            <button type="button" class="geoview-action-btn" onclick="executarRotaGpsCampo()">
+                                                <i class="fa-solid fa-location-arrow text-primary"></i>
+                                                <span>Rota GPS Campo</span>
+                                            </button>
+                                            <button type="button" class="geoview-action-btn" onclick="vincularFirFoto()">
+                                                <i class="fa-solid fa-camera text-secondary"></i>
+                                                <span>Vincular FIR Foto</span>
+                                            </button>
+                                            <button type="button" class="geoview-action-btn" onclick="gerarMissaoDroneRtk()">
+                                                <i class="fa-solid fa-plane-departure text-warning"></i>
+                                                <span>Missão Drone RTK</span>
+                                            </button>
+                                            <button type="button" class="geoview-action-btn" onclick="gerarLaudoEspacial()">
+                                                <i class="fa-solid fa-file-pdf text-primary"></i>
+                                                <span>Laudo Espacial</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Rodapé do Painel com Assinatura Técnica e Notificação CGO -->
+                                <div class="geoview-side-footer">
+                                    <div class="geoview-inspector-info">
+                                        <div class="geoview-inspector-avatar">MN</div>
+                                        <div class="geoview-inspector-meta">
+                                            <span>Maycon Nascimento</span>
+                                            <small>CREA-MG 184.920/D</small>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn-notificar-cgo" onclick="notificarCGOEmergencia()">
+                                        Notificar CGO
+                                    </button>
+                                </div>
+                            </aside>
+                        </div>
+
+                        <!-- Rodapé de Telemetria Inferior & Precisão Geodésica -->
+                        <footer class="geoview-telemetry-footer">
+                            <div class="geoview-telemetry-footer-left">
+                                <div class="geoview-quick-switch-pills">
+                                    <a href="stitch/index.html" class="geoview-quick-pill"><i class="fa-solid fa-layer-group"></i> Hub Stitch</a>
+                                    <a href="#" class="geoview-quick-pill active"><i class="fa-solid fa-cube"></i> App de Campo</a>
+                                </div>
+                                <span>Ativas (Cava Principal, B1, B4, Dique D-02)</span>
+                                <span class="text-secondary">•</span>
+                                <span><i class="fa-solid fa-location-crosshairs text-primary"></i> Acurácia RTK Geodésica: <strong>±0.8 mm RMS</strong></span>
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                                <span>Nuvem de Pontos: <strong style="color: #38bdf8;">14.280.400 pts</strong></span>
+                                <span class="text-secondary">•</span>
+                                <span>Última Varredura Radar: <strong style="color: #f8fafc;">Hoje às 09:30:14 BRT</strong></span>
+                            </div>
+                        </footer>
+                    </div>
+
+                    <!-- REPOSITÓRIO CORPORATIVO E DASHBOARDS DE PILHAS (EXPANSÍVEL) -->
+                    <details class="geoview-legacy-details">
+                        <summary><i class="fa-solid fa-folder-tree text-primary"></i> Ver Dashboards de Pilhas e Arquivos Corporativos Associados</summary>
+                        <div class="geoview-legacy-content">
+                            <input type="file" id="geoview-file-input" class="sr-only-file" multiple accept=".pbix,.pbit,.xlsx,.xls,.xlsm,.csv,.png,.jpg,.jpeg,.webp,.pdf,.html,.htm,.geojson,.json,.qmd,.pptx,.docx">
+                            <input type="file" id="geoview-folder-input" class="sr-only-file" multiple webkitdirectory directory>
+                            <input type="file" id="geoview-map-input" class="sr-only-file" accept="image/*">
+
+                            <section class="pilhas-bi-dashboard geoview-info" id="pilhas-bi-dashboard" tabindex="0" data-tooltip="Indicadores geotécnicos por estrutura.">
+                                <div class="pilhas-bi-title-row">
+                                    <img src="assets/itaminas-logo-white.png" alt="Itaminas" class="pilhas-bi-logo">
+                                    <h2 id="pilhas-bi-title">INDICADORES GEOTÉCNICOS DE PILHAS</h2>
+                                    <span id="pilhas-bi-source-badge">GeoView</span>
+                                </div>
+
+                                <div class="pilhas-bi-filter-grid" aria-label="Filtros dos indicadores de pilhas">
+                                    <div class="pilhas-bi-filter-group pilhas-bi-filter-structure">
+                                        <strong>ESTRUTURA</strong>
+                                        <select id="pilhas-structure-filter" class="pilhas-bi-select" onchange="setPilhasStructureFilter(this.value)"></select>
+                                    </div>
+                                    <div class="pilhas-bi-filter-group">
+                                        <strong>ANO</strong>
+                                        <div class="pilhas-bi-segments pilhas-bi-two" id="pilhas-year-filter"></div>
+                                    </div>
+                                    <div class="pilhas-bi-filter-group pilhas-bi-filter-month">
+                                        <strong>M&Ecirc;S</strong>
+                                        <div class="pilhas-bi-segments pilhas-bi-months" id="pilhas-month-filter"></div>
+                                    </div>
+                                    <div class="pilhas-bi-filter-group">
+                                        <strong>AN&Aacute;LISE</strong>
+                                        <div class="pilhas-bi-segments pilhas-bi-two" id="pilhas-analysis-filter"></div>
+                                    </div>
+                                </div>
+
+                                <div class="pilhas-bi-kpi-grid" aria-label="Resumo da estrutura selecionada">
+                                    <article>
+                                        <span>INSTRUMENTOS</span>
+                                        <strong id="pilhas-kpi-instruments">0</strong>
+                                        <small id="pilhas-kpi-types">Sem cadastro</small>
+                                    </article>
+                                    <article>
+                                        <span>LEITURAS NO PERÍODO</span>
+                                        <strong id="pilhas-kpi-readings">0</strong>
+                                        <small id="pilhas-kpi-period">-</small>
+                                    </article>
+                                    <article>
+                                        <span>ANOMALIAS ATIVAS</span>
+                                        <strong id="pilhas-kpi-alerts">0</strong>
+                                        <small id="pilhas-kpi-alert-label">Situação atual</small>
+                                    </article>
+                                    <article>
+                                        <span>ÚLTIMA ATUALIZAÇÃO</span>
+                                        <strong id="pilhas-kpi-latest">-</strong>
+                                        <small id="pilhas-kpi-latest-code">Sem leitura</small>
+                                    </article>
+                                </div>
+
+                                <div class="pilhas-bi-grid" aria-label="Dashboard dinamico de indicadores de pilhas">
+                                    <article class="pilhas-bi-panel geoview-info">
+                                        <h3 id="pilhas-panel-title-geometria">GEOMETRIA</h3>
+                                        <div class="pilhas-bi-chart" id="pilhas-chart-geometria"></div>
+                                    </article>
+                                    <article class="pilhas-bi-panel geoview-info">
+                                        <h3 id="pilhas-panel-title-declividade">DECLIVIDADE X LIMITE CONFORMIDADE</h3>
+                                        <div class="pilhas-bi-chart" id="pilhas-chart-declividade"></div>
+                                    </article>
+                                    <article class="pilhas-bi-panel pilhas-bi-map-panel geoview-info">
+                                        <h3>LOCALIZA&Ccedil;&Atilde;O</h3>
+                                        <div class="pilhas-location-map" id="pilhas-location-map"></div>
+                                        <div class="pilhas-map-live-status" id="pilhas-map-live-status">Selecione uma estrutura no mapa.</div>
+                                    </article>
+                                    <article class="pilhas-bi-panel geoview-info">
+                                        <h3 id="pilhas-panel-title-empocamento">EMPO&Ccedil;AMENTO</h3>
+                                        <div class="pilhas-bi-chart" id="pilhas-chart-empocamento"></div>
+                                    </article>
+                                    <article class="pilhas-bi-panel geoview-info">
+                                        <h3 id="pilhas-panel-title-fator">FATOR DE SEGURAN&Ccedil;A</h3>
+                                        <div class="pilhas-bi-chart" id="pilhas-chart-fator"></div>
+                                    </article>
+                                    <article class="pilhas-bi-panel geoview-info">
+                                        <h3 id="pilhas-panel-title-plano">FATOR DE SEGURAN&Ccedil;A PLANO DE LAVRA</h3>
+                                        <div class="pilhas-bi-chart pilhas-bi-single" id="pilhas-chart-plano-lavra"></div>
+                                    </article>
+                                </div>
+                            </section>
+
+                            <div class="card geoview-hero-card mb-4 mt-3">
+                                <div class="card-header justify-between">
+                                    <h3><i class="fa-solid fa-earth-americas text-primary"></i> GeoView - Dashboards corporativos</h3>
+                                    <div class="flex gap-2">
+                                        <button type="button" class="btn btn-secondary" onclick="openGeoViewFolderPicker()">
+                                            <i class="fa-solid fa-folder-tree"></i> Conectar pasta
+                                        </button>
+                                        <button type="button" class="btn btn-primary" onclick="openGeoViewFilePicker()">
+                                            <i class="fa-solid fa-file-arrow-up"></i> Importar arquivos
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="geoview-source-row">
+                                        <span><i class="fa-solid fa-database"></i> Pasta fixada</span>
+                                        <strong id="geoview-source-path">-</strong>
+                                    </div>
+                                    <div class="geoview-dashboard-grid mt-3" id="geoview-dashboard-grid"></div>
+                                    <div class="d-flex justify-center mt-3">
+                                        <button type="button" class="btn btn-secondary btn-sm" id="geoview-load-more" onclick="toggleGeoViewFullRender()" style="display: none;">
+                                            <i class="fa-solid fa-arrows-up-down"></i> <span id="geoview-load-more-text">Mostrar todos os dashboards</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+                    </div>
+
                     <!-- 1. RADAR 24/7 & CAVA JANGADA PANEL (VINCULADO AO GRUPO DO WHATSAPP) -->
-                    <div id="panel-radar-monitoring" class="radar-panel-container">
+                    <div id="panel-radar-monitoring" class="radar-panel-container monitoring-sub-panel" style="display: none;">
                         
                         <!-- Top Official WhatsApp Group & Radar Hero Card -->
                         <div class="card mb-3 whatsapp-hero-card">
@@ -1338,7 +1991,7 @@
                     </div>
 
                     <!-- 2. CONVENTIONAL READINGS PANEL (PZ / INA / MARCOS) -->
-                    <div id="panel-conventional-readings" style="display: none;">
+                    <div id="panel-conventional-readings" class="monitoring-sub-panel" style="display: none;">
 
 <div class="dashboard-row">
                         <!-- Reading Form Card -->
@@ -1492,8 +2145,557 @@
                         </div>
                     </div>
                     </div>
+                
+                    <!-- 4. PAINEL CARTOGRAFIA GIS 2D & GEORREFERENCIAMENTO (LEAFLET / SIRGAS 2000) -->
+                    <div id="panel-gis2d-georef" class="monitoring-sub-panel" style="display: none;">
+<!-- GIS Map Header Card -->
+                    <div class="card">
+                        <div class="card-header justify-between">
+                            <div>
+                                <h3><i class="fa-solid fa-map-location-dot text-primary"></i> Mapeamento Georreferenciado GIS da Mina</h3>
+                                <p class="text-secondary small mt-1">Referência Oficial: <code>ESTRUTURAS GEOTEC.kmz</code> • SIRGAS 2000 / UTM Zona 23S (EPSG:31983)</p>
+                            </div>
+                            <div class="georef-header-actions">
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="triggerGeorefGpsCapture()">
+                                    <i class="fa-solid fa-location-crosshairs text-success"></i> <span id="georef-gps-btn-label">Usar GPS Atual</span>
+                                </button>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="openSelectedStructureInGoogleEarth()">
+                                    <i class="fa-solid fa-earth-americas"></i> Abrir no Google Earth
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!-- Quick Structure Selector Pills -->
+                            <div class="georef-pills-bar" id="georef-structure-pills" aria-label="Navegação Rápida por Estruturas"></div>
+
+                            <!-- Dedicated Leaflet GIS Map Container -->
+                            <div class="georef-leaflet-wrapper">
+                                <div id="georef-leaflet-map"></div>
+                                <div class="georef-map-overlay-info" id="georef-map-overlay-info">
+                                    <i class="fa-solid fa-layer-group text-primary"></i>
+                                    <span id="georef-active-structure-name">Toda a Mina (Visão Geral)</span> •
+                                    <span id="georef-active-structure-coords">10 Estruturas Geotécnicas • SIRGAS 2000 / UTM 23S</span>
+                                </div>
+                            </div>
+
+                            <!-- Map Legend & Layer Tips -->
+                            <div class="map-legend mt-2 justify-between">
+                                <div class="d-flex gap-3 align-center">
+                                    <div class="legend-item"><span class="legend-dot bg-blue"></span> Estrutura Geotécnica</div>
+                                    <div class="legend-item"><span class="legend-dot bg-success"></span> Normal (&lt; 70% limite)</div>
+                                    <div class="legend-item"><span class="legend-dot bg-warning"></span> Atenção (70% - 90%)</div>
+                                    <div class="legend-item"><span class="legend-dot bg-danger"></span> Crítico (&gt; 90%)</div>
+                                </div>
+                                <div class="text-secondary small">
+                                    <i class="fa-solid fa-circle-info"></i> Clique em qualquer ponto para inspecionar ou transicionar a câmera.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Geodetic Controls and Structure Details Row -->
+                    <div class="dashboard-row mt-4">
+                        <!-- Card 1: Geodetic Editor SIRGAS 2000 / UTM 23S -->
+                        <div class="card col-6">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-compass-drafting text-primary"></i> Conversor e Coordenadas Geodésicas</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="georef-status-card" id="georef-status-card">
+                                    <div class="release-status-icon">
+                                        <i class="fa-solid fa-satellite-dish"></i>
+                                    </div>
+                                    <div>
+                                        <span id="georef-fix-status">Posição Geodésica</span>
+                                        <strong id="georef-fix-quality">SIRGAS 2000 / UTM 23S (EPSG:31983)</strong>
+                                        <p id="georef-fix-desc">Datum SIRGAS 2000 (GRS80) • Coordenadas métricas em Projeção Universal Transversa de Mercator.</p>
+                                    </div>
+                                </div>
+
+                                <div class="earth-coordinate-grid mt-3">
+                                    <div class="form-group earth-coordinate-paste">
+                                        <label for="georef-input-paste">Colar Coordenada (Google Earth / UTM / Lat,Lon)</label>
+                                        <input type="text" id="georef-input-paste" class="form-control form-control-sm" placeholder="-20.09103992, -44.11018068 ou E 593029 N 7778196">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="georef-input-lat">Latitude (WGS84 / EPSG:4674)</label>
+                                        <input type="number" id="georef-input-lat" class="form-control form-control-sm" step="0.00000001" onchange="onGeorefLatLonChange()">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="georef-input-lon">Longitude (WGS84 / EPSG:4674)</label>
+                                        <input type="number" id="georef-input-lon" class="form-control form-control-sm" step="0.00000001" onchange="onGeorefLatLonChange()">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>UTM Projetada (Easting / Northing)</label>
+                                        <div class="earth-coordinate-derived" id="georef-utm-derived">-</div>
+                                    </div>
+                                    <div class="earth-coordinate-actions">
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="copyGeorefCoordinate()">
+                                            <i class="fa-solid fa-copy"></i> Copiar
+                                        </button>
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="applyPastedGeorefCoordinate()">
+                                            <i class="fa-solid fa-paste"></i> Colar
+                                        </button>
+                                        <button type="button" class="btn btn-primary btn-sm" onclick="saveManualGeorefCoordinate()">
+                                            <i class="fa-solid fa-check"></i> Salvar na Estrutura
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Structure Instruments & Anomaly Summary -->
+                        <div class="card col-6">
+                            <div class="card-header justify-between">
+                                <h3><i class="fa-solid fa-chart-line text-primary"></i> Instrumentos e Alertas da Estrutura</h3>
+                                <span class="badge badge-primary" id="georef-structure-badge">Visão Geral</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="georef-kpi-grid">
+                                    <div class="georef-kpi">
+                                        <span>Instrumentos</span>
+                                        <strong id="georef-kpi-instruments">0</strong>
+                                    </div>
+                                    <div class="georef-kpi">
+                                        <span>Normal</span>
+                                        <strong id="georef-kpi-normal" class="text-success">0</strong>
+                                    </div>
+                                    <div class="georef-kpi">
+                                        <span>Atenção</span>
+                                        <strong id="georef-kpi-warning" class="text-warning">0</strong>
+                                    </div>
+                                    <div class="georef-kpi">
+                                        <span>Crítico</span>
+                                        <strong id="georef-kpi-critical" class="text-danger">0</strong>
+                                    </div>
+                                </div>
+
+                                <div class="georef-instruments-list mt-3" id="georef-instruments-list">
+                                    <!-- Lista de instrumentos renderizada dinamicamente -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Georeferenced Records Table Card -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-table-cells text-primary"></i> Registros de Campo Georreferenciados</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Data</th>
+                                            <th>Estrutura</th>
+                                            <th>Elemento</th>
+                                            <th>Tipo</th>
+                                            <th>EPSG</th>
+                                            <th>Coordenada UTM</th>
+                                            <th>Precisão</th>
+                                            <th>Qualidade</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="georef-records-body">
+                                        <!-- Registros com georreferenciamento -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
                 </section>
 
+                <!-- TAB: MODELO 3D DA CAVA (CANONICAL ARCGIS PRO 3.6.3 & THREE.JS ENGINE) -->
+                <section id="tab-cava3d" class="tab-pane">
+                    <div class="cava3d-container">
+                        <!-- Header / Barra Superior de Filtros e Topografia -->
+                        <header class="cava3d-header-bar">
+                            <div class="cava3d-header-left">
+                                <div class="cava3d-brand-title">
+                                    <i class="fa-solid fa-cube" style="color: #4edea3; font-size: 18px;"></i>
+                                    <span>MODELO 3D DA CAVA JANGADA</span>
+                                </div>
+                                <span class="cava3d-meta-pill">
+                                    <i class="fa-solid fa-database"></i> ArcGIS Pro 3.6.3 (Agosto/2026)
+                                </span>
+                                <span class="cava3d-meta-pill" style="background: rgba(78, 222, 163, 0.12); border-color: rgba(78, 222, 163, 0.35); color: #4edea3;">
+                                    <i class="fa-solid fa-mountain"></i> Topo tpes_260731 (336 Cotas)
+                                </span>
+                                <span class="cava3d-meta-pill" style="background: rgba(14, 165, 233, 0.12); border-color: rgba(14, 165, 233, 0.35); color: #38bdf8;">
+                                    <i class="fa-solid fa-location-crosshairs"></i> SIRGAS 2000 / UTM 23S (RMS &plusmn;0.8 mm)
+                                </span>
+                            </div>
+
+                            <div class="cava3d-header-right">
+                                <div class="d-flex align-center gap-1">
+                                    <label style="font-size: 11px; color: #94a3b8; margin: 0;">Exagero Z:</label>
+                                    <select class="form-control form-control-sm" style="width: 75px; padding: 2px 6px; font-size: 11px; background: rgba(15,23,42,0.9); border-color: rgba(255,255,255,0.15); color: #ffffff;" onchange="window.Cava3DEngine.setVerticalExaggeration(parseFloat(this.value))">
+                                        <option value="1.0">1.0x</option>
+                                        <option value="1.25" selected>1.25x</option>
+                                        <option value="1.5">1.5x</option>
+                                        <option value="2.0">2.0x</option>
+                                    </select>
+                                </div>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="abrirModalPranchaGeologica()" title="Visualizar a Prancha Oficial Consolidada do Mapa Geológico (Agosto/2026)">
+                                    <i class="fa-solid fa-map-location-dot"></i> Prancha 2D Oficial
+                                </button>
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="abrirModalImportarTopografia()" title="Importar novo modelo topografico (.dxf, .xyz, .geojson)">
+                                    <i class="fa-solid fa-file-arrow-up text-primary"></i> Importar Topo
+                                </button>
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="window.Cava3DEngine.exportSnapshot()" title="Exportar imagem HD com carimbo de engenharia">
+                                    <i class="fa-solid fa-camera text-success"></i> Snapshot
+                                </button>
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="alternarCava3dSidebar()" id="btn-toggle-cava3d-sidebar" title="Recolher/Expandir painel lateral">
+                                    <i class="fa-solid fa-bars-staggered"></i>
+                                </button>
+                            </div>
+                        </header>
+
+                        <!-- Palco Principal: Viewport 3D Three.js + Painel Lateral -->
+                        <div class="cava3d-main-stage">
+                            <!-- Viewport 3D -->
+                            <div class="cava3d-viewport-area" id="cava3d-viewport-container">
+                                <div id="cava3d-threejs-mount"></div>
+
+                                <!-- HUD Superior Esquerdo: Coordenadas em Tempo Real (SIRGAS 2000 / UTM 23S) -->
+                                <div class="cava3d-hud-coords">
+                                    <div class="cava3d-hud-box">
+                                        <div><span>X:</span> <strong id="cava3d-hud-x">595.693,52 m E</strong></div>
+                                        <span class="text-secondary">&bull;</span>
+                                        <div><span>Y:</span> <strong id="cava3d-hud-y">7.777.616,71 m N</strong></div>
+                                        <span class="text-secondary">&bull;</span>
+                                        <div><span>Z:</span> <strong id="cava3d-hud-z" style="color: #4edea3;">1.231,44 m</strong></div>
+                                    </div>
+                                    <div class="cava3d-hud-params">
+                                        <span class="cava3d-param-badge" id="cava3d-hud-azimuth">Azimute: 45&deg;</span>
+                                        <span class="cava3d-param-badge" id="cava3d-hud-pitch">Pitch: 60&deg;</span>
+                                        <span class="cava3d-param-badge" style="color: #38bdf8;">Datum: SIRGAS 2000 (EPSG:31983)</span>
+                                    </div>
+                                </div>
+
+                                <!-- HUD Superior Direito: Vistas Rapidas de Camera -->
+                                <div class="cava3d-hud-quickviews">
+                                    <button type="button" class="cava3d-btn-icon" onclick="window.Cava3DEngine.setQuickView('nadir')" title="Visao Topo / Nadir 2D (Norte para Cima)">
+                                        <i class="fa-regular fa-square"></i>
+                                    </button>
+                                    <button type="button" class="cava3d-btn-icon active" onclick="window.Cava3DEngine.setQuickView('iso')" title="Visao Isometrica 3D">
+                                        <i class="fa-solid fa-cube"></i>
+                                    </button>
+                                    <button type="button" class="cava3d-btn-icon" onclick="window.Cava3DEngine.setQuickView('frontal')" title="Visao Frontal (Talude Norte / AOI_01)">
+                                        <i class="fa-solid fa-mountain"></i>
+                                    </button>
+                                    <button type="button" class="cava3d-btn-icon" onclick="window.Cava3DEngine.setQuickView('radar')" title="Posicao da Cabine do Radar IBIS-FM">
+                                        <i class="fa-solid fa-tower-broadcast text-primary"></i>
+                                    </button>
+                                    <button type="button" class="cava3d-btn-icon" onclick="window.Cava3DEngine.setQuickView('reset')" title="Redefinir Camera">
+                                        <i class="fa-solid fa-rotate-left"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Card Flutuante de Medicao 3D (quando ativo) -->
+                                <div class="cava3d-measure-readout" id="cava3d-measure-readout" style="display: none;">
+                                    <div class="cava3d-measure-title">
+                                        <span><i class="fa-solid fa-ruler-combined"></i> MEDIÇÃO 3D</span>
+                                        <button type="button" style="background:none; border:none; color:#ef4444; cursor:pointer;" onclick="window.Cava3DEngine.clearMeasurements()" title="Limpar Pontos">&times;</button>
+                                    </div>
+                                    <div class="cava3d-measure-grid">
+                                        <div><span>Dist. 3D:</span> <strong id="cava3d-measure-dist3d">-</strong></div>
+                                        <div><span>Dist. Horiz.:</span> <strong id="cava3d-measure-dist2d">-</strong></div>
+                                        <div><span>Desnível (&Delta;Z):</span> <strong id="cava3d-measure-deltaz">-</strong></div>
+                                        <div><span>Inclinação:</span> <strong id="cava3d-measure-slope">-</strong></div>
+                                    </div>
+                                    <small style="display:block; font-size:9px; color:#94a3b8; margin-top:6px; border-top:1px solid rgba(255,255,255,0.06); padding-top:4px;">Clique em 2 pontos na superficie da cava.</small>
+                                </div>
+
+                                <!-- HUD Inferior Esquerdo: Bussola e Escala Grafica -->
+                                <div class="cava3d-hud-bottom-left">
+                                    <div class="cava3d-compass" id="cava3d-compass-btn" onclick="window.Cava3DEngine.setQuickView('nadir')" title="Bussola Norte (Clique para orientar ao Norte)">
+                                        <span class="cava3d-compass-label">N</span>
+                                        <div class="cava3d-compass-needle" id="cava3d-compass-needle"></div>
+                                    </div>
+                                    <div class="geoview-scale-bar" style="background: rgba(10,18,40,0.85); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.12); border-radius: 6px; padding: 4px 8px;">
+                                        <div class="scale-ticks">
+                                            <span>0</span>
+                                            <span>100m</span>
+                                            <span>250m</span>
+                                        </div>
+                                        <div class="scale-line" style="width: 100px;"></div>
+                                    </div>
+                                </div>
+
+                                <!-- HUD Inferior Central: Modos de Visualizacao e Ferramentas -->
+                                <div class="cava3d-hud-bottom-center">
+                                    <button type="button" class="cava3d-mode-btn active" data-mode="ortho" onclick="window.Cava3DEngine.setDisplayMode('ortho')">
+                                        <i class="fa-solid fa-map"></i> Ortofoto ArcGIS
+                                    </button>
+                                    <button type="button" class="cava3d-mode-btn" data-mode="lithology" onclick="window.Cava3DEngine.setDisplayMode('lithology')">
+                                        <i class="fa-solid fa-layer-group text-primary"></i> Litologias 3D
+                                    </button>
+                                    <button type="button" class="cava3d-mode-btn" data-mode="wireframe" onclick="window.Cava3DEngine.setDisplayMode('wireframe')">
+                                        <i class="fa-solid fa-border-none text-secondary"></i> Malha DTM
+                                    </button>
+                                    <div style="width: 1px; height: 16px; background: rgba(255,255,255,0.15);"></div>
+                                    <button type="button" class="cava3d-mode-btn" id="btn-cava3d-measure" onclick="window.Cava3DEngine.toggleMeasureMode()">
+                                        <i class="fa-solid fa-ruler-combined text-warning"></i> Régua 3D
+                                    </button>
+                                    <button type="button" class="cava3d-mode-btn" onclick="toggleCava3dFullscreen()">
+                                        <i class="fa-solid fa-expand"></i> Tela Cheia
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Painel Lateral Retratil: Camadas, Ficha Tecnica e Geologia -->
+                            <aside class="cava3d-sidebar" id="cava3d-sidebar-panel">
+                                <!-- Abas do Painel Lateral -->
+                                <div class="cava3d-sidebar-tabs">
+                                    <button type="button" class="cava3d-sidebar-tab-btn active" id="btn-cava3d-tab-layers" onclick="switchCava3dSideTab('layers')">
+                                        <i class="fa-solid fa-bars-staggered"></i> Camadas (12)
+                                    </button>
+                                    <button type="button" class="cava3d-sidebar-tab-btn" id="btn-cava3d-tab-details" onclick="switchCava3dSideTab('details')">
+                                        <i class="fa-solid fa-circle-info"></i> Detalhes
+                                    </button>
+                                    <button type="button" class="cava3d-sidebar-tab-btn" id="btn-cava3d-tab-geology" onclick="switchCava3dSideTab('geology')">
+                                        <i class="fa-solid fa-gem"></i> Litologias (28)
+                                    </button>
+                                </div>
+
+                                <!-- Conteudo das Abas -->
+                                <div class="cava3d-sidebar-content">
+                                    <!-- Aba 1: Arvore de Camadas -->
+                                    <div id="cava3d-content-layers">
+                                        <div class="cava3d-layer-tree">
+                                            <!-- 1. Modelo 3D DTM -->
+                                            <div class="cava3d-layer-item">
+                                                <label class="cava3d-layer-info">
+                                                    <input type="checkbox" checked onchange="window.Cava3DEngine.toggleLayer('dtm', this.checked)">
+                                                    <span class="cava3d-layer-dot" style="background: #38bdf8;"></span>
+                                                    <span>Modelo 3D (Superfície DTM)</span>
+                                                </label>
+                                                <span class="cava3d-layer-badge">120x120</span>
+                                            </div>
+
+                                            <!-- 2. Curvas de Nivel -->
+                                            <div class="cava3d-layer-item">
+                                                <label class="cava3d-layer-info">
+                                                    <input type="checkbox" checked onchange="window.Cava3DEngine.toggleLayer('contours', this.checked)">
+                                                    <span class="cava3d-layer-dot" style="background: #ffb95f;"></span>
+                                                    <span>Curvas de Nível (Bancadas)</span>
+                                                </label>
+                                                <span class="cava3d-layer-badge">336 Cotas</span>
+                                            </div>
+
+                                            <!-- 3. Cristas e Pes de Talude -->
+                                            <div class="cava3d-layer-item">
+                                                <label class="cava3d-layer-info">
+                                                    <input type="checkbox" checked onchange="window.Cava3DEngine.toggleLayer('crestToe', this.checked)">
+                                                    <span class="cava3d-layer-dot" style="background: #facc15;"></span>
+                                                    <span>Cristas e Pés de Talude</span>
+                                                </label>
+                                                <span class="cava3d-layer-badge">16 Bancos</span>
+                                            </div>
+
+                                            <!-- 4. Instrumentacao Geotecnica -->
+                                            <div class="cava3d-layer-item">
+                                                <label class="cava3d-layer-info">
+                                                    <input type="checkbox" checked onchange="window.Cava3DEngine.toggleLayer('instruments', this.checked)">
+                                                    <span class="cava3d-layer-dot" style="background: #4edea3;"></span>
+                                                    <span>Instrumentação (PZ / INA / MS)</span>
+                                                </label>
+                                                <span class="cava3d-layer-badge">21 Sensores</span>
+                                            </div>
+
+                                            <!-- 5. Superficie Freatica 3D -->
+                                            <div class="cava3d-layer-item">
+                                                <label class="cava3d-layer-info">
+                                                    <input type="checkbox" checked onchange="window.Cava3DEngine.toggleLayer('waterTable', this.checked)">
+                                                    <span class="cava3d-layer-dot" style="background: #0284c7;"></span>
+                                                    <span>Superfície Freática 3D</span>
+                                                </label>
+                                                <span class="cava3d-layer-badge">Piezometria</span>
+                                            </div>
+
+                                            <!-- 6. Radar IBIS-FM EVO 01 -->
+                                            <div class="cava3d-layer-item">
+                                                <label class="cava3d-layer-info">
+                                                    <input type="checkbox" checked onchange="window.Cava3DEngine.toggleLayer('radar', this.checked)">
+                                                    <span class="cava3d-layer-dot" style="background: #38bdf8;"></span>
+                                                    <span>Radar IBIS-FM e Visada (LOS)</span>
+                                                </label>
+                                                <span class="cava3d-layer-badge">Cota 1140</span>
+                                            </div>
+
+                                            <!-- 7. Alvo Critico AOI_01 -->
+                                            <div class="cava3d-layer-item" style="border-color: rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.08);">
+                                                <label class="cava3d-layer-info">
+                                                    <input type="checkbox" checked onchange="window.Cava3DEngine.toggleLayer('criticalAoI', this.checked)">
+                                                    <span class="cava3d-layer-dot" style="background: #ef4444; box-shadow: 0 0 8px #ef4444;"></span>
+                                                    <span style="color: #ef4444; font-weight: 700;">Alvo AOI_01 (TARP N3)</span>
+                                                </label>
+                                                <span class="cava3d-layer-badge" style="color: #ef4444; background: rgba(239,68,68,0.2);">+20.00 mm</span>
+                                            </div>
+
+                                            <!-- 8. Frentes de Lavra e Operacao -->
+                                            <div class="cava3d-layer-item">
+                                                <label class="cava3d-layer-info">
+                                                    <input type="checkbox" checked onchange="window.Cava3DEngine.toggleLayer('mineFronts', this.checked)">
+                                                    <span class="cava3d-layer-dot" style="background: #f59e0b;"></span>
+                                                    <span>Frentes de Lavra (Set/2026)</span>
+                                                </label>
+                                                <span class="cava3d-layer-badge">4 Frentes</span>
+                                            </div>
+
+                                            <!-- 9. Secao Transversal Geotecnica A-A' -->
+                                            <div class="cava3d-layer-item">
+                                                <label class="cava3d-layer-info">
+                                                    <input type="checkbox" checked onchange="window.Cava3DEngine.toggleLayer('sections', this.checked)">
+                                                    <span class="cava3d-layer-dot" style="background: #ffb95f;"></span>
+                                                    <span>Seção Transversal A-A'</span>
+                                                </label>
+                                                <span class="cava3d-layer-badge">Bishop FS 1.12</span>
+                                            </div>
+
+                                            <!-- 10. Grade Cartografica UTM -->
+                                            <div class="cava3d-layer-item">
+                                                <label class="cava3d-layer-info">
+                                                    <input type="checkbox" checked onchange="window.Cava3DEngine.toggleLayer('utmGrid', this.checked)">
+                                                    <span class="cava3d-layer-dot" style="background: #89ceff;"></span>
+                                                    <span>Grade Cartográfica UTM</span>
+                                                </label>
+                                                <span class="cava3d-layer-badge">100x100m</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Aba 2: Detalhes do Elemento Selecionado -->
+                                    <div id="cava3d-content-details" style="display: none;">
+                                        <div id="cava3d-selected-details-content">
+                                            <div class="text-center p-3" style="color: #94a3b8; font-size: 12px;">
+                                                <i class="fa-solid fa-arrow-pointer mb-2" style="font-size: 24px; color: #38bdf8;"></i>
+                                                <p>Clique em qualquer elemento 3D da cava (piezômetro, alvo de radar, bancada ou frente de lavra) para inspecionar parâmetros geotécnicos em tempo real.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Aba 3: Glossario Geologico ArcGIS Pro (28 Litologias) -->
+                                    <div id="cava3d-content-geology" style="display: none;">
+                                        <button type="button" class="btn btn-secondary btn-sm w-100 mb-3" onclick="abrirModalPranchaGeologica()" style="font-size: 11px; background: rgba(56,189,248,0.12); border-color: rgba(56,189,248,0.3); color: #38bdf8;">
+                                            <i class="fa-solid fa-map-location-dot"></i> Abrir Prancha Oficial (Layout 08/2026)
+                                        </button>
+                                        <div class="cava3d-geology-list" id="cava3d-geology-units-container">
+                                            <!-- Preenchido dinamicamente via JS a partir de window.MDSYNC_GEOLOGIA_CAVA -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </aside>
+                        </div>
+
+                        <!-- Barra de Telemetria Inferior -->
+                        <footer class="cava3d-footer-bar">
+                            <div class="cava3d-footer-left">
+                                <span><i class="fa-solid fa-satellite text-primary"></i> Sensor Radar: <strong>IBIS-FM EVO 01</strong> (+20.00 mm)</span>
+                                <span class="text-secondary">&bull;</span>
+                                <span>Triângulos DTM: <strong id="cava3d-telemetry-triangles">28.800 faces</strong></span>
+                                <span class="text-secondary">&bull;</span>
+                                <span>Cotas: <strong id="cava3d-telemetry-cotas">336 cotas</strong></span>
+                            </div>
+                            <div class="cava3d-footer-right">
+                                <span>Datum: <strong>SIRGAS 2000</strong></span>
+                                <span class="text-secondary">&bull;</span>
+                                <span>Acurácia RTK: <strong style="color: #4edea3;">&plusmn;0.8 mm RMS</strong></span>
+                                <span class="text-secondary">&bull;</span>
+                                <span style="color: #4edea3;"><i class="fa-solid fa-circle-check"></i> 100% Offline</span>
+                            </div>
+                        </footer>
+                    </div>
+
+                    <!-- Modal de Importacao Topografica com Validacao Rigorosa -->
+                    <div class="cava3d-modal-backdrop" id="cava3d-import-modal">
+                        <div class="cava3d-modal-card">
+                            <div class="card-header justify-between">
+                                <h3><i class="fa-solid fa-file-arrow-up text-primary"></i> Importar Levantamento Topográfico</h3>
+                                <button type="button" class="btn-close" onclick="fecharModalImportarTopografia()">&times;</button>
+                            </div>
+                            <div class="card-body">
+                                <p style="font-size: 12px; color: #94a3b8; margin-bottom: 14px;">
+                                    Envie arquivos de nuvem de pontos ou malha (.xyz, .csv, .dxf, .geojson). O sistema verificará automaticamente a presença de elevações e coordenadas no sistema oficial SIRGAS 2000 / UTM 23S.
+                                </p>
+                                
+                                <div class="cava3d-dropzone" onclick="document.getElementById('cava3d-file-input').click()">
+                                    <i class="fa-solid fa-cloud-arrow-up text-primary" style="font-size: 32px; margin-bottom: 10px;"></i>
+                                    <h4 style="font-size: 14px; margin: 0 0 4px 0; color: #ffffff;">Arraste ou selecione o arquivo topográfico</h4>
+                                    <p style="font-size: 11px; color: #94a3b8; margin: 0;">Formatos suportados: .xyz, .csv, .dxf, .geojson (máx 50MB)</p>
+                                    <input type="file" id="cava3d-file-input" style="display: none;" accept=".xyz,.csv,.txt,.dxf,.geojson,.json" onchange="window.Cava3DEngine.validateAndImportTopography(this.files[0])">
+                                </div>
+
+                                <div id="cava3d-import-feedback" class="mt-3"></div>
+                            </div>
+                            <div class="card-footer d-flex justify-end gap-2">
+                                <button type="button" class="btn btn-secondary" onclick="fecharModalImportarTopografia()">Cancelar</button>
+                                <button type="button" class="btn btn-primary" onclick="fecharModalImportarTopografia()">Concluir</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal da Prancha Tecnica Oficial Consolidada (Layout Mapa Geologico 08/2026) -->
+                    <div class="cava3d-modal-backdrop" id="cava3d-prancha-modal">
+                        <div class="cava3d-prancha-modal-card">
+                            <div class="cava3d-prancha-header">
+                                <div class="d-flex align-center gap-3">
+                                    <i class="fa-solid fa-map-location-dot text-primary" style="font-size: 20px;"></i>
+                                    <div>
+                                        <h3 style="font-size: 14px; margin: 0; color: #ffffff;">Prancha Técnica: Mapa Geológico Oficial e Limite Trimestral de Lavra</h3>
+                                        <p style="font-size: 11px; color: #94a3b8; margin: 2px 0 0 0;">
+                                            Minas Engenho Seco e Jangada | Esri ArcGIS Pro 3.6.3 | Base: Agosto/2026 | Datum: SAD 1969 / SIRGAS 2000 UTM 23S
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-center gap-2">
+                                    <div class="d-flex align-center gap-1 bg-surface-container px-2 py-1 rounded" style="background: rgba(15,23,42,0.8); border: 1px solid rgba(255,255,255,0.1);">
+                                        <button type="button" class="btn btn-icon btn-sm" onclick="zoomPrancha(0.25)" title="Aumentar Zoom">
+                                            <i class="fa-solid fa-magnifying-glass-plus text-primary"></i>
+                                        </button>
+                                        <span id="cava3d-prancha-zoom-label" style="font-size: 11px; font-family: monospace; color: #ffffff; min-width: 40px; text-align: center;">100%</span>
+                                        <button type="button" class="btn btn-icon btn-sm" onclick="zoomPrancha(-0.25)" title="Diminuir Zoom">
+                                            <i class="fa-solid fa-magnifying-glass-minus text-primary"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="resetZoomPrancha()" title="Ajustar 1:1" style="font-size: 11px; padding: 2px 8px;">
+                                            <i class="fa-solid fa-arrows-rotate"></i> Ajustar
+                                        </button>
+                                    </div>
+                                    <a href="assets/geologia/mapa-geologico-layout-oficial.jpg" download="Mapa_Geologico_Oficial_Agosto_2026.jpg" class="btn btn-secondary btn-sm" title="Baixar imagem original em alta resolução">
+                                        <i class="fa-solid fa-download text-success"></i> Baixar
+                                    </a>
+                                    <button type="button" class="btn btn-secondary btn-sm" onclick="fecharModalPranchaGeologica()" title="Fechar">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="cava3d-prancha-viewport" id="cava3d-prancha-scroll-area">
+                                <div class="cava3d-prancha-img-wrapper" id="cava3d-prancha-img-container">
+                                    <img src="assets/geologia/mapa-geologico-layout-oficial.jpg" alt="Mapa Geológico Oficial Minas Engenho Seco e Jangada" class="cava3d-prancha-img" id="cava3d-prancha-img">
+                                </div>
+                            </div>
+                            <div class="cava3d-prancha-legend-strip">
+                                <div class="d-flex align-center gap-3">
+                                    <span class="badge badge-primary" style="font-size: 10px;">Consolidação Oficial</span>
+                                    <span style="color: #94a3b8;">Topografia Base: <strong>tpes_260731 (336 cotas: 1.015m a 1.386m)</strong></span>
+                                    <span class="text-secondary">&bull;</span>
+                                    <span style="color: #94a3b8;">Limite de Lavra: <strong style="color: #4edea3;">Trimestral Móvel 2026</strong></span>
+                                    <span class="text-secondary">&bull;</span>
+                                    <span style="color: #94a3b8;">Malha de Amostragem: <strong style="color: #38bdf8;">10m (mai/26)</strong></span>
+                                </div>
+                                <div class="d-flex align-center gap-2 font-mono" style="font-size: 10px; color: #cbd5e1;">
+                                    <span>E: 591.312 a 595.980</span>
+                                    <span class="text-secondary">&bull;</span>
+                                    <span>N: 7.776.485 a 7.779.112</span>
+                                    <span class="text-secondary">&bull;</span>
+                                    <span style="color: #4edea3;"><i class="fa-solid fa-circle-check"></i> Georreferenciado</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
                 <!-- TAB 3: VISUAL INSPECTIONS -->
                 <section id="tab-inspections" class="tab-pane">
@@ -2493,802 +3695,11 @@
 
 
                 <!-- TAB 7: GEOVIEW -->
-                <section id="tab-geoview" class="tab-pane">
-                    <!-- COCKPIT GEOVIEW & GIS 3D INTERATIVO (RADAR IBIS-FM / CAVA JANGADA) -->
-                    <div class="geoview-3d-cockpit-wrapper" id="geoview-3d-cockpit">
-                        <!-- Header de Operação do Cockpit -->
-                        <div class="geoview-cockpit-header">
-                            <div class="d-flex align-items-center gap-3">
-                                <div class="geoview-brand-chip">
-                                    <i class="fa-solid fa-cube text-primary"></i>
-                                    <span>MDSync GeoView 3D</span>
-                                </div>
-                                <div class="geoview-structure-pill" id="geoview-cockpit-structure-pill">
-                                    <span class="radar-pulse-dot"></span>
-                                    <span>Mina Cava Jangada • IBIS-FM EVO 01 Ativo</span>
-                                </div>
-                            </div>
-                            <div class="geoview-header-right-actions">
-                                <div class="geoview-offline-badge">
-                                    <i class="fa-solid fa-cloud-arrow-down text-primary"></i>
-                                    <span>Offline Ready (Cache 100%)</span>
-                                </div>
-                                <button type="button" class="btn btn-primary btn-sm" onclick="triggerQuickReading()">
-                                    <i class="fa-solid fa-plus"></i> Nova Coleta
-                                </button>
-                                <button type="button" class="btn btn-secondary btn-sm" onclick="openFiltroEstruturasModal()" title="Filtros e camadas espaciais">
-                                    <i class="fa-solid fa-filter"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Palco Cartográfico 3D e Painel Lateral Geotécnico -->
-                        <div class="geoview-stage-wrapper">
-                            <!-- Viewport 3D Three.js com Overlays Cartográficos -->
-                            <div class="geoview-viewport-3d" id="geoview-viewport-container">
-                                <!-- Canvas Mount do Three.js -->
-                                <div id="geoview-threejs-mount"></div>
-
-                                <!-- Camada de Exibição Direta da Ortofoto e Mapa de Calor do Radar Hexagon / Plano de Lavra -->
-                                <div class="geoview-ortho-overlay-screen" id="geoview-ortho-overlay-screen">
-                                    <!-- Sub-barra Seletora de Pranchas do Plano de Lavra Setembro 2026 -->
-                                    <div class="geoview-plano-subnav" id="geoview-plano-subnav" style="display: none;">
-                                        <span class="subnav-label"><i class="fa-solid fa-layer-group"></i> Pranchas de Lavra:</span>
-                                        <button type="button" class="btn-subnav-prancha active" onclick="trocarPranchaPlanoLavra('cava-jangada-oeste-interditada.jpg', this)">JGD Oeste (Interdição)</button>
-                                        <button type="button" class="btn-subnav-prancha" onclick="trocarPranchaPlanoLavra('cava-jangada-fundo-cava.jpg', this)">Fundo Cava (MAQ 908)</button>
-                                        <button type="button" class="btn-subnav-prancha" onclick="trocarPranchaPlanoLavra('cava-jangada-leste-perfuracao.jpg', this)">JGD Leste (D&amp;B)</button>
-                                        <button type="button" class="btn-subnav-prancha" onclick="trocarPranchaPlanoLavra('cava-jangada-pilhao-norte.jpg', this)">Pilhão Norte (18m)</button>
-                                        <button type="button" class="btn-subnav-prancha" onclick="trocarPranchaPlanoLavra('plano-lavra-geral-setembro.jpg', this)">Mina Geral</button>
-                                        <button type="button" class="btn-subnav-prancha" onclick="trocarPranchaPlanoLavra('plano-estoques-intermediarios.jpg', this)">Estoques Intermediários</button>
-                                    </div>
-
-                                    <img src="assets/radar/hexagon-radar-ortho-zenital.jpg" 
-                                         alt="Ortofoto do Radar Hexagon Cava Jangada" 
-                                         id="geoview-ortho-overlay-img" 
-                                         class="geoview-ortho-overlay-img">
-                                    <!-- Escala Cromática Flutuante Hexagon Guardian -->
-                                    <div class="radar-ortho-chroma-scale" id="geoviewOrthoChromaScale" style="right: 18px; top: 18px; bottom: 80px;">
-                                        <div class="chroma-scale-unit">mm</div>
-                                        <div class="d-flex align-center h-100 gap-1">
-                                            <div class="chroma-scale-bar"></div>
-                                            <div class="chroma-scale-ticks">
-                                                <span style="color: #ff4d4d;">+20.00</span>
-                                                <span style="color: #ff9933;">+12.00</span>
-                                                <span style="color: #ffee55;">+4.00</span>
-                                                <span style="color: #e2e8f0;">0.00</span>
-                                                <span style="color: #4dc3ff;">-4.00</span>
-                                                <span style="color: #3385ff;">-12.00</span>
-                                                <span style="color: #1a53ff;">-20.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Varredura de Radar Animada (Antena IBIS-FM) -->
-                                <div class="geoview-radar-sweep" id="geoview-radar-sweep-effect">
-                                    <div class="radar-sweep-circle"></div>
-                                </div>
-
-                                <!-- Grade Cartográfica UTM e Linha de Corte A-A' (SVG) -->
-                                <svg class="geoview-svg-overlay" fill="none" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
-                                    <g opacity="0.12" stroke="#89ceff" stroke-dasharray="4 6" stroke-width="0.75">
-                                        <line x1="150" x2="150" y1="0" y2="800"></line>
-                                        <line x1="350" x2="350" y1="0" y2="800"></line>
-                                        <line x1="550" x2="550" y1="0" y2="800"></line>
-                                        <line x1="750" x2="750" y1="0" y2="800"></line>
-                                        <line x1="950" x2="950" y1="0" y2="800"></line>
-                                        <line x1="0" x2="1200" y1="150" y2="150"></line>
-                                        <line x1="0" x2="1200" y1="350" y2="350"></line>
-                                        <line x1="0" x2="1200" y1="550" y2="550"></line>
-                                        <line x1="0" x2="1200" y1="750" y2="750"></line>
-                                    </g>
-                                    <!-- Linha de Corte Transversal Geotécnico SEÇÃO A - SEÇÃO A' -->
-                                    <line opacity="0.75" stroke="#ffb95f" stroke-dasharray="6 4" stroke-width="1.8" x1="280" x2="880" y1="120" y2="690"></line>
-                                    <circle cx="280" cy="120" fill="#ffb95f" r="4.5" filter="drop-shadow(0 0 8px #ffb95f)"></circle>
-                                    <text fill="#ffb95f" font-family="JetBrains Mono, monospace" font-size="11" font-weight="bold" x="240" y="115">SEÇÃO A</text>
-                                    <circle cx="880" cy="690" fill="#ffb95f" r="4.5"></circle>
-                                    <text fill="#ffb95f" font-family="JetBrains Mono, monospace" font-size="11" font-weight="bold" x="895" y="700">SEÇÃO A'</text>
-                                    <!-- Pulso Laser de Telemetria do Radar para a Berma 1231 -->
-                                    <line opacity="0.9" stroke="#38bdf8" stroke-dasharray="8 6" stroke-width="1.6" style="animation: telemetry-flow 2s linear infinite;" x1="552" x2="420" y1="670" y2="165"></line>
-                                </svg>
-
-                                <!-- HUD Superior Esquerdo: Coordenadas em Tempo Real (SIRGAS 2000 / UTM 23S) -->
-                                <div class="geoview-hud-coords">
-                                    <div class="geoview-hud-bar">
-                                        <div>
-                                            <span class="coord-label">▲ X:</span>
-                                            <span class="coord-value" id="geoview-hud-x">595.245,32 m E</span>
-                                        </div>
-                                        <span class="text-secondary">•</span>
-                                        <div>
-                                            <span class="coord-label">Y:</span>
-                                            <span class="coord-value" id="geoview-hud-y">7.777.813,10 m N</span>
-                                        </div>
-                                        <span class="text-secondary">•</span>
-                                        <div>
-                                            <span class="coord-label" style="color: #4edea3;">Z:</span>
-                                            <span class="coord-value" id="geoview-hud-z">1.185,40 m</span>
-                                        </div>
-                                    </div>
-                                    <div class="geoview-hud-params">
-                                        <span class="geoview-param-tag" id="geoview-param-azimuth">Azimute: 14.8°</span>
-                                        <span class="geoview-param-tag" id="geoview-param-pitch">Inclinação (Pitch): 42.5°</span>
-                                        <span class="geoview-param-tag highlight">Exagero Vertical: 1.5x</span>
-                                    </div>
-                                </div>
-
-                                <!-- Alvo Crítico TARP N3 (Parede Norte) com Popover Geotécnico -->
-                                <div class="geoview-target-aoi" id="geoview-target-aoi-card">
-                                    <div class="geoview-target-rings" onclick="toggleTargetCardVisibility()">
-                                        <span class="ring-outer"></span>
-                                        <span class="ring-center"></span>
-                                    </div>
-                                    <div class="geoview-target-card">
-                                        <div class="geoview-target-header">
-                                            <div class="geoview-target-title">
-                                                <i class="fa-solid fa-triangle-exclamation"></i>
-                                                <span>ALVO CRÍTICO • AOI_01</span>
-                                            </div>
-                                            <span class="geoview-tarp-tag">TARP N3</span>
-                                        </div>
-                                        <div class="geoview-target-sector">Crista / Setor N_Sup_1231.44 (Cota 1.231m)</div>
-                                        <div class="geoview-target-stats">
-                                            <div>
-                                                <span>Deslocamento Acum.</span>
-                                                <strong style="color: #ef4444;">+20.00 mm</strong>
-                                            </div>
-                                            <div>
-                                                <span>Velocidade Atual</span>
-                                                <strong style="color: #ffb95f;">2.78 mm/h</strong>
-                                            </div>
-                                        </div>
-                                        <div class="geoview-target-footer">
-                                            <span><i class="fa-solid fa-satellite text-primary"></i> Sensor: IBIS-FM EVO 01</span>
-                                            <a href="#" onclick="abrirDetalheInstrumento('PZ-02'); return false;">Detalhar <i class="fa-solid fa-chevron-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Marcadores Georreferenciados na Cava -->
-                                <div class="geoview-sensor-pin active-focus" style="top: 32%; left: 47%;" onclick="abrirDetalheInstrumento('PZ-02')">
-                                    <span class="pin-dot" style="background:#ffffff; box-shadow: 0 0 8px #ffffff;"></span>
-                                    <span>PZ-02 (Talude Norte)</span>
-                                    <span style="background: rgba(5,13,35,0.8); padding: 1px 5px; border-radius: 4px; font-size: 10px;">438.75m</span>
-                                </div>
-
-                                <div class="geoview-sensor-pin" style="top: 43%; left: 24%;" onclick="abrirDetalheInstrumento('PZ-01')">
-                                    <span class="pin-dot"></span>
-                                    <span>PZ-01</span>
-                                    <span style="color: #94a3b8; font-size: 10px;">438.75m</span>
-                                </div>
-
-                                <div class="geoview-sensor-pin" style="top: 65%; left: 32%;" onclick="abrirDetalheInstrumento('PZ-04')">
-                                    <span class="pin-dot"></span>
-                                    <span>PZ-04</span>
-                                    <span style="color: #94a3b8; font-size: 10px;">412.10m</span>
-                                </div>
-
-                                <div class="geoview-sensor-pin" style="top: 38%; right: 28%;" onclick="abrirDetalheInstrumento('INA-01')">
-                                    <span class="pin-dot" style="background: #4edea3;"></span>
-                                    <span style="color: #4edea3;">INA-01</span>
-                                    <span style="color: #94a3b8; font-size: 10px;">1.131,80m</span>
-                                </div>
-
-                                <div class="geoview-sensor-pin" style="bottom: 34%; right: 34%;" onclick="abrirDetalheInstrumento('MED-02')">
-                                    <span class="pin-dot" style="background: #38bdf8;"></span>
-                                    <span>MED-02</span>
-                                    <span style="color: #94a3b8; font-size: 10px;">0.42 L/s</span>
-                                </div>
-
-                                <div class="geoview-sensor-pin status-alert" style="top: 54%; left: 54%;" onclick="abrirDetalheInstrumento('MS-08')">
-                                    <span class="pin-dot"></span>
-                                    <span>MS-08</span>
-                                    <span style="background: rgba(251,191,36,0.15); color: #fbbf24; padding: 1px 5px; border-radius: 4px; font-size: 10px;">Atenção N1</span>
-                                </div>
-
-                                <div class="geoview-sensor-pin" style="bottom: 20%; left: 46%; border-color: rgba(14,165,233,0.5);" onclick="abrirCockpitRadarModal()">
-                                    <i class="fa-solid fa-satellite text-primary"></i>
-                                    <span>IBIS-FM EVO 01 (Cota 1.140m)</span>
-                                </div>
-
-                                <!-- Pinos Georreferenciados das Frentes de Mina (Plano de Lavra Setembro 2026) -->
-                                <div class="geoview-frente-pin pin-interditada" id="pin-frente-oeste" style="top: 26%; left: 34%;" onclick="abrirDetalheFrenteLavra('frente-jangada-oeste')" title="Frente Jangada Oeste: Interditada pela Geotecnia (MAQ 876)">
-                                    <div class="pin-icon-wrap"><i class="fa-solid fa-ban"></i></div>
-                                    <div class="pin-label-box">
-                                        <strong>JGD Oeste (INTERDITADA)</strong>
-                                        <span>MAQ 876 • Cota 1231m • AOI_01</span>
-                                    </div>
-                                </div>
-
-                                <div class="geoview-frente-pin pin-perfuracao" id="pin-frente-leste" style="top: 36%; right: 20%;" onclick="abrirDetalheFrenteLavra('frente-jangada-leste')" title="Frente Jangada Leste: D&B Perfuração e Desmonte">
-                                    <div class="pin-icon-wrap"><i class="fa-solid fa-bore-hole"></i></div>
-                                    <div class="pin-label-box">
-                                        <strong>JGD Leste (D&amp;B)</strong>
-                                        <span>Perfuração &amp; Desmonte</span>
-                                    </div>
-                                </div>
-
-                                <div class="geoview-frente-pin pin-ativa" id="pin-frente-fundo" style="bottom: 40%; left: 48%;" onclick="abrirDetalheFrenteLavra('frente-fundo-cava')" title="Fundo de Cava Jangada: MAQ 908 (Minério Nobre Fe 63,61%)">
-                                    <div class="pin-icon-wrap"><i class="fa-solid fa-gem"></i></div>
-                                    <div class="pin-label-box">
-                                        <strong>Fundo Cava (MAQ 908)</strong>
-                                        <span>Fe 63.61% • Alto Teor</span>
-                                    </div>
-                                </div>
-
-                                <div class="geoview-frente-pin pin-atencao" id="pin-frente-pilhao" style="top: 17%; left: 56%;" onclick="abrirDetalheFrenteLavra('frente-pilhao-norte')" title="Pilhão / Jangada Norte: Bancada de 18m com alerta de material solto no talude">
-                                    <div class="pin-icon-wrap"><i class="fa-solid fa-triangle-exclamation"></i></div>
-                                    <div class="pin-label-box">
-                                        <strong>Pilhão Norte (18m)</strong>
-                                        <span>Alerta: Material Solto</span>
-                                    </div>
-                                </div>
-
-                                <!-- HUD Controles de Câmera 3D e Navegação (Inferior Esquerdo) -->
-                                <div class="geoview-hud-bottom-controls">
-                                    <!-- Bússola 3D Orientada ao Norte -->
-                                    <div class="geoview-compass" id="geoview-compass-btn" onclick="resetarCamera3D()" title="Bússola Norte (clique para redefinir visão)">
-                                        <div class="compass-rose">
-                                            <span class="point-n">N</span>
-                                            <span class="point-s">S</span>
-                                            <span class="point-l">L</span>
-                                            <span class="point-o">O</span>
-                                            <div class="compass-needle" id="geoview-compass-needle"></div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Controles de Zoom e Modos de Visão com Ortofoto de Radar Hexagon e Plano de Lavra -->
-                                    <div class="geoview-toolbar-pills">
-                                        <button type="button" class="geoview-btn-ctrl" onclick="zoomIn3D()" title="Aproximar (+)">
-                                            <i class="fa-solid fa-plus"></i>
-                                        </button>
-                                        <button type="button" class="geoview-btn-ctrl" onclick="zoomOut3D()" title="Afastar (-)">
-                                            <i class="fa-solid fa-minus"></i>
-                                        </button>
-                                        <div style="width: 1px; height: 16px; background: rgba(255,255,255,0.15);"></div>
-                                        <button type="button" class="geoview-btn-ctrl active" id="btn-geoview-layer-3d" onclick="setGeoViewDisplayLayer('3d-mesh')" title="Modelo 3D Three.js Interativo">
-                                            <i class="fa-solid fa-cubes"></i> 3D Mesh
-                                        </button>
-                                        <button type="button" class="geoview-btn-ctrl btn-highlight-radar" id="btn-geoview-layer-ortho" onclick="setGeoViewDisplayLayer('radar-ortho')" title="Ortofoto DTM Zenital com Mapa de Deformação">
-                                            <i class="fa-solid fa-map"></i> Ortofoto DTM
-                                        </button>
-                                        <button type="button" class="geoview-btn-ctrl btn-highlight-radar" id="btn-geoview-layer-persp" onclick="setGeoViewDisplayLayer('radar-persp')" title="Modelo 3D Perspectiva Hexagon (+20mm)">
-                                            <i class="fa-solid fa-cube"></i> Modelo 3D
-                                        </button>
-                                        <button type="button" class="geoview-btn-ctrl btn-highlight-radar" id="btn-geoview-layer-series" onclick="setGeoViewDisplayLayer('radar-series')" title="Série Temporal de Deslocamento e Chuva">
-                                            <i class="fa-solid fa-chart-line"></i> Série Temporal
-                                        </button>
-                                        <div style="width: 1px; height: 16px; background: rgba(255,255,255,0.15);"></div>
-                                        <button type="button" class="geoview-btn-ctrl btn-highlight-lavra" id="btn-geoview-layer-lavra" onclick="setGeoViewDisplayLayer('plano-lavra')" title="Plano de Lavra e Frentes da Cava Jangada (Setembro 2026)">
-                                            <i class="fa-solid fa-truck-monster"></i> Plano Lavra
-                                        </button>
-                                        <button type="button" class="geoview-btn-ctrl" onclick="abrirModalPlanoLavra()" title="Relatório e Metas de Qualidade da Lavra">
-                                            <i class="fa-solid fa-file-lines"></i> Relatório Lavra
-                                        </button>
-                                        <div style="width: 1px; height: 16px; background: rgba(255,255,255,0.15);"></div>
-                                        <button type="button" class="geoview-btn-ctrl" id="btn-mode-2d" onclick="setVisaoModo3D('2D')" title="Visão Nadir Superior">
-                                            <i class="fa-regular fa-square"></i> 2D Topo
-                                        </button>
-                                        <button type="button" class="geoview-btn-ctrl" onclick="alternarVisaoCabine()" title="Visão Operacional da Cabine Radar">
-                                            <i class="fa-solid fa-video"></i> Cabine
-                                        </button>
-                                        <button type="button" class="geoview-btn-ctrl" onclick="resetarCamera3D()" title="Redefinir Câmera">
-                                            <i class="fa-solid fa-rotate-left"></i>
-                                        </button>
-                                    </div>
-
-                                    <!-- Escala Gráfica Dinâmica -->
-                                    <div class="geoview-scale-bar">
-                                        <div class="scale-ticks">
-                                            <span>0</span>
-                                            <span>250m</span>
-                                            <span>500m</span>
-                                        </div>
-                                        <div class="scale-line"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Painel Lateral Direito de Estabilidade e Geotecnia -->
-                            <aside class="geoview-side-analytics">
-                                <div class="geoview-analytics-content">
-                                    <!-- Cabeçalho do Diagnóstico -->
-                                    <div class="geoview-side-header">
-                                        <div class="title-wrap">
-                                            <span>Diagnóstico Espacial Ativo</span>
-                                            <h3>Parede Norte N_Sup_1231 &amp; PZ-02</h3>
-                                        </div>
-                                        <i class="fa-solid fa-chart-line text-primary" style="font-size: 18px;"></i>
-                                    </div>
-
-                                    <!-- Banner TARP Nível 3 Crítico com 20.00 mm Real -->
-                                    <div class="geoview-tarp-banner">
-                                        <div class="geoview-tarp-info">
-                                            <span class="tarp-pulse"></span>
-                                            <div>
-                                                <h4>TARP NÍVEL 3 (CRÍTICO)</h4>
-                                                <p>Risco de Ruptura de Bancada Local</p>
-                                            </div>
-                                        </div>
-                                        <span class="geoview-tarp-value">20.00 mm</span>
-                                    </div>
-
-                                    <!-- Parecer Técnico do Analista Geotécnico -->
-                                    <div class="geoview-analyst-opinion-card">
-                                        <div class="geoview-analyst-header">
-                                            <strong><i class="fa-solid fa-user-tie"></i> Parecer do Analista Geotécnico</strong>
-                                            <span class="badge badge-danger">TARP N3</span>
-                                        </div>
-                                        <p class="geoview-analyst-text">
-                                            <strong>Cinemática Confirmada:</strong> O radar Hexagon IBIS-FM EVO 01 registrou vetor máximo acumulado de <strong>20.00 mm</strong> no talude superior da Cava Jangada. O setor de controle <em>Área Oeste</em> atesta estabilidade de -0.25 mm e a chuva acumulada foi de 0.0 mm, descartando gatilho hidrológico e confirmando instabilidade estrutural de bancada.
-                                        </p>
-                                        <div class="d-flex align-center justify-between font-mono" style="font-size: 10px; color: #94a3b8; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 4px;">
-                                            <span>Vetor: <strong class="text-danger">+20.00 mm</strong></span>
-                                            <span>Controle: <strong class="text-success">-0.25 mm</strong></span>
-                                            <span>Chuva: <strong class="text-info">0.0 mm</strong></span>
-                                        </div>
-                                    </div>
-
-                                    <!-- Card Integrado do Plano de Lavra Cava Jangada (Setembro 2026) -->
-                                    <div class="geoview-plano-lavra-card">
-                                        <div class="geoview-plano-lavra-header">
-                                            <div>
-                                                <span class="badge-plano-lavra"><i class="fa-solid fa-truck-monster"></i> PROGRAMAÇÃO DE LAVRA</span>
-                                                <h4>Cava Jangada (Line Up 10/Set/2026)</h4>
-                                            </div>
-                                            <button type="button" class="btn-plano-modal-open" onclick="abrirModalPlanoLavra()" title="Ver Relatório Detalhado do Plano">
-                                                <i class="fa-solid fa-up-right-from-square"></i>
-                                            </button>
-                                        </div>
-
-                                        <!-- Alerta de Interdição Geotécnica com Correlação Direta do Alvo AOI_01 (+20.00 mm) -->
-                                        <div class="geoview-plano-alert-box">
-                                            <div class="alert-title-row">
-                                                <i class="fa-solid fa-circle-radiation text-danger"></i>
-                                                <strong>FRENTE JGD OESTE INTERDITADA</strong>
-                                            </div>
-                                            <p>
-                                                MAQ 876 paralisada pela Geotecnia devido ao vetor crítico de 20.00 mm no Alvo AOI_01 (Cota 1231m). Desvio emergencial alocado para lavra em Engenho Seco (Índia).
-                                            </p>
-                                        </div>
-
-                                        <!-- Lista das Frentes de Lavra Mapeadas na Cava Jangada -->
-                                        <div class="geoview-frentes-mini-list">
-                                            <div class="frente-item interditada" onclick="abrirDetalheFrenteLavra('frente-jangada-oeste')">
-                                                <div class="frente-info">
-                                                    <span class="frente-dot danger"></span>
-                                                    <span class="frente-name">JGD Oeste (MAQ 876)</span>
-                                                    <span class="frente-status">INTERDITADA</span>
-                                                </div>
-                                                <div class="frente-meta">Cota 1.231m • Fe 44.80% • Alvo AOI_01</div>
-                                            </div>
-
-                                            <div class="frente-item perfuracao" onclick="abrirDetalheFrenteLavra('frente-jangada-leste')">
-                                                <div class="frente-info">
-                                                    <span class="frente-dot warning"></span>
-                                                    <span class="frente-name">JGD Leste (Perfuratriz)</span>
-                                                    <span class="frente-status">D&amp;B</span>
-                                                </div>
-                                                <div class="frente-meta">Perfuração &amp; Desmonte • Liberação de Praça</div>
-                                            </div>
-
-                                            <div class="frente-item ativa" onclick="abrirDetalheFrenteLavra('frente-fundo-cava')">
-                                                <div class="frente-info">
-                                                    <span class="frente-dot success"></span>
-                                                    <span class="frente-name">Fundo Cava (MAQ 908)</span>
-                                                    <span class="frente-status">ATIVA</span>
-                                                </div>
-                                                <div class="frente-meta">Fe 63.61% • SiO2 6.57% • Minério Nobre</div>
-                                            </div>
-
-                                            <div class="frente-item atencao" onclick="abrirDetalheFrenteLavra('frente-pilhao-norte')">
-                                                <div class="frente-info">
-                                                    <span class="frente-dot warning"></span>
-                                                    <span class="frente-name">Pilhão Norte (18m)</span>
-                                                    <span class="frente-status">ALERTA</span>
-                                                </div>
-                                                <div class="frente-meta">Banco 18m • Abatimento de Material Solto</div>
-                                            </div>
-                                        </div>
-
-                                        <div class="geoview-plano-footer">
-                                            <button type="button" class="btn-troca-mapa-lavra" onclick="setGeoViewDisplayLayer('plano-lavra')">
-                                                <i class="fa-solid fa-map-location-dot"></i> Exibir Ortofoto
-                                            </button>
-                                            <button type="button" class="btn-troca-mapa-lavra" onclick="abrirModalPlanoLavra()">
-                                                <i class="fa-solid fa-chart-pie"></i> Teores &amp; Metas
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <!-- Seção Transversal A-A' com Cálculo de Bishop -->
-                                    <div class="geoview-analytics-card">
-                                        <div class="geoview-card-title-row">
-                                            <strong><i class="fa-solid fa-chart-area text-tertiary"></i> Seção Transversal A-A'</strong>
-                                            <span class="geoview-card-badge">Bishop • FS: 1.12</span>
-                                        </div>
-                                        <div class="geoview-section-svg-wrap">
-                                            <svg class="w-100 h-100" fill="none" viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg">
-                                                <line stroke="#2c344c" stroke-dasharray="2 2" stroke-width="0.5" x1="10" x2="290" y1="30" y2="30"></line>
-                                                <line stroke="#2c344c" stroke-dasharray="2 2" stroke-width="0.5" x1="10" x2="290" y1="70" y2="70"></line>
-                                                <line stroke="#2c344c" stroke-dasharray="2 2" stroke-width="0.5" x1="10" x2="290" y1="110" y2="110"></line>
-                                                <!-- Geometria das Bermas e Talude -->
-                                                <path d="M 20 20 L 70 20 L 110 60 L 150 60 L 200 110 L 280 110" stroke="#89ceff" stroke-linejoin="round" stroke-width="2"></path>
-                                                <polygon fill="#0ea5e9" fill-opacity="0.12" points="20,20 70,20 110,60 150,60 200,110 280,110 280,125 20,125"></polygon>
-                                                <!-- Superfície Potencial de Ruptura Circular -->
-                                                <path d="M 60 20 Q 110 95 185 110" stroke="#ffb4ab" stroke-dasharray="4 3" stroke-width="1.8" style="animation: telemetry-flow 3s linear infinite;"></path>
-                                                <circle cx="125" cy="80" fill="#ffb4ab" r="3"></circle>
-                                                <!-- Linha Freática / NA Piezométrico -->
-                                                <path d="M 30 50 Q 130 65 240 100" opacity="0.85" stroke="#38bdf8" stroke-dasharray="3 3" stroke-width="1.5"></path>
-                                                <text fill="#38bdf8" font-family="JetBrains Mono, monospace" font-size="8" x="35" y="45">NA Piezométrico (438.75m)</text>
-                                                <!-- Instrumento PZ-02 fincado no Talude -->
-                                                <line stroke="#4edea3" stroke-width="2" x1="130" x2="130" y1="60" y2="105"></line>
-                                                <circle cx="130" cy="60" fill="#4edea3" r="3.5" filter="drop-shadow(0 0 6px #4edea3)"></circle>
-                                                <text fill="#4edea3" font-family="JetBrains Mono, monospace" font-size="9" font-weight="bold" x="140" y="65">PZ-02</text>
-                                            </svg>
-                                        </div>
-                                        <div class="geoview-elevation-levels">
-                                            <span>Crista: 1.250 m</span>
-                                            <span>Berma: 1.190 m</span>
-                                            <span>Pé: 1.100 m</span>
-                                        </div>
-                                    </div>
-
-                                    <!-- Cinemática de Velocidade Inversa 1/v (Método de Fukuzono) -->
-                                    <div class="geoview-analytics-card">
-                                        <div class="geoview-card-title-row">
-                                            <strong><i class="fa-solid fa-chart-line text-secondary"></i> Velocidade Inversa (1/v)</strong>
-                                            <span class="geoview-card-badge" style="color: #4edea3; border-color: rgba(78,222,163,0.3);">🟢 Desacelerando ↓</span>
-                                        </div>
-                                        <div class="geoview-section-svg-wrap" style="height: 86px;">
-                                            <svg class="w-100 h-100" fill="none" viewBox="0 0 280 80">
-                                                <line stroke="#3e4850" stroke-width="1" x1="15" x2="15" y1="10" y2="70"></line>
-                                                <line stroke="#3e4850" stroke-width="1" x1="15" x2="270" y1="70" y2="70"></line>
-                                                <path d="M 25 25 Q 70 30 110 50 T 200 64 T 260 66" stroke="#4edea3" stroke-width="2.2" filter="drop-shadow(0 0 6px rgba(78,222,163,0.5))"></path>
-                                                <circle cx="260" cy="66" fill="#4edea3" r="3.5"></circle>
-                                                <text fill="#bec8d2" font-family="JetBrains Mono, monospace" font-size="8" x="18" y="20">1/v (h/mm)</text>
-                                                <text fill="#bec8d2" font-family="JetBrains Mono, monospace" font-size="8" x="205" y="78">Tempo Real</text>
-                                            </svg>
-                                        </div>
-                                        <p style="font-size: 11px; color: #94a3b8; margin: 0; line-height: 1.45;">
-                                            Padrão assintótico estável verificado após parada de detonação na bancada inferior 1210.
-                                        </p>
-                                    </div>
-
-                                    <!-- Ações Rápidas Georreferenciadas -->
-                                    <div>
-                                        <span style="font-size: 10px; text-transform: uppercase; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 6px;">Ações Georreferenciadas</span>
-                                        <div class="geoview-actions-grid">
-                                            <button type="button" class="geoview-action-btn" onclick="executarRotaGpsCampo()">
-                                                <i class="fa-solid fa-location-arrow text-primary"></i>
-                                                <span>Rota GPS Campo</span>
-                                            </button>
-                                            <button type="button" class="geoview-action-btn" onclick="vincularFirFoto()">
-                                                <i class="fa-solid fa-camera text-secondary"></i>
-                                                <span>Vincular FIR Foto</span>
-                                            </button>
-                                            <button type="button" class="geoview-action-btn" onclick="gerarMissaoDroneRtk()">
-                                                <i class="fa-solid fa-plane-departure text-warning"></i>
-                                                <span>Missão Drone RTK</span>
-                                            </button>
-                                            <button type="button" class="geoview-action-btn" onclick="gerarLaudoEspacial()">
-                                                <i class="fa-solid fa-file-pdf text-primary"></i>
-                                                <span>Laudo Espacial</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Rodapé do Painel com Assinatura Técnica e Notificação CGO -->
-                                <div class="geoview-side-footer">
-                                    <div class="geoview-inspector-info">
-                                        <div class="geoview-inspector-avatar">MN</div>
-                                        <div class="geoview-inspector-meta">
-                                            <span>Maycon Nascimento</span>
-                                            <small>CREA-MG 184.920/D</small>
-                                        </div>
-                                    </div>
-                                    <button type="button" class="btn-notificar-cgo" onclick="notificarCGOEmergencia()">
-                                        Notificar CGO
-                                    </button>
-                                </div>
-                            </aside>
-                        </div>
-
-                        <!-- Rodapé de Telemetria Inferior & Precisão Geodésica -->
-                        <footer class="geoview-telemetry-footer">
-                            <div class="geoview-telemetry-footer-left">
-                                <div class="geoview-quick-switch-pills">
-                                    <a href="stitch/index.html" class="geoview-quick-pill"><i class="fa-solid fa-layer-group"></i> Hub Stitch</a>
-                                    <a href="#" class="geoview-quick-pill active"><i class="fa-solid fa-cube"></i> App de Campo</a>
-                                </div>
-                                <span>Ativas (Cava Principal, B1, B4, Dique D-02)</span>
-                                <span class="text-secondary">•</span>
-                                <span><i class="fa-solid fa-location-crosshairs text-primary"></i> Acurácia RTK Geodésica: <strong>±0.8 mm RMS</strong></span>
-                            </div>
-                            <div class="d-flex align-items-center gap-3">
-                                <span>Nuvem de Pontos: <strong style="color: #38bdf8;">14.280.400 pts</strong></span>
-                                <span class="text-secondary">•</span>
-                                <span>Última Varredura Radar: <strong style="color: #f8fafc;">Hoje às 09:30:14 BRT</strong></span>
-                            </div>
-                        </footer>
-                    </div>
-
-                    <!-- REPOSITÓRIO CORPORATIVO E DASHBOARDS DE PILHAS (EXPANSÍVEL) -->
-                    <details class="geoview-legacy-details">
-                        <summary><i class="fa-solid fa-folder-tree text-primary"></i> Ver Dashboards de Pilhas e Arquivos Corporativos Associados</summary>
-                        <div class="geoview-legacy-content">
-                            <input type="file" id="geoview-file-input" class="sr-only-file" multiple accept=".pbix,.pbit,.xlsx,.xls,.xlsm,.csv,.png,.jpg,.jpeg,.webp,.pdf,.html,.htm,.geojson,.json,.qmd,.pptx,.docx">
-                            <input type="file" id="geoview-folder-input" class="sr-only-file" multiple webkitdirectory directory>
-                            <input type="file" id="geoview-map-input" class="sr-only-file" accept="image/*">
-
-                            <section class="pilhas-bi-dashboard geoview-info" id="pilhas-bi-dashboard" tabindex="0" data-tooltip="Indicadores geotécnicos por estrutura.">
-                                <div class="pilhas-bi-title-row">
-                                    <img src="assets/itaminas-logo-white.png" alt="Itaminas" class="pilhas-bi-logo">
-                                    <h2 id="pilhas-bi-title">INDICADORES GEOTÉCNICOS DE PILHAS</h2>
-                                    <span id="pilhas-bi-source-badge">GeoView</span>
-                                </div>
-
-                                <div class="pilhas-bi-filter-grid" aria-label="Filtros dos indicadores de pilhas">
-                                    <div class="pilhas-bi-filter-group pilhas-bi-filter-structure">
-                                        <strong>ESTRUTURA</strong>
-                                        <select id="pilhas-structure-filter" class="pilhas-bi-select" onchange="setPilhasStructureFilter(this.value)"></select>
-                                    </div>
-                                    <div class="pilhas-bi-filter-group">
-                                        <strong>ANO</strong>
-                                        <div class="pilhas-bi-segments pilhas-bi-two" id="pilhas-year-filter"></div>
-                                    </div>
-                                    <div class="pilhas-bi-filter-group pilhas-bi-filter-month">
-                                        <strong>M&Ecirc;S</strong>
-                                        <div class="pilhas-bi-segments pilhas-bi-months" id="pilhas-month-filter"></div>
-                                    </div>
-                                    <div class="pilhas-bi-filter-group">
-                                        <strong>AN&Aacute;LISE</strong>
-                                        <div class="pilhas-bi-segments pilhas-bi-two" id="pilhas-analysis-filter"></div>
-                                    </div>
-                                </div>
-
-                                <div class="pilhas-bi-kpi-grid" aria-label="Resumo da estrutura selecionada">
-                                    <article>
-                                        <span>INSTRUMENTOS</span>
-                                        <strong id="pilhas-kpi-instruments">0</strong>
-                                        <small id="pilhas-kpi-types">Sem cadastro</small>
-                                    </article>
-                                    <article>
-                                        <span>LEITURAS NO PERÍODO</span>
-                                        <strong id="pilhas-kpi-readings">0</strong>
-                                        <small id="pilhas-kpi-period">-</small>
-                                    </article>
-                                    <article>
-                                        <span>ANOMALIAS ATIVAS</span>
-                                        <strong id="pilhas-kpi-alerts">0</strong>
-                                        <small id="pilhas-kpi-alert-label">Situação atual</small>
-                                    </article>
-                                    <article>
-                                        <span>ÚLTIMA ATUALIZAÇÃO</span>
-                                        <strong id="pilhas-kpi-latest">-</strong>
-                                        <small id="pilhas-kpi-latest-code">Sem leitura</small>
-                                    </article>
-                                </div>
-
-                                <div class="pilhas-bi-grid" aria-label="Dashboard dinamico de indicadores de pilhas">
-                                    <article class="pilhas-bi-panel geoview-info">
-                                        <h3 id="pilhas-panel-title-geometria">GEOMETRIA</h3>
-                                        <div class="pilhas-bi-chart" id="pilhas-chart-geometria"></div>
-                                    </article>
-                                    <article class="pilhas-bi-panel geoview-info">
-                                        <h3 id="pilhas-panel-title-declividade">DECLIVIDADE X LIMITE CONFORMIDADE</h3>
-                                        <div class="pilhas-bi-chart" id="pilhas-chart-declividade"></div>
-                                    </article>
-                                    <article class="pilhas-bi-panel pilhas-bi-map-panel geoview-info">
-                                        <h3>LOCALIZA&Ccedil;&Atilde;O</h3>
-                                        <div class="pilhas-location-map" id="pilhas-location-map"></div>
-                                        <div class="pilhas-map-live-status" id="pilhas-map-live-status">Selecione uma estrutura no mapa.</div>
-                                    </article>
-                                    <article class="pilhas-bi-panel geoview-info">
-                                        <h3 id="pilhas-panel-title-empocamento">EMPO&Ccedil;AMENTO</h3>
-                                        <div class="pilhas-bi-chart" id="pilhas-chart-empocamento"></div>
-                                    </article>
-                                    <article class="pilhas-bi-panel geoview-info">
-                                        <h3 id="pilhas-panel-title-fator">FATOR DE SEGURAN&Ccedil;A</h3>
-                                        <div class="pilhas-bi-chart" id="pilhas-chart-fator"></div>
-                                    </article>
-                                    <article class="pilhas-bi-panel geoview-info">
-                                        <h3 id="pilhas-panel-title-plano">FATOR DE SEGURAN&Ccedil;A PLANO DE LAVRA</h3>
-                                        <div class="pilhas-bi-chart pilhas-bi-single" id="pilhas-chart-plano-lavra"></div>
-                                    </article>
-                                </div>
-                            </section>
-
-                            <div class="card geoview-hero-card mb-4 mt-3">
-                                <div class="card-header justify-between">
-                                    <h3><i class="fa-solid fa-earth-americas text-primary"></i> GeoView - Dashboards corporativos</h3>
-                                    <div class="flex gap-2">
-                                        <button type="button" class="btn btn-secondary" onclick="openGeoViewFolderPicker()">
-                                            <i class="fa-solid fa-folder-tree"></i> Conectar pasta
-                                        </button>
-                                        <button type="button" class="btn btn-primary" onclick="openGeoViewFilePicker()">
-                                            <i class="fa-solid fa-file-arrow-up"></i> Importar arquivos
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="geoview-source-row">
-                                        <span><i class="fa-solid fa-database"></i> Pasta fixada</span>
-                                        <strong id="geoview-source-path">-</strong>
-                                    </div>
-                                    <div class="geoview-dashboard-grid mt-3" id="geoview-dashboard-grid"></div>
-                                    <div class="d-flex justify-center mt-3">
-                                        <button type="button" class="btn btn-secondary btn-sm" id="geoview-load-more" onclick="toggleGeoViewFullRender()" style="display: none;">
-                                            <i class="fa-solid fa-arrows-up-down"></i> <span id="geoview-load-more-text">Mostrar todos os dashboards</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </details>
-                </section>
+                <section id="tab-geoview" class="tab-pane" style="display: none;"></section>
 
 
                 <!-- TAB 7: GEOREFERENCING -->
-                <section id="tab-georef" class="tab-pane">
-                    <!-- GIS Map Header Card -->
-                    <div class="card">
-                        <div class="card-header justify-between">
-                            <div>
-                                <h3><i class="fa-solid fa-map-location-dot text-primary"></i> Mapeamento Georreferenciado GIS da Mina</h3>
-                                <p class="text-secondary small mt-1">Referência Oficial: <code>ESTRUTURAS GEOTEC.kmz</code> • SIRGAS 2000 / UTM Zona 23S (EPSG:31983)</p>
-                            </div>
-                            <div class="georef-header-actions">
-                                <button type="button" class="btn btn-secondary btn-sm" onclick="triggerGeorefGpsCapture()">
-                                    <i class="fa-solid fa-location-crosshairs text-success"></i> <span id="georef-gps-btn-label">Usar GPS Atual</span>
-                                </button>
-                                <button type="button" class="btn btn-primary btn-sm" onclick="openSelectedStructureInGoogleEarth()">
-                                    <i class="fa-solid fa-earth-americas"></i> Abrir no Google Earth
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <!-- Quick Structure Selector Pills -->
-                            <div class="georef-pills-bar" id="georef-structure-pills" aria-label="Navegação Rápida por Estruturas"></div>
-
-                            <!-- Dedicated Leaflet GIS Map Container -->
-                            <div class="georef-leaflet-wrapper">
-                                <div id="georef-leaflet-map"></div>
-                                <div class="georef-map-overlay-info" id="georef-map-overlay-info">
-                                    <i class="fa-solid fa-layer-group text-primary"></i>
-                                    <span id="georef-active-structure-name">Toda a Mina (Visão Geral)</span> •
-                                    <span id="georef-active-structure-coords">10 Estruturas Geotécnicas • SIRGAS 2000 / UTM 23S</span>
-                                </div>
-                            </div>
-
-                            <!-- Map Legend & Layer Tips -->
-                            <div class="map-legend mt-2 justify-between">
-                                <div class="d-flex gap-3 align-center">
-                                    <div class="legend-item"><span class="legend-dot bg-blue"></span> Estrutura Geotécnica</div>
-                                    <div class="legend-item"><span class="legend-dot bg-success"></span> Normal (&lt; 70% limite)</div>
-                                    <div class="legend-item"><span class="legend-dot bg-warning"></span> Atenção (70% - 90%)</div>
-                                    <div class="legend-item"><span class="legend-dot bg-danger"></span> Crítico (&gt; 90%)</div>
-                                </div>
-                                <div class="text-secondary small">
-                                    <i class="fa-solid fa-circle-info"></i> Clique em qualquer ponto para inspecionar ou transicionar a câmera.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Geodetic Controls and Structure Details Row -->
-                    <div class="dashboard-row mt-4">
-                        <!-- Card 1: Geodetic Editor SIRGAS 2000 / UTM 23S -->
-                        <div class="card col-6">
-                            <div class="card-header">
-                                <h3><i class="fa-solid fa-compass-drafting text-primary"></i> Conversor e Coordenadas Geodésicas</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="georef-status-card" id="georef-status-card">
-                                    <div class="release-status-icon">
-                                        <i class="fa-solid fa-satellite-dish"></i>
-                                    </div>
-                                    <div>
-                                        <span id="georef-fix-status">Posição Geodésica</span>
-                                        <strong id="georef-fix-quality">SIRGAS 2000 / UTM 23S (EPSG:31983)</strong>
-                                        <p id="georef-fix-desc">Datum SIRGAS 2000 (GRS80) • Coordenadas métricas em Projeção Universal Transversa de Mercator.</p>
-                                    </div>
-                                </div>
-
-                                <div class="earth-coordinate-grid mt-3">
-                                    <div class="form-group earth-coordinate-paste">
-                                        <label for="georef-input-paste">Colar Coordenada (Google Earth / UTM / Lat,Lon)</label>
-                                        <input type="text" id="georef-input-paste" class="form-control form-control-sm" placeholder="-20.09103992, -44.11018068 ou E 593029 N 7778196">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="georef-input-lat">Latitude (WGS84 / EPSG:4674)</label>
-                                        <input type="number" id="georef-input-lat" class="form-control form-control-sm" step="0.00000001" onchange="onGeorefLatLonChange()">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="georef-input-lon">Longitude (WGS84 / EPSG:4674)</label>
-                                        <input type="number" id="georef-input-lon" class="form-control form-control-sm" step="0.00000001" onchange="onGeorefLatLonChange()">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>UTM Projetada (Easting / Northing)</label>
-                                        <div class="earth-coordinate-derived" id="georef-utm-derived">-</div>
-                                    </div>
-                                    <div class="earth-coordinate-actions">
-                                        <button type="button" class="btn btn-secondary btn-sm" onclick="copyGeorefCoordinate()">
-                                            <i class="fa-solid fa-copy"></i> Copiar
-                                        </button>
-                                        <button type="button" class="btn btn-secondary btn-sm" onclick="applyPastedGeorefCoordinate()">
-                                            <i class="fa-solid fa-paste"></i> Colar
-                                        </button>
-                                        <button type="button" class="btn btn-primary btn-sm" onclick="saveManualGeorefCoordinate()">
-                                            <i class="fa-solid fa-check"></i> Salvar na Estrutura
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Card 2: Structure Instruments & Anomaly Summary -->
-                        <div class="card col-6">
-                            <div class="card-header justify-between">
-                                <h3><i class="fa-solid fa-chart-line text-primary"></i> Instrumentos e Alertas da Estrutura</h3>
-                                <span class="badge badge-primary" id="georef-structure-badge">Visão Geral</span>
-                            </div>
-                            <div class="card-body">
-                                <div class="georef-kpi-grid">
-                                    <div class="georef-kpi">
-                                        <span>Instrumentos</span>
-                                        <strong id="georef-kpi-instruments">0</strong>
-                                    </div>
-                                    <div class="georef-kpi">
-                                        <span>Normal</span>
-                                        <strong id="georef-kpi-normal" class="text-success">0</strong>
-                                    </div>
-                                    <div class="georef-kpi">
-                                        <span>Atenção</span>
-                                        <strong id="georef-kpi-warning" class="text-warning">0</strong>
-                                    </div>
-                                    <div class="georef-kpi">
-                                        <span>Crítico</span>
-                                        <strong id="georef-kpi-critical" class="text-danger">0</strong>
-                                    </div>
-                                </div>
-
-                                <div class="georef-instruments-list mt-3" id="georef-instruments-list">
-                                    <!-- Lista de instrumentos renderizada dinamicamente -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Georeferenced Records Table Card -->
-                    <div class="card mt-4">
-                        <div class="card-header">
-                            <h3><i class="fa-solid fa-table-cells text-primary"></i> Registros de Campo Georreferenciados</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Data</th>
-                                            <th>Estrutura</th>
-                                            <th>Elemento</th>
-                                            <th>Tipo</th>
-                                            <th>EPSG</th>
-                                            <th>Coordenada UTM</th>
-                                            <th>Precisão</th>
-                                            <th>Qualidade</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="georef-records-body">
-                                        <!-- Registros com georreferenciamento -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <section id="tab-georef" class="tab-pane" style="display: none;"></section>
 
 
                 <!-- TAB 8: AUTHENTICATION & LOGIN (GEOSYNC AUTH) -->
@@ -5844,6 +6255,8 @@
     <script src="data/whatsapp-radar-feed.js?v=mdhub-20260904d"></script>
     <script src="data/radar-cava-jangada.js?v=mdhub-20260904d"></script>
     <script src="data/plano-lavra-jangada.js?v=20260909"></script>
+    <script src="data/geologia-cava-jangada.js?v=20260911"></script>
+    <script src="src/core/cava-3d-engine.js?v=20260911"></script>
     <script src="app.js?v=mdhub-20260908a"></script>
 </body>
 </html>

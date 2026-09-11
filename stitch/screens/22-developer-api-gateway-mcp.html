@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Outfit:wght@500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "inverse-on-surface": "#283047",
+        "tertiary-fixed": "#ffddb8",
+        "secondary-fixed-dim": "#4edea3",
+        "surface-container-highest": "#2c344c",
+        "on-primary-fixed": "#001e2f",
+        "inverse-primary": "#006591",
+        "tertiary": "#ffb95f",
+        "on-background": "#dbe1ff",
+        "background": "#0a1228",
+        "on-primary-container": "#003751",
+        "on-surface-variant": "#bec8d2",
+        "primary": "#89ceff",
+        "on-secondary": "#003824",
+        "tertiary-container": "#d88a00",
+        "on-secondary-fixed": "#002113",
+        "primary-fixed": "#c9e6ff",
+        "secondary-fixed": "#6ffbbe",
+        "surface-container-lowest": "#050d23",
+        "error-container": "#93000a",
+        "on-tertiary-container": "#4a2c00",
+        "on-surface": "#dbe1ff",
+        "on-primary-fixed-variant": "#004c6e",
+        "on-tertiary-fixed-variant": "#653e00",
+        "on-tertiary": "#472a00",
+        "on-secondary-fixed-variant": "#005236",
+        "outline": "#88929b",
+        "secondary-container": "#00a572",
+        "surface": "#0a1228",
+        "surface-bright": "#313850",
+        "inverse-surface": "#dbe1ff",
+        "on-error": "#690005",
+        "surface-tint": "#89ceff",
+        "on-primary": "#00344d",
+        "on-error-container": "#ffdad6",
+        "outline-variant": "#3e4850",
+        "surface-variant": "#2c344c",
+        "error": "#ffb4ab",
+        "secondary": "#4edea3",
+        "primary-container": "#0ea5e9",
+        "primary-fixed-dim": "#89ceff",
+        "on-secondary-container": "#00311f",
+        "surface-dim": "#0a1228",
+        "surface-container": "#171f35",
+        "surface-container-high": "#222940",
+        "tertiary-fixed-dim": "#ffb95f",
+        "on-tertiary-fixed": "#2a1700",
+        "surface-container-low": "#131b31"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.125rem",
+        "lg": "0.25rem",
+        "xl": "0.5rem",
+        "full": "0.75rem"
+      },
+      "spacing": {
+        "space-2xl": "3rem",
+        "gutter": "1rem",
+        "space-md": "1rem",
+        "space-sm": "0.75rem",
+        "space-2xs": "0.25rem",
+        "space-lg": "1.5rem",
+        "sidebar-width": "260px",
+        "space-xl": "2rem",
+        "space-xs": "0.5rem"
+      },
+      "fontFamily": {
+        "data-metric": ["Outfit"],
+        "title-sm": ["Outfit"],
+        "label-caps": ["Inter"],
+        "body-md": ["Inter"],
+        "body-sm": ["Inter"],
+        "headline-md": ["Outfit"],
+        "headline-xl": ["Outfit"],
+        "code-telemetry": ["JetBrains Mono"],
+        "body-lg": ["Inter"],
+        "headline-lg": ["Outfit"]
+      },
+      "fontSize": {
+        "data-metric": ["32px", {"lineHeight": "36px", "letterSpacing": "-0.03em", "fontWeight": "700"}],
+        "title-sm": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+        "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "600"}],
+        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+        "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+        "code-telemetry": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+        "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600"}]
+      }
+    }
+  }
+}</script></head><body class="bg-background font-body-md text-on-surface min-h-screen antialiased selection:bg-primary-container selection:text-on-primary-container"><aside class="fixed left-0 top-0 h-full w-sidebar-width bg-surface-container-low shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between overflow-hidden"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center justify-between bg-surface-container-lowest/60"><div class="flex items-center gap-space-xs"><img alt="MDSync Geotecnia Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Xs48zES0egZ3wmFdPBpvnV7a21Ly5WZFCmNgHEyZYhfNViwsKr4YO7TSdNgMYBY-z5zwHQ6_Kfqc2diRwV87n74AGFYp23v9UNiXJH0xUsp8janvXfy9xtdRtFQ8cGexi2HRLIKL_IT1XD4PyqhxOc_xj13t2THO6g4g6hnu9Pb1m6YFE7JVxbCb6OsERLTq42_ZFl3hCANPpztB2o-jYd5ZRzkK6yhYwjpxuHg1OkPcO0jb4i6w1tvE38"/><div class="flex flex-col"><span class="font-title-sm text-title-sm text-primary leading-tight tracking-tight">MDSync</span><span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Itaminas Geotecnia</span></div></div><button class="text-on-surface-variant hover:text-on-surface p-space-2xs rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">dock_to_left</span></button></div><div class="px-space-md py-space-xs"><div class="flex items-center gap-space-xs px-space-xs py-space-2xs rounded-full bg-surface-container"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span></span><span class="font-label-caps text-label-caps uppercase text-secondary font-medium tracking-wide truncate">Conectado / Nuvem Ativa</span></div></div><nav class="flex flex-col gap-space-2xs px-space-xs mt-space-2xs" data-active-classes="bg-primary-container text-on-primary-container font-medium shadow-sm"><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="visao-geral" href="#"><span class="material-symbols-outlined text-primary text-[20px]">grid_view</span><span class="truncate">Visão Geral</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="monitoramento-instrumental" href="#"><span class="material-symbols-outlined text-primary text-[20px]">sensors</span><span class="truncate">Monitoramento (TARP/PZ)</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="checklists-fir" href="#"><span class="material-symbols-outlined text-primary text-[20px]">fact_check</span><span class="truncate">Checklists &amp; FIR</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="historico-series" href="#"><span class="material-symbols-outlined text-primary text-[20px]">show_chart</span><span class="truncate">Histórico &amp; Séries</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="relatorios-auditoria" href="#"><span class="material-symbols-outlined text-primary text-[20px]">assignment_turned_in</span><span class="truncate">Relatórios &amp; Auditoria</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="indicadores-bi-fmea" href="#"><span class="material-symbols-outlined text-primary text-[20px]">analytics</span><span class="truncate">Indicadores BI &amp; FMEA</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="geoview-gis-3d" href="#"><span class="material-symbols-outlined text-primary text-[20px]">layers</span><span class="truncate">GeoView &amp; GIS 3D</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="parametros-usuarios" href="#"><span class="material-symbols-outlined text-primary text-[20px]">settings</span><span class="truncate">Parâmetros &amp; Usuários</span></a></nav></div><div class="p-space-sm bg-surface-container-lowest/80 flex flex-col gap-space-xs"><div class="flex items-center justify-between px-space-2xs"><span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Sincronização</span><button class="flex items-center gap-space-2xs text-secondary hover:text-secondary-fixed transition-colors font-label-caps text-label-caps" type="button"><span class="material-symbols-outlined text-[14px]">sync</span><span>Sincronizar</span></button></div><div class="flex items-center gap-space-sm p-space-2xs rounded-xl bg-surface-container-high/40"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="font-title-sm text-title-sm text-on-primary font-bold">MN</span></div><div class="flex flex-col min-w-0 flex-1"><div class="flex items-center gap-space-2xs"><span class="font-body-sm text-body-sm font-semibold text-on-surface truncate">Maycon Nascimento</span><span class="bg-surface-container-highest text-primary font-code-telemetry text-[10px] px-1 py-0.5 rounded-lg shrink-0">@admin</span></div><span class="font-label-caps text-label-caps text-on-surface-variant truncate">Eng. Geotécnico Sênior</span></div></div></div></aside><div class="pl-sidebar-width"><header class="fixed top-0 left-sidebar-width right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-gutter"><div class="flex items-center gap-space-md"><img alt="MDSync Geotecnia Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Xs48zES0egZ3wmFdPBpvnV7a21Ly5WZFCmNgHEyZYhfNViwsKr4YO7TSdNgMYBY-z5zwHQ6_Kfqc2diRwV87n74AGFYp23v9UNiXJH0xUsp8janvXfy9xtdRtFQ8cGexi2HRLIKL_IT1XD4PyqhxOc_xj13t2THO6g4g6hnu9Pb1m6YFE7JVxbCb6OsERLTq42_ZFl3hCANPpztB2o-jYd5ZRzkK6yhYwjpxuHg1OkPcO0jb4i6w1tvE38"/><div class="hidden md:flex items-center gap-space-2xs font-code-telemetry text-code-telemetry bg-surface-container-low px-space-sm py-space-2xs rounded-xl"><span class="material-symbols-outlined text-secondary text-[16px]">radar</span><span class="text-on-surface-variant truncate">Mina Cava Jangada • <strong class="text-on-surface font-semibold">IBIS-FM EVO 01 Ativo</strong></span></div></div><div class="flex items-center gap-space-sm"><div class="hidden lg:flex items-center gap-space-2xs bg-surface-container px-space-sm py-space-2xs rounded-full"><span class="material-symbols-outlined text-primary text-[16px]">cloud_done</span><span class="font-code-telemetry text-code-telemetry text-on-surface-variant">Offline Ready <strong class="text-primary font-medium">(Cache 100%)</strong></span></div><button class="flex items-center gap-space-2xs px-space-md py-space-xs rounded-xl bg-gradient-to-r from-primary-container to-inverse-primary text-on-primary font-title-sm text-title-sm shadow-md hover:brightness-110 active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-[18px]">add_circle</span><span>Nova Coleta</span></button><button class="w-9 h-9 rounded-xl bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">filter_alt</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="p-space-lg flex flex-col gap-space-lg max-w-[1720px] mx-auto w-full">
+<!-- TOPBAR / HERO DA API & TELEMETRIA DO GATEWAY -->
+<section class="relative overflow-hidden rounded-xl bg-surface-container-low p-space-lg shadow-xl">
+<div class="absolute -right-20 -top-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute right-1/3 -bottom-24 w-80 h-80 bg-secondary/10 rounded-full blur-2xl pointer-events-none"></div>
+<div class="relative z-10 flex flex-col xl:flex-row xl:items-center justify-between gap-space-lg">
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-caps text-label-caps uppercase px-2 py-0.5 rounded bg-primary-container/20 text-primary font-semibold tracking-wider">Antigravity Geotechnical Gateway</span>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant px-2 py-0.5 rounded bg-surface-container">v1.0.4-rc3 • OpenAPI 3.1</span>
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-secondary/10 text-secondary font-label-caps text-label-caps font-semibold">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+              PRODUÇÃO / CLUSTER SUL ATIVO
+            </span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface font-semibold tracking-tight mt-1">
+            MDSync Developer API &amp; Gateway MCP
+          </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-3xl">
+            Plataforma unificada para telemetria de radar interferométrico, malhas topográficas 3D da Cava Jangada, sincronização com Totvs Fluig, GeoStudio, Microsoft 365 e pipeline automatizado para DCE/SIGBM (ANM).
+          </p>
+</div>
+<!-- TELEMETRIA EM TEMPO REAL -->
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-space-sm shrink-0">
+<div class="bg-surface-container/70 backdrop-blur px-space-md py-space-xs rounded-xl flex flex-col justify-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Latência Gateway</span>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="font-data-metric text-data-metric text-primary">18</span>
+<span class="font-code-telemetry text-body-sm text-on-surface-variant">ms p99</span>
+</div>
+<span class="font-code-telemetry text-[10px] text-secondary">Estável (-2.1ms)</span>
+</div>
+<div class="bg-surface-container/70 backdrop-blur px-space-md py-space-xs rounded-xl flex flex-col justify-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Uptime Mensal</span>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="font-data-metric text-data-metric text-secondary">99.98</span>
+<span class="font-code-telemetry text-body-sm text-on-surface-variant">%</span>
+</div>
+<span class="font-code-telemetry text-[10px] text-on-surface-variant">SLA Garantido: 99.95%</span>
+</div>
+<div class="col-span-2 sm:col-span-1 bg-surface-container/70 backdrop-blur px-space-md py-space-xs rounded-xl flex flex-col justify-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Taxa Erro HTTP</span>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="font-data-metric text-data-metric text-secondary-fixed-dim">0.014</span>
+<span class="font-code-telemetry text-body-sm text-on-surface-variant">%</span>
+</div>
+<span class="font-code-telemetry text-[10px] text-primary">12.8M req/24h</span>
+</div>
+</div>
+</div>
+<!-- CREDENCIAIS & EXPORTS RIBBON -->
+<div class="mt-space-md pt-space-md flex flex-wrap items-center justify-between gap-space-sm bg-surface-container-lowest/70 p-space-sm rounded-xl">
+<div class="flex items-center gap-space-sm flex-1 min-w-[300px]">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0">key</span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Token Bearer Ativo (Produção Antigravity)</span>
+<div class="flex items-center gap-2">
+<code class="font-code-telemetry text-code-telemetry text-primary truncate select-all" id="apiTokenSnippet">sk_live_geo_antigravity_90f2aa74e84b901bc093</code>
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-on-surface" onclick="navigator.clipboard.writeText('sk_live_geo_antigravity_90f2aa74e84b901bc093'); alert('Token de produção copiado para a área de transferência!');" title="Copiar Token" type="button">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+</div>
+<button class="ml-auto text-error hover:text-on-error hover:bg-error-container/60 px-space-xs py-1 rounded text-body-sm font-label-caps uppercase transition-colors shrink-0" type="button">
+            Revogar Chave
+          </button>
+</div>
+<div class="flex items-center gap-space-xs flex-wrap">
+<a class="flex items-center gap-1.5 px-space-sm py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-body-sm font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-primary text-[18px]">download</span>
+<span>OpenAPI v3.1 (JSON)</span>
+</a>
+<a class="flex items-center gap-1.5 px-space-sm py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-body-sm font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-secondary text-[18px]">description</span>
+<span>YAML Spec</span>
+</a>
+<a class="flex items-center gap-1.5 px-space-sm py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-body-sm font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-tertiary text-[18px]">share</span>
+<span>Postman Collection v2.1</span>
+</a>
+</div>
+</div>
+</section>
+<!-- PAINEL DE AUTENTICAÇÃO, CONTEXTO DE ENGENHARIA & CONFIGURAÇÃO MCP SERVER -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- ESPECIFICAÇÃO MCP SERVER (CLAUDE / ANTIGRAVITY ENGINE) -->
+<section class="lg:col-span-7 bg-surface-container-low p-space-lg rounded-xl shadow-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[24px]">neurology</span>
+<div class="flex flex-col">
+<h2 class="font-headline-md text-headline-md text-on-surface">Model Context Protocol (MCP) Server</h2>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Claude Enterprise • Orquestração Antigravity Geotecnia</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary animate-ping"></span>
+<span class="font-code-telemetry text-body-sm text-secondary font-medium">5 Tools Prontas</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          O endpoint MCP provê tools estruturadas para raciocínio computacional geomecânico pelo Antigravity Core, permitindo interrogar modelos geológicos, correlacionar leituras de piezômetros corda vibrante (PZ) e acionar a geração de DCEs em contingência.
+        </p>
+<!-- SNIPPET JSON MCP -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md flex flex-col gap-2 overflow-hidden shadow-inner">
+<div class="flex items-center justify-between pb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-tertiary">data_object</span>
+<span class="font-code-telemetry text-[12px] text-on-surface-variant">antigravity-mcp-server.json</span>
+</div>
+<span class="font-code-telemetry text-[11px] text-primary">Transport: stdio / SSE</span>
+</div>
+<pre class="font-code-telemetry text-code-telemetry text-on-surface overflow-x-auto leading-relaxed max-h-72 select-text"><code>{
+  <span class="text-tertiary">"mcpServers"</span>: {
+    <span class="text-tertiary">"mdsync-geotecnia"</span>: {
+      <span class="text-primary">"command"</span>: <span class="text-secondary">"npx"</span>,
+      <span class="text-primary">"args"</span>: [<span class="text-secondary">"-y"</span>, <span class="text-secondary">"@itaminas/mdsync-mcp-gateway"</span>],
+      <span class="text-primary">"env"</span>: {
+        <span class="text-primary">"MDSYNC_BASE_URL"</span>: <span class="text-secondary">"https://api.mdsync.itaminas.com.br/v1"</span>,
+        <span class="text-primary">"MDSYNC_API_KEY"</span>: <span class="text-secondary">"sk_live_geo_antigravity_90f2aa74e84b901bc093"</span>,
+        <span class="text-primary">"CAVA_SECTOR_DEFAULT"</span>: <span class="text-secondary">"JANGADA_MINA_SUL"</span>
+      }
+    }
+  }
+}</code></pre>
+</div>
+<!-- LISTA DAS TOOLS REGISTRADAS -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Tools Geotécnicas Expostas (LLM Function Calling)</span>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-xs">
+<div class="bg-surface-container p-space-xs rounded-lg flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<code class="font-code-telemetry text-[12px] text-primary font-bold">get_cava_3d_mesh</code>
+<span class="font-label-caps text-[9px] px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface-variant">Geo3D</span>
+</div>
+<span class="font-body-sm text-[12px] text-on-surface-variant">Retorna malha OBJ/gTF, nuvem de pontos LiDAR e superfícies de berma/bancada.</span>
+</div>
+<div class="bg-surface-container p-space-xs rounded-lg flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<code class="font-code-telemetry text-[12px] text-secondary font-bold">query_radar_telemetry</code>
+<span class="font-label-caps text-[9px] px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface-variant">Radar IBIS</span>
+</div>
+<span class="font-body-sm text-[12px] text-on-surface-variant">Vetor de deformação acumulada, LOS, velocidade mm/h e TARP trigger level.</span>
+</div>
+<div class="bg-surface-container p-space-xs rounded-lg flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<code class="font-code-telemetry text-[12px] text-tertiary font-bold">ingest_field_checklist</code>
+<span class="font-label-caps text-[9px] px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface-variant">FIR Mobile</span>
+</div>
+<span class="font-body-sm text-[12px] text-on-surface-variant">Processa Ficha de Inspeção Regular, fotos georreferenciadas e assinatura técnica.</span>
+</div>
+<div class="bg-surface-container p-space-xs rounded-lg flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<code class="font-code-telemetry text-[12px] text-primary-container font-bold">post_sigbm_dce</code>
+<span class="font-label-caps text-[9px] px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface-variant">ANM Gov</span>
+</div>
+<span class="font-body-sm text-[12px] text-on-surface-variant">Valida ART e assina criptograficamente a Declaração de Condição de Estabilidade.</span>
+</div>
+<div class="sm:col-span-2 bg-surface-container p-space-xs rounded-lg flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<code class="font-code-telemetry text-[12px] text-inverse-primary font-bold">calculate_fmea_rpn</code>
+<span class="font-label-caps text-[9px] px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface-variant">FMEA Matrix</span>
+</div>
+<span class="font-body-sm text-[12px] text-on-surface-variant">Computa Severidade x Ocorrência x Detecção para cada modo de falha (talude, extravasor, percolação).</span>
+</div>
+</div>
+</div>
+</section>
+<!-- CONEXÕES CORPORATIVAS & MIDDLEWARES -->
+<section class="lg:col-span-5 bg-surface-container-low p-space-lg rounded-xl shadow-lg flex flex-col gap-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[24px]">hub</span>
+<div class="flex flex-col">
+<h2 class="font-headline-md text-headline-md text-on-surface">Conectores Enterprise Ativos</h2>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Ecossistema Itaminas Geotecnia</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="p-space-sm rounded-xl bg-surface-container flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[22px]">domain</span>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Totvs Fluig ECM/BPM</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Workflows de RNC, Aprovação de FIR e ART</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary/10 text-secondary font-label-caps text-label-caps font-semibold">200 OK</span>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-tertiary text-[22px]">policy</span>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">SIGBM • Agência Nacional de Mineração</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Transmissão DCE quinzenal e extraordinária</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary/10 text-secondary font-label-caps text-label-caps font-semibold">HOMOLOGADO</span>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[22px]">analytics</span>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">GeoStudio &amp; Rocscience RS3</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Auto-injeção de piezometria e linhas freáticas</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary/10 text-secondary font-label-caps text-label-caps font-semibold">SYNC ATIVO</span>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[22px]">cloud_sync</span>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface">Microsoft 365 / Power Automate</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Alertas no Teams TARP Nível 2 e Nível 3</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary/10 text-secondary font-label-caps text-label-caps font-semibold">WEBHOOK OK</span>
+</div>
+</div>
+<div class="bg-surface-container-high/40 p-space-sm rounded-xl flex flex-col gap-1">
+<div class="flex items-center justify-between text-body-sm">
+<span class="text-on-surface-variant font-label-caps uppercase">Base URL de Produção</span>
+<span class="text-secondary font-code-telemetry text-[11px]">HTTPS TLS 1.3 / mTLS</span>
+</div>
+<code class="font-code-telemetry text-code-telemetry text-primary font-bold">https://api.mdsync.itaminas.com.br/v1</code>
+</div>
+</section>
+</div>
+<!-- EXPLORER INTERATIVO DE ENDPOINTS RESTFUL (SWAGGER UI MODERNO DE ENGENHARIA) -->
+<section class="bg-surface-container-low p-space-lg rounded-xl shadow-lg flex flex-col gap-space-lg">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pb-space-sm">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[24px]">api</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Interactive RESTful Explorer &amp; Live Test Runner</h2>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Teste chamadas autenticadas com telemetria simulada em tempo real</span>
+</div>
+<!-- FILTROS DE CATEGORIA -->
+<div class="flex items-center gap-1.5 flex-wrap bg-surface-container p-1 rounded-xl">
+<button class="px-space-sm py-1 rounded-lg bg-primary text-on-primary font-label-caps text-label-caps font-semibold transition-all" type="button">Todos (14)</button>
+<button class="px-space-sm py-1 rounded-lg hover:bg-surface-container-high text-on-surface-variant text-body-sm font-medium transition-all" type="button">Cava 3D &amp; GIS</button>
+<button class="px-space-sm py-1 rounded-lg hover:bg-surface-container-high text-on-surface-variant text-body-sm font-medium transition-all" type="button">Radar &amp; Instrumentação</button>
+<button class="px-space-sm py-1 rounded-lg hover:bg-surface-container-high text-on-surface-variant text-body-sm font-medium transition-all" type="button">Inspeções &amp; Checklists</button>
+<button class="px-space-sm py-1 rounded-lg hover:bg-surface-container-high text-on-surface-variant text-body-sm font-medium transition-all" type="button">Governança ANM</button>
+</div>
+</div>
+<!-- LISTA EXPANSÍVEL DE ENDPOINTS -->
+<div class="flex flex-col gap-space-md">
+<!-- ENDPOINT 1: GET /v1/radar/ibis-fm/telemetry (DESTAQUE INTERATIVO COM TRY-IT-OUT) -->
+<div class="bg-surface-container rounded-xl overflow-hidden shadow-md">
+<div class="p-space-md flex flex-col md:flex-row md:items-center justify-between gap-space-sm bg-surface-container-high/60 cursor-pointer" onclick="document.getElementById('endpoint-radar').classList.toggle('hidden')">
+<div class="flex items-center gap-space-sm flex-wrap min-w-0">
+<span class="px-2.5 py-1 rounded bg-primary text-on-primary font-code-telemetry text-[12px] font-bold tracking-wider">GET</span>
+<code class="font-code-telemetry text-body-md font-bold text-on-surface">/v1/radar/ibis-fm/telemetry</code>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Série temporal de deslocamento acumulado e vetor LOS (Radar Jangada EVO 01)</span>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<span class="font-label-caps text-label-caps text-secondary px-2 py-0.5 rounded bg-secondary/10 font-bold">200 OK Response</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">expand_more</span>
+</div>
+</div>
+<!-- PAINEL DETALHADO DO ENDPOINT -->
+<div class="p-space-md flex flex-col gap-space-md bg-surface-container" id="endpoint-radar">
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-md">
+<!-- ESPECIFICAÇÃO DE PARÂMETROS -->
+<div class="xl:col-span-6 flex flex-col gap-space-sm">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Parâmetros de Consulta (Query Params)</span>
+<div class="flex flex-col gap-space-xs">
+<div class="bg-surface-container-low p-space-xs rounded-lg flex items-center justify-between">
+<div>
+<code class="font-code-telemetry text-body-sm text-primary font-semibold">sector_id</code>
+<span class="text-error text-body-sm font-bold ml-1">*</span>
+<p class="font-body-sm text-[12px] text-on-surface-variant">Identificador do setor de monitoramento da Cava.</p>
+</div>
+<input class="bg-surface-container font-code-telemetry text-[12px] text-on-surface px-space-xs py-1 rounded w-52 text-right focus:outline-none focus:ring-1 focus:ring-primary" type="text" value="TALUDE_NOROESTE_SEC_04"/>
+</div>
+<div class="bg-surface-container-low p-space-xs rounded-lg flex items-center justify-between">
+<div>
+<code class="font-code-telemetry text-body-sm text-primary font-semibold">timeframe</code>
+<p class="font-body-sm text-[12px] text-on-surface-variant">Janela de agregação temporal.</p>
+</div>
+<select class="bg-surface-container font-code-telemetry text-[12px] text-on-surface px-space-xs py-1 rounded w-52 text-right focus:outline-none focus:ring-1 focus:ring-primary">
+<option value="6h">Últimas 6 horas (alta freq.)</option>
+<option selected="" value="24h">Últimas 24 horas</option>
+<option value="7d">Últimos 7 dias</option>
+</select>
+</div>
+<div class="bg-surface-container-low p-space-xs rounded-lg flex items-center justify-between">
+<div>
+<code class="font-code-telemetry text-body-sm text-primary font-semibold">tarp_threshold</code>
+<p class="font-body-sm text-[12px] text-on-surface-variant">Filtro mínimo de criticidade TARP.</p>
+</div>
+<span class="font-code-telemetry text-[12px] text-secondary">NÍVEL 0 (NORMAL)</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs mt-space-2xs">
+<button class="flex items-center gap-2 px-space-md py-2 rounded-lg bg-primary-container text-on-primary font-title-sm text-body-md font-semibold hover:brightness-110 active:scale-95 transition-all shadow-md" id="btnTestRadar" onclick="executeRadarTest()" type="button">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+<span>Executar Chamada (Try It Out)</span>
+</button>
+<button class="px-space-sm py-2 rounded-lg bg-surface-container-high text-on-surface-variant text-body-sm hover:text-on-surface transition-colors" onclick="resetRadarTest()" type="button">
+                    Resetar
+                  </button>
+</div>
+</div>
+<!-- RESPOSTA EM TEMPO REAL (RESPONSE PAYLOAD) -->
+<div class="xl:col-span-6 flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Resposta HTTP do Gateway</span>
+<div class="flex items-center gap-2">
+<span class="font-code-telemetry text-[11px] px-2 py-0.5 rounded bg-secondary/15 text-secondary font-bold" id="responseBadge">HTTP 200 OK • 19ms</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-sm h-64 overflow-y-auto select-text shadow-inner">
+<pre class="font-code-telemetry text-[12px] text-on-surface leading-relaxed" id="radarResponseJson"><code>{
+  "status": "success",
+  "radar_station": "IBIS-FM-EVO-01",
+  "instrument_uptime": "99.98%",
+  "sector": "TALUDE_NOROESTE_SEC_04",
+  "coordinates_wgs84": {
+    "latitude": -20.043812,
+    "longitude": -44.189455,
+    "altitude_m": 884.2
+  },
+  "metrics": {
+    "accumulated_los_displacement_mm": -1.42,
+    "current_velocity_mm_h": -0.04,
+    "velocity_trend": "stable",
+    "coherence_index": 0.89
+  },
+  "tarp_status": {
+    "level": "TARP_0_VERDE",
+    "trigger_threshold_mm_h": -0.50,
+    "margin_percentage": 92.0
+  },
+  "timestamp_utc": "2025-05-18T14:22:00.412Z"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ENDPOINT 2: POST /v1/inspections/submit (CHECKLISTS & FIR) -->
+<div class="bg-surface-container rounded-xl overflow-hidden shadow-md">
+<div class="p-space-md flex flex-col md:flex-row md:items-center justify-between gap-space-sm bg-surface-container-high/60 cursor-pointer" onclick="document.getElementById('endpoint-fir').classList.toggle('hidden')">
+<div class="flex items-center gap-space-sm flex-wrap min-w-0">
+<span class="px-2.5 py-1 rounded bg-secondary-container text-on-secondary-container font-code-telemetry text-[12px] font-bold tracking-wider">POST</span>
+<code class="font-code-telemetry text-body-md font-bold text-on-surface">/v1/inspections/submit</code>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Submissão de Ficha de Inspeção Regular (FIR) com validação de assinatura e fotos</span>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<span class="font-label-caps text-label-caps text-secondary px-2 py-0.5 rounded bg-secondary/10 font-bold">201 Created</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">expand_more</span>
+</div>
+</div>
+<div class="hidden p-space-md flex flex-col gap-space-md bg-surface-container" id="endpoint-fir">
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Payload de Envio (JSON Schema FIR)</span>
+<div class="bg-surface-container-lowest rounded-xl p-space-sm h-60 overflow-y-auto">
+<pre class="font-code-telemetry text-[12px] text-on-surface leading-relaxed"><code>{
+  "inspector_crea": "MG-204918/D",
+  "dam_code_anm": "B1-ITAMINAS-JANGADA",
+  "inspection_type": "QUINZENAL_REGULAR",
+  "structural_elements": [
+    {
+      "element": "TALUDE_JUSANTE",
+      "condition": "SEM_ANOMALIAS",
+      "percolation_observed": false
+    },
+    {
+      "element": "SISTEMA_DRENAGEM_INTERNA",
+      "condition": "DRENAGEM_LIVRE_LIMPA",
+      "flow_rate_l_s": 0.42
+    }
+  ],
+  "photos_geotagged_count": 4,
+  "art_number": "ART-2025-99812401"
+}</code></pre>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Retorno do Workflow Fluig &amp; Hash de Auditoria</span>
+<div class="bg-surface-container-lowest rounded-xl p-space-sm h-60 overflow-y-auto">
+<pre class="font-code-telemetry text-[12px] text-secondary leading-relaxed"><code>{
+  "status": "created",
+  "fir_protocol": "FIR-2025-05-8841",
+  "fluig_workflow_id": 490218,
+  "audit_hash": "sha256:4b91ae90f84a8bc33190ab76e...",
+  "sigbm_queue_status": "QUEUED_FOR_BATCH_SYNC",
+  "created_at": "2025-05-18T14:24:11.902Z"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ENDPOINT 3: GET /v1/cava/jangada/mesh (MALHA 3D E GIS) -->
+<div class="bg-surface-container rounded-xl overflow-hidden shadow-md">
+<div class="p-space-md flex flex-col md:flex-row md:items-center justify-between gap-space-sm bg-surface-container-high/60 cursor-pointer" onclick="document.getElementById('endpoint-mesh').classList.toggle('hidden')">
+<div class="flex items-center gap-space-sm flex-wrap min-w-0">
+<span class="px-2.5 py-1 rounded bg-primary text-on-primary font-code-telemetry text-[12px] font-bold tracking-wider">GET</span>
+<code class="font-code-telemetry text-body-md font-bold text-on-surface">/v1/cava/jangada/mesh</code>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Export de malha estrutural 3D georreferenciada (SIRGAS 2000 UTM 23S) para GeoStudio / Antigravity</span>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<span class="font-label-caps text-label-caps text-primary px-2 py-0.5 rounded bg-primary/10 font-bold">Stream Binary / GLTF</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">expand_more</span>
+</div>
+</div>
+<div class="hidden p-space-md flex flex-col gap-space-xs bg-surface-container" id="endpoint-mesh">
+<div class="flex items-center justify-between text-body-sm">
+<span class="text-on-surface-variant">Suporta formatos: <code>model/gltf-binary</code>, <code>application/x-wavefront-obj</code>, <code>application/geo+json</code></span>
+<span class="font-code-telemetry text-[12px] text-secondary">Compressão Draco Ativada</span>
+</div>
+</div>
+</div>
+<!-- ENDPOINT 4: POST /v1/integrations/sigbm/transmit (ANM DCE GOVERNANÇA) -->
+<div class="bg-surface-container rounded-xl overflow-hidden shadow-md">
+<div class="p-space-md flex flex-col md:flex-row md:items-center justify-between gap-space-sm bg-surface-container-high/60 cursor-pointer" onclick="document.getElementById('endpoint-anm').classList.toggle('hidden')">
+<div class="flex items-center gap-space-sm flex-wrap min-w-0">
+<span class="px-2.5 py-1 rounded bg-tertiary-container text-on-tertiary-container font-code-telemetry text-[12px] font-bold tracking-wider">POST</span>
+<code class="font-code-telemetry text-body-md font-bold text-on-surface">/v1/integrations/sigbm/transmit</code>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Envio criptográfico da Declaração de Condição de Estabilidade com carimbo do tempo ICP-Brasil</span>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<span class="font-label-caps text-label-caps text-secondary px-2 py-0.5 rounded bg-secondary/10 font-bold">mTLS Autenticado</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">expand_more</span>
+</div>
+</div>
+<div class="hidden p-space-md flex flex-col gap-space-xs bg-surface-container" id="endpoint-anm">
+<div class="flex items-center justify-between text-body-sm">
+<span class="text-on-surface-variant">Conexão direta com Web Service ANM / Protocolo DCE Resolução nº 95/2022</span>
+<span class="font-code-telemetry text-[12px] text-tertiary">Certificado A3 Homologado</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CONSOLE DE LOGS EM TEMPO REAL & MÉTRICAS DE TRÁFEGO (RPM / TRAFFIC) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- LOGSTREAM AO VIVO -->
+<section class="lg:col-span-8 bg-surface-container-low p-space-lg rounded-xl shadow-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between flex-wrap gap-2">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[24px]">terminal</span>
+<div class="flex flex-col">
+<h3 class="font-headline-md text-headline-md text-on-surface">Logstream de Chamadas de Produção</h3>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Fluxo em tempo real • Antigravity Server &amp; Agentes Remotos</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container text-body-sm text-on-surface hover:bg-surface-container-high transition-colors" id="btnPauseLogs" onclick="toggleLogPause()" type="button">
+<span class="material-symbols-outlined text-[16px] text-primary">pause</span>
+<span id="pauseLabel">Pausar</span>
+</button>
+<button class="flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container text-body-sm text-on-surface hover:bg-surface-container-high transition-colors" onclick="clearLogs()" type="button">
+<span class="material-symbols-outlined text-[16px]">clear_all</span>
+<span>Limpar</span>
+</button>
+</div>
+</div>
+<!-- TERMINAL DE LOGS -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm font-code-telemetry text-[12px] h-80 overflow-y-auto flex flex-col gap-1.5 shadow-inner" id="logTerminal">
+<div class="flex items-center gap-2 text-on-surface-variant border-b border-surface-container/40 pb-1">
+<span class="w-16">HORA</span>
+<span class="w-12">MÉTODO</span>
+<span class="w-12">STATUS</span>
+<span class="flex-1">ENDPOINT</span>
+<span class="w-24 text-right">ORIGEM IP</span>
+<span class="w-16 text-right">LATÊNCIA</span>
+</div>
+<div class="flex items-center gap-2 hover:bg-surface-container/30 py-0.5 rounded text-on-surface">
+<span class="text-on-surface-variant w-16">14:24:39</span>
+<span class="text-primary font-bold w-12">GET</span>
+<span class="text-secondary font-bold w-12">200</span>
+<span class="flex-1 truncate text-primary-fixed-dim">/v1/radar/ibis-fm/telemetry?sector=SEC_04</span>
+<span class="text-on-surface-variant w-24 text-right">172.19.4.81</span>
+<span class="text-secondary w-16 text-right">18ms</span>
+</div>
+<div class="flex items-center gap-2 hover:bg-surface-container/30 py-0.5 rounded text-on-surface">
+<span class="text-on-surface-variant w-16">14:24:32</span>
+<span class="text-secondary font-bold w-12">POST</span>
+<span class="text-secondary font-bold w-12">201</span>
+<span class="flex-1 truncate text-on-surface">/v1/inspections/submit</span>
+<span class="text-on-surface-variant w-24 text-right">10.0.12.55</span>
+<span class="text-secondary w-16 text-right">44ms</span>
+</div>
+<div class="flex items-center gap-2 hover:bg-surface-container/30 py-0.5 rounded text-on-surface">
+<span class="text-on-surface-variant w-16">14:24:28</span>
+<span class="text-primary font-bold w-12">GET</span>
+<span class="text-secondary font-bold w-12">200</span>
+<span class="flex-1 truncate text-primary-fixed-dim">/v1/sensors/piezometers?filter=corda_vibrante</span>
+<span class="text-on-surface-variant w-24 text-right">172.19.4.81</span>
+<span class="text-secondary w-16 text-right">15ms</span>
+</div>
+<div class="flex items-center gap-2 hover:bg-surface-container/30 py-0.5 rounded text-on-surface">
+<span class="text-on-surface-variant w-16">14:24:19</span>
+<span class="text-tertiary font-bold w-12">POST</span>
+<span class="text-secondary font-bold w-12">200</span>
+<span class="flex-1 truncate text-tertiary-fixed-dim">/mcp/v1/tools/query_radar_telemetry</span>
+<span class="text-on-surface-variant w-24 text-right">192.168.10.4</span>
+<span class="text-secondary w-16 text-right">22ms</span>
+</div>
+<div class="flex items-center gap-2 hover:bg-surface-container/30 py-0.5 rounded text-on-surface">
+<span class="text-on-surface-variant w-16">14:24:05</span>
+<span class="text-primary font-bold w-12">GET</span>
+<span class="text-secondary font-bold w-12">200</span>
+<span class="flex-1 truncate text-primary-fixed-dim">/v1/cava/jangada/mesh?lod=high</span>
+<span class="text-on-surface-variant w-24 text-right">187.32.11.90</span>
+<span class="text-secondary w-16 text-right">62ms</span>
+</div>
+<div class="flex items-center gap-2 hover:bg-surface-container/30 py-0.5 rounded text-on-surface">
+<span class="text-on-surface-variant w-16">14:23:51</span>
+<span class="text-primary font-bold w-12">GET</span>
+<span class="text-secondary font-bold w-12">200</span>
+<span class="flex-1 truncate text-primary-fixed-dim">/v1/gis/layers/lithology</span>
+<span class="text-on-surface-variant w-24 text-right">10.0.12.9</span>
+<span class="text-secondary w-16 text-right">29ms</span>
+</div>
+</div>
+</section>
+<!-- GRÁFICO DE REQUISIÇÕES POR MINUTO (RPM) E COORDENAÇÃO DE SEGURANÇA -->
+<section class="lg:col-span-4 bg-surface-container-low p-space-lg rounded-xl shadow-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[24px]">speed</span>
+<div class="flex flex-col">
+<h3 class="font-headline-md text-headline-md text-on-surface">Taxa de Tráfego (RPM)</h3>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Métricas em Tempo Real</span>
+</div>
+</div>
+<span class="font-data-metric text-[22px] text-primary font-bold">14.2k <span class="text-body-sm font-normal text-on-surface-variant">rpm</span></span>
+</div>
+<!-- GRÁFICO SVG MINIMALISTA ULTRA-PRECISO -->
+<div class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-2">
+<div class="flex items-center justify-between text-body-sm">
+<span class="text-on-surface-variant font-code-telemetry text-[11px]">Picos de Leitura Radar &amp; Webhooks</span>
+<span class="text-secondary font-code-telemetry text-[11px] font-bold">Buffer 98% Livre</span>
+</div>
+<div class="w-full h-36 relative">
+<svg class="w-full h-full text-primary" preserveaspectratio="none" viewbox="0 0 300 100">
+<defs>
+<lineargradient id="rpmGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.4"></stop>
+<stop offset="100%" stop-color="#0ea5e9" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<path d="M0,80 Q30,65 60,70 T120,45 T180,60 T240,30 T300,38 L300,100 L0,100 Z" fill="url(#rpmGrad)"></path>
+<path d="M0,80 Q30,65 60,70 T120,45 T180,60 T240,30 T300,38" fill="none" stroke="#0ea5e9" stroke-width="2.5"></path>
+<circle cx="240" cy="30" fill="#6ffbbe" r="4"></circle>
+</svg>
+</div>
+<div class="grid grid-cols-3 gap-1 pt-1 text-center font-code-telemetry text-[10px] text-on-surface-variant">
+<div class="flex flex-col">
+<span>08:00</span>
+<strong class="text-on-surface">11.4k</strong>
+</div>
+<div class="flex flex-col">
+<span>12:00</span>
+<strong class="text-on-surface">16.8k</strong>
+</div>
+<div class="flex flex-col">
+<span>Agora</span>
+<strong class="text-secondary">14.2k</strong>
+</div>
+</div>
+</div>
+<!-- SEGURANÇA E AUDITORIA HASH-CHAIN -->
+<div class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Hash-Chain de Auditoria Geotécnica</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">verified</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant truncate">Último Bloco: #891.024 • 0x8f02ba...</span>
+</div>
+<p class="font-body-sm text-[11px] text-on-surface-variant">
+            Todas as mutações de leituras de piezômetros e submissões de FIR geram hash criptográfico imutável em conformidade com as diretrizes da ANM.
+          </p>
+</div>
+</section>
+</div>
+</div>
+</div>
+<script>
+  let logsPaused = false;
+  let logInterval = null;
+
+  function executeRadarTest() {
+    const responseBox = document.getElementById('radarResponseJson');
+    const badge = document.getElementById('responseBadge');
+    
+    badge.textContent = "PROCESSANDO...";
+    badge.className = "font-code-telemetry text-[11px] px-2 py-0.5 rounded bg-primary/20 text-primary font-bold animate-pulse";
+    
+    setTimeout(() => {
+      const now = new Date().toISOString();
+      const randomDisplacement = (-1.35 - (Math.random() * 0.15)).toFixed(2);
+      const randomVel = (-0.03 - (Math.random() * 0.02)).toFixed(3);
+      
+      responseBox.textContent = JSON.stringify({
+        "status": "success",
+        "radar_station": "IBIS-FM-EVO-01",
+        "instrument_uptime": "99.98%",
+        "sector": "TALUDE_NOROESTE_SEC_04",
+        "coordinates_wgs84": {
+          "latitude": -20.043812,
+          "longitude": -44.189455,
+          "altitude_m": 884.20
+        },
+        "metrics": {
+          "accumulated_los_displacement_mm": parseFloat(randomDisplacement),
+          "current_velocity_mm_h": parseFloat(randomVel),
+          "velocity_trend": "stable",
+          "coherence_index": 0.91
+        },
+        "tarp_status": {
+          "level": "TARP_0_VERDE",
+          "trigger_threshold_mm_h": -0.50,
+          "margin_percentage": 94.2
+        },
+        "query_latency_ms": 17.8,
+        "timestamp_utc": now
+      }, null, 2);
+
+      badge.textContent = "HTTP 200 OK • 17.8ms";
+      badge.className = "font-code-telemetry text-[11px] px-2 py-0.5 rounded bg-secondary/15 text-secondary font-bold";
+      
+      // Injeta linha de log no terminal
+      appendLogLine('GET', '200', '/v1/radar/ibis-fm/telemetry?sector=SEC_04', '17.8ms');
+    }, 380);
+  }
+
+  function resetRadarTest() {
+    const badge = document.getElementById('responseBadge');
+    badge.textContent = "HTTP 200 OK • 19ms";
+    badge.className = "font-code-telemetry text-[11px] px-2 py-0.5 rounded bg-secondary/15 text-secondary font-bold";
+    document.getElementById('radarResponseJson').textContent = `{\n  "status": "success",\n  "radar_station": "IBIS-FM-EVO-01",\n  "instrument_uptime": "99.98%",\n  "sector": "TALUDE_NOROESTE_SEC_04",\n  "metrics": {\n    "accumulated_los_displacement_mm": -1.42,\n    "current_velocity_mm_h": -0.04\n  }\n}`;
+  }
+
+  function appendLogLine(method, status, path, latency) {
+    const terminal = document.getElementById('logTerminal');
+    if (!terminal) return;
+    
+    const now = new Date();
+    const timeStr = now.toTimeString().split(' ')[0];
+    
+    const row = document.createElement('div');
+    row.className = "flex items-center gap-2 hover:bg-surface-container/30 py-0.5 rounded text-on-surface animate-fadeIn";
+    row.innerHTML = `
+      <span class="text-on-surface-variant w-16">${timeStr}</span>
+      <span class="text-primary font-bold w-12">${method}</span>
+      <span class="text-secondary font-bold w-12">${status}</span>
+      <span class="flex-1 truncate text-primary-fixed-dim">${path}</span>
+      <span class="text-on-surface-variant w-24 text-right">172.19.4.81</span>
+      <span class="text-secondary w-16 text-right">${latency}</span>
+    `;
+    
+    // Insere após o cabeçalho
+    if (terminal.children.length > 1) {
+      terminal.insertBefore(row, terminal.children[1]);
+    } else {
+      terminal.appendChild(row);
+    }
+  }
+
+  function toggleLogPause() {
+    logsPaused = !logsPaused;
+    const btnLabel = document.getElementById('pauseLabel');
+    if (logsPaused) {
+      btnLabel.textContent = "Retomar";
+    } else {
+      btnLabel.textContent = "Pausar";
+    }
+  }
+
+  function clearLogs() {
+    const terminal = document.getElementById('logTerminal');
+    while (terminal.children.length > 1) {
+      terminal.removeChild(terminal.lastChild);
+    }
+  }
+
+  // Simulação contínua e suave de logs para dinamismo de engenharia
+  setInterval(() => {
+    if (logsPaused) return;
+    const endpoints = [
+      { m: 'GET', p: '/v1/sensors/piezometers/readings', s: '200', l: '14ms' },
+      { m: 'POST', p: '/mcp/v1/tools/query_radar_telemetry', s: '200', l: '21ms' },
+      { m: 'GET', p: '/v1/cava/jangada/mesh?lod=normal', s: '200', l: '42ms' },
+      { m: 'POST', p: '/v1/inspections/validate-art', s: '200', l: '33ms' }
+    ];
+    const rand = endpoints[Math.floor(Math.random() * endpoints.length)];
+    appendLogLine(rand.m, rand.s, rand.p, rand.l);
+    
+    // Limita tamanho da lista no DOM
+    const terminal = document.getElementById('logTerminal');
+    if (terminal && terminal.children.length > 25) {
+      terminal.removeChild(terminal.lastChild);
+    }
+  }, 4500);
+</script></main></div>
+    <!-- MDSync Core Bilateral Sync & Runtime Integration -->
+    <script src="../../src/core/sync-bridge.js"></script>
+    <script src="../stitch-runtime.js"></script>
+</body></html>

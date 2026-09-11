@@ -42,27 +42,86 @@
     let satAnnotatedLoaded = false;
     satAnnotatedImage.onload = () => { satAnnotatedLoaded = true; };
 
-    // Sub-tab switcher: Radar vs Convencional
+    // Sub-tab switcher unificado: GeoView 3D vs Radar vs Convencional vs GIS 2D
     window.switchMonitoringSubTab = function(tab) {
+        if (!tab) tab = 'geoview3d';
         window.radarState.activeSubTab = tab;
-        const pillRadar = document.getElementById('pill-radar-247');
-        const pillConv = document.getElementById('pill-conventional');
+
+        // Pills
+        const pill3D = document.getElementById('pill-sub-geoview3d');
+        const pillRadar = document.getElementById('pill-sub-radar') || document.getElementById('pill-radar-247');
+        const pillConv = document.getElementById('pill-sub-conventional') || document.getElementById('pill-conventional');
+        const pillGis = document.getElementById('pill-sub-gis2d');
+
+        // Panels
+        const panel3D = document.getElementById('panel-geoview3d-cockpit');
         const panelRadar = document.getElementById('panel-radar-monitoring');
         const panelConv = document.getElementById('panel-conventional-readings');
+        const panelGis = document.getElementById('panel-gis2d-georef');
 
-        if (tab === 'radar') {
+        // Reset all pills
+        [pill3D, pillRadar, pillConv, pillGis].forEach(p => {
+            if (p) p.classList.remove('active');
+        });
+
+        // Hide all panels
+        [panel3D, panelRadar, panelConv, panelGis].forEach(p => {
+            if (p) p.style.display = 'none';
+        });
+
+        if (tab === 'geoview3d' || tab === 'geoview' || tab === '3d') {
+            if (pill3D) pill3D.classList.add('active');
+            if (panel3D) panel3D.style.display = 'block';
+
+            if (typeof renderGeoViewPanel === 'function') {
+                renderGeoViewPanel();
+            }
+            if (typeof initGeoView3DCockpit === 'function') {
+                setTimeout(() => {
+                    initGeoView3DCockpit();
+                    if (typeof resumeGeoView3DCockpit === 'function') resumeGeoView3DCockpit();
+                }, 60);
+            }
+            if (window.geoviewPilhasMap) {
+                setTimeout(() => {
+                    if (window.geoviewPilhasMap) window.geoviewPilhasMap.invalidateSize({ pan: false });
+                }, 120);
+            }
+        } else if (tab === 'radar') {
             if (pillRadar) pillRadar.classList.add('active');
-            if (pillConv) pillConv.classList.remove('active');
             if (panelRadar) panelRadar.style.display = 'block';
-            if (panelConv) panelConv.style.display = 'none';
+
+            if (typeof pauseGeoView3DCockpit === 'function') {
+                pauseGeoView3DCockpit();
+            }
             initRadarCockpit();
-        } else {
-            if (pillRadar) pillRadar.classList.remove('active');
+        } else if (tab === 'conventional' || tab === 'readings') {
             if (pillConv) pillConv.classList.add('active');
-            if (panelRadar) panelRadar.style.display = 'none';
             if (panelConv) panelConv.style.display = 'block';
+
+            if (typeof pauseGeoView3DCockpit === 'function') {
+                pauseGeoView3DCockpit();
+            }
             if (typeof loadInstrumentDetails === 'function') {
                 loadInstrumentDetails();
+            }
+        } else if (tab === 'gis2d' || tab === 'georef') {
+            if (pillGis) pillGis.classList.add('active');
+            if (panelGis) panelGis.style.display = 'block';
+
+            if (typeof pauseGeoView3DCockpit === 'function') {
+                pauseGeoView3DCockpit();
+            }
+            if (typeof renderGeorefPanel === 'function') {
+                renderGeorefPanel();
+            }
+            if (window.georefMap) {
+                setTimeout(() => {
+                    window.georefMap.invalidateSize();
+                    if (typeof selectGeorefStructure === 'function' && window.geoSpatialState) {
+                        selectGeorefStructure(window.geoSpatialState.selectedStructure || "Toda a Mina (Visão Geral)");
+                    }
+                }, 100);
             }
         }
     };

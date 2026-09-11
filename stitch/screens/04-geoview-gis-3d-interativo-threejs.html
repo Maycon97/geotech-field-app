@@ -194,6 +194,14 @@
 <span class="material-symbols-outlined text-[15px]">flood</span>
 <span>ZAS / PAEBM</span>
 </button>
+<button class="flex items-center gap-space-2xs px-space-xs py-1 rounded-lg hover:bg-surface-container text-secondary font-body-sm text-body-sm transition-colors" type="button" title="Geologia Oficial ArcGIS Pro 3.6.3 (28 Litologias)" onclick="abrirModalPranchaGeologica()">
+<span class="material-symbols-outlined text-[15px]">diamond</span>
+<span>Litologias (28)</span>
+</button>
+<button class="flex items-center gap-space-2xs px-space-xs py-1 rounded-lg bg-primary/10 text-primary border border-primary/30 font-body-sm text-body-sm transition-colors hover:bg-primary/20" type="button" title="Visualizar a Prancha Oficial Consolidada do Mapa Geológico (Agosto/2026)" onclick="abrirModalPranchaGeologica()">
+<span class="material-symbols-outlined text-[15px]">map</span>
+<span>Prancha 2D Oficial</span>
+</button>
 </div>
 </div>
 <!-- TARP Filters & Tool Actions -->
@@ -806,6 +814,92 @@ Notificar CGO
 </div>
 </footer>
 </div></main></div>
+    <!-- Modal da Prancha Tecnica Oficial Consolidada (Layout Mapa Geologico 08/2026) -->
+    <div id="cava3d-prancha-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
+        <div style="background: #0b132b; border: 1px solid rgba(56,189,248,0.3); border-radius: 16px; width: 95vw; max-width: 1200px; height: 90vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 24px 60px rgba(0,0,0,0.85);">
+            <div style="height: 64px; background: rgba(10,18,40,0.98); border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 10;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span class="material-symbols-outlined text-primary" style="font-size: 28px;">map</span>
+                    <div>
+                        <h3 style="font-size: 14px; font-weight: 700; margin: 0; color: #ffffff;">Prancha Técnica: Mapa Geológico Oficial e Limite Trimestral de Lavra</h3>
+                        <p style="font-size: 11px; color: #94a3b8; margin: 2px 0 0 0;">
+                            Minas Engenho Seco e Jangada | Esri ArcGIS Pro 3.6.3 | Base: Agosto/2026 | Datum: SAD 1969 / SIRGAS 2000 UTM 23S
+                        </p>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <div style="display: flex; align-items: center; gap: 4px; background: rgba(15,23,42,0.8); border: 1px solid rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 8px;">
+                        <button type="button" onclick="zoomPrancha(0.25)" title="Aumentar Zoom" style="background: none; border: none; color: #38bdf8; cursor: pointer; display: flex; align-items: center;">
+                            <span class="material-symbols-outlined" style="font-size: 18px;">zoom_in</span>
+                        </button>
+                        <span id="cava3d-prancha-zoom-label" style="font-size: 11px; font-family: monospace; color: #ffffff; min-width: 40px; text-align: center;">100%</span>
+                        <button type="button" onclick="zoomPrancha(-0.25)" title="Diminuir Zoom" style="background: none; border: none; color: #38bdf8; cursor: pointer; display: flex; align-items: center;">
+                            <span class="material-symbols-outlined" style="font-size: 18px;">zoom_out</span>
+                        </button>
+                        <button type="button" onclick="resetZoomPrancha()" title="Ajustar 1:1" style="background: rgba(255,255,255,0.08); border: none; color: #cbd5e1; border-radius: 4px; padding: 2px 8px; font-size: 11px; cursor: pointer;">
+                            Ajustar
+                        </button>
+                    </div>
+                    <a href="../../assets/geologia/mapa-geologico-layout-oficial.jpg" download="Mapa_Geologico_Oficial_Agosto_2026.jpg" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px; background: rgba(16,185,129,0.2); border: 1px solid rgba(16,185,129,0.4); color: #4edea3; font-size: 11px; font-weight: 600; text-decoration: none;">
+                        <span class="material-symbols-outlined" style="font-size: 16px;">download</span> Baixar
+                    </a>
+                    <button type="button" onclick="fecharModalPranchaGeologica()" title="Fechar" style="background: rgba(255,255,255,0.1); border: none; color: #cbd5e1; border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                        <span class="material-symbols-outlined" style="font-size: 20px;">close</span>
+                    </button>
+                </div>
+            </div>
+            <div style="flex: 1; overflow: auto; background: #030712; display: flex; align-items: center; justify-content: center; padding: 20px;">
+                <div id="cava3d-prancha-img-container" style="transition: transform 0.2s ease; transform-origin: center center; display: inline-block; box-shadow: 0 10px 40px rgba(0,0,0,0.7); border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.12);">
+                    <img src="../../assets/geologia/mapa-geologico-layout-oficial.jpg" alt="Mapa Geológico Oficial Minas Engenho Seco e Jangada" style="max-width: 100%; max-height: 70vh; object-fit: contain; display: block;">
+                </div>
+            </div>
+            <div style="background: rgba(10,18,40,0.96); border-top: 1px solid rgba(255,255,255,0.08); padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 11px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="background: #0284c7; color: #ffffff; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700;">Consolidação Oficial</span>
+                    <span style="color: #94a3b8;">Topografia: <strong>tpes_260731 (336 cotas)</strong></span>
+                    <span style="color: #94a3b8;">•</span>
+                    <span style="color: #94a3b8;">Limite de Lavra: <strong style="color: #4edea3;">Trimestral Móvel 2026</strong></span>
+                    <span style="color: #94a3b8;">•</span>
+                    <span style="color: #94a3b8;">Malha de Amostragem: <strong style="color: #38bdf8;">10m (mai/26)</strong></span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px; font-family: monospace; font-size: 10px; color: #cbd5e1;">
+                    <span>E: 591.312 a 595.980</span>
+                    <span>•</span>
+                    <span>N: 7.776.485 a 7.779.112</span>
+                    <span>•</span>
+                    <span style="color: #4edea3;">Georreferenciado SIRGAS 2000</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let pranchaZoomNivel = 1.0;
+        function abrirModalPranchaGeologica() {
+            const m = document.getElementById('cava3d-prancha-modal');
+            if (m) {
+                m.style.display = 'flex';
+                resetZoomPrancha();
+            }
+        }
+        function fecharModalPranchaGeologica() {
+            const m = document.getElementById('cava3d-prancha-modal');
+            if (m) m.style.display = 'none';
+        }
+        function zoomPrancha(delta) {
+            pranchaZoomNivel = Math.min(Math.max(0.5, pranchaZoomNivel + delta), 4.0);
+            const container = document.getElementById('cava3d-prancha-img-container');
+            const label = document.getElementById('cava3d-prancha-zoom-label');
+            if (container) container.style.transform = 'scale(' + pranchaZoomNivel + ')';
+            if (label) label.textContent = Math.round(pranchaZoomNivel * 100) + '%';
+        }
+        function resetZoomPrancha() {
+            pranchaZoomNivel = 1.0;
+            const container = document.getElementById('cava3d-prancha-img-container');
+            const label = document.getElementById('cava3d-prancha-zoom-label');
+            if (container) container.style.transform = 'scale(1)';
+            if (label) label.textContent = '100%';
+        }
+    </script>
     <!-- MDSync Core Bilateral Sync & Runtime Integration -->
     <script src="../../src/core/sync-bridge.js"></script>
     <script src="../stitch-runtime.js"></script>

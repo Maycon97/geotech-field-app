@@ -3770,12 +3770,27 @@ function populateMapPins() {
 function switchTab(tabId) {
     if (tabId === 'release') tabId = 'auth';
 
+    let targetSubTab = null;
+    if (tabId === 'geoview' || tabId === 'gis3d') {
+        targetSubTab = 'geoview3d';
+        tabId = 'readings';
+    } else if (tabId === 'georef') {
+        targetSubTab = 'gis2d';
+        tabId = 'readings';
+    } else if (tabId === 'readings' || tabId === 'monitoramento') {
+        tabId = 'readings';
+        targetSubTab = (window.radarState && window.radarState.activeSubTab) ? window.radarState.activeSubTab : 'geoview3d';
+    }
+
     if (typeof closeMobileSidebar === "function") {
         closeMobileSidebar();
     }
 
-    if (tabId !== 'geoview' && typeof pauseGeoView3DCockpit === 'function') {
+    if (tabId !== 'readings' && typeof pauseGeoView3DCockpit === 'function') {
         pauseGeoView3DCockpit();
+    }
+    if (tabId !== 'cava3d' && window.Cava3DEngine && typeof window.Cava3DEngine.pause === 'function') {
+        window.Cava3DEngine.pause();
     }
 
     // Hide all panels
@@ -3816,11 +3831,15 @@ function switchTab(tabId) {
         updateDashboardKPIs();
         renderSurveyAnomalies();
     } else if (tabId === 'readings') {
-        titleEl.textContent = "Monitoramento & Coletas";
-        subEl.textContent = "Radar 24/7 (Hexagon IBIS-FM) • Cava Jangada • Instrumentação e evidências digitais.";
-        loadInstrumentDetails();
-        if (typeof initRadarCockpit === "function") {
-            setTimeout(initRadarCockpit, 50);
+        titleEl.textContent = "Monitoramento & GeoView 3D";
+        subEl.textContent = "Cockpit 3D interativo, varredura radar IBIS-FM, piezometria e cartografia GIS SIRGAS 2000.";
+        if (typeof switchMonitoringSubTab === "function") {
+            switchMonitoringSubTab(targetSubTab || 'geoview3d');
+        } else {
+            loadInstrumentDetails();
+            if (typeof initRadarCockpit === "function") {
+                setTimeout(initRadarCockpit, 50);
+            }
         }
     } else if (tabId === 'inspections') {
         titleEl.textContent = "Checklists";
@@ -3839,30 +3858,6 @@ function switchTab(tabId) {
         titleEl.textContent = "Indicadores";
         subEl.textContent = "Dashboards dinâmicos por estrutura, tipo de dado, status e período.";
         renderIndicatorsDashboard();
-    } else if (tabId === 'geoview') {
-        titleEl.textContent = "GeoView & GIS 3D";
-        subEl.textContent = "Cockpit 3D interativo, varredura radar IBIS-FM, seções Bishop, cinemática Fukuzono e telemetria.";
-        renderGeoViewPanel();
-        if (typeof initGeoView3DCockpit === "function") {
-            setTimeout(initGeoView3DCockpit, 60);
-        }
-        if (geoviewPilhasMap) {
-            setTimeout(() => {
-                if (geoviewPilhasMap) {
-                    geoviewPilhasMap.invalidateSize({ pan: false });
-                }
-            }, 120);
-        }
-    } else if (tabId === 'georef') {
-        titleEl.textContent = "Georreferenciamento";
-        subEl.textContent = "Mapeamento GIS interativo, coordenadas SIRGAS 2000, UTM 23S e rastreamento de campo.";
-        renderGeorefPanel();
-        if (georefMap) {
-            setTimeout(() => {
-                georefMap.invalidateSize();
-                selectGeorefStructure(geoSpatialState.selectedStructure || "Toda a Mina (Visão Geral)");
-            }, 100);
-        }
     } else if (tabId === 'rotina') {
         titleEl.textContent = "Rotina Diária & Cronograma PCM";
         subEl.textContent = "Atividades programadas do dia, alertas de inspeção de campo e monitoramento pluviométrico.";
@@ -3879,11 +3874,126 @@ function switchTab(tabId) {
         titleEl.textContent = "Acesso & Login";
         subEl.textContent = "Autenticação corporativa, perfil de operador e gestão de permissões em campo.";
         renderAuthPanel();
+    } else if (tabId === 'cava3d') {
+        titleEl.textContent = "Modelo 3D da Cava";
+        subEl.textContent = "Representação tridimensional georreferenciada da Cava Jangada, cotas topográficas 1.016m a 1.386m, litologias ArcGIS Pro e instrumentação.";
+        if (window.Cava3DEngine && typeof window.Cava3DEngine.initOrResume === "function") {
+            setTimeout(function() {
+                window.Cava3DEngine.initOrResume('cava3d-threejs-mount');
+                renderCava3dGeologyList();
+            }, 60);
+        }
     } else if (tabId === 'sync') {
         titleEl.textContent = "Nuvem";
         subEl.textContent = "Fila offline e envio seguro para a base corporativa.";
         renderSyncQueue();
     }
+}
+
+// --- FUNCOES DE SUPORTE DO MODELO 3D DA CAVA (CANONICAL ARCGIS PRO 3.6.3) ---
+function switchCava3dSideTab(tabKey) {
+    const tabs = ['layers', 'details', 'geology'];
+    tabs.forEach(t => {
+        const btn = document.getElementById(`btn-cava3d-tab-${t}`);
+        const content = document.getElementById(`cava3d-content-${t}`);
+        if (btn) {
+            if (t === tabKey) btn.classList.add('active');
+            else btn.classList.remove('active');
+        }
+        if (content) {
+            if (t === tabKey) content.style.display = 'block';
+            else content.style.display = 'none';
+        }
+    });
+}
+
+function alternarCava3dSidebar() {
+    const sb = document.getElementById('cava3d-sidebar-panel');
+    if (sb) {
+        sb.classList.toggle('collapsed');
+    }
+}
+
+function toggleCava3dFullscreen() {
+    const el = document.getElementById('cava3d-viewport-container');
+    if (!el) return;
+    if (!document.fullscreenElement) {
+        if (el.requestFullscreen) el.requestFullscreen();
+        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+    }
+}
+
+function abrirModalImportarTopografia() {
+    const m = document.getElementById('cava3d-import-modal');
+    if (m) m.style.display = 'flex';
+}
+
+function fecharModalImportarTopografia() {
+    const m = document.getElementById('cava3d-import-modal');
+    if (m) m.style.display = 'none';
+}
+
+let pranchaZoomNivel = 1.0;
+
+function abrirModalPranchaGeologica() {
+    const m = document.getElementById('cava3d-prancha-modal');
+    if (m) {
+        m.style.display = 'flex';
+        resetZoomPrancha();
+    }
+}
+
+function fecharModalPranchaGeologica() {
+    const m = document.getElementById('cava3d-prancha-modal');
+    if (m) m.style.display = 'none';
+}
+
+function zoomPrancha(delta) {
+    pranchaZoomNivel = Math.min(Math.max(0.5, pranchaZoomNivel + delta), 4.0);
+    const container = document.getElementById('cava3d-prancha-img-container');
+    const label = document.getElementById('cava3d-prancha-zoom-label');
+    if (container) container.style.transform = `scale(${pranchaZoomNivel})`;
+    if (label) label.textContent = `${Math.round(pranchaZoomNivel * 100)}%`;
+}
+
+function resetZoomPrancha() {
+    pranchaZoomNivel = 1.0;
+    const container = document.getElementById('cava3d-prancha-img-container');
+    const label = document.getElementById('cava3d-prancha-zoom-label');
+    if (container) container.style.transform = 'scale(1)';
+    if (label) label.textContent = '100%';
+}
+
+function renderCava3dGeologyList() {
+    const container = document.getElementById('cava3d-geology-units-container');
+    if (!container || !window.MDSYNC_GEOLOGIA_CAVA || !window.MDSYNC_GEOLOGIA_CAVA.litologias) return;
+    
+    const litos = window.MDSYNC_GEOLOGIA_CAVA.litologias;
+    const keys = Object.keys(litos);
+    if (container.children.length >= keys.length) return; // Ja renderizado
+    
+    container.innerHTML = keys.map(k => {
+        const item = litos[k];
+        return `
+            <div class="cava3d-litho-card">
+                <div class="cava3d-litho-header">
+                    <div class="d-flex align-center gap-2">
+                        <span class="cava3d-litho-color" style="background: ${item.corHex};"></span>
+                        <strong style="color:#ffffff; font-size:12px;">${item.sigla} (${item.nome})</strong>
+                    </div>
+                    <span class="badge badge-secondary" style="font-size:9px;">${item.grupo}</span>
+                </div>
+                <p style="font-size:11px; color:#94a3b8; margin:4px 0 6px 0; line-height:1.35;">${item.descricao}</p>
+                <div class="d-flex align-center justify-between font-mono" style="font-size:10px; color:#cbd5e1; border-top:1px solid rgba(255,255,255,0.06); padding-top:4px;">
+                    <span>Atrito: <strong style="color:#38bdf8;">${item.anguloAtrito}</strong></span>
+                    <span>Coesão: <strong style="color:#4edea3;">${item.coesao}</strong></span>
+                    <span>Dens.: <strong>${item.densidade}</strong></span>
+                </div>
+            </div>
+        `;
+    }).join('');
 }
 
 // Map selection handler: Redireciona para o Histórico Completo de Leituras

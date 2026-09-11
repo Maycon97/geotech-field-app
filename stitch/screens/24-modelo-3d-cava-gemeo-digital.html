@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Outfit:wght@500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "inverse-on-surface": "#283047",
+        "tertiary-fixed": "#ffddb8",
+        "secondary-fixed-dim": "#4edea3",
+        "surface-container-highest": "#2c344c",
+        "on-primary-fixed": "#001e2f",
+        "inverse-primary": "#006591",
+        "tertiary": "#ffb95f",
+        "on-background": "#dbe1ff",
+        "background": "#0a1228",
+        "on-primary-container": "#003751",
+        "on-surface-variant": "#bec8d2",
+        "primary": "#89ceff",
+        "on-secondary": "#003824",
+        "tertiary-container": "#d88a00",
+        "on-secondary-fixed": "#002113",
+        "primary-fixed": "#c9e6ff",
+        "secondary-fixed": "#6ffbbe",
+        "surface-container-lowest": "#050d23",
+        "error-container": "#93000a",
+        "on-tertiary-container": "#4a2c00",
+        "on-surface": "#dbe1ff",
+        "on-primary-fixed-variant": "#004c6e",
+        "on-tertiary-fixed-variant": "#653e00",
+        "on-tertiary": "#472a00",
+        "on-secondary-fixed-variant": "#005236",
+        "outline": "#88929b",
+        "secondary-container": "#00a572",
+        "surface": "#0a1228",
+        "surface-bright": "#313850",
+        "inverse-surface": "#dbe1ff",
+        "on-error": "#690005",
+        "surface-tint": "#89ceff",
+        "on-primary": "#00344d",
+        "on-error-container": "#ffdad6",
+        "outline-variant": "#3e4850",
+        "surface-variant": "#2c344c",
+        "error": "#ffb4ab",
+        "secondary": "#4edea3",
+        "primary-container": "#0ea5e9",
+        "primary-fixed-dim": "#89ceff",
+        "on-secondary-container": "#00311f",
+        "surface-dim": "#0a1228",
+        "surface-container": "#171f35",
+        "surface-container-high": "#222940",
+        "tertiary-fixed-dim": "#ffb95f",
+        "on-tertiary-fixed": "#2a1700",
+        "surface-container-low": "#131b31"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.125rem",
+        "lg": "0.25rem",
+        "xl": "0.5rem",
+        "full": "0.75rem"
+      },
+      "spacing": {
+        "space-2xl": "3rem",
+        "gutter": "1rem",
+        "space-md": "1rem",
+        "space-sm": "0.75rem",
+        "space-2xs": "0.25rem",
+        "space-lg": "1.5rem",
+        "sidebar-width": "260px",
+        "space-xl": "2rem",
+        "space-xs": "0.5rem"
+      },
+      "fontFamily": {
+        "data-metric": ["Outfit"],
+        "title-sm": ["Outfit"],
+        "label-caps": ["Inter"],
+        "body-md": ["Inter"],
+        "body-sm": ["Inter"],
+        "headline-md": ["Outfit"],
+        "headline-xl": ["Outfit"],
+        "code-telemetry": ["JetBrains Mono"],
+        "body-lg": ["Inter"],
+        "headline-lg": ["Outfit"]
+      },
+      "fontSize": {
+        "data-metric": ["32px", {"lineHeight": "36px", "letterSpacing": "-0.03em", "fontWeight": "700"}],
+        "title-sm": ["16px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+        "label-caps": ["11px", {"lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "600"}],
+        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+        "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+        "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+        "code-telemetry": ["13px", {"lineHeight": "18px", "fontWeight": "500"}],
+        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+        "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600"}]
+      }
+    }
+  }
+}</script></head><body class="bg-background font-body-md text-on-surface min-h-screen antialiased selection:bg-primary-container selection:text-on-primary-container"><aside class="fixed left-0 top-0 h-full w-sidebar-width bg-surface-container-low shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between overflow-hidden"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center justify-between bg-surface-container-lowest/60"><div class="flex items-center gap-space-xs"><img alt="MDSync Geotecnia Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Xs48zES0egZ3wmFdPBpvnV7a21Ly5WZFCmNgHEyZYhfNViwsKr4YO7TSdNgMYBY-z5zwHQ6_Kfqc2diRwV87n74AGFYp23v9UNiXJH0xUsp8janvXfy9xtdRtFQ8cGexi2HRLIKL_IT1XD4PyqhxOc_xj13t2THO6g4g6hnu9Pb1m6YFE7JVxbCb6OsERLTq42_ZFl3hCANPpztB2o-jYd5ZRzkK6yhYwjpxuHg1OkPcO0jb4i6w1tvE38"/><div class="flex flex-col"><span class="font-title-sm text-title-sm text-primary leading-tight tracking-tight">MDSync</span><span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Itaminas Geotecnia</span></div></div><button class="text-on-surface-variant hover:text-on-surface p-space-2xs rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">dock_to_left</span></button></div><div class="px-space-md py-space-xs"><div class="flex items-center gap-space-xs px-space-xs py-space-2xs rounded-full bg-surface-container"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span></span><span class="font-label-caps text-label-caps uppercase text-secondary font-medium tracking-wide truncate">Conectado / Nuvem Ativa</span></div></div><nav class="flex flex-col gap-space-2xs px-space-xs mt-space-2xs" data-active-classes="bg-primary-container text-on-primary-container font-medium shadow-sm"><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="visao-geral" href="#"><span class="material-symbols-outlined text-primary text-[20px]">grid_view</span><span class="truncate">Visão Geral</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="monitoramento-instrumental" href="#"><span class="material-symbols-outlined text-primary text-[20px]">sensors</span><span class="truncate">Monitoramento (TARP/PZ)</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="checklists-fir" href="#"><span class="material-symbols-outlined text-primary text-[20px]">fact_check</span><span class="truncate">Checklists &amp; FIR</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="historico-series" href="#"><span class="material-symbols-outlined text-primary text-[20px]">show_chart</span><span class="truncate">Histórico &amp; Séries</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="relatorios-auditoria" href="#"><span class="material-symbols-outlined text-primary text-[20px]">assignment_turned_in</span><span class="truncate">Relatórios &amp; Auditoria</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="indicadores-bi-fmea" href="#"><span class="material-symbols-outlined text-primary text-[20px]">analytics</span><span class="truncate">Indicadores BI &amp; FMEA</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="geoview-gis-3d" href="#"><span class="material-symbols-outlined text-primary text-[20px]">layers</span><span class="truncate">GeoView &amp; GIS 3D</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-xs rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="parametros-usuarios" href="#"><span class="material-symbols-outlined text-primary text-[20px]">settings</span><span class="truncate">Parâmetros &amp; Usuários</span></a></nav></div><div class="p-space-sm bg-surface-container-lowest/80 flex flex-col gap-space-xs"><div class="flex items-center justify-between px-space-2xs"><span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Sincronização</span><button class="flex items-center gap-space-2xs text-secondary hover:text-secondary-fixed transition-colors font-label-caps text-label-caps" type="button"><span class="material-symbols-outlined text-[14px]">sync</span><span>Sincronizar</span></button></div><div class="flex items-center gap-space-sm p-space-2xs rounded-xl bg-surface-container-high/40"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="font-title-sm text-title-sm text-on-primary font-bold">MN</span></div><div class="flex flex-col min-w-0 flex-1"><div class="flex items-center gap-space-2xs"><span class="font-body-sm text-body-sm font-semibold text-on-surface truncate">Maycon Nascimento</span><span class="bg-surface-container-highest text-primary font-code-telemetry text-[10px] px-1 py-0.5 rounded-lg shrink-0">@admin</span></div><span class="font-label-caps text-label-caps text-on-surface-variant truncate">Eng. Geotécnico Sênior</span></div></div></div></aside><div class="pl-sidebar-width"><header class="fixed top-0 left-sidebar-width right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-gutter"><div class="flex items-center gap-space-md"><img alt="MDSync Geotecnia Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Xs48zES0egZ3wmFdPBpvnV7a21Ly5WZFCmNgHEyZYhfNViwsKr4YO7TSdNgMYBY-z5zwHQ6_Kfqc2diRwV87n74AGFYp23v9UNiXJH0xUsp8janvXfy9xtdRtFQ8cGexi2HRLIKL_IT1XD4PyqhxOc_xj13t2THO6g4g6hnu9Pb1m6YFE7JVxbCb6OsERLTq42_ZFl3hCANPpztB2o-jYd5ZRzkK6yhYwjpxuHg1OkPcO0jb4i6w1tvE38"/><div class="hidden md:flex items-center gap-space-2xs font-code-telemetry text-code-telemetry bg-surface-container-low px-space-sm py-space-2xs rounded-xl"><span class="material-symbols-outlined text-secondary text-[16px]">radar</span><span class="text-on-surface-variant truncate">Mina Cava Jangada • <strong class="text-on-surface font-semibold">IBIS-FM EVO 01 Ativo</strong></span></div></div><div class="flex items-center gap-space-sm"><div class="hidden lg:flex items-center gap-space-2xs bg-surface-container px-space-sm py-space-2xs rounded-full"><span class="material-symbols-outlined text-primary text-[16px]">cloud_done</span><span class="font-code-telemetry text-code-telemetry text-on-surface-variant">Offline Ready <strong class="text-primary font-medium">(Cache 100%)</strong></span></div><button class="flex items-center gap-space-2xs px-space-md py-space-xs rounded-xl bg-gradient-to-r from-primary-container to-inverse-primary text-on-primary font-title-sm text-title-sm shadow-md hover:brightness-110 active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-[18px]">add_circle</span><span>Nova Coleta</span></button><button class="w-9 h-9 rounded-xl bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">filter_alt</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- TOPO: Barra de Contexto Espacial & Metadados Geotécnicos -->
+<section class="w-full bg-surface-container-low px-gutter py-space-sm flex flex-col xl:flex-row xl:items-center justify-between gap-space-md shadow-md">
+<div class="flex flex-col gap-space-2xs min-w-0">
+<div class="flex flex-wrap items-center gap-space-xs">
+<div class="flex items-center gap-space-2xs bg-surface-container px-space-xs py-space-2xs rounded-xl">
+<span class="material-symbols-outlined text-primary text-[18px]">deployed_code</span>
+<span class="font-headline-md text-headline-md text-on-surface uppercase tracking-tight font-semibold">Modelo 3D da Cava</span>
+</div>
+<span class="bg-primary-container/20 text-primary font-code-telemetry text-[11px] px-2 py-0.5 rounded-md font-medium tracking-wide">
+          SIRGAS 2000 / UTM 23S (EPSG:31983)
+        </span>
+<span class="bg-secondary/15 text-secondary font-code-telemetry text-[11px] px-2 py-0.5 rounded-md font-medium flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+          ALTIMETRIA REAL AUDITADA
+        </span>
+</div>
+<div class="flex flex-wrap items-center gap-x-space-md gap-y-1 font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex items-center gap-space-2xs">
+<span class="text-outline">Versão:</span>
+<div class="relative inline-block">
+<select class="bg-surface-container-high text-on-surface font-code-telemetry text-[12px] px-2.5 py-1 rounded-lg outline-none cursor-pointer" id="version-selector">
+<option selected="" value="v4">CAVA_2026_09_01_V4 (Atual - Ativa)</option>
+<option value="v3">CAVA_2026_08_15_V3 (Auditada)</option>
+<option value="v2">CAVA_2026_07_30_V2 (Histórico)</option>
+<option value="v1">CAVA_2026_06_15_V1 (Baseline Semestral)</option>
+</select>
+</div>
+</div>
+<span class="text-outline-variant">•</span>
+<span>Data: <strong class="text-on-surface font-medium font-code-telemetry">01/09/2026</strong></span>
+<span class="text-outline-variant">•</span>
+<span>Sensor: <strong class="text-on-surface font-medium">LiDAR Matrice 300 RTK</strong></span>
+<span class="text-outline-variant">•</span>
+<span>Resp.: <strong class="text-on-surface font-medium">Geotecnia Itaminas (ART 2026/08)</strong></span>
+<span class="text-outline-variant">•</span>
+<span>GSD: <strong class="text-secondary font-code-telemetry font-medium">0.05m/px</strong></span>
+<span class="text-outline-variant">•</span>
+<span>Cotas: <strong class="text-primary font-code-telemetry">1.080m - 1.280m</strong></span>
+<span class="text-outline-variant">•</span>
+<span class="font-code-telemetry text-[11px] text-outline">BBox: X [594.800 - 595.600] | Y [7.777.400 - 7.778.300]</span>
+</div>
+</div>
+<!-- Ações de Cabeçalho -->
+<div class="flex flex-wrap items-center gap-space-xs shrink-0">
+<button class="flex items-center gap-space-2xs px-space-sm py-space-xs rounded-xl bg-primary-container text-on-primary-container font-title-sm text-title-sm hover:brightness-110 active:scale-95 transition-all shadow-sm" id="btn-open-import" type="button">
+<span class="material-symbols-outlined text-[18px]">upload_file</span>
+<span>Importar DEM/LAS</span>
+</button>
+<button class="flex items-center gap-space-2xs px-space-sm py-space-xs rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-body-md text-body-md transition-all" id="btn-toggle-comparison" type="button">
+<span class="material-symbols-outlined text-primary text-[18px]">difference</span>
+<span>Comparação V1 vs V4</span>
+</button>
+<button class="flex items-center gap-space-2xs px-space-sm py-space-xs rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-body-md text-body-md transition-all" id="btn-export" type="button">
+<span class="material-symbols-outlined text-outline text-[18px]">file_download</span>
+<span>DXF / LandXML</span>
+</button>
+<button class="p-space-xs rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" id="btn-fullscreen-toggle" title="Maximizar Canvas" type="button">
+<span class="material-symbols-outlined text-[18px]">fullscreen</span>
+</button>
+</div>
+</section>
+<!-- ÁREA DE OPERAÇÃO: Layout Tripartite (Painel Camadas | Viewport 3D | Auditor Contextual) -->
+<div class="w-full flex-1 grid grid-cols-1 xl:grid-cols-12 gap-0 relative overflow-hidden min-h-[calc(100vh-8rem)]">
+<!-- LATERAL ESQUERDA: Gerenciador de Camadas & Integridade (2.5 Cols) -->
+<aside class="xl:col-span-3 bg-surface-container-low p-space-md flex flex-col gap-space-md overflow-y-auto max-h-[calc(100vh-8rem)]">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">layers</span>
+<span class="font-title-sm text-title-sm text-on-surface uppercase tracking-wide font-semibold">Camadas &amp; Feições</span>
+</div>
+<span class="text-on-surface-variant font-code-telemetry text-body-sm">12 Ativas</span>
+</div>
+<!-- Card de Integridade Regulatória (Seção 2) -->
+<div class="p-space-sm rounded-xl bg-surface-container flex flex-col gap-space-2xs shadow-sm">
+<div class="flex items-center gap-space-xs text-secondary">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="font-label-caps text-label-caps uppercase tracking-wider font-semibold">Auditoria de Relevo Real</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+          100% dos vértices da malha CAVA_V4 possuem cota Z real escaneada via LiDAR RTK. Inexistência de elevações interpoladas ou fictícias.
+        </p>
+<div class="flex items-center justify-between text-on-surface-variant font-code-telemetry text-[10px] pt-1">
+<span>Tolerância: ±0.025m</span>
+<span class="text-secondary font-semibold">STATUS: EM CONFORMIDADE</span>
+</div>
+</div>
+<!-- Filtro Rápido / Busca de Entidades -->
+<div class="relative">
+<input class="w-full bg-surface-container text-on-surface font-body-sm text-body-sm px-space-sm py-space-xs rounded-xl pl-9 outline-none focus:bg-surface-container-high transition-colors" placeholder="Filtrar feições, sensores, cotas..." type="text"/>
+<span class="material-symbols-outlined absolute left-2.5 top-2.5 text-on-surface-variant text-[18px]">search</span>
+</div>
+<!-- Grupo 1: Superfície & Terreno -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-caps text-label-caps uppercase text-outline tracking-wider font-semibold">Superfície &amp; Topografia</span>
+<!-- Camada Item -->
+<div class="p-space-xs rounded-xl bg-surface-container/60 hover:bg-surface-container flex flex-col gap-space-2xs transition-colors">
+<div class="flex items-center justify-between">
+<label class="flex items-center gap-space-xs cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded accent-primary bg-surface cursor-pointer" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface font-medium">Malha Digital Cava Jangada</span>
+</label>
+<span class="font-code-telemetry text-[11px] text-primary">LOD 0</span>
+</div>
+<div class="flex items-center gap-space-sm pl-6">
+<span class="font-code-telemetry text-[10px] text-on-surface-variant">Opacidade:</span>
+<input class="w-full h-1 bg-surface-container-highest rounded-lg accent-primary cursor-pointer" max="100" min="0" type="range" value="100"/>
+<span class="font-code-telemetry text-[10px] text-outline">100%</span>
+</div>
+</div>
+<div class="p-space-xs rounded-xl bg-surface-container/60 hover:bg-surface-container flex flex-col gap-space-2xs transition-colors">
+<div class="flex items-center justify-between">
+<label class="flex items-center gap-space-xs cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded accent-primary bg-surface cursor-pointer" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface font-medium">Ortofoto HD 0.05m Drone</span>
+</label>
+<span class="font-code-telemetry text-[11px] text-secondary">RGB GeoTIFF</span>
+</div>
+<div class="flex items-center gap-space-sm pl-6">
+<span class="font-code-telemetry text-[10px] text-on-surface-variant">Opacidade:</span>
+<input class="w-full h-1 bg-surface-container-highest rounded-lg accent-primary cursor-pointer" max="100" min="0" type="range" value="85"/>
+<span class="font-code-telemetry text-[10px] text-outline">85%</span>
+</div>
+</div>
+<div class="p-space-xs rounded-xl bg-surface-container/60 hover:bg-surface-container flex items-center justify-between transition-colors">
+<label class="flex items-center gap-space-xs cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded accent-primary bg-surface cursor-pointer" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface font-medium">Curvas de Nível (5m)</span>
+</label>
+<span class="font-code-telemetry text-[11px] text-tertiary">41 isolinhas</span>
+</div>
+<div class="p-space-xs rounded-xl bg-surface-container/60 hover:bg-surface-container flex items-center justify-between transition-colors">
+<label class="flex items-center gap-space-xs cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded accent-primary bg-surface cursor-pointer" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface font-medium">Bancadas &amp; Bermas</span>
+</label>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant">12 níveis</span>
+</div>
+</div>
+<!-- Grupo 2: Monitoramento & Segurança Geotécnica -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-caps text-label-caps uppercase text-outline tracking-wider font-semibold">Instrumentação &amp; Anomalias</span>
+<div class="p-space-xs rounded-xl bg-surface-container/60 hover:bg-surface-container flex items-center justify-between transition-colors">
+<label class="flex items-center gap-space-xs cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded accent-primary bg-surface cursor-pointer" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface font-medium">Instrumentos Geotécnicos</span>
+</label>
+<span class="font-code-telemetry text-[11px] bg-secondary/15 text-secondary px-1.5 py-0.5 rounded">18 Ativos</span>
+</div>
+<div class="p-space-xs rounded-xl bg-surface-container/60 hover:bg-surface-container flex items-center justify-between transition-colors">
+<label class="flex items-center gap-space-xs cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded accent-tertiary bg-surface cursor-pointer" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface font-medium">Anomalias de Campo (FIR)</span>
+</label>
+<span class="font-code-telemetry text-[11px] bg-tertiary/20 text-tertiary px-1.5 py-0.5 rounded">2 Abertas</span>
+</div>
+<div class="p-space-xs rounded-xl bg-surface-container/60 hover:bg-surface-container flex items-center justify-between transition-colors">
+<label class="flex items-center gap-space-xs cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded accent-primary bg-surface cursor-pointer" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface font-medium">Radar IBIS-FM &amp; Vetores</span>
+</label>
+<span class="font-code-telemetry text-[11px] text-primary">Parede Norte</span>
+</div>
+<div class="p-space-xs rounded-xl bg-surface-container/60 hover:bg-surface-container flex items-center justify-between transition-colors">
+<label class="flex items-center gap-space-xs cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded accent-primary bg-surface cursor-pointer" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface font-medium">SUMPs &amp; Rede de Drenagem</span>
+</label>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant">CT-03 / S01</span>
+</div>
+<div class="p-space-xs rounded-xl bg-surface-container/60 hover:bg-surface-container flex items-center justify-between transition-colors">
+<label class="flex items-center gap-space-xs cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded accent-primary bg-surface cursor-pointer" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface font-medium">Seções Geotécnicas (A-A' / B-B')</span>
+</label>
+<span class="font-code-telemetry text-[11px] text-on-surface-variant">2 Planos</span>
+</div>
+</div>
+<!-- Rampa Colorimétrica por Cota (Color Ramp) -->
+<div class="p-space-sm rounded-xl bg-surface-container flex flex-col gap-space-2xs mt-auto">
+<div class="flex items-center justify-between font-label-caps text-label-caps uppercase text-outline">
+<span>Gradiente Altimétrico</span>
+<span class="font-code-telemetry text-on-surface">Z (m)</span>
+</div>
+<div class="h-3 w-full rounded-md overflow-hidden bg-gradient-to-r from-[#003751] via-[#0ea5e9] via-[#4edea3] via-[#ffb95f] to-[#ff4b4b]"></div>
+<div class="flex justify-between font-code-telemetry text-[10px] text-on-surface-variant pt-0.5">
+<span>1.080m (Fundo)</span>
+<span>1.180m</span>
+<span>1.280m (Crista)</span>
+</div>
+</div>
+</aside>
+<!-- VIEWPORT CENTRAL: Simulação de Canvas WebGL 3D Interativo (6.5 Cols) -->
+<main class="xl:col-span-6 bg-surface-container-lowest relative flex flex-col items-center justify-center select-none overflow-hidden min-h-[500px]">
+<!-- Fundo Holográfico & Renderização Triangulada Simulada -->
+<div class="absolute inset-0 opacity-40 bg-[radial-gradient(#1e3a5f_1px,transparent_1px)] [background-size:24px_24px]"></div>
+<!-- Ilustração SVG 3D Isométrica Interativa da Cava com Marcadores -->
+<div class="relative w-full h-full flex items-center justify-center p-space-md">
+<svg class="w-full h-full max-h-[660px] drop-shadow-2xl overflow-visible" viewbox="0 0 1000 680">
+<defs>
+<!-- Gradiente de Profundidade da Cava -->
+<radialgradient cx="50%" cy="58%" fx="50%" fy="55%" id="pitDepthGradient" r="65%">
+<stop offset="0%" stop-color="#071226"></stop>
+<stop offset="25%" stop-color="#0d2545"></stop>
+<stop offset="50%" stop-color="#123d57"></stop>
+<stop offset="75%" stop-color="#1e4e5e"></stop>
+<stop offset="100%" stop-color="#2a3f55"></stop>
+</radialgradient>
+<lineargradient id="terracotaRim" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#ffb95f" stop-opacity="0.7"></stop>
+<stop offset="100%" stop-color="#d88a00" stop-opacity="0.3"></stop>
+</lineargradient>
+<!-- Feixe de Radar IBIS -->
+<lineargradient id="radarBeam" x1="0%" x2="80%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#89ceff" stop-opacity="0.7"></stop>
+<stop offset="100%" stop-color="#0ea5e9" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<!-- Malha Topográfica Externa da Cava (Cota 1.280m - Crista) -->
+<polygon fill="#13203b" points="100,180 320,80 680,80 900,180 960,380 820,580 500,650 180,580 40,380" stroke="#3e4850" stroke-width="1.5"></polygon>
+<!-- Bancada B1260 -->
+<polygon fill="#152747" points="130,200 330,110 650,110 860,200 910,370 790,550 500,610 200,550 80,370" stroke="#0ea5e9" stroke-opacity="0.25" stroke-width="1.2"></polygon>
+<!-- Bancada B1230 -->
+<polygon fill="#182e52" points="170,225 350,140 620,140 820,225 860,360 750,515 500,570 230,515 130,360" stroke="#4edea3" stroke-opacity="0.25" stroke-width="1.2"></polygon>
+<!-- Bancada B1200 -->
+<polygon fill="#1a355e" points="210,250 370,175 590,175 770,250 810,355 710,480 500,530 270,480 180,355" stroke="#0ea5e9" stroke-opacity="0.35" stroke-width="1.2"></polygon>
+<!-- Bancada B1170 -->
+<polygon fill="#1d3d6b" points="260,275 400,210 560,210 720,275 750,350 660,445 500,490 320,445 230,350" stroke="#3e4850" stroke-width="1.2"></polygon>
+<!-- Bancada B1140 -->
+<polygon fill="#1f4477" points="310,305 430,245 530,245 660,305 690,350 610,410 500,450 370,410 290,350" stroke="#89ceff" stroke-opacity="0.4" stroke-width="1.2"></polygon>
+<!-- Fundo da Cava (Pit Floor Cota 1.080m) com SUMP -->
+<ellipse cx="500" cy="370" fill="url(#pitDepthGradient)" rx="120" ry="55" stroke="#0ea5e9" stroke-width="2"></ellipse>
+<!-- SUMP S01 Água Acumulada -->
+<ellipse cx="510" cy="375" fill="#003751" rx="50" ry="22" stroke="#4edea3" stroke-dasharray="3 3"></ellipse>
+<text fill="#89ceff" font-family="JetBrains Mono" font-size="11" font-weight="600" text-anchor="middle" x="510" y="380">SUMP-S01 (4.500m³)</text>
+<!-- Rampa de Acesso Espiral (Traçado de Rota de Transporte) -->
+<path d="M 880,190 Q 840,290 730,340 T 560,390 T 400,370" fill="none" opacity="0.85" stroke="#ffb95f" stroke-dasharray="8 6" stroke-linecap="round" stroke-width="5"></path>
+<text fill="#ffb95f" font-family="JetBrains Mono" font-size="10" font-weight="600" x="750" y="315">Rampa Principal (10%)</text>
+<!-- Seção Geotécnica A-A' (Talude Norte) -->
+<line opacity="0.8" stroke="#ff4b4b" stroke-dasharray="6 4" stroke-width="2.5" x1="260" x2="650" y1="120" y2="470"></line>
+<circle cx="260" cy="120" fill="#ff4b4b" r="4"></circle>
+<text fill="#ff4b4b" font-family="Outfit" font-size="13" font-weight="700" x="245" y="115">A</text>
+<circle cx="650" cy="470" fill="#ff4b4b" r="4"></circle>
+<text fill="#ff4b4b" font-family="Outfit" font-size="13" font-weight="700" x="660" y="485">A'</text>
+<!-- Radar IBIS-FM EVO 01 com cone de visada LoS -->
+<polygon fill="url(#radarBeam)" opacity="0.35" points="320,530 630,220 740,260"></polygon>
+<g class="cursor-pointer" transform="translate(315, 520)">
+<circle cx="0" cy="0" fill="#131b31" r="14" stroke="#89ceff" stroke-width="2"></circle>
+<circle cx="0" cy="0" fill="#89ceff" r="5"></circle>
+<text fill="#89ceff" font-family="Outfit" font-size="12" font-weight="600" x="18" y="4">Radar IBIS-FM (Base Sul)</text>
+</g>
+<!-- Campo de Deformação Vetorial (AOI_01 Bancada 1230 Parede Norte) -->
+<g transform="translate(620, 180)">
+<rect fill="#171f35" fill-opacity="0.85" height="50" rx="8" stroke="#ffb95f" stroke-width="1" width="130" x="-15" y="-15"></rect>
+<text fill="#dbe1ff" font-family="Outfit" font-size="11" font-weight="600" x="0" y="5">AOI_01: Parede Norte</text>
+<text fill="#ffb95f" font-family="JetBrains Mono" font-size="12" font-weight="700" x="0" y="22">Δ 9.48 mm/mês ↑</text>
+<!-- Vetor de deformação -->
+<line marker-end="url(#arrow)" stroke="#ffb95f" stroke-width="3" x1="85" x2="105" y1="20" y2="5"></line>
+</g>
+<!-- MARCADOR 1: PZ-01_CR (SELECIONADO) -->
+<g class="cursor-pointer group" id="marker-pz01" transform="translate(420, 260)">
+<!-- Efeito Glow Pulse -->
+<circle class="animate-ping" cx="0" cy="0" fill="#0ea5e9" fill-opacity="0.2" r="22"></circle>
+<circle cx="0" cy="0" fill="#0ea5e9" r="12" stroke="#ffffff" stroke-width="2.5"></circle>
+<circle cx="0" cy="0" fill="#ffffff" r="4"></circle>
+<!-- Balão de chamada interativo -->
+<g transform="translate(16, -26)">
+<rect fill="#101c38" height="34" rx="6" stroke="#0ea5e9" stroke-width="1.5" width="125" x="0" y="0"></rect>
+<text fill="#ffffff" font-family="Outfit" font-size="12" font-weight="700" x="8" y="15">PZ-01_CR</text>
+<text fill="#4edea3" font-family="JetBrains Mono" font-size="10" font-weight="600" x="8" y="28">B.1180m • 175 kPa</text>
+</g>
+</g>
+<!-- MARCADOR 2: INA-01 -->
+<g class="cursor-pointer" transform="translate(680, 280)">
+<circle cx="0" cy="0" fill="#171f35" r="9" stroke="#4edea3" stroke-width="2"></circle>
+<circle cx="0" cy="0" fill="#4edea3" r="3.5"></circle>
+<text fill="#dbe1ff" font-family="Outfit" font-size="11" font-weight="600" x="14" y="4">INA-01 (NA 14.8m)</text>
+</g>
+<!-- MARCADOR 3: ANOMALIA ANM-41029 (Trinca de Tração - TARP 2 Laranja) -->
+<g class="cursor-pointer group" id="marker-anm41029" transform="translate(330, 160)">
+<polygon fill="#ffb95f" points="0,-12 11,8 -11,8" stroke="#ffffff" stroke-width="1.5"></polygon>
+<circle cx="0" cy="1" fill="#000000" r="2"></circle>
+<g transform="translate(-80, -32)">
+<rect fill="#472a00" height="26" rx="5" stroke="#ffb95f" stroke-width="1" width="160" x="0" y="0"></rect>
+<text fill="#ffddb8" font-family="Outfit" font-size="11" font-weight="600" x="8" y="17">ANM-41029: Trinca Berma</text>
+</g>
+</g>
+<!-- MARCADOR 4: ANOMALIA ANM-41033 (Surgência Cota 1120) -->
+<g class="cursor-pointer" transform="translate(580, 390)">
+<polygon fill="#89ceff" points="0,-10 9,7 -9,7" stroke="#ffffff" stroke-width="1.2"></polygon>
+<text fill="#89ceff" font-family="JetBrains Mono" font-size="10" x="12" y="3">ANM-41033 (Surgência)</text>
+</g>
+</svg>
+</div>
+<!-- CONTROLES FLUTUANTES DA CÂMERA & ORIENTAÇÃO (Overlay Superior Direito) -->
+<div class="absolute top-space-md right-space-md flex flex-col items-end gap-space-xs z-20">
+<!-- Bússola / Gizmo 3D -->
+<div class="w-14 h-14 rounded-full bg-surface-container/90 backdrop-blur-md p-1 flex items-center justify-center relative shadow-lg">
+<div class="w-full h-full rounded-full border border-outline-variant/40 flex items-center justify-center relative">
+<span class="absolute top-0.5 text-[9px] font-code-telemetry font-bold text-error">N</span>
+<span class="absolute bottom-0.5 text-[9px] font-code-telemetry text-outline">S</span>
+<span class="absolute left-1 text-[9px] font-code-telemetry text-outline">W</span>
+<span class="absolute right-1 text-[9px] font-code-telemetry text-outline">E</span>
+<!-- Ponteiro Agulha Magnética -->
+<div class="w-0.5 h-7 bg-gradient-to-t from-outline to-error rounded transform rotate-12"></div>
+</div>
+</div>
+<!-- Presets de Câmera Rápida -->
+<div class="flex flex-col bg-surface-container/90 backdrop-blur-md rounded-xl p-1 gap-1 shadow-lg">
+<button class="p-2 rounded-lg hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-1.5 text-[11px] font-code-telemetry" title="Visão de Topo (Nadir)" type="button">
+<span class="material-symbols-outlined text-[16px]">crop_free</span>
+<span>Topo (Nadir)</span>
+</button>
+<button class="p-2 rounded-lg hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-1.5 text-[11px] font-code-telemetry" title="Talude Norte (Frontal)" type="button">
+<span class="material-symbols-outlined text-[16px]">north</span>
+<span>Parede Norte</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container-high text-primary transition-colors flex items-center gap-1.5 text-[11px] font-code-telemetry font-medium" title="Isométrica Padrão" type="button">
+<span class="material-symbols-outlined text-[16px]">view_in_ar</span>
+<span>Perspectiva</span>
+</button>
+<button class="p-2 rounded-lg hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-1.5 text-[11px] font-code-telemetry" title="Resetar Rotação" type="button">
+<span class="material-symbols-outlined text-[16px]">restart_alt</span>
+<span>Reset</span>
+</button>
+</div>
+</div>
+<!-- BARRA DE FERRAMENTAS DE MEDIÇÃO & ANÁLISE ESPACIAL (Overlay Inferior Flutuante) -->
+<div class="absolute bottom-space-md left-1/2 transform -translate-x-1/2 bg-surface-container/90 backdrop-blur-xl px-space-md py-space-xs rounded-full flex items-center gap-space-sm shadow-xl z-20">
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-full hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-colors text-body-sm font-medium" type="button">
+<span class="material-symbols-outlined text-[18px]">straighten</span>
+<span>Distância (m)</span>
+</button>
+<span class="w-px h-4 bg-outline-variant"></span>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-full hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-colors text-body-sm font-medium" type="button">
+<span class="material-symbols-outlined text-[18px]">height</span>
+<span>Desnível (ΔZ)</span>
+</button>
+<span class="w-px h-4 bg-outline-variant"></span>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-full hover:bg-surface-container-high text-on-surface-variant hover:text-primary transition-colors text-body-sm font-medium" type="button">
+<span class="material-symbols-outlined text-[18px]">square_foot</span>
+<span>Área Berma (m²)</span>
+</button>
+<span class="w-px h-4 bg-outline-variant"></span>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-primary-container/20 text-primary font-body-sm font-medium" type="button">
+<span class="material-symbols-outlined text-[18px]">polyline</span>
+<span>Perfil Geotécnico</span>
+</button>
+</div>
+<!-- Telemetria Rápida no Rodapé do Canvas -->
+<div class="absolute bottom-space-sm left-space-md z-10 flex items-center gap-space-sm font-code-telemetry text-[11px] text-on-surface-variant">
+<span>FPS: <strong class="text-secondary font-semibold">60</strong></span>
+<span>•</span>
+<span>Triângulos: <strong class="text-on-surface">1.240.850</strong></span>
+<span>•</span>
+<span>Coordenada Cursor: <strong class="text-primary">E: 595.210m | N: 7.777.890m | Z: 1.182,4m</strong></span>
+</div>
+</main>
+<!-- LATERAL DIREITA: Auditor Contextual & Drill-Down Relacional (3.5 Cols - Seções 23 & 34) -->
+<aside class="xl:col-span-3 bg-surface-container-low p-space-md flex flex-col gap-space-md overflow-y-auto max-h-[calc(100vh-8rem)]" id="audit-sidebar">
+<!-- Cabeçalho do Objeto Inspecionado -->
+<div class="flex items-start justify-between pb-space-xs">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-primary text-[20px]">sensors</span>
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">PZ-01_CR</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Piezômetro de Corda Vibrante (Geokon 4500)</span>
+</div>
+<span class="bg-secondary/15 text-secondary font-code-telemetry text-[11px] px-2 py-1 rounded-md font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+          TARP 1: NORMAL
+        </span>
+</div>
+<!-- Painel de Posição & Georreferenciamento -->
+<div class="p-space-sm rounded-xl bg-surface-container flex flex-col gap-space-xs">
+<span class="font-label-caps text-label-caps uppercase text-outline tracking-wider font-semibold">Localização &amp; Georreferência</span>
+<div class="grid grid-cols-2 gap-space-xs font-code-telemetry text-body-sm">
+<div class="flex flex-col">
+<span class="text-outline text-[11px]">UTM Este (X)</span>
+<span class="text-on-surface font-medium">595.120,40 m</span>
+</div>
+<div class="flex flex-col">
+<span class="text-outline text-[11px]">UTM Norte (Y)</span>
+<span class="text-on-surface font-medium">7.778.012,80 m</span>
+</div>
+<div class="flex flex-col">
+<span class="text-outline text-[11px]">Cota Boca</span>
+<span class="text-primary font-medium">1.182,40 m</span>
+</div>
+<div class="flex flex-col">
+<span class="text-outline text-[11px]">Cota Ponta (Bulbo)</span>
+<span class="text-on-surface font-medium">1.150,40 m</span>
+</div>
+<div class="flex flex-col col-span-2">
+<span class="text-outline text-[11px]">Bancada Operacional / Face</span>
+<span class="text-on-surface font-medium">Bancada 1180 — Talude Norte</span>
+</div>
+</div>
+</div>
+<!-- Telemetria em Tempo Real & Métricas Chave -->
+<div class="grid grid-cols-2 gap-space-xs">
+<div class="p-space-sm rounded-xl bg-surface-container flex flex-col gap-1">
+<span class="font-label-caps text-label-caps uppercase text-outline">Nível D'água (Prof.)</span>
+<div class="flex items-baseline gap-1">
+<span class="font-data-metric text-data-metric text-primary">14,15</span>
+<span class="font-code-telemetry text-[12px] text-outline">m</span>
+</div>
+<span class="font-code-telemetry text-[11px] text-secondary">Cota NA: 1.168,25 m</span>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container flex flex-col gap-1">
+<span class="font-label-caps text-label-caps uppercase text-outline">Poro-pressão</span>
+<div class="flex items-baseline gap-1">
+<span class="font-data-metric text-data-metric text-on-surface">175,1</span>
+<span class="font-code-telemetry text-[12px] text-outline">kPa</span>
+</div>
+<span class="font-code-telemetry text-[11px] text-secondary">Estável (±0.4 kPa)</span>
+</div>
+</div>
+<!-- Gráfico de Tendência dos Últimos 30 Dias (SVG Inline) -->
+<div class="p-space-sm rounded-xl bg-surface-container flex flex-col gap-space-2xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-outline font-semibold">Série Temporal (Últimos 30 Dias)</span>
+<span class="font-code-telemetry text-[11px] text-outline">Limite Alerta: 1.172,00m</span>
+</div>
+<div class="w-full h-24 pt-2">
+<svg class="w-full h-full overflow-visible" viewbox="0 0 300 80">
+<!-- Linha Limite de Alerta (TARP 2) -->
+<line stroke="#ffb95f" stroke-dasharray="4 3" stroke-width="1.5" x1="0" x2="300" y1="22" y2="22"></line>
+<text fill="#ffb95f" font-family="JetBrains Mono" font-size="8" text-anchor="end" x="295" y="18">Cota Alerta (1.172m)</text>
+<!-- Curva de Tendência Piezométrica -->
+<path d="M 0,55 Q 50,52 90,56 T 160,48 T 220,50 T 260,45 T 300,47" fill="none" stroke="#0ea5e9" stroke-linecap="round" stroke-width="2.5"></path>
+<!-- Área sob a curva -->
+<path d="M 0,55 Q 50,52 90,56 T 160,48 T 220,50 T 260,45 T 300,47 L 300,80 L 0,80 Z" fill="#0ea5e9" fill-opacity="0.1"></path>
+<!-- Ponto Atual -->
+<circle cx="300" cy="47" fill="#0ea5e9" r="4" stroke="#ffffff" stroke-width="1.5"></circle>
+</svg>
+</div>
+<div class="flex justify-between font-code-telemetry text-[10px] text-outline-variant">
+<span>02/Ago</span>
+<span>15/Ago</span>
+<span>Hoje (01/Set)</span>
+</div>
+</div>
+<!-- Rastreabilidade Relacional Direta (Especificação Mestra Seção 34) -->
+<div class="p-space-sm rounded-xl bg-surface-container flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-2xs text-primary">
+<span class="material-symbols-outlined text-[18px]">account_tree</span>
+<span class="font-label-caps text-label-caps uppercase tracking-wider font-semibold">Grafo de Rastreabilidade</span>
+</div>
+<div class="flex flex-col gap-1.5 text-body-sm">
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-outline">domain</span>
+<span>Ativo Mestre: <strong class="font-semibold">Cava Jangada</strong></span>
+</div>
+<div class="flex items-center gap-2 pl-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] text-outline">subdirectory_arrow_right</span>
+<span>Bancada: <strong class="text-on-surface">B1180 (Talude Norte)</strong></span>
+</div>
+<div class="flex items-center gap-2 pl-6 text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] text-primary">sensors</span>
+<span>Sensor: <strong class="text-primary">PZ-01_CR</strong></span>
+</div>
+<div class="flex items-center gap-2 pl-9 text-tertiary">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+<span>Anomalia Próxima: <strong class="underline cursor-pointer">#41029 (Trinca)</strong></span>
+</div>
+<div class="flex items-center gap-2 pl-12 text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px] text-outline">assignment</span>
+<span>OS Fluig Mitigação: <strong class="text-on-surface font-code-telemetry">#41029-REV1</strong></span>
+</div>
+<div class="flex items-center gap-2 pl-12 text-secondary">
+<span class="material-symbols-outlined text-[14px]">model_training</span>
+<span>FOS GeoStudio: <strong class="font-code-telemetry font-bold">1.54 (Estável)</strong></span>
+</div>
+</div>
+</div>
+<!-- Ações do Inspetor Geotécnico -->
+<div class="flex flex-col gap-space-xs pt-space-xs mt-auto">
+<button class="w-full py-space-xs rounded-xl bg-primary-container hover:brightness-110 text-on-primary-container font-title-sm text-title-sm font-semibold transition-all flex items-center justify-center gap-2" type="button">
+<span class="material-symbols-outlined text-[18px]">description</span>
+<span>Ficha Técnica do Piezômetro</span>
+</button>
+<button class="w-full py-space-xs rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-body-md text-body-md transition-all flex items-center justify-center gap-2" type="button">
+<span class="material-symbols-outlined text-outline text-[18px]">open_in_new</span>
+<span>Abrir Modelo no GeoStudio</span>
+</button>
+</div>
+</aside>
+</div>
+<!-- MODAL FLUTUANTE DE IMPORTAÇÃO & PIPELINE DE VALIDAÇÃO ESPACIAL (Seções 28 & 29) -->
+<div class="fixed inset-0 z-50 bg-surface-container-lowest/80 backdrop-blur-md hidden items-center justify-center p-gutter" id="import-modal">
+<div class="bg-surface-container-low max-w-2xl w-full rounded-2xl p-space-lg flex flex-col gap-space-md shadow-2xl relative">
+<!-- Cabeçalho Modal -->
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-xs">
+<div class="p-2 rounded-xl bg-primary-container/20 text-primary">
+<span class="material-symbols-outlined text-[24px]">cloud_upload</span>
+</div>
+<div>
+<span class="font-headline-md text-headline-md text-on-surface font-semibold">Importação &amp; Ingestão Espacial</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Pipeline de conformidade topográfica e integridade de dados 3D</p>
+</div>
+</div>
+<button class="p-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" id="btn-close-import" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- 7 Etapas de Validação Regulatória -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-caps text-label-caps uppercase text-outline tracking-wider font-semibold">Critérios de Validação em Tempo Real (MDSync V4.0)</span>
+<!-- Etapa 1 -->
+<div class="flex items-center justify-between p-space-xs rounded-xl bg-surface-container">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px]">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-surface">1. Formato Aceito (DEM, GeoTIFF, LAS, LandXML, OBJ)</span>
+</div>
+<span class="font-code-telemetry text-[11px] text-secondary">OK (GeoTIFF 32-bit Float)</span>
+</div>
+<!-- Etapa 2 -->
+<div class="flex items-center justify-between p-space-xs rounded-xl bg-surface-container">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px]">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-surface">2. Metadados do Levantamento &amp; Responsável Técnico ART</span>
+</div>
+<span class="font-code-telemetry text-[11px] text-secondary">ART 2026/08 Válida</span>
+</div>
+<!-- Etapa 3 -->
+<div class="flex items-center justify-between p-space-xs rounded-xl bg-surface-container">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px]">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-surface">3. Datum &amp; Projeção: SIRGAS 2000 UTM 23S (EPSG:31983)</span>
+</div>
+<span class="font-code-telemetry text-[11px] text-secondary">EPSG:31983 Auditado</span>
+</div>
+<!-- Etapa 4 -->
+<div class="flex items-center justify-between p-space-xs rounded-xl bg-surface-container">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px]">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-surface">4. Validação Rigorosa de Altimetria Z (Rejeição de cotas zero/estimadas)</span>
+</div>
+<span class="font-code-telemetry text-[11px] text-secondary">0% Inconsistências</span>
+</div>
+<!-- Etapa 5 -->
+<div class="flex items-center justify-between p-space-xs rounded-xl bg-surface-container">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px]">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-surface">5. Bounding Box &amp; Sobreposição com Malha Anterior</span>
+</div>
+<span class="font-code-telemetry text-[11px] text-secondary">99.8% Cobertura</span>
+</div>
+<!-- Etapa 6 -->
+<div class="flex items-center justify-between p-space-xs rounded-xl bg-surface-container">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[18px]">sync</span>
+<span class="font-body-sm text-body-sm text-on-surface">6. Geração de Pirâmides LOD (Nível de Detalhe Multiescala)</span>
+</div>
+<span class="font-code-telemetry text-[11px] text-primary">Processando LOD 0..4</span>
+</div>
+<!-- Etapa 7 -->
+<div class="flex items-center justify-between p-space-xs rounded-xl bg-surface-container opacity-60">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-outline text-[18px]">radio_button_unchecked</span>
+<span class="font-body-sm text-body-sm text-on-surface">7. Publicação Versionada no Dossiê Digital Sem Sobrescrita</span>
+</div>
+<span class="font-code-telemetry text-[11px] text-outline">Aguardando</span>
+</div>
+</div>
+<!-- Barra de Progresso & Ação -->
+<div class="flex flex-col gap-space-2xs pt-space-xs">
+<div class="flex items-center justify-between text-body-sm">
+<span class="text-on-surface-variant font-code-telemetry">Progresso Geral da Validação</span>
+<span class="text-primary font-code-telemetry font-bold">85%</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary-container rounded-full" style="width: 85%;"></div>
+</div>
+</div>
+<div class="flex items-center justify-end gap-space-xs pt-space-sm">
+<button class="px-space-md py-space-xs rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-body-md transition-colors" id="btn-cancel-modal" type="button">
+          Cancelar
+        </button>
+<button class="px-space-md py-space-xs rounded-xl bg-primary-container text-on-primary-container font-title-sm font-semibold hover:brightness-110 transition-all flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span>Aprovar &amp; Publicar Modelo V5</span>
+</button>
+</div>
+</div>
+</div>
+<!-- SCRIPT DE MICROINTERAÇÕES FLUIDAS -->
+<script>
+    (function() {
+      // Modal Open/Close logic
+      const btnOpenImport = document.getElementById('btn-open-import');
+      const btnCloseImport = document.getElementById('btn-close-import');
+      const btnCancelModal = document.getElementById('btn-cancel-modal');
+      const importModal = document.getElementById('import-modal');
+
+      function openModal() {
+        if (importModal) {
+          importModal.classList.remove('hidden');
+          importModal.classList.add('flex');
+        }
+      }
+
+      function closeModal() {
+        if (importModal) {
+          importModal.classList.add('hidden');
+          importModal.classList.remove('flex');
+        }
+      }
+
+      if (btnOpenImport) btnOpenImport.addEventListener('click', openModal);
+      if (btnCloseImport) btnCloseImport.addEventListener('click', closeModal);
+      if (btnCancelModal) btnCancelModal.addEventListener('click', closeModal);
+
+      // Clique em marcador interativo demonstra drill-down
+      const markerAnm = document.getElementById('marker-anm41029');
+      const markerPz = document.getElementById('marker-pz01');
+      const auditSidebar = document.getElementById('audit-sidebar');
+
+      if (markerAnm && auditSidebar) {
+        markerAnm.addEventListener('click', function() {
+          // Feedback visual de clique na anomalia
+          alert('Anomalia ANM-41029 selecionada: Trinca de tração em berma cota 1.230m. Nível TARP 2 com vistoria diária compulsória.');
+        });
+      }
+
+      if (markerPz) {
+        markerPz.addEventListener('click', function() {
+          // Já está selecionado por padrão, destacamos com animação rápida
+          this.classList.add('scale-110');
+          setTimeout(() => this.classList.remove('scale-110'), 200);
+        });
+      }
+    })();
+  </script>
+</div></main></div>
+    <!-- MDSync Core Bilateral Sync & Runtime Integration -->
+    <script src="../../src/core/sync-bridge.js"></script>
+    <script src="../stitch-runtime.js"></script>
+</body></html>
